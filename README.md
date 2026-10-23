@@ -6,7 +6,7 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
-**For architecture review:** [Technology stack and application layer signoff](docs/07-stack-and-layer-signoff.md) defines the proposed stack, seven logical layers, functional module ownership, deployment boundaries, and seven pending approval decisions. It includes two proposed refinements to the baseline: separate CMS database ownership and explicit analytics activation.
+**Approved architecture:** [Technology stack and application layer signoff](docs/07-stack-and-layer-signoff.md) records the user's October 22, 2026 approval of AS01–AS07: the stack, seven logical layers, functional module ownership, and deployment boundaries. The baseline incorporates separate CMS database ownership and explicit analytics activation; R0 integration evidence and release gates remain required.
 
 1. [Final product design](docs/01-final-product-design.md) - release scope, visual system, every major screen, interactions, responsive behavior, and tire-advice rules.
 2. [Technical architecture](docs/02-technical-architecture.md) - system boundaries, recommendation engine, data model, APIs, authorization, caching, and deployment.
@@ -22,7 +22,7 @@ This repository currently contains the final design and implementation planning 
 - [Design tokens](docs/design-tokens.json), the numeric baseline for implementation.
 - [External reference register](docs/references.md), with primary sources checked for the plan.
 
-The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04` governs the planned implementation where a source conflict is explicitly recorded in `docs/00`. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
+The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, together with the approved architecture decisions in `docs/07`, governs the planned implementation where a source conflict is explicitly recorded in `docs/00`. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
 
 ## Delivery approach
 

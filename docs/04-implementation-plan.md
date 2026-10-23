@@ -2,6 +2,8 @@
 
 **Baseline 1.0 · October 22, 2026.** Deliver the US web experience before expanding into reseller operations, native applications, or audience sales. This plan converts the [product design](01-final-product-design.md), [architecture](02-technical-architecture.md), and [delivery/privacy specification](03-delivery-and-privacy.md) into reviewable work packages. Requirements remain traceable in [the coverage matrix](05-requirements-traceability.md).
 
+**Architecture signoff, October 22, 2026:** [AS01–AS07 are approved](07-stack-and-layer-signoff.md#7-signoff-decisions). R0 must prove the selected stack, separate logical Payload database, and Clerk bridge. E16 delivers first-party QStash/ClickHouse analytics; GA4/PostHog remain disabled until their measurement need, consent mapping, and cost case are approved. Scope, estimates, and release gates remain unchanged.
+
 ## Staffing and estimate basis
 
 Planning assumption: three experienced full-time engineers (frontend, backend, data/platform), a half-time product designer, a half-time QA/accessibility specialist from week 5, a tire-data/domain specialist, a content editor with 25 reviewed articles, and privacy/legal support at gates. The owner supplies business decisions, domain access, vendor agreements and payment authority. These are role assignments, not a claim that people have been hired.
@@ -192,7 +194,7 @@ Model 10k, 100k and 1m sessions/month, using measured form completion, events/se
 | Email retry/coupon race | Duplicate mail or reused discount | Durable identity, uncertain-state queue, atomic reservations; backend lead |
 | Public link or telemetry leak | Private report exposure | Capability separation, no-referrer/no-store, log scrubbing, safe ad shell; security lead |
 | Privacy/data monetization conflict | Trust loss, vendor/legal problems | Off-by-default programs, purposes, legal review, export-time checks; privacy lead |
-| CMS/auth/migrations collide | Privilege bypass or schema damage | R0 spike, separate owners, fallback CMS DB, real-role tests; platform lead |
+| CMS/auth/migrations collide | Privilege bypass or schema damage | R0 spike, separate logical CMS database and migration ownership, Clerk bridge and real-role tests; platform lead |
 | Event/vendor costs grow | Unsustainable unit economics | Per-report costs, sampling, caps, retention and queue backpressure; owner/platform lead |
 | Mobile/client compatibility shifts | Delayed stores/MCP distribution | Pin and test current contracts at release; app/connector lead |
 

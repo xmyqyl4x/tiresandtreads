@@ -1,8 +1,8 @@
 # Technical architecture
 
-**Baseline 1.0 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
+**Baseline 1.1 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
 
-**Architecture review pending:** [Technology stack and application layer signoff](07-stack-and-layer-signoff.md) defines the stack and logical/module boundaries for approval. Its separate CMS database and analytics activation refinements remain proposals until signoff; this baseline will be reconciled after approval.
+**Architecture approved:** the user approved AS01–AS07 on October 22, 2026. [Technology stack and application layer signoff](07-stack-and-layer-signoff.md) records the approval and defines the seven logical layers and module boundaries. This baseline incorporates the approved stack, separate CMS database, package responsibilities, and analytics activation choices. R0 evidence requirements remain open.
 
 Build a modular Next.js application with a pure, versioned recommendation package. Public UI, staff operations, CMS, and later partner routes share domain services but not authorization privileges. Durable jobs handle external side effects. PostgreSQL is authoritative for reports, permissions, delivery, and money; analytics is a downstream projection.
 
@@ -10,33 +10,36 @@ Build a modular Next.js application with a pure, versioned recommendation packag
 
 | Concern | Selected direction | Implementation constraint |
 | --- | --- | --- |
-| Web | Next.js App Router, TypeScript, React | Pin mutually compatible stable Next/React/Payload versions at R0; do not infer versions from this plan |
+| Web | Next.js App Router, strict TypeScript, React | Pin mutually compatible stable Next/React/Payload versions at R0; do not infer versions from this plan |
 | Forms and contracts | React Hook Form, Zod | Shared client/server validation; server remains authoritative |
-| Styling and locale | Tailwind, small accessible component set, next-intl/Intl | Use design tokens; keep engine reason codes language-neutral |
-| Hosting | Vercel, Node.js functions, public CDN | Co-locate database and core functions; private responses never enter shared caches |
-| Operational data | Neon PostgreSQL, Drizzle | One migration owner per table; pooled runtime connections, separate migration credentials |
-| CMS | Embedded Payload with Postgres adapter | Payload owns CMS schema/migrations only; isolation and SSO integration spike before adoption |
+| Styling and locale | Tailwind, Radix UI primitives, next-intl/Intl | Use design tokens; keep engine reason codes language-neutral |
+| Hosting | Vercel, Node.js 24.x functions, public CDN | Match runtime major in development/CI; co-locate database and core functions; private responses never enter shared caches |
+| Operational data | Neon PostgreSQL, Drizzle + `pg` | One migration owner per table; pooled runtime connections, separate migration credentials |
+| CMS | Embedded Payload with `@payloadcms/db-postgres`, separate logical database | Payload owns CMS database/migrations; prove grants, recovery isolation, and Clerk integration at R0 |
 | Auth | Clerk staff and organization identities | Mandatory MFA, separate staff/reseller audiences, explicit server role checks; consumer realm added R3 |
 | Workflows | Inngest | Email, PDF, imports, privacy jobs, future reminders; persisted state and retriable steps |
 | Events | QStash durable buffer → ClickHouse Cloud | Collector acknowledges only after durable enqueue; no requirement for an always-running process |
 | Redis | Upstash Redis | Rate limits and ephemeral caches; never sole source for consent or durable idempotency |
 | Email | Resend + React Email | Verify domain, idempotency, webhooks and policy before first real send; separate commercial stream/subdomain |
-| PDF | React-PDF | Render from versioned report DTO; verify fonts, tables, links, reading order |
+| PDF | `@react-pdf/renderer` | Render from versioned report DTO; verify fonts, tables, links, reading order |
 | Assets | Private S3 object storage, public reviewed-media bucket/CDN | Use managed encryption and scoped URLs; direct private uploads for large CSVs, no public export bucket |
 | Sensitive fields | Managed envelope encryption, AWS KMS for data-encryption keys | Signing-only key products do not replace data encryption; purpose-specific HMAC lookup keys |
 | Content routing | Global Config public redirect snapshots | Size-bounded, versioned, signed publication; no PII or secrets |
-| Instrumentation | First-party events + Datadog operational metrics; consent-gated GA4/PostHog | Avoid duplicate collection; disable session replay in R1 |
+| Instrumentation | R1 first-party QStash/ClickHouse events + Datadog operational metrics | GA4/PostHog stay disabled until a specific measurement need, consent mapping, and cost case are approved; no R1 session replay |
 | Bot control | Turnstile plus server rate limits | Sitekey/action/hostname verification; fail safely if token invalid |
+| Tooling and delivery | pnpm workspaces, ESLint, Prettier, GitHub Actions, Vercel Git previews | Frozen lockfile installs, import boundaries, protected previews, reviewed migrations |
+| Verification | Vitest, Playwright, axe-core, real PostgreSQL integration tests | Engine/property, transaction/race, browser and accessibility checks; manual assistive-technology/email/PDF review |
 | Later billing/mobile/MCP | Stripe; Expo; official MCP TypeScript SDK | Each independently gated; shared contracts and domain engine, no copied ranking logic |
 
 These extend the source's preferred stack. R0 checks current integrations and costs before provisioning. There is no reason to introduce microservices, Kubernetes, a vector database, an LLM, or a separate general-purpose API framework for R1. Use the provider's supported SDK only after verifying the selected integration and environment setup.
 
-The [Payload documentation](https://payloadcms.com/docs/database/postgres) marks custom schema selection experimental at review time. Prove separate schema ownership and migration safety using real disposable branches. If that fails, give Payload a separate database and reference content by stable IDs instead of allowing two migration tools to manage the same tables.
+Use a separate logical PostgreSQL database for Payload from the outset, with separate credentials and migrations. The [Payload documentation](https://payloadcms.com/docs/database/postgres) marks custom schema selection experimental at review time; it is not a launch dependency. Application and CMS databases may share Neon project/compute only after grants and recovery isolation are proven. Bridge published content by stable IDs and revision DTOs, with durable publication work and retryable cache/config propagation; do not assume cross-database transactions.
 
 ```mermaid
 flowchart TB
   Browser[Public browser] --> Web[Next.js public routes]
   Staff[Staff with MFA] --> Admin[Admin and Payload CMS]
+  Admin --> CMS[(Separate Payload database)]
   Partner[Partner with MFA R2] --> Portal[Partner routes]
   Mobile[Expo R3] --> API[Versioned API]
   MCP[MCP clients R3] --> Tools[MCP adapter]
@@ -59,7 +62,7 @@ flowchart TB
   PG --> CH
 ```
 
-## Proposed repository structure
+## Planned repository structure
 
 The directories below are an implementation plan; only `docs/` exists today.
 
@@ -68,7 +71,9 @@ apps/web/                 Next routes, public UI, admin, partner UI, Payload con
 apps/mobile/              Expo application, introduced in R3
 packages/contracts/       Zod request/response/event schemas and generated API types
 packages/engine/          Pure deterministic filtering, scoring and explanation codes
-packages/domain/          Report, consent, pricing, offer and privacy services
+packages/domain/          Framework-independent report, consent, pricing and offer rules
+packages/application/     Use cases, authorization, transaction orchestration and ports
+packages/integrations/    Provider adapters and external-service wiring
 packages/db/              Application schema, repositories and reviewed migrations
 packages/content/         CMS adapter, taxonomy and published-content read model
 packages/email/           Locale-aware React Email and text templates
@@ -146,7 +151,7 @@ Use UUID primary keys and UTC `timestamptz`. Store external IDs separately. JSON
 | Permissions `privacy` | Immutable `consent_events`, erasable `subject_links`, versioned `notices`, current consent projection, `suppressions`, `cookie_consents`, `privacy_requests`, `fulfillment_steps`, `cookie_registry`; consent grant/withdraw/confirm are distinct events |
 | Delivery `email` | `email_sends`, `send_attempts`, `email_links`, `email_events`, `email_feedback`, `template_versions`, `education_topic_map`; unique durable send key and `(provider, provider_event_id)` |
 | Work reliability `app` | `outbox`, `webhook_inbox`, `idempotency_requests`, `job_runs`; unique event IDs, body hash for duplicate requests, retry state and terminal reason |
-| CMS `cms` or separate DB | Payload-owned content, media, SEO, redirects, content versions and review status; stable public read DTO; drafts inaccessible to public routes |
+| CMS separate logical DB | Payload-owned content, media, SEO, redirects, content versions, review status and durable publication work; stable public read DTO; drafts inaccessible to public routes |
 | Partner operations `partners` | Organizations, memberships, agreements, verification evidence, locations, offer versions, targeting, code pools/codes, decisions/events, API credentials, webhook destinations; `org_id` on every owned row |
 | Money `partners` from R3 | Append-only balance ledger, reservations, billable event keys, invoices, payment events; currency consistency, no float balances; Stripe event IDs unique |
 | Administration `admin` | Staff role mappings, audit events, affiliate directories/applications/links, ads.txt, slots, brand blocks, feature configurations and publication history |
@@ -173,7 +178,7 @@ Foreign keys on comparisons and sends reference the exact report version. Codes 
 
 ## API contract
 
-Use `/api/v1` from the start for browser, future mobile, and non-MCP integration. Route handlers adapt to the same domain services rather than duplicating them. Request mutations use `Idempotency-Key`; repeat key with different body returns 409. Retain completed request records long enough for client retry/reconciliation; minimum 7 days for report and delivery actions. Return `requestId` in all errors; never stack traces.
+Use `/api/v1` from the start for browser, future mobile, and non-MCP integration. Route handlers adapt to the same application services rather than duplicating them. Generate an OpenAPI artifact from the approved Zod contracts during R0. Server-rendered pages may call those authenticated services directly without an HTTP loopback; the same authorization applies. Request mutations use `Idempotency-Key`; repeat key with different body returns 409. Retain completed request records long enough for client retry/reconciliation; minimum 7 days for report and delivery actions. Return `requestId` in all errors; never stack traces.
 
 ```json
 {

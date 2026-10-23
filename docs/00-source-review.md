@@ -4,6 +4,8 @@
 
 The supplied requirements describe a useful core experience and a large surrounding business platform. The final design retains that direction, preserves every numbered requirement in the [traceability matrix](05-requirements-traceability.md), and resolves inconsistent or unsafe details before implementation.
 
+**Architecture amendment, October 22, 2026:** the user approved [AS01–AS07](07-stack-and-layer-signoff.md#7-signoff-decisions). D22 now selects a separate logical CMS database from the outset; R1 analytics uses the first-party pipeline, with GA4/PostHog activation separately gated. Integration evidence and release approvals remain required.
+
 ## Review findings
 
 The [source inventory](sources/README.md) distinguishes three kinds of evidence: the editable v2.1 requirements, a PDF export of those requirements, and the visual designs supplied as PDF and PNG. The requirements PDF contributes no additional numbered requirements. There is no finished HTML email, printable report layout, admin design, reseller design, or native-app design among the supplied screens; those are specified in the final package.
@@ -37,7 +39,7 @@ These are deliberate implementation decisions. They supersede only the conflicti
 | D19 | Broad beta includes paid bidding before billing works | R2 is an explicitly free-credit pilot, with paid influence zero. R3 enables billing and a bid term capped at 0.10 of normalized offer score, never tire ranking. |
 | D20 | Source predicts 12-week launch without staffing/data assumptions | Plan 16 weeks with three engineers and named fractional specialists, contingent on data/vendor readiness by week 2. Rebaseline at the first gate; no date promise. |
 | D21 | “Edge” handlers and Edge Config are prescribed broadly | Use Node.js Route Handlers for application work; CDN for public caches; Global Config for small public redirect/config snapshots. Avoid a runtime choice driven by old terminology. |
-| D22 | Payload and Drizzle both own the same database tables | Each domain has one migration owner. Validate Payload custom schema support in a spike; use a separate CMS database if isolation cannot be proven. |
+| D22 | Payload and Drizzle both own the same database tables | AS03 selects a separate logical Payload database from the outset, with separate credentials/migrations. Prove grants and recovery isolation at R0; use stable content IDs and a retryable publication bridge. |
 | D23 | Consumer account optional but reminders survive reinstall; all sync is last-write-wins | Anonymous installs retain local data until cleared; cross-device/reinstall recovery needs an account. Use conflict detection for safety-related records and immutable logs for maintenance. |
 | D24 | Source lifecycle includes MCP initialize-centric telemetry and fixed auth assumptions | Pin a supported protocol/SDK at implementation and test negotiated client compatibility. Record request metadata supported by that version; do not hardcode a legacy handshake model. |
 | D25 | Raw IP hashing, email SHA-256, and report IDs in affiliate sub-IDs invite linkage | Use purpose-specific keyed HMAC lookups, encrypted addresses, coarse analytics geography, and opaque attribution IDs. No report token, email, full ZIP, or free-text quote in third-party telemetry. |
