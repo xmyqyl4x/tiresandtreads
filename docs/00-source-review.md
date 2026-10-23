@@ -6,6 +6,8 @@ The supplied requirements describe a useful core experience and a large surround
 
 **Architecture amendment, October 22, 2026:** the user approved [AS01–AS07](07-stack-and-layer-signoff.md#7-signoff-decisions). D22 now selects a separate logical CMS database from the outset; R1 analytics uses the first-party pipeline, with GA4/PostHog activation separately gated. Integration evidence and release approvals remain required.
 
+**Engineering expansion, October 22, 2026:** the user subsequently requested test-driven development with unit, functional and use-case tests, a comprehensive database design, and coding principles for maintainability/performance and separation of concerns. [ENG-01–ENG-06](05-requirements-traceability.md#engineering-requirements-from-the-requested-expansion) record this additional direction. The [TDD](08-test-driven-development.md), [database](09-database-design.md), and [coding standards](10-coding-standards.md) specifications elaborate the approved stack; they do not mark implementation or specialist/provider validation complete.
+
 ## Review findings
 
 The [source inventory](sources/README.md) distinguishes three kinds of evidence: the editable v2.1 requirements, a PDF export of those requirements, and the visual designs supplied as PDF and PNG. The requirements PDF contributes no additional numbered requirements. There is no finished HTML email, printable report layout, admin design, reseller design, or native-app design among the supplied screens; those are specified in the final package.

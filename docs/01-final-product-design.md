@@ -6,6 +6,12 @@ Tires & Tread is an independent tire-selection and education service. A driver e
 
 This specification establishes the target experience. The [source review](00-source-review.md) records changes from the supplied drafts; the [architecture](02-technical-architecture.md) and [delivery specification](03-delivery-and-privacy.md) define behavior below the UI.
 
+## Design acceptance and testable use cases
+
+Each feature starts with an actor, preconditions, normal outcome, alternate/denied outcomes, and observable acceptance examples before implementation. The [UC01–UC12 catalogue](08-test-driven-development.md#use-case-catalogue) maps the journeys below to application, functional API/UI, and end-to-end tests. Examples must cover empty/unknown data, permission denial, failure/retry, relevant concurrent actions, and accessible interaction. Product/domain reviewers approve the expected behavior; passing tests against invented tire facts do not establish correctness.
+
+Use the [test-driven cycle](08-test-driven-development.md#required-development-cycle) for behavioral increments. Web, staff, future mobile, and MCP interfaces use the same application/domain services and versioned contracts under the [coding standards](10-coding-standards.md). A screen is complete only when the real backing behavior, adverse paths, and applicable accessibility/performance checks pass. This engineering addition preserves the release scope and visual design below.
+
 ## Release boundaries
 
 | Release | User outcome | Included |

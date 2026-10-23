@@ -1,10 +1,18 @@
 # Technical architecture
 
-**Baseline 1.1 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
+**Baseline 1.2 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
 
 **Architecture approved:** the user approved AS01–AS07 on October 22, 2026. [Technology stack and application layer signoff](07-stack-and-layer-signoff.md) records the approval and defines the seven logical layers and module boundaries. This baseline incorporates the approved stack, separate CMS database, package responsibilities, and analytics activation choices. R0 evidence requirements remain open.
 
 Build a modular Next.js application with a pure, versioned recommendation package. Public UI, staff operations, CMS, and later partner routes share domain services but not authorization privileges. Durable jobs handle external side effects. PostgreSQL is authoritative for reports, permissions, delivery, and money; analytics is a downstream projection.
+
+## Engineering process and separation of concerns
+
+The user's engineering expansion is specified in [test-driven development](08-test-driven-development.md), [database design](09-database-design.md), and [coding standards](10-coding-standards.md). Every behavioral increment begins with failing acceptance/unit/use-case examples, implements the smallest coherent behavior, refactors, then verifies the affected real API/database/provider boundaries. Unit, functional and use-case coverage belongs throughout E02–E20; E19 performs integrated hardening rather than starting the test effort.
+
+The business logic layer comprises framework-independent domain rules plus application use cases. UI and HTTP/MCP/job adapters translate inputs and actors; application services enforce object/purpose policy and orchestrate transactions; repositories/provider adapters implement narrow ports. All channels reuse those services. Read models may optimize a screen's data shape without duplicating permission, ranking, pricing, or delivery rules. CI enforces import direction and server/browser boundaries.
+
+Use explicit commands, immutable snapshots/value objects, state machines, narrow repositories/unit-of-work, and transactional outbox/inbox where needed. Compose dependencies at entry points; avoid deep inheritance, global mutable actor context, generic CRUD controllers, and hidden I/O in domain objects. Measure hot paths and query plans before optimizing; all optimizations must preserve golden outputs and authorization behavior.
 
 ## Stack and boundaries
 
@@ -82,6 +90,10 @@ packages/ui/              Tokens and web components; no forced sharing with nati
 packages/i18n/            Locale messages, reason text and formatting adapters
 jobs/                     Workflow handlers, scheduled imports, retention, reconciliation
 tests/fixtures/           Synthetic licensed-schema fixtures, golden scenarios
+tests/usecases/           Actor-driven application acceptance scenarios
+tests/integration/        Real PostgreSQL constraints, roles, migrations and races
+tests/contracts/          API and provider-adapter compatibility fixtures
+tests/functional/         Running HTTP and focused UI feature verification
 tests/e2e/                Browser, permissions, privacy, email and partner flows
 docs/                     Design, decisions, runbooks, coverage and release evidence
 ```
@@ -139,15 +151,15 @@ Cached historical reports remain historical and show a live safety overlay. Rech
 
 ## Data model and constraints
 
-Use UUID primary keys and UTC `timestamptz`. Store external IDs separately. JSON is suitable for immutable engine snapshots and typed rule inputs; critical constraints, statuses, tenancy, money, and relationships belong in relational columns.
+The [database design](09-database-design.md) is the detailed relational contract, including typed columns/nullability, PK/FK/unique/check constraints, indexes, DB01–DB16 concurrency invariants, roles, lifecycle, and migration order. The table below remains a domain overview. Use UUID identifiers, composite keys where required by invariants, and UTC `timestamptz`. Store external IDs separately. JSON is suitable for immutable engine snapshots and typed rule inputs; critical constraints, statuses, tenancy, money, and relationships belong in relational columns.
 
 | Domain | Entities and critical constraints |
 | --- | --- |
 | Catalog `app` | `vehicles`, `fitment_configurations`, `fitment_axles`, `tire_models`, `tire_skus`, `market_availability`, `evidence`, `scores`, `prices`, `climate_profiles`, `market_rules`, `recalls`, `dataset_versions`; unique provider/source-version keys; unit checks; effective-date indexes |
-| Reports `app` | `reports(id, owner_subject, current_version, locale, market, expires_at)`; `report_versions(report_id, version, input_snapshot, output_snapshot, versions, created_at)` unique `(report_id, version)`; `report_drafts` with optimistic revision; no mutable result JSON on parent |
+| Reports `app` | `reports(id, owner_subject_id, current_version, locale, market, expires_at)`; `report_versions` keyed by `(report_id, version)`, pinned bundle/rules/engine and immutable snapshots; deferred composite current-version FK; drafts with optimistic revision |
 | Sharing `app` | `report_capabilities(token_hash, report_id, scope, version_scope, expires_at, revoked_at)`; read and owner scopes never interchangeable |
-| Compare `app` | `comparisons(report_id, version, revision, items, scenarios)`; max four; `shop_quotes` with money/basis/quantity/date, private text separated; snapshot source IDs at save |
-| Contacts `privacy` | `contacts(email_hmac unique, encrypted_email, key_version, status)`; cautious normalization, no provider-specific dot/plus stripping; verified-address timestamp separate from consent |
+| Compare `app` | Immutable `comparisons(report_id, report_version, revision)` and `comparison_items` with unique slots 1–4; `shop_quotes` with money/basis/quantity/date and separately encrypted private notes; delivery pins comparison revision |
+| Contacts `privacy` | Encrypted `contacts` plus `contact_lookups(key_version, email_hmac, contact_id)` for unique lookup/key rotation; cautious normalization, no provider-specific dot/plus stripping; verification separate from consent |
 | Permissions `privacy` | Immutable `consent_events`, erasable `subject_links`, versioned `notices`, current consent projection, `suppressions`, `cookie_consents`, `privacy_requests`, `fulfillment_steps`, `cookie_registry`; consent grant/withdraw/confirm are distinct events |
 | Delivery `email` | `email_sends`, `send_attempts`, `email_links`, `email_events`, `email_feedback`, `template_versions`, `education_topic_map`; unique durable send key and `(provider, provider_event_id)` |
 | Work reliability `app` | `outbox`, `webhook_inbox`, `idempotency_requests`, `job_runs`; unique event IDs, body hash for duplicate requests, retry state and terminal reason |
@@ -250,6 +262,8 @@ Cache public catalog/fitment lookups by market and dataset version. Cache pure e
 Environments: local with synthetic fixtures; isolated preview branch/database/storage prefix; staging with test email allowlist and no real ads/billing; production with least-privilege credentials. No production contacts in previews. Staging/preview protection uses authentication plus noindex; robots alone is insufficient. Each environment gets distinct webhook keys, cookie scopes, callback URLs, and job event namespaces.
 
 Migration procedure: review SQL and data backfill; run on a disposable Neon branch; prove current and next app compatibility; back up; apply expand migration; deploy; verify; backfill with checkpointing; remove old columns only in a later release. Payload migrations run only against its owned tables. Roll back application code by version; restore data only under incident procedures, not as a casual down migration.
+
+Migration and database tests precede dependent implementation. Prove empty-database and previous-release upgrades using real PostgreSQL/runtime roles; use separate committed connections for concurrency tests. Do not substitute SQLite or mocks for RLS, composite FKs, locks, or unique constraints. Production schema push remains prohibited; reference diagrams and table definitions are not executable migration evidence.
 
 Feature gates: offers serving, marketing dispatch, external ads, market availability, data exports, public MCP, app features. Safety or privacy kill switches default off/denied on unknown configuration. Static public content should remain available when optional analytics or email providers fail.
 

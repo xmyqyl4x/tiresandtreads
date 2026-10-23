@@ -27,3 +27,15 @@ Checked October 22, 2026. These primary references support limited corrections t
 - [MCP transport specification](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports): the reviewed current revision defines Streamable HTTP and request metadata. Validate the pinned SDK and real target clients before publishing tools.
 
 Affiliate commission percentages, network eligibility thresholds, provider pricing, tax rates, market tire laws, and app-store acceptance are intentionally not carried forward as verified facts. They require fresh evidence for the relevant release or application.
+
+## Testing and database engineering
+
+Checked October 22, 2026 for the engineering expansion. Project-specific coverage thresholds, table designs, and performance budgets are design decisions rather than vendor guarantees.
+
+- [PostgreSQL constraints](https://www.postgresql.org/docs/current/ddl-constraints.html): row checks, compound keys, referential integrity, and the distinction between constraints and cross-row invariants.
+- [PostgreSQL transaction isolation](https://www.postgresql.org/docs/current/transaction-iso.html): concurrency semantics and serializable transaction behavior.
+- [PostgreSQL partial indexes](https://www.postgresql.org/docs/current/indexes-partial.html): selective indexes and query-predicate compatibility.
+- [node-postgres transactions](https://node-postgres.com/features/transactions): one checked-out client for all statements in a transaction.
+- [Vitest coverage](https://vitest.dev/guide/coverage.html): coverage measurement for the planned unit/application suites.
+- [Playwright best practices](https://playwright.dev/docs/best-practices): user-visible behavior assertions and isolated browser tests.
+- [TypeScript strict mode](https://www.typescriptlang.org/tsconfig/strict.html): strict static checking; runtime boundary validation remains necessary.

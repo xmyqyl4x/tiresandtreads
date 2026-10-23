@@ -15,6 +15,11 @@ This repository currently contains the final design and implementation planning 
 5. [Requirements traceability](docs/05-requirements-traceability.md) - all 137 source requirement IDs, core requirements, release assignments, and acceptance evidence.
 6. [Source review and decisions](docs/00-source-review.md) - source inventory, resolved contradictions, material changes, and decision register.
 7. [Verification record](docs/06-verification.md) - checks performed on this documentation package and limits of validation.
+8. [Test-driven development](docs/08-test-driven-development.md) - red/green/refactor workflow, unit/functional/use-case tests, UC01–UC12, CI gates, and completion evidence.
+9. [Database design](docs/09-database-design.md) - typed table catalogue, ER diagrams, keys/constraints, indexes, transactions, roles, retention, and migration sequence.
+10. [Coding standards](docs/10-coding-standards.md) - shared application services, package/API boundaries, design patterns, type safety, performance, and review rules.
+
+Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. The engineering specifications expand the approved stack without treating planned tests or database tables as implemented.
 
 ## Reference assets
 
@@ -22,7 +27,7 @@ This repository currently contains the final design and implementation planning 
 - [Design tokens](docs/design-tokens.json), the numeric baseline for implementation.
 - [External reference register](docs/references.md), with primary sources checked for the plan.
 
-The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, together with the approved architecture decisions in `docs/07`, governs the planned implementation where a source conflict is explicitly recorded in `docs/00`. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
+The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, approved architecture decisions in `docs/07`, and engineering specifications in `docs/08` through `docs/10` govern the planned implementation. Source conflicts are recorded in `docs/00`; the database specification provides the detailed relational contract behind the architecture overview. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
 
 ## Delivery approach
 

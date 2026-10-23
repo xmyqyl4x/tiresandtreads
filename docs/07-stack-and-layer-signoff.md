@@ -6,6 +6,8 @@ Build Tires & Tread as one modular TypeScript web application with a shared, det
 
 This approved design defines the technology choices, functional modules, logical layers, and deployment boundaries for implementation. It elaborates the [technical architecture](02-technical-architecture.md) and [implementation plan](04-implementation-plan.md). The [approval record](#7-signoff-decisions) identifies the reviewed proposal and the user's explicit signoff. Application development has not started.
 
+**Subsequent engineering expansion:** the user requested explicit TDD, database design, and coding principles after AS01–AS07 approval. [Test-driven development](08-test-driven-development.md), [database design](09-database-design.md), and [coding standards](10-coding-standards.md) elaborate these boundaries. The original approval record remains tied to the reviewed proposal; the additional specifications do not represent completed implementation or closed R0 gates.
+
 ## 1. Review scope
 
 The initial release remains **R1: US English web**, preceded by **R0: foundation and integration proof**. It includes assessment, recommendations, refinement, four-item comparison, quote checking, private reports, email/PDF delivery, education, staff administration, consent/privacy, and the planned analytics foundation. Affiliate and advertising capabilities activate only after their existing gates pass.

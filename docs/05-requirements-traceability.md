@@ -261,3 +261,16 @@ The source's early sections and nonfunctional requirements are also in scope. Th
 ## Implementation tracking rule
 
 At implementation, add PR/test evidence and shipped version to each completed row. A design decision, stub screen, passing mock-only test, or provider signup is not completion evidence. Requirements deferred by release remain explicit; no ID is silently dropped.
+
+## Engineering requirements from the requested expansion
+
+These planning IDs capture the user's TDD, database, maintainability, and performance requirements. They supplement all 137 source IDs and the approved architecture; implementation status remains unstarted. The [use-case catalogue](08-test-driven-development.md#use-case-catalogue) connects UC01–UC12 to existing FR/CORE/AT requirements. Each implemented row must link relevant unit, functional and use-case evidence, or explain why a category is inapplicable.
+
+| ID | Requirement | Work | Acceptance evidence |
+| --- | --- | --- | --- |
+| ENG-01 | Test-first behavioral development and regression fixes | E02 and every behavioral package | Recorded intended failing test, passing implementation, refactor verification and PR review under the TDD cycle |
+| ENG-02 | Unit, functional API/UI, and application/end-to-end use-case tests | E02,E06–E20; relevant R2–R4 work | Named suites, coverage gates, UC/AT mappings, negative/boundary/recovery cases, real integration proof rather than mock-only completion |
+| ENG-03 | Comprehensive relational design and integrity | E04,E05,E08,E11–E14; later E21–E33 | Typed schemas/migrations, PK/FK/UQ/check/index design, applicable DB01–DB16 tests, RLS/runtime roles, retention and upgrade/restore evidence |
+| ENG-04 | Shared APIs and business logic with separation of concerns | E02 and all channels | Enforced package dependencies; thin transport/UI adapters; reusable application/domain services; contract compatibility and cross-channel parity tests |
+| ENG-05 | Maintainable and performant code/data access | E02,E06,E09,E10,E16,E19 | Strict typing, cohesive modules/value objects, justified patterns, bounded queries/jobs, measured hot-path/bundle/query plans, no unauthorized caching |
+| ENG-06 | Reviewable delivery and operational ownership | E02,E17,E19,E20 and later gates | Contribution/PR process, readable tests, documented migrations/failure recovery, redacted telemetry, updated requirements and no false completion claims |

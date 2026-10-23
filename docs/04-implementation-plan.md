@@ -1,8 +1,20 @@
 # Implementation plan
 
-**Baseline 1.0 · October 22, 2026.** Deliver the US web experience before expanding into reseller operations, native applications, or audience sales. This plan converts the [product design](01-final-product-design.md), [architecture](02-technical-architecture.md), and [delivery/privacy specification](03-delivery-and-privacy.md) into reviewable work packages. Requirements remain traceable in [the coverage matrix](05-requirements-traceability.md).
+**Baseline 1.1 · October 22, 2026.** Deliver the US web experience before expanding into reseller operations, native applications, or audience sales. This plan converts the [product design](01-final-product-design.md), [architecture](02-technical-architecture.md), and [delivery/privacy specification](03-delivery-and-privacy.md) into reviewable work packages. Requirements remain traceable in [the coverage matrix](05-requirements-traceability.md).
 
 **Architecture signoff, October 22, 2026:** [AS01–AS07 are approved](07-stack-and-layer-signoff.md#7-signoff-decisions). R0 must prove the selected stack, separate logical Payload database, and Clerk bridge. E16 delivers first-party QStash/ClickHouse analytics; GA4/PostHog remain disabled until their measurement need, consent mapping, and cost case are approved. Scope, estimates, and release gates remain unchanged.
+
+**Engineering expansion requested after signoff:** implement the [TDD strategy](08-test-driven-development.md), [database contract](09-database-design.md), and [coding standards](10-coding-standards.md) within each work package. Existing estimates remain a planning baseline, not evidence that the expanded detail has been fully estimated. At G0, re-estimate E02/E04 and affected feature/testing work from the first vertical slice, database constraints, test fixtures and integration risks; publish any calendar/effort change instead of assuming it fits unchanged.
+
+## Development process for every work package
+
+1. Establish readiness: requirement/UC/AT IDs, actors, acceptance examples, layer/table ownership, adverse paths, and realistic test data.
+2. Write and run the smallest failing unit/application use-case tests for the next behavior. For a database or API invariant, begin with a failing real boundary test as well.
+3. Implement the behavior in its owning layer, then refactor with tests passing. Browser, staff, future mobile and MCP adapters share the same application/domain implementation.
+4. Complete affected functional API/UI, integration, contract, accessibility, privacy and performance verification. Record first failure and final results in the PR.
+5. Update traceability, migrations, contracts and runbooks; review against the coding standards and definition of done before marking the package complete.
+
+Testing and database design are continuous work in the feature estimates. E19 broadens integrated, recovery and release evidence after individual features already have passing tests. Exploratory spikes remain explicitly unshipped until the discovered behavior has contracts and tests.
 
 ## Staffing and estimate basis
 
@@ -47,9 +59,9 @@ Each row is suitable for conversion to an epic with small vertical PRs. Effort i
 | ID | Work package and accountable role | Depends on | Estimate | Acceptance evidence |
 | --- | --- | --- | --- | --- |
 | E01 | Data/provider and business feasibility, data lead | None | 5–8 | Evaluate at least two fitment candidates; benchmark selected configurations including optional/staggered/AWD/EV/LT; document display/cache/derived/API rights, costs, gaps and refusal path |
-| E02 | Bootstrap/integration spikes, platform lead | E01 provider direction | 6–9 | Pin compatible packages; preview/staging separation; Payload migration and Clerk MFA proof; CMP server-state proof; ESP signature/idempotency proof; reviewed threat boundaries |
+| E02 | Bootstrap/integration spikes, platform lead | E01 provider direction | 6–9 | Pin compatible packages; TDD/CI harness, strict types/import boundaries, unit/use-case/functional test commands and isolated real PostgreSQL roles; preview/staging separation; Payload/Clerk, CMP and ESP proofs; first measured performance budgets |
 | E03 | Design system and accessible shell, frontend lead | Product spec | 5–7 | Tokens, headings, inputs, chips, dialogs, cards, compare shell at 320/390/768/1280px; contrast/focus/reduced-motion checks |
-| E04 | Schema, repositories, migrations and outbox, backend lead | E02 | 7–10 | Domain ownership, FKs/checks, least-privilege roles, transaction tests; disposable-branch migration and restore; no production migration auto-push |
+| E04 | Schema, repositories, migrations and outbox, backend lead | E02 | 7–10 | Implement relevant database catalogue and DB invariants with failing-then-passing constraint/transaction tests; typed repositories and one migration owner; empty/upgrade migrations, runtime-role isolation, restore/deletion replay; no production schema push |
 | E05 | Fitment/catalog/climate/recall ingestion, data lead | E01,E04 | 10–14 | Provenance and freshness per fact; repeat imports idempotent; bad data quarantined; coverage report for chosen launch list; stale-recall gate |
 | E06 | Engine and pricing/scenario model, data lead | E05 | 10–15 | Deterministic output, strategy separation, safety-before-budget, missing-evidence handling, arithmetic/property tests and specialist-approved golden cases |
 | E07 | Assessment and matching flow, frontend lead | E03,E05,E06 | 6–9 | Keyboard/mobile form, size-only limitation, wheel-package choice, lookup outage recovery; submit retry never duplicates report |
@@ -64,7 +76,7 @@ Each row is suitable for conversion to an epic with small vertical PRs. Effort i
 | E16 | Event pipeline and metrics, platform lead | E04,E11 | 6–9 | Allowed-field schema, consent denial tests, queue failure/replay, deduplicated metrics, bot filtering, consent-coverage/freshness indicators |
 | E17 | Staff admin core, frontend lead | E05,E13,E14,E15,E16 | 9–13 | Role matrix, contact reveal audit, operational queues, affiliate applications, content/SEO, send/consent/request views; disabled modules not empty promises |
 | E18 | Affiliate and ad operations, frontend + platform leads | E09,E11,E15,E17 | 5–7 | Approved URLs/opaque attribution, disclosure, nightly link checks, ads.txt/slots/blocks/house fallback, no form/compare/privacy ads; report token isolation proof |
-| E19 | Integrated hardening and beta, QA + all engineers | E07–E18 | 14–20 | Golden + integration + E2E suite, accessibility, load and failure checks, restore/deletion drill, beta defects resolved, documentation/runbooks |
+| E19 | Integrated hardening and beta, QA + all engineers | E07–E18 | 14–20 | Accumulated unit/functional/UC/golden evidence, targeted critical-rule mutation review, full relevant E2E/accessibility/load/failure suites, restore/deletion drill, beta regression tests and runbooks |
 | E20 | Launch and observation, platform lead + owner | E19 and G0–G4 | 5–7 | Production smoke with permitted test addresses; alerts/support ready; staged feature activation; rollback/kill-switch rehearsal; go/no-go record |
 
 Content writing and specialist review effort is additional to engineering estimates. Understaffing those functions directly changes the launch date. E12 can develop render fixtures alongside E15, but it cannot ship personalized learning links until reviewed content is available.
@@ -74,17 +86,19 @@ Content writing and specialist review effort is additional to engineering estima
 1. Approve the launch vehicle/configuration list and evidence standard in E01. Decide whether the license permits derived report snapshots and future MCP use; future redistribution rights can be purchased later without blocking web rights.
 2. Create `codex/` implementation branches and PRs from the main baseline. Keep each PR independently reviewable with a concrete acceptance scenario and source requirement IDs.
 3. Discover supported service integrations; link the intended Vercel project; provision only approved environments/resources; pull environment configuration without printing secrets. Do not bootstrap a public deployment or paid account from this planning commit.
-4. Pin exact package versions and lockfile after compatibility checks. Establish formatting, type checking, unit runner, Playwright, dependency/secret scanning, and preview protection.
-5. Prove one vertical scenario using approved real schema/data access: vehicle → verified fitment → eligible result → persisted snapshot → private report. Use synthetic fixtures for tests, never to present fictional production recommendations.
+4. Pin exact package versions and lockfile after compatibility checks. Establish formatting, strict type/import checks, Vitest unit/use-case tests, real PostgreSQL integration/role tests, functional API checks, Playwright, dependency/secret scanning, and preview protection.
+5. Start with failing UC01/UC02 and data-integrity examples, then prove one vertical scenario using approved real schema/data access: vehicle → verified fitment → eligible result → persisted snapshot → private report. Use synthetic fixtures for tests, never to present fictional production recommendations.
 6. Expand data coverage and engine cases before polishing every report field. Add quote/refinement, email/privacy, then admin/commercial surfaces.
 
 ## Quality strategy
 
-Tests target risks and behaviors, not component implementation details. Only required checks run on each change; heavy email/device/load suites run when their affected surfaces change and before a release.
+The [test strategy](08-test-driven-development.md) defines the red/green/refactor cycle, unit/application use-case/functional API/UI categories, coverage policies, UC01–UC12, fixtures, and CI gates. Tests target risks and behaviors, not component implementation details. Only required checks run on each change; heavy email/device/load suites run when their affected surfaces change and before a release. Changed shared contracts, permissions, schema, and engine packages expand the dependent test selection.
 
 | Layer | Required tests | Blocking failure |
 | --- | --- | --- |
 | Engine unit/property | Same normalized inputs/versions give same result; all picks satisfy fitment/climate; budget never overrides safety; rankings unchanged by monetization; money/units/range arithmetic | Any unsafe eligibility or nondeterministic ranking |
+| Application use cases | Actor/precondition/action/outcome scenarios through shared use-case interfaces; normal, denied, stale, retry and recovery paths | UI/API/job adapters produce inconsistent business behavior or unauthorized side effects |
+| Functional API/UI | Running contract/schema/status/pagination/CSRF tests plus focused accessible UI feature tests | Public contract, object permission or user-visible feature failure |
 | Golden scenario suite | At least 50 reviewed cases with expected eligibility, exclusions and explanation codes | Unexplained difference from approved behavior |
 | Database integration | Idempotent outbox/inbox, duplicate/different-body keys, version conflicts, pooled-connection tenant context, code/budget races | Duplicate external effect, lost event, cross-tenant read/write |
 | Browser E2E | Form → results → refine → compare → share → email → PDF, permission denied, no results, failure recovery | Cannot complete core journey or unsafe degraded state |
@@ -202,4 +216,4 @@ Weekly delivery review records completed acceptance evidence, blocked dependenci
 
 ## Definition of done
 
-An implementation work package is done when its acceptance scenario works end to end, errors and permissions are handled, affected tests pass, telemetry is redacted and useful, operations can diagnose/recover it, and documentation/traceability match the shipped behavior. The current documentation commit completes planning and source preservation only; all implementation packages remain unstarted.
+An implementation work package is done when its acceptance scenario works end to end; new behavior has red/green evidence or a justified proportional exception; relevant unit, functional and use-case tests pass; real database/provider boundaries are verified where affected; errors and permissions are handled; performance/accessibility budgets are checked; telemetry is redacted and useful; operations can diagnose/recover it; and documentation/traceability match the shipped behavior. Apply the detailed [definition of ready and done](08-test-driven-development.md#definition-of-ready-and-done) and [coding review rules](10-coding-standards.md#security-privacy-and-review). This repository currently completes planning and source preservation only; all application implementation packages remain unstarted.
