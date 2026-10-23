@@ -4,6 +4,8 @@
 
 This file is the authoritative ledger for status, assignee and actual PR/evidence links. Detailed key-task checklists, responsible roles, dependencies and verification criteria live in the four linked phase files. Stable IDs are backlog identifiers; real GitHub PR URLs are added as work opens. [Requirements traceability](05-requirements-traceability.md), [work packages](04-implementation-plan.md), [TDD](08-test-driven-development.md), [database design](09-database-design.md) and [coding standards](10-coding-standards.md) remain authoritative specifications.
 
+**Status:** Approved October 23, 2026; see the [approval record](#approval-record). Approval establishes the implementation working backlog; individual task statuses continue to reflect actual delivery evidence.
+
 ## Phase summary
 
 | Phase | Planned PRs | Usable live outcome | Detailed checklist |
@@ -213,3 +215,11 @@ These parked tickets are excluded from the 119 core-PR count. Their [activation/
 The [work-package-to-PR map](tasks/work-package-pr-map.md) covers E01–E42 and exposes optional E32/E33 work separately. A work-package link is an ownership/navigation aid, not acceptance of all of its source requirements. At readiness, select exact rows from docs/05; at acceptance, attach tests and shipped version. Preserve all 137 original FR IDs and the existing CORE/NFR/ENG/CAP/UC/AT/DB identifiers.
 
 The next implementation action is [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001). Its outputs establish launch coverage, source rights, accountable owners and a defensible estimate. Then complete P1-PR-002/003 and start database migrations in [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004). Product frontend work remains behind [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031).
+
+## Approval record
+
+On **October 23, 2026 (America/Los_Angeles)**, the requesting user approved this implementation working task list and authorized the merge of `codex/implementation-pr-task-list` into `main`. The reviewed baseline is commit [`c984bcf`](https://github.com/xmyqyl4x/tiresandtreads/commit/c984bcf04098d465e521bd0ee12215faba6d6978).
+
+The user's instruction was: “Approve the implementation working task list and merge the codex/implementation-pr-task-list branch into main.” This approves the 119 planned core PRs (43/27/25/24 across P1–P4), their task checklists, dependencies, stage gates, testing/acceptance criteria, work-package mappings and progress-tracking workflow. The ten optional activation tickets remain parked under their existing decision process.
+
+This approval establishes the working backlog and authorizes its documentation merge. It does not mark implementation tasks complete: all core tasks remain Not started, assignees remain Unassigned, and implementation, provider/data prerequisites and live phase acceptance still require their specified evidence. Earlier scope, stack, database-first, PostgreSQL and engineering approvals remain tied to their reviewed commits.
