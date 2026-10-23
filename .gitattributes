@@ -1,0 +1,9 @@
+* text=auto
+*.md text eol=lf
+*.json text eol=lf
+*.csv text eol=lf
+*.pdf binary
+*.png binary
+*.zip binary
+# Preserve supplied Markdown byte for byte for provenance.
+docs/sources/originals/*.md -text

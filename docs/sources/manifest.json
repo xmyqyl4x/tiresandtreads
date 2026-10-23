@@ -1,0 +1,77 @@
+{
+  "review_date": "2026-10-22",
+  "entries": [
+    {
+      "original_filename": "Tire Advice Site Designs (1).pdf",
+      "path": "docs/sources/originals/site-designs.pdf",
+      "bytes": 5587534,
+      "sha256": "e4efb765786900464e2fe6f54179b8cfbdca298b024eade36babee29c11cf616"
+    },
+    {
+      "original_filename": "Tire Advice Site Designs-png (1).zip",
+      "path": "docs/sources/originals/site-designs-png.zip",
+      "bytes": 6168597,
+      "sha256": "6ab7f8c7f2eb30be30774285557698b94ff041122daebababfd921770d0f2072"
+    },
+    {
+      "original_filename": "Tire assessment report and email delivery design - Claude.pdf",
+      "path": "docs/sources/originals/requirements-export.pdf",
+      "bytes": 1122921,
+      "sha256": "0030a1c3f93a0e7d8842ec1cb4c2d2f92d0660a964684835c8baf25f1ccc3c3b"
+    },
+    {
+      "original_filename": "Tires & Tread ΓÇö Product Design & Requirements v2.1.md",
+      "path": "docs/sources/originals/product-requirements-v2.1.md",
+      "bytes": 146079,
+      "sha256": "00f56668ce8851659eb4a573076ff13744b8b154421365733bf584973ae1541e"
+    },
+    {
+      "archive_member": "Home and form.png",
+      "path": "docs/sources/screens/01-home-and-form.png",
+      "bytes": 1063841,
+      "sha256": "b7409ee90bf7c42c353259664f97d32144070e8fb80d464d94508c03d1dce93c"
+    },
+    {
+      "archive_member": "Form, mobile.png",
+      "path": "docs/sources/screens/02-form-mobile.png",
+      "bytes": 249300,
+      "sha256": "8c3ce986deaaac6946ae9280e6b3475f63d4561b257d90a08801067ffad9abe8"
+    },
+    {
+      "archive_member": "Matching state.png",
+      "path": "docs/sources/screens/03-matching-state.png",
+      "bytes": 123588,
+      "sha256": "055406735641a05e7d093bb3c57e2818b9388fc9e3c74a2f4ed444c380b74a53"
+    },
+    {
+      "archive_member": "Results.png",
+      "path": "docs/sources/screens/04-results-desktop.png",
+      "bytes": 2408984,
+      "sha256": "d9450448d269d28f9aa5a21dec19287c360e70ccfa1462ea1b8efabbc05565db"
+    },
+    {
+      "archive_member": "Results, mobile.png",
+      "path": "docs/sources/screens/05-results-mobile.png",
+      "bytes": 279123,
+      "sha256": "7742ea1740e21de78b36722dae6d8b34132dd7607ab39e8b1036750c1da6298e"
+    },
+    {
+      "archive_member": "Compare.png",
+      "path": "docs/sources/screens/06-compare-original.png",
+      "bytes": 458674,
+      "sha256": "7d3344f3813448426c7b16380fe830098ed881cb23635447f3a5d147e3533505"
+    },
+    {
+      "archive_member": "Refine and get report (v2.0).png",
+      "path": "docs/sources/screens/07-refine-and-delivery-v2.png",
+      "bytes": 907970,
+      "sha256": "76775eb82ca692acfed68b71b91d1424bb45bc446457dda3d4f3070123506c92"
+    },
+    {
+      "archive_member": "Compare up to 4 (v2.0).png",
+      "path": "docs/sources/screens/08-compare-four-v2.png",
+      "bytes": 676187,
+      "sha256": "4a19fa39a62642e3ffc94c11b6869814ec9541b979ef64e4247f88b98bd9dd67"
+    }
+  ]
+}

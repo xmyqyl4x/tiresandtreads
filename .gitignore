@@ -1,0 +1,14 @@
+# Local review/rendering scratch files
+.work/
+
+# Future application secrets and generated output
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+.vercel/
+coverage/
+playwright-report/
+test-results/
+__pycache__/
