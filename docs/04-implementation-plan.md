@@ -1,6 +1,6 @@
 # Implementation plan
 
-**Baseline 1.3 (capability amendment approved October 23, 2026) · October 22, 2026.** Deliver the US web experience before expanding into reseller operations, native applications, or audience sales. This plan converts the [product design](01-final-product-design.md), [architecture](02-technical-architecture.md), and [delivery/privacy specification](03-delivery-and-privacy.md) into reviewable work packages. Requirements remain traceable in [the coverage matrix](05-requirements-traceability.md).
+**Baseline 1.4 (option-C deployment approved October 23, 2026).** Deliver the US web experience before expanding into reseller operations, native applications, or audience sales. This plan converts the [product design](01-final-product-design.md), [architecture](02-technical-architecture.md), and [delivery/privacy specification](03-delivery-and-privacy.md) into reviewable work packages. Requirements remain traceable in [the coverage matrix](05-requirements-traceability.md).
 
 **Current direction:** build the database, data access/models, business services and exposed APIs before product frontends. The [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) replaces ClickHouse/Redis/QStash with PostgreSQL analytics, SQL limits and measured caching. The original [AS01–AS07 approval](07-stack-and-layer-signoff.md#7-signoff-decisions) remains historical; AS02/AS07 implementation selections are amended. Separate Payload ownership, Inngest execution, consent defaults and release gates remain.
 
@@ -16,7 +16,7 @@ Use the [project task list](15-project-task-list.md) for day-to-day execution of
 
 ## Development process for every work package
 
-The [deployment proposal](16-deployment-and-local-environments.md) maps local dev/stage, pre-push verification, hosting choice and release operations into existing PRs. Review DP01–DP08 before Phase 1; resolve the production host, region, cost and operator in P1-PR-001/003. [The deployment task mapping](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) preserves all 119 core IDs, four live phases and S0–S6 ordering. It does not silently replace the approved Neon baseline or authorize provisioning.
+The [approved deployment plan](16-deployment-and-local-environments.md) selects option C: app containers and PostgreSQL outside Vercel, with local Docker dev/test/stage and checks before GitHub push. DP01–DP08 supersede the Vercel/Neon default; resolve the option-C vendor, region, DB operating model, cost and operator in P1-PR-001/003. [The deployment task mapping](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) preserves all 119 core IDs, four live phases and S0–S6 ordering. No infrastructure has been provisioned.
 
 1. Establish readiness: requirement/UC/AT IDs, actors, acceptance examples, layer/table ownership, adverse paths, and realistic test data.
 2. Write and run the smallest failing unit/application use-case tests for the next behavior. For a database or API invariant, begin with a failing real boundary test as well.
@@ -67,7 +67,7 @@ E01–E33 remain stable traceability IDs. Suffixes `a` and `b` split existing pa
 | ID | Work package and accountable role | Depends on / stage | Estimate | Acceptance evidence |
 | --- | --- | --- | --- | --- |
 | E01 | Data/provider and business feasibility, data lead | None; S0 | 5–8 | Evaluate fitment candidates; benchmark optional/staggered/AWD/EV/LT; rights, costs, gaps and refusal path |
-| E02 | Bootstrap and headless integration proofs, platform lead | E01 provider direction; S0 | 6–9 | Lock compatible packages; CI/TDD commands, strict types/import rules, real PostgreSQL test roles, protected environments, auth/CMS/CMP/ESP proofs and measured budget plan |
+| E02 | Bootstrap and headless integration proofs, platform lead | E01 provider direction; S0 | 6–9 | Lock Node 24/Linux containers and compatible packages; isolated Docker dev/test/stage, pre-push/CI/TDD commands, strict types/import rules, real PostgreSQL roles, protected image releases, auth/CMS/CMP/ESP proofs and measured budgets |
 | E03 | Design system and accessible shell, frontend lead | S4 passed; S5 | 5–7 | Tokens/components at 320/390/768/1280px; keyboard, focus, contrast and reduced-motion checks |
 | E04 | E04a schema/migrations; E04b data access/entities, backend lead | E02 → E04a S1 → E04b S2 | 12–17 | E04a 6–8 days: all R1 schema, constraints, roles, migration/restore tests. E04b 6–9: pure entity/value contracts, Drizzle records/mappers, repositories, read models, unit-of-work, concurrent rollback and query evidence |
 | E05 | Catalog/fitment/climate/recall ingestion, data lead | E01,E04b; S3 | 10–14 | Provenance, coherent publish, idempotent imports, quarantine, chosen launch coverage and stale-recall gate |

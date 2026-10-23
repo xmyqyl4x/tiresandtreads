@@ -19,8 +19,8 @@ Checked October 22, 2026. These primary references support limited corrections t
 
 - [Payload Postgres adapter](https://payloadcms.com/docs/database/postgres): the adapter uses Drizzle and owns its generated schema/migrations; custom `schemaName` is documented as experimental at review time. Validate isolation before sharing a production database.
 - [Payload migrations](https://payloadcms.com/docs/database/migrations): use reviewed production migrations; development push behavior is not a production migration strategy.
-- [Vercel Node.js runtime](https://vercel.com/docs/functions/runtimes/node-js): supports the proposed TypeScript request handlers; verify current runtime support and deployment limits during bootstrap.
-- [Vercel Global Config](https://vercel.com/docs/global-config): read-heavy configuration distribution for public redirect and feature snapshots; keep contacts and secrets elsewhere.
+- [Vercel Node.js runtime](https://vercel.com/docs/functions/runtimes/node-js): historical hosting reference; the approved option-C deployment uses portable Node.js containers outside Vercel.
+- [Vercel Global Config](https://vercel.com/docs/global-config): historical configuration reference; DP03 replaces this dependency with a portable SQL/S3 public-config adapter.
 - [Inngest durable sleep](https://www.inngest.com/docs/durable-execution/primitives/step-sleep): supports a persisted cancellation delay without holding a request process open.
 - [Resend idempotency keys](https://resend.com/docs/dashboard/emails/idempotency-keys): provider deduplication currently lasts 24 hours. The application must retain its own durable send identity and resolve uncertain sends before retrying outside that window.
 - [PostgreSQL row security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html): policies default deny when enabled without a matching policy, but table owners normally bypass them. Runtime roles must not own reseller tables or have BYPASSRLS.
@@ -48,7 +48,7 @@ Checked October 22, 2026. These sources support available mechanisms; the [conso
 - [PostgreSQL explicit locking](https://www.postgresql.org/docs/current/explicit-locking.html): short transactions, row locks, contention and deadlock considerations.
 - [PostgreSQL partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html): retention/large-table options and partition-key requirements for unique constraints; no unconditional partitioning requirement at launch.
 - [PostgreSQL materialized views](https://www.postgresql.org/docs/current/rules-materializedviews.html): persisted query results require refresh and may be stale; the selected design uses explicit aggregate generations.
-- [Neon connection pooling](https://neon.com/docs/connect/connection-pooling): transaction pooling and unsupported session assumptions; use bounded pools and transaction-local context.
+- [Neon connection pooling](https://neon.com/docs/connect/connection-pooling): historical provider reference; Neon is no longer the prescribed database provider. Pooling constraints must be verified for the selected option-C PostgreSQL topology.
 - [Inngest schedules and delayed starts](https://www.inngest.com/docs/durable-execution/guides-and-advanced/events-and-triggers/schedules-and-delayed-starts): scheduled execution without a persistent application timer.
 - [ClickHouse introduction](https://clickhouse.com/docs/get-started/about/intro) and [Redis data-store guide](https://redis.io/docs/latest/develop/get-started/data-store/): reviewed as alternatives; removed from the current dependency plan because their distinct capabilities are not yet a demonstrated requirement.
 
@@ -67,3 +67,13 @@ Checked October 22, 2026 for the proposed D30–D35 amendment. Four phases, refr
 - [OpenAI images and vision](https://developers.openai.com/api/docs/guides/images-vision): image inputs and known recognition limitations; the project requires human confirmation and makes no photo-based safety diagnosis.
 - [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data): endpoint/model/account retention distinctions, application state and abuse monitoring; `store: false` is not an unconditional zero-retention guarantee.
 - [OpenAI plugin documentation](https://developers.openai.com/plugins): current MCP-backed plugin packaging/testing/publishing. The former Apps SDK landing page redirects here at review time; client availability and listing acceptance still need P3 evidence.
+
+## Approved option-C deployment and local validation
+
+The [DP01–DP08 approval](16-deployment-and-local-environments.md#approval-record) selects application containers and PostgreSQL outside Vercel. The deployment plan retains dated Vercel comparisons as alternatives, with direct sources for local tooling, external-provider boundaries and release procedures. These mechanisms still require implementation evidence on the chosen host.
+
+- [Next.js self-hosting](https://nextjs.org/docs/app/guides/self-hosting): Node.js/container deployment and cache coordination across replicas.
+- [Payload production deployment](https://payloadcms.com/docs/production/deployment): production builds and deployment configuration.
+- [PgBouncer features](https://www.pgbouncer.org/features.html): pooling modes and their transaction/session constraints.
+- [PostgreSQL continuous archiving](https://www.postgresql.org/docs/current/continuous-archiving.html): WAL archiving and point-in-time recovery mechanisms.
+- [Docker Compose project names](https://docs.docker.com/compose/how-tos/project-name/): isolate local environment resources with distinct project identities.

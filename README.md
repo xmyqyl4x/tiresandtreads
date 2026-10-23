@@ -6,7 +6,7 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
-**Deployment plan for review:** [Hosting options and local dev/staging](docs/16-deployment-and-local-environments.md) compares Vercel with managed or self-hosted PostgreSQL and hosting the app elsewhere. It defines isolated Docker environments, testing before GitHub push, provider checks, migrations, rollout and recovery. DP01–DP08 are proposed; the approved production baseline remains Vercel + Neon until a different option is accepted.
+**Approved deployment direction: option C.** [App and PostgreSQL outside Vercel, with local Docker dev/staging](docs/16-deployment-and-local-environments.md). [DP01–DP08 were approved October 23, 2026](docs/16-deployment-and-local-environments.md#approval-record), with C explicitly replacing the former Vercel/Neon default. Portable Linux app containers, isolated local environments, tests before GitHub push and controlled container releases preserve final-host flexibility. The production vendor and PostgreSQL operating model remain S0 choices within C.
 
 **Approved implementation working task list:** [119 planned PRs across Phases 1–4](docs/15-project-task-list.md), with key-task checklists, explicit dependencies, construction gates, responsible roles and a status/assignee/PR-evidence ledger. [Approved October 23, 2026](docs/15-project-task-list.md#approval-record). Ten separately gated options remain parked. Start with P1-PR-001; all implementation is unstarted.
 

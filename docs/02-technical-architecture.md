@@ -1,8 +1,8 @@
 # Technical architecture
 
-**Baseline 1.4 (capability amendment approved October 23, 2026) · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
+**Baseline 1.5 (option-C deployment approved October 23, 2026).** This is the implementation target, not an assertion that services or infrastructure already exist.
 
-**Architecture history and current amendment:** the user approved AS01–AS07 on October 22, 2026. The [signoff record](07-stack-and-layer-signoff.md) preserves that reviewed baseline. The subsequent [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) changes AS02/AS07 implementation selections and requires database → data access/models → business services → APIs → frontends. Separate CMS ownership and the seven logical layers remain. R0 and release evidence are still required.
+**Architecture history and current amendment:** the user approved AS01–AS07 on October 22, 2026. The [signoff record](07-stack-and-layer-signoff.md) preserves that reviewed baseline. The subsequent [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) changes AS02/AS07 implementation selections and requires database → data access/models → business services → APIs → frontends. Separate CMS ownership and the seven logical layers remain. The [DP01–DP08 approval](16-deployment-and-local-environments.md#approval-record) selects app + PostgreSQL outside Vercel and supersedes the former Vercel/Neon default. R0 and release evidence are still required.
 
 Build a modular Next.js application with a pure, versioned recommendation package. Public UI, staff operations, CMS, and later partner routes share domain services but not authorization privileges. Durable jobs handle external side effects. PostgreSQL is authoritative for reports, permissions, delivery, and money; analytics is a downstream projection.
 
@@ -23,8 +23,8 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 | Web | Next.js App Router, strict TypeScript, React | Pin mutually compatible stable Next/React/Payload versions at R0; do not infer versions from this plan |
 | Forms and contracts | React Hook Form, Zod | Shared client/server validation; server remains authoritative |
 | Styling and locale | Tailwind, Radix UI primitives, next-intl/Intl | Use design tokens; keep engine reason codes language-neutral |
-| Hosting | Vercel, Node.js 24.x functions, public CDN | Match runtime major in development/CI; co-locate database and core functions; private responses never enter shared caches |
-| Operational data | Neon PostgreSQL, Drizzle + `pg` | One migration owner per table; pooled runtime connections, separate migration credentials |
+| Hosting | Portable Linux Node.js 24 app containers outside Vercel; reverse proxy/public CDN | Match runtime in dev/stage/CI; select final host in S0; co-locate app and DB; private responses never enter shared caches |
+| Operational data | Standard PostgreSQL outside Vercel, Drizzle + `pg` | Managed or self-operated production DB chosen in S0; bounded runtime pools, separate app/CMS databases and migration credentials |
 | CMS | Embedded Payload with `@payloadcms/db-postgres`, separate logical database | Payload owns CMS database/migrations; prove grants, recovery isolation, and Clerk integration at R0 |
 | Auth | Clerk staff and organization identities | Mandatory MFA, separate staff/reseller audiences, explicit server role checks; consumer realm added R3 |
 | Workflows | Inngest | Email, PDF, imports, privacy jobs, future reminders; persisted state and retriable steps |
@@ -34,10 +34,10 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 | PDF | `@react-pdf/renderer` | Render from versioned report DTO; verify fonts, tables, links, reading order |
 | Assets | Private S3 object storage, public reviewed-media bucket/CDN | Use managed encryption and scoped URLs; direct private uploads for large CSVs, no public export bucket |
 | Sensitive fields | Managed envelope encryption, AWS KMS for data-encryption keys | Signing-only key products do not replace data encryption; purpose-specific HMAC lookup keys |
-| Content routing | Global Config public redirect snapshots | Size-bounded, versioned, signed publication; no PII or secrets |
+| Content routing | Portable public-config adapter over SQL publication history and versioned S3 snapshots | Bounded validated reads, expiry and cross-replica invalidation; CMS propagation <60s; no PII or secrets |
 | Instrumentation | R1 first-party PostgreSQL events/aggregates + Datadog operational metrics | GA4/PostHog stay disabled until a specific measurement need, consent mapping, and cost case are approved; no R1 session replay |
 | Bot control | Turnstile plus server rate limits | Sitekey/action/hostname verification; fail safely if token invalid |
-| Tooling and delivery | pnpm workspaces, ESLint, Prettier, GitHub Actions, Vercel Git previews | Frozen lockfile installs, import boundaries, protected previews, reviewed migrations |
+| Tooling and delivery | pnpm workspaces, ESLint, Prettier, GitHub Actions, Docker dev/stage and protected container previews | Local pre-push checks, frozen installs, import boundaries, reviewed migrations and immutable image promotion |
 | Verification | Vitest, Playwright, axe-core, real PostgreSQL integration tests | Engine/property, transaction/race, browser and accessibility checks; manual assistive-technology/email/PDF review |
 | AI assistance and extraction | P2 official OpenAI SDK/Responses adapter; PostgreSQL artifacts, Inngest jobs and private S3 images | Pin/evaluate model, schema and prompt; exact authorized reuse and user-confirmed photo fields; no provider SDK inside domain logic |
 | Domain reference data | NHTSA official APIs/bulk files plus licensed/reviewed providers | P1 scripts and P2 admin CSV use shared staging/validation/publication services; see docs/13 |
@@ -45,7 +45,7 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 
 These extend the source's preferred stack. R0 checks current integrations and costs before provisioning. There is no reason to introduce microservices, Kubernetes, a vector database, or a separate general-purpose API framework for R1. Use the provider's supported SDK only after verifying the selected integration and environment setup. P2 adds the bounded OpenAI API adapter specified in [AI analysis/photos](14-ai-analysis-and-photo-design.md); it explains deterministic results and cannot decide fitment, ranks or safety.
 
-Use a separate logical PostgreSQL database for Payload from the outset, with separate credentials and migrations. The [Payload documentation](https://payloadcms.com/docs/database/postgres) marks custom schema selection experimental at review time; it is not a launch dependency. Application and CMS databases may share Neon project/compute only after grants and recovery isolation are proven. Bridge published content by stable IDs and revision DTOs, with durable publication work and retryable cache/config propagation; do not assume cross-database transactions.
+Use a separate logical PostgreSQL database for Payload from the outset, with separate credentials and migrations. The [Payload documentation](https://payloadcms.com/docs/database/postgres) marks custom schema selection experimental at review time; it is not a launch dependency. Application and CMS databases may share a PostgreSQL cluster only after grants and recovery boundaries are proven; sharing retains a common compute/failure and physical-recovery boundary. Bridge published content by stable IDs and revision DTOs, with durable publication work and retryable cache/config propagation; do not assume cross-database transactions.
 
 ```mermaid
 flowchart TB
@@ -281,7 +281,7 @@ Sanitize CMS HTML and quote text; enforce CSP; allow only reviewed link origins 
 
 ## Caching and deployment
 
-**Deployment proposal under review:** [Local environments and hosting options](16-deployment-and-local-environments.md) adds a concrete local-dev/staging and pre-push verification workflow, plus Vercel with external PostgreSQL and full-container alternatives. Standard Drizzle/`pg` connectivity permits other hosts; selecting one requires the proposal's networking, operations and recovery evidence. Current Neon/Vercel selections below remain the approved baseline. The [release procedure](16-deployment-and-local-environments.md#migration-and-release-order) elaborates serialized migrations and protected candidate promotion without changing layer or live-phase gates.
+**Approved deployment direction:** [Option C](16-deployment-and-local-environments.md) runs portable app containers and PostgreSQL outside Vercel, with isolated Docker dev/test/stage and checks before GitHub push. The final vendor, region and DB operating model require S0 networking, cost, operations and recovery evidence. The [release procedure](16-deployment-and-local-environments.md#migration-and-release-order) requires serialized migrations and protected promotion of a tested immutable image without changing layer or live-phase gates.
 
 P2 [AI reuse](14-ai-analysis-and-photo-design.md#persistent-reuse-and-refresh) is required persisted business output with exact canonical input/source/model/prompt/policy keys, owner/shared scope isolation, ≤7-day validity and authoritative invalidation checks. It is separate from the conditional ≤24-hour computation cache below. Photo extraction cannot enter shared reuse. Database-first gates repeat per live phase; compatible migrations keep previous phases usable.
 
@@ -291,7 +291,7 @@ Use PostgreSQL analytics with capped intake, restricted pools, short query/lock 
 
 Environments: local with synthetic fixtures; isolated preview branch/database/storage prefix; staging with test email allowlist and no real ads/billing; production with least-privilege credentials. No production contacts in previews. Staging/preview protection uses authentication plus noindex; robots alone is insufficient. Each environment gets distinct webhook keys, cookie scopes, callback URLs, and job event namespaces.
 
-Migration procedure: review SQL and data backfill; run on a disposable Neon branch; prove current and next app compatibility; back up; apply expand migration; deploy; verify; backfill with checkpointing; remove old columns only in a later release. Payload migrations run only against its owned tables. Roll back application code by version; restore data only under incident procedures, not as a casual down migration.
+Migration procedure: review SQL and data backfill; run on a disposable PostgreSQL database/cluster with synthetic or rights-approved sanitized fixtures; prove current and next app compatibility; back up; apply expand migration; deploy; verify; backfill with checkpointing; remove old columns only in a later release. Payload migrations run only against its owned tables. Roll back application code by version; restore data only under incident procedures, not as a casual down migration.
 
 Migration and database tests precede dependent implementation. Prove empty-database and previous-release upgrades using real PostgreSQL/runtime roles; use separate committed connections for concurrency tests. Do not substitute SQLite or mocks for RLS, composite FKs, locks, or unique constraints. Production schema push remains prohibited; reference diagrams and table definitions are not executable migration evidence.
 

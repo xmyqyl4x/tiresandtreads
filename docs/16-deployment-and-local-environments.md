@@ -1,45 +1,47 @@
 # Deployment and local-environment plan
 
-**Proposal 1.0 · October 23, 2026 · For review.** Prepared against approved main commit `58ddb7d36915827cd67efac4b037b7b0c422c259`. This plan answers the hosting and local-validation questions before Phase 1. The approved production baseline remains Vercel + Neon until a hosting choice is accepted. Local infrastructure, the application and deployment pipelines described here are planned work; the readiness checks below do not constitute a deployment.
+**Approved plan 1.1 · October 23, 2026 · DP01–DP08 approved with option C selected.** The user approved reviewed proposal commit `3973116f7e33327abc89795d30b4811f523788af` and directed **app + PostgreSQL outside Vercel** to preserve deployment flexibility and local development/testing. This supersedes the proposal's preference for option A and the earlier Vercel/Neon production default. The final hosting vendor, region and managed-versus-self-operated production database remain S0 decisions within option C. See the [approval record](#approval-record). Infrastructure and application implementation remain unstarted.
 
-## Recommendation and direct answers
+## Selected direction and direct answers
 
-**Yes: the Vercel application can use self-hosted PostgreSQL.** The database must run on durable infrastructure outside the application's ordinary Vercel Functions: for example, a cloud VM or a dedicated database server. The application can remain on Vercel. Its Node.js services connect using the existing Drizzle/`pg` adapter over an authenticated, encrypted, reachable PostgreSQL endpoint. Neon and a Vercel Marketplace purchase are not technical prerequisites. [Vercel's relational connection guidance](https://vercel.com/kb/guide/connection-pooling-with-functions) supports standard PostgreSQL drivers and pooling.
+**Comparison retained from the review: a Vercel application can use self-hosted PostgreSQL.** Options A/B below are alternatives, not the selected deployment path. The database must run on durable infrastructure outside the application's ordinary Vercel Functions: for example, a cloud VM or a dedicated database server. The application can remain on Vercel. Its Node.js services connect using the existing Drizzle/`pg` adapter over an authenticated, encrypted, reachable PostgreSQL endpoint. Neon and a Vercel Marketplace purchase are not technical prerequisites. [Vercel's relational connection guidance](https://vercel.com/kb/guide/connection-pooling-with-functions) supports standard PostgreSQL drivers and pooling.
 
 Buying managed PostgreSQL directly from a provider is a third choice: it avoids Marketplace procurement without taking on database administration. “Outside Vercel” and “self-hosted” are different decisions.
 
-**Yes: develop, build and run isolated dev and staging environments on this machine before pushing application changes to GitHub.** Use Docker Linux containers, real PostgreSQL, deterministic fixtures and local provider substitutes. Local Git branches/commits remain useful; a local commit does not upload code. GitHub CI independently verifies the pushed commit, and a hosted preproduction check proves deployment-specific behavior before release. A local staging pass cannot prove Vercel networking or real email/auth/provider behavior.
+**Yes: develop, build and run isolated dev and staging environments on this machine before pushing application changes to GitHub.** Use Docker Linux containers, real PostgreSQL, deterministic fixtures and local provider substitutes. Local Git branches/commits remain useful; a local commit does not upload code. GitHub CI independently verifies the pushed commit, and a hosted preproduction check proves deployment-specific behavior before release. A local staging pass cannot prove the selected production host's networking or real email/auth/provider behavior.
 
-Recommended direction: adopt local-first development and local staging; retain portable PostgreSQL and Node.js boundaries; prefer Vercel with managed PostgreSQL for initial production unless database control or measured total cost justifies operating it ourselves. Keep the self-hosted and full-container paths concrete and costed before P1-PR-003 closes. No Kubernetes, Redis, ClickHouse or replacement workflow platform is introduced.
+Approved direction: use local Docker dev/test/stage and a portable Linux Node.js 24 application container for option-C hosting. PostgreSQL stays on durable infrastructure outside Vercel, with standard Drizzle/`pg` connectivity and separate application/Payload ownership. Vercel hosting, Neon provisioning, Vercel Git previews and Global Config are no longer required dependencies. Select the concrete option-C host, region, DB operating model and costs before P1-PR-003 closes. No Kubernetes, Redis, ClickHouse or replacement workflow platform is introduced.
 
 ## Production hosting options
 
-| Option | Application | PostgreSQL | Operational consequence | Recommendation |
+| Option | Application | PostgreSQL | Operational consequence | Decision |
 | --- | --- | --- | --- | --- |
-| A: managed baseline | Vercel Node.js Functions/CDN | Neon, purchased directly or through Marketplace; another compatible managed PostgreSQL provider is possible after approval | Provider operates DB infrastructure; we still own access, migrations, restore evidence, retention and capacity | Lowest operational burden; approved Neon baseline remains the fallback |
-| B: Vercel + self-hosted DB | Same Vercel application, APIs, embedded Payload and job callbacks | Linux database VM/server outside Vercel, durable volumes, normally a PgBouncer endpoint | We own patching, TLS, connection admission, backups, PITR, monitoring and recovery; cross-provider network cost/latency | Technically viable when control and an assigned DB operator justify it |
-| C: app + DB outside Vercel | Linux Node.js/Docker application behind a reverse proxy/load balancer/CDN | Managed PostgreSQL or our own PostgreSQL, preferably on a separate host in the same private network | We also own app rollout, TLS, routing, availability, capacity and cache behavior | Strongest infrastructure control; evaluate if Vercel networking costs dominate |
-| D: production depends on this workstation | Public cloud app calling the local PC, or public app and DB on the PC | Existing Windows PostgreSQL/Docker | Sleep, power, residential connectivity, maintenance and a shared failure domain become production dependencies | Use the workstation for dev/stage; it is not the proposed live-product host |
+| A: former managed baseline | Vercel Node.js Functions/CDN | Neon, purchased directly or through Marketplace; another compatible managed PostgreSQL provider is possible after approval | Provider operates DB infrastructure; we still own access, migrations, restore evidence, retention and capacity | Alternative retained for comparison; superseded by the user's option-C selection |
+| B: Vercel + self-hosted DB | Same Vercel application, APIs, embedded Payload and job callbacks | Linux database VM/server outside Vercel, durable volumes, normally a PgBouncer endpoint | We own patching, TLS, connection admission, backups, PITR, monitoring and recovery; cross-provider network cost/latency | Alternative retained for comparison; not selected |
+| C: app + DB outside Vercel | Linux Node.js/Docker application behind a reverse proxy/load balancer/CDN | Managed PostgreSQL or our own PostgreSQL, preferably on a separate host in the same private network | We also own app rollout, TLS, routing, availability, capacity and cache behavior | **Selected by the user** for deployment flexibility and local development/testing |
+| D: production depends on this workstation | Public cloud app calling the local PC, or public app and DB on the PC | Existing Windows PostgreSQL/Docker | Sleep, power, residential connectivity, maintenance and a shared failure domain become production dependencies | Use the workstation for dev/stage; it is not the selected live-product host |
 
 Next.js can run outside Vercel, and Payload can run wherever Next.js runs. Hosting changes do not require rewriting the domain, service or API layers. Platform adapters and operational behavior still need verification. [Next.js self-hosting](https://nextjs.org/docs/app/guides/self-hosting), [Payload deployment](https://payloadcms.com/docs/production/deployment).
 
 ```mermaid
 flowchart LR
-  Users[Web app and later mobile or MCP clients] --> V[Vercel Node.js application]
-  V --> N[TLS endpoint with approved network access]
-  N --> Pool[Bounded PostgreSQL pooler outside Vercel]
+  Users[Web app and later mobile or MCP clients] --> Proxy[Public CDN and TLS reverse proxy]
+  Proxy --> App[Portable Node.js application container]
+  App --> Pool[Private PostgreSQL endpoint and bounded pooling]
   Pool --> AppDB[(Application PostgreSQL database)]
   Pool --> CMSDB[(Separate Payload database)]
-  V --> Files[Private S3 and reviewed public assets]
-  Jobs[Inngest cloud] --> V
+  App --> Files[Private S3 and reviewed public assets]
+  Jobs[Inngest cloud] --> Proxy
   Runner[Controlled migration runner] --> Direct[Private direct PostgreSQL connection]
   Direct --> AppDB
   Direct --> CMSDB
 ```
 
-This diagram describes option B. Two logical databases may share a properly isolated cluster, but they have different credentials and migration owners. Sharing a cluster also shares compute, failure and physical-recovery boundaries. Production and nonproduction use separate instances/clusters; a distinct database name alone is not a production security boundary.
+This diagram describes selected option C. PgBouncer is added when the accepted connection budget requires it; bounded client pools and direct migration access remain mandatory. Two logical databases may share a properly isolated cluster, but they have different credentials and migration owners. Sharing a cluster also shares compute, failure and physical-recovery boundaries. Production and nonproduction use separate instances/clusters; a distinct database name alone is not a production security boundary.
 
-## Implications of Vercel with self-hosted PostgreSQL
+## Option B comparison: Vercel with self-hosted PostgreSQL
+
+This section retains the researched alternative for context. Its Vercel networking products, prices and function adapters are **not** implementation prerequisites for selected option C. Database security, bounded connections and operating responsibilities also inform C when we operate PostgreSQL ourselves.
 
 ### Network reachability and geography
 
@@ -94,17 +96,26 @@ Keep approved recovery objectives: **RTO 4 hours; RPO no more than 24 hours, tig
 
 Provider-managed patching, managed storage/availability options, convenient database branches, managed pooling and provider recovery tooling need explicit replacements where used. Our application SQL schema does not depend on Neon branching. Create disposable test databases/clusters from migrations and synthetic seeds; use controlled sanitized snapshots only where rights and privacy permit. Test roles/extensions/collation/timezone against the chosen production version.
 
-The relational schema, PostgreSQL analytics/limits/AI persistence, separate CMS ownership and seven application layers remain. Neon-specific environment injection, branch creation and recovery scripts become provider adapters. Do not migrate any live data merely to adopt this proposal; the repository has no application database yet.
+The relational schema, PostgreSQL analytics/limits/AI persistence, separate CMS ownership and seven application layers remain. Neon-specific environment injection, branch creation and recovery scripts become provider adapters. Do not migrate any live data merely to adopt this plan; the repository has no application database yet.
 
-## Hosting the entire application outside Vercel
+## Selected option C: hosting the application and database outside Vercel
 
-For option C, deploy the same Next.js/embedded-Payload application as a pinned Linux container. Run PostgreSQL separately from the app container; use a private network and persistent data volumes. A single VM running all containers is an economical test or explicitly accepted small deployment, but a shared app/DB host is one failure domain and does not prove the availability target.
+For selected option C, deploy the same Next.js/embedded-Payload application as a pinned Linux container. Run PostgreSQL separately from the app container; use a private network and persistent data volumes. A single VM running all containers is an economical test or explicitly accepted small deployment, but a shared app/DB host is one failure domain and does not prove the availability target.
 
 The implementation scope includes a reverse proxy with TLS/body limits, health/readiness checks, graceful drain, immutable image digests, rollback, retained static assets during version changes and public CDN configuration. Start with one proven deployment topology; test multi-instance cache invalidation, compatible build identifiers and publication propagation before scaling replicas. Private responses remain uncacheable. Use the existing PostgreSQL/S3/publication design or disable optional shared caches until measured; do not silently add Redis. These responsibilities follow the [Next.js hosting guidance](https://nextjs.org/docs/app/guides/self-hosting).
 
 Inngest cloud, Clerk, S3/KMS, Resend and later model APIs can remain external services even when the app and DB are self-hosted. Inngest HTTP callbacks still require authenticated reachable endpoints, bounded steps and deployment compatibility. Hosting the app elsewhere does not mean self-hosting every provider.
 
-Vercel-specific pool cleanup, deployment metadata and Global Config access stay behind platform/integration ports. If leaving Vercel, implement a reviewed published-config adapter with versioned snapshots, cache limits, invalidation and the existing propagation target. Prove behavioral parity before switching; do not make raw CMS queries from middleware. These are extra option-C tasks, not features already implemented.
+Implement container pool cleanup/graceful shutdown and host-neutral deployment metadata at composition boundaries. Replace the former Global Config dependency with a reviewed public-config adapter over existing SQL publication history and versioned object snapshots: bounded cached reads, explicit expiry, checksum/schema validation, monotonic revision adoption, retryable publication and cross-replica invalidation. Preserve CMS propagation under 60 seconds; expired/unknown safety or privacy configuration fails closed. No raw CMS queries from middleware and no secret/private data in public snapshots. Prove stale, out-of-order, outage and restart behavior before acceptance. This uses the existing PostgreSQL/S3 stores and is assigned to P1-PR-012/021; it is not implemented yet.
+
+### Option-C implementation boundaries
+
+- Package the app and embedded CMS as one portable Linux application image; keep database files outside the app image and volumes. Local Compose is the repeatable baseline; the production platform may be a VM, dedicated server or managed container host.
+- Use separate nonproduction/production state and credentials. Keep production DB access private to application/migration infrastructure, use verified TLS across hosts, and prove least-privilege app/CMS roles. No Vercel-specific network product is required.
+- Pin Node 24 and an evaluated PostgreSQL major, dependency lockfile and image digests. Rebuild and test security patches; assign runtime/image maintenance to the platform owner.
+- Own reverse-proxy/CDN settings, certificates, readiness, graceful drain, resource limits, restart behavior and reviewed image promotion/rollback. Test public cache invalidation and old/new client compatibility before enabling replicas.
+- Retain Clerk, Inngest, S3/KMS, Resend, Datadog and later model APIs behind their existing ports. Option C does not require self-hosting every provider or changing domain behavior.
+- Resolve the host/region, production DB operating model, registry, reverse proxy/CDN provider, backup destination, budget and named operators in P1-PR-001/003. These are remaining infrastructure choices within the approved topology, not a reopening of A/B/C.
 
 ## Local machine readiness
 
@@ -117,11 +128,11 @@ Read-only checks performed October 23, 2026:
 | Native PostgreSQL | `postgresql-x64-18` service Running; `127.0.0.1:5432` accepts connections; `psql` client 18.1 | Server authentication, patch version, databases, roles and extensions were not inspected |
 | Default Node.js | 20.19.6 | Does not match the approved Node 24 target; use a project-scoped runtime or pinned Node 24 container |
 | pnpm / Git | pnpm 11.25.0 and Git on PATH | Pin a compatible pnpm version during bootstrap rather than assuming the installed one |
-| Vercel CLI | No executable found on PATH | Optional later installation; local app development does not require a Vercel account or CLI |
+| Vercel CLI | No executable found on PATH | Not required by selected option C; no Vercel CLI installation is planned |
 
 Initial sandbox checks could not access the Docker pipe/service manager and reported no DB response. Host-permitted read-only checks confirmed the running services. The Windows Docker service status alone did not establish engine state. No existing databases, credentials, Windows services, global runtimes or firewall rules were modified.
 
-Use project-scoped installations and containers for additional tools. Pin image digests and dependency versions at P1-PR-002; do not encode `latest` in the accepted runtime. Retain Node 24 across dev, local stage, CI and hosted runtime; Vercel manages its Node patch releases, so record the actual version in hosted evidence. [Supported Vercel Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
+Use project-scoped installations and containers for additional tools. Pin image digests and dependency versions at P1-PR-002; do not encode `latest` in the accepted runtime. Retain Node 24 across dev, local stage, CI and hosted runtime; the platform owner maintains the pinned container runtime and records its actual version/image digest in hosted evidence. The earlier [Vercel runtime reference](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) applies only to the unselected alternative.
 
 ## Environment topology and local resources
 
@@ -130,7 +141,7 @@ Use project-scoped installations and containers for additional tools. Pin image 
 | `dev-local` | Hot-reload Node 24 app; dedicated local app/CMS databases; local workflow/storage fixtures | Synthetic users/data; local provider fixtures by default; Clerk dev instance only in connected mode | Fast TDD and interactive development |
 | `test-local` | Disposable PostgreSQL instances or per-worker databases/roles; isolated fixture namespaces | Deterministic clocks/data and denied unexpected outbound calls | Unit, use-case, real SQL, contract and concurrency suites |
 | `stage-local` | Optimized Linux production-mode build; separate PostgreSQL cluster/roles/volumes; local proxy and provider services | Synthetic records; no real sends, ads, billing or live model requests by default | Pre-push migration, API/UI, startup/restart and recovery rehearsal |
-| `preview` | Hosted candidate only after passing local checks; isolated nonproduction DB/storage/jobs | Protected access; test identities and provider keys | Verify actual Vercel/container-host runtime, TLS/network paths and callbacks |
+| `preview` | Hosted candidate only after passing local checks; isolated nonproduction DB/storage/jobs | Protected access; test identities and provider keys | Verify the selected container-host runtime, TLS/network paths and callbacks |
 | `stage-hosted` | A protected, long-lived nonproduction deployment on the chosen production topology | Independent auth/provider instances or namespaces; tightly allowlisted sandbox activity | Provider acceptance and release rehearsal, provisioned when needed |
 | `production` | Accepted production topology with monitored durable data | Production identities/providers, explicit release and activation gates | One usable live product at the end of each phase |
 
@@ -148,7 +159,7 @@ Proposed host ports below are reservations to check during setup, not listeners 
 | --- | --- | --- | --- |
 | App/API/Payload host | 3000 | 3100 behind local proxy; optional local HTTPS 3443 | No product screens until P1-PR-031 accepts S4 |
 | PostgreSQL | 55432 | 55433 | Two independent Docker instances; each owns `tt_app` and `tt_cms`; leave native port 5432 alone |
-| PgBouncer, if option B or pooled production | 56432 | 56433 | Match production pooling mode; migrations use direct DB endpoint |
+| PgBouncer, if required by the accepted pool budget | 56432 | 56433 | Match production pooling mode; migrations use direct DB endpoint |
 | Inngest Dev Server | 8288 | 8289 | Explicit app registration and environment URL; isolate discovery and stored execution state |
 | Moto S3/KMS fixture server | 5000 | 5001 | Dummy credentials; resettable synthetic fixtures; cloud security parity is not implied |
 | Provider HTTP fixture/capture service | 9090 | 9091 | Deterministic email/webhook/source/model responses and call assertions |
@@ -173,7 +184,7 @@ The installed native PostgreSQL is also usable for dev, with newly allocated app
 | Turnstile / CMP / ads | Fixtures and provider-supported test modes; visible house/empty placeholders | Actual allowed-domain integration, consent enforcement, inventory eligibility and provider approval |
 | Domain imports | Script execution against synthetic/licensed fixtures and recorded contracts | Authorized source access, pagination/completeness, refresh and production data rights |
 | AI / photos, from P2 | Recorded nonpersonal cases and local fixtures; same persistence/invalidation/confirmation logic | Approved real-model evaluation, cost, privacy settings and image quality evidence |
-| Observability / Global Config | Structured local logs and published-config fixtures/adapter | Remote ingestion, redaction, alerts, propagation and operations access |
+| Observability / public-config adapter | Structured local logs and published-config fixtures/adapter | Remote ingestion, redaction, alerts, propagation and operations access |
 | Native app / MCP, from P3 | Local Android/device and protocol fixtures against local APIs | Real AI-client authentication/distribution; iOS release/device work needs macOS or an approved remote build service |
 
 The [Inngest local server](https://www.inngest.com/docs/local-development) provides workflow test execution; it is not our production orchestrator. [Moto server mode](https://docs.getmoto.org/en/latest/docs/server_mode.html) supports AWS SDK test endpoints, not proof of AWS IAM or durability. [Clerk environments](https://clerk.com/docs/guides/development/managing-environments) distinguish development and production behavior.
@@ -184,7 +195,7 @@ Local email capture is not a successful Resend send. Dummy KMS is not validated 
 
 ## Local validation before GitHub
 
-This is the proposed working cycle for every implementation card:
+This is the approved working cycle for every implementation card:
 
 1. Select an eligible backlog card and create a local branch. Write failing examples for the active layer; make changes locally with synthetic data.
 2. Run formatting/lint/type/import checks and affected unit/use-case suites. Exercise real PostgreSQL roles, migrations, transaction races and API contracts when that layer exists.
@@ -198,7 +209,7 @@ This satisfies testing before GitHub check-in/push while retaining source histor
 
 ### Planned repository tooling contract
 
-These are deliverables for P1-PR-002 and later cards, **not files or runnable commands created by this proposal**.
+These are deliverables for P1-PR-002 and later cards, **not files or runnable commands created by this documentation approval**.
 
 | Deliverable | Responsibility |
 | --- | --- |
@@ -217,7 +228,7 @@ The doctor command should report versions, engine access, available ports, disk/
 
 ### Preview and nonproduction controls
 
-Use a dedicated nonproduction Vercel project and production project if independent credentials and production controls are easier to audit; account for additional per-project networking charges in option B. Alternatively, choose a single project with demonstrably isolated environment credentials and endpoints at S0. The hosting decision must name the exact model; do not assume a preview automatically creates an isolated external database.
+Use separate nonproduction and production application deployments, database instances/clusters, volumes and credentials on the option-C platform. Implement protected candidate/PR deployments through CI with explicit resource names and cleanup; Vercel Git previews are not part of this path. The concrete host decision must identify network and state isolation. A new app container does not automatically create an isolated database.
 
 Create preview databases/roles from migrations and synthetic seeds, with a unique run/PR identifier, quotas and cleanup expiry. Never give untrusted fork builds production, staging-admin or provider credentials. Authenticated access plus noindex protects hosted previews; separate cookies, callback URLs, signing keys and workflow app IDs prevent cross-environment traffic. Nonproduction ads, billing and sends remain disabled or explicitly sandboxed.
 
@@ -234,11 +245,11 @@ Keep hosted staging available when real-provider or deployment checks are needed
 7. Observe live phase journeys, alerts, errors, latency, pool use, event lag and costs. Start bounded/resumable backfills; validate them before later contract migrations remove old fields.
 8. On failure, stop unsafe activation and roll back the application to a compatible artifact. Database restoration follows an incident procedure with write fencing, provider reconciliation, suppression/deletion replay and controlled reopening; a casual down migration is not the rollback plan.
 
-Vercel distinguishes rebuilt preview promotion from promotion of a staged production build. Its CLI supports staged production deployment and explicit promotion; configure production auto-assignment so a Git push cannot bypass the release gate. [Vercel promotion behavior](https://vercel.com/docs/deployments/promoting-a-deployment). CLI paths, team/project IDs and exact flags are verified when the pipeline is implemented. Use protected deployment access instead of removing protection to run tests.
+For selected option C, the release workflow promotes an accepted immutable image digest through the host's protected deployment/traffic controls. A Git push or merge must not switch public traffic automatically. Use authenticated candidate access for smoke tests, then explicitly switch the reverse proxy/load balancer or platform deployment target. Verify the exact account, application, environment and digest before each release.
 
-Vercel deployment uses the approved native Node.js Functions target; local Docker images are the reproducible test/container-host artifact, not a promise to deploy Vercel's container-image beta. Verify networking-feature compatibility before changing that runtime target. A local Linux test still needs the actual Vercel build/deployment check.
+The Linux container is the accepted execution target in local staging and production. Test the actual production build/configuration on the selected host; local success does not prove its networking, resources or provider callbacks. The former Vercel Functions target and its platform-specific release commands are retained only as comparison/history.
 
-That check includes bundle/fonts/PDF rendering, function memory and time limits, request/upload limits, background-step boundaries and direct signed object upload/download paths. Local unrestricted Node processes do not demonstrate that these fit the chosen hosted limits; keep long imports/rendering in bounded Inngest steps and durable object storage.
+That check includes bundle/fonts/PDF rendering, container memory/CPU and proxy/request timeouts, request/upload limits, background-step boundaries and direct signed object upload/download paths. Local unrestricted Node processes do not demonstrate that these fit the chosen hosted limits; keep long imports/rendering in bounded Inngest steps and durable object storage.
 
 For container hosting, build on a trusted Linux runner, push an immutable image digest, migrate separately, deploy behind readiness checks, drain the old version and retain it for rollback. Environment-specific `NEXT_PUBLIC_*` values and prerendered content can be baked into builds; changing runtime environment variables alone does not prove a local image is the production artifact. Record each build's provenance and test the actual release candidate.
 
@@ -261,42 +272,50 @@ Do not compare only the database subscription. Prepare low/base/high workloads a
 | Nonproduction | Local capacity plus isolated hosted checks | Same, with DB/test resource management | Same, plus extra instances as needed |
 | Shared providers | Clerk, Inngest, S3/KMS, email, monitoring and later AI | Same unless separately changed | Same unless separately changed |
 
-This commercial advertising site needs a commercial Vercel plan; Hobby is documented for personal noncommercial use. [Vercel Hobby scope](https://vercel.com/docs/plans/hobby). Current Static IP pricing is an input above, not a full hosting quote. Obtain actual regional plans, limits, storage/backup retention and required user seats during S0. Exclude speculative ad income from the funding assumption.
+For the unselected Vercel alternatives, this commercial advertising site would need a commercial plan; Hobby is documented for personal noncommercial use. [Vercel Hobby scope](https://vercel.com/docs/plans/hobby). Static IP pricing is an alternative-comparison input, not a cost or dependency of selected option C. Obtain actual regional plans, limits, storage/backup retention and required user seats during S0. Exclude speculative ad income from the funding assumption.
 
 A cheap single database VM can cost more overall once secure connectivity, backups and operator time are counted. Conversely, a well-operated colocated app/DB deployment may be economical at predictable load. These are planning judgments to validate with workload measurements and a named operator, not universal price claims.
 
-Before production topology selection, record region, data location, operator/backup owner, expected traffic/concurrency, storage growth, recovery tier, monthly budget and outage tolerance. If no operator accepts database recovery responsibilities, choose managed PostgreSQL. If self-hosting is required but Vercel networking is uneconomic, evaluate option C using the same product acceptance targets.
+Within selected option C, record the vendor, region, data location, operator/backup owner, expected traffic/concurrency, storage growth, recovery tier, monthly budget and outage tolerance. A managed PostgreSQL service remains compatible with C; operating our own production database requires an accountable recovery operator. Use the same product acceptance targets for either database operating model.
 
 ## Integration with the working PR task list
 
-The approved backlog stays at **119 core PRs plus 10 parked options**. The following is a proposed execution supplement for existing cards, not extra completed work or a new live phase. The original task-list approval remains tied to `c984bcf`; acceptance of this deployment proposal does not choose option B/C unless recorded explicitly.
+The approved backlog stays at **119 core PRs plus 10 parked options**. The following is the approved option-C execution supplement for existing cards, not extra completed work or a new live phase. The original task-list approval remains tied to `c984bcf`; the approval record below authorizes the deployment refinements.
 
 | Backlog card | Deployment tasks to include | Evidence required |
 | --- | --- | --- |
-| [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001) | Select A/B/C and region; cost/operator/recovery matrix; resolve data-location and commercial constraints | Hosting decision and budget/owner register |
+| [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001) | Select the option-C vendor/region and managed-or-self-operated DB model; cost/operator/recovery matrix; resolve data-location and commercial constraints | Hosting decision and budget/owner register |
 | [P1-PR-002](tasks/phase-1-prs.md#p1-pr-002) | Node 24/Compose doctor; isolated dev/test/stage; fixture harness; local pre-push and clean CI commands | Cold local setup, environment isolation and intentional failing-check proof |
 | [P1-PR-003](tasks/phase-1-prs.md#p1-pr-003) | Headless target-host DB/pooler/auth/Payload/worker proofs; migration/build networking; release controls | Actual chosen-host evidence; decision closed before S1 |
 | [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004)–[008](tasks/phase-1-prs.md#p1-pr-008) | Separate app/CMS databases/roles; local and hosted migrations; synthetic seeds; backup/restore/deletion replay | Schema/role/recovery gate on the target PostgreSQL version |
-| [P1-PR-012](tasks/phase-1-prs.md#p1-pr-012), [014](tasks/phase-1-prs.md#p1-pr-014), [024](tasks/phase-1-prs.md#p1-pr-024) | Runtime pool adapters, private assets/jobs, config publication, monitoring and bounded work | Failure, isolation and mixed-load evidence |
+| [P1-PR-012](tasks/phase-1-prs.md#p1-pr-012), [014](tasks/phase-1-prs.md#p1-pr-014), [021](tasks/phase-1-prs.md#p1-pr-021), [024](tasks/phase-1-prs.md#p1-pr-024) | Container pool lifecycle, private assets/jobs, portable config publication/invalidation, monitoring and bounded work | Failure, isolation and mixed-load evidence |
 | [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031) | Local-stage complete API suite plus chosen-host smoke; no product UI yet | S4 acceptance, auth/TLS/callback and pool capacity evidence |
 | [P1-PR-041](tasks/phase-1-prs.md#p1-pr-041)–[043](tasks/phase-1-prs.md#p1-pr-043) | Full local/hosted journeys, recovery/performance drill, staged release, live observations | Existing G/release evidence plus deployment manifest/runbook |
 | [P2-PR-026](tasks/phase-2-prs.md#p2-pr-026)–[027](tasks/phase-2-prs.md#p2-pr-027) | Repeat pipeline with image/AI evaluation and provider cost/limit controls | P2 real-provider and live-product evidence |
 | [P3-PR-023](tasks/phase-3-prs.md#p3-pr-023)–[025](tasks/phase-3-prs.md#p3-pr-025) | Device/client matrix, host callbacks, store/MCP distribution and compatibility | Both live channels, not only local emulators |
 | [P4-PR-022](tasks/phase-4-prs.md#p4-pr-022)–[024](tasks/phase-4-prs.md#p4-pr-024) | Four-phase load/recovery regression, financial job compatibility and operational handover | Complete committed scope and named operating owners |
 
-Large option-C infrastructure work must be split using the existing child-card convention if selected; update dependencies and estimates before implementation. No old effort subtotal covers this choice automatically. S0 may create empty infrastructure/headless fixtures; S1–S4 still precede product UI/templates.
+Large option-C infrastructure work must be split using the existing child-card convention when needed; update dependencies and estimates before implementation. No old effort subtotal covers this choice automatically. S0 may create empty infrastructure/headless fixtures; S1–S4 still precede product UI/templates.
 
-## Proposed decisions for signoff
+## Approved deployment decisions
 
-| ID | Proposed decision | Status / effect |
+| ID | Approved decision | Status / effect |
 | --- | --- | --- |
-| DP01 | Adopt isolated Docker local dev, test and optimized local stage with checks before GitHub push | Proposed; implementation in P1-PR-002 |
-| DP02 | Keep standard PostgreSQL + Drizzle/`pg` and separate Payload ownership; allow externally hosted databases through verified adapters | Proposed portability clarification; no new data store |
-| DP03 | Prefer Vercel + managed PostgreSQL initially; keep B/C available after costs, operator and network proofs | Proposed; Neon remains approved default; B/C selection must be explicit |
-| DP04 | Use PostgreSQL/Node version parity, pinned tooling, reproducible fixtures and safe target-checked local operations | Proposed; no global workstation upgrade required |
-| DP05 | Keep test doubles separate from real-provider acceptance; hosted preproduction proves production-topology behavior | Proposed; no relaxation of existing quality gates |
-| DP06 | Require serialized migrations, protected candidate deployment and explicit promotion of tested production artifacts | Proposed; Git push/merge alone is not a public release |
-| DP07 | Retain existing availability/recovery targets, off-host backups, restore/deletion evidence and named operational ownership | Proposed operational elaboration |
-| DP08 | Fold deployment work into the current backlog and retain S0–S6 order within each live phase | Proposed; 119 core IDs and ten parked options preserved |
+| DP01 | Adopt isolated Docker local dev, test and optimized local stage with checks before GitHub push | Approved; implementation in P1-PR-002 |
+| DP02 | Keep standard PostgreSQL + Drizzle/`pg` and separate Payload ownership; allow externally hosted databases through verified adapters | Approved portability boundary; no new data store |
+| DP03 | Select C: portable Linux app containers and PostgreSQL outside Vercel; final provider and database operating model chosen in S0 | Approved with user's explicit C override; supersedes Vercel/Neon default |
+| DP04 | Use PostgreSQL/Node version parity, pinned tooling, reproducible fixtures and safe target-checked local operations | Approved; no global workstation upgrade required |
+| DP05 | Keep test doubles separate from real-provider acceptance; hosted preproduction proves production-topology behavior | Approved; no relaxation of existing quality gates |
+| DP06 | Require serialized migrations, protected candidate deployment and explicit promotion of tested production artifacts | Approved for container image promotion; Git push/merge alone is not a public release |
+| DP07 | Retain existing availability/recovery targets, off-host backups, restore/deletion evidence and named operational ownership | Approved operational elaboration |
+| DP08 | Fold deployment work into the current backlog and retain S0–S6 order within each live phase | Approved; 119 core IDs and ten parked options preserved |
 
-The architecture's AS02 hosting/database selection is affected only if a different production option is approved. AS01 layer boundaries, AS03–AS07 as previously amended, D28/D29 PostgreSQL consolidation, D30–D35 phase/capability scope and the historical approval records remain. This proposal has not provisioned any cloud resources, connected the application to the native database or started Phase 1 implementation.
+The user's DP03 selection amends AS02's hosting/database default and the former D21 Global Config delivery dependency. Current architecture, stack, database, build-order and task documents now use option C and portable public configuration. AS01 layer boundaries, AS03–AS07 as previously amended, D28/D29 PostgreSQL consolidation, D30–D35 phase/capability scope and historical approval records remain. This documentation approval has not provisioned cloud resources, connected an application to the native database or started Phase 1 implementation.
+
+## Approval record
+
+On **October 23, 2026 (America/Los_Angeles)**, the requesting user approved DP01–DP08 and authorized merging `codex/deployment-local-environments-plan` into `main`. The reviewed proposal is commit [`3973116`](https://github.com/xmyqyl4x/tiresandtreads/commit/3973116f7e33327abc89795d30b4811f523788af).
+
+The instruction was: “Approve DP01–DP08 and merge the codex/deployment-local-environments-plan branch into main. and Let go with C: app + DB outside Vercel. Because this allows for the greatest flexibility for how we want to do final prod deployment. and allows us to develop and test locally.”
+
+This explicitly replaces the proposed DP03 preference for Vercel/managed PostgreSQL with **option C**. The approval covers isolated local Docker dev/test/stage, checks before GitHub push, portable application/database boundaries, controlled migrations and container release, recovery ownership and the related backlog refinements. Selection of a particular host, region, registry, production database operating model and service plans remains S0 work within C. All implementation tasks remain Not started; provider validation and live release acceptance remain required.

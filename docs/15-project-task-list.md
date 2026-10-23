@@ -1,6 +1,6 @@
 # Implementation working project task list
 
-**Version 1.0 · October 23, 2026.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. All implementation is unstarted. This is an execution breakdown of the approved scope; it does not change the stack, product promises, safety/consent rules or release approvals.
+**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. All implementation is unstarted. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
 
 This file is the authoritative ledger for status, assignee and actual PR/evidence links. Detailed key-task checklists, responsible roles, dependencies and verification criteria live in the four linked phase files. Stable IDs are backlog identifiers; real GitHub PR URLs are added as work opens. [Requirements traceability](05-requirements-traceability.md), [work packages](04-implementation-plan.md), [TDD](08-test-driven-development.md), [database design](09-database-design.md) and [coding standards](10-coding-standards.md) remain authoritative specifications.
 
@@ -212,7 +212,7 @@ These parked tickets are excluded from the 119 core-PR count. Their [activation/
 
 ## Traceability and next action
 
-**Deployment supplement under review:** [The hosting/local-environment proposal](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) assigns local infrastructure, pre-push verification, production topology and release evidence to these existing cards. DP01–DP08 are proposed; all core counts/statuses/dependencies and the approval record below remain intact. Resolve the proposal before starting Phase 1, and record the chosen production option during S0.
+**Approved deployment supplement:** [DP01–DP08 with option C](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) assign local Docker infrastructure, pre-push verification, portable app/PostgreSQL hosting and container release evidence to these existing cards. P1 task details now reflect C; all core IDs/counts/statuses/dependencies and the historical approval record below remain intact. Select the concrete option-C vendor, region, database operating model and operators during S0.
 
 The [work-package-to-PR map](tasks/work-package-pr-map.md) covers E01–E42 and exposes optional E32/E33 work separately. A work-package link is an ownership/navigation aid, not acceptance of all of its source requirements. At readiness, select exact rows from docs/05; at acceptance, attach tests and shipped version. Preserve all 137 original FR IDs and the existing CORE/NFR/ENG/CAP/UC/AT/DB identifiers.
 

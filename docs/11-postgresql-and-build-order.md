@@ -4,11 +4,13 @@
 
 **Later extension, approved October 23, 2026:** [D30–D35](12-live-product-phases-and-gap-review.md) preserve this approved decision, repeat construction gates within each live phase, and add required P2 AI artifacts/exact-match reuse in PostgreSQL. That business store is distinct from the optional profiled computation cache described below. No Redis, ClickHouse or QStash dependency returns. Earlier workload/effort figures must be re-estimated for the added scope.
 
+**Later deployment amendment, approved October 23, 2026:** [DP01–DP08 with option C](16-deployment-and-local-environments.md#approval-record) replace the former Vercel/Neon default with portable app containers and PostgreSQL outside Vercel. Public configuration uses a SQL/S3 publication adapter instead of Global Config. D28/D29 consolidation and construction order remain; the approval record below remains tied to its original reviewed commit.
+
 ## Decision
 
-Use **Neon PostgreSQL for operational data, first-party analytics, application rate limits, and any measured need for a shared computation cache**. Remove ClickHouse Cloud, Upstash Redis, and Upstash QStash from the planned stack, provisioning, secrets, callbacks, costs, and test-environment requirements. There is no application code or infrastructure to migrate today. The supplied source archive remains historical evidence.
+Use **PostgreSQL for operational data, first-party analytics, application rate limits, and any measured need for a shared computation cache**. Remove ClickHouse Cloud, Upstash Redis, and Upstash QStash from the planned stack, provisioning, secrets, callbacks, costs, and test-environment requirements. There is no application code or infrastructure to migrate today. The supplied source archive remains historical evidence.
 
-Retain the separate Payload logical PostgreSQL database and its migration ownership, Inngest for durable execution/schedules, S3/KMS for files/encryption, Global Config for public configuration distribution, and the existing hosting, identity, email and monitoring services. PostgreSQL persists work and state; Inngest runs the work. This change does not require creating a general-purpose queue product or storing PDFs in SQL.
+Retain the separate Payload logical PostgreSQL database and its migration ownership, Inngest for durable execution/schedules, S3/KMS for files/encryption, portable SQL/S3 public configuration distribution, and the existing identity, email and monitoring integrations. Hosting now follows approved option C. PostgreSQL persists work and state; Inngest runs the work. This change does not require creating a general-purpose queue product or storing PDFs in SQL.
 
 | Existing dependency | Planned use | Replacement and assessment |
 | --- | --- | --- |
@@ -38,7 +40,7 @@ Default cache strategy: public CDN/framework caches for published public content
 
 ## Capacity, failure and reconsideration
 
-Sharing PostgreSQL reduces service count and cross-store reconciliation, but analytics writes, WAL, indexes, vacuum, cache churn and limiter locks consume the same database resources as reports. Schemas and separate credentials provide ownership boundaries, **not compute isolation**. Separate connection budgets and short query/lock timeouts limit contention; they do not create a second CPU or storage system. Use pooled runtime connections and transaction-local context, consistent with [Neon pooling](https://neon.com/docs/connect/connection-pooling).
+Sharing PostgreSQL reduces service count and cross-store reconciliation, but analytics writes, WAL, indexes, vacuum, cache churn and limiter locks consume the same database resources as reports. Schemas and separate credentials provide ownership boundaries, **not compute isolation**. Separate connection budgets and short query/lock timeouts limit contention; they do not create a second CPU or storage system. Use pooled runtime connections and transaction-local context, with [PgBouncer compatibility](https://www.pgbouncer.org/features.html) verified whenever transaction pooling is used.
 
 At S0 record the expected events/session, peak requests/second, retention volume, row/index sizes, limiter-key growth, pool/compute envelope and cost. Model 10k/100k/1m monthly sessions without asserting that any of them is supported. At S4 and S6 test normal traffic plus 10× measured/forecast peak ingestion, concurrent dashboard queries, limiter contention, purge and worker backlog. Initial project targets are report p95 <2s, dashboard p95 <2s for allowed queries, analytics freshness ≤5 minutes in steady state, and no duplicate effects or permission bypass. These are budgets to prove, not benchmarks already achieved. Record per-query and pool budgets at E02.
 

@@ -8,7 +8,7 @@
 
 ## PR sequence
 
-**Proposed deployment detail:** [The deployment task mapping](../16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) expands P1-PR-001/002/003 with hosting decisions, isolated local environments, exact-commit pre-push checks and real-host proofs. It also identifies database, API and release-card evidence. This supplement is for review and does not mark any card complete or replace the approved hosting choice automatically.
+**Approved option-C deployment detail:** [The deployment task mapping](../16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) expands the existing cards with portable Linux app containers/PostgreSQL outside Vercel, isolated Docker dev/test/stage, pre-push checks, public-config portability and container-host release proofs. DP01–DP08 amend the former hosting default; all task IDs, dependencies and completion statuses remain.
 
 | PR | Stage | Proposed title |
 | --- | --- | --- |
@@ -72,7 +72,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 - [ ] Record supported US configurations, size-level catalog targets and refusal paths; evaluate optional/staggered/AWD/EV/LT cases.
 - [ ] Build source/license/provider matrix including display, storage, derived use, AI and redistribution rights; assign unresolved blockers.
-- [ ] Lock committed/conditional requirements, responsibilities, cost assumptions and content review schedule; re-estimate P1 rather than reuse the historical subtotal.
+- [ ] Lock committed/conditional requirements, responsibilities and content review schedule; select option-C vendor/region, DB operating model and operators, cost assumptions and revised P1 estimate.
 
 **Verification and acceptance:** Reviewed feasibility/coverage register and source evidence; no unsupported safety claims or invented provider agreements. Documentation review is the test for this PR.
 
@@ -86,9 +86,9 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-01, ENG-02, ENG-04, ENG-05. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Create pnpm workspace, strict TypeScript packages and minimal headless Next.js host; pin compatible runtime/dependencies.
-- [ ] Configure lint, formatting, import boundaries, unit/use-case/HTTP/real-PostgreSQL test commands and frozen-lockfile CI.
-- [ ] Add protected environments, synthetic fixtures, secret/config validation and OpenAPI generation skeleton; keep product UI absent.
+- [ ] Create pnpm workspace, strict TypeScript packages and minimal headless Next.js host; pin Node 24/Linux images and compatible dependencies; add isolated Docker dev/test/stage setup and doctor commands.
+- [ ] Configure lint, formatting, import boundaries, unit/use-case/HTTP/real-PostgreSQL commands, exact-commit local pre-push verification and frozen-lockfile Linux CI.
+- [ ] Add protected environments, synthetic/provider fixtures, secret/config validation, OpenAPI skeleton and immutable-image release scaffolding; keep product UI absent.
 
 **Verification and acceptance:** Fresh checkout runs the committed commands; an intentional failing fixture proves CI gates and package-boundary checks work.
 
@@ -102,8 +102,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-06, CAP-03, CORE-10. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Probe Neon pooling/migrations, separate Payload ownership and Clerk staff bridge without product screens.
-- [ ] Verify Inngest, S3/KMS, email-domain/webhook, CMP and ad-network feasibility; inventory credentials, regions, retention and costs.
+- [ ] Probe option-C container startup/drain, standard PostgreSQL pooling/direct migrations, separate Payload ownership and Clerk staff bridge without product screens.
+- [ ] Verify option-C build/runtime/migration networking, reverse-proxy/TLS and Inngest/S3/KMS/email/CMP/ad feasibility; inventory credentials, regions, recovery operators and costs.
 - [ ] Approve measured workload targets, source contracts and phase dependency/estimate baseline; record G0 evidence and unresolved activation gates.
 
 **Verification and acceptance:** Headless provider/auth fixtures, least-privilege connection proofs and accountable G0 decision; no mock-only claims of production readiness.
@@ -246,7 +246,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB16, DB17, DB18, DB19, DB27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement published-content bridge repositories and safe staff/config/commercial projections.
+- [ ] Implement published-content bridge repositories, portable SQL/S3 public-config read adapters and safe staff/config/commercial projections.
 - [ ] Implement SQL event receipt, dirty-day generation, quota upserts and cleanup repositories.
 - [ ] Implement SEO/search/ad report projections with missing-versus-zero semantics and superseded-revision exclusion.
 
@@ -278,7 +278,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB08, DB15. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Compose narrow runtime credentials, clocks, repositories and provider ports at server entry points.
+- [ ] Compose narrow runtime credentials, clocks, repositories and provider ports; add bounded container pools, graceful shutdown and host-neutral deployment metadata.
 - [ ] Implement outbox relay/Inngest retry/lease/reconciliation and private S3 asset lifecycle/encryption adapters.
 - [ ] Add redacted operational telemetry, job deadlines, retry limits and failure queues.
 
@@ -391,10 +391,10 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 **Trace:** CAP-02, UC10, UC17, AT16, AT27, DB16, DB27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
 - [ ] Implement reviewed CMS publication bridge, learning-link selection, glossary and pure decoder/checklist behavior.
-- [ ] Implement safe redirect publication, public page registry, metadata/sitemap/structured-data policies and private exclusion.
+- [ ] Implement portable SQL/S3 public-config and safe redirect publication with revision, expiry and cross-replica invalidation; public page registry, metadata/sitemap/structured-data policies and private exclusion.
 - [ ] Add bounded crawl audits, Search Console/IndexNow adapters and aggregate metrics where authorized; expose missing data honestly.
 
-**Verification and acceptance:** Role/publication retry tests and headless SEO/tool contracts; propagation/failure state proven, unsafe redirects and private indexing rejected.
+**Verification and acceptance:** Role/publication retry tests and headless SEO/tool contracts; publication reaches all replicas within 60 seconds, out-of-order updates are rejected and expired safety/privacy configuration fails closed; unsafe redirects and private indexing rejected.
 
 ### P1-PR-022
 
@@ -727,7 +727,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 **Trace:** NFR-01, NFR-03, NFR-04, NFR-05, NFR-06, DB28. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
 - [ ] Run permission/token leak/security checks and realistic report plus analytics/import/limit/ads mixed load.
-- [ ] Demonstrate performance budgets, alerts, bounded costs, backup restore and deletion replay.
+- [ ] Demonstrate container/proxy resource budgets, alerts, bounded costs, backup restore and deletion replay; rehearse readiness/drain, image rollback and cross-replica public-cache invalidation.
 - [ ] Complete incident/runbook, support, secrets/rollback/kill-switch and privacy deadline handover.
 
 **Verification and acceptance:** G2/G4 evidence meets approved targets with recorded measurements; no unsafe recommendations, high security defects or failed recovery.
