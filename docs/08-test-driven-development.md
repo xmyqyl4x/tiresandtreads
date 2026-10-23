@@ -2,6 +2,8 @@
 
 **Engineering specification 1.0 · October 22, 2026.** This extends the approved architecture with the user's requested test-driven process. It defines implementation obligations; no application tests have run yet. The [implementation plan](04-implementation-plan.md) assigns delivery work, and the [database design](09-database-design.md) and [coding standards](10-coding-standards.md) define the boundaries to test.
 
+**Status:** approved by the requesting user on October 22, 2026; see the [engineering approval record](00-source-review.md#engineering-approval-record).
+
 ## Required development cycle
 
 Every new business behavior and bug fix follows **specify → red → green → refactor → integrate**. Test code is part of the feature, not a final hardening phase.

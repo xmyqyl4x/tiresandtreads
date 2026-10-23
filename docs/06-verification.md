@@ -33,6 +33,8 @@ The [stack and layer signoff](07-stack-and-layer-signoff.md), dated October 22, 
 
 ## TDD database and coding standards expansion
 
+The requesting user approved the reviewed documentation baseline at commit `08c787da3cab4aa00057a020f577e067ce38ef28` on October 22, 2026 and authorized its merge into `main`; see the [engineering approval record](00-source-review.md#engineering-approval-record).
+
 The requested expansion adds the [TDD strategy](08-test-driven-development.md), [database design](09-database-design.md), [coding standards](10-coding-standards.md), contribution guide and PR template. Structural checks cover relative links/heading anchors, balanced code fences, consistent Markdown table columns, and JSON parsing. UC01–UC12 and DB01–DB16 are unique; all AT01–AT20 scenarios map into the use-case catalogue; ENG-01–ENG-06 capture the new engineering requirements. All 137 original FR rows remain unchanged and appear exactly once; source assets are untouched.
 
 Consistency review aligns the detailed schema with separate CMS ownership, immutable report/compare revisions, erasable identity links, durable send identities, and the existing release boundaries. Database constraints, RLS, query plans, TDD suites, API behavior, performance, and migrations are specified for future execution. No application scaffold, test harness, migration, database provisioning, provider operation, or application test was executed as part of this documentation update. E02/E04 and subsequent work packages must supply that evidence; the new specifications do not certify an implemented system.

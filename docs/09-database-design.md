@@ -4,6 +4,8 @@
 
 Implement R1 tables as their work packages begin. R2–R4 extensions are specified to preserve compatible boundaries, but are not a requirement to create unused launch tables. Exact supported PostgreSQL major, extensions, physical sizing, and generated Drizzle/Payload migrations are verified at R0. [Delivery/privacy policy](03-delivery-and-privacy.md) governs permissions and retention; [TDD](08-test-driven-development.md) defines required implementation evidence.
 
+**Status:** approved by the requesting user on October 22, 2026; see the [engineering approval record](00-source-review.md#engineering-approval-record).
+
 ## 1. Data stores and ownership
 
 | Store/schema | Authority and writer | Contents |

@@ -2,6 +2,8 @@
 
 **Engineering specification 1.0 · October 22, 2026.** Apply these standards to implementation of the approved stack and [seven logical layers](07-stack-and-layer-signoff.md#3-logical-application-layers). This is a coding contract and review guide, not a claim that application packages or CI already exist. The [TDD strategy](08-test-driven-development.md) and [database design](09-database-design.md) are companion specifications.
 
+**Status:** approved by the requesting user on October 22, 2026; see the [engineering approval record](00-source-review.md#engineering-approval-record).
+
 ## Design principles
 
 1. **Give each module a clear business responsibility.** Reports, delivery, permissions, catalog, and commerce own their rules and writes. Split by behavior and change ownership, not by an arbitrary file-size target.

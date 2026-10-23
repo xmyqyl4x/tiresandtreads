@@ -19,7 +19,7 @@ This repository currently contains the final design and implementation planning 
 9. [Database design](docs/09-database-design.md) - typed table catalogue, ER diagrams, keys/constraints, indexes, transactions, roles, retention, and migration sequence.
 10. [Coding standards](docs/10-coding-standards.md) - shared application services, package/API boundaries, design patterns, type safety, performance, and review rules.
 
-Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. The engineering specifications expand the approved stack without treating planned tests or database tables as implemented.
+Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. The engineering specifications were [approved on October 22, 2026](docs/00-source-review.md#engineering-approval-record) and expand the approved stack without treating planned tests or database tables as implemented.
 
 ## Reference assets
 
