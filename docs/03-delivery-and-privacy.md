@@ -1,8 +1,10 @@
 # Delivery and privacy operations
 
-**Baseline 1.0 · October 22, 2026.** This specification makes reports, email, commercial offers, and visitor data independently permissioned. A contact address is not a general license to track, market, or share. Current legal applicability and market policy must be reviewed before launch; the controls below are product and engineering requirements.
+**Baseline 1.1 (proposed capability amendment) · October 22, 2026.** This specification makes reports, email, commercial offers, and visitor data independently permissioned. A contact address is not a general license to track, market, or share. Current legal applicability and market policy must be reviewed before launch; the controls below are product and engineering requirements.
 
 ## Report delivery workflow
+
+P2 adds optional AI explanation attachments under [the AI/photo contract](14-ai-analysis-and-photo-design.md). Freeze the accepted attachment revision or explicit fallback alongside report/comparison/template versions before scheduling; email/PDF retries never regenerate analysis and AI completion never auto-resends. AI/photo processing choice is separate from email, ads and marketing permissions.
 
 1. Validate owner authority, report version, comparison revision, email, Turnstile, rate limits, and selected purposes. A report request may use an unverified destination, subject to abuse limits; it cannot modify an existing person's verified preferences.
 2. In one database transaction, upsert the encrypted contact lookup, record specific requested actions with notice versions, create a durable send and outbox event, and set `send_after = accepted_at + 60 seconds`. A repeated idempotency key returns the same result.
@@ -68,7 +70,7 @@ Render HTML and text from the same DTO; enforce the 100KB HTML budget before acc
 
 Offers are a separate ranked list. Eligibility requires an approved live version, active verified reseller, market/location match, product applicability, dates, budget/cap capacity, no reseller suppression, confirmed contact permission, and 18+ attestation. Use the exact selected tire SKU/size/strategy for applicability; do not match only a brand string. Recipients with revoked permission are excluded again immediately before dispatch.
 
-R2 pilot offer score omits paid influence and renormalizes noncommercial weights. R3 default weights: relevance 0.40, estimated user saving 0.25, proximity 0.15, reseller quality 0.10, normalized bid 0.10. All factors are bounded to [0,1]. If a factor does not apply (online-only proximity), use a documented neutral policy across comparable offers; do not treat a missing discount as maximum value. Paid weight cannot exceed 0.10 without a new reviewed design change. Tire engine output is invariant to every offer configuration.
+R2 pilot offer score omits paid influence and renormalizes noncommercial weights. P4 default weights: relevance 0.40, estimated user saving 0.25, proximity 0.15, reseller quality 0.10, normalized bid 0.10. All factors are bounded to [0,1]. If a factor does not apply (online-only proximity), use a documented neutral policy across comparable offers; do not treat a missing discount as maximum value. Paid weight cannot exceed 0.10 without a new reviewed design change. Tire engine output is invariant to every offer configuration.
 
 Select at most three offers, one per reseller, with a same-offer 30-day frequency cap and a total four-per-month marketing-email cap. Reserve caps, budget and unique codes in one database transaction using locked/skip-locked available codes and unique reservation keys. Concurrent sends must not overspend or issue the same code twice. Persist an audit of considered/selected offers with bounded retention.
 
@@ -76,7 +78,7 @@ Code lifecycle: available → reserved → issued → redeemed or expired/void. 
 
 No eligible offer means no empty block and no placeholder advertisement. If an offer expires between selection and dispatch, re-evaluate before freezing. Sent emails cannot be recalled; linked landing pages show current terms/status while preserving what was offered in the sent snapshot.
 
-R2 uses explicit pilot credit, no charge collection. R3 bills only versioned, deduplicated eligible events; scanner clicks and uncertain fraud events are not immediately billable. Prepaid authorization and budget reservations are atomic; Stripe webhooks update a durable ledger rather than trusting browser redirects. Corrections use ledger reversals. Reconcile daily and pause offers when authoritative funds or billing state is unavailable.
+R2 uses explicit pilot credit, no charge collection. P4 bills only versioned, deduplicated eligible events; scanner clicks and uncertain fraud events are not immediately billable. Prepaid authorization and budget reservations are atomic; Stripe webhooks update a durable ledger rather than trusting browser redirects. Corrections use ledger reversals. Reconcile daily and pause offers when authoritative funds or billing state is unavailable.
 
 ## Consent enforcement and collection
 
@@ -106,6 +108,11 @@ The schedule below is a proposed launch policy to validate at G2. Every TTL is a
 | Unsubmitted owner draft | 7 days after activity | Delete draft and temporary capability |
 | Anonymous reports/versions/shares | 180 days after last owner activity, capped at 12 months from creation without explicit renewal | Delete snapshots, revoke capabilities, purge private cached assets |
 | Quote free text/shop notes | 30 days unless owner deliberately saves with report | Never analytics/export; remove with report |
+| AI owner artifacts/attachments | Report retention, or 30 days if unattached; reuse valid at most 7 days/source expiry | Revoke keys, erase outputs/manifests/links and stop in-flight jobs; no cross-owner reuse |
+| Shared reviewed generic AI artifacts | 30 days maximum; reuse at most 7 days/source expiry | Source/model/policy invalidation checked on every read; no private prompts/images in shared entries |
+| Tire photos/derived candidates | 24 hours; explicitly saved images at most 30 days | Purge originals, sanitized copies, object versions and extraction artifacts; confirmed report fields follow report retention |
+| AI attempt records / optional debug packets | Linked attempts 30 days; encrypted debugging at most 7 days | No raw prompts in logs; provider data controls/deletion separately verified; no training or audience reuse |
+| Import staging/rejections/diffs | 30 days or shorter source license limit | Purge private originals/staging; published source revisions follow rights and report dependencies |
 | PDF bytes | 30 days from generation | Expiry deletes object; report deletion purges sooner |
 | Pending offers confirmation | 30 days | Invalidate token and discard unused subscription details |
 | Contacts/profiles | 24 months inactivity maximum where continued purpose exists | Erase identifiers and disassociate reports unless independently retained for owner |
@@ -121,7 +128,7 @@ An append-only log must not embed copies of addresses in `before/after` JSON. Lo
 
 Privacy requests support access, correction, deletion, sale/share/targeted-ad opt-out, marketing withdrawal, limitation where applicable, appeal, and authorized-agent workflows. No account is required. Verify access/deletion using email or possession of browser/report authority proportionately; simple opt-outs do not require disproportionate identity proof. Avoid revealing whether an email exists.
 
-Fulfillment is an idempotent job graph across operational and analytics PostgreSQL schemas, objects, ESP, any separately activated analytics vendors, future app/device stores, and buyers. Each step has status, retries, evidence, deadline, and owner. A request closes only after required acknowledgements or a documented exception. Immediately suppress while deletion completes. A backup restore reapplies the deletion/suppression ledger before public access. Inaccessible backups expire under their retention policy and are not returned to active use without this replay.
+Fulfillment is an idempotent job graph across operational and analytics PostgreSQL schemas, objects, ESP, any separately activated analytics vendors, AI requests/artifacts/reuse entries/photo objects and provider files, future app/device stores, and buyers. Each step has status, retries, evidence, deadline, and owner. A request closes only after required acknowledgements or a documented exception. Immediately suppress while deletion completes. A backup restore reapplies the deletion/suppression ledger before public access. Inaccessible backups expire under their retention policy and are not returned to active use without this replay.
 
 Do not hardcode “45 days” globally. Configure jurisdiction, request type, acknowledgement/response clock, allowed extension, appeal and downstream notices with privacy counsel. Internal target: acknowledgement within 2 business days and fulfillment within 14 calendar days where feasible; statutory requirements take precedence. Escalate by remaining time, not only when overdue.
 
@@ -133,6 +140,10 @@ Tier B requires market-specific permission, buyer due diligence, purpose contrac
 
 Every export snapshots product/schema, buyer, purpose, query, minimum cell policy, record count, checksum, destination, suppression version and two distinct approvals for B/C. Immediately before delivery re-evaluate current suppression and consent; any change invalidates the approved snapshot and requires rebuilding/reapproval. Maintain buyer acknowledgements and deletion propagation, with the source's proposed 15-day buyer SLA subject to stricter legal requirements. Include [California DROP](https://privacy.ca.gov/drop/) obligations in the assessment rather than assuming direct visitor contact exempts the program.
 
+## AI and photo processing boundary
+
+Use a clear separate notice and explicit request before external processing; manual inputs and deterministic reports remain available. Minimize location/identity fields, sanitize images and strip metadata. Recheck authorization before provider call and publication; withdrawal/deletion fences late jobs. Store only approved typed output, enforce owner-scoped reuse, and exclude private artifacts from ads, analytics and audience exports. Provider `store: false` does not promise zero retention; verify endpoint/model/account policy and document it before P2 activation. See [AI retention and operations](14-ai-analysis-and-photo-design.md#privacy-retention-limits-and-operations).
+
 ## Operational ownership
 
 | Incident | Immediate action | Accountable role |
@@ -141,6 +152,7 @@ Every export snapshots product/schema, buyer, purpose, query, minimum cell polic
 | Sending complaints or uncertain duplicate | Pause marketing, quarantine uncertain sends/codes, reconcile provider state | Email operator |
 | Consent enforcement failure | Disable nonessential collection/sharing/marketing, assess affected flows, repair projections | Privacy lead + backend lead |
 | Cross-tenant access | Suspend relevant partner surface, preserve restricted evidence, incident procedure | Security/backend lead |
+| AI/source validation failure or photo leak | Disable assistance/upload processing, invalidate affected keys, preserve private incident evidence and maintain deterministic/manual path | Data/privacy/platform leads |
 | Queue/data loss | Stop acknowledgements without persistence, replay idempotently, mark metrics incomplete | Backend on-call |
 | Overdue rights request | Escalate owner and privacy lead; do not close automatically | Privacy lead |
 | Broken affiliate destination | Disable destination, retain report; fix approved template | Partner manager |

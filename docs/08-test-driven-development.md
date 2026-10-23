@@ -1,14 +1,14 @@
 # Test driven development and acceptance strategy
 
-**Engineering specification 1.1 · October 22, 2026.** This extends the approved architecture with the user's requested test-driven process. It defines implementation obligations; no application tests have run yet. The [implementation plan](04-implementation-plan.md) assigns delivery work, and the [database design](09-database-design.md) and [coding standards](10-coding-standards.md) define the boundaries to test.
+**Engineering specification 1.2 (proposed capability amendment) · October 22, 2026.** This extends the approved architecture with the user's requested test-driven process. It defines implementation obligations; no application tests have run yet. The [implementation plan](04-implementation-plan.md) assigns delivery work, and the [database design](09-database-design.md) and [coding standards](10-coding-standards.md) define the boundaries to test.
 
-**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporates the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted.
+**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporated the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted. Version 1.2 proposes UC13–UC18 and AT21–AT28 for domain data, AI/reuse/photos, SEO/ads and four live releases; earlier approval does not cover those additions.
 
 ## Required development cycle
 
 Every new business behavior and bug fix follows **specify → red → green → refactor → integrate**. Test code is part of the feature, not a final hardening phase.
 
-1. **Specify:** identify the requirement and use case, actors, inputs, permissions, expected outputs, persisted changes, forbidden side effects, and failure/retry behavior. Write examples with product/domain reviewers before coding disputed rules. Identify relevant AT01–AT20 cases and database invariants.
+1. **Specify:** identify the requirement and use case, actors, inputs, permissions, expected outputs, persisted changes, forbidden side effects, and failure/retry behavior. Write examples with product/domain reviewers before coding disputed rules. Identify relevant AT01–AT28 cases and database invariants.
 2. **Red:** write the smallest useful behavioral test and run it against the missing or faulty behavior. Confirm it fails for the intended reason, rather than setup, syntax, credentials, or a broken fixture. Record the test name and failure in PR evidence; a separate failing commit is not required.
 3. **Green:** implement enough production behavior to pass the test through the intended layer. Do not weaken assertions, skip the test, or copy expected output from the new implementation.
 4. **Refactor:** improve naming, responsibilities, dependencies, and algorithms while preserving the behavior. Run the affected tests; add boundary cases when a refactor exposes a real requirement gap.
@@ -56,7 +56,13 @@ Maintain each case with preconditions, Given/When/Then scenarios, alternate outc
 | UC09 | Subject exercises deletion and retention rights | Verify proportionately; revoke access; erase required stores and mappings; replayed batches/backups cannot reintroduce deleted data | AT14; DB18; E14/E34 |
 | UC10 | Editor publishes reviewed education | Role-scoped draft/publish; published revision propagated within target; invalid redirects denied; failure visible/retriable | AT16; E15/E17 |
 | UC11 | Reseller participates in a safe pilot | Tenant isolation in API/export/jobs; one live reservation for last code; no paid charge in pilot; recipient identity stays hidden | AT09, AT15; R2 E21–E26 |
-| UC12 | Returning/partner clients use later capabilities | Web/mobile/MCP share business results; offline conflicts explicit; billing events dedupe and balance; exports require current permission and distinct approvals | R3/R4 E27–E33; add capability-specific cases before activation |
+| UC12 | Returning/partner clients use later capabilities | Web/mobile/MCP share business results; offline conflicts explicit; billing events dedupe and balance; exports require current permission and distinct approvals | P3/P4 E27–E33; UC18/AT28 plus capability-specific cases before activation |
+| UC13 | Operator imports and publishes trusted reference data | Source rights/completeness, company/brand/plant identity, unresolved recall targets, script/admin parity, validation/diff, one publication and safe rollback | CAP-04; AT21/AT22; DB21/DB22; E35/E36 |
+| UC14 | Owner requests an AI-assisted report | Explicit minimized processing, validated claims/citations, bounded failure/manual fallback, immutable attachment and frozen delivery | CAP-05; AT23; DB23; E39 |
+| UC15 | Owner or eligible generic request reuses stored AI analysis | Exact match, authorized scope, current source/model/policy/TTL, fenced refresh, withdrawal and deletion races | CAP-06; AT24/AT25; DB24/DB25; E40 |
+| UC16 | Driver uploads and confirms tire-photo details | Private bounded upload, sanitation/abstention, per-field correction/confirmation, manual recovery, no condition/fitment assurance from image | CAP-07; AT25/AT26; DB25/DB26; E41 |
+| UC17 | Visitor finds useful public content and sees permitted advertising | Rendered SEO/index/privacy checks, reviewed content, consent-aware allowed placements, ad/no-fill blockers, revenue correction and unchanged rankings | CAP-02/03; AT27; DB27; E37/E38 |
+| UC18 | User keeps using the product across four live releases and clients | Compatible migration/contracts, scoped web/app/MCP parity, real channel availability, existing journeys and deletion remain valid | CAP-01/08; AT28; DB28; E29/E30/E42 |
 
 ### Worked example for delivery
 
@@ -72,6 +78,14 @@ Build this incrementally:
 6. S5 browser test that the visible state says Scheduled, the deadline is understandable, cancellation updates the screen, and reload preserves the result; repeat the flow with actual rendered templates.
 
 Fake time is appropriate for domain deadlines. Real database races and workflow integration must also be demonstrated; fake timers alone do not prove durable scheduling.
+
+## AI, imports, photos, SEO and phase verification
+
+The added UC13–UC18 follow the same red/green/refactor cycle at each phase: schema constraints first, repository behavior second, services third, running APIs fourth and UI last. P1 covers import/reference/SEO/ad cases; P2 adds AI/reuse/photos; P3/P4 add real client and upgrade acceptance. Provider mocks support deterministic unit/functional CI but do not satisfy live integration or model quality gates.
+
+Use [AI evaluation cases](14-ai-analysis-and-photo-design.md#apis-and-tdd-acceptance) for unsupported citations/numbers, unsafe inference, prompt injection, refusal, timeouts, exact-key collisions/changes, invalidation races, owner isolation and frozen report delivery. Use specialist-labeled image fixtures for partial DOT, ambiguous size, rotation and unreadable text; confirmation must be enforced on the server. Source contract fixtures include pagination truncation, full/incremental semantics, plant history, unmatched tire recalls and licensed fitment boundaries.
+
+Run SEO/ad browser checks across consent, ad blocker, empty fill and slow scripts; crawl public routes and assert that private routes/assets/tokens never enter metadata, sitemaps or network requests. Use provider test modes without clicking live ads. Test upgrade from each released schema with old client contracts and replay deletion after restore. At each phase require real production smoke with approved test data, rollback/runbook evidence and an operational owner; internal demos are not phase completion.
 
 ## Test data and isolation
 

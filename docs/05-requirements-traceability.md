@@ -1,8 +1,10 @@
 # Requirements traceability
 
-This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All implementation work is **unstarted**. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E34 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
+This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All implementation work is **unstarted**. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E42 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
 
 Package IDs remain stable. E04a/E04b distinguish schema from data access; `a`/`b` splits in E10/E12/E13/E15/E17/E18 distinguish services from later presentation, with E34/S4 providing common API exposure/acceptance. A row naming a base package requires all relevant parts. S1–S4 precede all product frontend work; see the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates). Rows that span releases retain an explicit first slice and completion slice. The verification column describes evidence required before marking the requirement implemented. The source remains available for detailed field lists where there is no stated change.
+
+**Proposed release amendment:** [P1–P4](12-live-product-phases-and-gap-review.md) maps to R1–R4. All 137 original FR IDs remain; release assignments below move paid operations, markets/advanced SEO, remaining lifecycle and audience options to P4, while app/MCP remain committed P3. Search Console/register/baseline audits move to P1. CAP-01–CAP-08 supplement source scope for the requested additions. Nothing is implemented yet.
 
 ## Extended assessment
 
@@ -39,7 +41,7 @@ Design: [communication UX](01-final-product-design.md#get-this-report-and-commun
 | FR-DEL-01 | R1; sharing R4 | E11,E12,E33 | Retained | Report-only and offers-only submissions work independently; no coupled permission |
 | FR-DEL-02 | R1; sharing R4 | E07,E11,E33 | Retained | Email revealed/validated when a selected purpose needs it |
 | FR-DEL-03 | R1 | E04,E11 | Reconciled D14,D25 | Separate immutable purpose events, notice proof and erasable subject links; no inferred grant |
-| FR-DEL-04 | R1, later markets R3 | E11,E12,E28 | Reconciled D16 | Double opt-in all markets as product policy; report unaffected; pending users receive no offers |
+| FR-DEL-04 | R1, later markets R4 | E11,E12,E28 | Reconciled D16 | Double opt-in all markets as product policy; report unaffected; pending users receive no offers |
 | FR-DEL-05 | R1 | E11,E12 | Retained | Turnstile + 3/hour, 10/day email and 10/hour IP limits; current global suppression blocks |
 | FR-DEL-06 | R1 | E12,E13 | Reconciled D11 | AT07 scheduled copy, actual 60s cancellation, atomic claim, later acceptance status |
 | FR-DEL-07 | R1 | E11 | Reconciled D10 | Prefill only with permitted verified/browser context; arbitrary address cannot reveal/update preferences |
@@ -55,7 +57,7 @@ Design: [rendering and education](03-delivery-and-privacy.md#education-selection
 | FR-EML-02 | R1 | E12 | Retained | Under 100KB HTML; absolute images/alt; no JS; usable dark mode/images-off |
 | FR-EML-03 | R1 | E08,E12 | Retained with scoped token | Equivalent text output; expiring browser-view access cannot edit report |
 | FR-EML-04 | R1 | E12 | Reconciled D27 | Private linked PDF; on-demand generation; 30-day cache never overrides access expiry/revocation |
-| FR-EML-05 | R1; markets R3 | E03,E12,E28 | Retained | Locale catalog/Intl shared; pseudo-localized email/PDF render tests |
+| FR-EML-05 | R1; markets R4 | E03,E12,E28 | Retained | Locale catalog/Intl shared; pseudo-localized email/PDF render tests |
 | FR-EML-06 | R1 | E15 | Retained | Controlled topic tags required on publish; invalid tags rejected |
 | FR-EML-07 | R1 | E06,E12,E17 | Retained | Engine reason codes map to versioned, previewable topic weights |
 | FR-EML-08 | R1 | E12 | Reconciled D15 | Deterministic 3–6 eligible links, max two/topic, checklist once; novelty only with permitted tracking |
@@ -85,17 +87,17 @@ Design: [reseller UX](01-final-product-design.md#reseller-portal-from-r2) and [c
 | FR-RSL-10 | R2 | E23 | Retained | Atomic total/day/budget/frequency caps across concurrent workers |
 | FR-RSL-11 | R2 | E22 | Retained | At least three-day duration, safe URL/claim/length validation and email preview |
 | FR-RSL-12 | R2 | E22 | Retained with versioning | New/material edits require review; trusted date/code edits still validated/audited |
-| FR-RSL-13 | R2; billing R3 | E24,E27 | Retained with qualification | Aggregated includes/clicks/issues/reported redemptions; open estimates labeled; no recipient disclosure |
-| FR-RSL-14 | R2; API R3 | E24,E27 | Reconciled attribution language | Authenticated portal/CSV/API, immutable corrections; reported redemption distinct from verified sale |
-| FR-RSL-15 | R3 | E27 | Reconciled D19 | Stripe ledger/invoices/tax, prepaid reservations, exhaustion pause; pilot never charges |
-| FR-RSL-16 | R3 | E27 | Retained | Scoped hashed API keys, signed webhook delivery, per-key quotas and tenant tests |
+| FR-RSL-13 | R2; billing R4 | E24,E27 | Retained with qualification | Aggregated includes/clicks/issues/reported redemptions; open estimates labeled; no recipient disclosure |
+| FR-RSL-14 | R2; API R4 | E24,E27 | Reconciled attribution language | Authenticated portal/CSV/API, immutable corrections; reported redemption distinct from verified sale |
+| FR-RSL-15 | R4 | E27 | Reconciled D19 | Stripe ledger/invoices/tax, prepaid reservations, exhaustion pause; pilot never charges |
+| FR-RSL-16 | R4 | E27 | Retained | Scoped hashed API keys, signed webhook delivery, per-key quotas and tenant tests |
 
 ## Offer matching
 
 | ID | Release | Work | Disposition | Acceptance evidence |
 | --- | --- | --- | --- | --- |
 | FR-OFR-01 | R2 | E23 | Retained | Every eligibility condition plus current consent/suppression rechecked before dispatch |
-| FR-OFR-02 | R2; paid R3 | E23,E27 | Reconciled D19 | Pilot no bid; R3 max 0.10 bid weight; bounded factors and reproducible simulation |
+| FR-OFR-02 | R2; paid R4 | E23,E27 | Reconciled D19 | Pilot no bid; P4 max 0.10 bid weight; bounded factors and reproducible simulation |
 | FR-OFR-03 | R2 | E23 | Retained | Max three offers, one per reseller, sponsored label and match explanation |
 | FR-OFR-04 | R2 | E23 | Reconciled D13 | Single atomic reservation, uncertain outcomes quarantined; AT09 passes |
 | FR-OFR-05 | R2 | E23 | Retained | Consideration/eligibility/score/reason/selection records support dispute reconstruction |
@@ -108,8 +110,8 @@ Design: [reseller UX](01-final-product-design.md#reseller-portal-from-r2) and [c
 | --- | --- | --- | --- | --- |
 | FR-TRK-01 | R1 | E13,E16 | Reconciled D26 | Raw-body signatures, provider delivery-time replay rules, event-ID dedupe, 30-day payload expiry |
 | FR-TRK-02 | R1 | E13 | Reconciled D21,D25 | Fixed destination, no open redirect, <100ms internal target, redirect works if logging fails |
-| FR-TRK-03 | R1; markets R3 | E11,E13,E28 | Reconciled D15 | Pixels/linked engagement off without required purpose; aggregate permitted measurement only |
-| FR-TRK-04 | R3 | E31 | Retained with permission gate | 180-day sunset; repermission only where allowed and capped |
+| FR-TRK-03 | R1; markets R4 | E11,E13,E28 | Reconciled D15 | Pixels/linked engagement off without required purpose; aggregate permitted measurement only |
+| FR-TRK-04 | R4 | E31 | Retained with permission gate | 180-day sunset; repermission only where allowed and capped |
 | FR-TRK-05 | R1 alerts; R2 imports | E13,E25 | Retained | Complaint/bounce alerts; Postmaster/SNDS data imported where access/volume supports it, unavailable is explicit |
 | FR-TRK-06 | R1 core; R2 detail | E13,E17,E25 | Retained | Denominators and machine uncertainty visible; slot/topic metrics and feedback in detail |
 
@@ -121,15 +123,15 @@ Design: [education](01-final-product-design.md#education-and-trust-pages), [cach
 | --- | --- | --- | --- | --- |
 | FR-SEO-01 | R1 | E15 | Retained | Per-page metadata, safe overrides, previews, generated hreflang; private-route invariants cannot be edited away |
 | FR-SEO-02 | R1 | E15 | Retained | Typed template variables with page overrides and locale-aware previews |
-| FR-SEO-03 | R3 | E28 | Retained | Strategic register, owner/review dates, Search Console trend and >20% decline flag |
-| FR-SEO-04 | R1 related; R3 suggestions | E15,E28 | Retained | Managed related links; suggested links and orphan report later |
+| FR-SEO-03 | R1 | E15,E37 | Advanced to P1, D31 | Strategic register, owner/review dates, Search Console trend and >20% decline flag |
+| FR-SEO-04 | R1 related; R4 suggestions | E15,E28 | Retained | Managed related links; suggested links and orphan report later |
 | FR-SEO-05 | R1 | E15 | Reconciled D21 | 301/302/410, CSV, reviewed bounded regex, loop/chain detection, safe snapshot publish |
 | FR-SEO-06 | R1 | E15 | Retained and hardened | Environment robots/crawler settings; staging protected by auth, not robots alone |
-| FR-SEO-07 | R1; programmatic R3 | E15,E28 | Retained | Accurate lastmod and locale maps; no private/draft/unapproved programmatic pages |
+| FR-SEO-07 | R1; programmatic R4 | E15,E28 | Retained | Accurate lastmod and locale maps; no private/draft/unapproved programmatic pages |
 | FR-SEO-08 | R1 | E15 | Retained | Validated typed JSON-LD matches visible content; no self-review or rich-result promise |
-| FR-SEO-09 | R1 IndexNow; R3 search metrics | E15,E28 | Retained | Publish/update/delete notification retry; daily Search Console import later |
-| FR-SEO-10 | R3 | E28 | Retained | Noindex until unique data, at least three eligible options and editor approval |
-| FR-SEO-11 | R3 | E28 | Retained | Nightly metadata/link/canonical/schema/orphan/CWV findings with severity/owner; sparse CrUX explicit |
+| FR-SEO-09 | R1 | E15,E37 | Search metrics advanced to P1, D31 | Publish/update/delete notifications for supported engines; Search Console setup and daily aggregate metrics when available, no Google IndexNow promise |
+| FR-SEO-10 | R4 | E28 | Retained | Noindex until unique data, at least three eligible options and editor approval |
+| FR-SEO-11 | R1 baseline; R4 advanced | E15,E37,E28 | Baseline advanced to P1, D31 | P1 bounded nightly metadata/link/canonical/private-index audit; P4 deeper orphan/schema/CWV analysis, sparse field metrics explicit |
 | FR-SEO-12 | R1 | E15,E17 | Retained | Draft/review/schedule/publish/rollback with server roles and immutable history |
 
 ## Cookies and permissions
@@ -138,7 +140,7 @@ Design: [collection controls](03-delivery-and-privacy.md#consent-enforcement-and
 
 | ID | Release | Work | Disposition | Acceptance evidence |
 | --- | --- | --- | --- | --- |
-| FR-CKE-01 | R1; regional expansion R3 | E11,E28 | Reconciled D15,D16 | Restrictive default everywhere at launch; equal choice and reviewed jurisdiction policies |
+| FR-CKE-01 | R1; regional expansion R4 | E11,E28 | Reconciled D15,D16 | Restrictive default everywhere at launch; equal choice and reviewed jurisdiction policies |
 | FR-CKE-02 | R1 | E11 | Retained | Header/browser GPC honored server-side; visible acknowledgement; no silent override |
 | FR-CKE-03 | R1 | E11 | Retained and signed | Server-readable, tamper-resistant state mirrored with policy/version |
 | FR-CKE-04 | R1 | E11,E19 | Retained | Consent loader, lint/build checks and browser network tests catch bypass tags |
@@ -160,13 +162,13 @@ Design: [retention](03-delivery-and-privacy.md#retention-and-deletion-design) an
 | FR-DAT-04 | R1 | E11,E16 | Reconciled D15,D25 | Deterministic identity linkage only when permitted; email submit/click alone does not grant analytics |
 | FR-DAT-05 | R1 | E16 | Retained | Staff/bots excluded from business metrics; heuristics versioned and uncertainty reported |
 | FR-DAT-06 | R1 | E11,E16 | Reconciled D15 | Ingest drops denied processing; no client-forged sale flag; necessary counts stay aggregate |
-| FR-DAT-07 | R2 internal; segments R3 | E25,E32 | Reconciled D15 | Only permitted structured fields, explicit versus inferred budget separated, no sensitive inference |
+| FR-DAT-07 | R2 internal; segments R4 | E25,E32 | Reconciled D15 | Only permitted structured fields, explicit versus inferred budget separated, no sensitive inference |
 | FR-DAT-08 | R2 | E25 | Retained with authorization | Consented explorer; Owner/Privacy only for logged contact reveal |
-| FR-DAT-09 | R3 A/B; R4 C | E32,E33 | Retained and gated | Buyer verification/contracts/purpose limits; registration and supplier rights checked |
-| FR-DAT-10 | R3 A/B; R4 C | E32,E33 | Retained | Export ledger/checksum/current suppression and two distinct B/C approvals |
-| FR-DAT-11 | R3 A/B; R4 C | E32,E33 | Retained and hardened | Revalidate at release; changes rebuild/reapprove; downstream deletion acknowledgements |
+| FR-DAT-09 | Optional R4 A/B/C | E32,E33 | Retained and gated | Buyer verification/contracts/purpose limits; registration and supplier rights checked |
+| FR-DAT-10 | Optional R4 A/B/C | E32,E33 | Retained | Export ledger/checksum/current suppression and two distinct B/C approvals |
+| FR-DAT-11 | Optional R4 A/B/C | E32,E33 | Retained and hardened | Revalidate at release; changes rebuild/reapprove; downstream deletion acknowledgements |
 | FR-DAT-12 | R1 current; update per program | E11,E14,E32 | Reconciled D05,D16 | Notices describe actual enabled uses; incentive applicability reviewed, no categorical legal claim |
-| FR-DAT-13 | Before R3 B / R4 C | E32,E33 | Reconciled current obligations | Market-specific broker/DROP and contract assessment; no assumption of exemption |
+| FR-DAT-13 | Before optional R4 B/C | E32,E33 | Reconciled current obligations | Market-specific broker/DROP and contract assessment; no assumption of exemption |
 | FR-DAT-14 | R1; later stores as introduced | E14,E25 | Reconciled D14,D15 | 13-month raw/linked session TTL; 24-month email/profile ceiling; only deidentified aggregates potentially indefinite |
 
 ## Privacy rights
@@ -188,23 +190,23 @@ Design: [retention](03-delivery-and-privacy.md#retention-and-deletion-design) an
 | FR-ADS-03 | R1 | E18,E19 | Retained | Mobile density ≤30%, reserved dimensions, CLS ≤0.1; refresh disabled initially, later ≥30s/in-view only if approved |
 | FR-ADS-04 | R1 | E18 | Retained | Block categories/URLs in network; weekly served-ad review and evidence |
 | FR-ADS-05 | R1 | E11,E18 | Reconciled D15 | Certified CMP/current vendor protocol, no default nonpersonalized-cookie bypass; no ads for known under-13 |
-| FR-ADS-06 | R3 | E27 | Reconciled D02,D18 | Approved sponsor dates/caps/creative; no home sponsor while it contains assessment; no ranking influence |
+| FR-ADS-06 | R4 | E27 | Reconciled D02,D18 | Approved sponsor dates/caps/creative; no home sponsor while it contains assessment; no ranking influence |
 | FR-ADS-07 | R1 | E18 | Retained | Reserved permitted slots use useful house content without third-party tracking |
 | FR-ADS-08 | R1 | E16,E18 | Retained | Staff/synthetic/bot exclusions; anomalous CTR alert vs 28-day median with low-volume guard |
-| FR-ADS-09 | R1 | E18 | Retained | Clear Advertisement/Sponsored labels adjacent to placements |
-| FR-ADS-10 | R1 slots; R3 imports/sponsors | E18,E27 | Retained | Viewable counts, consent coverage, earnings freshness, cap delivery and engagement impact |
+| FR-ADS-09 | R1 | E18 | Retained | AdSense labels Advertisements/Sponsored links; other networks use permitted clear labels adjacent to placements |
+| FR-ADS-10 | R1 slots/imports; R4 sponsors | E18,E38,E27 | Imports advanced to P1, D31 | Viewable counts, consent coverage, earnings freshness, cap delivery and engagement impact |
 
 ## Mobile application
 
-Design: [native app](01-final-product-design.md#native-app-and-connector-from-r3).
+Design: [native app](01-final-product-design.md#native-app-and-connector-from-p3--r3).
 
 | ID | Release | Work | Disposition | Acceptance evidence |
 | --- | --- | --- | --- | --- |
 | FR-APP-01 | R3 | E30 | Retained | Expo/Router/EAS pinned; OTA limited to approved compatible native runtime |
 | FR-APP-02 | R3 | E30 | Retained | Versioned API, short access/rotated refresh tokens in secure store, forced-update handling |
 | FR-APP-03 | R3 | E30,E14 | Retained and hardened | Guest/account merge ownership proof; in-app deletion propagates to all stores |
-| FR-APP-04 | R3 | E30,E31 | Reconciled D23 | In-context push, server/local dedupe, quiet hours/caps; reinstall recovery only with account |
-| FR-APP-05 | R3; data activation later gate | E30,E32 | Retained | Platform tracking permission plus product purpose permission; no hashed-ID workaround after denial |
+| FR-APP-04 | R3 basic; R4 lifecycle | E30,E31 | Reconciled D23 | In-context push, server/local dedupe, quiet hours/caps; reinstall recovery only with account |
+| FR-APP-05 | R3 privacy controls; optional R4 data gate | E30,E32 | Retained | Platform tracking permission plus product purpose permission; no hashed-ID workaround after denial |
 | FR-APP-06 | R3 | E30 | Retained | SDK/data inventory matches store disclosures/privacy manifest before each relevant release |
 | FR-APP-07 | R3 | E30 | Retained | Universal/App Links verified; web fallback retains view-only/report scopes |
 | FR-APP-08 | R3 | E30 | Reconciled D23 | Last five reports/cache/queued writes; conflicts explicit for safety data, append-only maintenance events |
@@ -239,13 +241,13 @@ The source's early sections and nonfunctional requirements are also in scope. Th
 | CORE-02 | 4.2 climate | R1 E05,E09 | Correctable conditions, dataset/source/review dates; regional legal guidance reviewed separately |
 | CORE-03 | 4.3 engine | R1 E05,E06 | Deterministic eligibility, tiers where possible, evidence/exclusions, 50 golden scenarios |
 | CORE-04 | 4.4 results | R1 E08,E09 | Cost/quantity/unit/date, score meaning, known limitations, maintenance, questions, private share |
-| CORE-05 | 4.5 lifecycle | R3 E31 | Separate consent and scheduling; never inferred from one-time report request |
-| CORE-06 | 4.6 hub/tools | R1 E15; extra tools R3 E28 | 25 terms, decoder, checklist; DOT/tread/alternate-size/recall tools require reviewed data rules before release |
+| CORE-05 | 4.5 lifecycle | R3 basic reminders; R4 remaining E31 | Separate consent and scheduling; never inferred from one-time report request |
+| CORE-06 | 4.6 hub/tools | R1 E15; extra tools R4 E28 | 25 terms, decoder, checklist; DOT/tread/alternate-size/recall tools require reviewed data rules before release |
 | CORE-07 | 4.7 checklist | R1 E15 | 14 questions with answer guidance, printable and permissioned local scorecard |
-| CORE-08 | 4.8 internationalization | R1 E03,E15; new markets R3 E28 | Locale routes/messages/Intl/reason codes/pseudolocale; market distinct from language |
-| CORE-09 | 4.9 admin modules | R1 E17; R2 E21–E25; R3 E27–E32 | Module table in product design, MFA/roles/audit, masked contact data, disabled later modules absent |
+| CORE-08 | 4.8 internationalization | R1 E03,E15; new markets R4 E28 | Locale routes/messages/Intl/reason codes/pseudolocale; market distinct from language |
+| CORE-09 | 4.9 admin modules | R1 E17; R2 E21–E25; R3 E29/E30; R4 E27/E28/E31/E32 | Module table in product design, MFA/roles/audit, masked contact data, disabled later modules absent |
 | CORE-10 | 6 data | R0/R1 E01,E05 | License/provenance/coverage, no copied proprietary tests, nightly recall and daily prices |
-| CORE-11 | 8–9 monetization | R1 E18; R3 E27 | Disclosure/approved destinations/applications; commission cannot rank tires; live terms checked |
+| CORE-11 | 8–9 monetization | R1 E18/E38; R4 E27 | Disclosure/approved destinations/applications; commission cannot rank tires; live terms checked |
 | CORE-12 | 10 KPIs | R1 E16,E17 | Definitions, denominators, attribution and consent-coverage; zero distinct from missing |
 | CORE-13 | 11 trust/legal | R1 G2,G3; each later gate | Methodology/policies/support, review dates, market-applicable requirements and disclosures |
 | CORE-14 | 15 screens | R1–R4 | Every source screen represented in final route/module inventory and phased UX specification |
@@ -264,16 +266,33 @@ At implementation, add PR/test evidence and shipped version to each completed ro
 
 ## Engineering requirements from the requested expansion
 
-These planning IDs capture the user's TDD, database, maintainability, and performance requirements. They supplement all 137 source IDs and the approved architecture; implementation status remains unstarted. The [use-case catalogue](08-test-driven-development.md#use-case-catalogue) connects UC01–UC12 to existing FR/CORE/AT requirements. Each implemented row must link relevant unit, functional and use-case evidence, or explain why a category is inapplicable.
+These planning IDs capture the user's TDD, database, maintainability, and performance requirements. They supplement all 137 source IDs and the approved architecture; implementation status remains unstarted. The [use-case catalogue](08-test-driven-development.md#use-case-catalogue) connects UC01–UC18 to existing FR/CORE/AT requirements. Each implemented row must link relevant unit, functional and use-case evidence, or explain why a category is inapplicable.
 
 | ID | Requirement | Work | Acceptance evidence |
 | --- | --- | --- | --- |
 | ENG-01 | Test-first behavioral development and regression fixes | E02 and every behavioral package | Recorded intended failing test, passing implementation, refactor verification and PR review under the TDD cycle |
 | ENG-02 | Unit, functional API/UI, and application/end-to-end use-case tests | E02,E06–E20; relevant R2–R4 work | Named suites, coverage gates, UC/AT mappings, negative/boundary/recovery cases, real integration proof rather than mock-only completion |
-| ENG-03 | Comprehensive relational design and integrity | E04a/E04b,E05,E08,E11–E16,E34; later E21–E33 | Typed schemas/migrations, PK/FK/UQ/check/index design, applicable DB01–DB20 tests, RLS/runtime roles, retention and upgrade/restore evidence |
+| ENG-03 | Comprehensive relational design and integrity | E04a/E04b,E05,E08,E11–E16,E34–E41; later E21–E33 | Typed schemas/migrations, PK/FK/UQ/check/index design, applicable DB01–DB28 tests, RLS/runtime roles, retention and upgrade/restore evidence |
 | ENG-04 | Shared APIs and business logic with separation of concerns | E02 and all channels | Enforced package dependencies; thin transport/UI adapters; reusable application/domain services; contract compatibility and cross-channel parity tests |
 | ENG-05 | Maintainable and performant code/data access | E02,E06,E09,E10,E16,E19 | Strict typing, cohesive modules/value objects, justified patterns, bounded queries/jobs, measured hot-path/bundle/query plans, no unauthorized caching |
 | ENG-06 | Reviewable delivery and operational ownership | E02,E17,E19,E20 and later gates | Contribution/PR process, readable tests, documented migrations/failure recovery, redacted telemetry, updated requirements and no false completion claims |
 | ENG-07 | Database and data access before services/APIs, all launch APIs before product frontends | S0–S6, E04a/E04b,E34; same order in later releases | Gate evidence with real schema/repository/service/API tests; no UI dependency in backend work; compatible contracts consumed by S5 |
 | ENG-08 | Remove unnecessary ClickHouse/Redis/QStash dependencies | D29, E04,E16,E34 | PostgreSQL event/aggregate/limit adapters and conditional cache, retained Inngest scheduling; no removed-provider package/env/provisioning requirement; historical source/approval preserved |
 | ENG-09 | Demonstrate consolidated database reliability and capacity | E02,E04b,E16,E34,E19 | DB17–DB20, mixed 10× peak/load/cleanup/limit tests, measured report/dashboard/freshness budgets, bounded cost/retention and documented reconsideration triggers |
+
+## Capability amendment coverage
+
+The canonical definitions of CAP-01–CAP-08 are in the [eight-point review](12-live-product-phases-and-gap-review.md#answers-and-gaps). The mappings below add scope without renumbering the original requirements. All rows are planned/unimplemented; a completed document is not an implemented capability.
+
+| Capability | Phase / work | Design contract | Required evidence |
+| --- | --- | --- | --- |
+| CAP-01 | P1–P4; E34/E42 | Docs/12 four usable products; S0–S6 per phase | UC18/AT28/DB28, production journeys, upgrade/rollback and signed completion register |
+| CAP-02 | P1 then P4; E15/E28/E37 | Docs/12 public index/content/crawl policy; docs/09 SEO tables | UC17/AT27/DB27, rendered technical checks, editorial/source review, Search Console readiness |
+| CAP-03 | P1 onward; E18/E38 | Docs/12 ad inventory/consent/operations; docs/09 provider reporting | UC17/AT27/DB27, network approval separate from readiness, denied/no-fill/blocker/performance tests |
+| CAP-04 | P1 scripts, P2 admin; E35/E36 | Docs/13 typed source/reference/recall/import contract | UC13/AT21/AT22/DB21/DB22, real schema/repository and source/publish/recovery tests |
+| CAP-05 | P2; E39 | Docs/14 provider/validation/report attachment | UC14/AT23/DB23, unit/API tests plus real model evaluation, fixed email/PDF selection |
+| CAP-06 | P2; E40 | Docs/14 exact scoped keys and refresh/invalidation | UC15/AT24/AT25/DB24/DB25, hit/miss/expiry/race/deletion/cost tests |
+| CAP-07 | P2 web, P3 app; E41/E30 | Docs/14 private photos and user confirmation | UC16/AT25/AT26/DB25/DB26, image fixtures, API isolation, sanitation/TTL/manual fallback |
+| CAP-08 | P1 web, P3 app/MCP; E29/E30 | Docs/12 channel parity and distribution gates | UC18/AT28/DB28, actual device/client integration, authorization/revocation and store/listing evidence |
+
+R3 basic ownership reminders remain part of E30/E31; full lifecycle campaigns are P4. E32 audience products and E33 extra growth remain conditional, not automatically approved or required to fund launch. Track every conditional requirement's gate and disposition in the phase scope register. No committed row may be marked complete because an external approval has not arrived.

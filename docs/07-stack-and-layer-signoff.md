@@ -1,6 +1,6 @@
 # Technology stack and application layer signoff
 
-**Version 1.1 · October 22, 2026 · Status: original AS01–AS07 approval retained; PostgreSQL/build-order amendment to current AS02/AS07 selections approved by the requesting user.**
+**Version 1.2 · October 22, 2026 · Status: original AS01–AS07 and PostgreSQL/build-order approvals retained; additional phase/domain/AI changes proposed for review.**
 
 Build Tires & Tread as one modular TypeScript web application with a shared, deterministic tire recommendation engine. Use managed services for hosting, identity, persistence, durable jobs, email, and operational monitoring. The application owns its business rules, permissions, report history, and delivery state.
 
@@ -9,6 +9,8 @@ This current design defines the technology choices, functional modules, logical 
 **Subsequent engineering expansion:** the user requested explicit TDD, database design, and coding principles after AS01–AS07 approval. [Test-driven development](08-test-driven-development.md), [database design](09-database-design.md), and [coding standards](10-coding-standards.md) elaborate these boundaries. The original approval record remains tied to the reviewed proposal; the additional specifications do not represent completed implementation or closed R0 gates.
 
 **Current amendment:** [D28/D29](11-postgresql-and-build-order.md) requires database → data access/models → business services → exposed APIs → frontends, removes Redis/ClickHouse/QStash, and uses PostgreSQL events/aggregates, SQL quotas and measured caching. Sections 1–6 and 8 below describe this amended target; section 7 preserves the original reviewed decisions and identifies the changed IDs. The user approved this amendment and its merge into main on October 22, 2026; see the [amendment approval record](11-postgresql-and-build-order.md#approval-record). Integration evidence remains required.
+
+**Proposed additional amendment:** [D30–D35 and the eight-point review](12-live-product-phases-and-gap-review.md) add four usable phases, P1 domain/SEO/ad operations, P2 OpenAI inference/photo adapters and persistent PostgreSQL artifacts, and committed P3 app/MCP. These additions update current implementation direction but await review; the historical AS01–AS07 approval below is preserved.
 
 ## 1. Review scope
 
@@ -73,12 +75,14 @@ The PDF package is the [React PDF renderer](https://github.com/diegomura/react-p
 | Technology/capability | Planned activation |
 | --- | --- |
 | Clerk organizations and reseller modules | R2 free-credit partner pilot, after tenant and moderation verification |
-| Stripe | R3 reseller billing and payment events; no R1 checkout or consumer payment requirement |
-| Expo / React Native | R3 ownership app, sharing contracts and domain logic with web |
-| Official MCP TypeScript SDK | R3 connector, after protocol/client and data-redistribution review |
+| Stripe | P4 reseller billing and payment events; no R1 checkout or consumer payment requirement |
+| Expo / React Native | Committed P3 ownership app, sharing contracts and domain logic with web |
+| Official MCP TypeScript SDK and current target-client packaging | Committed P3 connector, after protocol/client and data-redistribution review |
+| Official OpenAI SDK / Responses API | P2 bounded analysis and photo extraction; evaluated/pinned model/prompt/schema, validated facts, privacy/cost controls and deterministic/manual fallback |
+| PostgreSQL AI artifacts/reuse | Required P2 business persistence; exact source/model/parameter/scope keys, bounded refresh, invalidation and deletion; distinct from optional computation cache |
 | GA4 or PostHog | Conditional integration with a named measurement purpose; no duplicate default collection or R1 session replay |
 | External advertising networks | R1 capability, activated only after network approval, consent, layout/performance, and private-token isolation tests |
-| Tier A/B/C data products | Existing R3/R4 scope and separate release gates; architecture approval does not activate exports |
+| Tier A/B/C data products | Optional P4/future scope and separate release gates; architecture approval does not activate exports |
 
 The number of managed services carries an operating cost: credentials, deletion coverage, incident handling, retention, and billing need named owners. G0 must approve one consolidated vendor/region/cost register, including data licensing. No numeric monthly ceiling is set by this document. Keep adapters narrow enough to replace a provider without rewriting the tire engine or report model.
 
@@ -131,7 +135,7 @@ Each module owns its commands and data writes. Other modules use its application
 
 | Functional module | Responsibility and principal data | Application interface examples | Delivery mapping |
 | --- | --- | --- | --- |
-| Catalog and evidence | Vehicles, axle fitments, SKUs, facts/provenance, price snapshots, climate/recall datasets and freshness | `ResolveFitment`, `PublishDataset`, `GetCatalogCoverage` | R1, E01/E05 |
+| Catalog and evidence | Canonical companies/brands/plants, reviewed reference mappings, staged imports, vehicles, axle fitments, SKUs, facts/provenance, price snapshots, climate/recall datasets and freshness | `ResolveFitment`, `PublishDataset`, `GetCatalogCoverage` | R1, E01/E05/E35/E36 |
 | Recommendation and economics | Safety filtering, strategy eligibility, evidence-backed preference ordering, exclusions, installed costs and scenarios | `EvaluateAssessment`, `EvaluateQuote`, `CompareCosts` | R1, E06 |
 | Assessment and reports | Drafts, normalized inputs, immutable report versions, pinned datasets, owner context and current safety overlay | `CreateReport`, `SaveDraft`, `CreateReportVersion` | R1, E07–E09 |
 | Comparison and quote checking | Up to four selected items, saved assumptions, quantity/basis/currency comparability, private shop text | `SaveComparison`, `CheckQuote` | R1, E10 |
@@ -140,9 +144,11 @@ Each module owns its commands and data writes. Other modules use its application
 | Report delivery | Scheduled sends, cancel deadline, fixed report/template version, PDF artifacts, send attempts, delivery facts and preferences | `ScheduleDelivery`, `CancelDelivery`, `DispatchSend`, `RecordProviderEvent` | R1, E12/E13 |
 | Education and publishing | Glossary, articles, report learning links, metadata, redirects, editorial versions and review | `PublishContent`, `GetLearningLinks`, `PublishRedirectSnapshot` | R1, E15 |
 | Privacy operations | Verified rights requests, retention, deletion graph, object/token revocation, suppression/tombstone replay | `OpenPrivacyRequest`, `FulfillDeletion`, `ApplyRetention` | R1, E14 |
-| Affiliate and advertising | Approved destinations, disclosures, opaque attribution, slots, blocks and guarded activation | `ResolveAffiliateLink`, `EvaluatePlacement` | R1 conditional, E18 |
+| Affiliate and advertising | Approved destinations, disclosures, opaque attribution, slots, blocks, aggregate network reporting and guarded activation | `ResolveAffiliateLink`, `EvaluatePlacement` | R1 readiness, network activation gated, E18/E38 |
 | Analytics and staff operations | Permitted events, deduplicated aggregates, operational queues, masked dashboards and audited staff commands | `CollectAllowedEvent`, `GetOperationalSummary`, `RetryFailedJob` | R1, E16/E17 |
 | Partner offers | Verified organizations, moderated offers, code pools, targeting, reservations and aggregate pilot reporting | `ApproveOffer`, `ReserveCoupon`, `GetPartnerMetrics` | R2, E21–E26 |
+| AI assistance and photo input | Versioned provider tasks, validated artifacts, exact reuse/refresh, private image extraction and confirmation | `RequestAnalysis`, `FindReusableAnalysis`, `ConfirmPhotoFields` | P2 E39–E41; P3 shared channel APIs |
+| Domain imports and SEO operations | Source connectors, script/admin validation/publication, public-page registry, crawl/search metrics | `ValidateImport`, `PublishImport`, `GetSeoFindings` | P1 E35–E38; P2 CSV UI |
 | Billing and expansion | Ledger/invoices, ownership records/reminders, market rules, MCP adapters and separately gated audience products | `PostBillableEvent`, `RecordTireCheck`, versioned tool commands | R3/R4, E27–E33 |
 
 Staff administration is a set of screens and permissions over these modules, not a second implementation of their rules. Tire rankings are completed before commercial placements attach. Turning affiliate rates, offers, or advertisements on/off must leave the core engine output identical for identical inputs and versions.
@@ -173,6 +179,10 @@ Staff administration is a set of screens and permissions over these modules, not
 Publishing commits an editorial revision in the CMS database and records durable publication work there. A retryable bridge builds the public read/config snapshot and invalidates relevant caches; failed propagation remains visible to staff. No distributed transaction is assumed between CMS, application database, and CDN.
 
 Privacy fulfillment immediately restricts applicable processing and revokes access, then runs an idempotent deletion graph across application data, objects, email, and analytics. Each step records evidence or a permitted exception. Restores replay the suppression/deletion ledger before reopening access. Operational metrics do not become a second contact store.
+
+### AI and photo flow from P2
+
+L1 requests optional assistance or confirms a photo candidate. L2 validates actor/contract/quota; L3 prepares the minimal source packet and authorizes exact artifact reuse; L4 preserves deterministic decisions. L5 persists scoped requests/artifacts/leases and L6 runs sanitized-image/provider jobs through Inngest. Validated output attaches to the fixed report version; failure returns ordinary advice. Model SDKs never enter L4 and raw photos never enter public MCP or analytics. See [AI/photos](14-ai-analysis-and-photo-design.md).
 
 ## 6. Deployment and data authority
 
@@ -230,4 +240,4 @@ Foundation items are required at S0–S2/R0; rows explicitly identifying S4/S5 a
 
 Start with S1 database migrations/constraints and S2 data-access/entity/mapping tests. S3/S4 then demonstrate the first **headless** business/API slice: **vehicle and wheel package → validated eligibility → deterministic recommendation → immutable stored report → authorized private read**. Complete all remaining launch services/APIs, including compare, delivery/cancellation, PDF orchestration, privacy, content and staff operations, before S5 product frontends/renderers. Fixture rendering at S4 is labeled and cannot satisfy final delivery/PDF acceptance.
 
-Across these slices, identical input/dataset versions must reproduce the same result; a share token cannot edit or send; retry creates one report/send identity; private responses cannot enter public caches; cancelled delivery produces no provider handoff; and optional analytics failure does not block the report. Follow [S0–S6 gates and package splits](04-implementation-plan.md#build-stages-and-exit-gates), with E34 recording API readiness before presentation work. The broader [AT01–AT20 acceptance suite](04-implementation-plan.md#acceptance-scenarios-that-must-be-demonstrated) remains the release standard.
+Across these slices, identical input/dataset versions must reproduce the same result; a share token cannot edit or send; retry creates one report/send identity; private responses cannot enter public caches; cancelled delivery produces no provider handoff; and optional analytics failure does not block the report. Follow [S0–S6 gates and package splits](04-implementation-plan.md#build-stages-and-exit-gates), with E34 recording API readiness before presentation work. The broader [AT01–AT28 acceptance suite](04-implementation-plan.md#acceptance-scenarios-that-must-be-demonstrated) remains the release standard.

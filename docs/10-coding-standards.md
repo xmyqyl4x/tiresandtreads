@@ -1,8 +1,10 @@
 # Coding standards and maintainable application design
 
-**Engineering specification 1.1 · October 22, 2026.** Apply these standards to implementation of the approved stack and [seven logical layers](07-stack-and-layer-signoff.md#3-logical-application-layers). This is a coding contract and review guide, not a claim that application packages or CI already exist. The [TDD strategy](08-test-driven-development.md) and [database design](09-database-design.md) are companion specifications.
+**Engineering specification 1.2 (proposed capability amendment) · October 22, 2026.** Apply these standards to implementation of the approved stack and [seven logical layers](07-stack-and-layer-signoff.md#3-logical-application-layers). This is a coding contract and review guide, not a claim that application packages or CI already exist. The [TDD strategy](08-test-driven-development.md) and [database design](09-database-design.md) are companion specifications.
 
-**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporates the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted.
+**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporated the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted.
+
+Version 1.2 proposes the [four-phase/domain/AI extension](12-live-product-phases-and-gap-review.md); existing approvals remain tied to their earlier reviewed versions.
 
 ## Design principles
 
@@ -159,3 +161,13 @@ All entry points enforce identity/capability, object authority, purpose, and ten
 Review uploads/redirects/webhooks for their existing limits, validation, and quarantine requirements. Keep sensitive information out of snapshot tests, exception messages, and PR logs. Dependencies are pinned, upgrades reviewed, and generated/provider code isolated from business code. License review applies to copied components and datasets.
 
 Every behavioral PR links the requirement and use case, shows relevant red/green evidence, names affected layers/tables/contracts, explains the failure path, and records appropriate validation. Reviewers reject duplicated rules across channels, unauthorized repository access, unbounded resource use, mutation of historical results, or tests coupled only to implementation details. Use the [repository contribution guide](../CONTRIBUTING.md) and PR template; update an architecture decision when changing a signed-off boundary.
+
+## Domain imports and AI boundaries
+
+All source fetchers, CLI imports, scheduled refreshes and admin CSV screens invoke the same L3 ingestion use cases. Separate parser/normalizer, validation, source matching and publication responsibilities. Use typed source adapters and deterministic canonicalization; isolate raw/staging rows from published reads. No generic table-editing API or executable user mapping scripts. Bounded streaming, checkpointing and head compare-and-set protect memory and concurrent publication.
+
+AI provider SDKs stay in `packages/integrations`; application services own request policy, evidence packets, exact reuse keys and validation, while repositories own PostgreSQL persistence/leases. Prompts/configuration are versioned code artifacts with evaluation evidence. No model result is an entity until decoded and validated; never trust schema conformance as factual truth. Plain output DTOs carry supported claim IDs, provenance, expiry and limitations. Photo extraction is a suggestion until an authorized confirmation command succeeds.
+
+Keep deterministic domain rules independent from inference, ads and client type. No prompt may ask a model to recompute eligibility, ranking or price truth. Do not call providers inside transactions, cache authorization decisions, reuse private results across owners, or mutate frozen reports/sends. Use deadline/cost bounds, lease fencing, minimal redacted logs, scoped deletion and finite retries. Shared generic AI artifacts require an approved nonpersonal scope; optional computation caching remains subject to profiling. See [AI/photos](14-ai-analysis-and-photo-design.md) for concrete invariants.
+
+For each live phase, evolve contracts and schemas with expand/contract migrations and maintain the previous product's working journeys. Version external protocols and test both old and new clients; frontends cannot solve backend incompatibility by duplicating business logic. Optimize from measured report latency, source query plans, provider cost/reuse and frontend script/layout budgets.

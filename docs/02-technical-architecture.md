@@ -1,6 +1,6 @@
 # Technical architecture
 
-**Baseline 1.3 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
+**Baseline 1.4 (proposed capability amendment) · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
 
 **Architecture history and current amendment:** the user approved AS01–AS07 on October 22, 2026. The [signoff record](07-stack-and-layer-signoff.md) preserves that reviewed baseline. The subsequent [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) changes AS02/AS07 implementation selections and requires database → data access/models → business services → APIs → frontends. Separate CMS ownership and the seven logical layers remain. R0 and release evidence are still required.
 
@@ -29,7 +29,7 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 | Auth | Clerk staff and organization identities | Mandatory MFA, separate staff/reseller audiences, explicit server role checks; consumer realm added R3 |
 | Workflows | Inngest | Email, PDF, imports, privacy jobs, future reminders; persisted state and retriable steps |
 | Events and analytics | Application PostgreSQL `analytics` schema + scheduled Inngest aggregation | Acknowledge after event/invalidation commit; idempotent bounded generation rebuilds, privacy invalidation and aggregate read views |
-| Limits and reusable reads | PostgreSQL atomic rate buckets, indexed queries, public CDN caches; optional bounded SQL computation cache | Required limits fail closed; no cached permission decisions; shared cache introduced only with measured benefit |
+| Limits and reusable reads | PostgreSQL atomic rate buckets, indexed queries, public CDN caches; optional bounded SQL computation cache | Required limits fail closed; no cached permission decisions; optional pure computation cache introduced only with measured benefit; required P2 AI artifacts are separate |
 | Email | Resend + React Email | Verify domain, idempotency, webhooks and policy before first real send; separate commercial stream/subdomain |
 | PDF | `@react-pdf/renderer` | Render from versioned report DTO; verify fonts, tables, links, reading order |
 | Assets | Private S3 object storage, public reviewed-media bucket/CDN | Use managed encryption and scoped URLs; direct private uploads for large CSVs, no public export bucket |
@@ -39,9 +39,11 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 | Bot control | Turnstile plus server rate limits | Sitekey/action/hostname verification; fail safely if token invalid |
 | Tooling and delivery | pnpm workspaces, ESLint, Prettier, GitHub Actions, Vercel Git previews | Frozen lockfile installs, import boundaries, protected previews, reviewed migrations |
 | Verification | Vitest, Playwright, axe-core, real PostgreSQL integration tests | Engine/property, transaction/race, browser and accessibility checks; manual assistive-technology/email/PDF review |
+| AI assistance and extraction | P2 official OpenAI SDK/Responses adapter; PostgreSQL artifacts, Inngest jobs and private S3 images | Pin/evaluate model, schema and prompt; exact authorized reuse and user-confirmed photo fields; no provider SDK inside domain logic |
+| Domain reference data | NHTSA official APIs/bulk files plus licensed/reviewed providers | P1 scripts and P2 admin CSV use shared staging/validation/publication services; see docs/13 |
 | Later billing/mobile/MCP | Stripe; Expo; official MCP TypeScript SDK | Each independently gated; shared contracts and domain engine, no copied ranking logic |
 
-These extend the source's preferred stack. R0 checks current integrations and costs before provisioning. There is no reason to introduce microservices, Kubernetes, a vector database, an LLM, or a separate general-purpose API framework for R1. Use the provider's supported SDK only after verifying the selected integration and environment setup.
+These extend the source's preferred stack. R0 checks current integrations and costs before provisioning. There is no reason to introduce microservices, Kubernetes, a vector database, or a separate general-purpose API framework for R1. Use the provider's supported SDK only after verifying the selected integration and environment setup. P2 adds the bounded OpenAI API adapter specified in [AI analysis/photos](14-ai-analysis-and-photo-design.md); it explains deterministic results and cannot decide fitment, ranks or safety.
 
 Use a separate logical PostgreSQL database for Payload from the outset, with separate credentials and migrations. The [Payload documentation](https://payloadcms.com/docs/database/postgres) marks custom schema selection experimental at review time; it is not a launch dependency. Application and CMS databases may share Neon project/compute only after grants and recovery isolation are proven. Bridge published content by stable IDs and revision DTOs, with durable publication work and retryable cache/config propagation; do not assume cross-database transactions.
 
@@ -64,6 +66,9 @@ flowchart TB
   Outbox --> Jobs[Inngest jobs]
   Jobs --> ESP[Email provider]
   Jobs --> Objects[Private reports and uploads]
+  Jobs --> AI[Bounded AI provider adapter P2]
+  AI --> Validated[Validated explanation or photo candidates]
+  Validated --> PG
   ESP --> Hooks[Verified webhook inbox]
   Hooks --> PG
   Browser --> Collector[Consent-aware collector]
@@ -93,7 +98,8 @@ packages/email/           Locale-aware React Email and text templates
 packages/pdf/             Report rendering templates and fonts
 packages/ui/              Tokens and web components; no forced sharing with native UI
 packages/i18n/            Locale messages, reason text and formatting adapters
-jobs/                     Workflow handlers, scheduled imports, retention, reconciliation
+scripts/data/             Planned operator CLI over shared ingestion use cases
+jobs/                     Workflow handlers, scheduled imports, AI refresh, retention, reconciliation
 tests/fixtures/           Synthetic licensed-schema fixtures, golden scenarios
 tests/usecases/           Actor-driven application acceptance scenarios
 tests/integration/        Real PostgreSQL constraints, roles, migrations and races
@@ -156,7 +162,9 @@ Cached historical reports remain historical and show a live safety overlay. Rech
 
 ## Data model and constraints
 
-The [database design](09-database-design.md) is the detailed relational contract, including typed columns/nullability, PK/FK/unique/check constraints, indexes, DB01–DB20 concurrency invariants, roles, lifecycle, and migration order. The table below remains a domain overview. Use UUID identifiers, composite keys where required by invariants, and UTC `timestamptz`. Store external IDs separately. JSON is suitable for immutable engine snapshots and typed rule inputs; critical constraints, statuses, tenancy, money, and relationships belong in relational columns.
+The detailed contract includes [domain/reference/import tables](13-domain-data-and-imports.md) and [AI artifact/reuse/photo tables](14-ai-analysis-and-photo-design.md). PostgreSQL remains the single application state store; S3 holds file bytes, and Payload remains a separate logical database. AI artifacts are required P2 business records, distinct from optional computation caching.
+
+The [database design](09-database-design.md) is the detailed relational contract, including typed columns/nullability, PK/FK/unique/check constraints, indexes, DB01–DB28 concurrency invariants, roles, lifecycle, and migration order. The table below remains a domain overview. Use UUID identifiers, composite keys where required by invariants, and UTC `timestamptz`. Store external IDs separately. JSON is suitable for immutable engine snapshots and typed rule inputs; critical constraints, statuses, tenancy, money, and relationships belong in relational columns.
 
 | Domain | Entities and critical constraints |
 | --- | --- |
@@ -172,9 +180,9 @@ The [database design](09-database-design.md) is the detailed relational contract
 | Work reliability `app` | `outbox`, `webhook_inbox`, `idempotency_requests`, `job_runs`; unique event IDs, body hash for duplicate requests, retry state and terminal reason |
 | CMS separate logical DB | Payload-owned content, media, SEO, redirects, content versions, review status and durable publication work; stable public read DTO; drafts inaccessible to public routes |
 | Partner operations `partners` | Organizations, memberships, agreements, verification evidence, locations, offer versions, targeting, code pools/codes, decisions/events, API credentials, webhook destinations; `org_id` on every owned row |
-| Money `partners` from R3 | Append-only balance ledger, reservations, billable event keys, invoices, payment events; currency consistency, no float balances; Stripe event IDs unique |
+| Money `partners` from R4 | Append-only balance ledger, reservations, billable event keys, invoices, payment events; currency consistency, no float balances; Stripe event IDs unique |
 | Administration `admin` | Staff role mappings, audit events, affiliate directories/applications/links, ads.txt, slots, brand blocks, feature configurations and publication history |
-| Audience from R2/R3 | Visitors/profiles/segments/buyers/products/exports/deletion notices; purpose and region provenance, current suppression required; no activation in R1 |
+| Audience internal R2 / optional R4 | Visitors/profiles/segments/buyers/products/exports/deletion notices; purpose and region provenance, current suppression required; no activation in R1 |
 | App and MCP from R3 | Consumer/device subjects, garage/tire-set/check/reminder logs, saved offers, API clients, tool schema versions, directory listings; subject ownership explicit |
 
 ```mermaid
@@ -237,6 +245,10 @@ Use `/api/v1` from the start for browser, future mobile, and non-MCP integration
 | `POST /api/v1/privacy/requests` | Generic accepted response and verification step | Email/browser scope or authorized agent workflow; no forced account |
 | `GET /api/v1/content` and `/content/{key}` | Bounded published education DTOs with revision/locale | Public; no drafts or unrestricted CMS documents |
 | `POST /api/v1/tools/size-decode` | Validated unit-bearing tire-size interpretation | Public bounded input; shares pure parser/policies; no inferred verified fitment |
+| `/api/v1/reference/*` | Published manufacturer/vehicle/tire/recall/advice DTOs | P1; bounded, versioned, licensed public fields; unknown coverage explicit |
+| `/api/v1/admin/imports/*` | Stage/validate/diff/publish/rollback and job state | P1 operator APIs, P2 UI; staff/MFA, expected head and audit; no generic SQL |
+| `/api/v1/reports/{id}/analyses` and `/api/v1/analyses/{id}` | Request/status for versioned assistance | P2 owner scope, explicit processing action, quotas and idempotency; share token denied |
+| `/api/v1/tire-photos/*` | Upload intent/finalize/extract/confirm/delete | P2 owner scope; quarantined private files; field confirmation; P3 same API |
 | `/admin/api/*` and `/partners/api/v1/*` | Domain-specific staff/partner DTOs | Explicit role/org, MFA, audit; object-level authorization on every access |
 
 At E34 maintain an endpoint-to-service/UC/role inventory for the full launch API: catalog/fitment, report/refine/compare/quote/share, contact/consent/preferences, delivery/PDF/status, privacy requests, content/public tools, events/metrics, staff operational queries/commands, commercial configuration and provider callbacks. Staff actions use domain commands with audit, not generic table CRUD. Export reviewed schemas, safe examples, errors, auth scopes, pagination and idempotency rules; prove the headless journey against real repositories before S4 passes. Email/PDF visual templates and product screens follow at S5, with render-port fixtures labeled as such during S4.
@@ -269,6 +281,8 @@ Sanitize CMS HTML and quote text; enforce CSP; allow only reviewed link origins 
 
 ## Caching and deployment
 
+P2 [AI reuse](14-ai-analysis-and-photo-design.md#persistent-reuse-and-refresh) is required persisted business output with exact canonical input/source/model/prompt/policy keys, owner/shared scope isolation, ≤7-day validity and authoritative invalidation checks. It is separate from the conditional ≤24-hour computation cache below. Photo extraction cannot enter shared reuse. Database-first gates repeat per live phase; compatible migrations keep previous phases usable.
+
 Begin with indexed catalog/fitment reads and public CDN/framework caching by market/dataset version. Add an optional bounded PostgreSQL computation cache only after profiling repeated expensive pure calculations; keys include normalized non-identifying input and all relevant versions. Check expiry on reads, cap rows/bytes and clean up through scheduled jobs. Never cache contact/permission/offer decisions in that object. Avoid full ZIP in cache keys sent to external observability. Public articles use CMS-driven invalidation. Redirect snapshots validate loops, domains, bounded regexes and precedence before publication. Protect `/admin`, `/cms`, auth, privacy, API, and well-known routes from editorial redirects.
 
 Use PostgreSQL analytics with capped intake, restricted pools, short query/lock deadlines and bounded aggregation/purge jobs. Separate schemas do not isolate compute. Prove report p95 <2s under concurrent ingestion, limits and dashboard load; aggregate freshness ≤5 minutes and dashboard p95 <2s are initial validation targets. Optional collection degrades with explicit 429/503 and stale metrics; it cannot share a synchronous dependency with report submission. See [capacity and reconsideration](11-postgresql-and-build-order.md#capacity-failure-and-reconsideration).
@@ -282,6 +296,8 @@ Migration and database tests precede dependent implementation. Prove empty-datab
 Feature gates: offers serving, marketing dispatch, external ads, market availability, data exports, public MCP, app features. Safety or privacy kill switches default off/denied on unknown configuration. Static public content should remain available when optional analytics or email providers fail.
 
 ## Reliability and operational targets
+
+AI/image jobs, import streams, SEO crawls and ad-report aggregation have bounded worker pools and quotas separate from report transactions. AI timeout, rejected output or budget exhaustion returns deterministic advice without assistance. P2 measures validated inference cost/latency/reuse, source invalidation and photo correction; the core report SLO is unchanged. P1 tests crawlability and ad script/layout budgets in consented and denied states.
 
 | Measure | Target and interpretation |
 | --- | --- |

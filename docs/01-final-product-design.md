@@ -2,7 +2,7 @@
 
 **Implementation order:** the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates) require database, data-access/entity, business-service and API acceptance before product frontend code. UX specification and content research may proceed earlier. The [PostgreSQL consolidation](11-postgresql-and-build-order.md) changes infrastructure and sequence, while preserving the product journeys and consent requirements below.
 
-**Baseline 1.0 · October 22, 2026**
+**Baseline 1.1 (proposed capability amendment) · October 22, 2026**
 
 Tires & Tread is an independent tire-selection and education service. A driver enters their vehicle and conditions, receives suitable options with evidence and estimated installed costs, compares a shop quote, and leaves with practical questions for an installer. The site must explain uncertainty as clearly as it explains recommendations.
 
@@ -10,21 +10,23 @@ This specification establishes the target experience. The [source review](00-sou
 
 ## Design acceptance and testable use cases
 
-Each feature starts with an actor, preconditions, normal outcome, alternate/denied outcomes, and observable acceptance examples before implementation. The [UC01–UC12 catalogue](08-test-driven-development.md#use-case-catalogue) maps the journeys below to application, functional API/UI, and end-to-end tests. Examples must cover empty/unknown data, permission denial, failure/retry, relevant concurrent actions, and accessible interaction. Product/domain reviewers approve the expected behavior; passing tests against invented tire facts do not establish correctness.
+Each feature starts with an actor, preconditions, normal outcome, alternate/denied outcomes, and observable acceptance examples before implementation. The [UC01–UC18 catalogue](08-test-driven-development.md#use-case-catalogue) maps the journeys below to application, functional API/UI, and end-to-end tests. Examples must cover empty/unknown data, permission denial, failure/retry, relevant concurrent actions, and accessible interaction. Product/domain reviewers approve the expected behavior; passing tests against invented tire facts do not establish correctness.
 
-Use the [test-driven cycle](08-test-driven-development.md#required-development-cycle) for behavioral increments. Web, staff, future mobile, and MCP interfaces use the same application/domain services and versioned contracts under the [coding standards](10-coding-standards.md). A screen is complete only when the real backing behavior, adverse paths, and applicable accessibility/performance checks pass. This engineering addition preserves the release scope and visual design below.
+Use the [test-driven cycle](08-test-driven-development.md#required-development-cycle) for behavioral increments. Web, staff, future mobile, and MCP interfaces use the same application/domain services and versioned contracts under the [coding standards](10-coding-standards.md). A screen is complete only when the real backing behavior, adverse paths, and applicable accessibility/performance checks pass. The proposed capability amendment updates release scope while preserving the visual system and core safety/consent principles.
 
 ## Release boundaries
 
+The [four-phase contract](12-live-product-phases-and-gap-review.md#four-live-product-phases) is authoritative for release scope. R0 is internal feasibility; every R1–R4 phase ends with a real usable live product and repeats the database → data access → services → APIs → frontend sequence.
+
 | Release | User outcome | Included |
 | --- | --- | --- |
-| R0 Foundation | Validate the product can make trustworthy recommendations | Licensed data evaluation, score methodology, vendor/auth/CMS spikes, content review, design primitives |
-| R1 US web launch | Choose, understand, compare, save, and optionally email | US English, about 100 explicitly selected vehicle configurations and about 50 tire models with size-level coverage; all core form/results/refine/compare flows; HTML/text email and linked PDF; 25 reviewed glossary pages; decoder and checklist; admin core; privacy/consent; affiliate links and guarded ads; PWA manifest |
-| R2 Reseller pilot | Receive useful sponsored discounts without changing recommendations | 5–10 verified pilot resellers; free-credit offers, moderation, coupon pools, report-email matching, email operations, consented visitor explorer; internal aggregate insights |
-| R3 Expansion | Return for ownership support and use new acquisition channels | UK/IE/AU only after market review; lifecycle email; reseller billing/API; advanced SEO; public MCP then authenticated tools; Expo app; direct sponsorship; Tier A sales and separately gated Tier B evaluation |
-| R4 Optional growth | Expand languages and separately approved commercial capabilities | Tier C leads, onsite offers, redemption integrations, non-English locales, paid connector plans, optional app ads; later markets assessed separately |
+| R0 internal foundation | Establish feasibility; not a live product phase | Data rights/evaluation, score methodology, headless vendor/auth/CMS probes, API/entity contracts and content review |
+| P1 / R1 US web | Choose, understand, compare, save and optionally email | About 100 selected verified vehicle configurations and 50 tire models at size level; core form/results/refine/compare, HTML/text email/PDF, 25 reviewed glossary pages, decoder/checklist, staff/privacy, scripts/reference data, SEO and ad-ready public education |
+| P2 / R2 assisted advice and partner pilot | Confirm photo readings and obtain grounded AI explanations; receive eligible discounts | AI analysis/reuse, web photo confirmation, admin CSV import/review; 5–10 resellers, moderated email offers, code pools, consented operations and internal aggregate insights |
+| P3 / R3 multichannel ownership | Use web/app garage/history and tire advice from an AI client | Expo app and shared account APIs, basic reminders, photo integration, public MCP then scoped authenticated tools; real device/client acceptance and distribution gates |
+| P4 / R4 core completion and growth operations | Manage lifecycle support, find richer reviewed guidance and operate the complete platform | Remaining lifecycle controls, curated vehicle/size SEO, correction/republication operations, approved commercial operations and operational handover; optional markets/audience/extra growth retain explicit gates |
 
-R3 is a set of independently gated workstreams, not a single release train. No tire checkout, inventory, physical tire testing, scraping of proprietary test results, or consumer login is required for R1. Revenue starts with retailer referrals and compliant display ads. Audience sales are not a dependency of the core product.
+No tire checkout, inventory, physical tire testing, proprietary test scraping or consumer login is required for P1. Revenue starts with retailer referrals and compliant display ads, with house fallback while approvals are pending. Audience sales and optional languages/markets do not block completion of the committed core; an unfinished committed feature cannot be silently reclassified as optional. See the scope/evidence register rule in docs/12.
 
 ## Experience principles
 
@@ -213,23 +215,25 @@ Later programmatic vehicle/size pages stay noindex until unique data and editor 
 
 ## Admin product design
 
+P1 staff uses shared ingestion services through scripts and operational status APIs. P2 adds versioned CSV templates, private upload, validation, diff/rejection preview, approval/publish and rollback controls; [the ingestion contract](13-domain-data-and-imports.md) forbids direct table editing. AI model/prompt changes require evaluated version publication, not arbitrary production prompt edits.
+
 Use a consistent shell: left navigation grouped as Overview, Audience, Partners, Content, Communications, Data operations, Privacy, and Settings. Show date range, market, source, and freshness on every metric. Empty integrations read “Not connected,” not zero revenue. Every mutation shows success/failure and writes an audit event. Restricted contact data is revealed only by Owner/Privacy officer with a logged access reason.
 
 | Module | R1 behavior | Later completion |
 | --- | --- | --- |
 | 1 Overview | Sessions where measurable, assessment funnel, reports, sends, affiliate clicks, freshness | Reconciled earnings, changes, weekly digest |
-| 2 Traffic/content | Consented aggregate pages/channels, review dates | Search Console and decay analysis |
+| 2 Traffic/content | Consented aggregate pages/channels, review dates, Search Console setup and available aggregate metrics | Deeper decay analysis |
 | 3 Engagement | Form completion, compare, explanations, tools; no field text | Consented recordings and experiments only in later scoped rollout |
 | 4 Affiliates | Directory, applications, restrictions, approved destinations, link health | Network imports, reconciliation, payouts |
-| 5 Ad revenue | Slot configuration and measurement status | Earnings imports and RPM |
+| 5 Ad revenue | Slots, network readiness, aggregate earnings imports/RPM and measurement status | Additional providers and sponsorship reconciliation |
 | 6 Marketing | Content workflow and consent counts | Campaigns, lifecycle composer, UTM, outreach, experiments |
 | 7 Data | Imports, provenance, freshness, coverage, recall status, engine preview | Expanded markets and historical analysis |
-| 8 Resellers/offers | Navigation absent | R2 verification, moderation, simulation, code pools; R3 billing |
+| 8 Resellers/offers | Navigation absent | R2 verification, moderation, simulation, code pools; R4 billing |
 | 9 Email | Send status, retry/unknown queue, suppression, template version | R2 topic analytics, domain health, feedback |
-| 10 SEO | Metadata, safe templates, redirects, canonical/sitemap/robots preview | Strategic pages, search data, audits |
+| 10 SEO | Metadata, redirects, canonical/sitemap/robots, strategic page register, Search Console and baseline audits | P4 curated programmatic expansion and deeper audits |
 | 11 Privacy | Consent policies, request queue, deadlines, fulfillments, cookie registry | Buyer acknowledgements and assessments |
-| 12 Audience/data | Aggregate dashboards; exports disabled | R2 consented explorer; R3/4 separately approved products |
-| 13 Ad operations | ads.txt, slots, house ads, labels, blocks, synthetic exclusions | Sponsorship scheduler and revenue reconciliation |
+| 12 Audience/data | Aggregate dashboards; exports disabled | R2 consented explorer; optional R4 separately approved products |
+| 13 Ad operations | ads.txt, slots, house ads, labels, blocks, synthetic exclusions | P4 sponsorship scheduler and expanded reconciliation |
 | 14 App | Navigation absent | R3 reminders/push, versions, crashes, disclosures, kill switches |
 | 15 Connector | Navigation absent | R3 usage, quotas, tool versions, directory status |
 
@@ -241,15 +245,25 @@ Onboarding is a stepper: verify email and MFA → business/location details → 
 
 Dashboard shows aggregate delivery, eligible clicks, issued codes, reported redemptions, freshness, and pilot credit status. Offer editor groups Content, Applicability, Locations, Dates/caps, Redemption, and Preview. Save draft never publishes; submit creates a review version. Edits to live offers keep the approved version serving until replacement approval. Trusted date/code edits still pass validity, budget, and audit checks.
 
-Code upload provides column preview, invalid/duplicate counts, atomic final import, and a downloadable error report. Unique codes are concealed from analyst users and public listings. Redemption correction appends an adjustment, not an overwrite. Team, agreements, and audit history are available to the organization owner. R3 adds a clear prepaid ledger, invoices, auto-top-up control, and scoped API keys; no tire consumer payments.
+Code upload provides column preview, invalid/duplicate counts, atomic final import, and a downloadable error report. Unique codes are concealed from analyst users and public listings. Redemption correction appends an adjustment, not an overwrite. Team, agreements, and audit history are available to the organization owner. R4 adds a clear prepaid ledger, invoices, auto-top-up control, and scoped API keys; no tire consumer payments.
 
-## Native app and connector from R3
+## Native app and connector from P3 / R3
 
-App navigation: Garage, Assess, Learn, Offers, Settings. Garage cards show installed set, next action, and confidence/freshness. A first-run guest can use assessments and local records; sign-in is offered when requesting sync. Camera/VIN flow is Capture → Recognized fields → Confirm → Save, with manual fallback and no automatic fitment approval from OCR. Store photos only when deliberately saved, with metadata removed.
+App navigation: Garage, Assess, Learn, Offers, Settings. Garage cards show installed set, next action, and confidence/freshness. A first-run guest can use assessments and local records; sign-in is offered when requesting sync. Camera/VIN flow is Capture → Recognized fields → Confirm → Save, with manual fallback and no automatic fitment approval from OCR. Temporary tire-photo processing uses the P2 private 24-hour policy; deliberately saved images expire within 30 days and metadata is removed. VIN processing remains a separate optional rights/privacy decision.
 
 Tire-log entries are dated events; reminders show their rule and can be paused. Ask for push permission after creating a reminder. Wallet shows expiry/timezone, seller, terms, code/barcode, and an offline freshness warning. Offline redemption is never guaranteed. Cache the last five reports and chosen content; online recall checks remain visibly separate from cached results. Account deletion is available in Settings. Marketing push has distinct consent and a four-per-month cap with quiet hours.
 
 The public MCP connector exposes the seven source tools using the same fitment, eligibility, pricing, and comparison services. Every result returns provenance, uncertainties, engine version, market/units, and attributed links. Public offers are clearly sponsored and contain no assigned unique codes. Tools do not trigger email or save personal data without an authenticated, purpose-specific user confirmation flow. The developer page includes schemas, examples, rate limits, data-use terms, and version/deprecation policy.
+
+## Assisted reports and tire photos from P2
+
+The [AI/photo specification](14-ai-analysis-and-photo-design.md) defines the full flow. Offer optional tire-photo upload beside manual input, with a privacy notice, upload/quality/progress states and per-field confirmation/correction. Never apply extracted size, DOT, brand or load/speed values automatically. Show unknown/partial readings and manual recovery; a photo cannot verify roadworthiness or vehicle fitment.
+
+Results retain deterministic facts and add a separately labeled, cited AI explanation when validated. Show pending, unavailable and expired states without blocking advice, comparison or delivery. Explain what was reused and its generation/source dates; a refresh creates a new attachment, not a silent report rewrite. Sending freezes the selected explanation or fallback; no automatic resend on AI completion. Public shares exclude images, prompts and unreviewed personal context.
+
+## SEO and advertising product surfaces
+
+Apply the [P1 SEO and advertising contract](12-live-product-phases-and-gap-review.md#seo-from-the-first-live-release). Public education carries reviewed indexable content and primary display inventory; the home assessment remains ad-free. Manual allowlisted slots, reserved layout space, consent/no-fill fallbacks, disclosures and network operations are launch work. Private reports stay noindex and third-party-ad-free by default. Search Console setup, strategic page ownership and baseline crawl checks start in P1, with deeper programmatic expansion P4. Neither search rank nor ad income is guaranteed.
 
 ## Accessibility and state coverage
 
@@ -269,6 +283,8 @@ Meet WCAG 2.2 AA across public pages, dialogs, forms, compare, admin, partner po
 | Ads blocked/unfilled | Reserved house promotion only where slots are allowed; never shift cards or bypass consent |
 
 ## Product success measures
+
+Track phase completion, public-content organic acquisition and eligible ad revenue/net contribution alongside report completion and trust. P2 adds AI validated-output/reuse/cost/correction rates and photo confirmation/abstention; P3 adds real app/MCP journey completion. Do not collect private inputs/images as analytics dimensions.
 
 R1 targets from the source: assessment completion at least 70%, median completion at most 75 seconds, explanation engagement at least 25%, affiliate CTR at least 8% of results viewers, and report email request rate at least 35%. Offers opt-in target is 15% of report requesters, tracked separately from confirmed subscriptions. These are hypotheses to evaluate after launch, not facts or release blockers.
 

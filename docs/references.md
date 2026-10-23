@@ -51,3 +51,19 @@ Checked October 22, 2026. These sources support available mechanisms; the [conso
 - [Neon connection pooling](https://neon.com/docs/connect/connection-pooling): transaction pooling and unsupported session assumptions; use bounded pools and transaction-local context.
 - [Inngest schedules and delayed starts](https://www.inngest.com/docs/durable-execution/guides-and-advanced/events-and-triggers/schedules-and-delayed-starts): scheduled execution without a persistent application timer.
 - [ClickHouse introduction](https://clickhouse.com/docs/get-started/about/intro) and [Redis data-store guide](https://redis.io/docs/latest/develop/get-started/data-store/): reviewed as alternatives; removed from the current dependency plan because their distinct capabilities are not yet a demonstrated requirement.
+
+## Live phases, reference data, SEO, advertising and AI
+
+Checked October 22, 2026 for the proposed D30–D35 amendment. Four phases, refresh/retention defaults, table structures and test thresholds are project proposals, not external requirements. Recheck source contracts, model/data controls and network/client policies at activation.
+
+- [NHTSA datasets and APIs](https://www.nhtsa.gov/nhtsa-datasets-and-apis): official recall datasets/dictionaries across product types, including tires; use complete-source validation and recorded freshness.
+- [NHTSA vPIC API](https://vpic.nhtsa.dot.gov/api/Home/Index): vehicle/manufacturer metadata and equipment plant codes, including tire/retread types and supported year limits; source metadata is not verified tire fitment.
+- [Google SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide): useful accessible public content and crawl/index practices; no ranking guarantee.
+- [Google guidance on generative AI content](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content): quality and added value matter; mass-generated content without value can violate spam policies.
+- [AdSense placement guidance](https://support.google.com/adsense/answer/1282097?hl=en): recognizable ads, permitted labels and usable placement. The project's no-form/two-result-slot/density rules are its own stricter choices.
+- [Google publisher CMP requirements](https://support.google.com/adsense/answer/13554116?hl=en): certified TCF CMP requirement for personalized ads to EEA/UK/Switzerland users; certification alone does not establish legal compliance.
+- [OpenAI Responses API](https://developers.openai.com/api/reference/responses/overview): server-side API integration boundary; pin and validate supported model/options before implementation.
+- [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs): constrained schemas help structure results but do not establish factual correctness.
+- [OpenAI images and vision](https://developers.openai.com/api/docs/guides/images-vision): image inputs and known recognition limitations; the project requires human confirmation and makes no photo-based safety diagnosis.
+- [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data): endpoint/model/account retention distinctions, application state and abuse monitoring; `store: false` is not an unconditional zero-retention guarantee.
+- [OpenAI plugin documentation](https://developers.openai.com/plugins): current MCP-backed plugin packaging/testing/publishing. The former Apps SDK landing page redirects here at review time; client availability and listing acceptance still need P3 evidence.

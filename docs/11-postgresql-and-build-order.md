@@ -2,6 +2,8 @@
 
 **Architecture amendment 1.0 · October 22, 2026.** The user requested a database-first implementation sequence and removal of unnecessary ClickHouse/Redis dependencies. This approved amendment changes the implementation target; it does not claim implementation, load-test results or procurement. It supersedes the affected parts of AS02/AS07 and the former overlapping frontend schedule. The original approvals remain recorded against their original commits in the [signoff record](07-stack-and-layer-signoff.md#7-signoff-decisions).
 
+**Later proposed extension:** [D30–D35](12-live-product-phases-and-gap-review.md) preserve this approved decision, repeat construction gates within each live phase, and add required P2 AI artifacts/exact-match reuse in PostgreSQL. That business store is distinct from the optional profiled computation cache described below. No Redis, ClickHouse or QStash dependency returns. Earlier workload/effort figures must be re-estimated for the added scope.
+
 ## Decision
 
 Use **Neon PostgreSQL for operational data, first-party analytics, application rate limits, and any measured need for a shared computation cache**. Remove ClickHouse Cloud, Upstash Redis, and Upstash QStash from the planned stack, provisioning, secrets, callbacks, costs, and test-environment requirements. There is no application code or infrastructure to migrate today. The supplied source archive remains historical evidence.
