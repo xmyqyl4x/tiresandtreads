@@ -14,6 +14,8 @@ This current design defines the technology choices, functional modules, logical 
 
 ## 1. Review scope
 
+**New deployment proposal, not a retrospective approval:** [DP01–DP08](16-deployment-and-local-environments.md#proposed-decisions-for-signoff) define local Docker dev/stage and review managed PostgreSQL, self-hosted PostgreSQL behind Vercel, and full application hosting elsewhere. AS02's approved Vercel/Neon selection remains until an alternative is explicitly accepted. The proposal preserves standard PostgreSQL, separate CMS ownership, inward layers, PostgreSQL consolidation and the current recovery objectives.
+
 The initial release remains **R1: US English web**, preceded by **R0: foundation and integration proof**. It includes assessment, recommendations, refinement, four-item comparison, quote checking, private reports, email/PDF delivery, education, staff administration, consent/privacy, and the planned analytics foundation. Affiliate and advertising capabilities activate only after their existing gates pass.
 
 The current baseline incorporates these refinements:

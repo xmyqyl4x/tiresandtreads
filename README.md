@@ -6,6 +6,8 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
+**Deployment plan for review:** [Hosting options and local dev/staging](docs/16-deployment-and-local-environments.md) compares Vercel with managed or self-hosted PostgreSQL and hosting the app elsewhere. It defines isolated Docker environments, testing before GitHub push, provider checks, migrations, rollout and recovery. DP01–DP08 are proposed; the approved production baseline remains Vercel + Neon until a different option is accepted.
+
 **Approved implementation working task list:** [119 planned PRs across Phases 1–4](docs/15-project-task-list.md), with key-task checklists, explicit dependencies, construction gates, responsible roles and a status/assignee/PR-evidence ledger. [Approved October 23, 2026](docs/15-project-task-list.md#approval-record). Ten separately gated options remain parked. Start with P1-PR-001; all implementation is unstarted.
 
 **Approved current plan:** [Four live releases and eight-point gap review](docs/12-live-product-phases-and-gap-review.md), with [domain data/imports](docs/13-domain-data-and-imports.md) and [AI analysis, PostgreSQL reuse and tire photos](docs/14-ai-analysis-and-photo-design.md). SEO and advertising are P1 foundations; AI/photo/admin imports arrive P2; app/MCP P3; lifecycle and growth operations P4. Earlier approvals remain tied to their reviewed commits; this amendment was [approved on October 23, 2026](docs/12-live-product-phases-and-gap-review.md#approval-record).

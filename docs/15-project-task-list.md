@@ -212,6 +212,8 @@ These parked tickets are excluded from the 119 core-PR count. Their [activation/
 
 ## Traceability and next action
 
+**Deployment supplement under review:** [The hosting/local-environment proposal](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) assigns local infrastructure, pre-push verification, production topology and release evidence to these existing cards. DP01–DP08 are proposed; all core counts/statuses/dependencies and the approval record below remain intact. Resolve the proposal before starting Phase 1, and record the chosen production option during S0.
+
 The [work-package-to-PR map](tasks/work-package-pr-map.md) covers E01–E42 and exposes optional E32/E33 work separately. A work-package link is an ownership/navigation aid, not acceptance of all of its source requirements. At readiness, select exact rows from docs/05; at acceptance, attach tests and shipped version. Preserve all 137 original FR IDs and the existing CORE/NFR/ENG/CAP/UC/AT/DB identifiers.
 
 The next implementation action is [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001). Its outputs establish launch coverage, source rights, accountable owners and a defensible estimate. Then complete P1-PR-002/003 and start database migrations in [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004). Product frontend work remains behind [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031).

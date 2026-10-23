@@ -11,3 +11,5 @@ Application development has not started. The architecture and engineering specif
 7. Update the master task ledger, task-card checkboxes, actual PR/commit/test evidence, traceability, contracts, operational documentation, and relevant design decisions. Mark Accepted only when the declared outcome is verified; phase release cards also require the live production journey. Changes to scope, permissions, rankings, or architecture need an explicit rationale and review.
 
 Documentation-only work uses link/structure/consistency checks. Implementation is complete only when the [definition of done](docs/08-test-driven-development.md#definition-of-ready-and-done) is satisfied.
+
+The [deployment/local-environment proposal](docs/16-deployment-and-local-environments.md#local-validation-before-github) defines the requested workflow for testing locally before GitHub push, then verifying independently in CI and on the selected host. Local setup and verification commands will be implemented in P1-PR-002; do not report them as available today or reset existing workstation resources to approximate them.

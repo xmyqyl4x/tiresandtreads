@@ -16,6 +16,8 @@ Use the [project task list](15-project-task-list.md) for day-to-day execution of
 
 ## Development process for every work package
 
+The [deployment proposal](16-deployment-and-local-environments.md) maps local dev/stage, pre-push verification, hosting choice and release operations into existing PRs. Review DP01–DP08 before Phase 1; resolve the production host, region, cost and operator in P1-PR-001/003. [The deployment task mapping](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) preserves all 119 core IDs, four live phases and S0–S6 ordering. It does not silently replace the approved Neon baseline or authorize provisioning.
+
 1. Establish readiness: requirement/UC/AT IDs, actors, acceptance examples, layer/table ownership, adverse paths, and realistic test data.
 2. Write and run the smallest failing unit/application use-case tests for the next behavior. For a database or API invariant, begin with a failing real boundary test as well.
 3. Implement the behavior in its owning layer, then refactor with tests passing. Browser, staff, future mobile and MCP adapters share the same application/domain implementation.

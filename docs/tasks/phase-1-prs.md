@@ -8,6 +8,8 @@
 
 ## PR sequence
 
+**Proposed deployment detail:** [The deployment task mapping](../16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) expands P1-PR-001/002/003 with hosting decisions, isolated local environments, exact-commit pre-push checks and real-host proofs. It also identifies database, API and release-card evidence. This supplement is for review and does not mark any card complete or replace the approved hosting choice automatically.
+
 | PR | Stage | Proposed title |
 | --- | --- | --- |
 | [P1-PR-001](#p1-pr-001) | S0 | Lock Phase 1 scope, data rights and launch coverage |

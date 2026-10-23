@@ -99,6 +99,8 @@ Run SEO/ad browser checks across consent, ad blocker, empty fill and slow script
 
 ## CI and release gates
 
+The [local validation proposal](16-deployment-and-local-environments.md#local-validation-before-github) specifies isolated dev/test/local-stage resources and exact-commit checks before GitHub push, followed by clean CI and real-host/provider evidence. Tests grow with the accepted construction layer: schema first, then repositories/services/APIs, and browser/templates after S4. Local provider substitutes do not satisfy hosted acceptance. Proposed tooling remains to be implemented in P1-PR-002.
+
 These are planned CI check names to implement in E02, not commands available today.
 
 | Gate | When | Required checks and result |
