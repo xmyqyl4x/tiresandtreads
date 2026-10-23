@@ -2,7 +2,7 @@
 
 **Implementation order:** the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates) require database, data-access/entity, business-service and API acceptance before product frontend code. UX specification and content research may proceed earlier. The [PostgreSQL consolidation](11-postgresql-and-build-order.md) changes infrastructure and sequence, while preserving the product journeys and consent requirements below.
 
-**Baseline 1.1 (proposed capability amendment) · October 22, 2026**
+**Baseline 1.1 (capability amendment approved October 23, 2026) · October 22, 2026**
 
 Tires & Tread is an independent tire-selection and education service. A driver enters their vehicle and conditions, receives suitable options with evidence and estimated installed costs, compares a shop quote, and leaves with practical questions for an installer. The site must explain uncertainty as clearly as it explains recommendations.
 
@@ -12,7 +12,7 @@ This specification establishes the target experience. The [source review](00-sou
 
 Each feature starts with an actor, preconditions, normal outcome, alternate/denied outcomes, and observable acceptance examples before implementation. The [UC01–UC18 catalogue](08-test-driven-development.md#use-case-catalogue) maps the journeys below to application, functional API/UI, and end-to-end tests. Examples must cover empty/unknown data, permission denial, failure/retry, relevant concurrent actions, and accessible interaction. Product/domain reviewers approve the expected behavior; passing tests against invented tire facts do not establish correctness.
 
-Use the [test-driven cycle](08-test-driven-development.md#required-development-cycle) for behavioral increments. Web, staff, future mobile, and MCP interfaces use the same application/domain services and versioned contracts under the [coding standards](10-coding-standards.md). A screen is complete only when the real backing behavior, adverse paths, and applicable accessibility/performance checks pass. The proposed capability amendment updates release scope while preserving the visual system and core safety/consent principles.
+Use the [test-driven cycle](08-test-driven-development.md#required-development-cycle) for behavioral increments. Web, staff, future mobile, and MCP interfaces use the same application/domain services and versioned contracts under the [coding standards](10-coding-standards.md). A screen is complete only when the real backing behavior, adverse paths, and applicable accessibility/performance checks pass. The approved capability amendment updates release scope while preserving the visual system and core safety/consent principles.
 
 ## Release boundaries
 

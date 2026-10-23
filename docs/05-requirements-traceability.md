@@ -4,7 +4,7 @@ This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied 
 
 Package IDs remain stable. E04a/E04b distinguish schema from data access; `a`/`b` splits in E10/E12/E13/E15/E17/E18 distinguish services from later presentation, with E34/S4 providing common API exposure/acceptance. A row naming a base package requires all relevant parts. S1–S4 precede all product frontend work; see the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates). Rows that span releases retain an explicit first slice and completion slice. The verification column describes evidence required before marking the requirement implemented. The source remains available for detailed field lists where there is no stated change.
 
-**Proposed release amendment:** [P1–P4](12-live-product-phases-and-gap-review.md) maps to R1–R4. All 137 original FR IDs remain; release assignments below move paid operations, markets/advanced SEO, remaining lifecycle and audience options to P4, while app/MCP remain committed P3. Search Console/register/baseline audits move to P1. CAP-01–CAP-08 supplement source scope for the requested additions. Nothing is implemented yet.
+**Release amendment approved October 23, 2026:** [P1–P4](12-live-product-phases-and-gap-review.md) maps to R1–R4. All 137 original FR IDs remain; release assignments below move paid operations, markets/advanced SEO, remaining lifecycle and audience options to P4, while app/MCP remain committed P3. Search Console/register/baseline audits move to P1. CAP-01–CAP-08 supplement source scope for the requested additions. Nothing is implemented yet.
 
 ## Extended assessment
 

@@ -1,6 +1,6 @@
 # AI analysis, persistent reuse and tire photos
 
-**Proposed specification 1.0 · October 22, 2026.** P2 adds AI-assisted report explanations, PostgreSQL reuse and web tire-photo extraction; P3 reuses them from the Expo app and scoped AI-client tools. Nothing here is implemented. The deterministic engine, source rights, privacy, database-first construction and TDD remain prerequisites. This specification extends [database design](09-database-design.md) and [four live releases](12-live-product-phases-and-gap-review.md).
+**Specification 1.0 · October 22, 2026 · Approved October 23, 2026.** P2 adds AI-assisted report explanations, PostgreSQL reuse and web tire-photo extraction; P3 reuses them from the Expo app and scoped AI-client tools. Nothing here is implemented. The deterministic engine, source rights, privacy, database-first construction and TDD remain prerequisites. This specification extends [database design](09-database-design.md) and [four live releases](12-live-product-phases-and-gap-review.md).
 
 ## AI responsibility and provider boundary
 

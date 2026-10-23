@@ -6,7 +6,7 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
-**Current review proposal:** [Four live releases and eight-point gap review](docs/12-live-product-phases-and-gap-review.md), with [domain data/imports](docs/13-domain-data-and-imports.md) and [AI analysis, PostgreSQL reuse and tire photos](docs/14-ai-analysis-and-photo-design.md). SEO and advertising are P1 foundations; AI/photo/admin imports arrive P2; app/MCP P3; lifecycle and growth operations P4. Earlier approvals remain tied to their reviewed commits; this amendment awaits review.
+**Approved current plan:** [Four live releases and eight-point gap review](docs/12-live-product-phases-and-gap-review.md), with [domain data/imports](docs/13-domain-data-and-imports.md) and [AI analysis, PostgreSQL reuse and tire photos](docs/14-ai-analysis-and-photo-design.md). SEO and advertising are P1 foundations; AI/photo/admin imports arrive P2; app/MCP P3; lifecycle and growth operations P4. Earlier approvals remain tied to their reviewed commits; this amendment was [approved on October 23, 2026](docs/12-live-product-phases-and-gap-review.md#approval-record).
 
 **Approved architecture foundation:** build PostgreSQL schema → data access/entities → business services → exposed APIs → frontends. The [PostgreSQL and build-order amendment](docs/11-postgresql-and-build-order.md), [approved on October 22, 2026](docs/11-postgresql-and-build-order.md#approval-record), removes ClickHouse, Redis and QStash dependencies, while retaining first-party analytics, limits and bounded caching in PostgreSQL. The [stack/layer signoff](docs/07-stack-and-layer-signoff.md) preserves the original AS01–AS07 approval and identifies the amended AS02/AS07 choices. R0 integration evidence and release gates remain required.
 
@@ -33,7 +33,7 @@ Implementation follows the [contribution guide](CONTRIBUTING.md). Each behaviora
 - [Design tokens](docs/design-tokens.json), the numeric baseline for implementation.
 - [External reference register](docs/references.md), with primary sources checked for the plan.
 
-The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, architecture decisions/history in `docs/07`, engineering specifications in `docs/08` through `docs/10`, the approved amendment in `docs/11`, and the proposed extensions in `docs/12` through `docs/14` govern the planned implementation. Source conflicts are recorded in `docs/00`; the database specification provides the detailed relational contract behind the architecture overview. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
+The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, architecture decisions/history in `docs/07`, engineering specifications in `docs/08` through `docs/10`, the approved amendment in `docs/11`, and the approved extensions in `docs/12` through `docs/14` govern the planned implementation. Source conflicts are recorded in `docs/00`; the database specification provides the detailed relational contract behind the architecture overview. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
 
 ## Delivery approach
 

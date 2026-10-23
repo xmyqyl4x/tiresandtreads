@@ -1,6 +1,6 @@
 # Technology stack and application layer signoff
 
-**Version 1.2 · October 22, 2026 · Status: original AS01–AS07 and PostgreSQL/build-order approvals retained; additional phase/domain/AI changes proposed for review.**
+**Version 1.2 · October 22, 2026 · Status: original AS01–AS07 and PostgreSQL/build-order approvals retained; additional phase/domain/AI changes approved October 23, 2026.**
 
 Build Tires & Tread as one modular TypeScript web application with a shared, deterministic tire recommendation engine. Use managed services for hosting, identity, persistence, durable jobs, email, and operational monitoring. The application owns its business rules, permissions, report history, and delivery state.
 
@@ -10,7 +10,7 @@ This current design defines the technology choices, functional modules, logical 
 
 **Current amendment:** [D28/D29](11-postgresql-and-build-order.md) requires database → data access/models → business services → exposed APIs → frontends, removes Redis/ClickHouse/QStash, and uses PostgreSQL events/aggregates, SQL quotas and measured caching. Sections 1–6 and 8 below describe this amended target; section 7 preserves the original reviewed decisions and identifies the changed IDs. The user approved this amendment and its merge into main on October 22, 2026; see the [amendment approval record](11-postgresql-and-build-order.md#approval-record). Integration evidence remains required.
 
-**Proposed additional amendment:** [D30–D35 and the eight-point review](12-live-product-phases-and-gap-review.md) add four usable phases, P1 domain/SEO/ad operations, P2 OpenAI inference/photo adapters and persistent PostgreSQL artifacts, and committed P3 app/MCP. These additions update current implementation direction but await review; the historical AS01–AS07 approval below is preserved.
+**Approved additional amendment:** [D30–D35 and the eight-point review](12-live-product-phases-and-gap-review.md) add four usable phases, P1 domain/SEO/ad operations, P2 OpenAI inference/photo adapters and persistent PostgreSQL artifacts, and committed P3 app/MCP. These additions were [approved on October 23, 2026](12-live-product-phases-and-gap-review.md#approval-record); the historical AS01–AS07 approval below is preserved.
 
 ## 1. Review scope
 

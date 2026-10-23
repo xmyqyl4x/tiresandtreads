@@ -1,6 +1,6 @@
 # Delivery and privacy operations
 
-**Baseline 1.1 (proposed capability amendment) · October 22, 2026.** This specification makes reports, email, commercial offers, and visitor data independently permissioned. A contact address is not a general license to track, market, or share. Current legal applicability and market policy must be reviewed before launch; the controls below are product and engineering requirements.
+**Baseline 1.1 (capability amendment approved October 23, 2026) · October 22, 2026.** This specification makes reports, email, commercial offers, and visitor data independently permissioned. A contact address is not a general license to track, market, or share. Current legal applicability and market policy must be reviewed before launch; the controls below are product and engineering requirements.
 
 ## Report delivery workflow
 

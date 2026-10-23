@@ -1,6 +1,6 @@
 # Domain reference data and ingestion
 
-**Proposed specification 1.0 · October 22, 2026.** Companion to [database design](09-database-design.md), using its typed-column, nullability, immutable **V** dataset-row and FK conventions. These are schema and workflow contracts, not implemented migrations or runnable commands. P1 delivers the domain schema and script pipeline; P2 adds staff CSV controls over the same services. [Four live phases](12-live-product-phases-and-gap-review.md) govern delivery.
+**Specification 1.0 · October 22, 2026 · Approved October 23, 2026.** Companion to [database design](09-database-design.md), using its typed-column, nullability, immutable **V** dataset-row and FK conventions. These are schema and workflow contracts, not implemented migrations or runnable commands. P1 delivers the domain schema and script pipeline; P2 adds staff CSV controls over the same services. [Four live phases](12-live-product-phases-and-gap-review.md) govern delivery.
 
 ## Source authority and initial coverage
 

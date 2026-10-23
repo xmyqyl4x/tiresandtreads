@@ -1,6 +1,6 @@
 # Live product phases and capability review
 
-**Proposed amendment 1.0 · October 22, 2026.** This answers the owner's eight final planning questions and defines four usable production releases. Application implementation has not started: no production database, imports, API, AI calls, cache, photo processing, or frontends exist in this repository. These specifications require review and implementation evidence; earlier approvals do not retroactively approve this amendment.
+**Amendment 1.0 · October 22, 2026 · Approved October 23, 2026.** This answers the owner's eight final planning questions and defines four usable production releases. Application implementation has not started: no production database, imports, API, AI calls, cache, photo processing, or frontends exist in this repository. The requesting user approved these specifications and their merge into main on October 23, 2026; implementation and release evidence remain required.
 
 The approved database-first order, PostgreSQL consolidation, TDD, seven application layers, deterministic recommendations, consent defaults, and separation of commercial interests remain. [Domain data and ingestion](13-domain-data-and-imports.md) and [AI, reuse and photos](14-ai-analysis-and-photo-design.md) extend the [database contract](09-database-design.md). This document controls revised phase assignments wherever earlier source material differs.
 
@@ -72,4 +72,12 @@ The inbound AI plugin/channel is distinct from outbound AI inference used to enr
 
 ## Approval and evidence status
 
-This is the requested review proposal, not a production activation or merge approval. D30–D35, CAP-01–CAP-08, E35–E42, UC13–UC18, AT21–AT28 and DB21–DB28 identify the added scope. [The implementation plan](04-implementation-plan.md) defines package dependencies and phase gates; [verification](06-verification.md) distinguishes document checks from unrun application tests. Costs, selected model, licensed-source fields and elapsed dates are resolved through phase feasibility evidence before implementation commitments.
+This is the approved planning baseline; the approval record below authorizes its documentation merge. Production activation remains subject to the specified release gates. D30–D35, CAP-01–CAP-08, E35–E42, UC13–UC18, AT21–AT28 and DB21–DB28 identify the added scope. [The implementation plan](04-implementation-plan.md) defines package dependencies and phase gates; [verification](06-verification.md) distinguishes document checks from unrun application tests. Costs, selected model, licensed-source fields and elapsed dates are resolved through phase feasibility evidence before implementation commitments.
+
+## Approval record
+
+On **October 23, 2026 (America/Los_Angeles)**, the requesting user approved the four-phase delivery, domain data and AI capabilities amendment and authorized its merge into `main`. The reviewed baseline is commit [`6724939`](https://github.com/xmyqyl4x/tiresandtreads/commit/67249397934550090ee994c5d4436e599db97e96) on `codex/live-phases-domain-ai-plan`.
+
+The user's instruction was: “Approve these updates and merge the four-phase delivery, domain data, and AI capabilities branch into main.” This approves D30–D35, CAP-01–CAP-08, E35–E42, UC13–UC18, AT21–AT28, DB21–DB28 and the associated product, architecture, database, privacy, TDD, coding, traceability and contribution documentation. The approval includes the four usable live phases, launch SEO/advertising foundations, reference-data/import design, bounded AI analysis, PostgreSQL reuse, private tire-photo confirmation and shared web/app/MCP delivery.
+
+The approval changes planning status and authorizes the documentation merge. Application implementation remains unstarted; data/provider rights, model evaluation, costs and elapsed estimates, technical acceptance, privacy review and production release gates remain required. Existing AS01–AS07 and earlier amendment approvals remain preserved against their reviewed commits.

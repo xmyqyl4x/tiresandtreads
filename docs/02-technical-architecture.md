@@ -1,6 +1,6 @@
 # Technical architecture
 
-**Baseline 1.4 (proposed capability amendment) · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
+**Baseline 1.4 (capability amendment approved October 23, 2026) · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
 
 **Architecture history and current amendment:** the user approved AS01–AS07 on October 22, 2026. The [signoff record](07-stack-and-layer-signoff.md) preserves that reviewed baseline. The subsequent [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) changes AS02/AS07 implementation selections and requires database → data access/models → business services → APIs → frontends. Separate CMS ownership and the seven logical layers remain. R0 and release evidence are still required.
 
