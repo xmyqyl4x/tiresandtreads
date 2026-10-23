@@ -14,6 +14,10 @@ On **October 22, 2026 (America/Los_Angeles)**, the requesting user approved engi
 
 The user's approval was: “Approve these updates and merge the TDD, database design, and coding standards branch into main.” This approves the documentation and its merge into `main`. Implementation remains unstarted; R0 validation, specialist/provider evidence, and release gates remain required.
 
+## Current build-order and storage amendment
+
+The requesting user subsequently directed database-first construction and asked to remove unnecessary ClickHouse/Redis dependencies. [D28/D29 and their assessment](11-postgresql-and-build-order.md) replace those services, including QStash transport, with PostgreSQL analytics/limits and measured caching; Inngest still executes durable work. The plan now gates schema → data access/entities → business services → APIs → frontends. Original approval records above remain tied to the reviewed commits; this amendment records the new direction and detailed outcome without implying a new merge approval or performance certification.
+
 ## Review findings
 
 The [source inventory](sources/README.md) distinguishes three kinds of evidence: the editable v2.1 requirements, a PDF export of those requirements, and the visual designs supplied as PDF and PNG. The requirements PDF contributes no additional numbered requirements. There is no finished HTML email, printable report layout, admin design, reseller design, or native-app design among the supplied screens; those are specified in the final package.
@@ -45,7 +49,7 @@ These are deliberate implementation decisions. They supersede only the conflicti
 | D17 | Offers consent collected before an offers program exists | At launch show a truthful “Email me tire offers when available, up to 4 per month” choice only when a monitored confirmation/preferences flow is ready. It grants no reseller access. Unconfirmed requests expire. |
 | D18 | Ads operations, sponsorship, and connector appear in multiple release phases | Basic ads controls ship with launch ad capability. Resellers are R2; public MCP is R3 after web stability; app and market expansion are R3; sponsorship is R3; lead exports are R4. |
 | D19 | Broad beta includes paid bidding before billing works | R2 is an explicitly free-credit pilot, with paid influence zero. R3 enables billing and a bid term capped at 0.10 of normalized offer score, never tire ranking. |
-| D20 | Source predicts 12-week launch without staffing/data assumptions | Plan 16 weeks with three engineers and named fractional specialists, contingent on data/vendor readiness by week 2. Rebaseline at the first gate; no date promise. |
+| D20 | Source predicts 12-week launch without staffing/data assumptions | D28 withdraws the former overlapping 16-week calendar. Re-estimate elapsed time from the new stage/dependency graph at S0 and S2/S4 with three backend-capable engineers and named specialists; vendor/content readiness remains external. Engineering-day totals do not establish a launch date. |
 | D21 | “Edge” handlers and Edge Config are prescribed broadly | Use Node.js Route Handlers for application work; CDN for public caches; Global Config for small public redirect/config snapshots. Avoid a runtime choice driven by old terminology. |
 | D22 | Payload and Drizzle both own the same database tables | AS03 selects a separate logical Payload database from the outset, with separate credentials/migrations. Prove grants and recovery isolation at R0; use stable content IDs and a retryable publication bridge. |
 | D23 | Consumer account optional but reminders survive reinstall; all sync is last-write-wins | Anonymous installs retain local data until cleared; cross-device/reinstall recovery needs an account. Use conflict detection for safety-related records and immutable logs for maintenance. |
@@ -53,6 +57,8 @@ These are deliberate implementation decisions. They supersede only the conflicti
 | D25 | Raw IP hashing, email SHA-256, and report IDs in affiliate sub-IDs invite linkage | Use purpose-specific keyed HMAC lookups, encrypted addresses, coarse analytics geography, and opaque attribution IDs. No report token, email, full ZIP, or free-text quote in third-party telemetry. |
 | D26 | A five-minute webhook event-age cutoff rejects delayed valid retries | Verify the provider's signed delivery timestamp and signature per its contract; dedupe event IDs. Accept old event occurrence times in legitimately re-signed retries. |
 | D27 | PDF cache lasts 30 days but share authorization may expire/revoke earlier | Cache private bytes by immutable version, issue short-lived downloads after authorization, and purge/revoke on deletion. Cache lifetime never grants access. |
+| D28 | User requires ground-up implementation rather than overlapping frontend work | S0 prerequisites → S1 database → S2 data access/entities → S3 business services → S4 exposed/tested APIs → S5 frontends → S6 release evidence. Preserve inward code dependencies and TDD at every stage. |
+| D29 | Separate analytics/cache/transport services lack demonstrated launch need | Replace ClickHouse/Redis/QStash with PostgreSQL event/aggregate tables, atomic SQL limits and optional measured cache; retain Inngest, separate CMS DB and public configuration/CDN. Bound shared load and prove deletion/retry/performance before acceptance. Supersedes affected AS02/AS07 selections. |
 
 ## Decisions still requiring external evidence
 

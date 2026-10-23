@@ -1,8 +1,8 @@
 # Test driven development and acceptance strategy
 
-**Engineering specification 1.0 · October 22, 2026.** This extends the approved architecture with the user's requested test-driven process. It defines implementation obligations; no application tests have run yet. The [implementation plan](04-implementation-plan.md) assigns delivery work, and the [database design](09-database-design.md) and [coding standards](10-coding-standards.md) define the boundaries to test.
+**Engineering specification 1.1 · October 22, 2026.** This extends the approved architecture with the user's requested test-driven process. It defines implementation obligations; no application tests have run yet. The [implementation plan](04-implementation-plan.md) assigns delivery work, and the [database design](09-database-design.md) and [coding standards](10-coding-standards.md) define the boundaries to test.
 
-**Status:** approved by the requesting user on October 22, 2026; see the [engineering approval record](00-source-review.md#engineering-approval-record).
+**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporates the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted.
 
 ## Required development cycle
 
@@ -15,6 +15,12 @@ Every new business behavior and bug fix follows **specify → red → green → 
 5. **Integrate:** verify real persistence, API contracts, and relevant user journeys. Run affected authorization, concurrency, privacy, accessibility, and performance checks. Update traceability and operational documentation in the same change.
 
 For a defect, reproduce it with a failing regression test before fixing it. For legacy behavior without tests, characterize the externally observable contract before changing it. An exploratory vendor spike may precede tests when discovering an unknown API; it remains a spike until findings become contracts, tests, and production-quality code. Pure copy, styling, or documentation edits receive proportionate review rather than artificial unit tests.
+
+## Test order follows construction gates
+
+Apply TDD inside each [S0–S6 stage](04-implementation-plan.md#build-stages-and-exit-gates). S1 starts with failing real PostgreSQL migration/constraint/role cases; S2 adds repository, entity/mapping and transaction tests; S3 proves domain rules and actor use cases; S4 proves running APIs and backend workflows without a product frontend. Product browser/visual tests and actual email/PDF templates begin at S5. This preserves test-first development while enforcing the user's ground-up order. No skipped browser placeholder is counted as passing evidence before the UI exists.
+
+Before S4 exits, exercise analytics receipt/digest deduplication, permission/deletion races, aggregate-generation fencing, SQL quota contention/expiry/key rotation, cleanup and mixed report/analytics load. DB17–DB20 map to UC01/02/05/06/08/09 below. The optional cache must either have parity/privacy/expiry/load evidence or remain unimplemented and explicitly inapplicable. Repeat the complete render/browser/recovery journeys at S5/S6 with real templates and the running backend.
 
 ## Test categories and boundaries
 
@@ -39,15 +45,15 @@ Maintain each case with preconditions, Given/When/Then scenarios, alternate outc
 
 | ID | Actor and business outcome | Normal, alternate, and forbidden behavior | Existing acceptance and work |
 | --- | --- | --- | --- |
-| UC01 | Driver creates a fitment-supported assessment | Resolve axle/wheel package; incomplete/unknown fitment stays unverified; budget cannot weaken eligibility; stale recall feed blocks verified issuance | AT01, AT02, AT17; CORE-01/03; E05–E08 |
-| UC02 | Driver understands recommendations and costs | Up to five supported picks; missing metrics remain unknown; consistent quantity/currency/price basis; paid terms cannot change rankings | AT03, AT20; CORE-03/04; E06/E09 |
+| UC01 | Driver creates a fitment-supported assessment | Resolve axle/wheel package; incomplete/unknown fitment stays unverified; budget cannot weaken eligibility; stale recall feed blocks verified issuance | AT01, AT02, AT17; DB19/DB20; CORE-01/03; E05–E08/E34 |
+| UC02 | Driver understands recommendations and costs | Up to five supported picks; missing metrics remain unknown; consistent quantity/currency/price basis; paid terms cannot change rankings | AT03, AT20; DB20; CORE-03/04; E06/E09/E34 |
 | UC03 | Owner refines a saved report | Save draft with revision; stale concurrent edit conflicts; rerun creates immutable version and meaningful diff; old link stays pinned | FR-EXT-01/02/03; E08/E10 |
 | UC04 | Driver compares tires and a shop quote | At most four items; unknown product stays unverified; invalid cost basis is qualified; 320px interaction preserves labels/focus | AT04, AT05, AT18; E10 |
-| UC05 | Owner shares and revokes report access | View-only redacted report; expiry/revocation enforced on each read/download; share holder cannot edit/send or recover ownership | AT06; E08 |
-| UC06 | Owner requests or cancels delivery | One scheduled identity on retry; actual 60-second cancellation; same report/comparison version; requested report can survive marketing opt-out with no marketing content | AT07, AT19; E11–E13 |
+| UC05 | Owner shares and revokes report access | View-only redacted report; expiry/revocation enforced on each read/download; share holder cannot edit/send or recover ownership | AT06; DB20; E08/E34 |
+| UC06 | Owner requests or cancels delivery | One scheduled identity on retry; actual 60-second cancellation; same report/comparison version; requested report can survive marketing opt-out with no marketing content | AT07, AT19; DB19; E11–E13/E34 |
 | UC07 | Operations reconciles delivery reliably | Accepted timeout stays uncertain; duplicate/delayed events dedupe; scanner GET cannot mutate consent/feedback/coupon state | AT08, AT12, AT13; E13 |
-| UC08 | Visitor controls processing purposes | Restrictive defaults/GPC; core report works without analytics; queued work rechecks withdrawal; R2 removes ineligible offers before dispatch | AT10, AT11; E11/E16, later E23 |
-| UC09 | Subject exercises deletion and retention rights | Verify proportionately; revoke access; erase required stores and mappings; replayed batches/backups cannot reintroduce deleted data | AT14; E14 |
+| UC08 | Visitor controls processing purposes | Restrictive defaults/GPC; core report works without analytics; queued work rechecks withdrawal; R2 removes ineligible offers before dispatch | AT10, AT11; DB17/DB18; E11/E16/E34, later E23 |
+| UC09 | Subject exercises deletion and retention rights | Verify proportionately; revoke access; erase required stores and mappings; replayed batches/backups cannot reintroduce deleted data | AT14; DB18; E14/E34 |
 | UC10 | Editor publishes reviewed education | Role-scoped draft/publish; published revision propagated within target; invalid redirects denied; failure visible/retriable | AT16; E15/E17 |
 | UC11 | Reseller participates in a safe pilot | Tenant isolation in API/export/jobs; one live reservation for last code; no paid charge in pilot; recipient identity stays hidden | AT09, AT15; R2 E21–E26 |
 | UC12 | Returning/partner clients use later capabilities | Web/mobile/MCP share business results; offline conflicts explicit; billing events dedupe and balance; exports require current permission and distinct approvals | R3/R4 E27–E33; add capability-specific cases before activation |
@@ -61,9 +67,9 @@ Build this incrementally:
 1. Unit test the deadline/state transition with an explicit clock: before deadline, at the boundary, after handoff, and already cancelled.
 2. Application test that duplicate commands return one identity, a changed body with the same key conflicts, and unauthorized callers create no outbox/send records.
 3. Integration test two committed transactions racing to cancel/claim using separate connections and a barrier. Assert one winner, stable final state, and no dispatch from a cancelled row. Do not use an outer test rollback that hides commits from the other connection.
-4. API test the 202 response, 200 cancellation, 409 after claim, owner scope, and missing CSRF/origin rejection.
-5. Browser test that the visible state says Scheduled, the deadline is understandable, cancellation updates the screen, and reload preserves the result.
-6. Adapter/recovery test that a lost response after provider acceptance reuses the frozen payload/key and enters reconciliation when safe deduplication can no longer be established.
+4. S3 adapter/recovery test that a lost response after provider acceptance reuses the frozen payload/key and enters reconciliation when safe deduplication can no longer be established.
+5. S4 API test the 202 response, 200 cancellation, 409 after claim, owner scope, and missing CSRF/origin rejection.
+6. S5 browser test that the visible state says Scheduled, the deadline is understandable, cancellation updates the screen, and reload preserves the result; repeat the flow with actual rendered templates.
 
 Fake time is appropriate for domain deadlines. Real database races and workflow integration must also be demonstrated; fake timers alone do not prove durable scheduling.
 
@@ -86,7 +92,7 @@ These are planned CI check names to implement in E02, not commands available tod
 | `quality` | Every code PR | Frozen install, formatting, lint, strict types, import boundaries, secret/dependency checks; all pass |
 | `unit-usecases` | Every behavior PR | Affected unit/property and application use-case tests with coverage; include direct and transitive dependents |
 | `db-contracts` | Persistence/API/auth changes | Real database/role/transaction/migration tests, DTO/OpenAPI compatibility, provider contract fixtures |
-| `functional-smoke` | App behavior PRs | Core running API and one representative browser journey; public/private authorization regressions |
+| `functional-smoke` | S4 API PRs, then S5 app behavior PRs | Running API/public-private authorization checks at S4; add representative real browser journey once S5 UI exists |
 | `render-accessibility` | UI/template changes | Relevant viewport/keyboard/axe checks, email/PDF fixtures; manual checks recorded where needed |
 | `performance` | Query, algorithm, cache, bundle, or workload changes | Before/after profile on representative data and agreed device/concurrency; explain regressions and enforce approved budgets |
 | `release-acceptance` | Before relevant release | All applicable UC/AT and golden cases, full critical browser matrix, provider sandbox checks, security/privacy, restore and deletion evidence |
@@ -101,8 +107,8 @@ On a flaky failure, retain the initial trace and investigate. A retry pass does 
 
 ## Definition of ready and done
 
-**Ready:** named requirement/use case; acceptance examples agreed; UI/API/domain/data ownership identified; adverse paths and test fixtures specified; migrations/permissions/performance risks identified; dependencies and external gates understood.
+**Ready:** preceding construction gate passed for the layer being changed; named requirement/use case; acceptance examples agreed; UI/API/domain/data ownership identified; adverse paths and test fixtures specified; migrations/permissions/performance risks identified; dependencies and external gates understood.
 
-**Done:** red/green evidence for new behavior or a documented proportional exception; relevant unit, functional and use-case tests pass; actual SQL/provider boundaries verified where affected; accessibility/performance budgets checked; migrations/rollback/recovery and observability documented; requirement matrix points to PR, tests, and release evidence. Reviewers verify outcomes and separation of concerns, not just a green test count.
+**Done:** acceptance at the declared construction-stage boundary, without claiming a complete user journey before its presentation exists; red/green evidence for new behavior or a documented proportional exception; relevant unit, functional and use-case tests pass; actual SQL/provider boundaries verified where affected; accessibility/performance budgets checked; migrations/rollback/recovery and observability documented; requirement matrix points to PR, tests, and release evidence. Reviewers verify outcomes and separation of concerns, not just a green test count.
 
-PR evidence should contain requirement/UC/AT IDs, a short behavior change, first failing test and reason, passing check commands/results, relevant database/query evidence, and remaining external validation. A test stub, skipped scenario, or mock-only demo does not mark a requirement implemented. The E19 phase broadens and validates evidence accumulated throughout development.
+PR evidence should contain requirement/UC/AT IDs, a short behavior change, first failing test and reason, passing check commands/results, relevant database/query evidence, and remaining external validation. A test stub, skipped scenario, or mock-only demo does not mark a requirement implemented. The E19 phase broadens and validates evidence accumulated throughout development. S4 backend completion is distinct from full user-facing completion; browser and renderer evidence remains required at S5/S6.

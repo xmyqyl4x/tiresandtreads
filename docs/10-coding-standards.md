@@ -1,8 +1,8 @@
 # Coding standards and maintainable application design
 
-**Engineering specification 1.0 · October 22, 2026.** Apply these standards to implementation of the approved stack and [seven logical layers](07-stack-and-layer-signoff.md#3-logical-application-layers). This is a coding contract and review guide, not a claim that application packages or CI already exist. The [TDD strategy](08-test-driven-development.md) and [database design](09-database-design.md) are companion specifications.
+**Engineering specification 1.1 · October 22, 2026.** Apply these standards to implementation of the approved stack and [seven logical layers](07-stack-and-layer-signoff.md#3-logical-application-layers). This is a coding contract and review guide, not a claim that application packages or CI already exist. The [TDD strategy](08-test-driven-development.md) and [database design](09-database-design.md) are companion specifications.
 
-**Status:** approved by the requesting user on October 22, 2026; see the [engineering approval record](00-source-review.md#engineering-approval-record).
+**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporates the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted.
 
 ## Design principles
 
@@ -36,6 +36,25 @@ Enforce package exports, server-only entry points, cycle detection, and import r
 
 An aggregate is the smallest group that must preserve an invariant atomically: a report/version change, a send and its dispatch state, or a budget reservation. It is not an in-memory object graph of every related table. Load only the fields needed for the command; represent broader screens with explicit read models.
 
+## Entities, models and the data access layer
+
+Build these contracts and implementations at S2 after the S1 schema gate; add domain behavior at S3, API handlers at S4 and frontends at S5. Database-first construction establishes integrity and query evidence without making the ORM the application's object model.
+
+| Representation / location | Responsibility | Rule |
+| --- | --- | --- |
+| Relational schema and migrations / `packages/db/schema`, `migrations` | Columns, indexes, keys, constraints and grants | Reviewed SQL is authoritative for storage integrity; no product screen imports it |
+| Persistence models / `packages/db/models` | Typed selected/insertable rows, including nullable columns and SQL representations | Drizzle inferred types stay inside the persistence boundary; no Active Record methods or lazy relationship loading |
+| Entity and value contracts / `packages/domain/entities`, `values` | Report identity/revision, tire configuration, money/units and explicit state variants | Pure types/validated values; no ORM decorators or network/SQL getters; behavior grows with S3 tests |
+| Repository/query ports / `packages/application/ports` | Narrow reads/writes required by named use cases | Declare interfaces at S2 without implementing services prematurely; avoid generic CRUD/repository-of-everything interfaces |
+| Mappers / `packages/db/mappers` | Translate validated rows to domain/read models and back | Explicit null, timezone, bigint, unit and enum handling; malformed stored data is an integrity failure, never an invented default |
+| Repositories and unit of work / `packages/db/repositories`, `transactions` | Implement ports using one scoped transaction client and bounded SQL | No provider calls or independent business decisions; atomic operations return typed outcomes |
+| Read projections / `packages/db/queries` | Efficient safe shapes for reports, public content and aggregates | Select explicit columns, keyset pages and authorized scope; avoid loading large object graphs |
+| Wire DTOs / `packages/contracts` | Stable versioned public/owner/staff inputs and outputs | Explicit allowlists and mapping; neither row models nor full domain aggregates are serialized directly |
+
+For example, `report_versions` maps to an immutable domain report-version value. `CreateReport` coordinates eligibility, ownership, the version/current-pointer transaction and outbox intent through repository ports. `GET /api/v1/reports/{id}` returns an allowlisted view DTO after service authorization; web/mobile/MCP consume the same business outcome. A shared recipient never receives private columns just because the repository selected them elsewhere.
+
+S2 acceptance includes row/value round-trips, null/unknown distinctions, money/unit conversion, wrong-owner reads, stale writes, multi-repository rollback, real concurrent transactions, keyset ordering and representative query plans. Constructor validation and port signatures can exist before S3 rule implementations; fake business decisions cannot stand in for a completed layer. Use reviewed constraint functions only for genuine relational/concurrency invariants; keep eligibility, pricing and permission orchestration in their owning services.
+
 ## Shared APIs and the business logic layer
 
 ```mermaid
@@ -59,6 +78,8 @@ The **business logic layer** consists of application orchestration plus domain r
 Use explicit commands such as `CreateReport`, `SaveComparison`, `ScheduleDelivery`, and `CancelDelivery`, with one public service method per meaningful action. Read queries such as `GetReportView` may use optimized DTO projections; they still enforce the same object/purpose policy. This is a light command/query separation, with one transactional system of record, not a mandate for event sourcing or separate read infrastructure.
 
 An HTTP adapter performs: **parse → authenticate → construct actor/context → validate DTO → call use case → map result**. The use case rechecks object authority and current permissions. A mobile or MCP adapter calls that same use case; it does not copy the calculation into its own controller. Server Components may call the authenticated service directly without an HTTP loopback. A UI-specific response composition layer may arrange existing queries, but cannot invent a second business rule.
+
+Complete the E34/S4 API inventory, OpenAPI/client artifacts and real headless acceptance before product frontend implementation. All later channels reuse the accepted services; neither a mock API nor a generated schema alone closes this gate.
 
 Common API behavior belongs in small shared adapters: request IDs, error envelopes, schema validation, actor resolution, idempotency handling, rate limits, pagination, and response cache headers. Endpoint-specific authorization remains explicit. Avoid a configurable "universal endpoint" that obscures which checks run.
 
@@ -125,9 +146,9 @@ Treat optional analytics failure separately from required persistence or safety-
 | Database | Bounded pool and statement/lock/idle transaction deadlines | Size pool against instance concurrency and database capacity at R0; track wait time and slow queries, not only connection count |
 | Delivery/CMS | Existing cancellation-adjusted email target and <60s content propagation | Queue/relay lag plus provider time measured separately; failures visible and recoverable |
 
-At E02, record concrete query-count, engine CPU/memory, payload, pool, timeout, and worker concurrency budgets using the first vertical slice. At E19, verify against representative production-sized data and approved peak/10× baseline load. Until measured, these budgets are open engineering values, not invented guarantees. A PR that changes a hot path provides before/after evidence; a regression requires a documented tradeoff.
+At E02, record provisional query-count, engine CPU/memory, payload, pool, timeout and worker-concurrency budgets from workload assumptions and isolated probes. Measure/refine them at S2 data-access and S3/S4 headless use-case/API gates, then verify representative production-sized data and peak/10× load at E19. Until measured, these budgets are open engineering values, not invented guarantees. A PR that changes a hot path provides before/after evidence; a regression requires a documented tradeoff.
 
-Cache keys include all relevant engine/data/policy versions and normalized inputs. Private outputs remain private/no-store; separate reusable non-identifying calculations from contact/authorization views. Never cache a positive consent or tenant decision beyond its revocation requirements. Redis loss should degrade optional performance, not silently grant permission. Explicitly invalidate public content on publication and distinguish immutable historical data from a live safety overlay.
+Cache keys include all relevant engine/data/policy versions and normalized inputs. Private outputs remain private/no-store; separate reusable non-identifying calculations from contact/authorization views. Never cache a positive consent or tenant decision beyond its revocation requirements. Use indexed reads/public CDN caches first; a shared PostgreSQL computation cache requires measured benefit, read-time expiry, row/byte caps and bounded cleanup. A cache failure must not grant permission; use a bounded source calculation or explicit overload response. Explicitly invalidate public content on publication and distinguish immutable historical data from a live safety overlay.
 
 Use `EXPLAIN (ANALYZE, BUFFERS)` on safe representative nonproduction reads when evaluating an index. Measure write overhead and query selectivity. Do not add an index to every column, partition small tables prematurely, or retain denormalized copies without an owner, version, rebuild strategy, and deletion path.
 

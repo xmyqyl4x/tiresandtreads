@@ -1,5 +1,7 @@
 # Final product design
 
+**Implementation order:** the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates) require database, data-access/entity, business-service and API acceptance before product frontend code. UX specification and content research may proceed earlier. The [PostgreSQL consolidation](11-postgresql-and-build-order.md) changes infrastructure and sequence, while preserving the product journeys and consent requirements below.
+
 **Baseline 1.0 · October 22, 2026**
 
 Tires & Tread is an independent tire-selection and education service. A driver enters their vehicle and conditions, receives suitable options with evidence and estimated installed costs, compares a shop quote, and leaves with practical questions for an installer. The site must explain uncertainty as clearly as it explains recommendations.

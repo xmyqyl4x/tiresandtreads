@@ -93,7 +93,7 @@ route_template, market, locale, channel, consent_policy_version,
 allowed_purposes, engine_version, allowlisted_props, bot_classification
 ```
 
-First-party ingestion uses durable queueing, bounded deduplication by event ID and logical unique counts. ClickHouse materialized views must tolerate retries; do not assume an eventually deduplicating engine makes immediate counters exact. Server-side report/send totals remain the operational source of truth. Cohort dashboards state consent coverage, bot exclusions, freshness, and currency. Analytics failure cannot break a report or redirect.
+First-party ingestion commits permitted events and aggregate invalidation together in PostgreSQL, with event-ID/digest deduplication. Bounded scheduled Inngest jobs rebuild aggregate generations atomically; retries do not add counters twice. Current permission and deletion guards serialize receipt with withdrawal/erasure. Privacy-invalidated aggregates stay hidden until rebuilt; ordinary backlog shows its true freshness. Daily distinct-session counts cannot be summed into a period-wide unique count. See the [analytics database contract](09-database-design.md#8a-analytics-rate-limits-and-optional-cache). Server-side report/send totals remain the operational source of truth. Cohort dashboards state consent coverage, bot exclusions, freshness, and currency. Report/redirect requests do not synchronously wait for optional analytics. Admission limits and separate bounded query pools protect shared SQL capacity; a total application-database outage still prevents new persistent report operations. Collector 202 means durable SQL receipt, while refused or unavailable intake returns 204/429/503 as appropriate. No false success or unbounded browser replay queue.
 
 IP addresses are used transiently for edge routing, coarse geolocation and rate controls. Necessary security logs can retain raw IP for 30 days under restricted access; analytics stores a short-lived purpose-specific HMAC only if justified. Rotate keys and limit linkage periods. Hashing is pseudonymization, not anonymity. Address lookups use secret-key HMAC plus envelope-encrypted originals; keys are versioned and separately controlled.
 
@@ -109,7 +109,7 @@ The schedule below is a proposed launch policy to validate at G2. Every TTL is a
 | PDF bytes | 30 days from generation | Expiry deletes object; report deletion purges sooner |
 | Pending offers confirmation | 30 days | Invalidate token and discard unused subscription details |
 | Contacts/profiles | 24 months inactivity maximum where continued purpose exists | Erase identifiers and disassociate reports unless independently retained for owner |
-| Raw consented analytics and linked sessions | 13 months | Delete partitions and downstream subject projections |
+| Raw consented analytics and linked sessions | 13 months maximum; earlier subject/purpose erasure | Batched SQL purge, or partition removal only after partitioning is justified; invalidate/rebuild affected projections |
 | Email events | 24 months | Remove subject linkage at deletion; retain necessary aggregate totals |
 | Raw webhook payload | 30 days, restricted/encrypted | Expire; retain normalized minimum event facts |
 | Security logs | 30 days baseline | Restrict, expire; extend only for a documented incident need |
@@ -121,7 +121,7 @@ An append-only log must not embed copies of addresses in `before/after` JSON. Lo
 
 Privacy requests support access, correction, deletion, sale/share/targeted-ad opt-out, marketing withdrawal, limitation where applicable, appeal, and authorized-agent workflows. No account is required. Verify access/deletion using email or possession of browser/report authority proportionately; simple opt-outs do not require disproportionate identity proof. Avoid revealing whether an email exists.
 
-Fulfillment is an idempotent job graph across operational DB, ClickHouse, objects, ESP, analytics vendors, future app/device stores, and buyers. Each step has status, retries, evidence, deadline, and owner. A request closes only after required acknowledgements or a documented exception. Immediately suppress while deletion completes. A backup restore reapplies the deletion/suppression ledger before public access. Inaccessible backups expire under their retention policy and are not returned to active use without this replay.
+Fulfillment is an idempotent job graph across operational and analytics PostgreSQL schemas, objects, ESP, any separately activated analytics vendors, future app/device stores, and buyers. Each step has status, retries, evidence, deadline, and owner. A request closes only after required acknowledgements or a documented exception. Immediately suppress while deletion completes. A backup restore reapplies the deletion/suppression ledger before public access. Inaccessible backups expire under their retention policy and are not returned to active use without this replay.
 
 Do not hardcode “45 days” globally. Configure jurisdiction, request type, acknowledgement/response clock, allowed extension, appeal and downstream notices with privacy counsel. Internal target: acknowledgement within 2 business days and fulfillment within 14 calendar days where feasible; statutory requirements take precedence. Escalate by remaining time, not only when overdue.
 

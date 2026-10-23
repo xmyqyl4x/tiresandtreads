@@ -1,36 +1,38 @@
 # Technology stack and application layer signoff
 
-**Version 1.0 · October 22, 2026 · Status: AS01–AS07 approved by the requesting user.**
+**Version 1.1 · October 22, 2026 · Status: original AS01–AS07 approval retained; current AS02/AS07 selections amended by the subsequent user-directed PostgreSQL review.**
 
 Build Tires & Tread as one modular TypeScript web application with a shared, deterministic tire recommendation engine. Use managed services for hosting, identity, persistence, durable jobs, email, and operational monitoring. The application owns its business rules, permissions, report history, and delivery state.
 
-This approved design defines the technology choices, functional modules, logical layers, and deployment boundaries for implementation. It elaborates the [technical architecture](02-technical-architecture.md) and [implementation plan](04-implementation-plan.md). The [approval record](#7-signoff-decisions) identifies the reviewed proposal and the user's explicit signoff. Application development has not started.
+This current design defines the technology choices, functional modules, logical layers, and deployment boundaries for implementation. It elaborates the [technical architecture](02-technical-architecture.md) and [implementation plan](04-implementation-plan.md). The [approval record](#7-signoff-decisions) identifies the reviewed proposal and the user's explicit signoff. Application development has not started.
 
 **Subsequent engineering expansion:** the user requested explicit TDD, database design, and coding principles after AS01–AS07 approval. [Test-driven development](08-test-driven-development.md), [database design](09-database-design.md), and [coding standards](10-coding-standards.md) elaborate these boundaries. The original approval record remains tied to the reviewed proposal; the additional specifications do not represent completed implementation or closed R0 gates.
+
+**Current amendment:** [D28/D29](11-postgresql-and-build-order.md) requires database → data access/models → business services → exposed APIs → frontends, removes Redis/ClickHouse/QStash, and uses PostgreSQL events/aggregates, SQL quotas and measured caching. Sections 1–6 and 8 below describe this amended target; section 7 preserves the original reviewed decisions and identifies the changed IDs. No new merge approval or completed integration is implied.
 
 ## 1. Review scope
 
 The initial release remains **R1: US English web**, preceded by **R0: foundation and integration proof**. It includes assessment, recommendations, refinement, four-item comparison, quote checking, private reports, email/PDF delivery, education, staff administration, consent/privacy, and the planned analytics foundation. Affiliate and advertising capabilities activate only after their existing gates pass.
 
-Two approved refinements are incorporated into the baseline:
+The current baseline incorporates these refinements:
 
 - **CMS isolation:** select a separate logical PostgreSQL database for Payload from the outset, using separate credentials and migrations. This selects the isolation option already permitted by decision D22. A separate database can share a Neon project/compute if grants and recovery isolation are proven; it does not require a separate database vendor.
-- **Analytics activation:** use the first-party QStash → ClickHouse pipeline for launch product metrics. GA4 and PostHog remain disabled until a specific measurement need, consent mapping, and cost case are approved. E16 remains in R1; its event pipeline and dashboards are not deferred.
+- **Analytics and limits:** use first-party PostgreSQL event receipt/aggregates and atomic SQL rate limits, with bounded scheduled Inngest work. Start with indexed reads/public CDN caches; add a bounded SQL computation cache only from profiling evidence. GA4/PostHog remain disabled until a named measurement need, consent mapping and cost case are approved. E16 remains in R1; analytics capability is retained.
 
-All other product and privacy requirements continue to apply. Reseller, billing, mobile, MCP, and data-product release assignments remain unchanged. The approved choices are reconciled into the technical architecture, decision register, and implementation plan.
+All other product and privacy requirements continue to apply. Reseller, billing, mobile, MCP, and data-product release assignments remain unchanged. The amended choices are reconciled into the technical architecture, database design, decision register and implementation plan.
 
-## 2. Approved technology stack
+## 2. Current technology stack
 
 ### Application and developer tooling
 
-| Area | Approved selection | Purpose and constraint |
+| Area | Current selection | Purpose and constraint |
 | --- | --- | --- |
 | Language and runtime | TypeScript with strict checking; Node.js 24.x | One language for UI, API, engine, and jobs. Match the supported major in local development, CI, and Vercel; record actual runtime versions in release evidence. |
 | Web framework | Next.js App Router + React | Public pages, private report pages, staff UI, embedded CMS, and versioned HTTP endpoints. Server Components for suitable reads; Client Components for interactive form/compare controls. |
 | User interface | Tailwind CSS + Radix UI primitives + repository design tokens | A small accessible component library in `packages/ui`; verify keyboard, focus, reflow, and contrast in the composed screens. |
 | Forms and validation | React Hook Form + Zod | Shared field/DTO schemas; all authoritative validation repeats on the server. Browser validation improves feedback. |
 | Localization | next-intl + native Intl | US English initially; messages, units, currency, and reason-code text ready for reviewed later markets. |
-| HTTP contracts | Next.js Route Handlers, `/api/v1`, Zod DTOs | REST/JSON command and query endpoints. Generate an OpenAPI artifact from the approved contracts during R0. Public, owner, staff, partner, and webhook contracts have distinct access policies. |
+| HTTP contracts | Next.js Route Handlers, `/api/v1`, Zod DTOs | REST/JSON command and query endpoints. Establish OpenAPI generation at E02 and complete the launch contract/acceptance artifact at E34/S4 before frontends. Public, owner, staff, partner, and webhook contracts have distinct access policies. |
 | Workspace and quality | pnpm workspaces, ESLint, Prettier, TypeScript checks | One repository and lockfile; explicit package import boundaries. CI rejects client imports of server-only code. |
 | Automated verification | Vitest; Playwright; axe-core; real PostgreSQL integration tests | Deterministic engine/property tests, transaction/race tests, browser journeys, automated accessibility, plus manual assistive-technology and email/PDF review. |
 | Source and delivery | GitHub, GitHub Actions, Vercel Git previews | Small reviewed changes; protected previews; separate migration and application deployment steps. |
@@ -41,7 +43,7 @@ Next.js provides HTTP [Route Handlers](https://nextjs.org/docs/app/getting-start
 
 ### Managed services and supporting libraries
 
-| Area | Approved selection | Release and responsibility |
+| Area | Current selection | Release and responsibility |
 | --- | --- | --- |
 | Hosting and compute | Vercel, Node.js Functions, public CDN | R1. One web deployment per environment serves UI/API/CMS and authenticated job callbacks. Select a US region co-located with primary data. |
 | Operational database | Neon PostgreSQL | R1. Authoritative catalog, reports, capabilities, consent, send state, outbox/inbox, and audit data. Future tenant and ledger tables stay transactional. |
@@ -52,8 +54,8 @@ Next.js provides HTTP [Route Handlers](https://nextjs.org/docs/app/getting-start
 | Email delivery and templates | Resend + React Email | R1. Versioned HTML/text messages, fixed send identity, signed webhooks, separate report/commercial sending configuration. |
 | PDF generation | `@react-pdf/renderer` | R1. Render an immutable report DTO to private PDF bytes. Fonts, pagination, links, and reading order require acceptance testing. |
 | Files and encryption | AWS S3 + AWS KMS | R1. Private reports/imports/backups; separate reviewed public media. Envelope encryption for sensitive fields, with separate purpose-specific lookup keys. |
-| Cache and abuse limits | Upstash Redis | R1. Short-lived caches and rate limits. Durable consent, reservations, and send deduplication remain in PostgreSQL. |
-| Analytics transport/storage | Upstash QStash + ClickHouse Cloud | R1. Durable first-party event intake and aggregate queries; reports work during analytics outages. |
+| Cache and abuse limits | PostgreSQL rate buckets; indexed reads/public CDN; conditional SQL computation cache | R1. Atomic short-window quotas with expiry and bounded cardinality. Pure cache only after profiling; permissions and live safety checks remain authoritative. |
+| Analytics receipt/storage | PostgreSQL `analytics` schema + Inngest scheduled aggregation | R1. Committed deduped events, revisioned aggregate rebuilds, privacy invalidation and bounded query views; protected report capacity. |
 | Operational monitoring | Datadog + structured redacted logs | R1. Errors, latency, queue lag, delivery failures, stale datasets, privacy deadlines, and cost alarms. Separate from user-behavior analytics. |
 | Public configuration | Vercel Global Config | R1. Versioned published redirect/config snapshots. Database publication history is authoritative; privacy/safety gates fail closed. |
 | Bot challenge | Cloudflare Turnstile | R1. Verify response server-side alongside independent rate limits. |
@@ -91,7 +93,7 @@ A **layer** describes a technical responsibility and permitted dependencies. A *
 | **L3 Application services** | Create assessment, rerun report, save comparison, issue/revoke share, schedule/cancel delivery, publish content, fulfill privacy request | Owns use-case orchestration, object/purpose authorization, transaction boundaries, and durable side-effect intent. `packages/application`. |
 | **L4 Domain rules and recommendation engine** | Fitment eligibility, seasonal strategy, scoring, explanations, cost scenarios, report-version rules, consent/send state transitions | Framework-independent deterministic functions. Dependencies arrive as typed data, explicit policy versions, clock values, or ports. No SQL, HTTP, React, advertising bids, or email SDK calls in ranking. `packages/engine`, `packages/domain`. |
 | **L5 Persistence and read models** | Repositories, queries, transactions, immutable snapshots, outbox/inbox, optimistic concurrency, database constraints | Implements application repository ports; scopes reads to authorized objects/tenants. Separate ownership for app and CMS data. `packages/db`, `packages/content`. |
-| **L6 Integrations and durable processing** | Data-feed adapters, CMS bridge, email/storage providers, PDF/email rendering, Inngest jobs, QStash collector/consumer, webhook adapters | Provider details stay here. Jobs call the same application services and recheck authority; retry does not imply permission to repeat an external effect. `packages/integrations`, `jobs`, `packages/email`, `packages/pdf`. |
+| **L6 Integrations and durable processing** | Data-feed adapters, CMS bridge, email/storage providers, PDF/email rendering, Inngest jobs/analytics sweeps, webhook adapters | Provider details stay here. Jobs call the same application services and recheck authority; retry does not imply permission to repeat an external effect. `packages/integrations`, `jobs`, `packages/email`, `packages/pdf`. |
 | **L7 Platform and operations** | Deployment, secrets, observability, backup/restore, migrations, release gates, environment isolation, feature shutdown | Supports all layers. Separate runtime/migration privileges and per-environment resources. GitHub Actions, Vercel, Datadog, database/object-store configuration, runbooks. |
 
 Security, privacy, auditability, and accessibility apply across the layers. L2 authenticates an actor; L3 decides whether that actor may perform this action on this object; L4 evaluates business policies; L5 enforces relational and tenant constraints. UI visibility alone grants no authority.
@@ -109,8 +111,9 @@ flowchart TB
   L6 --> L3
   L6 --> V["Email, files, licensed feeds"]
   L2 --> EV["Consent-aware event intake"]
-  EV --> Q["QStash"]
-  Q --> CH[("ClickHouse analytics")]
+  EV --> Analytics[("PostgreSQL analytics schema")]
+  Analytics --> Batch["Inngest bounded aggregate worker"]
+  Batch --> Analytics
   L7["L7 Platform, monitoring and recovery"] -.-> L2
   L7 -.-> L5
   L7 -.-> L6
@@ -118,7 +121,7 @@ flowchart TB
 
 Arrows show runtime flow, including job callbacks. **Code dependencies point inward:** contracts/domain/engine do not import the web framework or provider adapters; application services depend on domain logic and port interfaces; repositories/adapters implement those ports. The composition root wires implementations into services. Enforce this with package exports and import restrictions in CI.
 
-`packages/application` and `packages/integrations` make the original `packages/domain` responsibility more precise; this approved directory refinement keeps the same deployment boundaries. SQL migrations stay in `packages/db` for application tables; Payload migrations stay with its configuration. A content adapter returns published-content DTOs, never unrestricted CMS documents.
+`packages/application` and `packages/integrations` make the original `packages/domain` responsibility more precise; this approved directory refinement keeps the same deployment boundaries. S1 builds schema, S2 storage models/mappers/repositories and pure entity/port contracts, S3 domain/application behavior, S4 exposed APIs, and S5 presentation. Construction order does not introduce outward imports in domain/application code. SQL migrations stay in `packages/db` for application tables; Payload migrations stay with its configuration. A content adapter returns published-content DTOs, never unrestricted CMS documents.
 
 Server-rendered pages may call the same authenticated application services directly inside the server process; they need not make HTTP requests back to themselves. The same actor, object, and purpose checks apply. Browser mutations and future external clients use the versioned HTTP contracts.
 
@@ -175,12 +178,12 @@ Privacy fulfillment immediately restricts applicable processing and revokes acce
 
 | Boundary | What lives there | Authority and failure behavior |
 | --- | --- | --- |
-| Vercel web deployment | Public/private pages, APIs, staff/CMS UI, provider webhooks, Inngest and QStash callback handlers | Stateless compute. Core business state survives restarts/deployments. Separate credentials and event namespaces per environment. |
+| Vercel web deployment | APIs/provider webhooks/Inngest callbacks first; public/private pages and staff/CMS UI after S4 | Stateless compute. Core business state survives restarts/deployments. Separate credentials and event namespaces per environment. |
 | Application PostgreSQL | Catalog, reports, capabilities, contact/consent, delivery state, outbox/inbox, audit; later partners/ledger | Source of truth. Runtime roles cannot migrate schema. Failure stops new persistent operations with clear retry behavior. |
 | CMS PostgreSQL | Editorial content, reviews, published revisions, CMS publication work | Payload owns migrations. No SQL join or cross-database transaction with operational records; stable content IDs and revision DTOs bridge them. |
 | S3 and KMS | Private report bytes, imports, backups, approved public assets, encryption keys | Objects are authorized through application state; signed URLs are short lived. A cached PDF never grants continuing access. |
-| Redis and Global Config | Ephemeral limits/caches and published public configuration | Rebuildable. Safety/permission decisions do not rely on stale permissive values. |
-| QStash and ClickHouse | Permitted event buffer and analytics projections | Downstream metrics; operational financial/report/send facts stay in PostgreSQL. Queue failure is surfaced and does not falsely acknowledge durable collection. |
+| Global Config | Published public configuration snapshots | Rebuildable; authoritative SQL publication history and restrictive safety/privacy decisions remain. |
+| PostgreSQL analytics and limits | Separate schema/roles for permitted events/projections; app-owned rate buckets and optional cache | Same database compute: bounded pools/work, query/lock deadlines, retention and mixed-load gates protect reports. 202 receipt only after commit; operational totals remain authoritative. |
 | Inngest and Resend | Workflow execution metadata and external delivery receipts | Application send/consent state is authoritative. Restrict job payloads/logs to opaque IDs; send recipient data only at the necessary boundary. |
 
 Use local synthetic fixtures, isolated preview resources, protected staging with an email allowlist, and production resources with independent secrets and access controls. Never branch production contact data into general previews. Database and storage region, backup retention, and incident ownership are recorded at G0. Paid plan and integration availability must be confirmed for the chosen account before provisioning.
@@ -188,6 +191,8 @@ Use local synthetic fixtures, isolated preview resources, protected staging with
 Keep the existing measurable targets: report API p95 under 2 seconds with cached provider data; mobile p75 LCP under 2 seconds on the agreed profile; public availability 99.9%; email acceptance p95 within 60 seconds after the 60-second undo period; CMS propagation under 60 seconds. These are acceptance targets to demonstrate, not guarantees supplied by the stack. Recovery targets remain RTO 4 hours and RPO at most 24 hours, tightened to 15 minutes only after PITR coverage is proven.
 
 ## 7. Signoff decisions
+
+**Historical approval, not a retroactive approval of edits:** the table records the original proposal below. Current section 2 replaces the affected AS02 service choices, and AS07 analytics storage/transport is superseded by [D29](11-postgresql-and-build-order.md). D28 changes build order, not inward layer dependencies. Unaffected decisions remain applicable.
 
 **Approval record:** the requesting user approved all seven decisions on **October 22, 2026 (America/Los_Angeles)** and authorized merging this documentation into `main`.
 
@@ -198,30 +203,31 @@ The roles below identify implementation review responsibilities. This records th
 | ID | Approved decision | Implementation reviewers | Status |
 | --- | --- | --- | --- |
 | AS01 | Modular TypeScript application, seven logical layers, inward dependencies, one initial web deployment per environment | Product owner + technical lead | Approved by user |
-| AS02 | Technology selections in section 2, Node 24.x target, exact compatible dependency lock at R0, explicit later/conditional services | Technical lead + owner | Approved by user |
+| AS02 | Technology selections in original proposal section 2, Node 24.x target, exact compatible dependency lock at R0, explicit later/conditional services | Technical lead + owner | Original approved; Redis/analytics selections amended by D29 |
 | AS03 | Separate logical Payload database, one migration owner per database, stable content IDs and retryable publication bridge | Technical + data leads | Approved by user |
 | AS04 | Deterministic evidence-based engine, immutable versioned reports, commercial influence excluded from tire ranking | Product owner + tire specialist + data lead | Approved by user |
 | AS05 | Anonymous assessment, scoped owner/share access, Clerk staff MFA, service-level permissions, server-enforced consent and deletion | Product owner + security/privacy leads | Approved by user |
 | AS06 | PostgreSQL outbox/inbox, Inngest workflows, real 60-second cancellation, durable send identities, private PDF storage | Backend + operations leads | Approved by user |
-| AS07 | R1 first-party QStash/ClickHouse analytics; GA4/PostHog deferred until a named need is approved; existing R2–R4 scope preserved | Product owner + privacy/platform leads | Approved by user |
+| AS07 | Original R1 first-party QStash/ClickHouse analytics; GA4/PostHog deferred until a named need is approved; existing R2–R4 scope preserved | Product owner + privacy/platform leads | Original approved; storage/transport superseded by D29 |
 
 Future changes to these decisions require an updated decision record identifying the affected IDs, reviewed version/commit, approver, date, outcome, and any conditions.
 
-### Evidence required before implementation exits R0
+### Evidence required across foundation and API gates
 
 | Gate item | Owner | Required evidence |
 | --- | --- | --- |
 | Licensed data and launch coverage | Owner + data lead | Selected provider, rights, cost, benchmarked vehicle/axle cases, freshness policy, provenance, tire specialist acceptance |
-| Dependency and deployment compatibility | Technical lead | Locked versions, reproducible CI build, protected preview, one vertical report slice, PDF rendering/resource feasibility |
+| Dependency and deployment compatibility | Technical lead | Locked versions, reproducible CI build, protected headless host, DB/driver/auth compatibility and renderer resource spike; full headless report/API slice required at S4, actual templates at S5 |
 | Clerk and Payload integration | Backend/security leads | MFA, role removal, idle/absolute expiry, direct CMS API authorization and no alternate login bypass; database grants and migration isolation |
-| Consent management selection | Privacy/frontend leads | Named CMP and plan, signed/server-readable state, GPC/withdrawal, accessible interface, measured bundle budget |
+| Consent management selection | Privacy/frontend leads | Named CMP/plan, headless signed-state/GPC/withdrawal proof and interface/bundle feasibility; composed accessible product UI and final bundle verified at S5 |
+| PostgreSQL workload consolidation | Platform/data leads | Event volume/cost model, query/pool limits and capacity-test design at S0; receipt/dedupe, deletion/aggregate races, SQL quotas and mixed report/analytics load proven at S4 |
 | Delivery integration | Backend lead | Allowed use, domain setup plan, webhook verification, duplicate/timeout/cancel tests and reconciliation behavior |
 | Service costs and operating ownership | Owner + platform lead | Current quotes, agreed monthly ceiling, region/retention/deletion register, backups, alert routing and incident owner |
 
-Architecture signoff permits the agreed design to guide engineering. Vendor spending, production activation, market expansion, and data-product activation keep their existing separate release gates. If a core integration fails its proof, return the affected technology decision for revision with a concrete alternative and impact assessment.
+Foundation items are required at S0–S2/R0; rows explicitly identifying S4/S5 are completed at those later gates. Architecture signoff permits the agreed design to guide engineering. Vendor spending, production activation, market expansion, and data-product activation keep their existing separate release gates. If a core integration fails its proof, return the affected technology decision for revision with a concrete alternative and impact assessment.
 
 ## 8. First implementation acceptance slice
 
-With the architecture decisions accepted, the first engineering slice should demonstrate: **vehicle and wheel package → validated eligibility → deterministic recommendation → immutable stored report → authorized private read**. Then extend that same report through compare, scheduled email/cancellation, PDF, and deletion.
+Start with S1 database migrations/constraints and S2 data-access/entity/mapping tests. S3/S4 then demonstrate the first **headless** business/API slice: **vehicle and wheel package → validated eligibility → deterministic recommendation → immutable stored report → authorized private read**. Complete all remaining launch services/APIs, including compare, delivery/cancellation, PDF orchestration, privacy, content and staff operations, before S5 product frontends/renderers. Fixture rendering at S4 is labeled and cannot satisfy final delivery/PDF acceptance.
 
-Across these slices, identical input/dataset versions must reproduce the same result; a share token cannot edit or send; retry creates one report/send identity; private responses cannot enter public caches; cancelled delivery produces no provider handoff; and optional analytics failure does not block the report. Use the existing E01–E04 foundations and E05–E08 vertical dependencies, followed by E11–E14 delivery/privacy work. The broader [AT01–AT20 acceptance suite](04-implementation-plan.md#acceptance-scenarios-that-must-be-demonstrated) remains the release standard.
+Across these slices, identical input/dataset versions must reproduce the same result; a share token cannot edit or send; retry creates one report/send identity; private responses cannot enter public caches; cancelled delivery produces no provider handoff; and optional analytics failure does not block the report. Follow [S0–S6 gates and package splits](04-implementation-plan.md#build-stages-and-exit-gates), with E34 recording API readiness before presentation work. The broader [AT01–AT20 acceptance suite](04-implementation-plan.md#acceptance-scenarios-that-must-be-demonstrated) remains the release standard.

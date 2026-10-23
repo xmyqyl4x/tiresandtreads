@@ -6,7 +6,7 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
-**Approved architecture:** [Technology stack and application layer signoff](docs/07-stack-and-layer-signoff.md) records the user's October 22, 2026 approval of AS01–AS07: the stack, seven logical layers, functional module ownership, and deployment boundaries. The baseline incorporates separate CMS database ownership and explicit analytics activation; R0 integration evidence and release gates remain required.
+**Current architecture:** build PostgreSQL schema → data access/entities → business services → exposed APIs → frontends. The [PostgreSQL and build-order amendment](docs/11-postgresql-and-build-order.md) removes ClickHouse, Redis and QStash dependencies, while retaining first-party analytics, limits and bounded caching in PostgreSQL. The [stack/layer signoff](docs/07-stack-and-layer-signoff.md) preserves the original AS01–AS07 approval and identifies the amended AS02/AS07 choices. R0 integration evidence and release gates remain required.
 
 1. [Final product design](docs/01-final-product-design.md) - release scope, visual system, every major screen, interactions, responsive behavior, and tire-advice rules.
 2. [Technical architecture](docs/02-technical-architecture.md) - system boundaries, recommendation engine, data model, APIs, authorization, caching, and deployment.
@@ -17,9 +17,10 @@ This repository currently contains the final design and implementation planning 
 7. [Verification record](docs/06-verification.md) - checks performed on this documentation package and limits of validation.
 8. [Test-driven development](docs/08-test-driven-development.md) - red/green/refactor workflow, unit/functional/use-case tests, UC01–UC12, CI gates, and completion evidence.
 9. [Database design](docs/09-database-design.md) - typed table catalogue, ER diagrams, keys/constraints, indexes, transactions, roles, retention, and migration sequence.
-10. [Coding standards](docs/10-coding-standards.md) - shared application services, package/API boundaries, design patterns, type safety, performance, and review rules.
+10. [Coding standards](docs/10-coding-standards.md) - shared application services, entities/models/mappers, package/API boundaries, patterns, type safety, performance, and review rules.
+11. [PostgreSQL and build-order review](docs/11-postgresql-and-build-order.md) - dependency decisions, replacements, tradeoffs, capacity/failure gates and change record.
 
-Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. The engineering specifications were [approved on October 22, 2026](docs/00-source-review.md#engineering-approval-record) and expand the approved stack without treating planned tests or database tables as implemented.
+Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. Engineering specification 1.0 was [approved on October 22, 2026](docs/00-source-review.md#engineering-approval-record); the current revisions incorporate the subsequent PostgreSQL/build-order direction. Planned tables, test suites and stage gates are not implemented yet.
 
 ## Reference assets
 
@@ -27,8 +28,8 @@ Implementation follows the [contribution guide](CONTRIBUTING.md). Each behaviora
 - [Design tokens](docs/design-tokens.json), the numeric baseline for implementation.
 - [External reference register](docs/references.md), with primary sources checked for the plan.
 
-The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, approved architecture decisions in `docs/07`, and engineering specifications in `docs/08` through `docs/10` govern the planned implementation. Source conflicts are recorded in `docs/00`; the database specification provides the detailed relational contract behind the architecture overview. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
+The original source files remain unchanged. The reconciled design in `docs/01` through `docs/04`, architecture decisions/history in `docs/07`, engineering specifications in `docs/08` through `docs/10`, and the superseding amendment in `docs/11` govern the planned implementation. Source conflicts are recorded in `docs/00`; the database specification provides the detailed relational contract behind the architecture overview. Source imperatives are requirements to evaluate, not authorization to send emails, buy services, publish a site, or activate data sharing.
 
 ## Delivery approach
 
-Launch a US English website first: an ad-free assessment, up to five evidence-backed tire recommendations, four-item comparison, optional report delivery, education content, and the admin/privacy foundations. Add reseller offers, expanded markets, the Expo app, and the MCP connector in independently gated releases. Recommendation ranking stays independent of commercial placements throughout.
+Complete the [S1 database, S2 data-access, S3 service and S4 API gates](docs/04-implementation-plan.md#build-stages-and-exit-gates) before S5 frontend implementation. The old 16-week calendar is withdrawn; the staged dependency graph must be re-estimated before setting a launch date. Launch a US English website first: an ad-free assessment, up to five evidence-backed tire recommendations, four-item comparison, optional report delivery, education content, and the admin/privacy foundations. Add reseller offers, expanded markets, the Expo app, and the MCP connector in independently gated releases. Recommendation ranking stays independent of commercial placements throughout.

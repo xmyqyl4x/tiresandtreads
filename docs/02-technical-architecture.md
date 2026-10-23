@@ -1,12 +1,14 @@
 # Technical architecture
 
-**Baseline 1.2 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
+**Baseline 1.3 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
 
-**Architecture approved:** the user approved AS01–AS07 on October 22, 2026. [Technology stack and application layer signoff](07-stack-and-layer-signoff.md) records the approval and defines the seven logical layers and module boundaries. This baseline incorporates the approved stack, separate CMS database, package responsibilities, and analytics activation choices. R0 evidence requirements remain open.
+**Architecture history and current amendment:** the user approved AS01–AS07 on October 22, 2026. The [signoff record](07-stack-and-layer-signoff.md) preserves that reviewed baseline. The subsequent [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) changes AS02/AS07 implementation selections and requires database → data access/models → business services → APIs → frontends. Separate CMS ownership and the seven logical layers remain. R0 and release evidence are still required.
 
 Build a modular Next.js application with a pure, versioned recommendation package. Public UI, staff operations, CMS, and later partner routes share domain services but not authorization privileges. Durable jobs handle external side effects. PostgreSQL is authoritative for reports, permissions, delivery, and money; analytics is a downstream projection.
 
 ## Engineering process and separation of concerns
+
+Follow [S0–S6 construction gates](04-implementation-plan.md#build-stages-and-exit-gates). Complete R1 schema/constraint tests at S1, models/mappers/repositories at S2, pure rules and application services at S3, and headless API acceptance at S4 before product UI or template implementation at S5. Build order does not reverse code dependency direction: domain entities and repository ports remain ORM-independent.
 
 The user's engineering expansion is specified in [test-driven development](08-test-driven-development.md), [database design](09-database-design.md), and [coding standards](10-coding-standards.md). Every behavioral increment begins with failing acceptance/unit/use-case examples, implements the smallest coherent behavior, refactors, then verifies the affected real API/database/provider boundaries. Unit, functional and use-case coverage belongs throughout E02–E20; E19 performs integrated hardening rather than starting the test effort.
 
@@ -26,14 +28,14 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 | CMS | Embedded Payload with `@payloadcms/db-postgres`, separate logical database | Payload owns CMS database/migrations; prove grants, recovery isolation, and Clerk integration at R0 |
 | Auth | Clerk staff and organization identities | Mandatory MFA, separate staff/reseller audiences, explicit server role checks; consumer realm added R3 |
 | Workflows | Inngest | Email, PDF, imports, privacy jobs, future reminders; persisted state and retriable steps |
-| Events | QStash durable buffer → ClickHouse Cloud | Collector acknowledges only after durable enqueue; no requirement for an always-running process |
-| Redis | Upstash Redis | Rate limits and ephemeral caches; never sole source for consent or durable idempotency |
+| Events and analytics | Application PostgreSQL `analytics` schema + scheduled Inngest aggregation | Acknowledge after event/invalidation commit; idempotent bounded generation rebuilds, privacy invalidation and aggregate read views |
+| Limits and reusable reads | PostgreSQL atomic rate buckets, indexed queries, public CDN caches; optional bounded SQL computation cache | Required limits fail closed; no cached permission decisions; shared cache introduced only with measured benefit |
 | Email | Resend + React Email | Verify domain, idempotency, webhooks and policy before first real send; separate commercial stream/subdomain |
 | PDF | `@react-pdf/renderer` | Render from versioned report DTO; verify fonts, tables, links, reading order |
 | Assets | Private S3 object storage, public reviewed-media bucket/CDN | Use managed encryption and scoped URLs; direct private uploads for large CSVs, no public export bucket |
 | Sensitive fields | Managed envelope encryption, AWS KMS for data-encryption keys | Signing-only key products do not replace data encryption; purpose-specific HMAC lookup keys |
 | Content routing | Global Config public redirect snapshots | Size-bounded, versioned, signed publication; no PII or secrets |
-| Instrumentation | R1 first-party QStash/ClickHouse events + Datadog operational metrics | GA4/PostHog stay disabled until a specific measurement need, consent mapping, and cost case are approved; no R1 session replay |
+| Instrumentation | R1 first-party PostgreSQL events/aggregates + Datadog operational metrics | GA4/PostHog stay disabled until a specific measurement need, consent mapping, and cost case are approved; no R1 session replay |
 | Bot control | Turnstile plus server rate limits | Sitekey/action/hostname verification; fail safely if token invalid |
 | Tooling and delivery | pnpm workspaces, ESLint, Prettier, GitHub Actions, Vercel Git previews | Frozen lockfile installs, import boundaries, protected previews, reviewed migrations |
 | Verification | Vitest, Playwright, axe-core, real PostgreSQL integration tests | Engine/property, transaction/race, browser and accessibility checks; manual assistive-technology/email/PDF review |
@@ -65,9 +67,12 @@ flowchart TB
   ESP --> Hooks[Verified webhook inbox]
   Hooks --> PG
   Browser --> Collector[Consent-aware collector]
-  Collector --> Buffer[QStash]
-  Buffer --> CH[(ClickHouse)]
-  PG --> CH
+  Collector --> Analytics[(PostgreSQL analytics schema)]
+  Analytics --> Aggregate[Bounded Inngest aggregation]
+  Aggregate --> Analytics
+  Analytics --> Metrics[Aggregate read APIs]
+  Domain --> Limits[SQL rate-limit adapter]
+  Limits --> PG
 ```
 
 ## Planned repository structure
@@ -79,10 +84,10 @@ apps/web/                 Next routes, public UI, admin, partner UI, Payload con
 apps/mobile/              Expo application, introduced in R3
 packages/contracts/       Zod request/response/event schemas and generated API types
 packages/engine/          Pure deterministic filtering, scoring and explanation codes
-packages/domain/          Framework-independent report, consent, pricing and offer rules
+packages/domain/          Pure entity/value interfaces, report, consent, pricing and offer rules
 packages/application/     Use cases, authorization, transaction orchestration and ports
 packages/integrations/    Provider adapters and external-service wiring
-packages/db/              Application schema, repositories and reviewed migrations
+packages/db/              Schema/migrations, typed storage models, mappers, repositories, unit-of-work
 packages/content/         CMS adapter, taxonomy and published-content read model
 packages/email/           Locale-aware React Email and text templates
 packages/pdf/             Report rendering templates and fonts
@@ -151,7 +156,7 @@ Cached historical reports remain historical and show a live safety overlay. Rech
 
 ## Data model and constraints
 
-The [database design](09-database-design.md) is the detailed relational contract, including typed columns/nullability, PK/FK/unique/check constraints, indexes, DB01–DB16 concurrency invariants, roles, lifecycle, and migration order. The table below remains a domain overview. Use UUID identifiers, composite keys where required by invariants, and UTC `timestamptz`. Store external IDs separately. JSON is suitable for immutable engine snapshots and typed rule inputs; critical constraints, statuses, tenancy, money, and relationships belong in relational columns.
+The [database design](09-database-design.md) is the detailed relational contract, including typed columns/nullability, PK/FK/unique/check constraints, indexes, DB01–DB20 concurrency invariants, roles, lifecycle, and migration order. The table below remains a domain overview. Use UUID identifiers, composite keys where required by invariants, and UTC `timestamptz`. Store external IDs separately. JSON is suitable for immutable engine snapshots and typed rule inputs; critical constraints, statuses, tenancy, money, and relationships belong in relational columns.
 
 | Domain | Entities and critical constraints |
 | --- | --- |
@@ -162,6 +167,8 @@ The [database design](09-database-design.md) is the detailed relational contract
 | Contacts `privacy` | Encrypted `contacts` plus `contact_lookups(key_version, email_hmac, contact_id)` for unique lookup/key rotation; cautious normalization, no provider-specific dot/plus stripping; verification separate from consent |
 | Permissions `privacy` | Immutable `consent_events`, erasable `subject_links`, versioned `notices`, current consent projection, `suppressions`, `cookie_consents`, `privacy_requests`, `fulfillment_steps`, `cookie_registry`; consent grant/withdraw/confirm are distinct events |
 | Delivery `email` | `email_sends`, `send_attempts`, `email_links`, `email_events`, `email_feedback`, `template_versions`, `education_topic_map`; unique durable send key and `(provider, provider_event_id)` |
+| Analytics `analytics` | Permitted events, revisioned dirty days and daily metrics; transactional receipt/dedupe, subject erasure, restricted aggregate views |
+| Limits/cache `app` | Fixed-window rate buckets with atomic caps and short expiry; optional versioned non-identifying computation cache with measured bounds |
 | Work reliability `app` | `outbox`, `webhook_inbox`, `idempotency_requests`, `job_runs`; unique event IDs, body hash for duplicate requests, retry state and terminal reason |
 | CMS separate logical DB | Payload-owned content, media, SEO, redirects, content versions, review status and durable publication work; stable public read DTO; drafts inaccessible to public routes |
 | Partner operations `partners` | Organizations, memberships, agreements, verification evidence, locations, offer versions, targeting, code pools/codes, decisions/events, API credentials, webhook destinations; `org_id` on every owned row |
@@ -190,7 +197,7 @@ Foreign keys on comparisons and sends reference the exact report version. Codes 
 
 ## API contract
 
-Use `/api/v1` from the start for browser, future mobile, and non-MCP integration. Route handlers adapt to the same application services rather than duplicating them. Generate an OpenAPI artifact from the approved Zod contracts during R0. Server-rendered pages may call those authenticated services directly without an HTTP loopback; the same authorization applies. Request mutations use `Idempotency-Key`; repeat key with different body returns 409. Retain completed request records long enough for client retry/reconciliation; minimum 7 days for report and delivery actions. Return `requestId` in all errors; never stack traces.
+Use `/api/v1` from the start for browser, future mobile, and non-MCP integration. Route handlers adapt to the same application services rather than duplicating them. Establish OpenAPI generation at E02 and complete the R1 contract artifact and running acceptance tests at E34/S4, before frontend implementation. Server-rendered pages may call those authenticated services directly without an HTTP loopback; the same authorization applies. Request mutations use `Idempotency-Key`; repeat key with different body returns 409. Retain completed request records long enough for client retry/reconciliation; minimum 7 days for report and delivery actions. Return `requestId` in all errors; never stack traces.
 
 ```json
 {
@@ -206,6 +213,7 @@ Use `/api/v1` from the start for browser, future mobile, and non-MCP integration
 
 | Method and path | Result | Authorization and important failure cases |
 | --- | --- | --- |
+| `POST /api/v1/owner-sessions` | Establish stable anonymous actor and scoped owner cookie before report commands | Bounded abuse controls; no analytics permission implied; subsequent report idempotency uses this actor |
 | `GET /api/v1/vehicles` and `/fitments` | Typed picker options with dataset version | Public bounded queries; 429 on abuse; no email/PII |
 | `POST /api/v1/reports` | 201 report ID, version, output, owner cookie; incomplete result when appropriate | Turnstile, limits; 422 invalid inputs, 503 safety data unavailable; no share capability unless requested |
 | `GET /api/v1/reports/{id}` | Owner DTO, requested version, evidence freshness | Owner capability/session; 404 generic for inaccessible IDs |
@@ -220,18 +228,22 @@ Use `/api/v1` from the start for browser, future mobile, and non-MCP integration
 | `POST /api/v1/sends/{id}/cancel` | 200 cancelled or 409 handoff already claimed | Owner send capability; compare-and-set against dispatch state |
 | `GET /api/v1/sends/{id}` | Safe delivery state | Same scope; never expose provider payloads |
 | `POST /api/v1/reports/{id}/pdf` | 202 generation or authorized short-lived download | Owner/view capability over allowed fields only; pinned version |
-| `POST /api/v1/collect` | 202 queued, or 204 dropped by consent | Signed consent state, event schema, batch limits; no trust in client `sale_allowed` |
+| `POST /api/v1/collect` | 202 after SQL event/invalidation commit, or 204 dropped by consent | Current signed subject/purpose state; dedupe/digest check; 422 invalid, 409 conflicting ID, 429 admission limit, 503 unavailable; no client-forged grants |
 | `POST /api/v1/webhooks/{provider}` | Fast verified durable receipt | Raw-body signature; duplicate 2xx; unsupported provider 404 |
 | `GET /e/c/{token}` | Fixed-destination 302 | Purpose-scoped link token; log failure does not block valid redirect |
 | `GET /go/{linkId}` | Approved retailer redirect | Opaque attribution; safe URL allowlist; unavailable destination uses error page |
 | `GET/POST /preferences/{token}` | Read/update purpose preferences | Purpose-scoped token; GET never mutates |
 | `POST /api/v1/unsubscribe/{token}` | Idempotent immediate marketing suppression | RFC 8058 payload; no login/challenge |
 | `POST /api/v1/privacy/requests` | Generic accepted response and verification step | Email/browser scope or authorized agent workflow; no forced account |
+| `GET /api/v1/content` and `/content/{key}` | Bounded published education DTOs with revision/locale | Public; no drafts or unrestricted CMS documents |
+| `POST /api/v1/tools/size-decode` | Validated unit-bearing tire-size interpretation | Public bounded input; shares pure parser/policies; no inferred verified fitment |
 | `/admin/api/*` and `/partners/api/v1/*` | Domain-specific staff/partner DTOs | Explicit role/org, MFA, audit; object-level authorization on every access |
+
+At E34 maintain an endpoint-to-service/UC/role inventory for the full launch API: catalog/fitment, report/refine/compare/quote/share, contact/consent/preferences, delivery/PDF/status, privacy requests, content/public tools, events/metrics, staff operational queries/commands, commercial configuration and provider callbacks. Staff actions use domain commands with audit, not generic table CRUD. Export reviewed schemas, safe examples, errors, auth scopes, pagination and idempotency rules; prove the headless journey against real repositories before S4 passes. Email/PDF visual templates and product screens follow at S5, with render-port fixtures labeled as such during S4.
 
 Browser owner capability is a high-entropy random secret stored hashed server-side and issued in a Secure, HttpOnly, SameSite cookie. A server-side owner session can cover multiple reports so the cookie remains small. For a new browser, email recovery requires verifying the contact's authority; a forwarded report link does not establish ownership. Mutations also validate Origin and CSRF state. Token expiry/rotation are configurable and logged.
 
-Initial limits, to tune from measured beta use: assessment 10/hour per pseudonymous IP key and 30/day per owner session; email 3/address/hour and 10/address/day plus 10/IP/hour; event batch at most 50 events or 64KB, accepted names and bounded fields; quote text 200 characters. All endpoints enforce request/body/timeout bounds. Do not let NAT-based limits become the only user identity or the only abuse control.
+Initial fixed UTC-window limits, combined with separately configured short burst limits and tuned from beta use (adjacent windows can burst; strict rolling offer caps are separate): assessment 10/hour per pseudonymous IP key and 30/day per owner session; email 3/address/hour and 10/address/day plus 10/IP/hour; event batch at most 50 events or 64KB, accepted names and bounded fields; quote text 200 characters. All endpoints enforce request/body/timeout bounds. Do not let NAT-based limits become the only user identity or the only abuse control.
 
 ## Security model
 
@@ -257,7 +269,9 @@ Sanitize CMS HTML and quote text; enforce CSP; allow only reviewed link origins 
 
 ## Caching and deployment
 
-Cache public catalog/fitment lookups by market and dataset version. Cache pure engine output by normalized non-identifying input hash and all relevant data versions; never cache contact/permission/offer decisions in that object. Avoid full ZIP in cache keys sent to external observability. Public articles use CMS-driven invalidation. Redirect snapshots validate loops, domains, bounded regexes and precedence before publication. Protect `/admin`, `/cms`, auth, privacy, API, and well-known routes from editorial redirects.
+Begin with indexed catalog/fitment reads and public CDN/framework caching by market/dataset version. Add an optional bounded PostgreSQL computation cache only after profiling repeated expensive pure calculations; keys include normalized non-identifying input and all relevant versions. Check expiry on reads, cap rows/bytes and clean up through scheduled jobs. Never cache contact/permission/offer decisions in that object. Avoid full ZIP in cache keys sent to external observability. Public articles use CMS-driven invalidation. Redirect snapshots validate loops, domains, bounded regexes and precedence before publication. Protect `/admin`, `/cms`, auth, privacy, API, and well-known routes from editorial redirects.
+
+Use PostgreSQL analytics with capped intake, restricted pools, short query/lock deadlines and bounded aggregation/purge jobs. Separate schemas do not isolate compute. Prove report p95 <2s under concurrent ingestion, limits and dashboard load; aggregate freshness ≤5 minutes and dashboard p95 <2s are initial validation targets. Optional collection degrades with explicit 429/503 and stale metrics; it cannot share a synchronous dependency with report submission. See [capacity and reconsideration](11-postgresql-and-build-order.md#capacity-failure-and-reconsideration).
 
 Environments: local with synthetic fixtures; isolated preview branch/database/storage prefix; staging with test email allowlist and no real ads/billing; production with least-privilege credentials. No production contacts in previews. Staging/preview protection uses authentication plus noindex; robots alone is insufficient. Each environment gets distinct webhook keys, cookie scopes, callback URLs, and job event namespaces.
 
@@ -275,7 +289,8 @@ Feature gates: offers serving, marketing dispatch, external ads, market availabi
 | Interaction stability | CLS at most 0.1; INP at most 200ms on key routes; ads cannot override layout budgets |
 | Report API | Proposed p95 under 2s for cached provider data; no live third-party lookup dependency on submit where avoidable |
 | Public availability | 99.9% monthly for assessment/report service; optional vendor failures reported separately |
-| Event collector | 99.9%, tolerates 10× measured beta baseline with bounded queue/backpressure; no synchronous analytics dependency |
+| Event collector | 99.9% target, 10× measured/forecast peak acceptance test with bounded SQL receipt/admission; report path does not wait for event ingestion or aggregation |
+| Analytics reads | Initial dashboard p95 <2s for allowed bounded queries; steady-state freshness ≤5min; privacy-invalidated aggregates hidden until rebuilt |
 | Email | p95 ESP acceptance within 60s after 60s undo window; measure provider delivery separately |
 | Click redirect | Under 100ms internal resolution target; external network RTT reported separately; safe redirect survives log outage |
 | CMS publish | Visible cache/revalidation change under 60s, with propagation status and retry |

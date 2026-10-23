@@ -39,3 +39,15 @@ Checked October 22, 2026 for the engineering expansion. Project-specific coverag
 - [Vitest coverage](https://vitest.dev/guide/coverage.html): coverage measurement for the planned unit/application suites.
 - [Playwright best practices](https://playwright.dev/docs/best-practices): user-visible behavior assertions and isolated browser tests.
 - [TypeScript strict mode](https://www.typescriptlang.org/tsconfig/strict.html): strict static checking; runtime boundary validation remains necessary.
+
+## PostgreSQL consolidation and implementation sequence
+
+Checked October 22, 2026. These sources support available mechanisms; the [consolidation decision](11-postgresql-and-build-order.md), build gates, capacity targets and estimates are project judgments requiring implementation evidence.
+
+- [PostgreSQL INSERT and ON CONFLICT](https://www.postgresql.org/docs/current/sql-insert.html): conflict-safe event identities and atomic conditional counter updates.
+- [PostgreSQL explicit locking](https://www.postgresql.org/docs/current/explicit-locking.html): short transactions, row locks, contention and deadlock considerations.
+- [PostgreSQL partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html): retention/large-table options and partition-key requirements for unique constraints; no unconditional partitioning requirement at launch.
+- [PostgreSQL materialized views](https://www.postgresql.org/docs/current/rules-materializedviews.html): persisted query results require refresh and may be stale; the selected design uses explicit aggregate generations.
+- [Neon connection pooling](https://neon.com/docs/connect/connection-pooling): transaction pooling and unsupported session assumptions; use bounded pools and transaction-local context.
+- [Inngest schedules and delayed starts](https://www.inngest.com/docs/durable-execution/guides-and-advanced/events-and-triggers/schedules-and-delayed-starts): scheduled execution without a persistent application timer.
+- [ClickHouse introduction](https://clickhouse.com/docs/get-started/about/intro) and [Redis data-store guide](https://redis.io/docs/latest/develop/get-started/data-store/): reviewed as alternatives; removed from the current dependency plan because their distinct capabilities are not yet a demonstrated requirement.

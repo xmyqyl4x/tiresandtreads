@@ -1,8 +1,8 @@
 # Requirements traceability
 
-This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All implementation work is **unstarted**. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E33 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
+This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All implementation work is **unstarted**. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E34 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
 
-Rows that span releases retain an explicit first slice and completion slice. The verification column describes evidence required before marking the requirement implemented. The source remains available for detailed field lists where there is no stated change.
+Package IDs remain stable. E04a/E04b distinguish schema from data access; `a`/`b` splits in E10/E12/E13/E15/E17/E18 distinguish services from later presentation, with E34/S4 providing common API exposure/acceptance. A row naming a base package requires all relevant parts. S1–S4 precede all product frontend work; see the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates). Rows that span releases retain an explicit first slice and completion slice. The verification column describes evidence required before marking the requirement implemented. The source remains available for detailed field lists where there is no stated change.
 
 ## Extended assessment
 
@@ -270,7 +270,10 @@ These planning IDs capture the user's TDD, database, maintainability, and perfor
 | --- | --- | --- | --- |
 | ENG-01 | Test-first behavioral development and regression fixes | E02 and every behavioral package | Recorded intended failing test, passing implementation, refactor verification and PR review under the TDD cycle |
 | ENG-02 | Unit, functional API/UI, and application/end-to-end use-case tests | E02,E06–E20; relevant R2–R4 work | Named suites, coverage gates, UC/AT mappings, negative/boundary/recovery cases, real integration proof rather than mock-only completion |
-| ENG-03 | Comprehensive relational design and integrity | E04,E05,E08,E11–E14; later E21–E33 | Typed schemas/migrations, PK/FK/UQ/check/index design, applicable DB01–DB16 tests, RLS/runtime roles, retention and upgrade/restore evidence |
+| ENG-03 | Comprehensive relational design and integrity | E04a/E04b,E05,E08,E11–E16,E34; later E21–E33 | Typed schemas/migrations, PK/FK/UQ/check/index design, applicable DB01–DB20 tests, RLS/runtime roles, retention and upgrade/restore evidence |
 | ENG-04 | Shared APIs and business logic with separation of concerns | E02 and all channels | Enforced package dependencies; thin transport/UI adapters; reusable application/domain services; contract compatibility and cross-channel parity tests |
 | ENG-05 | Maintainable and performant code/data access | E02,E06,E09,E10,E16,E19 | Strict typing, cohesive modules/value objects, justified patterns, bounded queries/jobs, measured hot-path/bundle/query plans, no unauthorized caching |
 | ENG-06 | Reviewable delivery and operational ownership | E02,E17,E19,E20 and later gates | Contribution/PR process, readable tests, documented migrations/failure recovery, redacted telemetry, updated requirements and no false completion claims |
+| ENG-07 | Database and data access before services/APIs, all launch APIs before product frontends | S0–S6, E04a/E04b,E34; same order in later releases | Gate evidence with real schema/repository/service/API tests; no UI dependency in backend work; compatible contracts consumed by S5 |
+| ENG-08 | Remove unnecessary ClickHouse/Redis/QStash dependencies | D29, E04,E16,E34 | PostgreSQL event/aggregate/limit adapters and conditional cache, retained Inngest scheduling; no removed-provider package/env/provisioning requirement; historical source/approval preserved |
+| ENG-09 | Demonstrate consolidated database reliability and capacity | E02,E04b,E16,E34,E19 | DB17–DB20, mixed 10× peak/load/cleanup/limit tests, measured report/dashboard/freshness budgets, bounded cost/retention and documented reconsideration triggers |
