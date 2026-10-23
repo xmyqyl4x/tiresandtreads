@@ -61,3 +61,11 @@ The prior 166–239 engineering-day subtotal does not include E35–E42 and is n
 ### Approval verification on October 23, 2026
 
 The approval update rechecked 19 Markdown documents, 83 tables and 188 local links/anchors, balanced fences, JSON parsing and requirement/use-case identifiers. All checks passed. The 137 reviewed FR rows and original AS01–AS07 approval rows are unchanged from `6724939`; source assets are untouched. No application tests were run because implementation has not started.
+
+## Implementation PR working backlog verification
+
+The October 23, 2026 task-list decomposition starts from approved main commit `3743a11d6457f418cc3e0a7268aed333b801b160`. The [master tracker](15-project-task-list.md) contains 119 planned core PRs: 43 in P1, 27 in P2, 25 in P3 and 24 in P4. Each has a stable ID, stage, responsible role, dependencies, trace references, three key-task checkboxes and verification/acceptance criteria. Ten separately gated optional activation tickets remain parked and are excluded from the core count. All core statuses are Not started and all assignees are Unassigned; no implementation completion is claimed.
+
+File-based checks verified matching card/ledger IDs and counts, 357 unchecked core tasks, ten unique optional tickets, all E01–E42 package mappings, valid trace references and existing relative link/heading targets. The dependency graph has no cycles or forward references: every card transitively depends on all earlier construction stages in its phase, and each later phase starts after the preceding live-release acceptance. All S5 interfaces therefore wait for the complete phase API gate. Optional activation requires explicit scope and child-PR decomposition before it can become release work.
+
+Structural validation passed for 26 Markdown documents and 96 tables, including balanced fences, local links/anchors, valid design-token/source-manifest JSON and whitespace checks. The original 137 FR rows and the AS01–AS07 signoff file are unchanged from the approved baseline; archived sources are untouched. The contribution guide, PR template and implementation/traceability entry points now reference the working tracker. These checks validate the planning artifacts only; application tests, migrations, provider evaluations and live release evidence remain tasks in the backlog.

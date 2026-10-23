@@ -10,6 +10,10 @@
 
 The [P1–P4 delivery contract](12-live-product-phases-and-gap-review.md#four-live-product-phases) now governs scope: P1 live core web/SEO/ads/reference scripts; P2 AI/reuse/photos/admin CSV plus reseller pilot; P3 usable app and MCP channel; P4 lifecycle, curated SEO/growth operations and core completion. R0/S stages are internal work, not live phases. Complete all APIs for the current phase before its UI; earlier live releases stay supported. Optional audiences/extra markets remain independently gated.
 
+## Implementation PR working backlog
+
+Use the [project task list](15-project-task-list.md) for day-to-day execution of this approved plan. It decomposes the four phases into 119 planned PRs (43/27/25/24), plus 10 parked optional activation tickets. The linked phase cards define key tasks, role ownership, dependencies and verification; the master ledger owns status, assignee and actual PR/evidence links. [Package mapping](tasks/work-package-pr-map.md) covers E01–E42 without treating a merged PR as a shipped phase. This decomposition does not revise scope, authorize external activation or supply a new elapsed-time estimate.
+
 ## Development process for every work package
 
 1. Establish readiness: requirement/UC/AT IDs, actors, acceptance examples, layer/table ownership, adverse paths, and realistic test data.

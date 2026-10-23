@@ -262,7 +262,7 @@ The source's early sections and nonfunctional requirements are also in scope. Th
 
 ## Implementation tracking rule
 
-At implementation, add PR/test evidence and shipped version to each completed row. A design decision, stub screen, passing mock-only test, or provider signup is not completion evidence. Requirements deferred by release remain explicit; no ID is silently dropped.
+Use the [working project task list](15-project-task-list.md) and [work-package PR map](tasks/work-package-pr-map.md) to select planned work. At PR readiness, bind exact requirement rows to the backlog ID; at implementation, add actual PR/test evidence and shipped version to each completed row. A design decision, stub screen, passing mock-only test, or provider signup is not completion evidence. Requirements deferred by release remain explicit; no ID is silently dropped.
 
 ## Engineering requirements from the requested expansion
 

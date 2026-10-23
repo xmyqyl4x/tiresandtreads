@@ -6,6 +6,8 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
+**Implementation working task list:** [119 planned PRs across Phases 1–4](docs/15-project-task-list.md), with key-task checklists, explicit dependencies, construction gates, responsible roles and a status/assignee/PR-evidence ledger. Ten separately gated options remain parked. Start with P1-PR-001; all implementation is unstarted.
+
 **Approved current plan:** [Four live releases and eight-point gap review](docs/12-live-product-phases-and-gap-review.md), with [domain data/imports](docs/13-domain-data-and-imports.md) and [AI analysis, PostgreSQL reuse and tire photos](docs/14-ai-analysis-and-photo-design.md). SEO and advertising are P1 foundations; AI/photo/admin imports arrive P2; app/MCP P3; lifecycle and growth operations P4. Earlier approvals remain tied to their reviewed commits; this amendment was [approved on October 23, 2026](docs/12-live-product-phases-and-gap-review.md#approval-record).
 
 **Approved architecture foundation:** build PostgreSQL schema → data access/entities → business services → exposed APIs → frontends. The [PostgreSQL and build-order amendment](docs/11-postgresql-and-build-order.md), [approved on October 22, 2026](docs/11-postgresql-and-build-order.md#approval-record), removes ClickHouse, Redis and QStash dependencies, while retaining first-party analytics, limits and bounded caching in PostgreSQL. The [stack/layer signoff](docs/07-stack-and-layer-signoff.md) preserves the original AS01–AS07 approval and identifies the amended AS02/AS07 choices. R0 integration evidence and release gates remain required.
