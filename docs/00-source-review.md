@@ -16,7 +16,7 @@ The user's approval was: “Approve these updates and merge the TDD, database de
 
 ## Current build-order and storage amendment
 
-The requesting user subsequently directed database-first construction and asked to remove unnecessary ClickHouse/Redis dependencies. [D28/D29 and their assessment](11-postgresql-and-build-order.md) replace those services, including QStash transport, with PostgreSQL analytics/limits and measured caching; Inngest still executes durable work. The plan now gates schema → data access/entities → business services → APIs → frontends. Original approval records above remain tied to the reviewed commits; this amendment records the new direction and detailed outcome without implying a new merge approval or performance certification.
+The requesting user subsequently directed database-first construction and asked to remove unnecessary ClickHouse/Redis dependencies. [D28/D29 and their assessment](11-postgresql-and-build-order.md) replace those services, including QStash transport, with PostgreSQL analytics/limits and measured caching; Inngest still executes durable work. The plan now gates schema → data access/entities → business services → APIs → frontends. Original approval records above remain tied to the reviewed commits. The user subsequently approved this amendment and its merge into main; see the [PostgreSQL/build-order approval record](11-postgresql-and-build-order.md#approval-record). Implementation and performance evidence remain outstanding.
 
 ## Review findings
 

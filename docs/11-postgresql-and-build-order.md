@@ -1,6 +1,6 @@
 # PostgreSQL consolidation and build order
 
-**Architecture amendment 1.0 · October 22, 2026.** The user requested a database-first implementation sequence and removal of unnecessary ClickHouse/Redis dependencies. This review changes the implementation target; it does not claim implementation, load-test results, procurement, or a new merge approval. It supersedes the affected parts of AS02/AS07 and the former overlapping frontend schedule. The original approvals remain recorded against their original commits in the [signoff record](07-stack-and-layer-signoff.md#7-signoff-decisions).
+**Architecture amendment 1.0 · October 22, 2026.** The user requested a database-first implementation sequence and removal of unnecessary ClickHouse/Redis dependencies. This approved amendment changes the implementation target; it does not claim implementation, load-test results or procurement. It supersedes the affected parts of AS02/AS07 and the former overlapping frontend schedule. The original approvals remain recorded against their original commits in the [signoff record](07-stack-and-layer-signoff.md#7-signoff-decisions).
 
 ## Decision
 
@@ -58,4 +58,10 @@ Database-first construction does not mean database-shaped business code. S1 esta
 | D29 / ENG-08 | PostgreSQL replaces Redis and ClickHouse duties; removes QStash transport; updates AS02/AS07 implementation selections while preserving their original approval history. |
 | ENG-09 | Require capacity, failure, consent/deletion, limit and cache tests before accepting consolidation; no performance or savings claim without measurements. |
 
-Reviewed prior baseline: [`e4aa24c`](https://github.com/xmyqyl4x/tiresandtreads/commit/e4aa24c38d203182b2c684ad74245e18c54e27f4). Direction supplied by the requesting user on October 22, 2026; detailed design outcome prepared in this amendment. Existing AS01/AS03–AS06, TDD obligations, source requirements and product release gates continue to apply. A subsequent merge/signoff record must identify the commit actually reviewed.
+Reviewed prior baseline: [`e4aa24c`](https://github.com/xmyqyl4x/tiresandtreads/commit/e4aa24c38d203182b2c684ad74245e18c54e27f4). Direction supplied by the requesting user on October 22, 2026; detailed design outcome prepared in this amendment. Existing AS01/AS03–AS06, TDD obligations, source requirements and product release gates continue to apply. The approval record below identifies the amendment commit reviewed and authorized for merge.
+
+## Approval record
+
+On **October 22, 2026 (America/Los_Angeles)**, the requesting user approved this amendment and all associated plan, architecture, database, TDD, coding-standard, traceability and contribution updates at reviewed commit [`fc34cb5`](https://github.com/xmyqyl4x/tiresandtreads/commit/fc34cb54ae8ed9c3e3ef63aed9ab822f22ec00bf).
+
+The user's instruction was: “Approve these updates and merge the database-first implementation plan and PostgreSQL consolidation branch into main.” This approves D28/D29, ENG-07–ENG-09, the AS02/AS07 amendments and the documentation merge. Original approvals remain preserved. Application work is unstarted; stage acceptance, capacity tests, specialist/provider evidence and production release gates remain required.

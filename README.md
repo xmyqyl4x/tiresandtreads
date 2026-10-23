@@ -6,7 +6,7 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
-**Current architecture:** build PostgreSQL schema → data access/entities → business services → exposed APIs → frontends. The [PostgreSQL and build-order amendment](docs/11-postgresql-and-build-order.md) removes ClickHouse, Redis and QStash dependencies, while retaining first-party analytics, limits and bounded caching in PostgreSQL. The [stack/layer signoff](docs/07-stack-and-layer-signoff.md) preserves the original AS01–AS07 approval and identifies the amended AS02/AS07 choices. R0 integration evidence and release gates remain required.
+**Approved current architecture:** build PostgreSQL schema → data access/entities → business services → exposed APIs → frontends. The [PostgreSQL and build-order amendment](docs/11-postgresql-and-build-order.md), [approved on October 22, 2026](docs/11-postgresql-and-build-order.md#approval-record), removes ClickHouse, Redis and QStash dependencies, while retaining first-party analytics, limits and bounded caching in PostgreSQL. The [stack/layer signoff](docs/07-stack-and-layer-signoff.md) preserves the original AS01–AS07 approval and identifies the amended AS02/AS07 choices. R0 integration evidence and release gates remain required.
 
 1. [Final product design](docs/01-final-product-design.md) - release scope, visual system, every major screen, interactions, responsive behavior, and tire-advice rules.
 2. [Technical architecture](docs/02-technical-architecture.md) - system boundaries, recommendation engine, data model, APIs, authorization, caching, and deployment.

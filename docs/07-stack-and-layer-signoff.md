@@ -1,6 +1,6 @@
 # Technology stack and application layer signoff
 
-**Version 1.1 · October 22, 2026 · Status: original AS01–AS07 approval retained; current AS02/AS07 selections amended by the subsequent user-directed PostgreSQL review.**
+**Version 1.1 · October 22, 2026 · Status: original AS01–AS07 approval retained; PostgreSQL/build-order amendment to current AS02/AS07 selections approved by the requesting user.**
 
 Build Tires & Tread as one modular TypeScript web application with a shared, deterministic tire recommendation engine. Use managed services for hosting, identity, persistence, durable jobs, email, and operational monitoring. The application owns its business rules, permissions, report history, and delivery state.
 
@@ -8,7 +8,7 @@ This current design defines the technology choices, functional modules, logical 
 
 **Subsequent engineering expansion:** the user requested explicit TDD, database design, and coding principles after AS01–AS07 approval. [Test-driven development](08-test-driven-development.md), [database design](09-database-design.md), and [coding standards](10-coding-standards.md) elaborate these boundaries. The original approval record remains tied to the reviewed proposal; the additional specifications do not represent completed implementation or closed R0 gates.
 
-**Current amendment:** [D28/D29](11-postgresql-and-build-order.md) requires database → data access/models → business services → exposed APIs → frontends, removes Redis/ClickHouse/QStash, and uses PostgreSQL events/aggregates, SQL quotas and measured caching. Sections 1–6 and 8 below describe this amended target; section 7 preserves the original reviewed decisions and identifies the changed IDs. No new merge approval or completed integration is implied.
+**Current amendment:** [D28/D29](11-postgresql-and-build-order.md) requires database → data access/models → business services → exposed APIs → frontends, removes Redis/ClickHouse/QStash, and uses PostgreSQL events/aggregates, SQL quotas and measured caching. Sections 1–6 and 8 below describe this amended target; section 7 preserves the original reviewed decisions and identifies the changed IDs. The user approved this amendment and its merge into main on October 22, 2026; see the [amendment approval record](11-postgresql-and-build-order.md#approval-record). Integration evidence remains required.
 
 ## 1. Review scope
 
