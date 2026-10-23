@@ -26,3 +26,7 @@ The archive manifest is [sources/manifest.json](sources/manifest.json). Integrit
 The current repository has no running application and no application test suite to execute. All product acceptance scenarios, provider/auth/CMS proofs, golden tire cases, accessibility checks on implemented UI, email-client/PDF rendering tests, live-data freshness checks, performance measurements, privacy fulfillment tests, and recovery drills remain implementation work. Color-token calculations establish useful defaults but do not replace accessibility testing of actual screens.
 
 Vendor selections are implementation directions contingent on R0 evidence. Staffing/effort figures are planning estimates. The source's example tire names, fitments, prices, ratings, lifespan statements and market rules are not verified catalog data. Legal applicability and data-program activation require the explicit gates in the implementation plan.
+
+## Stack and layer review supplement
+
+The [signoff proposal](07-stack-and-layer-signoff.md), dated October 22, 2026, adds explicit layer/module ownership and seven pending architecture decisions. Local documentation targets/anchors, balanced code fences, JSON parsing, and unique AS01–AS07/L1–L7 definitions were checked. The two proposed refinements are identified without changing the baseline's approval status. Existing source assets and requirements mappings are unchanged. Provider documentation supports the integration design; runtime compatibility, identity bridging, deployment, and performance remain R0 implementation checks.

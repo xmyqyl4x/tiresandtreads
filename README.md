@@ -6,6 +6,8 @@ This repository currently contains the final design and implementation planning 
 
 ## Start here
 
+**For architecture review:** [Technology stack and application layer signoff](docs/07-stack-and-layer-signoff.md) defines the proposed stack, seven logical layers, functional module ownership, deployment boundaries, and seven pending approval decisions. It includes two proposed refinements to the baseline: separate CMS database ownership and explicit analytics activation.
+
 1. [Final product design](docs/01-final-product-design.md) - release scope, visual system, every major screen, interactions, responsive behavior, and tire-advice rules.
 2. [Technical architecture](docs/02-technical-architecture.md) - system boundaries, recommendation engine, data model, APIs, authorization, caching, and deployment.
 3. [Delivery and privacy operations](docs/03-delivery-and-privacy.md) - email/PDF workflow, offers, consent, retention, privacy requests, analytics, and operational controls.

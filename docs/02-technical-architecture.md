@@ -2,6 +2,8 @@
 
 **Baseline 1.0 · October 22, 2026.** This is the implementation target, not an assertion that services or infrastructure already exist.
 
+**Architecture review pending:** [Technology stack and application layer signoff](07-stack-and-layer-signoff.md) defines the stack and logical/module boundaries for approval. Its separate CMS database and analytics activation refinements remain proposals until signoff; this baseline will be reconciled after approval.
+
 Build a modular Next.js application with a pure, versioned recommendation package. Public UI, staff operations, CMS, and later partner routes share domain services but not authorization privileges. Durable jobs handle external side effects. PostgreSQL is authoritative for reports, permissions, delivery, and money; analytics is a downstream projection.
 
 ## Stack and boundaries
