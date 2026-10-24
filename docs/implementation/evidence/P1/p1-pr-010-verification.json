@@ -1,0 +1,56 @@
+{
+  "sourceCommit": "2ee08865667b36be74b3f416faea851efa677adf",
+  "verifiedAt": "2026-10-24T16:33:22.688Z",
+  "runtime": {
+    "node": "24.22.1",
+    "postgresql": "18.6",
+    "payload": "3.92.0"
+  },
+  "tests": {
+    "unitAndUsecase": 87,
+    "database": 25,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 192
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-329a1d6c2523e81f",
+  "appImageId": "cdeaa6fce8d20aa3e80fe539f220fa6742d5f35f30721505145f8a2e3a9c21e9",
+  "recovery": {
+    "project": "tt-test-c1d73fd414c77a53",
+    "elapsedMs": 22967,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 775,
+    "backupWindowMs": 4225,
+    "tables": {
+      "app": 120,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "92e158385e94b00ddc29504ba66f653f4a6ef3aaa27ecd520b3764e1c0fa2af1",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 573683,
+      "cms": 194207
+    },
+    "backupSha256": {
+      "app": "0ca96a8d5af7d77166d5fd4374956cd59b533dbb9e6951c967790ff2e2fac117",
+      "cms": "c2f065d45510daf24c9e8932b2a2659792bea25956d8759ed94f62f6a5c0fb68"
+    },
+    "migrations": {
+      "app": 12,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  }
+}

@@ -12,7 +12,25 @@
 
 ## Full verification
 
-Exact-commit pipeline, retained dev/stage upgrade, final test counts and review links will be recorded after verification. No claim of owner acceptance or production readiness is made.
+`pnpm verify:push` passed on implementation commit `2ee08865667b36be74b3f416faea851efa677adf` with pinned Node 24.22.1/PostgreSQL 18.6 Linux containers and Payload 3.92.0. Main project: `tt-test-329a1d6c2523e81f`. The [redacted verification record](p1-pr-010-verification.json) retains versions, image, inventory/archive hashes, recovery timing and injected failures.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 87 passed |
+| Database | 25 passed: 14 catalog/import cases, nine transaction cases and two harness cases |
+| Foundation | Six passed |
+| Schema | All 63 passed with existing ownership/upgrade/retention constraints preserved |
+| Recovery | All 11 passed in `tt-test-c1d73fd414c77a53`; 120 app/28 CMS tables and 31 app views preserved |
+| Quality | Strict types, expected type failures, lint, formatting, source hygiene, boundaries, OpenAPI and 12 app/two CMS checksums passed |
+| Dependencies | Frozen pinned install and advisory audit passed; versions/lockfile unchanged |
+| Failure gates | All seven deliberate failures rejected |
+| HTTP/lifecycle | Health-only routes, absent product routes, invalid hosted config, shutdown and restart passed |
+| Retained dev/stage | Each added three role credentials and one app migration; 12 app/two CMS, zero pending, replay zero; old credentials/CMS secret preserved |
+| Cleanup | Both random test environments removed their own containers/networks/volumes; dev/stage stopped with volumes retained |
+
+Total: **192 passing tests**. Recovery elapsed 22967 ms including image preparation; synthetic backup window 4225 ms. These are local proof measurements, not production RTO/RPO. The final row-bound test uses a recall description so the new serialized-row constraint is exercised independently of older short-label bounds.
+
+The review-link/evidence commit must repeat full exact-commit verification before push. [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10) records the final tested SHA and independent CI. Owner acceptance and the complete S2 gate at 013 remain pending.
 
 ## Remaining gates
 

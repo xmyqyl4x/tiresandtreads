@@ -1,6 +1,6 @@
 # P1-PR-010 — Catalog and ingestion repositories
 
-**October 24, 2026 · in progress; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Prerequisites: accepted local S1 in 008 and owner-approved [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9), merged at `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. This implements the [010 card](../tasks/phase-1-prs.md#p1-pr-010), S2/E04/E05/E35/E36 and repository portions of DB14/DB21/DB22. Estimated review scope: one catalog/import persistence slice, including the grants and migration needed to test it under real roles; no delivery-date forecast is inferred.
+**October 24, 2026 · in review; owner acceptance pending.** Review: [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10). Implementer: Codex. Acceptance owner: repository owner. Prerequisites: accepted local S1 in 008 and owner-approved [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9), merged at `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. This implements the [010 card](../tasks/phase-1-prs.md#p1-pr-010), S2/E04/E05/E35/E36 and repository portions of DB14/DB21/DB22. Estimated review scope: one catalog/import persistence slice, including the grants and migration needed to test it under real roles; no delivery-date forecast is inferred.
 
 ## Contracts and boundaries
 

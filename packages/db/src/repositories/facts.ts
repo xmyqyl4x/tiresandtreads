@@ -392,4 +392,9 @@ export const facts = {
       schemaVersion: { column: 'schema_version', codec: 'integer', nullable: false },
     },
   },
-} as const satisfies Record<keyof FactRecords, { table: string; fields: Record<string, Field> }>;
+} as const satisfies {
+  readonly [Kind in keyof FactRecords]: {
+    readonly table: string;
+    readonly fields: { readonly [Key in keyof FactRecords[Kind]]: Field };
+  };
+};
