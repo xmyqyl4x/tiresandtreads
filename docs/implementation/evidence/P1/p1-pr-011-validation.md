@@ -13,7 +13,25 @@
 
 ## Full verification
 
-Exact-commit pipeline, retained dev/stage upgrade and final counts will be recorded after verification. No owner acceptance or live product release is claimed.
+`pnpm verify:push` passed on corrected implementation commit `3697aa1aa050b464bcb6054114909ce494ec65dd` with pinned Node 24.22.1/PostgreSQL 18.6 Linux containers and Payload 3.92.0. The stale-draft regression is green. Main project: `tt-test-557ff5cc8bb4f133`. The [redacted verification record](p1-pr-011-verification.json) retains image, inventory/archive hashes, timing and injected recovery failures.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 89 passed |
+| Database | 45 passed: 20 private repository, 14 catalog/import, nine transaction and two harness cases |
+| Foundation | Six passed |
+| Schema | All 63 passed, preserving ownership, upgrades and retention constraints |
+| Recovery | All 11 passed in `tt-test-8ce9e9c3b192ba7b`; 120 app/28 CMS tables and 31 app views preserved |
+| Quality | Strict types, expected type failures, lint, formatting, hygiene, boundaries, OpenAPI and 13 app/two CMS checksums passed |
+| Dependencies | Frozen pinned install and advisory audit passed; versions/lockfile unchanged |
+| Failure gates | All seven deliberate failures rejected |
+| HTTP/lifecycle | Health-only routes, absent product routes, invalid hosted config, shutdown and restart passed |
+| Retained dev/stage | Each added only the private role credential and one app migration; 13 app/two CMS, zero pending, replay zero; all existing credentials/CMS secrets preserved |
+| Cleanup | Random test environments removed their own containers/networks/volumes; dev/stage stopped with volumes retained |
+
+Total: **214 passing tests**. Recovery elapsed 22696 ms including preparation; synthetic backup window 4626 ms. These are local proof measurements, not production RTO/RPO.
+
+The review-link/evidence commit repeats full exact-commit verification before push. [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11) records the final tested SHA and independent CI. Owner acceptance and the complete S2 gate at 013 remain pending.
 
 ## Remaining gates
 

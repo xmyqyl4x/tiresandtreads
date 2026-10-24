@@ -1,6 +1,6 @@
 # P1-PR-011 — Owner, report, privacy and delivery repositories
 
-**October 24, 2026 · in progress; owner acceptance pending.** Baseline: owner-approved [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10), merged at `18a264a7056c11f2b7a2fe90c8698337f20d3e3a`. Implementer: Codex. Acceptance owner: repository owner. Implements the [011 card](../tasks/phase-1-prs.md#p1-pr-011), S2/E04/E08/E10/E11/E12/E14 and repository portions of DB01/DB03/DB04/DB07/DB12/DB15.
+**October 24, 2026 · in review; owner acceptance pending.** Review: [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11). Baseline: owner-approved [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10), merged at `18a264a7056c11f2b7a2fe90c8698337f20d3e3a`. Implementer: Codex. Acceptance owner: repository owner. Implements the [011 card](../tasks/phase-1-prs.md#p1-pr-011), S2/E04/E08/E10/E11/E12/E14 and repository portions of DB01/DB03/DB04/DB07/DB12/DB15.
 
 ## Contracts and authority
 
