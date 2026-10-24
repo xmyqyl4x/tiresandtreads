@@ -23,8 +23,8 @@ Use explicit commands, immutable snapshots/value objects, state machines, narrow
 | Web | Next.js App Router, strict TypeScript, React | Pin mutually compatible stable Next/React/Payload versions at R0; do not infer versions from this plan |
 | Forms and contracts | React Hook Form, Zod | Shared client/server validation; server remains authoritative |
 | Styling and locale | Tailwind, Radix UI primitives, next-intl/Intl | Use design tokens; keep engine reason codes language-neutral |
-| Hosting | Portable Linux Node.js 24 app containers outside Vercel; reverse proxy/public CDN | Match runtime in dev/stage/CI; select final host in S0; co-locate app and DB; private responses never enter shared caches |
-| Operational data | Standard PostgreSQL outside Vercel, Drizzle + `pg` | Managed or self-operated production DB chosen in S0; bounded runtime pools, separate app/CMS databases and migration credentials |
+| Hosting | Portable Linux Node.js 24 app containers outside Vercel; reverse proxy/public CDN | Match runtime in dev/stage/CI; select final host before hosted integration under the [P1 decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register); co-locate app and DB; private responses never enter shared caches |
+| Operational data | Standard PostgreSQL outside Vercel, Drizzle + `pg` | Managed or self-operated production DB chosen before hosted integration; bounded runtime pools, separate app/CMS databases and migration credentials |
 | CMS | Embedded Payload with `@payloadcms/db-postgres`, separate logical database | Payload owns CMS database/migrations; prove grants, recovery isolation, and Clerk integration at R0 |
 | Auth | Clerk staff and organization identities | Mandatory MFA, separate staff/reseller audiences, explicit server role checks; consumer realm added R3 |
 | Workflows | Inngest | Email, PDF, imports, privacy jobs, future reminders; persisted state and retriable steps |

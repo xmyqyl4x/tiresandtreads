@@ -86,7 +86,7 @@ The PDF package is the [React PDF renderer](https://github.com/diegomura/react-p
 | External advertising networks | R1 capability, activated only after network approval, consent, layout/performance, and private-token isolation tests |
 | Tier A/B/C data products | Optional P4/future scope and separate release gates; architecture approval does not activate exports |
 
-The number of managed services carries an operating cost: credentials, deletion coverage, incident handling, retention, and billing need named owners. G0 must approve one consolidated vendor/region/cost register, including data licensing. No numeric monthly ceiling is set by this document. Keep adapters narrow enough to replace a provider without rewriting the tire engine or report model.
+The number of managed services carries an operating cost: credentials, deletion coverage, incident handling, retention, and billing need named owners. G0 must approve one consolidated vendor/region/cost register, including data licensing. No numeric monthly ceiling is set by this document. The owner subsequently deferred commercial provider/hosting-budget choices: [P1 blocking triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register) permit synthetic local construction while G0 is open; relevant real adapters/provisioning remain gated and full G0 is due by P1-PR-031. Keep adapters narrow enough to replace a provider without rewriting the tire engine or report model.
 
 ## 3. Logical application layers
 

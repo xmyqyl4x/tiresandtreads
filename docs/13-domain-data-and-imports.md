@@ -4,6 +4,8 @@
 
 ## Source authority and initial coverage
 
+The [P1 launch register](implementation/P1-PR-001-launch-baseline.md#source-and-rights-register) records candidate sources, unresolved rights and zero verified launch coverage. The owner deferred provider selection until needed. Generic schemas and synthetic import tests may proceed; permitted access and field/rights contracts are required before protected samples or accepting a real connector.
+
 Keep enough domain data to populate forms, explain supported choices and investigate recalls without making every page request depend on an external service. Store normalized records plus provenance, rights, retrieval time, source revision, review state and explicit unknowns. Preserve the selected P1 coverage of about 100 verified vehicle configurations and 50 tire models at size/SKU level; a larger lookup catalogue must not imply verified recommendation coverage.
 
 | Domain | Candidate authority / use | Boundary and initial refresh policy |
