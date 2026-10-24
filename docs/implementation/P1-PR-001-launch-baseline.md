@@ -1,6 +1,6 @@
 # P1-PR-001 — Launch scope and deferred decisions
 
-**Prepared October 23, 2026 · Review pending.** Branch: `codex/p1-pr-001-launch-scope`. Baseline: `48751c1f5e314fde59f36a2bc53101225a40c3c4`. Implementation owner: Codex; product reviewer/decision owner: repository owner. Specialist, editorial, privacy and production operations reviewers remain unassigned. This packet starts the [Phase 1 task list](../tasks/phase-1-prs.md#p1-pr-001); it does not accept G0 or claim verified tire coverage.
+**Prepared October 23, 2026 · [PR #1 open for review](https://github.com/xmyqyl4x/tiresandtreads/pull/1).** Branch: `codex/p1-pr-001-launch-scope`. Baseline: `48751c1f5e314fde59f36a2bc53101225a40c3c4`. Implementation owner: Codex; product reviewer/decision owner: repository owner. Specialist, editorial, privacy and production operations reviewers remain unassigned. This packet starts the [Phase 1 task list](../tasks/phase-1-prs.md#p1-pr-001); it does not accept G0 or claim verified tire coverage.
 
 ## Direction and construction gates
 

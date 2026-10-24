@@ -1,6 +1,6 @@
 # Implementation working project task list
 
-**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. P1-PR-001 scope/feasibility work is in progress; application code remains unimplemented. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
+**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. P1-PR-001 scope/feasibility work is in review; application code remains unimplemented. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
 
 This file is the authoritative ledger for status, assignee and actual PR/evidence links. Detailed key-task checklists, responsible roles, dependencies and verification criteria live in the four linked phase files. Stable IDs are backlog identifiers; real GitHub PR URLs are added as work opens. [Requirements traceability](05-requirements-traceability.md), [work packages](04-implementation-plan.md), [TDD](08-test-driven-development.md), [database design](09-database-design.md) and [coding standards](10-coding-standards.md) remain authoritative specifications.
 
@@ -60,7 +60,7 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 
 | Planned PR and title | Stage | Status | Assignee | PR / acceptance evidence |
 | --- | --- | --- | --- | --- |
-| [P1-PR-001 — Lock Phase 1 scope, data rights and launch coverage](tasks/phase-1-prs.md#p1-pr-001) | S0 | In progress | Codex; owner review pending | [Launch baseline and probes](implementation/P1-PR-001-launch-baseline.md) |
+| [P1-PR-001 — Lock Phase 1 scope, data rights and launch coverage](tasks/phase-1-prs.md#p1-pr-001) | S0 | In review | Codex; owner review pending | [PR #1](https://github.com/xmyqyl4x/tiresandtreads/pull/1); [launch baseline and probes](implementation/P1-PR-001-launch-baseline.md) |
 | [P1-PR-002 — Bootstrap headless workspace and TDD tooling](tasks/phase-1-prs.md#p1-pr-002) | S0 | Not started | Unassigned | — |
 | [P1-PR-003 — Prove local foundation and track provider gates](tasks/phase-1-prs.md#p1-pr-003) | S0 | Not started | Unassigned | — |
 | [P1-PR-004 — Create database ownership, identity and asset foundations](tasks/phase-1-prs.md#p1-pr-004) | S1 | Not started | Unassigned | — |
