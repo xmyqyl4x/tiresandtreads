@@ -1,6 +1,6 @@
 # P1-PR-008 — S1 database validation and recovery
 
-**October 23, 2026 · in progress; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Prerequisite [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) was owner-approved and merged at `ad3822ae51ed969c6d575ff7e661d8e6a1362623`. This is the P1/S1 gate for E04/E19 and ENG-03, DB13 and DB28, following the [task card](../tasks/phase-1-prs.md#p1-pr-008).
+**October 23, 2026 · in review; owner acceptance pending.** Review: [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8). Implementer: Codex. Acceptance owner: repository owner. Prerequisite [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) was owner-approved and merged at `ad3822ae51ed969c6d575ff7e661d8e6a1362623`. This is the P1/S1 gate for E04/E19 and ENG-03, DB13 and DB28, following the [task card](../tasks/phase-1-prs.md#p1-pr-008).
 
 ## Scope and S1 decision
 

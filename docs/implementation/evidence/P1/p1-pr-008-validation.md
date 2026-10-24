@@ -15,7 +15,26 @@
 
 ## Final verification
 
-Exact-commit pipeline evidence and PR/CI links will be recorded after the implementation commit passes. Owner acceptance remains pending.
+`pnpm verify:push` passed on implementation commit `a0fc0a1520961406a0dfe8e29957761d41c8ca88` with pinned Node 24.22.1/PostgreSQL 18.6 Linux containers and Payload 3.92.0. Main project: `tt-test-99d543480ec10cfd`. The [redacted machine-readable record](p1-pr-008-recovery.json) retains its app image, inventory hashes, archive hashes/sizes, versions, timings and injected failures.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 48 passed, including nine archive-admission cases |
+| Existing PostgreSQL harness | Two passed |
+| Foundation integration | Six passed |
+| Schema integration | All 63 passed, including empty/populated app/CMS upgrades and real role restrictions |
+| Recovery integration | All 11 passed in `tt-test-365475c05fa67bfb` |
+| Complete inventory | 119 app / 28 CMS tables, two app views; definitions, ACLs, indexes and all table fingerprints matched |
+| Quality | Types, lint, format, source hygiene, boundaries, OpenAPI and 11 app/two CMS checksums passed |
+| Dependencies | Frozen pinned install and audit passed; no dependency changes |
+| Deliberate failure gates | All six rejected: failing test and forbidden dependency/client/test/operator imports |
+| HTTP/lifecycle | Headless health, absent product routes, invalid hosted config, shutdown and restart passed |
+| Local dev/stage | 11 app/two CMS, zero pending in both; stopped with retained volumes |
+| Cleanup | Both random test projects removed their containers, networks and volumes |
+
+Total: **130 passing tests**. Recovery elapsed 28232 ms including image preparation; the synthetic backup window was 4451 ms. Archives were 511,847 app bytes and 194,206 CMS bytes. These measurements do not establish production capacity or RTO/RPO. Existing 100% coverage applies only to the small runtime/health packages; SQL and recovery behavior use real PostgreSQL integration tests.
+
+The review-link commit must pass the same full verification before push. [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8) records its final SHA and independent GitHub CI. Local S1 acceptance remains pending owner approval; P1-PR-009 is not started.
 
 ## Limits
 
