@@ -544,10 +544,10 @@ it('enforces stored row and published manifest bounds even for privileged direct
   const r = await f.run();
   await expect(
     f.owner.query(
-      "INSERT INTO app.tire_models(dataset_version_id,source_record_key,brand,model,category,seasonal_class) VALUES($1,'huge',$2,'model','unknown','unknown')",
+      "INSERT INTO app.recalls(dataset_version_id,source_record_key,authority,recall_number,announced_on,status,source_url,summary,product_type) VALUES($1,'huge','synthetic','TEST',current_date,'unknown','https://example.invalid/recall',$2,'tire')",
       [r.datasetId, 'x'.repeat(70000)],
     ),
-  ).rejects.toMatchObject({ code: '23514', constraint: 'tire_models_read_size_ck' });
+  ).rejects.toMatchObject({ code: '23514', constraint: 'recalls_read_size_ck' });
   await f.owner.query(
     "UPDATE app.dataset_versions SET status='published',published_at=now() WHERE id=$1",
     [r.datasetId],
