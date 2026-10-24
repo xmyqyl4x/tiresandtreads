@@ -14,7 +14,24 @@
 
 ## Final verification
 
-Exact-commit full-pipeline evidence and PR/CI links will be recorded after the implementation commit passes. Owner acceptance remains pending.
+`pnpm verify:push` passed on implementation commit `dbca4d198fdbad3c804a8e8b613fadb2593121bb` with pinned Node 24.22.1/PostgreSQL 18.6 Linux containers and Payload 3.92.0. Main project: `tt-test-9a27029fe4743491`. The [redacted machine-readable record](p1-pr-009-verification.json) retains its image, recovery inventory/archive hashes, versions, timings and injected failures.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 81 passed, including 33 new value/mapping/transaction cases |
+| Database | 11 passed, including nine new restricted-role transaction cases |
+| Foundation integration | Six passed |
+| Schema integration | All 63 passed after transaction-fixture cleanup; app/CMS ownership, upgrades and constraints preserved |
+| Recovery integration | All 11 passed in `tt-test-fac20fae2d704cf2`; 119 app / 28 CMS tables and two app views preserved |
+| Quality | Strict types, expected type failures, lint, format, source hygiene, layer boundaries, OpenAPI and 11 app/two CMS checksums passed |
+| Dependencies | Frozen pinned install and advisory audit passed; dependency versions/lockfile unchanged |
+| Deliberate failure gates | All seven rejected, including an engine type-only dependency on consent |
+| HTTP/lifecycle | Headless health, absent product routes, invalid hosted config, shutdown and restart passed |
+| Cleanup | Both random test projects removed their containers, networks and volumes |
+
+Total: **172 passing tests**. Recovery elapsed 22454 ms including image preparation; the synthetic backup window was 3688 ms. These measurements do not establish production capacity or RTO/RPO. Dev/stage retain the previously accepted migrations and volumes; this change requires no schema upgrade.
+
+The review-link/evidence commit must pass the same full verification before push. [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9) records the final tested SHA and independent GitHub CI. P1-PR-009 owner acceptance remains pending; the complete S2 gate remains P1-PR-013.
 
 ## Limits
 

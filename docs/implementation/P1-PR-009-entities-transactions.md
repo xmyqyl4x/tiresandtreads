@@ -1,6 +1,6 @@
 # P1-PR-009 — Typed entities and transaction helpers
 
-**October 23, 2026 · in progress; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. The owner approved [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8), merged at `beccd8efe28e6df1eef6fe99fd088787521b8d9a`, accepting the local P1 S1 database gate. This starts S2/E04 under the [009 task card](../tasks/phase-1-prs.md#p1-pr-009).
+**October 23, 2026 · in review; owner acceptance pending.** Review: [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9). Implementer: Codex. Acceptance owner: repository owner. The owner approved [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8), merged at `beccd8efe28e6df1eef6fe99fd088787521b8d9a`, accepting the local P1 S1 database gate. This starts S2/E04 under the [009 task card](../tasks/phase-1-prs.md#p1-pr-009).
 
 ## Scope and traceability
 
@@ -39,7 +39,7 @@ Provenance identifies provider, license, immutable dataset, source record, fetch
 
 `createTransactions(pool)` returns an application `unitOfWork` and an adapter-only `query(tx, sql, parameters)`. Services receive only the unit-of-work and repository ports. SQL adapters receive the query capability; all cooperating writers use the same explicit context. There is no ambient/global client, automatic transaction joining, savepoint API or automatic retry. Nested use cases must reuse their supplied context; starting another unit of work would be a separate transaction and cannot provide aggregate atomicity.
 
-The helper borrows one connection, starts `READ COMMITTED`, applies local SQL limits, runs the awaited callback and commits only a successful typed result. Typed business failure, thrown failure, caught SQL error, concurrent/floating statement or stale/foreign context prevents a successful commit. Even if a caller catches a query exception, the scope remains failed. Contexts expire before cleanup and cannot submit later work. Two query methods share a connection only through the same scoped adapter; independent pool queries do not join it.
+The helper borrows one connection, starts `READ COMMITTED`, applies local SQL limits, runs the awaited callback and commits only a successful typed result. Typed business failure, thrown failure, caught SQL error or concurrent/floating statement prevents a successful commit. Queries with stale/foreign contexts are rejected before reaching SQL. Even if a caller catches a query exception, the scope remains failed. Contexts expire before cleanup and cannot submit later work. Two query methods share a connection only through the same scoped adapter; independent pool queries do not join it.
 
 | Limit | Default | Maximum override |
 | --- | --- | --- |
