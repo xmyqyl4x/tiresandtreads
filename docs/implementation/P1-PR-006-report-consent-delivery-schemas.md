@@ -1,6 +1,6 @@
 # P1-PR-006 — Report, consent, delivery and reliability schemas
 
-**October 23, 2026 · in progress; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Prerequisite [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5) was owner-approved and merged at `2d8acd2c8476e12debae29b5738ae74cd8d3cd4b`. This is P1/S1, E04/E08/E10/E11/E12/E13/E14, following the [task card](../tasks/phase-1-prs.md#p1-pr-006).
+**October 23, 2026 · in review; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6). Prerequisite [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5) was owner-approved and merged at `2d8acd2c8476e12debae29b5738ae74cd8d3cd4b`. This is P1/S1, E04/E08/E10/E11/E12/E13/E14, following the [task card](../tasks/phase-1-prs.md#p1-pr-006).
 
 ## Scope and schema
 

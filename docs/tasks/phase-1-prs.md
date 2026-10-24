@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -156,7 +156,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add encrypted contacts, consent/suppression/rights/deletion records, sends/templates/attempts/events and fixed presentation references.
 - [x] Create idempotency/outbox/inbox, deferred/composite FKs, revision and lifecycle constraints; create the audit schema and bind `import_publications.approval_record_id` to `admin.audit_events` with a named FK/index before removing its 005 NULL-only check.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-006-report-consent-delivery-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-006-validation.md). Real PostgreSQL tests reject wrong-owner references, fifth comparison slots and duplicate identities; prove circular FK/upgrade ordering, fixed sends, privacy detachments and command-claim contention. Implementation is in progress; owner acceptance remains pending.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-006-report-consent-delivery-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-006-validation.md). Real PostgreSQL tests reject wrong-owner references, fifth comparison slots and duplicate identities; prove circular FK/upgrade ordering, fixed sends, privacy detachments and command-claim contention. [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6) is in review; owner acceptance remains pending.
 
 ### P1-PR-007
 
