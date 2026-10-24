@@ -1,6 +1,6 @@
 # P1-PR-005 — Domain, catalog, reference and import schemas
 
-**October 23, 2026 · in review; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5). Prerequisite [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) was owner-approved and merged at `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. This is P1/S1, work packages E04/E05/E35/E36, following the [task card](../tasks/phase-1-prs.md#p1-pr-005).
+**October 23, 2026 · accepted after owner approval and merge.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5), merged at `2d8acd2c8476e12debae29b5738ae74cd8d3cd4b` after exact-head CI passed. Prerequisite [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) was owner-approved and merged at `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. This is P1/S1, work packages E04/E05/E35/E36, following the [task card](../tasks/phase-1-prs.md#p1-pr-005).
 
 ## Scope and traceability
 
@@ -40,7 +40,7 @@ Connector origins accept an HTTPS origin without path, user-info, query or fragm
 
 ### Audit FK sequencing
 
-`import_publications.approval_record_id` is present but constrained to NULL until P1-PR-006 creates `admin.audit_events`. That migration must add its named FK and leading index before removing `import_publications_audit_pending_ck`; a column comment and the 006 task card record the dependency. This avoids either an unvalidated audit UUID or premature implementation of the audit module. No automated publication is enabled here. Later services require audited identity/approval even where the relational column permits a system workflow.
+At the accepted 005 baseline, `import_publications.approval_record_id` is constrained to NULL until P1-PR-006 creates `admin.audit_events`. [006](P1-PR-006-report-consent-delivery-schemas.md) now supplies that additive FK/index migration and preserves earlier NULL approvals without fabrication. That migration must add its named FK and leading index before removing `import_publications_audit_pending_ck`; a column comment and the 006 task card record the dependency. This avoids either an unvalidated audit UUID or premature implementation of the audit module. No automated publication is enabled here. Later services require audited identity/approval even where the relational column permits a system workflow.
 
 ## Local operation and recovery
 

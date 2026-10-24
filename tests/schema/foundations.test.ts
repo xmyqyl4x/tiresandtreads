@@ -10,6 +10,7 @@ import { migrateCms } from '../../scripts/database/cms.ts';
 import { cmsFoundationConfig } from '../../scripts/database/cms-config.ts';
 import type { DatabaseRole } from '../../scripts/database/bootstrap.ts';
 import { registerDomainCatalogTests } from './domain-catalog.cases.ts';
+import { registerReportDeliveryTests } from './report-delivery.cases.ts';
 
 let urls: Awaited<ReturnType<typeof schemaFixture>>;
 const clients = {} as Record<DatabaseRole, pg.Client>;
@@ -39,7 +40,11 @@ it('migrates empty then populated previous schema, preserving data and replaying
   );
   const seed = readFileSync('infra/database/seeds/synthetic.sql', 'utf8');
   await clients.tt_app_migrator.query(seed);
-  expect(await migrateApplication(target, sources)).toBe(sources.length - 2);
+  expect(await migrateApplication(target, sources.slice(0, 5))).toBe(3);
+  await clients.tt_app_migrator.query(
+    readFileSync('tests/fixtures/schema/pr005-upgrade.sql', 'utf8'),
+  );
+  expect(await migrateApplication(target, sources)).toBe(sources.length - 5);
   expect(await migrateApplication(target, sources)).toBe(0);
   expect(
     (await clients.tt_app_runtime.query("SELECT label FROM app.locales WHERE code='zz-ZZ'")).rows[0]
@@ -110,6 +115,10 @@ it('refuses changed applied SQL and unrecognized database history before applyin
 
 // Run the catalog cases after the populated-prior-schema upgrade and migration checks.
 registerDomainCatalogTests(
+  () => clients,
+  () => urls.tt_app_migrator,
+);
+registerReportDeliveryTests(
   () => clients,
   () => urls.tt_app_migrator,
 );
@@ -278,11 +287,11 @@ it('enforces staff references and permission JSON while leaving synthetic identi
 it('has migration ownership and a leading index for every application foreign key', async () => {
   const owner = clients.tt_app_migrator;
   const tables = await owner.query(
-    "SELECT DISTINCT tableowner FROM pg_tables WHERE schemaname IN ('app','admin','migration_meta')",
+    "SELECT DISTINCT tableowner FROM pg_tables WHERE schemaname IN ('app','admin','privacy','email','migration_meta')",
   );
   expect(tables.rows).toEqual([{ tableowner: 'tt_app_migrator' }]);
   const foreignKeys = await owner.query(
-    "SELECT conname, conrelid, conkey FROM pg_constraint WHERE contype='f' AND connamespace IN ('app'::regnamespace,'admin'::regnamespace)",
+    "SELECT conname, conrelid, conkey FROM pg_constraint WHERE contype='f' AND connamespace IN ('app'::regnamespace,'admin'::regnamespace,'privacy'::regnamespace,'email'::regnamespace)",
   );
   expect(foreignKeys.rowCount).toBeGreaterThan(5);
   for (const fk of foreignKeys.rows) {

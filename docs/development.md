@@ -1,6 +1,6 @@
 # Local development and verification
 
-Accepted P1-PR-002 implements the headless workspace and test harness. P1-PR-003 adds [local integration proofs and external gates](implementation/P1-PR-003-local-foundation.md). [P1-PR-004](implementation/P1-PR-004-database-foundations.md) adds database ownership, registry, identity and asset migrations. There are no product screens, tire schemas, recommendation services or real provider integrations yet. `/` deliberately returns 404. Health endpoints report `scope: bootstrap`, not database/provider or product readiness.
+Accepted P1-PR-002 implements the headless workspace and test harness. P1-PR-003 adds [local integration proofs and external gates](implementation/P1-PR-003-local-foundation.md). [P1-PR-004](implementation/P1-PR-004-database-foundations.md) adds database ownership, registry, identity and asset migrations. P1-PR-005 adds catalog/reference/import schemas and P1-PR-006 adds report/privacy/delivery/reliability schemas. Product screens, recommendation/delivery services and real provider integrations remain at later cards. `/` deliberately returns 404. Health endpoints report `scope: bootstrap`, not database/provider or product readiness.
 
 ## Start with Docker
 
@@ -106,6 +106,8 @@ Run `node scripts/verify/database.mjs` for focused disposable schema tests, or `
 P1-PR-005 adds three application migrations (source/identity, catalog/reference and imports), making five application migrations and one CMS migration. Upgrade existing dev/stage with `pnpm database migrate dev` and `pnpm database migrate stage`; status should report zero pending and replay should apply zero versions. The 42 new tables start empty and retain no runtime grants. Synthetic catalog facts exist only in disposable schema fixtures; optional local seeds retain the 004 identity/asset scope. See the [catalog/import packet](implementation/P1-PR-005-domain-catalog-import-schemas.md) and [validation evidence](implementation/evidence/P1/p1-pr-005-validation.md).
 
 Application SQL lives in `infra/database/app`; generated Payload TypeScript and snapshots live in `infra/database/cms`. Add a sorted version and SHA-256 entry to its manifest after review, using LF source bytes. Do not change a deployed migration/hash to get past a mismatch. Future Payload generation should use the retained snapshot and current desired config in a disposable development copy, then review its generated SQL/type imports/grants before committing. `migrate` never generates code. There is no automatic destructive rollback; use compatible application rollback or an additive database correction. Full backup/restore/deletion-replay drills remain P1-PR-008 and chosen-host gates.
+
+P1-PR-006 adds four migrations, bringing application history to nine and CMS history to one. Use the same dev/stage migrate/status commands; replay applies zero. Its 42 new tables retain default-deny runtime access, and the audit FK replaces the prior NULL-only placeholder. See the [report/delivery packet](implementation/P1-PR-006-report-consent-delivery-schemas.md) and [validation evidence](implementation/evidence/P1/p1-pr-006-validation.md).
 
 ## Pinned toolchain rationale
 

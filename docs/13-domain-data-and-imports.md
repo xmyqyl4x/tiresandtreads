@@ -1,6 +1,6 @@
 # Domain reference data and ingestion
 
-**Specification 1.0 · October 22, 2026 · Approved October 23, 2026.** Companion to [database design](09-database-design.md), using its typed-column, nullability, immutable **V** dataset-row and FK conventions. [P1-PR-005](implementation/P1-PR-005-domain-catalog-import-schemas.md) implements the initial schema migrations; ingestion/publication services and runnable data commands remain at their later cards. P1 delivers the domain schema and script pipeline; P2 adds staff CSV controls over the same services. [Four live phases](12-live-product-phases-and-gap-review.md) govern delivery.
+**Specification 1.0 · October 22, 2026 · Approved October 23, 2026.** Companion to [database design](09-database-design.md), using its typed-column, nullability, immutable **V** dataset-row and FK conventions. [P1-PR-005](implementation/P1-PR-005-domain-catalog-import-schemas.md) implements the accepted initial schema migrations; [006](implementation/P1-PR-006-report-consent-delivery-schemas.md) binds the pending approval UUID to foundational audit evidence. Ingestion/publication services and runnable data commands remain at their later cards. P1 delivers the domain schema and script pipeline; P2 adds staff CSV controls over the same services. [Four live phases](12-live-product-phases-and-gap-review.md) govern delivery.
 
 ## Source authority and initial coverage
 
