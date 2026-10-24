@@ -1,5 +1,11 @@
 module.exports = {
   forbidden: [
+    {
+      name: 'production-never-imports-test-fixtures',
+      severity: 'error',
+      from: { path: '^(apps|packages)/' },
+      to: { path: '^tests/' },
+    },
     { name: 'no-cycles', severity: 'error', from: {}, to: { circular: true } },
     { name: 'no-unresolved-imports', severity: 'error', from: {}, to: { couldNotResolve: true } },
     {

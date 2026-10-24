@@ -10,9 +10,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@payloadcms/next": "3.92.0",
     "@tt/config": "workspace:*",
     "@tt/contracts": "workspace:*",
+    "graphql": "16.14.2",
     "next": "16.4.3",
+    "payload": "3.92.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },

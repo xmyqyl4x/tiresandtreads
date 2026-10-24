@@ -11,6 +11,10 @@ for (const route of ['/health/live', '/health/ready']) {
   assert.match(response.headers.get('x-robots-tag') ?? '', /noindex/);
 }
 assert.equal((await fetch(new URL('/', base), { signal: AbortSignal.timeout(5000) })).status, 404);
+for (const route of ['/admin', '/api/proof-content', '/api/proof-staff/login']) {
+  const response = await fetch(new URL(route, base), { signal: AbortSignal.timeout(5000) });
+  assert.equal(response.status, 404, 'Proof fixtures must not expose application routes');
+}
 assert.equal(
   (
     await fetch(new URL('/health/live', base), {

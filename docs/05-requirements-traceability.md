@@ -1,6 +1,6 @@
 # Requirements traceability
 
-This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All product capabilities are **unimplemented**; P1-PR-001 is accepted; P1-PR-002 bootstrap tooling is in review. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E42 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
+This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All product capabilities are **unimplemented**; P1-PR-001 is accepted; P1-PR-002 bootstrap tooling is accepted; P1-PR-003 local foundation proofs are in review. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E42 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
 
 Package IDs remain stable. E04a/E04b distinguish schema from data access; `a`/`b` splits in E10/E12/E13/E15/E17/E18 distinguish services from later presentation, with E34/S4 providing common API exposure/acceptance. A row naming a base package requires all relevant parts. S1–S4 precede all product frontend work; see the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates). Rows that span releases retain an explicit first slice and completion slice. The verification column describes evidence required before marking the requirement implemented. The source remains available for detailed field lists where there is no stated change.
 
@@ -267,6 +267,8 @@ The source's early sections and nonfunctional requirements are also in scope. Th
 Use the [working project task list](15-project-task-list.md) and [work-package PR map](tasks/work-package-pr-map.md) to select planned work. At PR readiness, bind exact requirement rows to the backlog ID; at implementation, add actual PR/test evidence and shipped version to each completed row. A design decision, stub screen, passing mock-only test, or provider signup is not completion evidence. Requirements deferred by release remain explicit; no ID is silently dropped.
 
 ## Engineering requirements from the requested expansion
+
+**Local foundation:** [P1-PR-003](implementation/P1-PR-003-local-foundation.md) binds ENG-06 to reproducible local runtime/database/Payload proofs and CORE-10/CAP-03 to explicit unresolved source/ad-provider gates. Local S0 does not accept these external capabilities or full G0.
 
 **Bootstrap implementation:** P1-PR-002 binds ENG-01/ENG-02/ENG-04/ENG-05 and ENG-06 to [workspace commands](development.md) and [validation evidence](implementation/evidence/P1/p1-pr-002-validation.md). This supplies the harness, configuration and layer guards; it does not complete these requirements for future product behavior.
 

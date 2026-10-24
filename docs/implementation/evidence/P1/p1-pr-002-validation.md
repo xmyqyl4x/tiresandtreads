@@ -1,6 +1,6 @@
 # P1-PR-002 workspace validation
 
-**Prepared October 23, 2026 · [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2) in review; owner approval pending.** Based on main after approved PR #1, merge `b9e02f07be87422f30f7a5c3c18c57965bd59313`. This record covers bootstrap tooling, not a product release or local S0 acceptance. P1-PR-003 remains the next dependency gate.
+**Accepted October 23, 2026 · owner approved [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2), merged at `dd1817fa826b38e1bc6037be7eba782a869148ab`.** Based on main after approved PR #1, merge `b9e02f07be87422f30f7a5c3c18c57965bd59313`. This record covers bootstrap tooling, not a product release or local S0 acceptance. P1-PR-003 remains the next dependency gate.
 
 ## Implemented outcome
 
@@ -37,4 +37,4 @@ Documentation review also checks local links/anchors, all 119 stable PR IDs and 
 
 ## Remaining acceptance boundaries
 
-Owner approval and merge are pending. This PR has no hosted deployment, product UI, product schema, runtime DB roles, repository behavior, Payload/Clerk integration or live provider adapter. The readiness endpoint does not claim database/provider readiness. Generic fixtures prove the harness, not future provider contracts. Protected hosted environments, registry promotion and live configuration follow DD03/DD04 and their affected cards; the [release scaffold](../../../../infra/release/README.md) records these requirements without a deployment command. Full G0 remains due by P1-PR-031 under the approved decision deferrals.
+Owner approval and merge accept this bootstrap scope. This PR has no hosted deployment, product UI, product schema, runtime DB roles, repository behavior, Payload/Clerk integration or live provider adapter. The readiness endpoint does not claim database/provider readiness. Generic fixtures prove the harness, not future provider contracts. Protected hosted environments, registry promotion and live configuration follow DD03/DD04 and their affected cards; the [release scaffold](../../../../infra/release/README.md) records these requirements without a deployment command. Full G0 remains due by P1-PR-031 under the approved decision deferrals.
