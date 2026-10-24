@@ -1,6 +1,6 @@
 # P1-PR-005 — Domain, catalog, reference and import schemas
 
-**October 23, 2026 · in progress; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Prerequisite [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) was owner-approved and merged at `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. This is P1/S1, work packages E04/E05/E35/E36, following the [task card](../tasks/phase-1-prs.md#p1-pr-005).
+**October 23, 2026 · in review; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5). Prerequisite [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) was owner-approved and merged at `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. This is P1/S1, work packages E04/E05/E35/E36, following the [task card](../tasks/phase-1-prs.md#p1-pr-005).
 
 ## Scope and traceability
 

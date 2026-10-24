@@ -14,7 +14,23 @@
 
 ## Final verification
 
-Full Linux verification and final exact-commit/GitHub CI results will be recorded before review completion. Initial focused results do not replace those checks.
+`pnpm verify:push` passed on implementation commit `31e3ca53f446225e75e3c14bc478fef56af6de9f` using pinned Node 24.22.1/PostgreSQL 18.6 Linux containers, disposable project `tt-test-cde2f9eed25d96e0` and app image `ef66912ec720b8da3dd699b711d0c3a710af4f56b2e10c5723fd240ffddcc91d`.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 39 passed |
+| Existing PostgreSQL harness | Two passed |
+| Foundation integration | Six passed |
+| Schema integration | 27 passed: original 12 and 15 domain/catalog/import/concurrency cases |
+| Quality and dependencies | Types, lint, formatting, source hygiene, boundaries, OpenAPI and five app/one CMS checksums passed; no new dependencies; audit reported no known vulnerabilities at verification time |
+| Deliberate failures | All six rejected: failing test, forbidden domain import, direct/transitive client imports, application imports of test fixtures and database operator modules |
+| HTTP and lifecycle | Health/absent product routes passed, invalid hosted fixture config rejected; idle shutdown exit 143 in 667 ms; restart HTTP passed |
+| Local dev/stage | Three additive app migrations applied to retained databases; five app/one CMS with zero pending; replay zero; data volumes preserved |
+| Cleanup | Owned disposable containers/network/volume removed; local dev/stage stopped; unrelated Docker resources retained |
+
+The total is **74 passing tests**. Small-package code coverage still covers configuration/health contracts only; schema SQL and operator behavior are verified through real integration cases. No production throughput claim is made.
+
+The final review-link commit must pass the same exact-commit verification before push. [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5) records that final SHA and independent GitHub CI; owner acceptance remains pending.
 
 ## Limits
 
