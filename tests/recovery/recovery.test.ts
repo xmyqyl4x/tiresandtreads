@@ -210,7 +210,10 @@ it('fails an incomplete retention order atomically instead of bypassing dependen
     "INSERT INTO app.report_items(report_id,report_version,item_key,kind,rank,snapshot) VALUES($1,1,'unhandled-child','picked',1,'{}')",
     [reportId],
   );
-  await expect(purgeGraph(app)).rejects.toMatchObject({ code: '23503' });
+  await expect(purgeGraph(app)).rejects.toMatchObject({
+    code: '23001',
+    constraint: 'report_items_version_fk',
+  });
   expect(
     (
       await app.query('SELECT report_id FROM privacy.report_private_data WHERE report_id=$1', [

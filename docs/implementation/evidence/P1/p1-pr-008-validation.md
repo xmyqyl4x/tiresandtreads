@@ -11,6 +11,7 @@
 - Focused final recovery run passed **11/11** in `tt-test-6b444badf8f5d4d5`: 19.699 seconds including cached image preparation and a 3.697-second synthetic backup window. App/CMS archives were 511,862 / 194,207 bytes. These local timings are not production RTO/RPO measurements. All owned containers, network and volumes were removed.
 - Retained dev and stage were checked independently: **11 app / two CMS applied, zero pending** in each. They were stopped afterward with credentials and data volumes preserved. No migration/reset was needed, and native PostgreSQL was untouched.
 - Documentation review preserves all 119 task cards/dependencies, 137 original FR rows, source archives and historical approvals. Twenty-four key tasks are checked; 333 remain unchecked. Types, lint, formatting, boundary checks and unchanged migration manifests passed before committing.
+- Final review strengthened the incomplete-deletion check from any exception to a specific SQLSTATE. PostgreSQL 18 reports this `ON DELETE RESTRICT` violation as `23001` on `report_items_version_fk`; the initial `23503` expectation failed. The assertion now checks the observed code and named constraint. The failed run kept recovery quarantined and cleaned up its resources.
 - Applied app/CMS migrations and generated snapshots remain unchanged at 11/two. All applicable P1 schema boundaries are represented; later service races, object-byte erasure, hosted recovery and live product acceptance remain open at their existing cards.
 
 ## Final verification
