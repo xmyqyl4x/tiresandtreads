@@ -1,6 +1,6 @@
 # P1-PR-003 — Local foundation and integration proofs
 
-**October 23, 2026 · in progress; owner review pending.** Implementation owner: Codex. Acceptance/decision owner: repository owner. Prerequisites: accepted PR #1 and [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2), merged at `dd1817fa826b38e1bc6037be7eba782a869148ab`. This packet binds E01/E02, ENG-06, CORE-10 and CAP-03's outstanding advertising-provider gate. It does not deliver tire data, advertising, authentication or a live product.
+**October 23, 2026 · in review; owner acceptance pending.** Review: [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3). Implementation owner: Codex. Acceptance/decision owner: repository owner. Prerequisites: accepted PR #1 and [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2), merged at `dd1817fa826b38e1bc6037be7eba782a869148ab`. This packet binds E01/E02, ENG-06, CORE-10 and CAP-03's outstanding advertising-provider gate. It does not deliver tire data, advertising, authentication or a live product.
 
 ## Acceptance boundary
 

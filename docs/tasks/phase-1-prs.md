@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002 are accepted; P1-PR-003 local foundation proofs are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002 are accepted; P1-PR-003 local foundation proofs are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -108,7 +108,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Verify local build/runtime/migration networking and lifecycle; inventory remaining reverse-proxy/TLS, Clerk/Inngest/S3/KMS/email/CMP/ad and chosen-host proofs with their affected adapter/activation triggers.
 - [x] Record measured local workload/resource targets, source contract requirements, next-card estimates and deferred owner decisions; accept local S0 separately and keep full G0 explicitly open until required external evidence exists.
 
-**Verification and acceptance:** [Local proof and external-gate packet](../implementation/P1-PR-003-local-foundation.md). Reproducible real local DB/runtime/ownership proofs and accountable local S0 acceptance. External fixtures prove contracts only. Protected imports and real adapters wait for their recorded decisions; full G0 and hosted proofs close by 031. No mock-only claims of production readiness.
+**Verification and acceptance:** [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) is in review; owner acceptance is pending. [Local proof and external-gate packet](../implementation/P1-PR-003-local-foundation.md). Reproducible real local DB/runtime/ownership proofs and accountable local S0 acceptance. External fixtures prove contracts only. Protected imports and real adapters wait for their recorded decisions; full G0 and hosted proofs close by 031. No mock-only claims of production readiness.
 
 ### P1-PR-004
 
