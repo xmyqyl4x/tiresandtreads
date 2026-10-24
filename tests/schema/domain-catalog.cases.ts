@@ -625,6 +625,14 @@ export function registerDomainCatalogTests(
       await f.denied(
         'UPDATE app.import_runs SET provider_id=$1 WHERE id=$2',
         [f.otherProvider, run],
+        '23514', // 010 freezes run identity before the FK can be evaluated.
+      );
+      // New registrations still have to satisfy the source/connector composite FKs.
+      await f.denied(
+        `INSERT INTO app.import_runs(provider_id,connector_id,dataset_version_id,upstream_run_key,status,started_at,mode,mapping_version,content_hash,schema_version)
+         SELECT $1,connector_id,dataset_version_id,upstream_run_key||'-wrong-source',status,started_at,mode,mapping_version,content_hash,schema_version
+         FROM app.import_runs WHERE id=$2`,
+        [f.otherProvider, run],
         '23503',
       );
       await f.denied('UPDATE app.import_runs SET accepted_count=-1 WHERE id=$1', [run], '23514');
