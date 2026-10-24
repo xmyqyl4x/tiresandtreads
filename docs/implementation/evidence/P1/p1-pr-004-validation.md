@@ -28,7 +28,7 @@
 
 The integrated run totals **59 passing tests**. Source review preserves all 119 cards/dependency edges, 137 original FR rows, source archives and historical approval sections. Local Markdown targets/anchors and UTF-8/LF checks pass.
 
-`pnpm verify:push` must repeat verification after committing the final source; the PR records that exact SHA and its independent GitHub CI run. A working-copy result is not a substitute for those final checks. Owner acceptance remains pending.
+`pnpm verify:push` must repeat verification after committing the final source; [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) records that exact SHA and its independent GitHub CI run. A working-copy result is not a substitute for those final checks. Owner acceptance remains pending.
 
 ## Limits
 

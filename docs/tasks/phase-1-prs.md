@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -124,7 +124,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add staff/subject/session, object asset, code/market/unit registry foundations required by later FKs.
 - [x] Add synthetic seeds, named constraints, FK indexes and reversible/compatible migration guidance.
 
-**Verification and acceptance:** [Implementation and ownership packet](../implementation/P1-PR-004-database-foundations.md) and [validation evidence](../implementation/evidence/P1/p1-pr-004-validation.md). Empty/upgrade migration tests and real-role denial tests; no runtime DDL or cross-CMS ownership. Owner acceptance is pending.
+**Verification and acceptance:** [Implementation and ownership packet](../implementation/P1-PR-004-database-foundations.md) and [validation evidence](../implementation/evidence/P1/p1-pr-004-validation.md). Empty/upgrade migration tests and real-role denial tests; no runtime DDL or cross-CMS ownership. [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) is in review; owner acceptance is pending.
 
 ### P1-PR-005
 
