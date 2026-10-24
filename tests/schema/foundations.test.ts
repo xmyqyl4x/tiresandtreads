@@ -9,6 +9,7 @@ import { migrateApplication, type MigrationTarget } from '../../scripts/database
 import { migrateCms } from '../../scripts/database/cms.ts';
 import { cmsFoundationConfig } from '../../scripts/database/cms-config.ts';
 import type { DatabaseRole } from '../../scripts/database/bootstrap.ts';
+import { registerDomainCatalogTests } from './domain-catalog.cases.ts';
 
 let urls: Awaited<ReturnType<typeof schemaFixture>>;
 const clients = {} as Record<DatabaseRole, pg.Client>;
@@ -32,17 +33,18 @@ afterAll(async () => {
 });
 
 it('migrates empty then populated previous schema, preserving data and replaying as a no-op', async () => {
-  expect(await migrateApplication(target, sources.slice(0, 1))).toBe(1);
+  expect(await migrateApplication(target, sources.slice(0, 2))).toBe(2);
   await clients.tt_app_migrator.query(
     "INSERT INTO app.locales (code,label) VALUES ('zz-ZZ','Synthetic upgrade sentinel')",
   );
-  expect(await migrateApplication(target, sources)).toBe(1);
+  const seed = readFileSync('infra/database/seeds/synthetic.sql', 'utf8');
+  await clients.tt_app_migrator.query(seed);
+  expect(await migrateApplication(target, sources)).toBe(sources.length - 2);
   expect(await migrateApplication(target, sources)).toBe(0);
   expect(
     (await clients.tt_app_runtime.query("SELECT label FROM app.locales WHERE code='zz-ZZ'")).rows[0]
       ?.label,
   ).toBe('Synthetic upgrade sentinel');
-  const seed = readFileSync('infra/database/seeds/synthetic.sql', 'utf8');
   await clients.tt_app_migrator.query(seed);
   await clients.tt_app_migrator.query(seed);
   expect(
@@ -65,7 +67,7 @@ it('rolls back failed DDL and history together and can retry without partial obj
   const source =
     "CREATE TABLE app.failed_probe (id int); INSERT INTO app.countries(code,label) VALUES ('US','duplicate');";
   const failed = {
-    id: '0003_failure',
+    id: '9998_failure',
     source,
     sha256: createHash('sha256').update(source).digest('hex'),
   };
@@ -82,7 +84,7 @@ it('rolls back failed DDL and history together and can retry without partial obj
         'SELECT count(*)::int AS count FROM migration_meta.applied',
       )
     ).rows[0]?.count,
-  ).toBe(2);
+  ).toBe(sources.length);
   expect(await migrateApplication(target, sources)).toBe(0);
 });
 
@@ -94,15 +96,23 @@ it('refuses changed applied SQL and unrecognized database history before applyin
   changed[0] = { ...first, source, sha256: createHash('sha256').update(source).digest('hex') };
   await expect(migrateApplication(target, changed)).rejects.toThrow(/history/);
   await clients.tt_app_migrator.query(
-    "INSERT INTO migration_meta.applied VALUES (3,'0003_unknown',$1,now())",
-    ['0'.repeat(64)],
+    "INSERT INTO migration_meta.applied VALUES ($1,'9999_unknown',$2,now())",
+    [sources.length + 1, '0'.repeat(64)],
   );
   try {
     await expect(migrateApplication(target, sources)).rejects.toThrow(/history/);
   } finally {
-    await clients.tt_app_migrator.query('DELETE FROM migration_meta.applied WHERE position=3');
+    await clients.tt_app_migrator.query('DELETE FROM migration_meta.applied WHERE position=$1', [
+      sources.length + 1,
+    ]);
   }
 });
+
+// Run the catalog cases after the populated-prior-schema upgrade and migration checks.
+registerDomainCatalogTests(
+  () => clients,
+  () => urls.tt_app_migrator,
+);
 
 it('denies runtime DDL, ownership escalation, migration execution, staff grants and future object access', async () => {
   const app = clients.tt_app_runtime;

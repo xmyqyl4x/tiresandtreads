@@ -1,6 +1,6 @@
 # P1-PR-004 — Database ownership, identity and asset foundations
 
-**October 23, 2026 · in review; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4). Prerequisite [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) was owner-approved and merged at `ebcf9361a495547f9d9445d89f64131cf0ebef68`, accepting local S0. Full G0 and the recorded commercial/host/provider decisions remain open.
+**October 23, 2026 · accepted by owner; merged into main.** Implementer: Codex. Acceptance owner: repository owner. Accepted [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4), reviewed head `238f2d079b2b82af6518ebbfdbf55878ae42a993`, merge `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. Prerequisite [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) was owner-approved and merged at `ebcf9361a495547f9d9445d89f64131cf0ebef68`, accepting local S0. Full G0 and the recorded commercial/host/provider decisions remain open.
 
 ## Scope and construction order
 
@@ -61,4 +61,4 @@ Synthetic seeds are a separate local-only action, never a migration or startup s
 
 [Validation evidence](evidence/P1/p1-pr-004-validation.md) records observed results and remaining limits. Tests include migration-source/history denials, concurrency lock, populated upgrades, transaction rollback, cross-database/role/DDL denials, token uniqueness and expiry, asset metadata invariants, staff FKs/permissions, leading FK indexes, real Payload migration and restricted initialization. The full Linux pipeline includes this suite and independently repeats it in GitHub CI.
 
-After owner review and merge, 005 adds domain/catalog/reference/import schemas, 006 adds reports/consent/delivery/reliability and 007 adds CMS/SEO/ads/analytics. 008 closes S1 with the full schema/recovery evidence; entities/repositories remain 009 onward. This card does not close S1, full G0 or any live phase release.
+[P1-PR-005](P1-PR-005-domain-catalog-import-schemas.md) now adds domain/catalog/reference/import schemas, 006 adds reports/consent/delivery/reliability and 007 adds CMS/SEO/ads/analytics. 008 closes S1 with the full schema/recovery evidence; entities/repositories remain 009 onward. This card does not close S1, full G0 or any live phase release.

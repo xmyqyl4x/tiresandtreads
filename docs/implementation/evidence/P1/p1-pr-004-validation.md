@@ -1,6 +1,6 @@
 # P1-PR-004 validation evidence
 
-**October 23, 2026 America/Los_Angeles · owner acceptance pending.** Baseline is approved PR #3 merge `ebcf9361a495547f9d9445d89f64131cf0ebef68`. Scope, role grants, migration behavior and remaining gates are in the [implementation packet](../../P1-PR-004-database-foundations.md).
+**October 23, 2026 America/Los_Angeles · owner-approved and merged as PR #4 at `4f00c30`.** Baseline is approved PR #3 merge `ebcf9361a495547f9d9445d89f64131cf0ebef68`. Scope, role grants, migration behavior and remaining gates are in the [implementation packet](../../P1-PR-004-database-foundations.md).
 
 ## Observed development evidence
 
@@ -28,7 +28,7 @@
 
 The integrated run totals **59 passing tests**. Source review preserves all 119 cards/dependency edges, 137 original FR rows, source archives and historical approval sections. Local Markdown targets/anchors and UTF-8/LF checks pass.
 
-`pnpm verify:push` must repeat verification after committing the final source; [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) records that exact SHA and its independent GitHub CI run. A working-copy result is not a substitute for those final checks. Owner acceptance remains pending.
+`pnpm verify:push` must repeat verification after committing the final source; [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) records that exact SHA and its independent GitHub CI run. A working-copy result is not a substitute for those final checks. The owner approved reviewed head `238f2d079b2b82af6518ebbfdbf55878ae42a993` and PR #4 merged at `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. The final local run and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40058394267) passed on that head.
 
 ## Limits
 
