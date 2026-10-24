@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -172,7 +172,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Extend the staff audit foundation created in 006 with configuration, affiliates/ad slots/network reports, SEO page/search/audit records.
 - [x] Create analytics receipt/generation/privacy invalidation and SQL rate buckets; leave optional computation cache absent pending profiling.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-007-cms-seo-ads-analytics-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-007-validation.md). Real PostgreSQL and Payload tests preserve CMS isolation, draft/version/publication transactions, public-only SEO/ad dimensions, provider-report correction semantics, privacy generation hiding and concurrent quota bounds. [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) is in review; owner acceptance remains pending.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-007-cms-seo-ads-analytics-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-007-validation.md). Real PostgreSQL and Payload tests preserve CMS isolation, draft/version/publication transactions, public-only SEO/ad dimensions, provider-report correction semantics, privacy generation hiding and concurrent quota bounds. [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) was owner-approved and merged at `ad3822a`.
 
 ### P1-PR-008
 
@@ -184,11 +184,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-03, DB13, DB28. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Run empty and representative upgrade migrations against real runtime roles.
-- [ ] Verify required P1 constraints/indexes, retention deletion order and separate CMS recovery boundaries.
-- [ ] Perform initial restore/deletion-marker replay drill; record schema inventory, versions, failures and S1 decision.
+- [x] Run empty and representative upgrade migrations against real runtime roles.
+- [x] Verify required P1 constraints/indexes, retention deletion order and separate CMS recovery boundaries.
+- [x] Perform initial restore/deletion-marker replay drill; record schema inventory, versions, failures and S1 decision.
 
-**Verification and acceptance:** All applicable schema invariants pass; migrations and recovery are repeatable before any repository implementation begins.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-008-database-validation-recovery.md) and [validation evidence](../implementation/evidence/P1/p1-pr-008-validation.md) account for all P1 storage invariants, repeatable migrations, complete inventory and independent app/CMS recovery. [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8) is in review. The local S1 decision is pending owner acceptance; hosted RPO/RTO and later service/use-case gates remain open.
 
 ### P1-PR-009
 
