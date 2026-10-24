@@ -20,5 +20,6 @@ docs/sources/originals/*.md -text
 Dockerfile text eol=lf
 .githooks/* text eol=lf
 
-# Preserve Payload-generated SQL template whitespace in this applied, checksummed migration.
+# Preserve Payload-generated SQL template whitespace in these applied, checksummed migrations.
 infra/database/cms/0001_staff.ts whitespace=-blank-at-eol,-space-before-tab
+infra/database/cms/0002_editorial.ts whitespace=-blank-at-eol,-space-before-tab

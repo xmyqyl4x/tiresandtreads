@@ -16,7 +16,22 @@
 
 ## Final verification
 
-Final focused tests, local dev/stage upgrade and clean-commit Linux verification are recorded here before review completion. Independent GitHub CI and the final reviewed SHA will be recorded in the PR.
+`pnpm verify:push` passed on implementation commit `dc1b7cc2d23aa721fb9e0b11394d7b8685c3459d` with pinned Node 24.22.1/PostgreSQL 18.6 Linux containers. Disposable project: `tt-test-6acb1efa8944379f`; app image: `606f97ad9d2322cb0798f63aa910e31686456db1beb04546f4171f562239e4cc`.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 39 passed |
+| Existing PostgreSQL harness | Two passed |
+| Foundation integration | Six passed |
+| Schema integration | 63 passed: 47 prior and 16 CMS/SEO/ads/analytics/quota cases |
+| Quality | Types, lint, formatting, source hygiene, boundaries, OpenAPI and 11 app/two CMS checksums passed |
+| Dependencies | No new dependencies; pinned install and audit passed |
+| Deliberate failures | All six rejected: failing test and forbidden dependency/client/test/operator imports |
+| HTTP/lifecycle | Health and absent product routes, invalid hosted fixture config, shutdown and restart passed |
+| Local dev/stage | Two app/one CMS migrations applied; 11 app/two CMS, zero pending; replay zero |
+| Cleanup | Owned disposable resources removed; local dev/stage stopped with volumes preserved |
+
+The total is **110 passing tests**. Coverage still applies to small configuration/health packages only; SQL behavior is tested against real PostgreSQL and CMS operations against Payload. The final review-link commit must pass the same verification before push. [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) records its final SHA and independent GitHub CI; owner acceptance remains pending.
 
 ## Limits
 
