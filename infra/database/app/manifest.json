@@ -34,5 +34,13 @@
   {
     "id": "0009_reliability_audit",
     "sha256": "eb07795d7d4a06313343ff330dab868e4b081ae2db4cdb0d01ac8cf85ad1d9d9"
+  },
+  {
+    "id": "0010_public_operations",
+    "sha256": "8454677cf551b185415c9d77b61717a85e2b55c2f88a39845df33aef8981755d"
+  },
+  {
+    "id": "0011_analytics_quotas",
+    "sha256": "a879d0e75f80209885fcb6c269060e59143de058d202be8dedceb243a3e6f6b8"
   }
 ]

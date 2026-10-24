@@ -11,6 +11,10 @@ import { cmsFoundationConfig } from '../../scripts/database/cms-config.ts';
 import type { DatabaseRole } from '../../scripts/database/bootstrap.ts';
 import { registerDomainCatalogTests } from './domain-catalog.cases.ts';
 import { registerReportDeliveryTests } from './report-delivery.cases.ts';
+import {
+  registerPublicOperationsTests,
+  registerCmsEditorialTests,
+} from './public-operations.cases.ts';
 
 let urls: Awaited<ReturnType<typeof schemaFixture>>;
 const clients = {} as Record<DatabaseRole, pg.Client>;
@@ -44,7 +48,22 @@ it('migrates empty then populated previous schema, preserving data and replaying
   await clients.tt_app_migrator.query(
     readFileSync('tests/fixtures/schema/pr005-upgrade.sql', 'utf8'),
   );
-  expect(await migrateApplication(target, sources)).toBe(sources.length - 5);
+  expect(await migrateApplication(target, sources.slice(0, 9))).toBe(4);
+  await clients.tt_app_migrator.query(
+    "INSERT INTO privacy.deletion_markers(resource_kind,resource_key_hmac,key_version,deleted_at,policy_version) VALUES('upgrade_sentinel',$1,'test',now(),'test')",
+    [randomBytes(32)],
+  );
+  expect(await migrateApplication(target, sources)).toBe(sources.length - 9);
+  expect(
+    (
+      await clients.tt_app_migrator.query(
+        "SELECT count(*)::int AS n FROM privacy.deletion_markers WHERE resource_kind='upgrade_sentinel'",
+      )
+    ).rows[0].n,
+  ).toBe(1);
+  await clients.tt_app_migrator.query(
+    "DELETE FROM privacy.deletion_markers WHERE resource_kind='upgrade_sentinel'",
+  );
   expect(await migrateApplication(target, sources)).toBe(0);
   expect(
     (await clients.tt_app_runtime.query("SELECT label FROM app.locales WHERE code='zz-ZZ'")).rows[0]
@@ -119,6 +138,10 @@ registerDomainCatalogTests(
   () => urls.tt_app_migrator,
 );
 registerReportDeliveryTests(
+  () => clients,
+  () => urls.tt_app_migrator,
+);
+registerPublicOperationsTests(
   () => clients,
   () => urls.tt_app_migrator,
 );
@@ -287,11 +310,11 @@ it('enforces staff references and permission JSON while leaving synthetic identi
 it('has migration ownership and a leading index for every application foreign key', async () => {
   const owner = clients.tt_app_migrator;
   const tables = await owner.query(
-    "SELECT DISTINCT tableowner FROM pg_tables WHERE schemaname IN ('app','admin','privacy','email','migration_meta')",
+    "SELECT DISTINCT tableowner FROM pg_tables WHERE schemaname IN ('app','admin','privacy','email','analytics','migration_meta')",
   );
   expect(tables.rows).toEqual([{ tableowner: 'tt_app_migrator' }]);
   const foreignKeys = await owner.query(
-    "SELECT conname, conrelid, conkey FROM pg_constraint WHERE contype='f' AND connamespace IN ('app'::regnamespace,'admin'::regnamespace,'privacy'::regnamespace,'email'::regnamespace)",
+    "SELECT conname, conrelid, conkey FROM pg_constraint WHERE contype='f' AND connamespace IN ('app'::regnamespace,'admin'::regnamespace,'privacy'::regnamespace,'email'::regnamespace,'analytics'::regnamespace)",
   );
   expect(foreignKeys.rowCount).toBeGreaterThan(5);
   for (const fk of foreignKeys.rows) {
@@ -313,20 +336,27 @@ it('has migration ownership and a leading index for every application foreign ke
 it('applies committed Payload migrations with transactional checksums and restricted runtime initialization', async () => {
   const cmsTarget = { url: urls.tt_cms_migrator, database: 'tt_cms_schema', kind: 'cms' as const };
   const secret = randomBytes(32).toString('hex');
-  expect(await migrateCms(cmsTarget, secret)).toBe(1);
+  const cmsSources = loadSources('cms');
+  expect(await migrateCms(cmsTarget, secret, cmsSources.slice(0, 1))).toBe(1);
   await clients.tt_cms_migrator.query(
     "INSERT INTO public.cms_staff(app_staff_id) VALUES ('22222222-2222-4222-8222-222222222222')",
   );
+  expect(await migrateCms(cmsTarget, secret)).toBe(cmsSources.length - 1);
   expect(await migrateCms(cmsTarget, secret)).toBe(0);
   expect(
     (await clients.tt_cms_runtime.query('SELECT app_staff_id FROM public.cms_staff')).rows,
   ).toEqual([{ app_staff_id: '22222222-2222-4222-8222-222222222222' }]);
   expect(
-    (await clients.tt_cms_migrator.query('SELECT id FROM migration_meta.applied')).rows,
-  ).toEqual([{ id: '0001_staff' }]);
+    (await clients.tt_cms_migrator.query('SELECT id FROM migration_meta.applied ORDER BY position'))
+      .rows,
+  ).toEqual(cmsSources.map(({ id }) => ({ id })));
   expect(
-    (await clients.tt_cms_migrator.query('SELECT name FROM public.payload_migrations')).rows,
-  ).toEqual([{ name: '0001_staff' }]);
+    (
+      await clients.tt_cms_migrator.query(
+        'SELECT name FROM public.payload_migrations ORDER BY name',
+      )
+    ).rows,
+  ).toEqual(cmsSources.map(({ id }) => ({ name: id })));
   const cms = clients.tt_cms_runtime;
   for (const statement of [
     'CREATE TABLE public.forbidden(id int)',
@@ -357,29 +387,43 @@ it('applies committed Payload migrations with transactional checksums and restri
   ).toEqual([{ tableowner: 'tt_cms_migrator' }]);
 }, 60000);
 
+registerCmsEditorialTests(
+  () => clients,
+  () => payload,
+  () => urls.tt_cms_migrator,
+);
+
 it('refuses CMS checksum, native-ledger and schema-push drift before migration replay', async () => {
   const owner = clients.tt_cms_migrator;
   const cmsTarget = { url: urls.tt_cms_migrator, database: 'tt_cms_schema', kind: 'cms' as const };
   const original = loadSources('cms')[0];
   if (!original) throw new Error('Missing CMS migration');
-  await owner.query('UPDATE migration_meta.applied SET sha256=$1', ['0'.repeat(64)]);
+  await owner.query('UPDATE migration_meta.applied SET sha256=$1 WHERE position=1', [
+    '0'.repeat(64),
+  ]);
   try {
     await expect(migrateCms(cmsTarget, 'unused-for-replay')).rejects.toThrow(/history/);
   } finally {
-    await owner.query('UPDATE migration_meta.applied SET sha256=$1', [original.sha256]);
+    await owner.query('UPDATE migration_meta.applied SET sha256=$1 WHERE position=1', [
+      original.sha256,
+    ]);
   }
-  await owner.query("UPDATE public.payload_migrations SET name='unknown'");
+  await owner.query("UPDATE public.payload_migrations SET name='unknown' WHERE name=$1", [
+    original.id,
+  ]);
   try {
     await expect(migrateCms(cmsTarget, 'unused-for-replay')).rejects.toThrow(/histories differ/);
   } finally {
-    await owner.query('UPDATE public.payload_migrations SET name=$1', [original.id]);
+    await owner.query("UPDATE public.payload_migrations SET name=$1 WHERE name='unknown'", [
+      original.id,
+    ]);
   }
-  await owner.query('UPDATE public.payload_migrations SET batch=-1');
+  await owner.query('UPDATE public.payload_migrations SET batch=-1 WHERE name=$1', [original.id]);
   try {
     await expect(migrateCms(cmsTarget, 'unused-for-replay')).rejects.toThrow(
       /schema push is forbidden/,
     );
   } finally {
-    await owner.query('UPDATE public.payload_migrations SET batch=1');
+    await owner.query('UPDATE public.payload_migrations SET batch=1 WHERE name=$1', [original.id]);
   }
 });

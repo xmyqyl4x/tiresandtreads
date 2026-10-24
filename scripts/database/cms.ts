@@ -1,14 +1,18 @@
 import path from 'node:path';
+import { randomUUID } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { getPayload } from 'payload';
 import { sql, type MigrateUpArgs } from '@payloadcms/db-postgres';
 import { cmsFoundationConfig } from './cms-config.ts';
-import { loadSources, pendingMigrations } from './manifest.ts';
+import { loadSources, pendingMigrations, type MigrationSource } from './manifest.ts';
 import { readHistory, withMigrationLock, type MigrationTarget } from './migrate.ts';
 
-export async function migrateCms(target: MigrationTarget, secret: string): Promise<number> {
+export async function migrateCms(
+  target: MigrationTarget,
+  secret: string,
+  sources: readonly MigrationSource[] = loadSources('cms'),
+): Promise<number> {
   if (target.kind !== 'cms') throw new Error('CMS runner refuses application target');
-  const sources = loadSources('cms');
   return withMigrationLock(target, async (client) => {
     const history = await readHistory(client);
     const pending = pendingMigrations(sources, history);
@@ -59,7 +63,8 @@ export async function migrateCms(target: MigrationTarget, secret: string): Promi
       }),
     );
     const payload = await getPayload({
-      key: `migration-${target.database}`,
+      // getPayload caches by key even after destroy(); each operator run needs a live adapter.
+      key: `migration-${target.database}-${randomUUID()}`,
       config: cmsFoundationConfig(target.url, secret),
     });
     try {

@@ -1,6 +1,6 @@
 # P1-PR-006 validation evidence
 
-**October 23, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #5 merge `2d8acd2c8476e12debae29b5738ae74cd8d3cd4b`. See the [implementation packet](../../P1-PR-006-report-consent-delivery-schemas.md) for scope and limits.
+**October 23, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #5 merge `2d8acd2c8476e12debae29b5738ae74cd8d3cd4b`. See the [implementation packet](../../P1-PR-006-report-consent-delivery-schemas.md) for scope and limits.
 
 ## Development evidence
 
@@ -30,7 +30,7 @@
 | Local dev/stage | Four app migrations applied; nine app/one CMS, zero pending; replay zero |
 | Cleanup | Owned disposable resources removed; local dev/stage stopped with volumes preserved |
 
-The total is **94 passing tests**. Coverage still applies to small configuration/health packages only; SQL behavior is tested against real PostgreSQL. The final review-link commit must pass the same verification before push. [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6) records its final SHA and independent GitHub CI; owner acceptance remains pending.
+The total is **94 passing tests**. Coverage still applies to small configuration/health packages only; SQL behavior is tested against real PostgreSQL. Final review commit `919d32cf618bed4b4aad30033140404cca66b8b3` passed exact-commit local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40063758017). The owner approved [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6); it merged at `53f9fd1f9dcce8b781fb15f4e465b33443850748` on October 23, 2026 America/Los_Angeles.
 
 ## Limits
 
