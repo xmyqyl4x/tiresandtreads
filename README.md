@@ -2,13 +2,15 @@
 
 Tires & Tread helps drivers understand tire fit, compare suitable options, estimate installed costs, and prepare for a conversation with an installer.
 
-This repository currently contains the final design and implementation planning package, dated **October 22, 2026**. Application development has not started. Product behavior and engineering decisions are specified; vendor contracts, tire-data rights, jurisdiction-specific policies, and production launch approvals remain explicit release gates.
+This repository currently contains the final design and implementation planning package, dated **October 22, 2026**. Phase 1 foundation implementation has started; product capabilities are not yet implemented. Product behavior and engineering decisions are specified; vendor contracts, tire-data rights, jurisdiction-specific policies, and production launch approvals remain explicit release gates.
 
 ## Start here
 
+**Run locally:** follow [the development guide](docs/development.md) for Windows, WSL and Linux. Docker runs the pinned Node/PostgreSQL stack with isolated dev/test/stage resources; native PostgreSQL is untouched.
+
 **Approved deployment direction: option C.** [App and PostgreSQL outside Vercel, with local Docker dev/staging](docs/16-deployment-and-local-environments.md). [DP01–DP08 were approved October 23, 2026](docs/16-deployment-and-local-environments.md#approval-record), with C explicitly replacing the former Vercel/Neon default. Portable Linux app containers, isolated local environments, tests before GitHub push and controlled container releases preserve final-host flexibility. The production vendor, PostgreSQL operating model and budget remain deferred until needed for hosted integration, under the [P1 decision triggers](docs/implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). Local work uses portable containers and synthetic data.
 
-**Approved implementation working task list:** [119 planned PRs across Phases 1–4](docs/15-project-task-list.md), with key-task checklists, explicit dependencies, construction gates, responsible roles and a status/assignee/PR-evidence ledger. [Approved October 23, 2026](docs/15-project-task-list.md#approval-record). Ten separately gated options remain parked. P1-PR-001 is [in review as PR #1](https://github.com/xmyqyl4x/tiresandtreads/pull/1): [launch baseline, coverage rules and deferred decisions](docs/implementation/P1-PR-001-launch-baseline.md). Application code is not yet implemented; P1-PR-002 is the next dependency-gated card.
+**Approved implementation working task list:** [119 planned PRs across Phases 1–4](docs/15-project-task-list.md), with key-task checklists, explicit dependencies, construction gates, responsible roles and a status/assignee/PR-evidence ledger. [Approved October 23, 2026](docs/15-project-task-list.md#approval-record). Ten separately gated options remain parked. P1-PR-001 was approved and [merged as PR #1](https://github.com/xmyqyl4x/tiresandtreads/pull/1). P1-PR-002 is [in review as PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2): [workspace setup and local verification](docs/development.md). The headless host exposes health endpoints only; product UI still waits for S4 acceptance.
 
 **Approved current plan:** [Four live releases and eight-point gap review](docs/12-live-product-phases-and-gap-review.md), with [domain data/imports](docs/13-domain-data-and-imports.md) and [AI analysis, PostgreSQL reuse and tire photos](docs/14-ai-analysis-and-photo-design.md). SEO and advertising are P1 foundations; AI/photo/admin imports arrive P2; app/MCP P3; lifecycle and growth operations P4. Earlier approvals remain tied to their reviewed commits; this amendment was [approved on October 23, 2026](docs/12-live-product-phases-and-gap-review.md#approval-record).
 
@@ -29,7 +31,7 @@ This repository currently contains the final design and implementation planning 
 13. [AI analysis and tire photos](docs/14-ai-analysis-and-photo-design.md) - inference, persistent exact-match reuse, refresh, photo confirmation, privacy and tests.
 14. [PostgreSQL and build-order review](docs/11-postgresql-and-build-order.md) - dependency decisions, replacements, tradeoffs, capacity/failure gates and change record.
 
-Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. Engineering specification 1.0 was [approved on October 22, 2026](docs/00-source-review.md#engineering-approval-record); the current revisions incorporate the subsequent PostgreSQL/build-order direction. Planned tables, test suites and stage gates are not implemented yet.
+Implementation follows the [contribution guide](CONTRIBUTING.md). Each behavioral work package includes tests from its first increment; the final hardening phase validates accumulated evidence. Engineering specification 1.0 was [approved on October 22, 2026](docs/00-source-review.md#engineering-approval-record); the current revisions incorporate the subsequent PostgreSQL/build-order direction. Product tables and stage acceptance remain future work; P1-PR-002 introduces the bootstrap test suites and CI.
 
 ## Reference assets
 

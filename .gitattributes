@@ -1,4 +1,4 @@
-* text=auto
+* text=auto eol=lf
 *.md text eol=lf
 *.json text eol=lf
 *.csv text eol=lf
@@ -7,3 +7,15 @@
 *.zip binary
 # Preserve supplied Markdown byte for byte for provenance.
 docs/sources/originals/*.md -text
+
+# Portable source, tooling and Linux container inputs
+*.ts text eol=lf
+*.tsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.sql text eol=lf
+*.sh text eol=lf
+Dockerfile text eol=lf
+.githooks/* text eol=lf

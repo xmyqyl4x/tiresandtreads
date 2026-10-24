@@ -4,7 +4,7 @@
 
 **Current direction:** build the database, data access/models, business services and exposed APIs before product frontends. The [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) replaces ClickHouse/Redis/QStash with PostgreSQL analytics, SQL limits and measured caching. The original [AS01–AS07 approval](07-stack-and-layer-signoff.md#7-signoff-decisions) remains historical; AS02/AS07 implementation selections are amended. Separate Payload ownership, Inngest execution, consent defaults and release gates remain.
 
-**Engineering obligations:** apply the [TDD strategy](08-test-driven-development.md), [database contract](09-database-design.md), and [coding standards](10-coding-standards.md) in each stage. All application work remains unstarted. Estimates below are a revised planning allowance, not measured throughput. Re-estimate at S0/G0 and after the S2 data-access and S4 API demonstrations.
+**Engineering obligations:** apply the [TDD strategy](08-test-driven-development.md), [database contract](09-database-design.md), and [coding standards](10-coding-standards.md) in each stage. P1-PR-002 bootstrap implementation is in review; product-layer implementation remains at its dependency-gated cards. Estimates below are a revised planning allowance, not measured throughput. Re-estimate at S0/G0 and after the S2 data-access and S4 API demonstrations.
 
 ## Four live releases
 
@@ -16,7 +16,7 @@ Use the [project task list](15-project-task-list.md) for day-to-day execution of
 
 ## Development process for every work package
 
-The [approved deployment plan](16-deployment-and-local-environments.md) selects option C: app containers and PostgreSQL outside Vercel, with local Docker dev/test/stage and checks before GitHub push. DP01–DP08 supersede the Vercel/Neon default; record option-C vendor, region, DB operating model, cost and operator as deferred decisions in P1-PR-001/003, resolving each before its [blocking trigger](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). [The deployment task mapping](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) preserves all 119 core IDs, four live phases and S0–S6 ordering. No infrastructure has been provisioned.
+The [approved deployment plan](16-deployment-and-local-environments.md) selects option C: app containers and PostgreSQL outside Vercel, with local Docker dev/test/stage and checks before GitHub push. DP01–DP08 supersede the Vercel/Neon default; record option-C vendor, region, DB operating model, cost and operator as deferred decisions in P1-PR-001/003, resolving each before its [blocking trigger](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). [The deployment task mapping](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) preserves all 119 core IDs, four live phases and S0–S6 ordering. No hosted infrastructure has been provisioned.
 
 1. Establish readiness: requirement/UC/AT IDs, actors, acceptance examples, layer/table ownership, adverse paths, and realistic test data.
 2. Write and run the smallest failing unit/application use-case tests for the next behavior. For a database or API invariant, begin with a failing real boundary test as well.

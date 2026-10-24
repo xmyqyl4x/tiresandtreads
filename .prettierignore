@@ -1,0 +1,12 @@
+docs/
+README.md
+CONTRIBUTING.md
+pnpm-lock.yaml
+.work/
+.local/
+node_modules/
+.next/
+coverage/
+test-results/
+apps/web/next-env.d.ts
+*.tsbuildinfo

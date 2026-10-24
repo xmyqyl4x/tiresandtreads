@@ -1,0 +1,76 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Tires & Tread bootstrap API",
+    "version": "0.0.0",
+    "description": "Health-only S0 host. Product /api/v1 endpoints arrive at S4."
+  },
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "getLiveness",
+        "responses": {
+          "200": {
+            "description": "Bootstrap process/configuration is ready; database/providers are not yet evaluated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "const": "ok"
+                    },
+                    "scope": {
+                      "type": "string",
+                      "const": "bootstrap"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "scope"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "getBootstrapReadiness",
+        "responses": {
+          "200": {
+            "description": "Bootstrap process/configuration is ready; database/providers are not yet evaluated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "const": "ok"
+                    },
+                    "scope": {
+                      "type": "string",
+                      "const": "bootstrap"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "scope"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

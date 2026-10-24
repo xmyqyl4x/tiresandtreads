@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001 scope/feasibility work is in review; application code remains unimplemented. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001 is accepted; P1-PR-002 workspace/local-harness implementation is in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -76,7 +76,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Build source/license/provider matrix including display, storage, derived use, AI and redistribution rights; record unresolved blockers and decision owners.
 - [x] Record committed/conditional scope, responsibilities, content review schedule and initial card sizing; defer option-C provider/region/DB/budget/operator choices and full P1 forecast to explicit blocking triggers.
 
-**Verification and acceptance:** [Prepared launch baseline and source probes](../implementation/P1-PR-001-launch-baseline.md); owner review pending. Checkboxes record completed preparation, not acceptance of coverage, rights, hosting or G0. Documentation review is the test for this PR.
+**Verification and acceptance:** [Prepared launch baseline and source probes](../implementation/P1-PR-001-launch-baseline.md); owner approved and PR #1 merged at `b9e02f0`. Checkboxes record completed preparation, not acceptance of coverage, rights, hosting or G0. Documentation review is the test for this PR.
 
 ### P1-PR-002
 
@@ -88,11 +88,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-01, ENG-02, ENG-04, ENG-05. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Create pnpm workspace, strict TypeScript packages and minimal headless Next.js host; pin Node 24/Linux images and compatible dependencies; add isolated Docker dev/test/stage setup and doctor commands.
-- [ ] Configure lint, formatting, import boundaries, unit/use-case/HTTP/real-PostgreSQL commands, exact-commit local pre-push verification and frozen-lockfile Linux CI.
-- [ ] Add protected environments, synthetic/provider fixtures, secret/config validation, OpenAPI skeleton and immutable-image release scaffolding; keep product UI absent.
+- [x] Create pnpm workspace, strict TypeScript packages and minimal headless Next.js host; pin Node 24/Linux images and compatible dependencies; add isolated Docker dev/test/stage setup and doctor commands.
+- [x] Configure lint, formatting, import boundaries, unit/use-case/HTTP/real-PostgreSQL commands, exact-commit local pre-push verification and frozen-lockfile Linux CI.
+- [x] Add isolated local environments, synthetic/provider fixtures, secret/config validation, OpenAPI skeleton and immutable-image/protected-hosted-release scaffolding; actual hosted environment protection/provisioning follows DD03/DD04 before hosted use. Keep product UI absent.
 
-**Verification and acceptance:** Fresh checkout runs the committed commands; an intentional failing fixture proves CI gates and package-boundary checks work.
+**Verification and acceptance:** [Local validation record](../implementation/evidence/P1/p1-pr-002-validation.md). Fresh checkout runs the committed commands; an intentional failing fixture proves CI gates and package-boundary checks work. Implementation checkboxes are complete; owner review/merge and P1-PR-003 local S0 acceptance remain separate.
 
 ### P1-PR-003
 

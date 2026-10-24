@@ -1,0 +1,46 @@
+{
+  "name": "tires-and-tread",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24.19.0 <25"
+  },
+  "scripts": {
+    "dev": "node scripts/dev/local.mjs up dev",
+    "local": "node scripts/dev/local.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit && pnpm --filter @tt/web typecheck",
+    "boundaries": "node scripts/verify/boundaries.mjs",
+    "contracts:generate": "node scripts/contracts/openapi.mjs",
+    "contracts:check": "node scripts/contracts/openapi.mjs --check",
+    "quality": "pnpm source:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm boundaries && pnpm contracts:check",
+    "test": "vitest run --project unit --project usecases --coverage",
+    "test:unit": "vitest run --project unit",
+    "test:usecases": "vitest run --project usecases",
+    "test:db": "vitest run --project database",
+    "test:http": "node scripts/verify/http.mjs",
+    "test:gates": "node scripts/verify/gates.mjs",
+    "build": "pnpm --filter @tt/web build",
+    "verify:local": "node scripts/verify/local.mjs",
+    "verify:push": "node scripts/verify/push.mjs",
+    "doctor:local": "node scripts/dev/local.mjs doctor",
+    "source:check": "node scripts/verify/source.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "@vitest/coverage-v8": "5.0.5",
+    "dependency-cruiser": "18.7.0",
+    "eslint": "10.13.0",
+    "msw": "3.0.3",
+    "pg": "8.23.1",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "vitest": "5.0.5"
+  }
+}

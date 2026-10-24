@@ -12,3 +12,9 @@ coverage/
 playwright-report/
 test-results/
 __pycache__/
+
+# Local environment state and verification evidence
+.local/
+*.tsbuildinfo
+*.dump
+*.pem

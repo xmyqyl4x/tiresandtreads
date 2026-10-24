@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      target: tooling
+    command: [pnpm, --filter, '@tt/web', dev]
+    read_only: false
+    environment:
+      WATCHPACK_POLLING: 'true'
+    volumes:
+      - ../../apps/web/app:/workspace/apps/web/app:ro
+      - ../../apps/web/instrumentation.ts:/workspace/apps/web/instrumentation.ts:ro
+      - ../../packages/config/src:/workspace/packages/config/src:ro
+      - ../../packages/contracts/src:/workspace/packages/contracts/src:ro
+    mem_limit: 1536m
