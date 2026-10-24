@@ -6,6 +6,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./transactions": "./src/transactions.ts",
-    "./mappers": "./src/mappers.ts"
+    "./mappers": "./src/mappers.ts",
+    "./repositories/catalog": "./src/repositories/catalog.ts",
+    "./repositories/ingestion": "./src/repositories/ingestion.ts",
+    "./repositories/publication": "./src/repositories/publication.ts"
   }
 }

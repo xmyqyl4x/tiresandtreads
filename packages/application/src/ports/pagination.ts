@@ -16,3 +16,8 @@ export function pageRequest(limit: unknown, after: unknown = null): Result<PageR
     return invalid('page');
   return ok(Object.freeze({ limit: limit as PageSize, after }));
 }
+
+export interface Page<T> {
+  readonly items: readonly T[];
+  readonly next: string | null;
+}

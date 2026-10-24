@@ -1,0 +1,305 @@
+import type { Id } from '../../../domain/src/values/core.ts';
+export type JsonValue =
+  null | boolean | number | string | readonly JsonValue[] | { readonly [key: string]: JsonValue };
+export type JsonObject = { readonly [key: string]: JsonValue };
+// Normalized internal source records; external decoders and review authorization belong to ingestion use cases.
+export interface FactRecords {
+  readonly domainEntityVersions: Readonly<{
+    readonly id: Id<'domain_entity_version'>;
+    readonly entityId: Id<'domain_entity'>;
+    readonly displayName: string;
+    readonly countryCode: string | null;
+    readonly officialUrl: string | null;
+    readonly validFrom: string | null;
+    readonly validTo: string | null;
+    readonly reviewStatus: string;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly domainIdentifiers: Readonly<{
+    readonly id: Id<'domain_identifier'>;
+    readonly entityId: Id<'domain_entity'>;
+    readonly namespace: string;
+    readonly externalId: string;
+    readonly validFrom: string | null;
+    readonly validTo: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly domainAliases: Readonly<{
+    readonly id: Id<'domain_alias'>;
+    readonly entityId: Id<'domain_entity'>;
+    readonly locale: string;
+    readonly normalizedAlias: string;
+    readonly aliasKind: string;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly domainRelationships: Readonly<{
+    readonly id: Id<'domain_relationship'>;
+    readonly fromEntityId: Id<'domain_entity'>;
+    readonly toEntityId: Id<'domain_entity'>;
+    readonly kind: string;
+    readonly validFrom: string | null;
+    readonly validTo: string | null;
+    readonly sourceUrl: string;
+    readonly reviewStatus: string;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly manufacturingPlantCodes: Readonly<{
+    readonly id: Id<'manufacturing_plant_code'>;
+    readonly plantEntityId: Id<'domain_entity'>;
+    readonly authority: string;
+    readonly equipmentType: string;
+    readonly code: string;
+    readonly validFrom: string | null;
+    readonly validTo: string | null;
+    readonly sourceYear: number | null;
+    readonly status: string;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly vehicles: Readonly<{
+    readonly id: Id<'vehicle'>;
+    readonly market: string;
+    readonly modelYear: number;
+    readonly make: string;
+    readonly model: string;
+    readonly trim: string;
+    readonly powertrain: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly vehicleLookupOptions: Readonly<{
+    readonly id: Id<'vehicle_lookup_option'>;
+    readonly makeEntityId: Id<'domain_entity'>;
+    readonly modelEntityId: Id<'domain_entity'>;
+    readonly modelYear: number;
+    readonly vehicleType: string;
+    readonly market: string;
+    readonly sourceTrim: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly vehicleReferenceLinks: Readonly<{
+    readonly id: Id<'vehicle_reference_link'>;
+    readonly vehicleId: Id<'vehicle'>;
+    readonly lookupOptionId: Id<'vehicle_lookup_option'>;
+    readonly matchStatus: string;
+    readonly reviewedBy: Id<'staff'> | null;
+    readonly reviewedAt: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly tireModelReferenceLinks: Readonly<{
+    readonly id: Id<'tire_model_reference_link'>;
+    readonly tireModelId: Id<'tire_model'>;
+    readonly brandEntityId: Id<'domain_entity'>;
+    readonly manufacturerEntityId: Id<'domain_entity'> | null;
+    readonly matchStatus: string;
+    readonly sourceUrl: string;
+    readonly reviewedBy: Id<'staff'> | null;
+    readonly reviewedAt: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly referenceCodeValues: Readonly<{
+    readonly id: Id<'reference_code_value'>;
+    readonly system: string;
+    readonly code: string;
+    readonly locale: string;
+    readonly label: string;
+    readonly numericValue: string | null;
+    readonly unit: string | null;
+    readonly meaning: string;
+    readonly validFrom: string | null;
+    readonly validTo: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly fitmentConfigurations: Readonly<{
+    readonly id: Id<'fitment_configuration'>;
+    readonly vehicleId: Id<'vehicle'>;
+    readonly wheelPackage: string;
+    readonly verificationStatus: string;
+    readonly approvedOptions: JsonObject;
+    readonly schemaVersion: 1;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly fitmentAxles: Readonly<{
+    readonly id: Id<'fitment_axle'>;
+    readonly configurationId: Id<'fitment_configuration'>;
+    readonly axle: string;
+    readonly quantity: number;
+    readonly sizeCode: string;
+    readonly widthMm: string | null;
+    readonly aspectRatio: string | null;
+    readonly rimInches: string;
+    readonly construction: string;
+    readonly minLoadIndex: number | null;
+    readonly minSpeedRank: number | null;
+    readonly loadRange: string | null;
+    readonly xlRequired: boolean | null;
+    readonly runFlatRequired: boolean | null;
+    readonly unknownConstraints: readonly string[];
+    readonly schemaVersion: 1;
+  }>;
+  readonly tireModels: Readonly<{
+    readonly id: Id<'tire_model'>;
+    readonly brand: string;
+    readonly model: string;
+    readonly category: string;
+    readonly seasonalClass: string;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly tireSkus: Readonly<{
+    readonly id: Id<'tire_sku'>;
+    readonly modelId: Id<'tire_model'>;
+    readonly manufacturerSku: string;
+    readonly sizeCode: string;
+    readonly construction: string;
+    readonly loadIndex: number | null;
+    readonly speedRank: number | null;
+    readonly loadRange: string | null;
+    readonly xl: boolean | null;
+    readonly runFlat: boolean | null;
+    readonly rimInches: string;
+    readonly status: string;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly marketAvailability: Readonly<{
+    readonly id: Id<'market_availability'>;
+    readonly skuId: Id<'tire_sku'>;
+    readonly market: string;
+    readonly available: boolean;
+    readonly observedAt: string;
+    readonly expiresAt: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly evidence: Readonly<{
+    readonly id: Id<'evidence'>;
+    readonly skuId: Id<'tire_sku'> | null;
+    readonly modelId: Id<'tire_model'> | null;
+    readonly metricCode: string;
+    readonly numericValue: string | null;
+    readonly textValue: string | null;
+    readonly missingReason: string | null;
+    readonly unit: string | null;
+    readonly method: string;
+    readonly sourceUrl: string;
+    readonly testedAt: string | null;
+    readonly reviewedAt: string;
+    readonly confidence: string;
+    readonly applicability: JsonObject;
+    readonly schemaVersion: 1;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly prices: Readonly<{
+    readonly id: Id<'price'>;
+    readonly skuId: Id<'tire_sku'>;
+    readonly retailerId: Id<'retailer'>;
+    readonly market: string;
+    readonly currency: string;
+    readonly unitPriceMinor: bigint;
+    readonly quantityBasis: string;
+    readonly observedAt: string;
+    readonly validUntil: string | null;
+    readonly taxIncluded: boolean | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly priceComponents: Readonly<{
+    readonly id: Id<'price_component'>;
+    readonly priceId: Id<'price'>;
+    readonly kind: string;
+    readonly basis: string;
+    readonly amountKind: string;
+    readonly lowMinor: bigint | null;
+    readonly highMinor: bigint | null;
+    readonly rate: string | null;
+    readonly included: boolean;
+    readonly sourceNote: string | null;
+  }>;
+  readonly climateProfiles: Readonly<{
+    readonly id: Id<'climate_profile'>;
+    readonly market: string;
+    readonly regionKey: string;
+    readonly profile: JsonObject;
+    readonly method: string;
+    readonly reviewedAt: string;
+    readonly schemaVersion: 1;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly marketRules: Readonly<{
+    readonly id: Id<'market_rule'>;
+    readonly market: string;
+    readonly regionKey: string;
+    readonly ruleCode: string;
+    readonly guidance: JsonObject;
+    readonly effectiveFrom: string;
+    readonly effectiveTo: string | null;
+    readonly reviewedAt: string;
+    readonly schemaVersion: 1;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly adviceFacts: Readonly<{
+    readonly id: Id<'advice_fact'>;
+    readonly topicKey: string;
+    readonly market: string;
+    readonly locale: string;
+    readonly claim: string;
+    readonly applicability: JsonObject;
+    readonly reviewedBy: Id<'staff'>;
+    readonly reviewedAt: string;
+    readonly reviewDueAt: string;
+    readonly status: string;
+    readonly schemaVersion: 1;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly adviceFactSources: Readonly<{
+    readonly id: Id<'advice_fact_source'>;
+    readonly factId: Id<'advice_fact'>;
+    readonly sourceUrl: string;
+    readonly providerId: Id<'provider'>;
+    readonly licenseId: Id<'license'>;
+    readonly locator: string | null;
+    readonly retrievedAt: string;
+    readonly contentHash: string;
+  }>;
+  readonly recalls: Readonly<{
+    readonly id: Id<'recall'>;
+    readonly authority: string;
+    readonly recallNumber: string;
+    readonly announcedOn: string;
+    readonly status: string;
+    readonly sourceUrl: string;
+    readonly summary: string;
+    readonly productType: string;
+    readonly manufacturerEntityId: Id<'domain_entity'> | null;
+    readonly componentCode: string | null;
+    readonly consequence: string | null;
+    readonly remedy: string | null;
+    readonly manufacturerCampaignNumber: string | null;
+    readonly affectedCount: bigint | null;
+    readonly sourceUpdatedAt: string | null;
+    readonly sourceRecordKey: string;
+  }>;
+  readonly recallSourceTargets: Readonly<{
+    readonly id: Id<'recall_source_target'>;
+    readonly recallId: Id<'recall'>;
+    readonly targetKey: string;
+    readonly brandName: string | null;
+    readonly productName: string | null;
+    readonly sizeText: string | null;
+    readonly dotPattern: JsonObject | null;
+    readonly manufacturedFrom: string | null;
+    readonly manufacturedTo: string | null;
+    readonly sourceDetails: JsonObject;
+    readonly matchStatus: string;
+    readonly schemaVersion: 1;
+  }>;
+  readonly recallTargets: Readonly<{
+    readonly id: Id<'recall_target'>;
+    readonly recallId: Id<'recall'>;
+    readonly sourceTargetId: Id<'recall_source_target'>;
+    readonly skuId: Id<'tire_sku'> | null;
+    readonly modelId: Id<'tire_model'> | null;
+    readonly dotMatch: JsonObject;
+    readonly matchStatus: string;
+    readonly mappingVersion: string;
+    readonly reviewedAt: string | null;
+    readonly reviewedBy: Id<'staff'> | null;
+    readonly schemaVersion: 1;
+  }>;
+}
+export type FactKind = keyof FactRecords;

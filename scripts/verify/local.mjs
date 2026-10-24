@@ -24,9 +24,8 @@ export function verifyLocal() {
     ]);
     compose(plan, ['up', '--detach', '--wait', '--wait-timeout', '120', 'postgres', 'app']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'quality']);
-    compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test']);
+    compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:coverage']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:gates']);
-    compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:db']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:foundation']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:schema']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:http']);

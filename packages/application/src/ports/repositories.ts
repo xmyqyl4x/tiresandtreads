@@ -1,31 +1,9 @@
-import type {
-  Evidence,
-  Id,
-  Instant,
-  Result,
-  Revision,
-  TireSize,
-} from '../../../domain/src/values/index.ts';
-import type { TireSku, PriceQuote } from '../../../domain/src/entities/catalog.ts';
+import type { Evidence, Id, Instant, Result, Revision } from '../../../domain/src/values/index.ts';
 import type { ReportHead, ReportVersionRef } from '../../../domain/src/entities/report.ts';
 import type { ConsentProjection, ConsentPurpose } from '../../../domain/src/entities/consent.ts';
-import type { ImportIdentity, ImportRun } from '../../../domain/src/entities/import.ts';
+import type { ImportIdentity } from '../../../domain/src/entities/import.ts';
 import type { ApplicationFailure, TransactionContext } from './transactions.ts';
-import type { PageRequest } from './pagination.ts';
-export interface Page<T> {
-  readonly items: readonly T[];
-  readonly next: string | null;
-}
-export interface CatalogQueries {
-  candidates(
-    tx: TransactionContext,
-    query: Readonly<{ bundleId: Id<'bundle'>; size: TireSize; page: PageRequest }>,
-  ): Promise<Page<TireSku>>;
-  prices(
-    tx: TransactionContext,
-    query: Readonly<{ bundleId: Id<'bundle'>; skuIds: readonly Id<'tire_sku'>[]; at: Instant }>,
-  ): Promise<readonly PriceQuote[]>;
-}
+export type { Page } from './pagination.ts';
 export interface ReportRepository {
   lockOwned(
     tx: TransactionContext,
@@ -49,21 +27,6 @@ export interface PermissionQueries {
     scopeKey: string,
   ): Promise<ConsentProjection>;
 }
-export interface ImportRepository {
-  claim(
-    tx: TransactionContext,
-    identity: ImportIdentity,
-  ): Promise<Result<ImportRun, ApplicationFailure>>;
-  publish(
-    tx: TransactionContext,
-    command: Readonly<{
-      runId: Id<'import_run'>;
-      expectedHead: Id<'bundle'> | null;
-      bundleId: Id<'bundle'>;
-      leaseGeneration: Revision;
-    }>,
-  ): Promise<Result<Id<'bundle'>, ApplicationFailure>>;
-}
 export interface SourceFetchPort {
   // Called outside UnitOfWork; implementation owns its bounded streaming parser, never the transaction.
   fetch(
@@ -83,3 +46,6 @@ export interface SourceFetchPort {
 export interface Clock {
   now(): Instant;
 }
+
+export type { CatalogRepository } from './catalog.ts';
+export type { IngestionRepository, PublicationRepository } from './ingestion.ts';

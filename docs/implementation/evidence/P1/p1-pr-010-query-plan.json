@@ -1,0 +1,283 @@
+{
+  "syntheticSkus": 20000,
+  "matched": 1000,
+  "pages": 10,
+  "maxRows": 101,
+  "heapGrowthBytes": 1757800,
+  "elapsedMs": 60,
+  "executionMs": 1.261,
+  "plan": [
+    {
+      "Node Type": "Limit",
+      "Actual Rows": 101,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 440,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Sort",
+      "Actual Rows": 101,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 440,
+      "Shared Read Blocks": 0,
+      "Sort Method": "quicksort",
+      "Sort Space Used": 74
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 101,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 440,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Unique",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 25,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Sort",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 25,
+      "Shared Read Blocks": 0,
+      "Sort Method": "quicksort",
+      "Sort Space Used": 25
+    },
+    {
+      "Node Type": "Subquery Scan",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 25,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 25,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 23,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 5,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 13,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 5,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 3,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Seq Scan",
+      "Relation Name": "dataset_versions",
+      "Actual Rows": 5,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 1,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Memoize",
+      "Actual Rows": 1,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Scan",
+      "Relation Name": "data_providers",
+      "Index Name": "data_providers_pk",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Scan",
+      "Relation Name": "data_licenses",
+      "Index Name": "data_licenses_u1",
+      "Actual Rows": 1,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 10,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Bitmap Heap Scan",
+      "Relation Name": "bundle_members",
+      "Actual Rows": 1,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 10,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Bitmap Index Scan",
+      "Index Name": "bundle_members_pk",
+      "Actual Rows": 1,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 5,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Only Scan",
+      "Relation Name": "dataset_bundles",
+      "Index Name": "dataset_bundles_u3",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 101,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 415,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 5,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 13,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 5,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 3,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Seq Scan",
+      "Relation Name": "dataset_versions",
+      "Actual Rows": 5,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 1,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Memoize",
+      "Actual Rows": 1,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Scan",
+      "Relation Name": "data_providers",
+      "Index Name": "data_providers_pk",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Scan",
+      "Relation Name": "data_licenses",
+      "Index Name": "data_licenses_u1",
+      "Actual Rows": 1,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 10,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Limit",
+      "Actual Rows": 101,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 402,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Sort",
+      "Actual Rows": 101,
+      "Actual Loops": 5,
+      "Shared Hit Blocks": 402,
+      "Shared Read Blocks": 0,
+      "Sort Method": "top-N heapsort",
+      "Sort Space Used": 65
+    },
+    {
+      "Node Type": "Subquery Scan",
+      "Actual Rows": 1000,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 402,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 1000,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 402,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 5,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Nested Loop",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 3,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Seq Scan",
+      "Relation Name": "dataset_versions",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 1,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Scan",
+      "Relation Name": "data_providers",
+      "Index Name": "data_providers_pk",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Index Scan",
+      "Relation Name": "data_licenses",
+      "Index Name": "data_licenses_u1",
+      "Actual Rows": 1,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 2,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Bitmap Heap Scan",
+      "Relation Name": "tire_skus",
+      "Actual Rows": 1000,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 397,
+      "Shared Read Blocks": 0
+    },
+    {
+      "Node Type": "Bitmap Index Scan",
+      "Index Name": "tire_skus_page_idx",
+      "Actual Rows": 1000,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 12,
+      "Shared Read Blocks": 0
+    }
+  ]
+}

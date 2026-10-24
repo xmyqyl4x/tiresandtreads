@@ -49,6 +49,7 @@
       "app.fitment_configurations",
       "app.idempotency_requests",
       "app.import_artifacts",
+      "app.import_materializations",
       "app.import_publications",
       "app.import_rejections",
       "app.import_runs",
@@ -121,7 +122,39 @@
       "privacy.suppressions",
       "privacy.verification_challenges"
     ],
-    "views": ["admin.current_ad_daily_metrics", "analytics.visible_daily_metrics"]
+    "views": [
+      "admin.current_ad_daily_metrics",
+      "analytics.visible_daily_metrics",
+      "app.catalog_advice_fact_sources",
+      "app.catalog_advice_facts",
+      "app.catalog_bundles",
+      "app.catalog_climate_profiles",
+      "app.catalog_domain_aliases",
+      "app.catalog_domain_entity_versions",
+      "app.catalog_domain_identifiers",
+      "app.catalog_domain_relationships",
+      "app.catalog_evidence",
+      "app.catalog_fitment_axles",
+      "app.catalog_fitment_configurations",
+      "app.catalog_heads",
+      "app.catalog_manufacturing_plant_codes",
+      "app.catalog_market_availability",
+      "app.catalog_market_rules",
+      "app.catalog_members",
+      "app.catalog_price_components",
+      "app.catalog_prices",
+      "app.catalog_recall_source_targets",
+      "app.catalog_recall_targets",
+      "app.catalog_recalls",
+      "app.catalog_reference_code_values",
+      "app.catalog_sources",
+      "app.catalog_tire_model_reference_links",
+      "app.catalog_tire_models",
+      "app.catalog_tire_skus",
+      "app.catalog_vehicle_lookup_options",
+      "app.catalog_vehicle_reference_links",
+      "app.catalog_vehicles"
+    ]
   },
   "cms": {
     "tables": [

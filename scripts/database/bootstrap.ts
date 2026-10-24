@@ -1,7 +1,15 @@
 import pg from 'pg';
 
 export const databaseRoles = {
-  app: ['tt_app_migrator', 'tt_app_runtime', 'tt_staff_runtime', 'tt_asset_runtime'],
+  app: [
+    'tt_app_migrator',
+    'tt_app_runtime',
+    'tt_staff_runtime',
+    'tt_asset_runtime',
+    'tt_catalog_runtime',
+    'tt_ingest_runtime',
+    'tt_publish_runtime',
+  ],
   cms: ['tt_cms_migrator', 'tt_cms_runtime'],
 } as const;
 export type DatabaseRole = (typeof databaseRoles)[keyof typeof databaseRoles][number];

@@ -55,6 +55,7 @@ export function createTransactions(
   overrides: Partial<TransactionLimits> = {},
 ): {
   readonly unitOfWork: UnitOfWork;
+  readonly abort: (tx: TransactionContext, error: ApplicationFailure) => never;
   readonly query: (
     tx: TransactionContext,
     text: string,
@@ -228,5 +229,11 @@ export function createTransactions(
       }
     },
   };
-  return { unitOfWork, query };
+  const abort = (tx: TransactionContext, error: ApplicationFailure): never => {
+    const state = states.get(tx);
+    if (!state?.active) throw fault('transaction_context');
+    state.poison ??= error;
+    throw new PersistenceFailure(state.poison);
+  };
+  return { unitOfWork, query, abort };
 }

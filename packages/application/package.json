@@ -7,6 +7,9 @@
     ".": "./src/index.ts",
     "./ports/transactions": "./src/ports/transactions.ts",
     "./ports/repositories": "./src/ports/repositories.ts",
-    "./ports/pagination": "./src/ports/pagination.ts"
+    "./ports/pagination": "./src/ports/pagination.ts",
+    "./ports/catalog": "./src/ports/catalog.ts",
+    "./ports/catalog-records": "./src/ports/catalog-records.ts",
+    "./ports/ingestion": "./src/ports/ingestion.ts"
   }
 }

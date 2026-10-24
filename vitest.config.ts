@@ -35,7 +35,14 @@ export default defineConfig({
           setupFiles: ['tests/setup.ts'],
         },
       },
-      { test: { name: 'database', include: ['tests/database/**/*.test.ts'], testTimeout: 15000 } },
+      {
+        test: {
+          name: 'database',
+          include: ['tests/database/**/*.test.ts'],
+          testTimeout: 15000,
+          fileParallelism: false,
+        },
+      },
       {
         test: {
           name: 'foundation',

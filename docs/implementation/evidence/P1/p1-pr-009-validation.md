@@ -1,6 +1,6 @@
 # P1-PR-009 validation evidence
 
-**October 23, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #8 merge `beccd8efe28e6df1eef6fe99fd088787521b8d9a`. See the [implementation packet](../../P1-PR-009-entities-transactions.md) for scope, limits, mapping and failure contracts.
+**October 24, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #8 merge `beccd8efe28e6df1eef6fe99fd088787521b8d9a`. See the [implementation packet](../../P1-PR-009-entities-transactions.md) for scope, limits, mapping and failure contracts.
 
 ## Development evidence
 
@@ -31,7 +31,7 @@
 
 Total: **172 passing tests**. Recovery elapsed 22454 ms including image preparation; the synthetic backup window was 3688 ms. These measurements do not establish production capacity or RTO/RPO. Dev/stage retain the previously accepted migrations and volumes; this change requires no schema upgrade.
 
-The review-link/evidence commit must pass the same full verification before push. [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9) records the final tested SHA and independent GitHub CI. P1-PR-009 owner acceptance remains pending; the complete S2 gate remains P1-PR-013.
+Final review commit `9e7d05aee6fa9d1425aef49b07e171d7884dde3e` passed full local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40070401916). The owner approved [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9), merged at `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. P1-PR-009 is accepted; the complete S2 gate remains P1-PR-013.
 
 ## Limits
 

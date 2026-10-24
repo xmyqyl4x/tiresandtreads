@@ -1,6 +1,6 @@
 # P1-PR-009 — Typed entities and transaction helpers
 
-**October 23, 2026 · in review; owner acceptance pending.** Review: [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9). Implementer: Codex. Acceptance owner: repository owner. The owner approved [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8), merged at `beccd8efe28e6df1eef6fe99fd088787521b8d9a`, accepting the local P1 S1 database gate. This starts S2/E04 under the [009 task card](../tasks/phase-1-prs.md#p1-pr-009).
+**October 24, 2026 · accepted after owner approval and merge at `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`.** Review: [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9). Implementer: Codex. Acceptance owner: repository owner. The owner approved [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8), merged at `beccd8efe28e6df1eef6fe99fd088787521b8d9a`, accepting the local P1 S1 database gate. This starts S2/E04 under the [009 task card](../tasks/phase-1-prs.md#p1-pr-009).
 
 ## Scope and traceability
 
@@ -61,4 +61,4 @@ This follows the one-client transaction requirement in [node-postgres](https://n
 
 The [validation record](evidence/P1/p1-pr-009-validation.md) records red/green tests, strict type fixtures and real PostgreSQL results. Run `pnpm test` for values/mappers/fault injection, `pnpm verify:data-access` for isolated real transaction tests and `pnpm verify:push` on the clean commit for the complete pipeline. The existing CI command includes the new database cases. Dev/stage need no migration or reset.
 
-After owner acceptance, 010 implements catalog/ingestion repositories, 011 reports/delivery/privacy repositories and 012 content/operations adapters. Their additional data mappers, grants, representative plans, query counts and authorization/race tests must pass before 013 accepts S2. Product service/API/frontend and chosen-host release gates remain unchanged.
+Following owner acceptance, 010 implements catalog/ingestion repositories, 011 reports/delivery/privacy repositories and 012 content/operations adapters. Their additional data mappers, grants, representative plans, query counts and authorization/race tests must pass before 013 accepts S2. Product service/API/frontend and chosen-host release gates remain unchanged.
