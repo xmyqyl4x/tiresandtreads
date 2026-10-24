@@ -1,6 +1,6 @@
 # Implementation working project task list
 
-**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. All implementation is unstarted. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
+**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. P1-PR-001 scope/feasibility work is in review; application code remains unimplemented. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
 
 This file is the authoritative ledger for status, assignee and actual PR/evidence links. Detailed key-task checklists, responsible roles, dependencies and verification criteria live in the four linked phase files. Stable IDs are backlog identifiers; real GitHub PR URLs are added as work opens. [Requirements traceability](05-requirements-traceability.md), [work packages](04-implementation-plan.md), [TDD](08-test-driven-development.md), [database design](09-database-design.md) and [coding standards](10-coding-standards.md) remain authoritative specifications.
 
@@ -19,6 +19,8 @@ No deadline or engineering-day estimate is inferred from the number of PRs. Esti
 
 ## Working rules
 
+**Owner-directed P1 sequencing update, October 23, 2026:** commercial source providers and hosting budget are deferred until necessary. The [launch baseline](implementation/P1-PR-001-launch-baseline.md) defines blocking triggers. P1-PR-003 accepts the local S0 foundation independently of full G0, permitting synthetic database/repository work. Actual external integrations remain gated at the affected cards, and full G0/chosen-host evidence is required by P1-PR-031. Stable IDs and dependency edges remain; acceptance scope for 001/003 changes explicitly below and in their cards.
+
 1. Pick the earliest dependency-satisfied card, assign its owner/reviewer and estimate, then mark it Ready. Begin with [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001); bootstrap follows in [P1-PR-002](tasks/phase-1-prs.md#p1-pr-002) and provider/S0 acceptance in [P1-PR-003](tasks/phase-1-prs.md#p1-pr-003).
 2. Use a branch such as `codex/p1-pr-001-launch-scope` and a PR title such as `[P1-PR-001] Lock launch scope and data rights`. Copy the card's tasks and trace IDs into the [PR template](../.github/pull_request_template.md). Link exact FR/CORE/NFR/ENG/CAP rows before implementation begins.
 3. Dependencies mean merged **and accepted with required evidence**. All current-phase database work passes S1 before S2, all repositories pass S2 before S3 services, and every committed API passes S4 before new product screens/templates. Small headless fixtures and content research follow the existing S0 exception. Previous live releases remain supported.
@@ -34,7 +36,7 @@ No deadline or engineering-day estimate is inferred from the number of PRs. Esti
 | --- | --- |
 | Not started | No implementation work or completion claim; default for all 119 cards |
 | Ready | Dependencies accepted, scope/trace/owner/reviewer/estimate and required external prerequisites established |
-| In progress | Active implementation with failing-test/working evidence captured |
+| In progress | Active work with failing-test/working evidence, or documented review/probes for an evidence-only card |
 | In review | Actual PR open, required checks and review evidence linked |
 | Merged | Changes are on main; acceptance or rollout evidence may still be outstanding |
 | Accepted | PR merged and its declared stage outcome verified; release cards also require a usable live outcome |
@@ -58,9 +60,9 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 
 | Planned PR and title | Stage | Status | Assignee | PR / acceptance evidence |
 | --- | --- | --- | --- | --- |
-| [P1-PR-001 — Lock Phase 1 scope, data rights and launch coverage](tasks/phase-1-prs.md#p1-pr-001) | S0 | Not started | Unassigned | — |
+| [P1-PR-001 — Lock Phase 1 scope, data rights and launch coverage](tasks/phase-1-prs.md#p1-pr-001) | S0 | In review | Codex; owner review pending | [PR #1](https://github.com/xmyqyl4x/tiresandtreads/pull/1); [launch baseline and probes](implementation/P1-PR-001-launch-baseline.md) |
 | [P1-PR-002 — Bootstrap headless workspace and TDD tooling](tasks/phase-1-prs.md#p1-pr-002) | S0 | Not started | Unassigned | — |
-| [P1-PR-003 — Prove provider integration and close S0/G0](tasks/phase-1-prs.md#p1-pr-003) | S0 | Not started | Unassigned | — |
+| [P1-PR-003 — Prove local foundation and track provider gates](tasks/phase-1-prs.md#p1-pr-003) | S0 | Not started | Unassigned | — |
 | [P1-PR-004 — Create database ownership, identity and asset foundations](tasks/phase-1-prs.md#p1-pr-004) | S1 | Not started | Unassigned | — |
 | [P1-PR-005 — Create domain, catalog, reference and import schemas](tasks/phase-1-prs.md#p1-pr-005) | S1 | Not started | Unassigned | — |
 | [P1-PR-006 — Create report, consent, delivery and reliability schemas](tasks/phase-1-prs.md#p1-pr-006) | S1 | Not started | Unassigned | — |
@@ -212,7 +214,7 @@ These parked tickets are excluded from the 119 core-PR count. Their [activation/
 
 ## Traceability and next action
 
-**Approved deployment supplement:** [DP01–DP08 with option C](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) assign local Docker infrastructure, pre-push verification, portable app/PostgreSQL hosting and container release evidence to these existing cards. P1 task details now reflect C; all core IDs/counts/statuses/dependencies and the historical approval record below remain intact. Select the concrete option-C vendor, region, database operating model and operators during S0.
+**Approved deployment supplement:** [DP01–DP08 with option C](16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) assign local Docker infrastructure, pre-push verification, portable app/PostgreSQL hosting and container release evidence to these existing cards. P1 task details now reflect C; all core IDs/counts/statuses/dependencies and the historical approval record below remain intact. The later owner-directed P1 deferral moves concrete provider/region/DB/operator selection to the [recorded blocking triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register); local S0 acceptance does not accept G0 or production readiness.
 
 The [work-package-to-PR map](tasks/work-package-pr-map.md) covers E01–E42 and exposes optional E32/E33 work separately. A work-package link is an ownership/navigation aid, not acceptance of all of its source requirements. At readiness, select exact rows from docs/05; at acceptance, attach tests and shipped version. Preserve all 137 original FR IDs and the existing CORE/NFR/ENG/CAP/UC/AT/DB identifiers.
 

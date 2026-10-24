@@ -1,6 +1,6 @@
 # Deployment and local-environment plan
 
-**Approved plan 1.1 · October 23, 2026 · DP01–DP08 approved with option C selected.** The user approved reviewed proposal commit `3973116f7e33327abc89795d30b4811f523788af` and directed **app + PostgreSQL outside Vercel** to preserve deployment flexibility and local development/testing. This supersedes the proposal's preference for option A and the earlier Vercel/Neon production default. The final hosting vendor, region and managed-versus-self-operated production database remain S0 decisions within option C. See the [approval record](#approval-record). Infrastructure and application implementation remain unstarted.
+**Approved plan 1.1 · October 23, 2026 · DP01–DP08 approved with option C selected.** The user approved reviewed proposal commit `3973116f7e33327abc89795d30b4811f523788af` and directed **app + PostgreSQL outside Vercel** to preserve deployment flexibility and local development/testing. This supersedes the proposal's preference for option A and the earlier Vercel/Neon production default. The final hosting vendor, region, managed-versus-self-operated production database and budget remain deferred within option C under the [P1 decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). Local construction can proceed; those decisions block hosted provisioning/integration and must close by P1-PR-031. See the [approval record](#approval-record). Infrastructure and application implementation remain unstarted.
 
 ## Selected direction and direct answers
 
@@ -272,7 +272,7 @@ Do not compare only the database subscription. Prepare low/base/high workloads a
 | Nonproduction | Local capacity plus isolated hosted checks | Same, with DB/test resource management | Same, plus extra instances as needed |
 | Shared providers | Clerk, Inngest, S3/KMS, email, monitoring and later AI | Same unless separately changed | Same unless separately changed |
 
-For the unselected Vercel alternatives, this commercial advertising site would need a commercial plan; Hobby is documented for personal noncommercial use. [Vercel Hobby scope](https://vercel.com/docs/plans/hobby). Static IP pricing is an alternative-comparison input, not a cost or dependency of selected option C. Obtain actual regional plans, limits, storage/backup retention and required user seats during S0. Exclude speculative ad income from the funding assumption.
+For the unselected Vercel alternatives, this commercial advertising site would need a commercial plan; Hobby is documented for personal noncommercial use. [Vercel Hobby scope](https://vercel.com/docs/plans/hobby). Static IP pricing is an alternative-comparison input, not a cost or dependency of selected option C. Obtain actual regional plans, limits, storage/backup retention and required user seats before hosted provisioning/integration and full G0; local construction does not require a production plan purchase. Exclude speculative ad income from the funding assumption.
 
 A cheap single database VM can cost more overall once secure connectivity, backups and operator time are counted. Conversely, a well-operated colocated app/DB deployment may be economical at predictable load. These are planning judgments to validate with workload measurements and a named operator, not universal price claims.
 
@@ -280,16 +280,16 @@ Within selected option C, record the vendor, region, data location, operator/bac
 
 ## Integration with the working PR task list
 
-The approved backlog stays at **119 core PRs plus 10 parked options**. The following is the approved option-C execution supplement for existing cards, not extra completed work or a new live phase. The original task-list approval remains tied to `c984bcf`; the approval record below authorizes the deployment refinements.
+The approved backlog stays at **119 core PRs plus 10 parked options**. The following is the approved option-C execution supplement for existing cards, not extra completed work or a new live phase. The original task-list approval remains tied to `c984bcf`; the approval record below authorizes the deployment refinements. The owner subsequently deferred provider/budget choices until needed. The current mapping below separates local S0 acceptance from full G0 and preserves real hosted proofs at their triggers; historical approvals remain unchanged.
 
 | Backlog card | Deployment tasks to include | Evidence required |
 | --- | --- | --- |
-| [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001) | Select the option-C vendor/region and managed-or-self-operated DB model; cost/operator/recovery matrix; resolve data-location and commercial constraints | Hosting decision and budget/owner register |
+| [P1-PR-001](tasks/phase-1-prs.md#p1-pr-001) | Record option-C provider/region/DB/budget/operator questions and blocking triggers | Deferred-decision register; no assumed purchase or host selection |
 | [P1-PR-002](tasks/phase-1-prs.md#p1-pr-002) | Node 24/Compose doctor; isolated dev/test/stage; fixture harness; local pre-push and clean CI commands | Cold local setup, environment isolation and intentional failing-check proof |
-| [P1-PR-003](tasks/phase-1-prs.md#p1-pr-003) | Headless target-host DB/pooler/auth/Payload/worker proofs; migration/build networking; release controls | Actual chosen-host evidence; decision closed before S1 |
-| [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004)–[008](tasks/phase-1-prs.md#p1-pr-008) | Separate app/CMS databases/roles; local and hosted migrations; synthetic seeds; backup/restore/deletion replay | Schema/role/recovery gate on the target PostgreSQL version |
+| [P1-PR-003](tasks/phase-1-prs.md#p1-pr-003) | Headless local DB/runtime/Payload compatibility, lifecycle and migration/build networking; track external proofs at the affected adapter/host triggers | Real local S0 evidence before S1; full G0 open until actual provider/host proofs, no later than 031 |
+| [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004)–[008](tasks/phase-1-prs.md#p1-pr-008) | Separate app/CMS databases/roles; local migrations; synthetic seeds; backup/restore/deletion replay; repeat on selected host before 031 | Local schema/role/recovery gate on the pinned PostgreSQL version; hosted evidence remains outstanding |
 | [P1-PR-012](tasks/phase-1-prs.md#p1-pr-012), [014](tasks/phase-1-prs.md#p1-pr-014), [021](tasks/phase-1-prs.md#p1-pr-021), [024](tasks/phase-1-prs.md#p1-pr-024) | Container pool lifecycle, private assets/jobs, portable config publication/invalidation, monitoring and bounded work | Failure, isolation and mixed-load evidence |
-| [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031) | Local-stage complete API suite plus chosen-host smoke; no product UI yet | S4 acceptance, auth/TLS/callback and pool capacity evidence |
+| [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031) | Local-stage complete API suite plus chosen-host smoke and outstanding provider proofs; close full G0; no product UI yet | S4/G0 acceptance, source rights/coverage, host/budget/operators, auth/TLS/callback and pool capacity evidence |
 | [P1-PR-041](tasks/phase-1-prs.md#p1-pr-041)–[043](tasks/phase-1-prs.md#p1-pr-043) | Full local/hosted journeys, recovery/performance drill, staged release, live observations | Existing G/release evidence plus deployment manifest/runbook |
 | [P2-PR-026](tasks/phase-2-prs.md#p2-pr-026)–[027](tasks/phase-2-prs.md#p2-pr-027) | Repeat pipeline with image/AI evaluation and provider cost/limit controls | P2 real-provider and live-product evidence |
 | [P3-PR-023](tasks/phase-3-prs.md#p3-pr-023)–[025](tasks/phase-3-prs.md#p3-pr-025) | Device/client matrix, host callbacks, store/MCP distribution and compatibility | Both live channels, not only local emulators |

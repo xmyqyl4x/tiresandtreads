@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/toyota/modelyear/2024?format=json",
+    "observed_at_utc": "2026-10-24T01:05:16.6267272Z",
+    "http_status": 200,
+    "bytes": 1818,
+    "sha256": "5a1f38b370a6cf2c309823c263d4b0cdda1285ee81328a91d934e4019dca1f87",
+    "scope": "Read-only reachability and response-shape probe; not an import, rights approval or coverage verification.",
+    "reported_count": 22,
+    "observed_count": 22,
+    "fields": [
+      "Make_ID",
+      "Make_Name",
+      "Model_ID",
+      "Model_Name"
+    ]
+  },
+  {
+    "url": "https://static.nhtsa.gov/odi/ffdd/rcl/RCL.txt",
+    "observed_at_utc": "2026-10-24T01:05:16.9192381Z",
+    "http_status": 200,
+    "bytes": 3053,
+    "sha256": "3438cc7e4131efa401dfe6437dbe035607e092c129155dfb411d459d58802203",
+    "scope": "Read-only reachability and response-shape probe; not an import, rights approval or coverage verification.",
+    "dictionary_markers": [
+      "CAMPNO",
+      "COMPNAME",
+      "RCLTYPECD"
+    ],
+    "contains_tires_text": true
+  }
+]

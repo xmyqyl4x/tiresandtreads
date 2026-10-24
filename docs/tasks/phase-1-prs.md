@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. All implementation is unstarted. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001 scope/feasibility work is in review; application code remains unimplemented. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -8,13 +8,15 @@
 
 ## PR sequence
 
+**Owner-directed deferral:** provider and hosting-budget decisions are deferred until needed. [The P1 launch baseline](../implementation/P1-PR-001-launch-baseline.md) records triggers. Local S0 in 003 permits synthetic S1/S2 work while G0 remains open; actual provider/import/host acceptance still requires real evidence, and full G0 closes by 031. No product capability or safety gate is waived.
+
 **Approved option-C deployment detail:** [The deployment task mapping](../16-deployment-and-local-environments.md#integration-with-the-working-pr-task-list) expands the existing cards with portable Linux app containers/PostgreSQL outside Vercel, isolated Docker dev/test/stage, pre-push checks, public-config portability and container-host release proofs. DP01–DP08 amend the former hosting default; all task IDs, dependencies and completion statuses remain.
 
 | PR | Stage | Proposed title |
 | --- | --- | --- |
 | [P1-PR-001](#p1-pr-001) | S0 | Lock Phase 1 scope, data rights and launch coverage |
 | [P1-PR-002](#p1-pr-002) | S0 | Bootstrap headless workspace and TDD tooling |
-| [P1-PR-003](#p1-pr-003) | S0 | Prove provider integration and close S0/G0 |
+| [P1-PR-003](#p1-pr-003) | S0 | Prove local foundation and track provider gates |
 | [P1-PR-004](#p1-pr-004) | S1 | Create database ownership, identity and asset foundations |
 | [P1-PR-005](#p1-pr-005) | S1 | Create domain, catalog, reference and import schemas |
 | [P1-PR-006](#p1-pr-006) | S1 | Create report, consent, delivery and reliability schemas |
@@ -70,11 +72,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-01, CAP-04, CORE-10. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Record supported US configurations, size-level catalog targets and refusal paths; evaluate optional/staggered/AWD/EV/LT cases.
-- [ ] Build source/license/provider matrix including display, storage, derived use, AI and redistribution rights; assign unresolved blockers.
-- [ ] Lock committed/conditional requirements, responsibilities and content review schedule; select option-C vendor/region, DB operating model and operators, cost assumptions and revised P1 estimate.
+- [x] Record US configuration/size-level targets, actual verified coverage and refusal/evidence criteria for optional/staggered/AWD/EV/LT cases; defer real coverage benchmarking until permitted samples exist.
+- [x] Build source/license/provider matrix including display, storage, derived use, AI and redistribution rights; record unresolved blockers and decision owners.
+- [x] Record committed/conditional scope, responsibilities, content review schedule and initial card sizing; defer option-C provider/region/DB/budget/operator choices and full P1 forecast to explicit blocking triggers.
 
-**Verification and acceptance:** Reviewed feasibility/coverage register and source evidence; no unsupported safety claims or invented provider agreements. Documentation review is the test for this PR.
+**Verification and acceptance:** [Prepared launch baseline and source probes](../implementation/P1-PR-001-launch-baseline.md); owner review pending. Checkboxes record completed preparation, not acceptance of coverage, rights, hosting or G0. Documentation review is the test for this PR.
 
 ### P1-PR-002
 
@@ -94,7 +96,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 ### P1-PR-003
 
-**Prove provider integration and close S0/G0**
+**Prove local foundation and track provider gates**
 
 **Stage:** S0 · **Responsible role:** Platform/data · **Work packages:** E01, E02
 
@@ -102,11 +104,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-06, CAP-03, CORE-10. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Probe option-C container startup/drain, standard PostgreSQL pooling/direct migrations, separate Payload ownership and Clerk staff bridge without product screens.
-- [ ] Verify option-C build/runtime/migration networking, reverse-proxy/TLS and Inngest/S3/KMS/email/CMP/ad feasibility; inventory credentials, regions, recovery operators and costs.
-- [ ] Approve measured workload targets, source contracts and phase dependency/estimate baseline; record G0 evidence and unresolved activation gates.
+- [ ] Probe local Linux container startup/drain, standard PostgreSQL pooling/direct migrations, separate Payload ownership and headless package/auth boundaries without product screens; use real isolated PostgreSQL.
+- [ ] Verify local build/runtime/migration networking and lifecycle; inventory remaining reverse-proxy/TLS, Clerk/Inngest/S3/KMS/email/CMP/ad and chosen-host proofs with their affected adapter/activation triggers.
+- [ ] Record measured local workload/resource targets, source contract requirements, next-card estimates and deferred owner decisions; accept local S0 separately and keep full G0 explicitly open until required external evidence exists.
 
-**Verification and acceptance:** Headless provider/auth fixtures, least-privilege connection proofs and accountable G0 decision; no mock-only claims of production readiness.
+**Verification and acceptance:** Reproducible real local DB/runtime/ownership proofs and accountable local S0 acceptance. External fixtures prove contracts only. Protected imports and real adapters wait for their recorded decisions; full G0 and hosted proofs close by 031. No mock-only claims of production readiness.
 
 ### P1-PR-004
 
@@ -314,7 +316,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Normalize units, retain unresolved recall targets, validate source schemas and reviewed cross-source mappings.
 - [ ] Schedule bounded refresh/reconciliation, record no-change success and alert on coverage/freshness/rights failures.
 
-**Verification and acceptance:** Recorded source-contract fixtures and permitted live compatibility checks; vPIC identity never asserts fitment; stale recall issuance is blocked.
+**Verification and acceptance:** DD01/DD02 rights and source contracts resolved for each accepted connector; recorded source-contract fixtures and permitted live compatibility checks. vPIC identity never asserts fitment; stale recall issuance is blocked. Synthetic tests cannot accept an unselected licensed connector.
 
 ### P1-PR-017
 
@@ -554,7 +556,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Audit every P1 endpoint against service/actor/schema/UC inventory and prove load, source and permission failure behavior.
 - [ ] Publish S4 evidence, client artifacts and remaining S5 render evidence; re-estimate frontend work.
 
-**Verification and acceptance:** All P1 API categories are accepted; this PR is the mandatory dependency for every P1 product UI/template PR.
+**Verification and acceptance:** All P1 API categories, full G0 and outstanding chosen-host/provider proofs are accepted under the [decision register](../implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). This PR is the mandatory dependency for every P1 product UI/template PR.
 
 ### P1-PR-032
 

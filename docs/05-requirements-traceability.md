@@ -1,6 +1,6 @@
 # Requirements traceability
 
-This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All implementation work is **unstarted**. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E42 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
+This matrix covers every one of the **137 distinct `FR-*` IDs** in the supplied [v2.1 requirements](sources/originals/product-requirements-v2.1.md). All product capabilities are **unimplemented**; P1-PR-001 feasibility preparation is in review. “Reconciled” identifies an intentional change, not a delivered feature. Release codes R1–R4 and work packages E01–E42 are defined in the [implementation plan](04-implementation-plan.md); D-codes refer to the [decision register](00-source-review.md).
 
 Package IDs remain stable. E04a/E04b distinguish schema from data access; `a`/`b` splits in E10/E12/E13/E15/E17/E18 distinguish services from later presentation, with E34/S4 providing common API exposure/acceptance. A row naming a base package requires all relevant parts. S1–S4 precede all product frontend work; see the [construction gates](04-implementation-plan.md#build-stages-and-exit-gates). Rows that span releases retain an explicit first slice and completion slice. The verification column describes evidence required before marking the requirement implemented. The source remains available for detailed field lists where there is no stated change.
 
@@ -261,6 +261,8 @@ The source's early sections and nonfunctional requirements are also in scope. Th
 | NFR-08 | 5 ads | R1 E18,E19 | Layout/density/consent/placement invariants and kill switch |
 
 ## Implementation tracking rule
+
+**First active card:** [P1-PR-001 evidence](implementation/P1-PR-001-launch-baseline.md) binds CORE-10, CAP-01/CAP-04 and ENG-06/ENG-07 for scope/coverage and decision-gate preparation. No capability, application test or release row is marked complete by this documentation.
 
 Use the [working project task list](15-project-task-list.md) and [work-package PR map](tasks/work-package-pr-map.md) to select planned work. At PR readiness, bind exact requirement rows to the backlog ID; at implementation, add actual PR/test evidence and shipped version to each completed row. A design decision, stub screen, passing mock-only test, or provider signup is not completion evidence. Requirements deferred by release remain explicit; no ID is silently dropped.
 
