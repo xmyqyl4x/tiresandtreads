@@ -1,6 +1,6 @@
 # P1-PR-005 validation evidence
 
-**October 23, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #4 merge `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. See the [implementation packet](../../P1-PR-005-domain-catalog-import-schemas.md) for exact scope and remaining gates.
+**October 23, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #4 merge `4f00c3054f0fcfd706098a0c3fd66af72449e1f4`. See the [implementation packet](../../P1-PR-005-domain-catalog-import-schemas.md) for exact scope and remaining gates.
 
 ## Development evidence
 
@@ -30,7 +30,7 @@
 
 The total is **74 passing tests**. Small-package code coverage still covers configuration/health contracts only; schema SQL and operator behavior are verified through real integration cases. No production throughput claim is made.
 
-The final review-link commit must pass the same exact-commit verification before push. [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5) records that final SHA and independent GitHub CI; owner acceptance remains pending.
+Final review commit `e4c71cb2fe6b5b7341e54123962d284f36aea9a0` passed exact-commit local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40059875737). The owner approved [PR #5](https://github.com/xmyqyl4x/tiresandtreads/pull/5); it merged at `2d8acd2c8476e12debae29b5738ae74cd8d3cd4b` on October 23, 2026 America/Los_Angeles.
 
 ## Limits
 

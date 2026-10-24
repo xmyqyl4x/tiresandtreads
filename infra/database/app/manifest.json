@@ -18,5 +18,21 @@
   {
     "id": "0005_import_metadata",
     "sha256": "39781cfb6ce66e1dcb00f72e334a64c2c5cf29c4b5a3b31dbc448cc8beb4fe11"
+  },
+  {
+    "id": "0006_reports_capabilities",
+    "sha256": "90813a38ed91d3ceeeaf55a9c90b0e11511e314903023f1cb90f3cff546afe3f"
+  },
+  {
+    "id": "0007_consent_privacy",
+    "sha256": "3a5c1ce5ae7b5b9cb44683fae3bd4281da20bb504461e4373d26930761cf8c09"
+  },
+  {
+    "id": "0008_delivery",
+    "sha256": "6953d458a05b4f1b8b208cb267fdcab69de8069b7a0e468106baac25fdeb35ab"
+  },
+  {
+    "id": "0009_reliability_audit",
+    "sha256": "eb07795d7d4a06313343ff330dab868e4b081ae2db4cdb0d01ac8cf85ad1d9d9"
   }
 ]

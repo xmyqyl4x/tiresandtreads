@@ -2,6 +2,8 @@
 
 **Baseline 1.1 (capability amendment approved October 23, 2026) · October 22, 2026.** This specification makes reports, email, commercial offers, and visitor data independently permissioned. A contact address is not a general license to track, market, or share. Current legal applicability and market policy must be reviewed before launch; the controls below are product and engineering requirements.
 
+[P1-PR-006](implementation/P1-PR-006-report-consent-delivery-schemas.md) implements the initial persistence constraints for this policy. Durable records are not a working mail, consent or deletion service; dispatch authorization, provider reconciliation, retention jobs and API behavior remain later cards. `email_sends.created_at` is the accepted request timestamp; `accepted_at` records provider acceptance, keeping the two events distinct.
+
 ## Report delivery workflow
 
 P2 adds optional AI explanation attachments under [the AI/photo contract](14-ai-analysis-and-photo-design.md). Freeze the accepted attachment revision or explicit fallback alongside report/comparison/template versions before scheduling; email/PDF retries never regenerate analysis and AI completion never auto-resends. AI/photo processing choice is separate from email, ads and marketing permissions.
