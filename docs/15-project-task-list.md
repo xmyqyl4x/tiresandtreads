@@ -1,6 +1,6 @@
 # Implementation working project task list
 
-**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. P1-PR-001 is accepted after owner approval and merge; P1-PR-002 foundation tooling is accepted; P1-PR-003 local proofs are in review. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
+**Version 1.1 · October 23, 2026; option-C deployment supplement approved.** This working backlog decomposes the [approved four-phase plan](12-live-product-phases-and-gap-review.md) at commit [3743a11](https://github.com/xmyqyl4x/tiresandtreads/commit/3743a11d6457f418cc3e0a7268aed333b801b160) into **119 planned implementation PRs plus 10 parked optional-capability activation tickets**. P1-PR-001 is accepted after owner approval and merge; P1-PR-002 foundation tooling is accepted; P1-PR-003 local proofs are accepted; P1-PR-004 database foundations are in progress. The approved option-C deployment refinements are incorporated below; product promises, safety/consent rules and live-release approvals remain unchanged.
 
 This file is the authoritative ledger for status, assignee and actual PR/evidence links. Detailed key-task checklists, responsible roles, dependencies and verification criteria live in the four linked phase files. Stable IDs are backlog identifiers; real GitHub PR URLs are added as work opens. [Requirements traceability](05-requirements-traceability.md), [work packages](04-implementation-plan.md), [TDD](08-test-driven-development.md), [database design](09-database-design.md) and [coding standards](10-coding-standards.md) remain authoritative specifications.
 
@@ -62,8 +62,8 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | --- | --- | --- | --- | --- |
 | [P1-PR-001 — Lock Phase 1 scope, data rights and launch coverage](tasks/phase-1-prs.md#p1-pr-001) | S0 | Accepted | Codex; owner approved | [PR #1](https://github.com/xmyqyl4x/tiresandtreads/pull/1), merged `b9e02f0`; [launch baseline](implementation/P1-PR-001-launch-baseline.md) |
 | [P1-PR-002 — Bootstrap headless workspace and TDD tooling](tasks/phase-1-prs.md#p1-pr-002) | S0 | Accepted | Codex; owner approved | [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2), merged `dd1817f`; [setup](development.md); [validation](implementation/evidence/P1/p1-pr-002-validation.md) |
-| [P1-PR-003 — Prove local foundation and track provider gates](tasks/phase-1-prs.md#p1-pr-003) | S0 | In review | Codex; owner review pending | [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3); [Local proof and external-gate packet](implementation/P1-PR-003-local-foundation.md) |
-| [P1-PR-004 — Create database ownership, identity and asset foundations](tasks/phase-1-prs.md#p1-pr-004) | S1 | Not started | Unassigned | — |
+| [P1-PR-003 — Prove local foundation and track provider gates](tasks/phase-1-prs.md#p1-pr-003) | S0 | Accepted | Codex; owner approved | [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3), merged `ebcf936`; [Local proof and external-gate packet](implementation/P1-PR-003-local-foundation.md) |
+| [P1-PR-004 — Create database ownership, identity and asset foundations](tasks/phase-1-prs.md#p1-pr-004) | S1 | In progress | Codex; owner review pending | [Implementation packet](implementation/P1-PR-004-database-foundations.md); [validation](implementation/evidence/P1/p1-pr-004-validation.md) |
 | [P1-PR-005 — Create domain, catalog, reference and import schemas](tasks/phase-1-prs.md#p1-pr-005) | S1 | Not started | Unassigned | — |
 | [P1-PR-006 — Create report, consent, delivery and reliability schemas](tasks/phase-1-prs.md#p1-pr-006) | S1 | Not started | Unassigned | — |
 | [P1-PR-007 — Create CMS, SEO, ads, analytics and quota schemas](tasks/phase-1-prs.md#p1-pr-007) | S1 | Not started | Unassigned | — |
@@ -218,7 +218,7 @@ These parked tickets are excluded from the 119 core-PR count. Their [activation/
 
 The [work-package-to-PR map](tasks/work-package-pr-map.md) covers E01–E42 and exposes optional E32/E33 work separately. A work-package link is an ownership/navigation aid, not acceptance of all of its source requirements. At readiness, select exact rows from docs/05; at acceptance, attach tests and shipped version. Preserve all 137 original FR IDs and the existing CORE/NFR/ENG/CAP/UC/AT/DB identifiers.
 
-P1-PR-001/002 are accepted. Review [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) for local S0 acceptance; after approval and merge, the next implementation card is database ownership and migrations in [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004). Deferred source/provider/host decisions remain open at their recorded triggers. Product frontend work remains behind [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031).
+P1-PR-001/002/003 are accepted. Database ownership and migrations are in progress in [P1-PR-004](tasks/phase-1-prs.md#p1-pr-004); after its acceptance, continue with domain/catalog/import schemas in [P1-PR-005](tasks/phase-1-prs.md#p1-pr-005). Deferred source/provider/host decisions remain open at their recorded triggers. Product frontend work remains behind [P1-PR-031](tasks/phase-1-prs.md#p1-pr-031).
 
 ## Approval record
 

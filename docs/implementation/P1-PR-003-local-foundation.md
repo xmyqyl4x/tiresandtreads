@@ -1,6 +1,6 @@
 # P1-PR-003 — Local foundation and integration proofs
 
-**October 23, 2026 · in review; owner acceptance pending.** Review: [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3). Implementation owner: Codex. Acceptance/decision owner: repository owner. Prerequisites: accepted PR #1 and [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2), merged at `dd1817fa826b38e1bc6037be7eba782a869148ab`. This packet binds E01/E02, ENG-06, CORE-10 and CAP-03's outstanding advertising-provider gate. It does not deliver tire data, advertising, authentication or a live product.
+**October 23, 2026 · local S0 accepted by owner approval and merge `ebcf9361a495547f9d9445d89f64131cf0ebef68`.** Review: [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3). Implementation owner: Codex. Acceptance/decision owner: repository owner. Prerequisites: accepted PR #1 and [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2), merged at `dd1817fa826b38e1bc6037be7eba782a869148ab`. This packet binds E01/E02, ENG-06, CORE-10 and CAP-03's outstanding advertising-provider gate. It does not deliver tire data, advertising, authentication or a live product.
 
 ## Acceptance boundary
 
@@ -65,4 +65,4 @@ These are provisional technical-effort ranges for one implementer, not promised 
 
 ## Decision and evidence status
 
-The [validation record](evidence/P1/p1-pr-003-validation.md) documents passing local integration, lifecycle, workload and quality evidence and the failures resolved during the spike. Local S0 is **recommended for acceptance, pending owner review and merge**. Preserve full G0 as open even after local S0 is accepted. The [master ledger](../15-project-task-list.md) is authoritative for merge/acceptance status; checkboxes report completed proof preparation, not an owner sign-off or live product release. The PR binds final source verification and independent CI to its exact revision.
+The [validation record](evidence/P1/p1-pr-003-validation.md) documents passing local integration, lifecycle, workload and quality evidence and the failures resolved during the spike. Local S0 is **accepted following owner approval and merge of PR #3**. Preserve full G0 as open even after local S0 is accepted. The [master ledger](../15-project-task-list.md) is authoritative for merge/acceptance status; checkboxes report completed proof preparation, not an owner sign-off or live product release. The PR binds final source verification and independent CI to its exact revision.

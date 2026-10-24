@@ -1,6 +1,12 @@
 module.exports = {
   forbidden: [
     {
+      name: 'production-never-imports-database-operators',
+      severity: 'error',
+      from: { path: '^(apps|packages)/' },
+      to: { path: '^(scripts/database|infra/database)/' },
+    },
+    {
       name: 'production-never-imports-test-fixtures',
       severity: 'error',
       from: { path: '^(apps|packages)/' },

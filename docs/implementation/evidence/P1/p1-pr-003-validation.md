@@ -1,6 +1,6 @@
 # P1-PR-003 validation evidence
 
-**October 23, 2026 America/Los_Angeles (October 24 UTC) · owner acceptance pending.** Baseline: accepted PR #2 merge `dd1817fa826b38e1bc6037be7eba782a869148ab`. Scope and outstanding decisions are in the [local foundation packet](../../P1-PR-003-local-foundation.md).
+**October 23, 2026 America/Los_Angeles (October 24 UTC) · local S0 owner-approved and merged in PR #3 at `ebcf9361a495547f9d9445d89f64131cf0ebef68`.** Baseline: accepted PR #2 merge `dd1817fa826b38e1bc6037be7eba782a869148ab`. Scope and outstanding decisions are in the [local foundation packet](../../P1-PR-003-local-foundation.md).
 
 ## Executed evidence
 
@@ -47,4 +47,4 @@ Pool draining was tested with a checked-out client doing real SQL: shutdown rema
 
 [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) records its exact locally verified commit and independent GitHub CI result. `pnpm verify:push` writes ignored source/tree/lock/image evidence and is required again for any final revision. The GitHub checkout repeats the full Linux suite and does not trust the local stamp.
 
-Recommend accepting **local S0 only** after owner approval/merge. This permits synthetic S1/S2 implementation under the existing ordering. G0, source rights/coverage, real Clerk/MFA/session behavior, provider credentials, paid hosting/budget, TLS/proxy, off-host recovery, specialist review and live launch remain open at the packet's explicit triggers. Product migrations/roles begin in P1-PR-004; these fixture roles are not production infrastructure.
+Owner approval and merge accepted **local S0 only**. This permits synthetic S1/S2 implementation under the existing ordering. G0, source rights/coverage, real Clerk/MFA/session behavior, provider credentials, paid hosting/budget, TLS/proxy, off-host recovery, specialist review and live launch remain open at the packet's explicit triggers. Product migrations/roles begin in P1-PR-004; these fixture roles are not production infrastructure.
