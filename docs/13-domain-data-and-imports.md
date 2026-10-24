@@ -1,6 +1,6 @@
 # Domain reference data and ingestion
 
-**Specification 1.0 · October 22, 2026 · Approved October 23, 2026.** Companion to [database design](09-database-design.md), using its typed-column, nullability, immutable **V** dataset-row and FK conventions. These are schema and workflow contracts, not implemented migrations or runnable commands. P1 delivers the domain schema and script pipeline; P2 adds staff CSV controls over the same services. [Four live phases](12-live-product-phases-and-gap-review.md) govern delivery.
+**Specification 1.0 · October 22, 2026 · Approved October 23, 2026.** Companion to [database design](09-database-design.md), using its typed-column, nullability, immutable **V** dataset-row and FK conventions. [P1-PR-005](implementation/P1-PR-005-domain-catalog-import-schemas.md) implements the initial schema migrations; ingestion/publication services and runnable data commands remain at their later cards. P1 delivers the domain schema and script pipeline; P2 adds staff CSV controls over the same services. [Four live phases](12-live-product-phases-and-gap-review.md) govern delivery.
 
 ## Source authority and initial coverage
 
@@ -68,7 +68,7 @@ Existing `import_runs`, `import_rejections`, datasets/bundles, `object_assets`, 
 | `import_artifacts` | `run_id uuid FK import_runs`, `kind text`, `asset_id uuid FK object_assets`, `checksum text`, `expires_at ts` | Manifest/diff/validation/original bytes in private storage; integrity checks and rights-based expiry |
 | `import_publications` | `run_id uuid FK import_runs`, `bundle_id uuid FK dataset_bundles`, `market text`, `previous_bundle_id uuid? FK dataset_bundles`, `actor_id uuid? FK admin.staff_identities`, `service_actor_key text?`, `approval_record_id uuid? FK admin.audit_events`, `published_at ts` | UQ(run_id,market); same-head compare-and-set in publication transaction; exactly one staff actor or allowlisted service_actor_key; audited service identity required for automated publisher |
 
-Initial staging/rejection/diff TTL is 30 days; purge earlier when data rights require it. Accepted source bytes have an explicit license-based retention policy. Immutable published facts referenced by reports follow existing report/source retention rules. Import workers can write staging; only publication services can change heads. Separate fetch, validate, approve and publish permissions; scheduled auto-publication requires a previously reviewed source/schema policy, bounded deltas and no unresolved critical rejects.
+During 005, `import_publications.approval_record_id` is constrained to NULL; 006 must add the audit-event FK/index before removing that check. Existing runtime roles have no source/staging/publication grants. Publication services must add audited, scoped access with the later use cases. Initial staging/rejection/diff TTL is 30 days; purge earlier when data rights require it. Accepted source bytes have an explicit license-based retention policy. Immutable published facts referenced by reports follow existing report/source retention rules. Import workers can write staging; only publication services can change heads. Separate fetch, validate, approve and publish permissions; scheduled auto-publication requires a previously reviewed source/schema policy, bounded deltas and no unresolved critical rejects.
 
 ## Script first, admin later
 

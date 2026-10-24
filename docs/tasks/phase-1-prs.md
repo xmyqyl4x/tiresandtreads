@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -124,7 +124,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add staff/subject/session, object asset, code/market/unit registry foundations required by later FKs.
 - [x] Add synthetic seeds, named constraints, FK indexes and reversible/compatible migration guidance.
 
-**Verification and acceptance:** [Implementation and ownership packet](../implementation/P1-PR-004-database-foundations.md) and [validation evidence](../implementation/evidence/P1/p1-pr-004-validation.md). Empty/upgrade migration tests and real-role denial tests; no runtime DDL or cross-CMS ownership. [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) is in review; owner acceptance is pending.
+**Verification and acceptance:** [Implementation and ownership packet](../implementation/P1-PR-004-database-foundations.md) and [validation evidence](../implementation/evidence/P1/p1-pr-004-validation.md). Empty/upgrade migration tests and real-role denial tests; no runtime DDL or cross-CMS ownership. [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) was owner-approved and merged at `4f00c30`.
 
 ### P1-PR-005
 
@@ -136,11 +136,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-04, DB14, DB21, DB22. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Migrate source/licenses/datasets/bundles/heads, canonical company/brand/plant identities, aliases and reviewed mappings.
-- [ ] Add vehicles/axles/SKUs/evidence/prices/climate/rules, code dictionaries, advice citations and full unresolved recall targets.
-- [ ] Add connector/run/staging/rejection/publication/checkpoint metadata and provenance/expiry indexes.
+- [x] Migrate source/licenses/datasets/bundles/heads, canonical company/brand/plant identities, aliases and reviewed mappings.
+- [x] Add vehicles/axles/SKUs/evidence/prices/climate/rules, code dictionaries, advice citations and full unresolved recall targets.
+- [x] Add connector/run/staging/rejection/publication/checkpoint metadata and provenance/expiry indexes.
 
-**Verification and acceptance:** Constraint fixtures preserve ambiguous mappings, unknown safety fields and unresolved recalls; published versions cannot mutate through runtime roles.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-005-domain-catalog-import-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-005-validation.md). Constraint fixtures preserve ambiguous mappings, unknown safety fields and unresolved recalls; published versions cannot mutate through runtime roles. Owner acceptance remains pending.
 
 ### P1-PR-006
 
@@ -154,7 +154,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 - [ ] Add immutable report/version/draft/item/compare structures and owner/share/download capability separation.
 - [ ] Add encrypted contacts, consent/suppression/rights/deletion records, sends/templates/attempts/events and fixed presentation references.
-- [ ] Create idempotency/outbox/inbox, deferred/composite FKs, revision and lifecycle constraints.
+- [ ] Create idempotency/outbox/inbox, deferred/composite FKs, revision and lifecycle constraints; create the audit schema and bind `import_publications.approval_record_id` to `admin.audit_events` with a named FK/index before removing its 005 NULL-only check.
 
 **Verification and acceptance:** Real PostgreSQL tests reject wrong-owner references, fifth comparison slots and duplicate identities; prove pending circular FK/migration ordering.
 

@@ -6,5 +6,17 @@
   {
     "id": "0002_identity_assets",
     "sha256": "d294d894b06bf205dea8c643d379c4c4ea59479619f4357cd5191aeb42a84b37"
+  },
+  {
+    "id": "0003_source_versions",
+    "sha256": "4d97397702944d1bfffa76fd1560486b145b746dbc6f56819f08fd0889f65d94"
+  },
+  {
+    "id": "0004_catalog_reference",
+    "sha256": "87b3bb359cd2886a9e0e8cdf86f2ef6eeabebd63f018c3496bc77663a83684e2"
+  },
+  {
+    "id": "0005_import_metadata",
+    "sha256": "39781cfb6ce66e1dcb00f72e334a64c2c5cf29c4b5a3b31dbc448cc8beb4fe11"
   }
 ]
