@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./health": "./src/health.ts"
+    "./health": "./src/health.ts",
+    "./primitives": "./src/primitives.ts"
   },
   "dependencies": {
     "zod": "4.6.7"

@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./ports/transactions": "./src/ports/transactions.ts",
+    "./ports/repositories": "./src/ports/repositories.ts",
+    "./ports/pagination": "./src/ports/pagination.ts"
   }
 }
