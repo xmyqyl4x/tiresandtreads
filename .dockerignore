@@ -1,0 +1,13 @@
+.git
+.work
+.local
+**/node_modules
+**/.next
+**/.env*
+**/*.tsbuildinfo
+coverage
+test-results
+playwright-report
+docs/sources
+**/*.dump
+**/*.pem

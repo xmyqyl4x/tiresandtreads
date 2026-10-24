@@ -1,6 +1,6 @@
 # Deployment and local-environment plan
 
-**Approved plan 1.1 · October 23, 2026 · DP01–DP08 approved with option C selected.** The user approved reviewed proposal commit `3973116f7e33327abc89795d30b4811f523788af` and directed **app + PostgreSQL outside Vercel** to preserve deployment flexibility and local development/testing. This supersedes the proposal's preference for option A and the earlier Vercel/Neon production default. The final hosting vendor, region, managed-versus-self-operated production database and budget remain deferred within option C under the [P1 decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). Local construction can proceed; those decisions block hosted provisioning/integration and must close by P1-PR-031. See the [approval record](#approval-record). Infrastructure and application implementation remain unstarted.
+**Approved plan 1.1 · October 23, 2026 · DP01–DP08 approved with option C selected.** The user approved reviewed proposal commit `3973116f7e33327abc89795d30b4811f523788af` and directed **app + PostgreSQL outside Vercel** to preserve deployment flexibility and local development/testing. This supersedes the proposal's preference for option A and the earlier Vercel/Neon production default. The final hosting vendor, region, managed-versus-self-operated production database and budget remain deferred within option C under the [P1 decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). Local construction can proceed; those decisions block hosted provisioning/integration and must close by P1-PR-031. See the [approval record](#approval-record). P1-PR-002 local infrastructure/headless tooling is in progress; hosted infrastructure remains unprovisioned.
 
 ## Selected direction and direct answers
 
@@ -115,9 +115,11 @@ Implement container pool cleanup/graceful shutdown and host-neutral deployment m
 - Pin Node 24 and an evaluated PostgreSQL major, dependency lockfile and image digests. Rebuild and test security patches; assign runtime/image maintenance to the platform owner.
 - Own reverse-proxy/CDN settings, certificates, readiness, graceful drain, resource limits, restart behavior and reviewed image promotion/rollback. Test public cache invalidation and old/new client compatibility before enabling replicas.
 - Retain Clerk, Inngest, S3/KMS, Resend, Datadog and later model APIs behind their existing ports. Option C does not require self-hosting every provider or changing domain behavior.
-- Resolve the host/region, production DB operating model, registry, reverse proxy/CDN provider, backup destination, budget and named operators in P1-PR-001/003. These are remaining infrastructure choices within the approved topology, not a reopening of A/B/C.
+- Resolve the host/region, production DB operating model, registry, reverse proxy/CDN provider, backup destination, budget and named operators at the recorded DD03/DD04 blocking triggers, no later than P1-PR-031. These are remaining infrastructure choices within the approved topology, not a reopening of A/B/C.
 
 ## Local machine readiness
+
+P1-PR-002 now supplies [executable setup and verification](development.md), pinned Node 24.22.1/PostgreSQL 18.6 images and distinct loopback ports 3100/3200/55432/55433. The inventory below records the earlier read-only planning check; it is historical, not the later implementation verification result.
 
 Read-only checks performed October 23, 2026:
 
@@ -153,11 +155,11 @@ Use an explicit application environment such as `APP_ENV=stage-local` independen
 
 Use two separate Compose project names: `tt-dev` and `tt-stage`; tests use unique `tt-test-<run>` names. Each gets its own network, volumes, credentials, app/CMS databases, workflow namespace and fixtures. Docker documents project names as an [isolation mechanism](https://docs.docker.com/compose/how-tos/project-name/). Avoid fixed `container_name` values, external/shared volumes or a shared host directory that defeats this separation.
 
-Proposed host ports below are reservations to check during setup, not listeners created by this plan. Bind published local ports to `127.0.0.1`.
+P1-PR-002 uses app ports 3100/3200 because workstation port 3000 was occupied; DB ports remain 55432/55433. Other service rows below remain proposed for their adapter cards, not running services. Bind published local ports to `127.0.0.1`.
 
 | Service | Dev proposal | Local stage proposal | Notes |
 | --- | --- | --- | --- |
-| App/API/Payload host | 3000 | 3100 behind local proxy; optional local HTTPS 3443 | No product screens until P1-PR-031 accepts S4 |
+| App/API/Payload host | 3100 | 3200; local proxy/HTTPS to be proven with hosted/auth integration | No product screens until P1-PR-031 accepts S4 |
 | PostgreSQL | 55432 | 55433 | Two independent Docker instances; each owns `tt_app` and `tt_cms`; leave native port 5432 alone |
 | PgBouncer, if required by the accepted pool budget | 56432 | 56433 | Match production pooling mode; migrations use direct DB endpoint |
 | Inngest Dev Server | 8288 | 8289 | Explicit app registration and environment URL; isolate discovery and stored execution state |
@@ -209,7 +211,7 @@ This satisfies testing before GitHub check-in/push while retaining source histor
 
 ### Planned repository tooling contract
 
-These are deliverables for P1-PR-002 and later cards, **not files or runnable commands created by this documentation approval**.
+P1-PR-002 implements the workspace, app/PostgreSQL Compose harness, local configuration, HTTP fixtures, test/verification commands and Linux CI. [The development guide](development.md) distinguishes working commands from later migration, provider, hosted environment and release adapters; the original documentation approval alone did not create them.
 
 | Deliverable | Responsibility |
 | --- | --- |

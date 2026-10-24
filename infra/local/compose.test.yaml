@@ -1,0 +1,8 @@
+services:
+  postgres:
+    ports: !reset []
+  app:
+    ports: !reset []
+networks:
+  local:
+    internal: true

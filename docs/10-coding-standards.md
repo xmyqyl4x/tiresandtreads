@@ -2,7 +2,7 @@
 
 **Engineering specification 1.2 (capability amendment approved October 23, 2026) · October 22, 2026.** Apply these standards to implementation of the approved stack and [seven logical layers](07-stack-and-layer-signoff.md#3-logical-application-layers). This is a coding contract and review guide, not a claim that application packages or CI already exist. The [TDD strategy](08-test-driven-development.md) and [database design](09-database-design.md) are companion specifications.
 
-**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporated the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted.
+**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporated the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); P1-PR-002 now implements the initial workspace/type/import enforcement; product layers remain at their planned gates.
 
 Version 1.2 incorporates the [four-phase/domain/AI extension](12-live-product-phases-and-gap-review.md), approved October 23, 2026; earlier approvals remain tied to their reviewed versions.
 
