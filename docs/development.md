@@ -140,3 +140,9 @@ pnpm verify:data-access --coverage
 ```
 
 Expected history: **12 app / two CMS**, zero pending; migration replay applies zero. Old credentials are validated and never silently regenerated. A missing legacy credential is an error requiring local investigation. The catalog, ingester and publisher credentials stay in the ignored target env file; the general app and CMS receive no new grants. Runtime connection composition remains S3/014. Stop targets with `pnpm local down dev` / `stage` to retain volumes. See the [repository protocol](implementation/P1-PR-010-catalog-ingestion.md) and [evidence](implementation/evidence/P1/p1-pr-010-validation.md).
+
+## P1-PR-011 private repository upgrade
+
+Bootstrap dev and stage before migrating to append `DB_PASSWORD_TT_PRIVATE_RUNTIME` to each ignored credential file. Existing passwords and CMS secrets are preserved. Run `pnpm database bootstrap dev`, `pnpm database migrate dev`, `pnpm database status dev`, then the equivalent stage commands. Expected current history is **13 app / two CMS**, zero pending; replay applies zero. This supersedes the 010 historical count above. Stop with `pnpm local down dev` / `stage` to retain data.
+
+`tt_private_runtime` belongs only to the trusted private workflow process. It composes owner/report/privacy/delivery/reliability repositories on one `TransactionContext`; public catalog, CMS and browser callers never receive its credentials. Crypto, permission policy, signed downloads and provider calls remain S3. The [protocol](implementation/P1-PR-011-owner-report-delivery.md) defines identity/subject/send lock order, key overlap and caller responsibilities. `pnpm verify:data-access --coverage` runs synthetic real-role concurrency and rollback tests; full `pnpm verify:push` also runs schema/recovery/HTTP/lifecycle proofs.

@@ -1,6 +1,6 @@
 # P1-PR-010 validation evidence
 
-**October 24, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #9 merge `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. See the [implementation packet](../../P1-PR-010-catalog-ingestion.md) for protocols, permissions and limitations.
+**October 24, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #9 merge `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. See the [implementation packet](../../P1-PR-010-catalog-ingestion.md) for protocols, permissions and limitations.
 
 ## TDD and focused evidence
 
@@ -30,7 +30,7 @@
 
 Total: **192 passing tests**. Recovery elapsed 22967 ms including image preparation; synthetic backup window 4225 ms. These are local proof measurements, not production RTO/RPO. The final row-bound test uses a recall description so the new serialized-row constraint is exercised independently of older short-label bounds.
 
-The review-link/evidence commit must repeat full exact-commit verification before push. [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10) records the final tested SHA and independent CI. Owner acceptance and the complete S2 gate at 013 remain pending.
+Final head `dc80a500ef5ff50df2b1919e64f2d4d07b6aaf0d` passed full local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40112309790). The owner approved [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10), merged at `18a264a7056c11f2b7a2fe90c8698337f20d3e3a`. P1-PR-010 is accepted; the complete S2 gate at 013 remains open.
 
 ## Remaining gates
 

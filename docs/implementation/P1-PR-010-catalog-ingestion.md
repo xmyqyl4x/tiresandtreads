@@ -1,6 +1,6 @@
 # P1-PR-010 — Catalog and ingestion repositories
 
-**October 24, 2026 · in review; owner acceptance pending.** Review: [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10). Implementer: Codex. Acceptance owner: repository owner. Prerequisites: accepted local S1 in 008 and owner-approved [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9), merged at `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. This implements the [010 card](../tasks/phase-1-prs.md#p1-pr-010), S2/E04/E05/E35/E36 and repository portions of DB14/DB21/DB22. Estimated review scope: one catalog/import persistence slice, including the grants and migration needed to test it under real roles; no delivery-date forecast is inferred.
+**October 24, 2026 · accepted after owner approval and merge at `18a264a7056c11f2b7a2fe90c8698337f20d3e3a`.** Review: [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10). Implementer: Codex. Acceptance owner: repository owner. Prerequisites: accepted local S1 in 008 and owner-approved [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9), merged at `7ac3ed2051a22703c0b9d72fea55e0dfa292a36f`. This implements the [010 card](../tasks/phase-1-prs.md#p1-pr-010), S2/E04/E05/E35/E36 and repository portions of DB14/DB21/DB22. Estimated review scope: one catalog/import persistence slice, including the grants and migration needed to test it under real roles; no delivery-date forecast is inferred.
 
 ## Contracts and boundaries
 
@@ -44,6 +44,6 @@ The [validation record](evidence/P1/p1-pr-010-validation.md) includes TDD failur
 
 Local upgrade: rerun `pnpm database bootstrap dev` / `stage` to append three missing role credentials while preserving existing values, then migrate/status each target. Replay applies zero; `down` retains volumes. There is no destructive down migration. Reverting application code can leave these additive objects unused; repair migrations and backups handle schema/data issues.
 
-After owner acceptance, 011 adds owner/report/privacy/delivery repositories and 012 operations adapters; 013 accepts the entire S2 gate. Script ingestion and real source adapters remain 015–016, APIs 028–031, and product UI 032 onward. Option-C hosting, PostgreSQL consolidation, four usable phases and deferred provider/budget decisions remain unchanged.
+Following owner acceptance, 011 adds owner/report/privacy/delivery repositories and 012 operations adapters; 013 accepts the entire S2 gate. Script ingestion and real source adapters remain 015–016, APIs 028–031, and product UI 032 onward. Option-C hosting, PostgreSQL consolidation, four usable phases and deferred provider/budget decisions remain unchanged.
 
 Technical references: PostgreSQL [security-barrier views](https://www.postgresql.org/docs/18/sql-createview.html) and [EXPLAIN measurements](https://www.postgresql.org/docs/18/using-explain.html). The measured evidence uses local synthetic data only.

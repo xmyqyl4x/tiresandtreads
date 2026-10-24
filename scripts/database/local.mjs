@@ -21,6 +21,7 @@ const roles = [
   'tt_catalog_runtime',
   'tt_ingest_runtime',
   'tt_publish_runtime',
+  'tt_private_runtime',
   'tt_cms_migrator',
   'tt_cms_runtime',
 ];
@@ -40,7 +41,7 @@ if (action === 'bootstrap') {
   const expanded = addRoleCredentials(
     existing,
     keys,
-    ['TT_CATALOG_RUNTIME', 'TT_INGEST_RUNTIME', 'TT_PUBLISH_RUNTIME'].map(
+    ['TT_CATALOG_RUNTIME', 'TT_INGEST_RUNTIME', 'TT_PUBLISH_RUNTIME', 'TT_PRIVATE_RUNTIME'].map(
       (role) => `DB_PASSWORD_${role}`,
     ),
     () => randomBytes(32).toString('hex'),

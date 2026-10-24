@@ -1,32 +1,11 @@
-import type { Evidence, Id, Instant, Result, Revision } from '../../../domain/src/values/index.ts';
-import type { ReportHead, ReportVersionRef } from '../../../domain/src/entities/report.ts';
-import type { ConsentProjection, ConsentPurpose } from '../../../domain/src/entities/consent.ts';
+import type { Evidence, Id, Instant, Result } from '../../../domain/src/values/index.ts';
 import type { ImportIdentity } from '../../../domain/src/entities/import.ts';
-import type { ApplicationFailure, TransactionContext } from './transactions.ts';
+import type { ApplicationFailure } from './transactions.ts';
 export type { Page } from './pagination.ts';
-export interface ReportRepository {
-  lockOwned(
-    tx: TransactionContext,
-    reportId: Id<'report'>,
-    ownerId: Id<'subject'>,
-  ): Promise<ReportHead | null>;
-  advance(
-    tx: TransactionContext,
-    command: Readonly<{
-      ownerId: Id<'subject'>;
-      expectedRevision: Revision;
-      version: ReportVersionRef;
-    }>,
-  ): Promise<Result<ReportHead, ApplicationFailure>>;
-}
-export interface PermissionQueries {
-  current(
-    tx: TransactionContext,
-    subjectId: Id<'subject'>,
-    purpose: ConsentPurpose,
-    scopeKey: string,
-  ): Promise<ConsentProjection>;
-}
+export type { OwnerRepository, ReportRepository, CapabilityRepository } from './owner-report.ts';
+export type { PrivacyRepository } from './privacy.ts';
+export type { DeliveryRepository } from './delivery.ts';
+export type { ReliabilityRepository } from './reliability.ts';
 export interface SourceFetchPort {
   // Called outside UnitOfWork; implementation owns its bounded streaming parser, never the transaction.
   fetch(
