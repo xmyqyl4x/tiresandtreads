@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002 are accepted; P1-PR-003 local foundation proofs are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -108,7 +108,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Verify local build/runtime/migration networking and lifecycle; inventory remaining reverse-proxy/TLS, Clerk/Inngest/S3/KMS/email/CMP/ad and chosen-host proofs with their affected adapter/activation triggers.
 - [x] Record measured local workload/resource targets, source contract requirements, next-card estimates and deferred owner decisions; accept local S0 separately and keep full G0 explicitly open until required external evidence exists.
 
-**Verification and acceptance:** [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) is in review; owner acceptance is pending. [Local proof and external-gate packet](../implementation/P1-PR-003-local-foundation.md). Reproducible real local DB/runtime/ownership proofs and accountable local S0 acceptance. External fixtures prove contracts only. Protected imports and real adapters wait for their recorded decisions; full G0 and hosted proofs close by 031. No mock-only claims of production readiness.
+**Verification and acceptance:** [PR #3](https://github.com/xmyqyl4x/tiresandtreads/pull/3) was owner-approved and merged at `ebcf936`, accepting local S0. Full G0 remains open. [Local proof and external-gate packet](../implementation/P1-PR-003-local-foundation.md). Reproducible real local DB/runtime/ownership proofs and accountable local S0 acceptance. External fixtures prove contracts only. Protected imports and real adapters wait for their recorded decisions; full G0 and hosted proofs close by 031. No mock-only claims of production readiness.
 
 ### P1-PR-004
 
@@ -120,11 +120,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-03, DB12, DB15. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Create separate application/Payload migration ownership, runtime roles and migration runner.
-- [ ] Add staff/subject/session, object asset, code/market/unit registry foundations required by later FKs.
-- [ ] Add synthetic seeds, named constraints, FK indexes and reversible/compatible migration guidance.
+- [x] Create separate application/Payload migration ownership, runtime roles and migration runner.
+- [x] Add staff/subject/session, object asset, code/market/unit registry foundations required by later FKs.
+- [x] Add synthetic seeds, named constraints, FK indexes and reversible/compatible migration guidance.
 
-**Verification and acceptance:** Empty/upgrade migration tests and real-role denial tests; no runtime DDL or cross-CMS ownership.
+**Verification and acceptance:** [Implementation and ownership packet](../implementation/P1-PR-004-database-foundations.md) and [validation evidence](../implementation/evidence/P1/p1-pr-004-validation.md). Empty/upgrade migration tests and real-role denial tests; no runtime DDL or cross-CMS ownership. [PR #4](https://github.com/xmyqyl4x/tiresandtreads/pull/4) is in review; owner acceptance is pending.
 
 ### P1-PR-005
 

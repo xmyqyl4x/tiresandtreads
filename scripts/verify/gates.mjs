@@ -71,3 +71,14 @@ try {
   unlinkSync(fixtureProbe);
 }
 console.log('Production-to-test-fixture import rejection proved');
+
+const operatorProbe = 'apps/web/app/__operator_probe.ts';
+writeFileSync(operatorProbe, "import '../../../scripts/database/manifest.ts';\n", { flag: 'wx' });
+try {
+  const result = spawnSync(process.execPath, [cli, 'boundaries'], { encoding: 'utf8' });
+  assert.equal(result.status, 1, 'Application code must not import database operator tools');
+  assert.match(result.stdout + result.stderr, /production-never-imports-database-operators/);
+} finally {
+  unlinkSync(operatorProbe);
+}
+console.log('Production-to-database-operator import rejection proved');

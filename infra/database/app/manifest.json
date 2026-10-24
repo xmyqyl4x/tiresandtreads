@@ -1,0 +1,10 @@
+[
+  {
+    "id": "0001_registries",
+    "sha256": "dfe75bad2077f9d3444804736c72adb136da67f2c1b97eba9f88ff1bef51f712"
+  },
+  {
+    "id": "0002_identity_assets",
+    "sha256": "d294d894b06bf205dea8c643d379c4c4ea59479619f4357cd5191aeb42a84b37"
+  }
+]

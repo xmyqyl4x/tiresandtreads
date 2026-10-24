@@ -1,6 +1,6 @@
 # Local development and verification
 
-Accepted P1-PR-002 implements the headless workspace and test harness. P1-PR-003 adds [local integration proofs and external gates](implementation/P1-PR-003-local-foundation.md). There are no product screens, tire schemas, recommendation services or real provider integrations yet. `/` deliberately returns 404. Health endpoints report `scope: bootstrap`, not database/provider or product readiness.
+Accepted P1-PR-002 implements the headless workspace and test harness. P1-PR-003 adds [local integration proofs and external gates](implementation/P1-PR-003-local-foundation.md). [P1-PR-004](implementation/P1-PR-004-database-foundations.md) adds database ownership, registry, identity and asset migrations. There are no product screens, tire schemas, recommendation services or real provider integrations yet. `/` deliberately returns 404. Health endpoints report `scope: bootstrap`, not database/provider or product readiness.
 
 ## Start with Docker
 
@@ -22,7 +22,7 @@ The first `up` generates independent random local values in ignored `.local/dev.
 | Local stage | `tt-stage` | `http://127.0.0.1:3200/health/ready` | `127.0.0.1:55433` | Optimized nonroot, read-only app image; no source mount; separate DB volume |
 | Disposable tests | `tt-test-<random>` | Internal Compose network only | Internal Compose network only | New network/DB volume per run; removed by its own runner |
 
-Each cluster has separate `tt_app` and `tt_cms` logical databases. `local_harness` is a bootstrap test administrator, never a production/runtime role. Application/CMS ownership and migration roles start in P1-PR-004. No product migration or seed command is claimed by this PR.
+Each cluster has separate `tt_app` and `tt_cms` logical databases. `local_harness` is a bootstrap test administrator, never a production/runtime role. P1-PR-004's separate operator commands assign application/CMS ownership, apply committed migrations and optionally load synthetic local seeds.
 
 ```text
 node scripts/dev/local.mjs up stage
@@ -57,7 +57,7 @@ Write a failing behavior/denial/boundary case, implement, then refactor. The boo
 
 Coverage includes unimported package source. Current testable packages require 85% lines/statements/functions and 80% branches; future domain/engine/application code requires 95% lines/statements and 90% branches. Empty layer markers are explicitly excluded and do not imply implemented entities or services. Current 100% coverage applies only to the two small configuration/contract modules.
 
-`quality` checks source hygiene/case collisions, formatting, lint, strict TypeScript, cyclic/forbidden dependencies and generated contracts. The lightweight source scan catches private env artifacts and common credential patterns; it is not a comprehensive secret/security audit. The full Linux runner also queries the npm advisory service and fails at high severity. Advisory lookup alone has external network access; fixture application/tests run on an internal network. Future safety/security checks are added with their features.
+`quality` checks source hygiene/case collisions, formatting, lint, strict TypeScript, cyclic/forbidden dependencies, generated contracts and committed migration-source checksums. The lightweight source scan catches private env artifacts and common credential patterns; it is not a comprehensive secret/security audit. The full Linux runner also queries the npm advisory service and fails at high severity. Advisory lookup alone has external network access; fixture application/tests run on an internal network. Future safety/security checks are added with their features.
 
 Windows certificate trust may require a process-scoped `NODE_OPTIONS=--use-system-ca` for native registry requests. Never disable TLS verification or commit proxy credentials. Docker registry/package access was verified separately. Avoid sharing dependencies between a Windows checkout and a WSL-native checkout.
 
@@ -71,22 +71,46 @@ pnpm verify:push
 git push
 ```
 
-The first command is also the cold-checkout path: it builds from the frozen lockfile and runs quality, unit/use-case coverage, deliberate failure checks, real PostgreSQL transaction/constraint tests, foundation integration proofs, HTTP smoke and app stop/restart checks. It measures idle container resources and rejects hosted fixture configuration in a separately owned, network-disabled container. Tests use both logical databases in a new cluster. Cleanup runs on failure as well as success, including timeout cleanup of the configuration probe. It does not need native `psql`, pnpm or host application dependencies.
+The first command is also the cold-checkout path: it builds from the frozen lockfile and runs quality, unit/use-case coverage, deliberate failure checks, real PostgreSQL transaction/constraint tests, foundation and schema integration proofs, HTTP smoke and app stop/restart checks. It measures idle container resources and rejects hosted fixture configuration in a separately owned, network-disabled container. Tests use both logical databases in a new cluster. Cleanup runs on failure as well as success, including timeout cleanup of the configuration probe. It does not need native `psql`, pnpm or host application dependencies.
 
 `verify:push` requires a clean committed tree, repeats Linux verification and records source/tree/lock/image evidence in ignored `.local/verified-commit.json`. Any content change or new commit requires verification again. GitHub CI independently repeats the Linux suite with read-only repository permission and no provider credentials; it never trusts that local stamp.
 
 Optionally install the repository-local hook with `git config --local core.hooksPath .githooks`. The hook checks the stamp and every pushed source SHA. It is a convenience, not the security boundary. CI and review remain required; `git push --no-verify` cannot create passing CI evidence. Protected main/release policies must be configured on GitHub before production delivery.
 
-The [release scaffold](../infra/release/README.md) defines immutable artifact evidence and the remaining hosted environment controls. No merge deploys public traffic. Real source licenses, hosted environments, credentials, CMS/auth bridge, runtime DB roles, cloud workflows/storage/email and production recovery remain at their approved cards and [decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register).
+The [release scaffold](../infra/release/README.md) defines immutable artifact evidence and the remaining hosted environment controls. No merge deploys public traffic. Real source licenses, hosted environments, credentials, CMS/auth bridge, hosted runtime credential provisioning, cloud workflows/storage/email and production recovery remain at their approved cards and [decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register).
 
 The optimized image runs a bundle of the shared configuration validator before opening Next's server. Instrumentation/readiness checks alone do not guarantee process termination on invalid configuration; P1-PR-003 observed that failure and added the preflight. The same image is tested for valid local startup and invalid hosted-fixture refusal, and the runner always removes its specifically created refusal container.
+
+## Database ownership and migrations
+
+P1-PR-004 adds database-first schema sources and operator commands. With Docker running, execute from the repository root:
+
+```text
+pnpm database bootstrap dev
+pnpm database migrate dev
+pnpm database status dev
+pnpm database seed dev
+pnpm database bootstrap stage
+pnpm database migrate stage
+pnpm database status stage
+```
+
+`seed` is optional and accepts local dev/stage only. The command creates disabled/empty-permission synthetic identities and a pending private asset; no source provider, external authentication or storage object is activated. Repeat `migrate`/`seed` to verify no-op/idempotent behavior. Stop a project's services with `pnpm local down dev` or `stage`; this preserves its volume. Do not delete volumes or credential files to resolve a migration mismatch.
+
+The Windows/WSL/Linux equivalent without host pnpm is `node scripts/database/local.mjs <action> <dev|stage>`; all SQL/Payload tooling runs with pinned Node inside Linux containers. `bootstrap` creates restricted owners/runtimes using only the project Docker admin credential. Per-cluster role passwords/CMS secret remain in ignored `.local/db-dev.env` and `.local/db-stage.env`; the separate temporary admin file is removed after bootstrap. Protect these files with the workstation account permissions; do not copy them into Git, screenshots or tickets. Never share dev/stage credentials or supply an owner credential to the web host.
+
+`migrate` verifies the source manifest and applied history, takes one database lock and applies pending migrations with the proper owner. `status` validates history and reports only counts; on the first invocation it may initialize empty migration bookkeeping. A failure gives a redacted command/SQLSTATE result; inspect the selected cluster and review sources, never print credential-bearing environments. Bootstrap refuses unexpected owners/tables/role capabilities and preserves existing passwords. If credentials are lost, recover/rotate them explicitly with the operator; this command does not reset data or credentials automatically.
+
+Run `node scripts/verify/database.mjs` for focused disposable schema tests, or `node scripts/verify/local.mjs` for the full Linux pipeline. The schema suite creates separate `tt_app_schema`/`tt_cms_schema` databases only inside its random test cluster; dev/stage/native databases cannot be selected by that fixture. `pnpm db:check` verifies committed checksums without contacting a database. See the [implementation packet](implementation/P1-PR-004-database-foundations.md) for ownership, grants and [validation evidence](implementation/evidence/P1/p1-pr-004-validation.md) for observed results.
+
+Application SQL lives in `infra/database/app`; generated Payload TypeScript and snapshots live in `infra/database/cms`. Add a sorted version and SHA-256 entry to its manifest after review, using LF source bytes. Do not change a deployed migration/hash to get past a mismatch. Future Payload generation should use the retained snapshot and current desired config in a disposable development copy, then review its generated SQL/type imports/grants before committing. `migrate` never generates code. There is no automatic destructive rollback; use compatible application rollback or an additive database correction. Full backup/restore/deletion-replay drills remain P1-PR-008 and chosen-host gates.
 
 ## Pinned toolchain rationale
 
 The lockfile pins Next.js 16.4.3, React 19.3.1, TypeScript 6.0.3, ESLint 10.13.0, Vitest 5.0.5 and Zod 4.6.7. TypeScript 7 was not selected because the current typescript-eslint peer range is below 6.1. The reviewed Next.js patch was published on the bootstrap date; release-age exceptions list only that exact version and its matching `@next` packages. Other dependencies retain the one-day policy. Node/PostgreSQL image digests are in [versions.json](../infra/local/versions.json).
 
-Payload 3.92.0 requires Node 24.22.1+ on the Node 24 line and permits Next 16.4.3. P1-PR-003 installs the Next compatibility plugin, Payload and PostgreSQL adapter and tests real local Payload/Drizzle behavior. Core native unit/type checks can use 24.19; execute the Payload integration suite on the pinned Linux 24.22.1 runtime. Real Clerk/hosted proofs remain deferred; production schema/migration ownership remains P1-PR-004.
+Payload 3.92.0 requires Node 24.22.1+ on the Node 24 line and permits Next 16.4.3. P1-PR-003 installs the Next compatibility plugin, Payload and PostgreSQL adapter and tests real local Payload/Drizzle behavior. Core native unit/type checks can use 24.19; execute the Payload integration suite on the pinned Linux 24.22.1 runtime. Real Clerk/hosted proofs remain deferred; committed schema/migration ownership is implemented in P1-PR-004; remote deployment remains gated.
 
-Payload 3.92's migration generator emits value imports for `MigrateUpArgs`/`MigrateDownArgs`; strict `verbatimModuleSyntax` requires `import type`. The proof normalizes the exact generated fixture header, then executes the actual migration runner. In P1-PR-004, review and commit generated migrations with explicit type imports before applying them. No production migration should be generated at runtime.
+Payload 3.92's migration generator emits value imports for `MigrateUpArgs`/`MigrateDownArgs`; strict `verbatimModuleSyntax` requires `import type`. The proof normalizes the exact generated fixture header, then executes the actual migration runner. P1-PR-004 commits the reviewed initial migration with explicit type imports, its generated snapshot and narrow grants. No production migration should be generated at runtime.
 
 Scoped dependency overrides pin Vite's esbuild peer, the older Drizzle tooling's esbuild and Monaco's DOMPurify to tested compatible/patched versions. Their first unmodified resolution failed peer/audit checks; the resolved lockfile passes. Re-evaluate the overrides with the next Payload update. Test-only role/identity fixtures are blocked from application/package imports and are absent from exposed host routes. Keep versions pinned and update them through a tested PR.
