@@ -5,6 +5,7 @@ import { disposableTargets } from '../fixtures/foundation/target.ts';
 import {
   bootstrapDatabase,
   databaseRoles,
+  identifier,
   type RolePasswords,
 } from '../../scripts/database/bootstrap.ts';
 import { migrateApplication } from '../../scripts/database/migrate.ts';
@@ -18,13 +19,20 @@ import {
 } from '../../packages/application/src/ports/transactions.ts';
 let pool: pg.Pool, observer: pg.Client;
 let adapter: ReturnType<typeof createTransactions>;
+let ownedFixture = false;
 beforeAll(async () => {
   const harness = disposableTargets(process.env),
     root = new URL(harness.app);
   const admin = new pg.Client({ connectionString: root.toString() });
   await admin.connect();
   try {
+    // Roles are cluster-wide. Refuse pre-existing roles instead of borrowing or rotating them.
+    const existing = await admin.query('SELECT rolname FROM pg_roles WHERE rolname=ANY($1)', [
+      databaseRoles.app,
+    ]);
+    if (existing.rowCount) throw new Error('Transaction fixture requires absent application roles');
     await admin.query('CREATE DATABASE tt_app_transactions');
+    ownedFixture = true;
   } finally {
     await admin.end();
   }
@@ -65,6 +73,16 @@ beforeAll(async () => {
 afterAll(async () => {
   await pool?.end();
   await observer?.end();
+  if (!ownedFixture) return;
+  const admin = new pg.Client({ connectionString: disposableTargets(process.env).app });
+  await admin.connect();
+  try {
+    await admin.query('DROP DATABASE tt_app_transactions');
+    for (const role of databaseRoles.app)
+      await admin.query(`DROP ROLE IF EXISTS ${identifier(role)}`);
+  } finally {
+    await admin.end();
+  }
 });
 async function exists(id: string) {
   return (await observer.query('SELECT id FROM app.subjects WHERE id=$1', [id])).rowCount;

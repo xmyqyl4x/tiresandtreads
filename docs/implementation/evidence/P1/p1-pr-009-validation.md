@@ -10,6 +10,7 @@
 - Focused Linux/PostgreSQL 18.6 run passed **11 database tests**, including nine new transaction cases, in `tt-test-59e5f4563489ad04`. Its app database applied the accepted migrations and used `tt_app_runtime`, with a fixture-only deferred FK for commit rejection. Two writers used one backend connection; an outside observer saw neither write before commit. Typed/caught database failures rolled back all writes, timeouts recovered the pool, expired contexts failed, and concurrent expected-revision updates produced one winner.
 - Real driver bigint/date results crossed explicit mappers without numeric precision loss or private-field leakage. Runtime DDL stayed denied and SQL parameters remained literal. Test-only fixture grants exist only in the disposable database; no production migration or grant is changed.
 - All 11 application/two CMS migrations, generated snapshots and the dependency lockfile remain unchanged. No dev/stage migration/reset is needed. The focused runner removed its own container, network and volume; native PostgreSQL and unrelated Docker resources were untouched.
+- The first full run exposed a fixture interaction: PostgreSQL roles are cluster-wide, so roles created by the transaction suite retained its credentials when the later schema fixture bootstrapped its database. The transaction fixture now refuses existing application roles and removes only its own database and newly created roles after closing its connections. The full suite exercises this handoff; production bootstrap behavior is unchanged.
 
 ## Final verification
 
