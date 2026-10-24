@@ -1,6 +1,6 @@
 # Local development and verification
 
-P1-PR-002 implements the headless workspace and test harness. There are no product screens, tire schemas, recommendation services or real provider integrations yet. `/` deliberately returns 404. Health endpoints report `scope: bootstrap`, not database/provider or product readiness.
+Accepted P1-PR-002 implements the headless workspace and test harness. P1-PR-003 adds [local integration proofs and external gates](implementation/P1-PR-003-local-foundation.md). There are no product screens, tire schemas, recommendation services or real provider integrations yet. `/` deliberately returns 404. Health endpoints report `scope: bootstrap`, not database/provider or product readiness.
 
 ## Start with Docker
 
@@ -51,7 +51,7 @@ pnpm test
 pnpm test:gates
 ```
 
-`pnpm test` includes coverage and only unit/use-case projects. `pnpm test:db` requires the disposable runner's explicit database target; it refuses generic/production targets. `pnpm test:http` exercises a running local host and accepts only loopback/the Compose app hostname. `pnpm contracts:generate` regenerates the health-only OpenAPI artifact; `contracts:check` rejects drift.
+`pnpm test` includes coverage and only unit/use-case projects. `pnpm test:db` requires the disposable runner's explicit database target; it refuses generic/production targets. `pnpm test:foundation` uses that runner with Node 24.22.1 to create disposable proof roles, generate/apply Payload migrations and exercise access/pool denials. Use the Docker verification command for this suite; never point it at dev/stage or native PostgreSQL. `pnpm test:http` exercises a running local host and accepts only loopback/the Compose app hostname. `pnpm contracts:generate` regenerates the health-only OpenAPI artifact; `contracts:check` rejects drift.
 
 Write a failing behavior/denial/boundary case, implement, then refactor. The bootstrap configuration tests began with nine intended failures. The deliberately failing test project is excluded from normal test runs; `test:gates` invokes it and requires failure, then injects/removes forbidden imports to prove layer and direct/transitive client/server enforcement. Test fixtures reject unexpected HTTP; an actual local listener proves rejected requests do not reach it.
 
@@ -71,7 +71,7 @@ pnpm verify:push
 git push
 ```
 
-The first command is also the cold-checkout path: it builds from the frozen lockfile and runs quality, unit/use-case coverage, deliberate failure checks, real PostgreSQL transaction/constraint tests, HTTP smoke and app restart checks. Tests use both logical databases in a new cluster. Cleanup runs on failure as well as success. It does not need native `psql`, pnpm or host application dependencies.
+The first command is also the cold-checkout path: it builds from the frozen lockfile and runs quality, unit/use-case coverage, deliberate failure checks, real PostgreSQL transaction/constraint tests, foundation integration proofs, HTTP smoke and app stop/restart checks. It measures idle container resources and rejects hosted fixture configuration in a separately owned, network-disabled container. Tests use both logical databases in a new cluster. Cleanup runs on failure as well as success, including timeout cleanup of the configuration probe. It does not need native `psql`, pnpm or host application dependencies.
 
 `verify:push` requires a clean committed tree, repeats Linux verification and records source/tree/lock/image evidence in ignored `.local/verified-commit.json`. Any content change or new commit requires verification again. GitHub CI independently repeats the Linux suite with read-only repository permission and no provider credentials; it never trusts that local stamp.
 
@@ -79,8 +79,14 @@ Optionally install the repository-local hook with `git config --local core.hooks
 
 The [release scaffold](../infra/release/README.md) defines immutable artifact evidence and the remaining hosted environment controls. No merge deploys public traffic. Real source licenses, hosted environments, credentials, CMS/auth bridge, runtime DB roles, cloud workflows/storage/email and production recovery remain at their approved cards and [decision triggers](implementation/P1-PR-001-launch-baseline.md#deferred-decision-register).
 
+The optimized image runs a bundle of the shared configuration validator before opening Next's server. Instrumentation/readiness checks alone do not guarantee process termination on invalid configuration; P1-PR-003 observed that failure and added the preflight. The same image is tested for valid local startup and invalid hosted-fixture refusal, and the runner always removes its specifically created refusal container.
+
 ## Pinned toolchain rationale
 
 The lockfile pins Next.js 16.4.3, React 19.3.1, TypeScript 6.0.3, ESLint 10.13.0, Vitest 5.0.5 and Zod 4.6.7. TypeScript 7 was not selected because the current typescript-eslint peer range is below 6.1. The reviewed Next.js patch was published on the bootstrap date; release-age exceptions list only that exact version and its matching `@next` packages. Other dependencies retain the one-day policy. Node/PostgreSQL image digests are in [versions.json](../infra/local/versions.json).
 
-Current Payload 3.92.0 metadata requires Node 24.22.1+ on the Node 24 line and permits Next 16.4.3. That informed the image patch; Payload/Clerk behavior and Drizzle integration are not installed or accepted here and remain P1-PR-003/004 work. Keep versions pinned and update them through a tested PR.
+Payload 3.92.0 requires Node 24.22.1+ on the Node 24 line and permits Next 16.4.3. P1-PR-003 installs the Next compatibility plugin, Payload and PostgreSQL adapter and tests real local Payload/Drizzle behavior. Core native unit/type checks can use 24.19; execute the Payload integration suite on the pinned Linux 24.22.1 runtime. Real Clerk/hosted proofs remain deferred; production schema/migration ownership remains P1-PR-004.
+
+Payload 3.92's migration generator emits value imports for `MigrateUpArgs`/`MigrateDownArgs`; strict `verbatimModuleSyntax` requires `import type`. The proof normalizes the exact generated fixture header, then executes the actual migration runner. In P1-PR-004, review and commit generated migrations with explicit type imports before applying them. No production migration should be generated at runtime.
+
+Scoped dependency overrides pin Vite's esbuild peer, the older Drizzle tooling's esbuild and Monaco's DOMPurify to tested compatible/patched versions. Their first unmodified resolution failed peer/audit checks; the resolved lockfile passes. Re-evaluate the overrides with the next Payload update. Test-only role/identity fixtures are blocked from application/package imports and are absent from exposed host routes. Keep versions pinned and update them through a tested PR.

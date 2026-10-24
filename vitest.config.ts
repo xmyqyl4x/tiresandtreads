@@ -36,6 +36,15 @@ export default defineConfig({
         },
       },
       { test: { name: 'database', include: ['tests/database/**/*.test.ts'], testTimeout: 15000 } },
+      {
+        test: {
+          name: 'foundation',
+          include: ['tests/foundation/**/*.test.ts'],
+          testTimeout: 15000,
+          hookTimeout: 15000,
+          fileParallelism: false,
+        },
+      },
       { test: { name: 'probe', include: ['tests/probes/**/*.test.ts'] } },
     ],
   },

@@ -2,7 +2,7 @@
 
 **Engineering specification 1.2 (capability amendment approved October 23, 2026) · October 22, 2026.** This extends the approved architecture with the user's requested test-driven process. It defines implementation obligations; no application tests have run yet. The [implementation plan](04-implementation-plan.md) assigns delivery work, and the [database design](09-database-design.md) and [coding standards](10-coding-standards.md) define the boundaries to test.
 
-**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporated the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); implementation remains unstarted. Version 1.2 adds UC13–UC18 and AT21–AT28 for domain data, AI/reuse/photos, SEO/ads and four live releases; those additions were approved on October 23, 2026 in the [capability approval record](12-live-product-phases-and-gap-review.md#approval-record).
+**Status:** specification 1.0 was approved on October 22, 2026 in the [engineering approval record](00-source-review.md#engineering-approval-record). Version 1.1 incorporated the subsequent [PostgreSQL/build-order amendment](11-postgresql-and-build-order.md); bootstrap tooling is accepted in P1-PR-002; local integration proofs are P1-PR-003. Version 1.2 adds UC13–UC18 and AT21–AT28 for domain data, AI/reuse/photos, SEO/ads and four live releases; those additions were approved on October 23, 2026 in the [capability approval record](12-live-product-phases-and-gap-review.md#approval-record).
 
 ## Required development cycle
 

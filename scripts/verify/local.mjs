@@ -3,6 +3,7 @@ import { unlinkSync } from 'node:fs';
 import { initialize, compose } from '../dev/local.mjs';
 import { environmentPlan } from '../dev/plan.mjs';
 import { run } from '../lib/process.mjs';
+import { verifyLifecycle } from './lifecycle.mjs';
 
 // This function creates and deletes only its own randomly named test environment.
 export function verifyLocal() {
@@ -25,12 +26,14 @@ export function verifyLocal() {
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:gates']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:db']);
+    compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:foundation']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:http']);
-    compose(plan, ['restart', 'app']);
+    const lifecycle = verifyLifecycle(plan);
     compose(plan, ['up', '--detach', '--wait', '--wait-timeout', '120', 'app']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:http']);
     return {
       project: plan.project,
+      lifecycle,
       appImageId: compose(plan, ['images', '--quiet', 'app'], { capture: true }),
     };
   } finally {

@@ -3,6 +3,12 @@ packages:
   - packages/*
 saveExact: true
 strictPeerDependencies: true
+overrides:
+  # Payload's older toolchain must not select Vite's incompatible optional peer.
+  'vite>esbuild': 0.28.2
+  # Temporary transitive security pins; re-evaluate with the next Payload update.
+  'monaco-editor>dompurify': 3.4.17
+  '@esbuild-kit/core-utils>esbuild': 0.25.12
 minimumReleaseAge: 1440
 # Reviewed framework patch published today; exact version is locked and tested.
 minimumReleaseAgeExclude:

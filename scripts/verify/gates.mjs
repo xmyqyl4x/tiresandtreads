@@ -54,3 +54,20 @@ try {
   unlinkSync(bridgeProbe);
 }
 console.log('Transitive client/server rejection proved');
+
+const fixtureProbe = 'apps/web/app/__fixture_probe.ts';
+writeFileSync(fixtureProbe, "import '../../../tests/fixtures/foundation/target.ts';\n", {
+  flag: 'wx',
+});
+try {
+  const result = spawnSync(process.execPath, [cli, 'boundaries'], { encoding: 'utf8' });
+  assert.equal(
+    result.status,
+    1,
+    'Application code must not import test identity or database fixtures',
+  );
+  assert.match(result.stdout + result.stderr, /production-never-imports-test-fixtures/);
+} finally {
+  unlinkSync(fixtureProbe);
+}
+console.log('Production-to-test-fixture import rejection proved');

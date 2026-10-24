@@ -1,9 +1,10 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { withPayload } from '@payloadcms/next/withPayload';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
-export default {
+export default withPayload({
   output: 'standalone',
   outputFileTracingRoot: repositoryRoot,
   turbopack: { root: repositoryRoot },
@@ -21,4 +22,4 @@ export default {
       },
     ];
   },
-};
+});
