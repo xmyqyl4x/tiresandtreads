@@ -54,6 +54,15 @@ export default defineConfig({
           fileParallelism: false,
         },
       },
+      {
+        test: {
+          name: 'recovery',
+          include: ['tests/recovery/**/*.test.ts'],
+          testTimeout: 30000,
+          hookTimeout: 30000,
+          fileParallelism: false,
+        },
+      },
       { test: { name: 'probe', include: ['tests/probes/**/*.test.ts'] } },
     ],
   },

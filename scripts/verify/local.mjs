@@ -4,6 +4,7 @@ import { initialize, compose } from '../dev/local.mjs';
 import { environmentPlan } from '../dev/plan.mjs';
 import { run } from '../lib/process.mjs';
 import { verifyLifecycle } from './lifecycle.mjs';
+import { verifyRecovery } from './recovery.mjs';
 
 // This function creates and deletes only its own randomly named test environment.
 export function verifyLocal() {
@@ -36,6 +37,7 @@ export function verifyLocal() {
       project: plan.project,
       lifecycle,
       appImageId: compose(plan, ['images', '--quiet', 'app'], { capture: true }),
+      recovery: verifyRecovery(),
     };
   } finally {
     compose(plan, ['down', '--volumes', '--remove-orphans']);

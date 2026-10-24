@@ -1,6 +1,6 @@
 # P1-PR-007 — CMS, SEO, advertising, analytics and quota schemas
 
-**October 23, 2026 · in review; owner acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7). Prerequisite [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6) was owner-approved and merged at `53f9fd1f9dcce8b781fb15f4e465b33443850748`. This is P1/S1, E04/E15/E16/E17/E18/E37/E38, following the [task card](../tasks/phase-1-prs.md#p1-pr-007).
+**October 23, 2026 · accepted after owner approval and merge.** Implementer: Codex. Acceptance owner: repository owner. Review: [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7), merged at `ad3822ae51ed969c6d575ff7e661d8e6a1362623` after exact-head CI passed. Prerequisite [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6) was owner-approved and merged at `53f9fd1f9dcce8b781fb15f4e465b33443850748`. This is P1/S1, E04/E15/E16/E17/E18/E37/E38, following the [task card](../tasks/phase-1-prs.md#p1-pr-007).
 
 ## Scope and traceability
 

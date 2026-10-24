@@ -1,6 +1,6 @@
 # P1-PR-007 validation evidence
 
-**October 23, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #6 merge `53f9fd1f9dcce8b781fb15f4e465b33443850748`. See the [implementation packet](../../P1-PR-007-cms-seo-ads-analytics-schemas.md) for scope and limits.
+**October 23, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #6 merge `53f9fd1f9dcce8b781fb15f4e465b33443850748`. See the [implementation packet](../../P1-PR-007-cms-seo-ads-analytics-schemas.md) for scope and limits.
 
 ## Development evidence
 
@@ -31,7 +31,7 @@
 | Local dev/stage | Two app/one CMS migrations applied; 11 app/two CMS, zero pending; replay zero |
 | Cleanup | Owned disposable resources removed; local dev/stage stopped with volumes preserved |
 
-The total is **110 passing tests**. Coverage still applies to small configuration/health packages only; SQL behavior is tested against real PostgreSQL and CMS operations against Payload. The final review-link commit must pass the same verification before push. [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) records its final SHA and independent GitHub CI; owner acceptance remains pending.
+The total is **110 passing tests**. Coverage still applies to small configuration/health packages only; SQL behavior is tested against real PostgreSQL and CMS operations against Payload. Final review commit `19ba4c32229786583a6302e73eb28360c6940eff` passed exact-commit local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40065054035). The owner approved [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7); it merged at `ad3822ae51ed969c6d575ff7e661d8e6a1362623` on October 23, 2026 America/Los_Angeles.
 
 ## Limits
 
