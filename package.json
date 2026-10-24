@@ -34,7 +34,8 @@
     "verify:local": "node scripts/verify/local.mjs",
     "verify:push": "node scripts/verify/push.mjs",
     "doctor:local": "node scripts/dev/local.mjs doctor",
-    "source:check": "node scripts/verify/source.mjs"
+    "source:check": "node scripts/verify/source.mjs",
+    "verify:data-access": "node scripts/verify/data-access.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -188,7 +188,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Verify required P1 constraints/indexes, retention deletion order and separate CMS recovery boundaries.
 - [x] Perform initial restore/deletion-marker replay drill; record schema inventory, versions, failures and S1 decision.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-008-database-validation-recovery.md) and [validation evidence](../implementation/evidence/P1/p1-pr-008-validation.md) account for all P1 storage invariants, repeatable migrations, complete inventory and independent app/CMS recovery. [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8) is in review. The local S1 decision is pending owner acceptance; hosted RPO/RTO and later service/use-case gates remain open.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-008-database-validation-recovery.md) and [validation evidence](../implementation/evidence/P1/p1-pr-008-validation.md) account for all P1 storage invariants, repeatable migrations, complete inventory and independent app/CMS recovery. [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8) was owner-approved and merged at `beccd8e`. The local S1 database gate is accepted; hosted RPO/RTO and later service/use-case gates remain open.
 
 ### P1-PR-009
 
@@ -200,11 +200,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-04, ENG-05. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Define pure tire/unit/money/unknown/provenance, report/consent and import entity/value interfaces.
-- [ ] Define narrow repository/query/provider ports and explicit transaction context without ORM leakage.
-- [ ] Create storage-row/domain/wire mapping rules and schema-version/error contracts.
+- [x] Define pure tire/unit/money/unknown/provenance, report/consent and import entity/value interfaces.
+- [x] Define narrow repository/query/provider ports and explicit transaction context without ORM leakage.
+- [x] Create storage-row/domain/wire mapping rules and schema-version/error contracts.
 
-**Verification and acceptance:** Type/import checks and unit tests for invalid/unknown/value mapping; no SQL/provider access hidden in domain entities.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-009-entities-transactions.md) and [validation evidence](../implementation/evidence/P1/p1-pr-009-validation.md). Strict type/import checks, exact value/unknown mapping and real restricted-role transaction commit/rollback/timeout/concurrency tests pass. Implementation is in progress; owner acceptance remains pending.
 
 ### P1-PR-010
 

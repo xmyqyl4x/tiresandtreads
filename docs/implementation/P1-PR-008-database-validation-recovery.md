@@ -1,12 +1,12 @@
 # P1-PR-008 — S1 database validation and recovery
 
-**October 23, 2026 · in review; owner acceptance pending.** Review: [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8). Implementer: Codex. Acceptance owner: repository owner. Prerequisite [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) was owner-approved and merged at `ad3822ae51ed969c6d575ff7e661d8e6a1362623`. This is the P1/S1 gate for E04/E19 and ENG-03, DB13 and DB28, following the [task card](../tasks/phase-1-prs.md#p1-pr-008).
+**October 23, 2026 · accepted after owner approval and merge.** Review: [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8), merged at `beccd8efe28e6df1eef6fe99fd088787521b8d9a` after exact-head CI passed. Implementer: Codex. Acceptance owner: repository owner. Prerequisite [PR #7](https://github.com/xmyqyl4x/tiresandtreads/pull/7) was owner-approved and merged at `ad3822ae51ed969c6d575ff7e661d8e6a1362623`. This is the P1/S1 gate for E04/E19 and ENG-03, DB13 and DB28, following the [task card](../tasks/phase-1-prs.md#p1-pr-008).
 
 ## Scope and S1 decision
 
 This gate assembles the complete P1 physical database evidence from accepted 004–007 and adds a real logical backup/restore rehearsal in a second isolated PostgreSQL cluster. The [inventory contract](../../infra/database/s1-contract.json) names **119 application tables, 28 CMS tables and two application views**, including each database's migration ledger. The manifests remain at **11 application / two CMS migrations**. No applied migration, generated CMS snapshot or checksum is changed.
 
-Recommended decision after the [validation record](evidence/P1/p1-pr-008-validation.md) and exact-commit CI pass: **accept the local P1 S1 database stage**, permitting S2 entities/repositories in 009–013 after owner approval. This is a construction gate, not a usable live phase or production recovery certification. Product services/APIs, full G0 and chosen-host evidence retain their existing gates; frontend work remains behind 031. Source licences, production hosting and budget remain deferred at the approved triggers.
+The owner accepted the [validation record](evidence/P1/p1-pr-008-validation.md) and passing exact-commit CI: **the local P1 S1 database stage is accepted**, permitting S2 entities/repositories in 009–013. This is a construction gate, not a usable live phase or production recovery certification. Product services/APIs, full G0 and chosen-host evidence retain their existing gates; frontend work remains behind 031. Source licences, production hosting and budget remain deferred at the approved triggers.
 
 ## Repeatable checks
 

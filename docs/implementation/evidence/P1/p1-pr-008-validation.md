@@ -1,6 +1,6 @@
 # P1-PR-008 validation evidence
 
-**October 23, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #7 merge `ad3822ae51ed969c6d575ff7e661d8e6a1362623`. See the [implementation packet](../../P1-PR-008-database-validation-recovery.md) for the inventory, recovery procedure, invariant matrix and scoped S1 decision.
+**October 23, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #7 merge `ad3822ae51ed969c6d575ff7e661d8e6a1362623`. See the [implementation packet](../../P1-PR-008-database-validation-recovery.md) for the inventory, recovery procedure, invariant matrix and scoped S1 decision.
 
 ## Development evidence
 
@@ -35,7 +35,7 @@
 
 Total: **130 passing tests**. Recovery elapsed 28232 ms including image preparation; the synthetic backup window was 4451 ms. Archives were 511,847 app bytes and 194,206 CMS bytes. These measurements do not establish production capacity or RTO/RPO. Existing 100% coverage applies only to the small runtime/health packages; SQL and recovery behavior use real PostgreSQL integration tests.
 
-The review-link commit must pass the same full verification before push. [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8) records its final SHA and independent GitHub CI. Local S1 acceptance remains pending owner approval; P1-PR-009 is not started.
+Final review commit `4958f1112ad4c30649f9c1517c39dcc764d3b330` passed full local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40067391211). The owner approved [PR #8](https://github.com/xmyqyl4x/tiresandtreads/pull/8), merged at `beccd8efe28e6df1eef6fe99fd088787521b8d9a`. Local S1 is accepted; P1-PR-009 may start.
 
 ## Limits
 
