@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { buildConfig } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
+import { editorialCollections } from './cms-collections.ts';
 
 export function cmsFoundationConfig(
   url: string,
@@ -36,6 +37,7 @@ export function cmsFoundationConfig(
       },
     }),
     collections: [
+      ...editorialCollections,
       {
         slug: 'cms-staff',
         auth: {

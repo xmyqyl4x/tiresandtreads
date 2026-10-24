@@ -2,5 +2,9 @@
   {
     "id": "0001_staff",
     "sha256": "e6a8de9b9faffe9a2c417474834e73e4f29a88e6c1bdbd0aa096c95e90e9d582"
+  },
+  {
+    "id": "0002_editorial",
+    "sha256": "3fba70327721526a6180efc6112270818dad0103655512ca9d32250e975a58f4"
   }
 ]

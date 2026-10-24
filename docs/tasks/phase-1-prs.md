@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -156,7 +156,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add encrypted contacts, consent/suppression/rights/deletion records, sends/templates/attempts/events and fixed presentation references.
 - [x] Create idempotency/outbox/inbox, deferred/composite FKs, revision and lifecycle constraints; create the audit schema and bind `import_publications.approval_record_id` to `admin.audit_events` with a named FK/index before removing its 005 NULL-only check.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-006-report-consent-delivery-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-006-validation.md). Real PostgreSQL tests reject wrong-owner references, fifth comparison slots and duplicate identities; prove circular FK/upgrade ordering, fixed sends, privacy detachments and command-claim contention. [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6) is in review; owner acceptance remains pending.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-006-report-consent-delivery-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-006-validation.md). Real PostgreSQL tests reject wrong-owner references, fifth comparison slots and duplicate identities; prove circular FK/upgrade ordering, fixed sends, privacy detachments and command-claim contention. [PR #6](https://github.com/xmyqyl4x/tiresandtreads/pull/6) was owner-approved and merged at `53f9fd1`.
 
 ### P1-PR-007
 
@@ -168,11 +168,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-02, CAP-03, DB16, DB17, DB18, DB19, DB27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Define Payload collections/migrations for editorial content, redirects, review and durable publication; add application published-content projection.
-- [ ] Extend the staff audit foundation created in 006 with configuration, affiliates/ad slots/network reports, SEO page/search/audit records.
-- [ ] Create analytics receipt/generation/privacy invalidation and SQL rate buckets; leave optional computation cache absent pending profiling.
+- [x] Define Payload collections/migrations for editorial content, redirects, review and durable publication; add application published-content projection.
+- [x] Extend the staff audit foundation created in 006 with configuration, affiliates/ad slots/network reports, SEO page/search/audit records.
+- [x] Create analytics receipt/generation/privacy invalidation and SQL rate buckets; leave optional computation cache absent pending profiling.
 
-**Verification and acceptance:** Migration/constraint tests preserve CMS isolation, public-only metric dimensions, provider-report revision dedupe and quota bounds.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-007-cms-seo-ads-analytics-schemas.md) and [validation evidence](../implementation/evidence/P1/p1-pr-007-validation.md). Real PostgreSQL and Payload tests preserve CMS isolation, draft/version/publication transactions, public-only SEO/ad dimensions, provider-report correction semantics, privacy generation hiding and concurrent quota bounds. Implementation is in progress; owner acceptance remains pending.
 
 ### P1-PR-008
 
