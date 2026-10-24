@@ -1,7 +1,7 @@
 import type { OwnerRepository } from '../../../application/src/ports/owner-report.ts';
-import { guarded, type WriteScope } from './mutations.ts';
+import { guarded, stop, type WriteScope } from './mutations.ts';
 import { hex, digestKeys, keyJson, rid, ownerGuard } from './private-values.ts';
-import { stop } from './ingestion.ts';
+
 export function createOwnerRepository(scope: WriteScope): OwnerRepository {
   const q = scope.query;
   const repo: OwnerRepository = {

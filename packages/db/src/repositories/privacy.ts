@@ -4,7 +4,7 @@ import type {
   PrivacyResource,
 } from '../../../application/src/ports/privacy.ts';
 import type { Contact } from '../../../application/src/ports/private-records.ts';
-import { guarded, type WriteScope } from './mutations.ts';
+import { guarded, stop, type WriteScope } from './mutations.ts';
 import { cursor, nextCursor, pageLimit, reject } from './bounds.ts';
 import {
   digestKeys,
@@ -20,7 +20,7 @@ import {
   text,
   type Row,
 } from './private-values.ts';
-import { stop } from './ingestion.ts';
+
 const contactColumns = 'id,subject_id,revision,verified_at,status,encrypted_email,key_version';
 function contact(row: Row): Contact {
   if (

@@ -781,7 +781,15 @@ it('allows one competing report revision and replaces an expired draft safely', 
   expect(await run((tx) => f.reports.draft(tx, a.identity, r.head.id))).toBeNull();
   expect(
     (await run((tx) => f.reports.saveDraft(tx, a.identity, r.head.id, null, d))).revision,
-  ).toBe(old.revision);
+  ).toBe(old.revision + 1n);
+  expect(
+    await attempt((tx) =>
+      f.reports.saveDraft(tx, a.identity, r.head.id, old.revision, {
+        ...d,
+        input: { stale: true },
+      }),
+    ),
+  ).toMatchObject(conflict);
   const next = { ...r.version, version: 2, baseVersion: 1 };
   const results = await Promise.all([
     attempt((tx) => f.reports.publish(tx, a.identity, r.head.revision, next, [])),

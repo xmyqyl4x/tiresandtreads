@@ -14,8 +14,8 @@ import {
   type Revision,
 } from '../../../domain/src/values/index.ts';
 import { boundedJson, reject } from './bounds.ts';
-import { stop } from './ingestion.ts';
-import type { WriteScope } from './mutations.ts';
+
+import { stop, type WriteScope } from './mutations.ts';
 export type Row = Record<string, unknown>;
 export function text(value: unknown, max = 200): string {
   if (typeof value !== 'string' || !value.trim() || value.length > max || value.includes('\0'))

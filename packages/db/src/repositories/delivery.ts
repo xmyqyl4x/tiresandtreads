@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import type { DeliveryRepository } from '../../../application/src/ports/delivery.ts';
 import type { Send, SendState } from '../../../application/src/ports/private-records.ts';
 import type { TransactionContext as Tx } from '../../../application/src/ports/transactions.ts';
-import { guarded, type WriteScope } from './mutations.ts';
+import { guarded, stop, type WriteScope } from './mutations.ts';
 import {
   hex,
   integer,
@@ -16,7 +16,7 @@ import {
   text,
   type Row,
 } from './private-values.ts';
-import { stop } from './ingestion.ts';
+
 import { reject } from './bounds.ts';
 const columns =
   'id,revision,dispatch_state,owner_subject_id,recipient_contact_id,report_id,report_version,comparison_revision,provider,provider_key,send_after,cancel_deadline,template_id,payload_asset_id,payload_hash';

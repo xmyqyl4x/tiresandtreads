@@ -5,16 +5,12 @@ import type {
   StagingRow,
 } from '../../../application/src/ports/ingestion.ts';
 import type { TransactionContext } from '../../../application/src/ports/transactions.ts';
-import { failure } from '../../../application/src/ports/transactions.ts';
 import { id, revision, instant } from '../../../domain/src/values/index.ts';
-import { PersistenceFailure } from '../transactions.ts';
 import type { Sql } from './catalog.ts';
 import { boundedJson, pageLimit, reject } from './bounds.ts';
 import { spec, encode } from './codec.ts';
-import { guarded, type WriteScope } from './mutations.ts';
-export function stop(code: Parameters<typeof failure>[0]): never {
-  throw new PersistenceFailure(failure(code));
-}
+import { guarded, stop, type WriteScope } from './mutations.ts';
+export { stop } from './mutations.ts';
 export function runState(row: Record<string, unknown>): RunState {
   const run = id('import_run', row.id),
     dataset = id('dataset', row.dataset_version_id),

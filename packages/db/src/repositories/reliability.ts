@@ -1,8 +1,8 @@
 import type { ReliabilityRepository, Inbox } from '../../../application/src/ports/reliability.ts';
-import { guarded, type WriteScope } from './mutations.ts';
+import { guarded, stop, type WriteScope } from './mutations.ts';
 import { digest, reject } from './bounds.ts';
 import { hex, integer, jsonObject, one, rev, rid, text, type Row } from './private-values.ts';
-import { stop } from './ingestion.ts';
+
 function inbox(row: Row): Inbox {
   if (!['pending', 'processing', 'processed', 'quarantined', 'failed'].includes(String(row.state)))
     return stop('integrity');

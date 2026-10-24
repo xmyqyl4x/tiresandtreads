@@ -1,7 +1,7 @@
 import type { CapabilityRepository } from '../../../application/src/ports/owner-report.ts';
-import { guarded, type WriteScope } from './mutations.ts';
+import { guarded, stop, type WriteScope } from './mutations.ts';
 import { digestKeys, hex, integer, keyJson, reportGuard, rid, text } from './private-values.ts';
-import { stop } from './ingestion.ts';
+
 export function createCapabilityRepository(scope: WriteScope): CapabilityRepository {
   const q = scope.query;
   const repo: CapabilityRepository = {

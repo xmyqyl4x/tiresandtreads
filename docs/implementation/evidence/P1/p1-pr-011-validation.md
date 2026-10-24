@@ -9,6 +9,8 @@
 - Real-role tests cover owner isolation/revocation, exact bigint quotes and nullable evidence, four comparison slots, report/draft revisions, scope-bound pages, concurrent contact registration and HMAC overlap, immutable consent evidence, suppression scopes, shared/owner grants, canceled/accepted/rejected/uncertain delivery, withdrawal before claim, and one-client rollback across report/contact/consent/send/outbox writes.
 - Test fixtures use synthetic data only. The cancellation clock fixture adjusts only its isolated schedule through the migration owner; the runtime role still runs real state/time constraints. No provider or native PostgreSQL instance is contacted.
 
+- A separate real-database regression first failed with revision `1n` where `2n` was expected after draft expiry. Replacing the expired row now increments its revision instead of deleting/recreating it; an old client revision is rejected. The full pipeline is rerun after this fix.
+
 ## Full verification
 
 Exact-commit pipeline, retained dev/stage upgrade and final counts will be recorded after verification. No owner acceptance or live product release is claimed.

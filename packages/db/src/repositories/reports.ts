@@ -8,7 +8,7 @@ import type {
   ReportItem,
 } from '../../../application/src/ports/private-records.ts';
 import { reportHeadFromRow } from '../mappers.ts';
-import { guarded, type WriteScope } from './mutations.ts';
+import { guarded, stop, type WriteScope } from './mutations.ts';
 import { boundedJson, cursor, nextCursor, pageLimit, reject } from './bounds.ts';
 import {
   integer,
@@ -23,7 +23,7 @@ import {
   text,
   type Row,
 } from './private-values.ts';
-import { stop } from './ingestion.ts';
+
 function head(row: Row) {
   const r = reportHeadFromRow(row);
   return r.ok ? r.value : stop('integrity');
@@ -215,15 +215,12 @@ export function createReportRepository(scope: WriteScope): ReportRepository {
       const h = await reportGuard(scope, tx, owner, id);
       if (h.current_version !== d.baseVersion) stop('conflict');
       if (d.schemaVersion !== 1) reject();
-      await q(
-        tx,
-        'DELETE FROM app.report_drafts WHERE report_id=$1 AND expires_at<=clock_timestamp()',
-        [id],
-      );
       const r = await q(
         tx,
         `INSERT INTO app.report_drafts(report_id,base_version,input,schema_version,expires_at) SELECT $1,$2,$3,1,$4 WHERE $5::bigint IS NULL
-        ON CONFLICT (report_id) DO NOTHING RETURNING base_version,input,schema_version,expires_at,revision`,
+        ON CONFLICT (report_id) DO UPDATE SET base_version=excluded.base_version,input=excluded.input,schema_version=excluded.schema_version,
+          expires_at=excluded.expires_at,revision=report_drafts.revision+1,updated_at=clock_timestamp()
+        WHERE report_drafts.expires_at<=clock_timestamp() RETURNING base_version,input,schema_version,expires_at,revision`,
         [id, d.baseVersion, jsonObject(d.input, 65536), d.expiresAt, expected?.toString() ?? null],
       );
       if (expected === null) return draft(one(r.rows));
