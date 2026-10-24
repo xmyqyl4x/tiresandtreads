@@ -82,3 +82,18 @@ try {
   unlinkSync(operatorProbe);
 }
 console.log('Production-to-database-operator import rejection proved');
+
+const engineProbe = 'packages/engine/src/__domain_probe.ts';
+writeFileSync(
+  engineProbe,
+  "import type { ConsentProjection } from '../../domain/src/entities/consent.ts';\nexport type Probe = ConsentProjection;\n",
+  { flag: 'wx' },
+);
+try {
+  const result = spawnSync(process.execPath, [cli, 'boundaries'], { encoding: 'utf8' });
+  assert.equal(result.status, 1, 'Even type-only engine imports of consent must be rejected');
+  assert.match(result.stdout + result.stderr, /engine-only-domain-values/);
+} finally {
+  unlinkSync(engineProbe);
+}
+console.log('Engine-to-consent type import rejection proved');

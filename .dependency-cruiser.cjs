@@ -1,6 +1,18 @@
 module.exports = {
   forbidden: [
     {
+      name: 'engine-only-domain-values',
+      severity: 'error',
+      from: { path: '^packages/engine/' },
+      to: { path: '^packages/domain/(?!src/values/)' },
+    },
+    {
+      name: 'domain-never-imports-engine',
+      severity: 'error',
+      from: { path: '^packages/domain/' },
+      to: { path: '^packages/engine/' },
+    },
+    {
       name: 'production-never-imports-database-operators',
       severity: 'error',
       from: { path: '^(apps|packages)/' },
