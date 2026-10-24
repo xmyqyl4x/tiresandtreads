@@ -4,7 +4,7 @@
 
 **Current direction:** build the database, data access/models, business services and exposed APIs before product frontends. The [PostgreSQL and build-order amendment](11-postgresql-and-build-order.md) replaces ClickHouse/Redis/QStash with PostgreSQL analytics, SQL limits and measured caching. The original [AS01–AS07 approval](07-stack-and-layer-signoff.md#7-signoff-decisions) remains historical; AS02/AS07 implementation selections are amended. Separate Payload ownership, Inngest execution, consent defaults and release gates remain.
 
-**Engineering obligations:** apply the [TDD strategy](08-test-driven-development.md), [database contract](09-database-design.md), and [coding standards](10-coding-standards.md) in each stage. P1-PR-002 bootstrap implementation is in progress; product-layer implementation remains at its dependency-gated cards. Estimates below are a revised planning allowance, not measured throughput. Re-estimate at S0/G0 and after the S2 data-access and S4 API demonstrations.
+**Engineering obligations:** apply the [TDD strategy](08-test-driven-development.md), [database contract](09-database-design.md), and [coding standards](10-coding-standards.md) in each stage. P1-PR-002 bootstrap implementation is in review; product-layer implementation remains at its dependency-gated cards. Estimates below are a revised planning allowance, not measured throughput. Re-estimate at S0/G0 and after the S2 data-access and S4 API demonstrations.
 
 ## Four live releases
 

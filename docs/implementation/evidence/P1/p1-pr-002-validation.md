@@ -1,6 +1,6 @@
 # P1-PR-002 workspace validation
 
-**Prepared October 23, 2026 · owner review pending.** Based on main after approved PR #1, merge `b9e02f07be87422f30f7a5c3c18c57965bd59313`. This record covers bootstrap tooling, not a product release or local S0 acceptance. P1-PR-003 remains the next dependency gate.
+**Prepared October 23, 2026 · [PR #2](https://github.com/xmyqyl4x/tiresandtreads/pull/2) in review; owner approval pending.** Based on main after approved PR #1, merge `b9e02f07be87422f30f7a5c3c18c57965bd59313`. This record covers bootstrap tooling, not a product release or local S0 acceptance. P1-PR-003 remains the next dependency gate.
 
 ## Implemented outcome
 
@@ -24,6 +24,8 @@ The container runtime is Node 24.22.1 on Debian Linux, PostgreSQL 18.6, pnpm 11.
 | Lifecycle and isolation | Disposable test resources were removed on failed and successful runs. Dev/stage were stopped after verification; their two named DB volumes were retained. Native PostgreSQL and unrelated running Docker resources were untouched. |
 
 Container-only tests initially passed while host loopback access failed: Docker's internal network did not provide the required published dev/stage ports. The final configuration uses loopback-published bridge networks for dev/stage and a separate internal, unpublished test overlay. Host smoke tests then passed. Dev/stage bridge networks permit outbound traffic; they are not network sandboxes. No live provider adapter or credential is present.
+
+Initial implementation commit `71ffe91645e0c17b10330e236a6ae2ee2c492883` passed the complete clean-commit Linux verification before push. Later revisions must repeat the same command; see the PR and its current CI checks for revision-specific status.
 
 ## Reproduce and bind evidence to source
 
