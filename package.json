@@ -19,7 +19,7 @@
     "quality": "pnpm source:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm boundaries && pnpm contracts:check && pnpm db:check",
     "database": "node scripts/database/local.mjs",
     "db:check": "tsx scripts/database/check.ts",
-    "test": "vitest run --project unit --project usecases --coverage",
+    "test": "vitest run --project unit --project usecases",
     "test:unit": "vitest run --project unit",
     "test:usecases": "vitest run --project usecases",
     "test:db": "vitest run --project database",
@@ -35,7 +35,8 @@
     "verify:push": "node scripts/verify/push.mjs",
     "doctor:local": "node scripts/dev/local.mjs doctor",
     "source:check": "node scripts/verify/source.mjs",
-    "verify:data-access": "node scripts/verify/data-access.mjs"
+    "verify:data-access": "node scripts/verify/data-access.mjs",
+    "test:coverage": "vitest run --project unit --project usecases --project database --coverage"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

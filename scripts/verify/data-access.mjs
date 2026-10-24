@@ -8,7 +8,14 @@ initialize(plan);
 try {
   compose(plan, ['--profile', 'verify', 'build', 'test']);
   compose(plan, ['up', '--detach', '--wait', '--wait-timeout', '120', 'postgres']);
-  compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:db']);
+  compose(plan, [
+    'run',
+    '--rm',
+    '--no-deps',
+    'test',
+    'pnpm',
+    process.argv.includes('--coverage') ? 'test:coverage' : 'test:db',
+  ]);
 } finally {
   compose(plan, ['down', '--volumes', '--remove-orphans']);
   unlinkSync(plan.envFile);

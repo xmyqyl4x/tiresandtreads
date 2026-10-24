@@ -51,11 +51,11 @@ pnpm test
 pnpm test:gates
 ```
 
-`pnpm test` includes coverage and only unit/use-case projects. `pnpm test:db` requires the disposable runner's explicit database target; it refuses generic/production targets. `pnpm test:foundation` uses that runner with Node 24.22.1 to create disposable proof roles, generate/apply Payload migrations and exercise access/pool denials. Use the Docker verification command for this suite; never point it at dev/stage or native PostgreSQL. `pnpm test:http` exercises a running local host and accepts only loopback/the Compose app hostname. `pnpm contracts:generate` regenerates the health-only OpenAPI artifact; `contracts:check` rejects drift.
+`pnpm test` runs the fast unit/use-case projects. `pnpm verify:data-access --coverage` runs unit/use-case and real database projects together with coverage in an isolated Linux/PostgreSQL environment; the full pre-push pipeline does the same. `pnpm test:coverage` is the underlying container command and requires its disposable database target. `pnpm test:db` requires the disposable runner's explicit database target; it refuses generic/production targets. `pnpm test:foundation` uses that runner with Node 24.22.1 to create disposable proof roles, generate/apply Payload migrations and exercise access/pool denials. Use the Docker verification command for this suite; never point it at dev/stage or native PostgreSQL. `pnpm test:http` exercises a running local host and accepts only loopback/the Compose app hostname. `pnpm contracts:generate` regenerates the health-only OpenAPI artifact; `contracts:check` rejects drift.
 
 Write a failing behavior/denial/boundary case, implement, then refactor. The bootstrap configuration tests began with nine intended failures. The deliberately failing test project is excluded from normal test runs; `test:gates` invokes it and requires failure, then injects/removes forbidden imports to prove layer and direct/transitive client/server enforcement. Test fixtures reject unexpected HTTP; an actual local listener proves rejected requests do not reach it.
 
-Coverage includes unimported package source. Current testable packages require 85% lines/statements/functions and 80% branches; future domain/engine/application code requires 95% lines/statements and 90% branches. Empty layer markers are explicitly excluded and do not imply implemented entities or services. Current 100% coverage applies only to the two small configuration/contract modules.
+Coverage includes unimported package source. Current testable packages require 85% lines/statements/functions and 80% branches; future domain/engine/application code requires 95% lines/statements and 90% branches. Empty layer markers are explicitly excluded and do not imply implemented entities or services. The combined unit/database suite includes the S2 SQL adapters; see each implementation packet for measured coverage. Interface-only modules have no executable behavior. Thresholds are unchanged.
 
 `quality` checks source hygiene/case collisions, formatting, lint, strict TypeScript, cyclic/forbidden dependencies, generated contracts and committed migration-source checksums. The lightweight source scan catches private env artifacts and common credential patterns; it is not a comprehensive secret/security audit. The full Linux runner also queries the npm advisory service and fails at high severity. Advisory lookup alone has external network access; fixture application/tests run on an internal network. Future safety/security checks are added with their features.
 
@@ -124,3 +124,19 @@ Payload 3.92.0 requires Node 24.22.1+ on the Node 24 line and permits Next 16.4.
 Payload 3.92's migration generator emits value imports for `MigrateUpArgs`/`MigrateDownArgs`; strict `verbatimModuleSyntax` requires `import type`. The proof normalizes the exact generated fixture header, then executes the actual migration runner. P1-PR-004 commits the reviewed initial migration with explicit type imports, its generated snapshot and narrow grants. No production migration should be generated at runtime.
 
 Scoped dependency overrides pin Vite's esbuild peer, the older Drizzle tooling's esbuild and Monaco's DOMPurify to tested compatible/patched versions. Their first unmodified resolution failed peer/audit checks; the resolved lockfile passes. Re-evaluate the overrides with the next Payload update. Test-only role/identity fixtures are blocked from application/package imports and are absent from exposed host routes. Keep versions pinned and update them through a tested PR.
+
+## P1-PR-010 catalog repository upgrade
+
+Migration `0012_catalog_access` adds three separate roles and published views plus a materialization ledger. On an existing local target, first rerun bootstrap to append only the missing role passwords. Existing role passwords, CMS secret and retained data are preserved:
+
+```text
+pnpm database bootstrap dev
+pnpm database migrate dev
+pnpm database status dev
+pnpm database bootstrap stage
+pnpm database migrate stage
+pnpm database status stage
+pnpm verify:data-access --coverage
+```
+
+Expected history: **12 app / two CMS**, zero pending; migration replay applies zero. Old credentials are validated and never silently regenerated. A missing legacy credential is an error requiring local investigation. The catalog, ingester and publisher credentials stay in the ignored target env file; the general app and CMS receive no new grants. Runtime connection composition remains S3/014. Stop targets with `pnpm local down dev` / `stage` to retain volumes. See the [repository protocol](implementation/P1-PR-010-catalog-ingestion.md) and [evidence](implementation/evidence/P1/p1-pr-010-validation.md).

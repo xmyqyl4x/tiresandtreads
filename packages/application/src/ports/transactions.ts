@@ -5,6 +5,7 @@ export interface TransactionContext {
   readonly [scope]: 'transaction';
 }
 export type FailureCode =
+  | 'invalid_input'
   | 'not_found'
   | 'forbidden'
   | 'conflict'

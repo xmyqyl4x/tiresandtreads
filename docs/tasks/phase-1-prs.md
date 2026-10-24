@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -204,7 +204,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Define narrow repository/query/provider ports and explicit transaction context without ORM leakage.
 - [x] Create storage-row/domain/wire mapping rules and schema-version/error contracts.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-009-entities-transactions.md) and [validation evidence](../implementation/evidence/P1/p1-pr-009-validation.md). Strict type/import checks, exact value/unknown mapping and real restricted-role transaction commit/rollback/timeout/concurrency tests pass. [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9) is in review; owner acceptance remains pending.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-009-entities-transactions.md) and [validation evidence](../implementation/evidence/P1/p1-pr-009-validation.md). Strict type/import checks, exact value/unknown mapping and real restricted-role transaction commit/rollback/timeout/concurrency tests pass. [PR #9](https://github.com/xmyqyl4x/tiresandtreads/pull/9) was owner-approved and merged at `7ac3ed2`.
 
 ### P1-PR-010
 
@@ -216,11 +216,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB14, DB21, DB22. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement source/reference/fitment/SKU/evidence/recall repositories and pinned lookup read models.
-- [ ] Implement bounded staging/batch/checkpoint, coherent publication/head compare-and-set and source reverse indexes.
-- [ ] Add parameterized queries, keyset pagination and explicit license/coverage projections.
+- [x] Implement source/reference/fitment/SKU/evidence/recall repositories and pinned lookup read models.
+- [x] Implement bounded staging/batch/checkpoint, coherent publication/head compare-and-set and source reverse indexes.
+- [x] Add parameterized queries, keyset pagination and explicit license/coverage projections.
 
-**Verification and acceptance:** Real DB tests for partial publish, duplicate/resumed runs and concurrent head changes; query-plan/memory evidence on representative datasets.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-010-catalog-ingestion.md) and [validation evidence](../implementation/evidence/P1/p1-pr-010-validation.md). Real PostgreSQL tests cover all 25 fact families, restricted capabilities, partial publication, fenced/resumed imports, head contention and pinned keyset reads. Synthetic query-plan/memory evidence records workload and limits. [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10) is in review; owner acceptance remains pending.
 
 ### P1-PR-011
 

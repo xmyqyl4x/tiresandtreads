@@ -2,6 +2,7 @@ import { randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { initialize, compose } from '../dev/local.mjs';
 import { environmentPlan, validateEnvironmentFile } from '../dev/plan.mjs';
+import { addRoleCredentials } from './credentials.mjs';
 
 const [action, target] = process.argv.slice(2);
 if (
@@ -17,6 +18,9 @@ const roles = [
   'tt_app_runtime',
   'tt_staff_runtime',
   'tt_asset_runtime',
+  'tt_catalog_runtime',
+  'tt_ingest_runtime',
+  'tt_publish_runtime',
   'tt_cms_migrator',
   'tt_cms_runtime',
 ];
@@ -30,6 +34,18 @@ if (!existsSync(credentialFile)) {
     keys.map((key) => `${key}=${randomBytes(32).toString('hex')}`).join('\n') + '\n',
     { flag: 'wx', mode: 0o600 },
   );
+}
+if (action === 'bootstrap') {
+  const existing = readFileSync(credentialFile, 'utf8');
+  const expanded = addRoleCredentials(
+    existing,
+    keys,
+    ['TT_CATALOG_RUNTIME', 'TT_INGEST_RUNTIME', 'TT_PUBLISH_RUNTIME'].map(
+      (role) => `DB_PASSWORD_${role}`,
+    ),
+    () => randomBytes(32).toString('hex'),
+  );
+  if (expanded !== existing) writeFileSync(credentialFile, expanded, { mode: 0o600 });
 }
 const entries = readFileSync(credentialFile, 'utf8')
   .trim()
