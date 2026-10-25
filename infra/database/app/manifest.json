@@ -58,5 +58,9 @@
   {
     "id": "0015_runtime_durability",
     "sha256": "fe0785ac06b6ed3d55abba2a9fd0b01f389a64cb37bb8c41497323bd5c0be365"
+  },
+  {
+    "id": "0016_inbox_job_binding",
+    "sha256": "7d4c845675c9c3c4d3cde8e21595f19edc3108d234d8325b871141b6a6cd3057"
   }
 ]

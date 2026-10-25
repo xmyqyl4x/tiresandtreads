@@ -12,7 +12,7 @@ import {
 } from '@aws-sdk/client-s3';
 import { KMSClient, CreateKeyCommand } from '@aws-sdk/client-kms';
 import { privateFixture, uid, time, key, success } from '../fixtures/private/database.ts';
-import { createRuntime } from '../../packages/integrations/src/runtime.ts';
+import { createRuntime, type SqlJobHandler } from '../../packages/integrations/src/runtime.ts';
 import { createRuntimePool } from '../../packages/db/src/runtime-pool.ts';
 import { createAssetRepository } from '../../packages/db/src/repositories/assets.ts';
 import { createAssetService } from '../../packages/application/src/services/assets.ts';
@@ -238,8 +238,8 @@ it('DB08 real Inngest dev-server callback commits one SQL effect and replay rema
     telemetry: string[] = [];
   const worker = await createRuntime(
     env,
-    ({ outbox }) => ({
-      'fixture.sql': async (tx, input) => {
+    ({ outbox }) => {
+      const apply: SqlJobHandler = async (tx, input) => {
         const effectId = id('event', input.resourceId);
         if (!effectId.ok) throw Error('fixture');
         await outbox.append(tx, {
@@ -251,8 +251,9 @@ it('DB08 real Inngest dev-server callback commits one SQL effect and replay rema
           payload: { resource_id: resource, resource_kind: 'fixture' },
         });
         return ok(undefined);
-      },
-    }),
+      };
+      return { 'fixture.sql': apply, 'inbox.process': apply };
+    },
     { record: (e) => telemetry.push(e) },
   );
   const listener = await startWorker(worker, 8123, 'http://test:8123');
@@ -320,6 +321,31 @@ it('DB08 real Inngest dev-server callback commits one SQL effect and replay rema
       (await f.admin.query('SELECT state FROM app.job_runs WHERE id=$1', [recovered])).rows[0]
         .state,
     ).toBe('completed');
+    const received = await worker.receiveVerified({
+      provider: 'fixture',
+      eventId: uid('provider_event'),
+      digest: key().digest,
+      assetId: null,
+      receivedAt: time(-1000),
+      verifiedAt: time(),
+    });
+    expect(received.ok).toBe(true);
+    if (!received.ok || !received.value.jobId) throw Error('fixture');
+    await worker.tick();
+    for (let n = 0; n < 40; n++) {
+      await worker.tick();
+      if (
+        (await f.admin.query('SELECT state FROM app.job_runs WHERE id=$1', [received.value.jobId]))
+          .rows[0].state === 'completed'
+      )
+        break;
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    expect(
+      (await success(f.scope.unitOfWork, (tx) =>
+        f.reliability.current(tx, received.value.receipt.id),
+      ))!.state,
+    ).toBe('processed');
   } finally {
     await listener.stop();
     await listener.stop();

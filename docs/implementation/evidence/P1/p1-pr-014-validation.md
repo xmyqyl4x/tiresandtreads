@@ -4,6 +4,8 @@
 
 ## TDD and recovery cases
 
+Inbox cases also cover receipt/job/outbox atomicity, duplicate/conflicting receipt hashes, rollback of processing state, orphan scheduling, legacy quarantine, terminal receipt no-op, incompatible/missing resources, a composite job/receipt FK and indexed recovery against 5,000 scheduled receipts. Runtime callbacks exercise the same inbox consumer.
+
 Regression tests cover mandatory current authorization on command replay, atomic concurrent command replay/body conflicts, abandoned pending commands, job registration conflicts, successful completion/replay, rollback of SQL effects, expired/late worker fences, retry exhaustion/deadlines/legacy jobs, stable outbox event IDs after uncertain receipt and quarantined failures. Actual PostgreSQL roles enforce transaction ownership and grants.
 
 Provider tests use a digest-pinned Moto 5.2.0 S3/KMS server and Inngest Dev Server 1.49.0 on an internal network with dummy credentials. They exercise real SDK uploads and encryption/version metadata, ambiguous PUT adoption, current-grant and mid-read revocation checks, complete version deletion, late-upload tombstone reconciliation, small/60,000-byte context-bound encrypted fields and tamper rejection, separate public configuration storage, actual workflow callback/replay, the bundled Linux worker's SIGTERM, queue refusal and successful/forced pool drain.
@@ -28,7 +30,7 @@ The first integration run exposed an admission-count defect and an insufficient 
 | Dev/stage | Additive 0015 applied, replay no-op, 15 app/two CMS with zero pending, credential files unchanged; stopped with retained volumes |
 | Documentation | All 119 cards, 137 original FR rows, dependency edges, source archives and historical approval sections preserved |
 
-The review/evidence commit repeated full exact-commit verification. A subsequent review adds a mandatory transaction-bound authorization callback before command receipt/replay and preserves 201/202 response semantics. One added regression brings the final suite to 281 cases; the final exact-commit run and CI are recorded on the PR before completion. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records the final tested SHA and independent GitHub CI. Local technical verification is complete; owner review and the original DD03/DD05 hosted adapter acceptance remain pending. These synthetic measurements do not establish production capacity, physical erasure timing or hosted RTO/RPO.
+The review/evidence commit repeated full exact-commit verification. A subsequent review adds a mandatory transaction-bound authorization callback before command receipt/replay and preserves 201/202 response semantics. The replay-authorization regression and four added inbox cases bring the final suite to 285 cases; the final exact-commit run and CI are recorded on the PR before completion. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records the final tested SHA and independent GitHub CI. Local technical verification is complete; owner review and the original DD03/DD05 hosted adapter acceptance remain pending. These synthetic measurements do not establish production capacity, physical erasure timing or hosted RTO/RPO.
 
 ## Scope limits
 

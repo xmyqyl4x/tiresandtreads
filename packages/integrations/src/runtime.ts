@@ -13,6 +13,7 @@ import { createReliabilityRepository } from '../../db/src/repositories/reliabili
 import { createCapabilityRepository } from '../../db/src/repositories/capabilities.ts';
 import { createDurability } from '../../application/src/services/durability.ts';
 import { createAssetService } from '../../application/src/services/assets.ts';
+import { createInboxDurability } from '../../application/src/services/inbox.ts';
 import { createPrivateObjects, createEnvelopeEncryption, createS3PublicReader } from './storage.ts';
 import { createWorkflows } from './workflows.ts';
 import type { JobInput, Telemetry } from '../../application/src/ports/jobs.ts';
@@ -104,17 +105,21 @@ export async function createRuntime(
       appId: 'tiresandtreads-' + config.appEnv,
       async run(jobId) {
         if (stopping) throw Error('Runtime stopping');
-        const r = await durability.runJob(jobId, async (tx, input) => {
+        const r = await durability.runJob(jobId, async (tx, input, lease) => {
           const handler =
             input.version === 1 && Object.hasOwn(handlers, input.type)
               ? handlers[input.type]
               : undefined;
-          return handler ? handler(tx, input) : fail(failure('invalid_input'));
+          const effect = () =>
+            handler ? handler(tx, input) : Promise.resolve(fail(failure('invalid_input')));
+          return input.type === 'inbox.process' ? inbox.apply(tx, lease, effect) : effect();
         });
         if (!r.ok) throw Error('Job deferred');
       },
       async reconcile() {
         if (stopping) throw Error('Runtime stopping');
+        const inboxRecovery = await inbox.reconcile();
+        if (!inboxRecovery.ok) throw Error('Runtime unavailable');
         const r = await privateScope.unitOfWork.run(async (tx) => {
           await relay.reconcile(tx);
           return ok(await jobs.reconcile(tx));
@@ -141,6 +146,11 @@ export async function createRuntime(
       authority: privateScope.unitOfWork,
       capabilities: createCapabilityRepository(privateScope),
     });
+    const inbox = createInboxDurability({
+      uow: privateScope.unitOfWork,
+      jobs,
+      reliability: outbox,
+    });
     return {
       metadata: Object.freeze({
         environment: config.appEnv,
@@ -150,6 +160,10 @@ export async function createRuntime(
       }),
       workflows,
       assets,
+      async receiveVerified(input: Parameters<typeof inbox.receive>[0]) {
+        if (stopping) throw Error('Runtime stopping');
+        return inbox.receive(input);
+      },
       encryption: createEnvelopeEncryption(kms, config.keyId),
       publicObjects: createS3PublicReader(s3, config.publicBucket),
       async enqueue(input: JobInput) {

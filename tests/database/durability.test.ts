@@ -1,12 +1,14 @@
 import { beforeAll, afterAll, it, expect } from 'vitest';
-import { privateFixture, uid, success, result } from '../fixtures/private/database.ts';
+import { privateFixture, uid, time, key, success, result } from '../fixtures/private/database.ts';
+import { createInboxDurability } from '../../packages/application/src/services/inbox.ts';
+import { inboxRecoveryQuery } from '../../packages/db/src/repositories/reliability.ts';
 import {
   createJobRepository,
   createRelayRepository,
   createCommandRepository,
 } from '../../packages/db/src/repositories/jobs.ts';
 import { createDurability } from '../../packages/application/src/services/durability.ts';
-import { ok, fail } from '../../packages/domain/src/values/core.ts';
+import { ok, fail, id } from '../../packages/domain/src/values/core.ts';
 import { failure } from '../../packages/application/src/ports/transactions.ts';
 let f: Awaited<ReturnType<typeof privateFixture>>;
 beforeAll(async () => {
@@ -286,4 +288,205 @@ it('DB08 relay uncertain receipt reuses event identity and fences stale acknowle
       .state,
   ).toBe('published');
   expect(JSON.stringify(events)).not.toContain('secret');
+});
+it('DB08 receipt, job and outbox commit atomically; duplicate and late delivery cannot repeat SQL effects', async () => {
+  const { jobs, service } = setup(),
+    inbox = createInboxDurability({ uow: f.scope.unitOfWork, jobs, reliability: f.reliability });
+  const input = {
+    provider: 'fixture',
+    eventId: uid('provider_event'),
+    digest: key().digest,
+    assetId: null,
+    receivedAt: time(-1000),
+    verifiedAt: time(),
+  };
+  const a = await inbox.receive(input),
+    b = await inbox.receive(input);
+  expect(a.ok && b.ok).toBe(true);
+  if (!a.ok || !a.value.jobId) throw Error('fixture');
+  expect(b).toEqual(a);
+  expect((await inbox.receive({ ...input, digest: key().digest })).ok).toBe(false);
+  let effects = 0;
+  const effect = async () => {
+    effects++;
+    return ok(undefined);
+  };
+  expect(
+    (await service.runJob(a.value.jobId, (tx, _input, lease) => inbox.apply(tx, lease, effect))).ok,
+  ).toBe(true);
+  expect(
+    (await service.runJob(a.value.jobId, (tx, _input, lease) => inbox.apply(tx, lease, effect))).ok,
+  ).toBe(true);
+  expect(effects).toBe(1);
+  const finished = await inbox.receive(input);
+  expect(finished.ok && finished.value.jobId === null).toBe(true);
+  const receipt = await success(f.scope.unitOfWork, (tx) =>
+    f.reliability.current(tx, a.value.receipt.id),
+  );
+  expect(receipt!.state).toBe('processed');
+});
+it('DB08 orphan receipt reconciliation schedules bounded work and SQL failure leaves no processing state', async () => {
+  const { jobs, service } = setup(),
+    inbox = createInboxDurability({ uow: f.scope.unitOfWork, jobs, reliability: f.reliability });
+  const receipt = await success(f.scope.unitOfWork, (tx) =>
+    f.reliability.receive(tx, {
+      provider: 'fixture',
+      eventId: uid('provider_event'),
+      digest: key().digest,
+      assetId: null,
+      receivedAt: time(-1000),
+      verifiedAt: time(),
+    }),
+  );
+  const recovered = await inbox.reconcile();
+  expect(recovered.ok).toBe(true);
+  if (!recovered.ok || !recovered.value[0]) throw Error('fixture');
+  const jobId = recovered.value[0];
+  expect(
+    (
+      await service.runJob(jobId, (tx, _input, lease) =>
+        inbox.apply(tx, lease, async () => fail(failure('unavailable'))),
+      )
+    ).ok,
+  ).toBe(false);
+  expect(
+    (await success(f.scope.unitOfWork, (tx) => f.reliability.current(tx, receipt.id)))!.state,
+  ).toBe('pending');
+  await f.admin.query('UPDATE app.job_runs SET next_attempt_at=clock_timestamp() WHERE id=$1', [
+    jobId,
+  ]);
+  expect(
+    (
+      await service.runJob(jobId, (tx, _input, lease) =>
+        inbox.apply(tx, lease, async () => ok(undefined)),
+      )
+    ).ok,
+  ).toBe(true);
+  expect(await inbox.reconcile()).toEqual(ok([]));
+});
+it('DB08 legacy processing is quarantined; missing or terminal receipts cannot cause a new effect', async () => {
+  const { jobs, service } = setup(),
+    inbox = createInboxDurability({ uow: f.scope.unitOfWork, jobs, reliability: f.reliability });
+  const input = {
+    provider: 'fixture',
+    eventId: uid('provider_event'),
+    digest: key().digest,
+    assetId: null,
+    receivedAt: time(-1000),
+    verifiedAt: time(),
+  };
+  const receipt = await success(f.scope.unitOfWork, (tx) => f.reliability.receive(tx, input));
+  await success(f.scope.unitOfWork, (tx) =>
+    f.reliability.process(tx, receipt.id, receipt.revision, 'processing'),
+  );
+  await inbox.reconcile();
+  expect(
+    (await success(f.scope.unitOfWork, (tx) => f.reliability.current(tx, receipt.id)))!.state,
+  ).toBe('quarantined');
+  expect((await inbox.receive(input)).ok).toBe(true);
+  const resource = id('resource', receipt.id);
+  if (!resource.ok) throw Error('fixture');
+  for (const state of ['processed', 'quarantined']) {
+    const terminal = await inbox.receive({ ...input, eventId: uid('provider_event') });
+    if (!terminal.ok || !terminal.value.jobId) throw Error('fixture');
+    await f.admin.query('UPDATE app.webhook_inbox SET state=$2 WHERE id=$1', [
+      terminal.value.receipt.id,
+      state,
+    ]);
+    const duplicate = terminal.value.jobId;
+    expect(
+      (
+        await service.runJob(duplicate, (tx, _input, lease) =>
+          inbox.apply(tx, lease, async () => {
+            throw Error('must not repeat');
+          }),
+        )
+      ).ok,
+    ).toBe(true);
+  }
+  const incompatible = await success(f.scope.unitOfWork, (tx) =>
+    jobs.register(tx, {
+      type: 'inbox.process',
+      businessKey: uid('key'),
+      version: 2,
+      resourceId: resource.value,
+    }),
+  );
+  expect(
+    (
+      await service.runJob(incompatible, (tx, _input, lease) =>
+        inbox.apply(tx, lease, async () => {
+          throw Error('must not run');
+        }),
+      )
+    ).ok,
+  ).toBe(false);
+  const missing = await success(f.scope.unitOfWork, (tx) =>
+    jobs.register(tx, {
+      type: 'inbox.process',
+      businessKey: uid('key'),
+      version: 1,
+      resourceId: uid('resource'),
+    }),
+  );
+  expect(
+    (
+      await service.runJob(missing, (tx, _input, lease) =>
+        inbox.apply(tx, lease, async () => {
+          throw Error('must not run');
+        }),
+      )
+    ).ok,
+  ).toBe(false);
+});
+it('DB08 receipt/job bindings reject cross-resource reassignment and indexed recovery skips a scheduled backlog', async () => {
+  await f.admin.query(
+    "INSERT INTO app.webhook_inbox(provider,provider_event_id,payload_digest,received_at,signature_verified_at) SELECT 'backlog',n::text,decode(repeat('ab',32),'hex'),now(),now() FROM generate_series(1,5000)n",
+  );
+  await f.admin.query(
+    "INSERT INTO app.job_runs(job_type,business_key,schema_version,resource_id) SELECT 'inbox.process',id::text,1,id FROM app.webhook_inbox WHERE provider='backlog'",
+  );
+  await f.admin.query(
+    "UPDATE app.webhook_inbox i SET job_id=j.id FROM app.job_runs j WHERE i.provider='backlog' AND j.job_type='inbox.process' AND j.resource_id=i.id",
+  );
+  const receipt = await success(f.scope.unitOfWork, (tx) =>
+    f.reliability.receive(tx, {
+      provider: 'fixture',
+      eventId: uid('provider_event'),
+      digest: key().digest,
+      assetId: null,
+      receivedAt: time(-1000),
+      verifiedAt: time(),
+    }),
+  );
+  const wrong = (
+    await f.admin.query("SELECT id FROM app.job_runs WHERE job_type='inbox.process' LIMIT 1")
+  ).rows[0].id;
+  await expect(
+    f.admin.query('UPDATE app.webhook_inbox SET job_id=$2 WHERE id=$1', [receipt.id, wrong]),
+  ).rejects.toMatchObject({ code: '23503', constraint: 'webhook_inbox_job_fk' });
+  await f.admin.query('ANALYZE app.webhook_inbox');
+  const plan = (await f.admin.query('EXPLAIN (ANALYZE,BUFFERS,FORMAT JSON) ' + inboxRecoveryQuery))
+    .rows[0]['QUERY PLAN'][0];
+  expect(JSON.stringify(plan)).toContain('webhook_inbox_unqueued_idx');
+  expect(
+    (await success(f.scope.unitOfWork, (tx) => f.reliability.unscheduled(tx))).map((x) => x.id),
+  ).toEqual([receipt.id]);
+  console.log(
+    'INBOX_RECOVERY_EVIDENCE',
+    JSON.stringify({
+      scheduledBacklog: 5000,
+      unqueued: 1,
+      maxCandidateRows: 8,
+      maxReturned: 4,
+      indexed: true,
+      executionMs: plan['Execution Time'],
+    }),
+  );
+  const { jobs } = setup(),
+    inbox = createInboxDurability({ uow: f.scope.unitOfWork, jobs, reliability: f.reliability });
+  expect((await inbox.reconcile()).ok).toBe(true);
+  await expect(
+    f.admin.query('UPDATE app.webhook_inbox SET job_id=$2 WHERE id=$1', [receipt.id, wrong]),
+  ).rejects.toMatchObject({ code: '23514' });
 });

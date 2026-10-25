@@ -2197,6 +2197,7 @@ export const appWebhookInbox = app.table('webhook_inbox', {
     .notNull()
     .default(sql.raw('now()')),
   revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  job_id: uuid('job_id'),
 });
 export type AppWebhookInboxRow = typeof appWebhookInbox.$inferSelect;
 export type AppWebhookInboxInsert = typeof appWebhookInbox.$inferInsert;

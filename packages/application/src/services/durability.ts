@@ -10,6 +10,7 @@ import type {
   RelayRepository,
   Telemetry,
   JobInput,
+  JobLease,
 } from '../ports/jobs.ts';
 
 export function createDurability(deps: {
@@ -49,6 +50,7 @@ export function createDurability(deps: {
       effect: (
         tx: TransactionContext,
         input: JobInput,
+        lease: JobLease,
       ) => Promise<Result<void, ApplicationFailure>>,
     ) {
       const claimed = await uow.run(async (tx) => ok(await jobs.lease(tx, id)));
@@ -56,7 +58,7 @@ export function createDurability(deps: {
       const lease = claimed.value;
       const result = await uow.run(async (tx) => {
         await jobs.fence(tx, lease);
-        const applied = await effect(tx, lease.input);
+        const applied = await effect(tx, lease.input, lease);
         if (!applied.ok) return applied;
         await jobs.complete(tx, lease);
         return ok(null);
