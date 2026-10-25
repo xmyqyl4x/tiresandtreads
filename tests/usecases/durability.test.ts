@@ -121,10 +121,38 @@ it('replays a completed command response without invoking its effect', async () 
       bodyHash: 'c'.repeat(64),
       canonicalVersion: 1,
     };
-  expect(await f.service.command(command, async () => response)).toEqual(ok(response));
+  expect(
+    await f.service.command(
+      command,
+      async () => ok(undefined),
+      async () => response,
+    ),
+  ).toEqual(ok(response));
   expect(f.commands.complete).toHaveBeenCalledWith(tx, command, response);
   vi.mocked(f.commands.claim).mockResolvedValue(response);
   const effect = vi.fn();
-  expect(await f.service.command(command, effect)).toEqual(ok(response));
+  expect(await f.service.command(command, async () => ok(undefined), effect)).toEqual(ok(response));
   expect(effect).not.toHaveBeenCalled();
+});
+it('requires current authorization before returning a completed command response', async () => {
+  const f = fixture(),
+    response = {
+      schema_version: 1 as const,
+      resource_id: identifier('resource'),
+      status: 'created' as const,
+    };
+  vi.mocked(f.commands.claim).mockResolvedValue(response);
+  const denied = await f.service.command(
+    {
+      actorHash: 'a'.repeat(64),
+      operation: 'fixture',
+      keyHash: 'b'.repeat(64),
+      bodyHash: 'c'.repeat(64),
+      canonicalVersion: 1,
+    },
+    async () => fail(failure('forbidden')),
+    vi.fn(),
+  );
+  expect(denied).toEqual(fail(failure('forbidden')));
+  expect(f.commands.claim).not.toHaveBeenCalled();
 });

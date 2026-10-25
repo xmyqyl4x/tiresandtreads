@@ -71,9 +71,12 @@ export function createDurability(deps: {
     },
     async command(
       input: CommandIdentity,
+      authorize: (tx: TransactionContext) => Promise<Result<void, ApplicationFailure>>,
       effect: (tx: TransactionContext) => Promise<CommandResponse>,
     ) {
       return uow.run(async (tx) => {
+        const permission = await authorize(tx);
+        if (!permission.ok) return permission;
         const previous = await commands.claim(tx, input);
         if (previous) return ok(previous);
         const response = await effect(tx);

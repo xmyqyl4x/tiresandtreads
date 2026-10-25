@@ -60,13 +60,31 @@ it('DB08 atomically commits one command effect across concurrent retries and rej
     return { schema_version: 1 as const, resource_id: uid('resource'), status: 'created' as const };
   };
   const [a, b] = await Promise.all([
-    service.command(identity, effect),
-    service.command(identity, effect),
+    service.command(identity, async () => ok(undefined), effect),
+    service.command(identity, async () => ok(undefined), effect),
   ]);
   expect(a.ok && b.ok).toBe(true);
   expect(a).toEqual(b);
   expect(calls).toBe(1);
-  expect((await service.command({ ...identity, bodyHash: 'd'.repeat(64) }, effect)).ok).toBe(false);
+  expect(
+    (
+      await f.admin.query(
+        "SELECT result_status FROM app.idempotency_requests WHERE operation='fixture.create'",
+      )
+    ).rows[0].result_status,
+  ).toBe(201);
+  const denied = await service.command(identity, async () => fail(failure('forbidden')), effect);
+  expect(denied).toEqual(fail(failure('forbidden')));
+  expect(calls).toBe(1);
+  expect(
+    (
+      await service.command(
+        { ...identity, bodyHash: 'd'.repeat(64) },
+        async () => ok(undefined),
+        effect,
+      )
+    ).ok,
+  ).toBe(false);
   expect(calls).toBe(1);
 });
 it('DB08 command crash rolls back its pending identity; committed pending identities fail closed', async () => {
@@ -80,17 +98,25 @@ it('DB08 command crash rolls back its pending identity; committed pending identi
     };
   expect(
     (
-      await service.command(identity, async () => {
-        throw Error('secret');
-      })
+      await service.command(
+        identity,
+        async () => ok(undefined),
+        async () => {
+          throw Error('secret');
+        },
+      )
     ).ok,
   ).toBe(false);
   await success(f.scope.unitOfWork, (tx) => commands.claim(tx, identity));
   expect(
     (
-      await service.command(identity, async () => {
-        throw Error('must not run');
-      })
+      await service.command(
+        identity,
+        async () => ok(undefined),
+        async () => {
+          throw Error('must not run');
+        },
+      )
     ).ok,
   ).toBe(false);
 });

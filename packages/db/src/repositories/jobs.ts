@@ -184,8 +184,8 @@ export function createCommandRepository(scope: WriteScope): CommandRepository {
         (
           await q(
             tx,
-            `UPDATE app.idempotency_requests SET state='completed',resource_kind='resource',resource_id=$6,result_status=200,safe_response=$7,updated_at=clock_timestamp(),revision=revision+1 WHERE actor_scope_hash=$1 AND operation=$2 AND key_hash=$3 AND body_hash=$4 AND canonical_version=$5 AND state='pending' AND expires_at>clock_timestamp() RETURNING id`,
-            [...k, r.resource_id, jsonObject(r, 1024)],
+            `UPDATE app.idempotency_requests SET state='completed',resource_kind='resource',resource_id=$6,result_status=$8,safe_response=$7,updated_at=clock_timestamp(),revision=revision+1 WHERE actor_scope_hash=$1 AND operation=$2 AND key_hash=$3 AND body_hash=$4 AND canonical_version=$5 AND state='pending' AND expires_at>clock_timestamp() RETURNING id`,
+            [...k, r.resource_id, jsonObject(r, 1024), r.status === 'created' ? 201 : 202],
           )
         ).rows,
       );
