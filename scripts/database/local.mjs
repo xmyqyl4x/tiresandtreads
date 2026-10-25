@@ -22,6 +22,11 @@ const roles = [
   'tt_ingest_runtime',
   'tt_publish_runtime',
   'tt_private_runtime',
+  'tt_content_runtime',
+  'tt_public_runtime',
+  'tt_analytics_runtime',
+  'tt_limiter_runtime',
+  'tt_operations_runtime',
   'tt_cms_migrator',
   'tt_cms_runtime',
 ];
@@ -41,9 +46,17 @@ if (action === 'bootstrap') {
   const expanded = addRoleCredentials(
     existing,
     keys,
-    ['TT_CATALOG_RUNTIME', 'TT_INGEST_RUNTIME', 'TT_PUBLISH_RUNTIME', 'TT_PRIVATE_RUNTIME'].map(
-      (role) => `DB_PASSWORD_${role}`,
-    ),
+    [
+      'TT_CATALOG_RUNTIME',
+      'TT_INGEST_RUNTIME',
+      'TT_PUBLISH_RUNTIME',
+      'TT_PRIVATE_RUNTIME',
+      'TT_CONTENT_RUNTIME',
+      'TT_PUBLIC_RUNTIME',
+      'TT_ANALYTICS_RUNTIME',
+      'TT_LIMITER_RUNTIME',
+      'TT_OPERATIONS_RUNTIME',
+    ].map((role) => `DB_PASSWORD_${role}`),
     () => randomBytes(32).toString('hex'),
   );
   if (expanded !== existing) writeFileSync(credentialFile, expanded, { mode: 0o600 });

@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -236,7 +236,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Implement send/attempt/outbox/inbox and privacy/deletion graph persistence on one transaction client.
 - [x] Add revision checks, lock ordering, key rotation lookup and asset-grant projections.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-011-owner-report-delivery.md) and [validation evidence](../implementation/evidence/P1/p1-pr-011-validation.md). Real PostgreSQL tests cover scoped ownership/capabilities, immutable versions, exact money, identity rotation, consent revisions, delivery contention, transactional rollback and fenced reliability records. [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11) is in review; owner acceptance remains pending.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-011-owner-report-delivery.md) and [validation evidence](../implementation/evidence/P1/p1-pr-011-validation.md). Real PostgreSQL tests cover scoped ownership/capabilities, immutable versions, exact money, identity rotation, consent revisions, delivery contention, transactional rollback and fenced reliability records. [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11) was owner-approved and merged at `e94c7cd`.
 
 ### P1-PR-012
 
@@ -248,11 +248,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB16, DB17, DB18, DB19, DB27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement published-content bridge repositories, portable SQL/S3 public-config read adapters and safe staff/config/commercial projections.
-- [ ] Implement SQL event receipt, dirty-day generation, quota upserts and cleanup repositories.
-- [ ] Implement SEO/search/ad report projections with missing-versus-zero semantics and superseded-revision exclusion.
+- [x] Implement published-content bridge repositories, portable SQL/S3 public-config read adapters and safe staff/config/commercial projections.
+- [x] Implement SQL event receipt, dirty-day generation, quota upserts and cleanup repositories.
+- [x] Implement SEO/search/ad report projections with missing-versus-zero semantics and superseded-revision exclusion.
 
-**Verification and acceptance:** Permission/generation/quota contention tests and bounded query plans; dashboard roles cannot read contacts/raw private records.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-012-content-operations-analytics.md) and [validation evidence](../implementation/evidence/P1/p1-pr-012-validation.md). Real PostgreSQL permission/generation/quota contention, publication/cleanup and reporting cases pass; bounded configuration failure and indexed SEO pagination are proved. Implementation is in progress; owner acceptance remains pending.
 
 ### P1-PR-013
 

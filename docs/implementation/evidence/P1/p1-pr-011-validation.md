@@ -1,6 +1,6 @@
 # P1-PR-011 validation evidence
 
-**October 24, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #10 merge `18a264a7056c11f2b7a2fe90c8698337f20d3e3a`. See the [implementation packet](../../P1-PR-011-owner-report-delivery.md) for protocols and limits.
+**October 24, 2026 America/Los_Angeles · accepted after owner approval and merge.** Baseline: approved PR #10 merge `18a264a7056c11f2b7a2fe90c8698337f20d3e3a`. See the [implementation packet](../../P1-PR-011-owner-report-delivery.md) for protocols and limits.
 
 ## TDD and focused evidence
 
@@ -31,7 +31,7 @@
 
 Total: **214 passing tests**. Recovery elapsed 22696 ms including preparation; synthetic backup window 4626 ms. These are local proof measurements, not production RTO/RPO.
 
-The review-link/evidence commit repeats full exact-commit verification before push. [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11) records the final tested SHA and independent CI. Owner acceptance and the complete S2 gate at 013 remain pending.
+Final head `3f0e3a7a2501da1a6ec793a379af627d89c42ed5` passed full local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40122893512). The owner approved [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11), merged at `e94c7cd1f415e303193c546e8a8c7c3ca026e4d5`. P1-PR-011 is accepted; the complete S2 gate at 013 remains open.
 
 ## Remaining gates
 
