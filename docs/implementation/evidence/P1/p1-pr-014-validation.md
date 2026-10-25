@@ -33,7 +33,7 @@ The first integration run exposed an admission-count defect and an insufficient 
 
 A final SDK wire-format regression additionally preserves frozen resource version/revision separately from the event schema version, including a revision beyond JavaScript safe integer range. This adds one unit case (286 total); the JSON/table above identify the complete 285-case source snapshot, while the final PR records the verified wire-fix commit and its 286-case result.
 
-The evidence commit repeats full exact-commit verification before push. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records its final tested SHA and independent GitHub CI. Local technical verification is complete; owner review and the original DD03/DD05 hosted adapter acceptance remain pending. Synthetic timings do not establish production capacity, physical erasure timing or hosted RTO/RPO.
+The evidence commit repeats full exact-commit verification before push. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records its final tested SHA and independent GitHub CI. Local technical verification and owner review are accepted in merged PR #14; the original DD03/DD05 hosted adapter acceptance remains pending. Synthetic timings do not establish production capacity, physical erasure timing or hosted RTO/RPO.
 
 ## Scope limits
 

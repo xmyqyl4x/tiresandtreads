@@ -1,0 +1,99 @@
+{
+  "sourceCommit": "942e60023d01ba7f41c64e91688ab77e7882c64f",
+  "verifiedAt": "2026-10-25T21:14:49.880Z",
+  "tests": {
+    "unitAndUsecase": 136,
+    "database": 94,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 310
+  },
+  "coverage": {
+    "statements": 92.14,
+    "branches": 88.03,
+    "functions": 98.13,
+    "lines": 96.29
+  },
+  "storageParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appColumns": 1577,
+    "cmsTables": 28,
+    "appMigrations": 17,
+    "cmsMigrations": 2
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-90119b8b3e1d8c54",
+  "appImageId": "81448f4dea5541408bcccc82dc9e4df5eaa087cb2f530755602146c6ad2c2820",
+  "lifecycle": {
+    "stopMs": 673,
+    "exitCode": 143,
+    "appMemory": "50.64MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "87.98MiB / 512MiB",
+    "postgresCpu": "0.04%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-5530b29f225cf6a2",
+    "elapsedMs": 24855,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 836,
+    "backupWindowMs": 4067,
+    "tables": {
+      "app": 123,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "c486299dc0ecd3199879a82a2e7c6e23795ac51de9acd77ff5af2e7ae8dbd067",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 621281,
+      "cms": 194205
+    },
+    "backupSha256": {
+      "app": "926c68b4f7c38ea1c1ecbf42b14ccbad6667fcf8b537bc3f85fa6bd449754c72",
+      "cms": "494217254077c1e258ce0773ece5815d54e3c50d052d7c6dc49b43fa8cfd5d74"
+    },
+    "migrations": {
+      "app": 17,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "retainedEnvironments": {
+    "dev": {
+      "appMigrations": 17,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true,
+      "stopped": true
+    },
+    "stage": {
+      "appMigrations": 17,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true,
+      "stopped": true
+    }
+  },
+  "acceptanceLimits": [
+    "Synthetic normalized snapshots only; real connector completeness/rights/provider selection remains 016",
+    "No hosted activation; DD03/DD05 provider proofs remain pending",
+    "Safety rollback refuses changed recall components; overlay/AI invalidation consumers remain later services",
+    "No product API/frontend or live-phase release"
+  ]
+}

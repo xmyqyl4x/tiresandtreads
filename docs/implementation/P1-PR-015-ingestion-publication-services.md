@@ -1,6 +1,6 @@
 # P1-PR-015 — Script-first ingestion and publication services
 
-**October 25, 2026 · implementation in progress.** Baseline: owner-approved [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14), merged at `969235fe712ea4989602c8908bc63ad9ca9bcf7a`. Implements the [015 card](../tasks/phase-1-prs.md#p1-pr-015), S3/E05/E36 and service portions of CAP-04/UC13/AT22/DB22. The four live phases, PostgreSQL consolidation, option-C deployment and S4-before-frontend gate remain unchanged.
+**October 25, 2026 · local implementation verified; owner review pending.** Baseline: owner-approved [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14), merged at `969235fe712ea4989602c8908bc63ad9ca9bcf7a`. Implements the [015 card](../tasks/phase-1-prs.md#p1-pr-015), S3/E05/E36 and service portions of CAP-04/UC13/AT22/DB22. The four live phases, PostgreSQL consolidation, option-C deployment and S4-before-frontend gate remain unchanged.
 
 ## Service and adapter boundaries
 
@@ -45,4 +45,4 @@ Rollback requires **identical recall-bearing dataset IDs** in current and target
 
 Additive migration `0017_import_services` grants the publisher only the outbox receipt columns needed for replay and adds an accepted-staging diff index. No table, column, view, role or CMS migration changes: 123 application tables, 39 views, 1,577 columns; 28 CMS tables; 17 application/two CMS migrations. Earlier migration bytes and generated model declarations remain unchanged.
 
-Verification is recorded after the real PostgreSQL, process CLI, quality, coverage, recovery and exact-commit checks pass. Real source/provider selection remains deferred to its necessary 016 decision trigger. DD03/DD05 hosted workflow/storage proofs remain pending independently of local PR #14 approval. No paid provider, live source ingestion, frontend, HTTP product API or production deployment is activated here.
+[Validation evidence](evidence/P1/p1-pr-015-validation.md) and the [redacted verification record](evidence/P1/p1-pr-015-verification.json) record 310 passing tests plus real PostgreSQL/process CLI, quality, coverage, recovery and exact-commit proofs. [PR #15](https://github.com/xmyqyl4x/tiresandtreads/pull/15) remains open for owner review. Real source/provider selection remains deferred to its necessary 016 decision trigger. DD03/DD05 hosted workflow/storage proofs remain pending independently of local PR #14 approval. No paid provider, live source ingestion, frontend, HTTP product API or production deployment is activated here.
