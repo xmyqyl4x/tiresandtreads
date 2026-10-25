@@ -40,7 +40,9 @@ export function createWorkflows(options: {
             data: {
               resource_id: e.payload.resource_id,
               resource_kind: e.payload.resource_kind,
-              version: e.version,
+              ...(e.payload.version === undefined ? {} : { version: e.payload.version }),
+              ...(e.payload.revision === undefined ? {} : { revision: e.payload.revision }),
+              schema_version: e.version,
             },
           });
         }),
