@@ -37,7 +37,7 @@ export const goldenScenarios: readonly GoldenScenario[] = [
   {
     name: 'Expired regional guidance prevents verified eligibility',
     change: (f) => {
-      f.snapshot.sources[5]!.validUntil = f.snapshot.asOf;
+      f.snapshot.sources[4]!.validUntil = f.snapshot.asOf;
     },
     status: 'unverified',
     reason: 'SOURCE_UNAVAILABLE',

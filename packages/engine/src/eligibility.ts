@@ -30,9 +30,14 @@ export function eligibility(input: AssessmentInput, snapshot: EngineSnapshot, pl
   };
   const fit = snapshot.fitment,
     policy = snapshot.policy;
-  if (!policy.reviewed || !current(snapshot.asOf, policy.reviewDueAt, snapshot.asOf))
+  if (
+    !policy.reviewed ||
+    !policy.reviewedBy ||
+    !id('staff', policy.reviewedBy).ok ||
+    !policy.reviewedAt ||
+    !current(policy.reviewedAt, policy.reviewDueAt, snapshot.asOf)
+  )
     add('POLICY_REVIEW_REQUIRED');
-  if (!sourceUsable(snapshot, policy.sourceId, 'policy')) add('SOURCE_UNAVAILABLE');
   if (input.regionKey !== policy.regionKey) add('REGIONAL_POLICY_UNCONFIRMED');
   if (
     !sourceUsable(snapshot, policy.climateSourceId, 'climate') ||
@@ -50,7 +55,7 @@ export function eligibility(input: AssessmentInput, snapshot: EngineSnapshot, pl
     (r) => r.strategy === input.strategy && r.winterUse === input.winterUse,
   );
   if (seasonal.length !== 1) add('SEASONAL_POLICY_UNKNOWN');
-  const refs = new Set([policy.sourceId, snapshot.recall.datasetId]),
+  const refs = new Set([snapshot.recall.datasetId]),
     recallRefs = new Set<string>();
   refs.add(policy.climateSourceId);
   refs.add(policy.marketRulesSourceId);

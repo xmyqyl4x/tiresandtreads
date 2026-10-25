@@ -37,7 +37,7 @@ export interface Source {
   readonly providerId: string;
   readonly licenseId: string;
   readonly market: 'US';
-  readonly kind: 'fitment' | 'catalog' | 'recall' | 'policy' | 'climate' | 'market_rules';
+  readonly kind: 'fitment' | 'catalog' | 'recall' | 'climate' | 'market_rules';
   readonly fetchedAt: string;
   readonly validUntil: string;
   readonly rights: Readonly<Record<'display' | 'api' | 'derived' | 'cache' | 'snapshot', boolean>>;
@@ -134,13 +134,15 @@ export interface Plan {
   }> | null;
 }
 export interface RulePolicy {
+  readonly id: string; // Existing app.rule_versions UUID, separate from dataset identities.
   readonly regionKey: string;
   readonly climateSourceId: string;
   readonly marketRulesSourceId: string;
   readonly version: string;
   readonly scoringVersion: string;
-  readonly sourceId: string;
   readonly reviewed: boolean;
+  readonly reviewedBy: string | null;
+  readonly reviewedAt: string | null;
   readonly reviewDueAt: string;
   readonly seasonal: readonly Readonly<{
     strategy: Strategy;
@@ -216,6 +218,7 @@ export interface EngineResult {
   readonly purpose: 'technical_evaluation';
   readonly issuanceAuthorized: false;
   readonly versions: Readonly<{
+    ruleVersionId: string;
     engine: '1.0.0';
     schema: 1;
     bundleId: string;

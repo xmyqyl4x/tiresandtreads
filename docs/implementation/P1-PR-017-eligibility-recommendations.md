@@ -12,6 +12,8 @@
 
 `createRecommendationService({evidence, now}).assess(rawInput)` is the channel-neutral application entry point. It normalizes once, supplies one explicit clock value to a trusted server resolver, rejects inconsistent snapshot time/policy and safely propagates resolver failure. The resolver is an application port, not an endpoint accepting client-authored fitment, source approvals, recall clearance, scores or inspection claims. The later **019 report/refine/compare service** must implement that resolver over the accepted catalog repositories, bind tenant-authorized inspection records, verify actual policy approval, recheck current source/recall health and pin the report snapshot. No production resolver or product HTTP adapter is fabricated in 017. Future web, app and MCP adapters call the same application services.
 
+Policy identity is the existing `app.rule_versions.id`, with its version, reviewer and review timestamp plus the document's review deadline. It is pinned separately from licensed datasets. The engine does not create a duplicate policy feed or a second policy-approval store; the trusted resolver must verify the actual published row and review authority.
+
 ## Eligibility and unknowns
 
 | Concern | Implemented decision |

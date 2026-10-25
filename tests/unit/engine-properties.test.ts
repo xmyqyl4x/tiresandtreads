@@ -102,6 +102,9 @@ it('returns the actual supported count from zero to ten and caps each shortlist 
 it('bounds candidate and evidence work and refuses invalid identities or scoring contracts', () => {
   const changes: ((s: EngineFixture['snapshot']) => void)[] = [
     (s) => {
+      s.policy.id = 'bad';
+    },
+    (s) => {
       s.asOf = 'bad';
     },
     (s) => {
@@ -193,6 +196,18 @@ it('bounds candidate and evidence work and refuses invalid identities or scoring
 });
 it('handles incomplete inputs and invalid evidence without inventing a safety pass or a metric', () => {
   const changes: ((f: EngineFixture) => void)[] = [
+    (f) => {
+      f.snapshot.policy.reviewedBy = null;
+    },
+    (f) => {
+      f.snapshot.policy.reviewedBy = 'bad';
+    },
+    (f) => {
+      f.snapshot.policy.reviewedAt = null;
+    },
+    (f) => {
+      f.snapshot.policy.reviewedAt = '2099-01-01T00:00:00.000Z';
+    },
     (f) => {
       f.snapshot.fitment = null;
     },

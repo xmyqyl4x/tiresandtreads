@@ -15,6 +15,7 @@ export function evaluate(input: AssessmentInput, snapshot: EngineSnapshot) {
   if (
     !instant(snapshot.asOf).ok ||
     !id('bundle', snapshot.bundleId).ok ||
+    !id('rule_version', snapshot.policy.id).ok ||
     snapshot.plans.length > 1000 ||
     snapshot.plans.some(
       (p) =>
@@ -103,6 +104,7 @@ export function evaluate(input: AssessmentInput, snapshot: EngineSnapshot) {
     purpose: 'technical_evaluation',
     issuanceAuthorized: false,
     versions: Object.freeze({
+      ruleVersionId: snapshot.policy.id,
       engine: '1.0.0',
       schema: 1,
       bundleId: snapshot.bundleId,

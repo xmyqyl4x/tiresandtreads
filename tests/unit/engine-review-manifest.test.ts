@@ -22,6 +22,7 @@ it('keeps the pending specialist packet tied to authored inputs, versions and ex
       name: s.name,
       fixtureSha256: hash,
       engineVersion: '1.0.0',
+      ruleVersionId: f.snapshot.policy.id,
       policyVersion: f.snapshot.policy.version,
       scoringVersion: f.snapshot.policy.scoringVersion,
       specialistReview: { status: 'pending', reviewer: null, reviewedAt: null },

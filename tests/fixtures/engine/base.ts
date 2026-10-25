@@ -19,26 +19,34 @@ export function engineFixture() {
   const snapshot: Mutable<EngineSnapshot> = {
     bundleId: uuid(1),
     asOf,
-    sources: (['fitment', 'catalog', 'recall', 'policy', 'climate', 'market_rules'] as const).map(
-      (kind, i) => ({
-        datasetId: uuid(i + 2),
-        providerId: uuid(20 + i),
-        licenseId: uuid(30 + i),
-        market: 'US',
-        kind,
-        fetchedAt: from,
-        validUntil: until,
-        rights: { display: true, api: true, derived: true, cache: true, snapshot: true },
-      }),
-    ),
+    sources: (
+      [
+        ['fitment', 2],
+        ['catalog', 3],
+        ['recall', 4],
+        ['climate', 6],
+        ['market_rules', 7],
+      ] as const
+    ).map(([kind, n]) => ({
+      datasetId: uuid(n),
+      providerId: uuid(20 + n),
+      licenseId: uuid(30 + n),
+      market: 'US',
+      kind,
+      fetchedAt: from,
+      validUntil: until,
+      rights: { display: true, api: true, derived: true, cache: true, snapshot: true },
+    })),
     policy: {
+      id: uuid(5),
       regionKey: 'SYNTHETIC_US',
       climateSourceId: uuid(6),
       marketRulesSourceId: uuid(7),
       version: 'synthetic-rules-1',
       scoringVersion: 'synthetic-minimum-axle-1',
-      sourceId: uuid(5),
       reviewed: true,
+      reviewedBy: uuid(60),
+      reviewedAt: from,
       reviewDueAt: until,
       weights: { wet: 50, comfort: 50 },
       comparisonKeys: {
