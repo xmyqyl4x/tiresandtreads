@@ -1,6 +1,6 @@
 # P1-PR-013 — Full S2 entities and data-access validation gate
 
-**October 25, 2026 · in progress; owner S2 acceptance pending.** Implementer: Codex. Acceptance owner: repository owner. Baseline: owner-approved [PR #12](https://github.com/xmyqyl4x/tiresandtreads/pull/12), merged at `4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce`. This implements the [013 card](../tasks/phase-1-prs.md#p1-pr-013), E04/ENG-03/ENG-04/ENG-05, following accepted 008–012. Dependent S3 work starts after owner acceptance of this gate.
+**October 25, 2026 · in review; owner S2 acceptance pending.** Review: [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13). Implementer: Codex. Acceptance owner: repository owner. Baseline: owner-approved [PR #12](https://github.com/xmyqyl4x/tiresandtreads/pull/12), merged at `4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce`. This implements the [013 card](../tasks/phase-1-prs.md#p1-pr-013), E04/ENG-03/ENG-04/ENG-05, following accepted 008–012. Dependent S3 work starts after owner acceptance of this gate.
 
 ## Gate scope and result
 
