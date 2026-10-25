@@ -1,6 +1,6 @@
 {
-  "sourceCommit": "0f46e022a2af0fd0bf834a6101612d4c65d5e1bd",
-  "verifiedAt": "2026-10-25T19:44:45.370Z",
+  "sourceCommit": "4ed37e20ce7658f8b128f15d56341065a0fd0aba",
+  "verifiedAt": "2026-10-25T20:06:17.610Z",
   "runtime": {
     "node": "24.22.1",
     "postgresql": "18.6",
@@ -12,49 +12,57 @@
     "inngestDevServer": "1.49.0-28cb5336b"
   },
   "tests": {
-    "unitAndUsecase": 121,
-    "database": 79,
+    "unitAndUsecase": 122,
+    "database": 83,
     "foundation": 6,
     "schema": 63,
     "recovery": 11,
-    "total": 280
+    "total": 285
   },
   "storageParity": {
     "appTables": 123,
     "appViews": 39,
-    "appColumns": 1576,
+    "appColumns": 1577,
     "cmsTables": 28
   },
+  "inboxRecovery": {
+    "scheduledBacklog": 5000,
+    "unqueued": 1,
+    "maxCandidateRows": 8,
+    "maxReturned": 4,
+    "indexed": true,
+    "executionMs": 0.639
+  },
   "coverage": {
-    "statements": 92.05,
-    "branches": 87.19,
-    "functions": 97.83,
-    "lines": 96.56
+    "statements": 92.08,
+    "branches": 87.16,
+    "functions": 97.89,
+    "lines": 96.66
   },
   "failureGates": 7,
-  "mainProject": "tt-test-941daab4b7397d3b",
-  "appImageId": "c3941d77bc0e7a4c9c3d091e4ac4cadef1c9dded8e4a69477543032699f2a832",
+  "mainProject": "tt-test-cf9445ecccc46061",
+  "appImageId": "a7173413a05f99d83fd97c5d40f9aa7585167ef0855e80cec071e1984a10fa93",
   "lifecycle": {
-    "stopMs": 659,
+    "stopMs": 684,
     "exitCode": 143,
-    "appMemory": "50.79MiB / 768MiB",
+    "appMemory": "51.12MiB / 768MiB",
     "appCpu": "0.00%",
-    "postgresMemory": "85.83MiB / 512MiB",
-    "postgresCpu": "0.03%",
+    "postgresMemory": "87.64MiB / 512MiB",
+    "postgresCpu": "4.45%",
     "invalidHostedConfig": "rejected",
     "workerBundleStartup": "validated in production image without workspace dependencies",
     "scope": "idle headless host; DB pool drain measured separately"
   },
   "retainedEnvironments": {
     "dev": {
-      "appMigrations": 15,
+      "appMigrations": 16,
       "cmsMigrations": 2,
       "pending": 0,
       "credentialFileUnchanged": true,
       "stopped": true
     },
     "stage": {
-      "appMigrations": 15,
+      "appMigrations": 16,
       "cmsMigrations": 2,
       "pending": 0,
       "credentialFileUnchanged": true,
@@ -63,30 +71,30 @@
   },
   "hostedAcceptance": "DD03/DD05 still open; local fixtures do not satisfy cloud acceptance",
   "recovery": {
-    "project": "tt-test-0b98cf1dbe039e3f",
-    "elapsedMs": 22410,
+    "project": "tt-test-2e167a18ee49c3dd",
+    "elapsedMs": 24238,
     "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
     "status": "passed",
-    "checksMs": 639,
-    "backupWindowMs": 3971,
+    "checksMs": 631,
+    "backupWindowMs": 3895,
     "tables": {
       "app": 123,
       "cms": 28
     },
     "inventorySha256": {
-      "app": "dc6d20bd88d5ebb90de9d079075e5470e71bf242f9a503fd6ef50dc5c1518bde",
+      "app": "9d0d8c6f10795d9c1af840c565cb38b45bac00c9fd498a8d310cf36f655597e1",
       "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
     },
     "backupBytes": {
-      "app": 616882,
-      "cms": 194207
+      "app": 619922,
+      "cms": 194205
     },
     "backupSha256": {
-      "app": "82acac9332302a152ecc712c86a6972cd6aa6f744e758d348b887ba29682bab7",
-      "cms": "8280cebd21f7a9665653c3fc685fd586b0141c13b0b1c1f9a12d1e707ad091cd"
+      "app": "92e4bfdedeb0799d5c95de4508432fb4ed0e3f4180655258617c1964dab619e4",
+      "cms": "730d3d2245874f5f29978b3616e597ac03ddb607fb8fdd10d2b181a6e543decd"
     },
     "migrations": {
-      "app": 15,
+      "app": 16,
       "cms": 2
     },
     "failures": [

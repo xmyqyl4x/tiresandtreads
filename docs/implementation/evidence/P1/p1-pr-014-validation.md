@@ -14,23 +14,24 @@ The first integration run exposed an admission-count defect and an insufficient 
 
 ## Final verification
 
-`pnpm verify:push` passed on implementation commit `0f46e022a2af0fd0bf834a6101612d4c65d5e1bd` with pinned Linux containers. Main project `tt-test-941daab4b7397d3b` and separate recovery project `tt-test-0b98cf1dbe039e3f` were removed, including provider fixtures and disposable volumes. [Redacted verification record](p1-pr-014-verification.json) retains hashes, counts, lifecycle and recovery timings.
+`pnpm verify:push` passed on implementation commit `4ed37e20ce7658f8b128f15d56341065a0fd0aba`, including the required authorization-on-replay and inbox recovery additions. Main project `tt-test-cf9445ecccc46061` and separate recovery project `tt-test-2e167a18ee49c3dd` were removed, including provider fixtures and disposable volumes. The [redacted verification record](p1-pr-014-verification.json) retains source/image hashes, counts, indexed inbox evidence, lifecycle and recovery timings.
 
 | Check | Observed result |
 | --- | --- |
-| Unit/use-case | 121 passed |
-| Database/provider | 79 passed, including seven new durability and seven runtime/provider cases |
+| Unit/use-case | 122 passed |
+| Database/provider | 83 passed, including 11 durability and seven runtime/provider cases |
 | Foundation/schema/recovery | Six / 63 / 11 passed |
-| Total | **280 passing tests** |
-| Coverage | 96.56% lines, 92.05% statements, 97.83% functions, 87.19% branches; existing thresholds unchanged |
-| SQL/model parity | 15 app/two CMS migration checksums; 123 app tables, 39 app views, 1,576 app columns and 28 CMS tables |
-| Provider contracts | Real Inngest callback/reconciliation and Moto S3/KMS SDK requests pass; no external cloud activation |
-| Worker packaging/lifecycle | Bundled worker imports in the actual runner without workspace dependencies and rejects hosted fixture configuration; a valid bundled Linux worker exits zero on SIGTERM; bounded checkout overflow, successful query drain and forced cleanup pass |
-| Full gates | Frozen install, advisory audit, quality, seven deliberate failure gates, health-only web HTTP/restart and separate backup/restore/deletion replay pass |
-| Dev/stage | Additive 0015 applied, replay no-op, 15 app/two CMS with zero pending, credential files unchanged; stopped with retained volumes |
-| Documentation | All 119 cards, 137 original FR rows, dependency edges, source archives and historical approval sections preserved |
+| Total | **285 passing tests** |
+| Coverage | 96.66% lines, 92.08% statements, 97.89% functions, 87.16% branches; existing thresholds unchanged |
+| SQL/model parity | 16 app/two CMS migration checksums; 123 app tables, 39 app views, 1,577 app columns and 28 CMS tables |
+| Inbox recovery | A 5,000-scheduled-receipt backlog excludes queued work through the recovery index; at most eight candidate rows and four returned; compound receipt/job binding and immutable assignment enforced |
+| Provider contracts | Actual Inngest callback, inbox processing and reconciliation plus Moto S3/KMS SDK requests pass; no external cloud activation |
+| Worker packaging/lifecycle | Bundled worker imports in the actual runner without workspace dependencies and rejects hosted fixture configuration; valid bundled Linux worker exits zero on SIGTERM; bounded checkout overflow, successful query drain and forced cleanup pass |
+| Full gates | Frozen install/advisory audit, quality, seven deliberate failure gates, health-only web HTTP/restart and separate backup/restore/deletion replay pass |
+| Dev/stage | Additive 0015/0016 applied without rewriting history; replay no-op, 16 app/two CMS with zero pending; credentials unchanged and volumes retained after stop |
+| Documentation | 119 cards, 137 original FR rows, dependency edges, source archives and historical approval sections preserved |
 
-The review/evidence commit repeated full exact-commit verification. A subsequent review adds a mandatory transaction-bound authorization callback before command receipt/replay and preserves 201/202 response semantics. The replay-authorization regression and four added inbox cases bring the final suite to 285 cases; the final exact-commit run and CI are recorded on the PR before completion. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records the final tested SHA and independent GitHub CI. Local technical verification is complete; owner review and the original DD03/DD05 hosted adapter acceptance remain pending. These synthetic measurements do not establish production capacity, physical erasure timing or hosted RTO/RPO.
+The evidence commit repeats full exact-commit verification before push. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records its final tested SHA and independent GitHub CI. Local technical verification is complete; owner review and the original DD03/DD05 hosted adapter acceptance remain pending. Synthetic timings do not establish production capacity, physical erasure timing or hosted RTO/RPO.
 
 ## Scope limits
 
