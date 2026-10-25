@@ -1494,6 +1494,10 @@ export const appJobRuns = app.table('job_runs', {
     .notNull()
     .default(sql.raw('now()')),
   revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  deadline_at: timestamp('deadline_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw("(now() + '1 day'::interval)")),
+  resource_id: uuid('resource_id'),
 });
 export type AppJobRunsRow = typeof appJobRuns.$inferSelect;
 export type AppJobRunsInsert = typeof appJobRuns.$inferInsert;

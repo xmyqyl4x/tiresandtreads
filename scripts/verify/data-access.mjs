@@ -7,16 +7,28 @@ const plan = environmentPlan('test', randomBytes(8).toString('hex'));
 initialize(plan);
 try {
   compose(plan, ['--profile', 'verify', 'build', 'test']);
-  compose(plan, ['up', '--detach', '--wait', '--wait-timeout', '120', 'postgres']);
+  compose(plan, [
+    '--profile',
+    'verify',
+    'up',
+    '--detach',
+    '--wait',
+    '--wait-timeout',
+    '120',
+    'postgres',
+    'moto',
+    'inngest',
+  ]);
   compose(plan, [
     'run',
     '--rm',
     '--no-deps',
+    '--use-aliases',
     'test',
     'pnpm',
     process.argv.includes('--coverage') ? 'test:coverage' : 'test:db',
   ]);
 } finally {
-  compose(plan, ['down', '--volumes', '--remove-orphans']);
+  compose(plan, ['--profile', 'verify', 'down', '--volumes', '--remove-orphans']);
   unlinkSync(plan.envFile);
 }

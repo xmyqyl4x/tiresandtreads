@@ -4,6 +4,7 @@ packages:
 saveExact: true
 strictPeerDependencies: true
 overrides:
+  '@opentelemetry/api': 1.9.0
   # Payload's older toolchain must not select Vite's incompatible optional peer.
   'vite>esbuild': 0.28.2
   # Temporary transitive security pins; re-evaluate with the next Payload update.
@@ -26,3 +27,4 @@ allowBuilds:
   esbuild: true
   sharp: false
   unrs-resolver: false
+  protobufjs: false
