@@ -334,6 +334,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** [Implementation](../implementation/P1-PR-017-eligibility-recommendations.md) and [98-case draft specialist packet](../implementation/evidence/P1/p1-pr-017-golden-review.json) cover deterministic rules, sparse evidence, stable ordering, bounded portfolios and commercial invariance. The third task stays unchecked: actual named specialist review and G1 acceptance remain pending DD06, along with real source/data and 019 resolver/report integration evidence. The technical implementation cannot establish production fitment coverage or issuance authority.
 
+**Owner direction, October 25, 2026:** Keep specialist review pending and proceed with implementation and draft scenarios. The 98-case packet remains draft; this direction does not close the third task or G1. Licensed adapters remain pending.
+
 ### P1-PR-018
 
 **Implement prices, installed costs and comparison mathematics**

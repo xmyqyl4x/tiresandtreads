@@ -2,6 +2,8 @@
 
 **October 25, 2026 · technical implementation verified for review; specialist/data gates pending.** Baseline: owner-approved PR #16 merge `a774e1f025ee81a0bce593f37bab63ac6b66bdc4`. See the [implementation packet](../../P1-PR-017-eligibility-recommendations.md), [redacted verification record](p1-pr-017-verification.json) and [98-case pending specialist packet](p1-pr-017-golden-review.json).
 
+The owner subsequently confirmed: “Keep specialist review pending; proceed with implementation and draft scenarios.” Actual specialist reviews remain zero. This decision authorizes the technical/draft work and leaves DD06/G1 production acceptance and licensed-source gates open.
+
 ## TDD, golden scenarios and use cases
 
 The initial normalization test failed before the engine existed. Authored scenarios then exercised exact axle sizes/prefixes, load/speed/XL/run-flat/range constraints, regional/seasonal context, sparse source/evidence data, recall completeness/freshness, partial replacement/AWD with explicit inspections/tolerances, preference scoring, ties, budget qualification and safety before price. All 98 are synthetic draft cases with input/snapshot hashes, versions and expected outcomes. **Actual specialist reviews: zero; DD06/G1 remains pending.** No fixture reviewer identity represents a real review.

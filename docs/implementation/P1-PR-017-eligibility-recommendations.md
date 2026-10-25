@@ -2,6 +2,8 @@
 
 **October 25, 2026 · technical implementation for review; specialist/data acceptance pending.** Baseline: owner-approved [PR #16](https://github.com/xmyqyl4x/tiresandtreads/pull/16), merged at `a774e1f025ee81a0bce593f37bab63ac6b66bdc4`. The owner directed that licensed adapters remain pending and that 017 proceed. This implements the pure E06 rules and a shared application-service entry point. It does not close the remaining 016 contracts or [DD06/G1](P1-PR-001-launch-baseline.md#deferred-decision-register). The [017 task](../tasks/phase-1-prs.md#p1-pr-017) stays in progress until the required specialist/data evidence is accepted.
 
+**Owner decision, October 25, 2026:** “Keep specialist review pending; proceed with implementation and draft scenarios.” The implementation and 98 draft scenarios are prepared in PR #17. This explicitly defers specialist review; it does not approve the fixtures, scoring calibration or G1 for production. The licensed-adapter deferral remains in effect.
+
 ## Responsibilities and callable boundary
 
 `packages/engine` owns normalization, eligibility, replacement compatibility, evidence comparability, preference ordering and stable reason codes. It imports only pure domain values. It performs no SQL, network, environment, implicit-clock, random, advertising, affiliate, consent or UI work. UTC interval arithmetic uses validated explicit instants, including Gregorian leap/century boundaries; the existing ban on engine `Date` access remains enforced.
