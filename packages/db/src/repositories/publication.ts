@@ -117,6 +117,13 @@ export function createPublicationRepository(scope: WriteScope): PublicationRepos
         new Set(input.required.map((r) => r.key)).size !== input.required.length
       )
         return reject();
+      // Current authorization is required before returning a historical receipt.
+      const actor = await sql(
+        tx,
+        "SELECT id FROM admin.staff_identities WHERE id=$1 AND status='active'",
+        [input.actorId],
+      );
+      if (!actor.rowCount) return stop('forbidden');
       const previous = await sql(
         tx,
         'SELECT bundle_id,previous_bundle_id,actor_id,approval_record_id FROM app.import_publications WHERE run_id=$1 AND market=$2',
@@ -185,6 +192,17 @@ export function createPublicationRepository(scope: WriteScope): PublicationRepos
         [input.bundleId],
       );
       if (incoherent.rowCount) return stop('integrity');
+      const invalidIdentity = await sql(
+        tx,
+        `SELECT 1 FROM app.domain_relationships r JOIN app.bundle_members m ON m.dataset_version_id=r.dataset_version_id AND m.bundle_id=$1
+        JOIN app.domain_entities a ON a.id=r.from_entity_id JOIN app.domain_entities b ON b.id=r.to_entity_id
+        WHERE (r.kind='brand_owned_by' AND (a.kind<>'brand' OR b.kind<>'company')) OR (r.kind='company_operates_plant' AND (a.kind<>'company' OR b.kind<>'plant')) OR (r.kind='model_of_make' AND (a.kind<>'vehicle_model' OR b.kind<>'vehicle_make'))
+        UNION ALL SELECT 1 FROM app.manufacturing_plant_codes r JOIN app.bundle_members m ON m.dataset_version_id=r.dataset_version_id AND m.bundle_id=$1 JOIN app.domain_entities e ON e.id=r.plant_entity_id WHERE e.kind<>'plant'
+        UNION ALL SELECT 1 FROM app.vehicle_lookup_options r JOIN app.bundle_members m ON m.dataset_version_id=r.dataset_version_id AND m.bundle_id=$1 JOIN app.domain_entities a ON a.id=r.make_entity_id JOIN app.domain_entities b ON b.id=r.model_entity_id WHERE a.kind<>'vehicle_make' OR b.kind<>'vehicle_model'
+        UNION ALL SELECT 1 FROM app.tire_model_reference_links r JOIN app.bundle_members m ON m.dataset_version_id=r.dataset_version_id AND m.bundle_id=$1 JOIN app.domain_entities a ON a.id=r.brand_entity_id LEFT JOIN app.domain_entities b ON b.id=r.manufacturer_entity_id WHERE a.kind<>'brand' OR b.kind<>'company' LIMIT 1`,
+        [input.bundleId],
+      );
+      if (invalidIdentity.rowCount) return stop('integrity');
       const datasets = members.rows.filter((m) => m.status === 'validated').map((m) => m.id);
       await sql(
         tx,

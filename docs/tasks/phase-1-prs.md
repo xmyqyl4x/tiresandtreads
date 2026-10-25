@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are accepted; P1-PR-013 S2 validation is accepted; P1-PR-014 runtime/jobs/assets is in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are accepted; P1-PR-013 S2 validation is accepted; P1-PR-014 runtime/jobs/assets is accepted; P1-PR-015 ingestion/publication services is in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -284,7 +284,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Implement outbox relay/Inngest retry/lease/reconciliation and private S3 asset lifecycle/encryption adapters.
 - [x] Add redacted operational telemetry, job deadlines, retry limits and failure queues.
 
-**Verification and acceptance:** [Implementation](../implementation/P1-PR-014-jobs-assets-runtime.md) and [validation](../implementation/evidence/P1/p1-pr-014-validation.md) cover local crash/replay/late-worker, revoked-asset, real SDK/dev-server and bounded worker/pool tests. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) is in review; owner review and the original DD03/DD05 hosted provider proofs remain pending for full adapter acceptance. No exactly-once external effect or live product claim.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-014-jobs-assets-runtime.md) and [validation](../implementation/evidence/P1/p1-pr-014-validation.md) cover local crash/replay/late-worker, revoked-asset, real SDK/dev-server and bounded worker/pool tests. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) was owner-approved and merged at `969235f`; the original DD03/DD05 hosted provider proofs remain pending for full adapter acceptance. No exactly-once external effect or live product claim.
 
 ### P1-PR-015
 
@@ -296,11 +296,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-04, UC13, AT22, DB22. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement fetch registration, streaming stage/normalize/validate/diff and critical rejection policy.
-- [ ] Add planned CLI commands for dry-run, publish, resume, status and safe rollback through shared services.
-- [ ] Publish coherent bundles with expected-head concurrency and outbox invalidation; enforce source rights and complete-snapshot semantics.
+- [x] Implement fetch registration, streaming stage/normalize/validate/diff and critical rejection policy.
+- [x] Add planned CLI commands for dry-run, publish, resume, status and safe rollback through shared services.
+- [x] Publish coherent bundles with expected-head concurrency and outbox invalidation; enforce source rights and complete-snapshot semantics.
 
-**Verification and acceptance:** Script use-case and real DB tests cover truncated feeds, duplicates, resumes, head races and rollback that cannot erase a newer recall warning.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-015-ingestion-publication-services.md) and [validation](../implementation/evidence/P1/p1-pr-015-validation.md) record 310 passing tests, including real PostgreSQL/process CLI proofs for truncated snapshots, duplicates, resumes, expected-head races, rights expiry and rollback that cannot erase a newer recall warning. [PR #15](https://github.com/xmyqyl4x/tiresandtreads/pull/15) is in review; owner approval is pending. Source-specific provider contracts remain 016.
 
 ### P1-PR-016
 

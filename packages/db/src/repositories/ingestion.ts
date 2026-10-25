@@ -258,9 +258,9 @@ export function createIngestionRepository(scope: WriteScope): IngestionRepositor
       const inserted = await sql(
         tx,
         `INSERT INTO app.import_staging_rows(run_id,row_number,source_key,normalized,validation_status,expires_at)
-        SELECT $1,x.row_number,x.source_key,x.normalized,x.validation_status,$3 FROM jsonb_to_recordset($2::jsonb) x(row_number bigint,source_key text,normalized jsonb,validation_status text)
+        SELECT $1,x.row_number,x.source_key,x.normalized,x.validation_status,LEAST($3::timestamptz,(SELECT l.expires_at FROM app.dataset_versions d JOIN app.data_licenses l ON l.id=d.license_id WHERE d.id=$4)) FROM jsonb_to_recordset($2::jsonb) x(row_number bigint,source_key text,normalized jsonb,validation_status text)
         WHERE $3::timestamptz>clock_timestamp() AND $3::timestamptz<=clock_timestamp()+interval '30 days'`,
-        [lease.runId, boundedJson(encoded, 262144), expiresAt],
+        [lease.runId, boundedJson(encoded, 262144), expiresAt, state.datasetId],
       );
       if (inserted.rowCount !== rows.length) return reject();
       const updated = await sql(
