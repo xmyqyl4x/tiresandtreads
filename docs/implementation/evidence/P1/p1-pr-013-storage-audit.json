@@ -1,0 +1,2394 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-25",
+  "baseline": "4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce",
+  "generatedModel": "packages/db/src/models/application.generated.ts",
+  "liveParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appColumns": 1574,
+    "catalogFamilies": 25,
+    "catalogFields": 247,
+    "cmsTables": 28
+  },
+  "relations": [
+    {
+      "database": "app",
+      "relation": "admin.ad_brand_blocks",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.ad_daily_metrics",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.ad_network_accounts",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.ad_report_imports",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.ad_slots",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.affiliate_applications",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.affiliate_link_checks",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.affiliate_links",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.audit_events",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.audit_identity_links",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.configuration_versions",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.feature_states",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.roles",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.search_daily_metrics",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.seo_audit_runs",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.seo_findings",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.seo_page_registry",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.staff_identities",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.staff_role_assignments",
+      "kind": "table",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "analytics.daily_metrics",
+      "kind": "table",
+      "module": "analytics",
+      "source": "packages/db/src/repositories/analytics.ts",
+      "boundary": "Receipt/generation/purge or visible aggregate projection; workflow policy at 024",
+      "nextCards": [
+        "P1-PR-024"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "analytics.dirty_days",
+      "kind": "table",
+      "module": "analytics",
+      "source": "packages/db/src/repositories/analytics.ts",
+      "boundary": "Receipt/generation/purge or visible aggregate projection; workflow policy at 024",
+      "nextCards": [
+        "P1-PR-024"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "analytics.events",
+      "kind": "table",
+      "module": "analytics",
+      "source": "packages/db/src/repositories/analytics.ts",
+      "boundary": "Receipt/generation/purge or visible aggregate projection; workflow policy at 024",
+      "nextCards": [
+        "P1-PR-024"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.advice_fact_sources",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.advice_facts",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.bundle_members",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.climate_profiles",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.code_sets",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.code_values",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.comparison_items",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.comparisons",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.content_publication_heads",
+      "kind": "table",
+      "module": "public publication",
+      "source": "packages/db/src/repositories/content.ts",
+      "boundary": "Ordered projection/configuration ports present; durable Payload/object bridge remains 021",
+      "nextCards": [
+        "P1-PR-021"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.content_publications",
+      "kind": "table",
+      "module": "public publication",
+      "source": "packages/db/src/repositories/content.ts",
+      "boundary": "Ordered projection/configuration ports present; durable Payload/object bridge remains 021",
+      "nextCards": [
+        "P1-PR-021"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.countries",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.currencies",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.data_licenses",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.data_providers",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.dataset_bundles",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.dataset_versions",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.domain_aliases",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.domain_entities",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.domain_entity_versions",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.domain_identifiers",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.domain_relationships",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.download_grants",
+      "kind": "table",
+      "module": "capabilities",
+      "source": "packages/db/src/repositories/capabilities.ts",
+      "boundary": "Scoped reference/grant persistence present; rendering/redaction/signing and final handoff at service boundary",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-022"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.evidence",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.feed_health",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.fitment_axles",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.fitment_configurations",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.idempotency_requests",
+      "kind": "table",
+      "module": "reliability",
+      "source": "packages/db/src/repositories/reliability.ts",
+      "boundary": "Outbox/inbox persistence present; durable command identity/job lifecycle extensions assigned to 014",
+      "nextCards": [
+        "P1-PR-014"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.import_artifacts",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.import_materializations",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.import_publications",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.import_rejections",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.import_runs",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.import_staging_rows",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.job_runs",
+      "kind": "table",
+      "module": "reliability",
+      "source": "packages/db/src/repositories/reliability.ts",
+      "boundary": "Outbox/inbox persistence present; durable command identity/job lifecycle extensions assigned to 014",
+      "nextCards": [
+        "P1-PR-014"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.locales",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.manufacturing_plant_codes",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.market_availability",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.market_dataset_heads",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.market_locales",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.market_rules",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.markets",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.object_assets",
+      "kind": "table",
+      "module": "asset lifecycle",
+      "source": "packages/db/src/repositories/capabilities.ts",
+      "boundary": "Only safe metadata/grant consumption present; privileged asset lifecycle/key custody belongs to 014",
+      "nextCards": [
+        "P1-PR-014"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.outbox",
+      "kind": "table",
+      "module": "reliability",
+      "source": "packages/db/src/repositories/reliability.ts",
+      "boundary": "Outbox/inbox persistence present; durable command identity/job lifecycle extensions assigned to 014",
+      "nextCards": [
+        "P1-PR-014"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.owner_sessions",
+      "kind": "table",
+      "module": "identity",
+      "source": "packages/db/src/repositories/owners.ts",
+      "boundary": "Scoped identity and guards present; cryptography/authentication/session policy at services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-020"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.price_components",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.prices",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.public_configurations",
+      "kind": "table",
+      "module": "public publication",
+      "source": "packages/db/src/repositories/content.ts",
+      "boundary": "Ordered projection/configuration ports present; durable Payload/object bridge remains 021",
+      "nextCards": [
+        "P1-PR-021"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.published_content",
+      "kind": "table",
+      "module": "public publication",
+      "source": "packages/db/src/repositories/content.ts",
+      "boundary": "Ordered projection/configuration ports present; durable Payload/object bridge remains 021",
+      "nextCards": [
+        "P1-PR-021"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.rate_limit_buckets",
+      "kind": "table",
+      "module": "quotas",
+      "source": "packages/db/src/repositories/limiter.ts",
+      "boundary": "Ordered capped quota/cleanup persistence present; HTTP policy/admission budgets remain later",
+      "nextCards": [
+        "P1-PR-024"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.rate_limit_policies",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.recall_source_targets",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.recall_targets",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.recalls",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.reference_code_values",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.report_assets",
+      "kind": "table",
+      "module": "capabilities",
+      "source": "packages/db/src/repositories/capabilities.ts",
+      "boundary": "Scoped reference/grant persistence present; rendering/redaction/signing and final handoff at service boundary",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-022"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.report_capabilities",
+      "kind": "table",
+      "module": "capabilities",
+      "source": "packages/db/src/repositories/capabilities.ts",
+      "boundary": "Scoped reference/grant persistence present; rendering/redaction/signing and final handoff at service boundary",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-022"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.report_drafts",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.report_items",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.report_versions",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.reports",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.retailers",
+      "kind": "table",
+      "module": "source identity/publication",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Narrow ingestion/publication and coherent source reads; provider/license/retailer operations extend at first use",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.rule_versions",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.scores",
+      "kind": "table",
+      "module": "derived scoring",
+      "source": "packages/engine/src/index.ts",
+      "boundary": "Schema foundation only; pure engine results are frozen in report snapshots. Any optional persisted-score adapter must be reviewed at 017",
+      "nextCards": [
+        "P1-PR-017"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.shop_quotes",
+      "kind": "table",
+      "module": "reports",
+      "source": "packages/db/src/repositories/reports.ts",
+      "boundary": "Owner-scoped immutable version/draft/compare/quote persistence present; use-case policy at 019",
+      "nextCards": [
+        "P1-PR-019"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.source_connectors",
+      "kind": "table",
+      "module": "ingestion",
+      "source": "packages/db/src/repositories/ingestion.ts",
+      "boundary": "Run/stage/materialization/publication present; artifacts/rejections/connector health at script/provider service integration",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.subjects",
+      "kind": "table",
+      "module": "identity",
+      "source": "packages/db/src/repositories/owners.ts",
+      "boundary": "Scoped identity and guards present; cryptography/authentication/session policy at services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-020"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.tire_model_reference_links",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.tire_models",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.tire_skus",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.units",
+      "kind": "table",
+      "module": "registries/policy",
+      "source": "infra/database/seeds/synthetic.sql",
+      "boundary": "Reviewed registry/schema foundation; injected registry/policy loading and authoring at composition/owning services",
+      "nextCards": [
+        "P1-PR-014",
+        "P1-PR-017",
+        "P1-PR-024",
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.vehicle_lookup_options",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.vehicle_reference_links",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.vehicles",
+      "kind": "table",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.webhook_inbox",
+      "kind": "table",
+      "module": "reliability",
+      "source": "packages/db/src/repositories/reliability.ts",
+      "boundary": "Outbox/inbox persistence present; durable command identity/job lifecycle extensions assigned to 014",
+      "nextCards": [
+        "P1-PR-014"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.education_topic_map",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.email_events",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.email_feedback",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.email_links",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.email_sends",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.send_attempts",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.send_receipts",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "email.template_versions",
+      "kind": "table",
+      "module": "delivery",
+      "source": "packages/db/src/repositories/delivery.ts",
+      "boundary": "Send/attempt/receipt persistence present; templates/events/links/feedback extensions at first use",
+      "nextCards": [
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-037"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "migration_meta.applied",
+      "kind": "table",
+      "module": "migration ownership",
+      "source": "scripts/database/migrate.ts",
+      "boundary": "Operator only; no runtime repository",
+      "nextCards": [
+        "P1-PR-014"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.consent_events",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.consent_state",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.contact_lookups",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.contacts",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.cookie_consents",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.cookie_registry",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.deletion_markers",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.fulfillment_steps",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.legal_holds",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.notices",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.privacy_requests",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.quote_private_data",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.report_private_data",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.retention_policies",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.subject_links",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.suppression_tombstones",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.suppressions",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "privacy.verification_challenges",
+      "kind": "table",
+      "module": "privacy",
+      "source": "packages/db/src/repositories/privacy.ts",
+      "boundary": "Contact/consent/request persistence present; challenge, cookie, hold, retention and full erasure methods at owning service cards",
+      "nextCards": [
+        "P1-PR-020",
+        "P1-PR-025"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.ad_slot_projection",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.affiliate_projection",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.configuration_projection",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.current_ad_daily_metrics",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.search_projection",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.seo_projection",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "admin.staff_projection",
+      "kind": "view",
+      "module": "operations",
+      "source": "packages/db/src/repositories/operations.ts",
+      "boundary": "Safe read projections or schema-owned operations records; authorized mutation extensions at 026",
+      "nextCards": [
+        "P1-PR-026"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "analytics.visible_daily_metrics",
+      "kind": "view",
+      "module": "analytics",
+      "source": "packages/db/src/repositories/analytics.ts",
+      "boundary": "Receipt/generation/purge or visible aggregate projection; workflow policy at 024",
+      "nextCards": [
+        "P1-PR-024"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_advice_fact_sources",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_advice_facts",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_bundles",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_climate_profiles",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_domain_aliases",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_domain_entity_versions",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_domain_identifiers",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_domain_relationships",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_evidence",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_fitment_axles",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_fitment_configurations",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_heads",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_manufacturing_plant_codes",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_market_availability",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_market_rules",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_members",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_price_components",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_prices",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_recall_source_targets",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_recall_targets",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_recalls",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_reference_code_values",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_sources",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_tire_model_reference_links",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_tire_models",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_tire_skus",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_vehicle_lookup_options",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_vehicle_reference_links",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.catalog_vehicles",
+      "kind": "view",
+      "module": "catalog facts",
+      "source": "packages/db/src/repositories/catalog.ts",
+      "boundary": "25-family typed encode/decode/read projections; source normalization and business mapping remain S3",
+      "nextCards": [
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.current_public_content",
+      "kind": "view",
+      "module": "public publication",
+      "source": "packages/db/src/repositories/content.ts",
+      "boundary": "Ordered projection/configuration ports present; durable Payload/object bridge remains 021",
+      "nextCards": [
+        "P1-PR-021"
+      ]
+    },
+    {
+      "database": "app",
+      "relation": "app.public_configuration",
+      "kind": "view",
+      "module": "public publication",
+      "source": "packages/db/src/repositories/content.ts",
+      "boundary": "Ordered projection/configuration ports present; durable Payload/object bridge remains 021",
+      "nextCards": [
+        "P1-PR-021"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "migration_meta.applied",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._articles_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._articles_v_rels",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._explanation_templates_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._glossary_terms_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._glossary_terms_v_rels",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._media_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._redirects_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._seo_metadata_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public._topics_v",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.articles",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.articles_rels",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.cms_staff",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.editorial_reviews",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.explanation_templates",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.glossary_terms",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.glossary_terms_rels",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.media",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.payload_kv",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.payload_locked_documents",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.payload_locked_documents_rels",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.payload_migrations",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.payload_preferences",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.payload_preferences_rels",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.publication_work",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.redirects",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.seo_metadata",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    },
+    {
+      "database": "cms",
+      "relation": "public.topics",
+      "kind": "table",
+      "module": "Payload editorial",
+      "source": "scripts/database/cms-collections.ts",
+      "boundary": "Payload-owned staff/editorial/version/relationship/migration persistence; no application Drizzle access or cross-DB transaction",
+      "nextCards": [
+        "P1-PR-021",
+        "P1-PR-038"
+      ]
+    }
+  ]
+}

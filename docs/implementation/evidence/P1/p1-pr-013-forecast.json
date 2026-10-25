@@ -1,0 +1,478 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-25",
+  "basis": "Planning allowance from current card scope; not measured velocity, calendar commitment or hosted launch date",
+  "assumptions": [
+    "One engineering day is one contributor working day including TDD, review, documentation and validation.",
+    "Dependency-path calculation assigns one owner to each card and assumes unlimited parallel capacity on independent branches; no resource leveling or review/owner wait is included.",
+    "Existing card dependencies are unchanged; prerequisites 001-013 are assumed accepted for this remaining-work scenario.",
+    "Specialist/legal/content review, licensed provider access, hosting decisions, provider/host verification, procurement and ongoing live operations have unknown external wait.",
+    "Re-estimate at card readiness and S4/031 with actual data, staffing and measured throughput. P2-P4 require their own phase scope rebaseline; their 76 cards are not included."
+  ],
+  "remainingCards": 30,
+  "remainingEffortEngineeringDays": {
+    "low": 132,
+    "high": 215
+  },
+  "oneOwnerPerCardDependencyPath": {
+    "low": 91,
+    "high": 149,
+    "lowPath": [
+      "P1-PR-014",
+      "P1-PR-015",
+      "P1-PR-016",
+      "P1-PR-017",
+      "P1-PR-018",
+      "P1-PR-019",
+      "P1-PR-022",
+      "P1-PR-023",
+      "P1-PR-025",
+      "P1-PR-026",
+      "P1-PR-027",
+      "P1-PR-029",
+      "P1-PR-031",
+      "P1-PR-032",
+      "P1-PR-033",
+      "P1-PR-034",
+      "P1-PR-036",
+      "P1-PR-041",
+      "P1-PR-042",
+      "P1-PR-043"
+    ],
+    "highPath": [
+      "P1-PR-014",
+      "P1-PR-015",
+      "P1-PR-016",
+      "P1-PR-017",
+      "P1-PR-018",
+      "P1-PR-019",
+      "P1-PR-022",
+      "P1-PR-023",
+      "P1-PR-025",
+      "P1-PR-026",
+      "P1-PR-027",
+      "P1-PR-029",
+      "P1-PR-031",
+      "P1-PR-032",
+      "P1-PR-033",
+      "P1-PR-034",
+      "P1-PR-036",
+      "P1-PR-041",
+      "P1-PR-042",
+      "P1-PR-043"
+    ]
+  },
+  "cards": [
+    {
+      "id": "P1-PR-014",
+      "title": "Implement durable jobs, private assets and runtime composition",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-015",
+      "title": "Implement script-first ingestion and publication services",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-014",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-016",
+      "title": "Integrate NHTSA and licensed domain source adapters",
+      "engineeringDays": {
+        "low": 4,
+        "high": 7
+      },
+      "dependsOn": [
+        "P1-PR-015",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-017",
+      "title": "Implement deterministic eligibility and recommendation rules",
+      "engineeringDays": {
+        "low": 8,
+        "high": 13
+      },
+      "dependsOn": [
+        "P1-PR-016",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-018",
+      "title": "Implement prices, installed costs and comparison mathematics",
+      "engineeringDays": {
+        "low": 4,
+        "high": 7
+      },
+      "dependsOn": [
+        "P1-PR-017",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-019",
+      "title": "Implement report, refine, compare and access services",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-017",
+        "P1-PR-018",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-020",
+      "title": "Implement contact, consent and suppression services",
+      "engineeringDays": {
+        "low": 4,
+        "high": 6
+      },
+      "dependsOn": [
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-021",
+      "title": "Implement content, public tools and SEO publication services",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-014",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-022",
+      "title": "Implement report delivery orchestration and cancellation",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-020",
+        "P1-PR-021",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-023",
+      "title": "Implement webhooks, preferences, feedback and safe redirects",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-022",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-024",
+      "title": "Implement PostgreSQL analytics, SQL limits and operations",
+      "engineeringDays": {
+        "low": 4,
+        "high": 7
+      },
+      "dependsOn": [
+        "P1-PR-014",
+        "P1-PR-020",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-025",
+      "title": "Implement privacy rights, retention and recovery services",
+      "engineeringDays": {
+        "low": 6,
+        "high": 10
+      },
+      "dependsOn": [
+        "P1-PR-014",
+        "P1-PR-019",
+        "P1-PR-020",
+        "P1-PR-023",
+        "P1-PR-024",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-026",
+      "title": "Implement staff, affiliate, advertising and revenue services",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-016",
+        "P1-PR-021",
+        "P1-PR-023",
+        "P1-PR-024",
+        "P1-PR-025",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-027",
+      "title": "Close business-service gate and engine safety review",
+      "engineeringDays": {
+        "low": 3,
+        "high": 5
+      },
+      "dependsOn": [
+        "P1-PR-014",
+        "P1-PR-015",
+        "P1-PR-016",
+        "P1-PR-017",
+        "P1-PR-018",
+        "P1-PR-019",
+        "P1-PR-020",
+        "P1-PR-021",
+        "P1-PR-022",
+        "P1-PR-023",
+        "P1-PR-024",
+        "P1-PR-025",
+        "P1-PR-026",
+        "P1-PR-013"
+      ]
+    },
+    {
+      "id": "P1-PR-028",
+      "title": "Expose public lookup and owner assessment APIs",
+      "engineeringDays": {
+        "low": 4,
+        "high": 6
+      },
+      "dependsOn": [
+        "P1-PR-027"
+      ]
+    },
+    {
+      "id": "P1-PR-029",
+      "title": "Expose consent, privacy, import and staff operations APIs",
+      "engineeringDays": {
+        "low": 4,
+        "high": 7
+      },
+      "dependsOn": [
+        "P1-PR-027"
+      ]
+    },
+    {
+      "id": "P1-PR-030",
+      "title": "Expose provider callbacks, event intake and workflow endpoints",
+      "engineeringDays": {
+        "low": 3,
+        "high": 5
+      },
+      "dependsOn": [
+        "P1-PR-027"
+      ]
+    },
+    {
+      "id": "P1-PR-031",
+      "title": "Accept the complete Phase 1 API before frontend work",
+      "engineeringDays": {
+        "low": 3,
+        "high": 5
+      },
+      "dependsOn": [
+        "P1-PR-028",
+        "P1-PR-029",
+        "P1-PR-030",
+        "P1-PR-027"
+      ]
+    },
+    {
+      "id": "P1-PR-032",
+      "title": "Build accessible web shell and design system",
+      "engineeringDays": {
+        "low": 4,
+        "high": 6
+      },
+      "dependsOn": [
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-033",
+      "title": "Build assessment form and reference lookups",
+      "engineeringDays": {
+        "low": 4,
+        "high": 6
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-034",
+      "title": "Build results, explanation and refinement views",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-033",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-035",
+      "title": "Build comparison, shop-quote and sharing views",
+      "engineeringDays": {
+        "low": 4,
+        "high": 6
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-034",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-036",
+      "title": "Build delivery, cancellation, preferences and privacy controls",
+      "engineeringDays": {
+        "low": 4,
+        "high": 6
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-034",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-037",
+      "title": "Implement production email and PDF templates",
+      "engineeringDays": {
+        "low": 4,
+        "high": 7
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-038",
+      "title": "Build editorial CMS and reviewed education website",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-039",
+      "title": "Build staff operations, SEO and ad-revenue screens",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-040",
+      "title": "Build permitted affiliate and advertising placements",
+      "engineeringDays": {
+        "low": 3,
+        "high": 5
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-034",
+        "P1-PR-038",
+        "P1-PR-039",
+        "P1-PR-031"
+      ]
+    },
+    {
+      "id": "P1-PR-041",
+      "title": "Verify the full web product and accessibility journeys",
+      "engineeringDays": {
+        "low": 5,
+        "high": 8
+      },
+      "dependsOn": [
+        "P1-PR-032",
+        "P1-PR-033",
+        "P1-PR-034",
+        "P1-PR-035",
+        "P1-PR-036",
+        "P1-PR-037",
+        "P1-PR-038",
+        "P1-PR-039",
+        "P1-PR-040"
+      ]
+    },
+    {
+      "id": "P1-PR-042",
+      "title": "Prove production security, capacity and recovery",
+      "engineeringDays": {
+        "low": 5,
+        "high": 9
+      },
+      "dependsOn": [
+        "P1-PR-041",
+        "P1-PR-032",
+        "P1-PR-033",
+        "P1-PR-034",
+        "P1-PR-035",
+        "P1-PR-036",
+        "P1-PR-037",
+        "P1-PR-038",
+        "P1-PR-039",
+        "P1-PR-040"
+      ]
+    },
+    {
+      "id": "P1-PR-043",
+      "title": "Release Phase 1 and record the usable live outcome",
+      "engineeringDays": {
+        "low": 2,
+        "high": 4
+      },
+      "dependsOn": [
+        "P1-PR-041",
+        "P1-PR-042",
+        "P1-PR-032",
+        "P1-PR-033",
+        "P1-PR-034",
+        "P1-PR-035",
+        "P1-PR-036",
+        "P1-PR-037",
+        "P1-PR-038",
+        "P1-PR-039",
+        "P1-PR-040"
+      ]
+    }
+  ]
+}

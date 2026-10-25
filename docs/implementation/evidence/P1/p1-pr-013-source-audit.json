@@ -1,0 +1,1215 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-25",
+  "baseline": "4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce",
+  "scope": "All non-generated executable/type source files under packages; empty index markers excluded",
+  "files": [
+    {
+      "path": "packages/application/src/ports/analytics.ts",
+      "sha256": "d618ccf91b5f5cf053f0431c99a922682af7e1adede7138509e35f552a07ba3d",
+      "symbols": [
+        {
+          "name": "AnalyticsEvent",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "AnalyticsContext",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Metric",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "AnalyticsBuild",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "AnalyticsRepository",
+          "kind": "interface",
+          "methods": [
+            "receive",
+            "capture",
+            "publish",
+            "retry",
+            "purgeSubject",
+            "cleanup"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/catalog-records.ts",
+      "sha256": "fcceb32c5d95cc808375294ee1795b312eb8e88a7551d8062b901b3fd6997f2e",
+      "symbols": [
+        {
+          "name": "JsonValue",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "JsonObject",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "FactRecords",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "FactKind",
+          "kind": "TypeAliasDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/catalog.ts",
+      "sha256": "d7b13a4b93b6635bbb4db6a77af33c6f8f489b42720ba4f70777853c8571ba94",
+      "symbols": [
+        {
+          "name": "PublicFact",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "SourceRights",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "CatalogSource",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "CatalogPin",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "FactFilters",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "CatalogRepository",
+          "kind": "interface",
+          "methods": [
+            "pin",
+            "page"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/delivery.ts",
+      "sha256": "1e3326074a74aa749933d6159c9c4ea704a5c5bc696a7ff65a5ba57b02505381",
+      "symbols": [
+        {
+          "name": "ScheduleSend",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "DeliveryRepository",
+          "kind": "interface",
+          "methods": [
+            "schedule",
+            "owned",
+            "cancel",
+            "claim",
+            "finish",
+            "receipt"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/ingestion.ts",
+      "sha256": "8014d58e2d3312accd35db4fb5057e13946459ec26df29cbb8f0fffbb5a0aa6e",
+      "symbols": [
+        {
+          "name": "RunState",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Lease",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "StagingRow",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "IngestionRepository",
+          "kind": "interface",
+          "methods": [
+            "dataset",
+            "register",
+            "lease",
+            "batch",
+            "staged",
+            "append",
+            "entity"
+          ]
+        },
+        {
+          "name": "PublicationRepository",
+          "kind": "interface",
+          "methods": [
+            "affectedBundles",
+            "validate",
+            "bundle",
+            "publish"
+          ]
+        },
+        {
+          "name": "PublishInput",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/limiter.ts",
+      "sha256": "e04c4d883f97f73d5dd72a8bec41bfb01b4eaf7d632a9ecb8221246d48e6380c",
+      "symbols": [
+        {
+          "name": "QuotaPrincipal",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "QuotaDecision",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "LimiterRepository",
+          "kind": "interface",
+          "methods": [
+            "consume",
+            "cleanup"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/operations.ts",
+      "sha256": "d0cbdb105e3f9c40e114653603467e3aa52d0972d8fa1b302285bb849d9f021b",
+      "symbols": [
+        {
+          "name": "SeoPage",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "OperationsRepository",
+          "kind": "interface",
+          "methods": [
+            "pages",
+            "staff",
+            "configuration",
+            "affiliate",
+            "slots",
+            "search",
+            "ads",
+            "metric"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/owner-report.ts",
+      "sha256": "3d31a408c77d6a327738e042f960140dfa879433c3adad000f8bca011b6c4e62",
+      "symbols": [
+        {
+          "name": "OwnerRepository",
+          "kind": "interface",
+          "methods": [
+            "create",
+            "resolve",
+            "rotate",
+            "revoke"
+          ]
+        },
+        {
+          "name": "ReportRepository",
+          "kind": "interface",
+          "methods": [
+            "items",
+            "create",
+            "head",
+            "list",
+            "version",
+            "publish",
+            "draft",
+            "saveDraft",
+            "compare",
+            "comparison",
+            "saveQuote",
+            "quotes"
+          ]
+        },
+        {
+          "name": "CapabilityRepository",
+          "kind": "interface",
+          "methods": [
+            "share",
+            "resolveShare",
+            "revokeShare",
+            "asset",
+            "grant",
+            "download"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/pagination.ts",
+      "sha256": "cc3429d48cbda5809892e0fa1b748479e896e11385a9b99f9d8eb73e77581844",
+      "symbols": [
+        {
+          "name": "PageSize",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "PageRequest",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "pageRequest",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "Page",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/privacy.ts",
+      "sha256": "737c5e4cb757ee9632876b76405e495e730fd09de9bd3a36d1ca0140edd03aa5",
+      "symbols": [
+        {
+          "name": "Permission",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PrivacyRepository",
+          "kind": "interface",
+          "methods": [
+            "registerContact",
+            "contact",
+            "confirmContact",
+            "rotateContact",
+            "permission",
+            "consent",
+            "suppress",
+            "suppressed",
+            "privateReport",
+            "savePrivateReport",
+            "request",
+            "steps",
+            "finishStep",
+            "resources",
+            "restrict",
+            "marker",
+            "marked"
+          ]
+        },
+        {
+          "name": "PrivacyStep",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PrivacyResource",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/private-records.ts",
+      "sha256": "127d18d5d2444afb85f992b3e94b47d8f7008e443ed44f535825dddc8398fe09",
+      "symbols": [
+        {
+          "name": "KeyDigest",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Envelope",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Owner",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Contact",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Version",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "ReportItem",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Draft",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "CompareItem",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Comparison",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Quote",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "SharedVersion",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "AssetGrant",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "SendState",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "Send",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/publication.ts",
+      "sha256": "f3f76609c4b298a222728c2ae59f9ecfaf0e67aa11b45e3b0eb3cd5294f86c5d",
+      "symbols": [
+        {
+          "name": "ContentKey",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PublicContent",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "ContentPublication",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PublicConfiguration",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "ConfigurationSnapshot",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PublicationRepository",
+          "kind": "interface",
+          "methods": [
+            "publish",
+            "configure"
+          ]
+        },
+        {
+          "name": "PublicReadRepository",
+          "kind": "interface",
+          "methods": [
+            "content",
+            "configuration"
+          ]
+        },
+        {
+          "name": "PublicObjectReader",
+          "kind": "interface",
+          "methods": [
+            "get"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/reliability.ts",
+      "sha256": "59b5ae17ecbc560a61c97224100b6391fb8a0a4c0dbde9e1de0a48b0429039db",
+      "symbols": [
+        {
+          "name": "OutboxEvent",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "OutboxLease",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "Inbox",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "ReliabilityRepository",
+          "kind": "interface",
+          "methods": [
+            "append",
+            "lease",
+            "acknowledge",
+            "receive",
+            "process"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/repositories.ts",
+      "sha256": "fa8c96dfe71fb23bff75a35a0461c49577a061886ff1cd7ce64def6397180ff6",
+      "symbols": [
+        {
+          "name": "SourceFetchPort",
+          "kind": "interface",
+          "methods": [
+            "fetch"
+          ]
+        },
+        {
+          "name": "Clock",
+          "kind": "interface",
+          "methods": [
+            "now"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "packages/application/src/ports/transactions.ts",
+      "sha256": "4955b07fdd85c682bd3b5becc54c4b230b4956d826414f3761e90b8e818d5415",
+      "symbols": [
+        {
+          "name": "TransactionContext",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "FailureCode",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "ApplicationFailure",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "UnitOfWork",
+          "kind": "interface",
+          "methods": [
+            "run"
+          ]
+        },
+        {
+          "name": "failure",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/config/src/publication.ts",
+      "sha256": "d9bc315701c27b6ea14f290173c6fb0ba3cfb2a617f2fb16b152edecd51718ab",
+      "symbols": [
+        {
+          "name": "publicContent",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "publicConfiguration",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "configurationChecksum",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/config/src/runtime.ts",
+      "sha256": "984462557c5d824c81a76d1d4e8ce9df6061d45deae307dcadad04272574f797",
+      "symbols": [
+        {
+          "name": "RuntimeConfig",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "readRuntimeConfig",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/contracts/src/health.ts",
+      "sha256": "23190406731d41866fbdfada6909274e7d36dd5f2d61499ecde3e37aa8f1225e",
+      "symbols": [
+        {
+          "name": "healthSchema",
+          "kind": "value"
+        },
+        {
+          "name": "HealthResponse",
+          "kind": "TypeAliasDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/contracts/src/primitives.ts",
+      "sha256": "16ae03f8a38b96e548dc632bdd342c3452c9da9e28eaf240b0a938a566d469d4",
+      "symbols": [
+        {
+          "name": "MoneyV1",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "EvidenceV1",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "ErrorEnvelopeV1",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/mappers.ts",
+      "sha256": "11da412d817ba79ad1e151569a50bad58147462a79b1ee7e537a0b366158aa5d",
+      "symbols": [
+        {
+          "name": "IntegrityError",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "StorageRow",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "moneyFromRow",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "moneyToRow",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "tireSizeFromRow",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "reportHeadFromRow",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "schemaVersion",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/analytics.ts",
+      "sha256": "9e10edba61354bc8eb3c1afbf34f5709ebe38a84ec2344661ffbc7ff72c5914b",
+      "symbols": [
+        {
+          "name": "createAnalyticsRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/bounds.ts",
+      "sha256": "9bff9508f1c548fa41c05d4f8f2c1404031129cc6c628d79b3d0d9f47f65580d",
+      "symbols": [
+        {
+          "name": "reject",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "boundedJson",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "digest",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "nextCursor",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "cursor",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "pageLimit",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/capabilities.ts",
+      "sha256": "80e38a28c6cb6084b99d6c747e3769f23b8abd8cfe197e5a5a2c1dce150e757a",
+      "symbols": [
+        {
+          "name": "createCapabilityRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/catalog.ts",
+      "sha256": "2781d104f47f0e3c8993faeee3147e8b02eb87e9f18eb07e3c2e4ee158e5a190",
+      "symbols": [
+        {
+          "name": "Sql",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "createCatalogRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/codec.ts",
+      "sha256": "bbd8ebc9d4432d94e4b30cdba2ea310206ff3abab647bb16d1c9900565bd4737",
+      "symbols": [
+        {
+          "name": "privateFields",
+          "kind": "value"
+        },
+        {
+          "name": "spec",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "value",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "encode",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "decode",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/content.ts",
+      "sha256": "5fc74cb17af40e0ba9c75eb3c8a52580d8713f3d6a5fdc40fa11974990af388d",
+      "symbols": [
+        {
+          "name": "createContentPublicationRepository",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "createPublicReadRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/delivery.ts",
+      "sha256": "7807ee8bb2b22e8fc953ea8e2db26554c6d4b454d667c650aa660b47219b2928",
+      "symbols": [
+        {
+          "name": "createDeliveryRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/facts.ts",
+      "sha256": "48fa8f7ac5ceab85810217c76c962939b0ec8d090b94b1d15d29e41ba979c186",
+      "symbols": [
+        {
+          "name": "Codec",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "Field",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "facts",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/ingestion.ts",
+      "sha256": "eb3298911e8908e7a9366abdf6dff26f1a06c6ed6d01dbe9365bbb700b78be7f",
+      "symbols": [
+        {
+          "name": "runState",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "lockedRun",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "createIngestionRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/limiter.ts",
+      "sha256": "cdb54d7f22a42724f45be3eef4f415ea7b4af63da0c90e8bdcc4e58ae3de2b10",
+      "symbols": [
+        {
+          "name": "createLimiterRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/mutations.ts",
+      "sha256": "975b55ad6aa4f6d93e94f4e536ba49d6ed468e194de5226c41baefd73be0f1f5",
+      "symbols": [
+        {
+          "name": "WriteScope",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "stop",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "guarded",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/operations.ts",
+      "sha256": "71ef8bdbb0e6d46213fba69c7f8e9a47e694a146a18d417018767b66c7c02c4b",
+      "symbols": [
+        {
+          "name": "createOperationsRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/owners.ts",
+      "sha256": "8f99f5b453b4b4b7eebaedd9fa41457c57953faabacbdac73e9ce7184b2f8920",
+      "symbols": [
+        {
+          "name": "createOwnerRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/privacy.ts",
+      "sha256": "afde335f75618a102d4c8eb481c05c522c6ebbfc17868bb4d261596a7133b95f",
+      "symbols": [
+        {
+          "name": "resourceQueries",
+          "kind": "value"
+        },
+        {
+          "name": "createPrivacyRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/private-values.ts",
+      "sha256": "a181e84724f17b9c53b98fa24944cd3debe7b269d381fbb7e4f0c801b277aa4a",
+      "symbols": [
+        {
+          "name": "Row",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "text",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "hex",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "digestKeys",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "envelope",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "jsonObject",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "rid",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "rev",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "stamp",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "obj",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "integer",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "one",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "keyJson",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "lockSubjects",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "ownerGuard",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "reportGuard",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/publication.ts",
+      "sha256": "80e1a5c2cdf65eda57afd46d51b42f83b961226d93986e35f92d85900fb2348a",
+      "symbols": [
+        {
+          "name": "createPublicationRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/reliability.ts",
+      "sha256": "131f3b051b7f76bf8792558d597ac05719259bfefbb8d8e0d6f45241806dfaa0",
+      "symbols": [
+        {
+          "name": "createReliabilityRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/repositories/reports.ts",
+      "sha256": "25963af7ca862889a8e23ac447f3c7256128f92d1a47477d2bef7698b6a61869",
+      "symbols": [
+        {
+          "name": "createReportRepository",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/db/src/transactions.ts",
+      "sha256": "a2b5767a65e98b3a159e6315c681e6410a38702c420ba47b62185cc9b85f047b",
+      "symbols": [
+        {
+          "name": "PgConnection",
+          "kind": "interface",
+          "methods": [
+            "query",
+            "release",
+            "on",
+            "removeListener"
+          ]
+        },
+        {
+          "name": "PgPool",
+          "kind": "interface",
+          "methods": [
+            "connect"
+          ]
+        },
+        {
+          "name": "TransactionLimits",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PersistenceFailure",
+          "kind": "ClassDeclaration"
+        },
+        {
+          "name": "createTransactions",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/entities/catalog.ts",
+      "sha256": "67f7d2e51456f689c85c287c77cb91908bd8995836120b79d3780d798f298fdc",
+      "symbols": [
+        {
+          "name": "Provenance",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "TireSku",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "PriceQuote",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/entities/consent.ts",
+      "sha256": "9bd6c0d6903e3556ed8e6f0b9374712f6eb15b1a53e62461e0d01c2c06866841",
+      "symbols": [
+        {
+          "name": "ConsentPurpose",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "ConsentDecision",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "ConsentProjection",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/entities/import.ts",
+      "sha256": "36b833f6c6f32b66694b91c8b6c85ddfe67e37666093f1389d9ab15443450b83",
+      "symbols": [
+        {
+          "name": "ImportIdentity",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "ImportRun",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/entities/report.ts",
+      "sha256": "5e427cfe58fd3e8d66fd2acb5a54c5db4d7d1e069d29f77feb78f793c0e629d7",
+      "symbols": [
+        {
+          "name": "ReportHead",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "ReportVersionRef",
+          "kind": "interface",
+          "methods": []
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/values/core.ts",
+      "sha256": "c4f37713079cc6f8d91c66f63522eeddc098919b3cacd5315de5f4a7b451d279",
+      "symbols": [
+        {
+          "name": "Result",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "ValueError",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "ok",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "fail",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "invalid",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "Id",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "Revision",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "Instant",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "maxInt64",
+          "kind": "value"
+        },
+        {
+          "name": "id",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "integer",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "revision",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "instant",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "UnknownReason",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "Evidence",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "known",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "unknown",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/values/money.ts",
+      "sha256": "3e1be1105982c632d45467d775a6566c9c8b66091159ee93211549f5ba548ccc",
+      "symbols": [
+        {
+          "name": "Money",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "money",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/values/tire.ts",
+      "sha256": "847b40dab149a559f2652ed53c4e19889b399f4b69d6ea12a290acd75be66f03",
+      "symbols": [
+        {
+          "name": "TireSize",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "tireSize",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/domain/src/values/units.ts",
+      "sha256": "4be7aefc7126515b35f45bda92a24b133439c5e0054cf13d3906ddcd49e048a8",
+      "symbols": [
+        {
+          "name": "Unit",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "Quantity",
+          "kind": "interface",
+          "methods": []
+        },
+        {
+          "name": "quantity",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "quantityText",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "distanceKm",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    },
+    {
+      "path": "packages/integrations/src/public-configuration.ts",
+      "sha256": "a0cbcc46577e1322d16fcb4b4f308ade415f878626581d60b6d141f32f7acc6a",
+      "symbols": [
+        {
+          "name": "createPublicConfigurationReader",
+          "kind": "FunctionDeclaration"
+        }
+      ]
+    }
+  ]
+}

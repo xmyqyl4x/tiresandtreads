@@ -7,7 +7,11 @@ export default defineConfig({
       provider: 'v8',
       include: ['packages/*/src/**/*.ts'],
       // Empty stage-boundary markers have no executable behavior.
-      exclude: ['packages/{domain,engine,application,db,integrations}/src/index.ts'],
+      exclude: [
+        'packages/{domain,engine,application,db,integrations}/src/index.ts',
+        // Generated declarations have complete live-schema parity checks in s2-gate.test.ts.
+        'packages/db/src/models/*.generated.ts',
+      ],
       thresholds: {
         lines: 85,
         statements: 85,

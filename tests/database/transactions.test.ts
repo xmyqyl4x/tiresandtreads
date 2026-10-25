@@ -255,3 +255,28 @@ it('maps actual pg bigint and date results through the explicit storage boundary
   });
   expect(result.ok).toBe(true);
 });
+it('bounds real pool saturation without running the abandoned callback and recovers capacity', async () => {
+  const held = await Promise.all([pool.connect(), pool.connect()]);
+  let ran = false;
+  try {
+    const short = createTransactions(pool, { admissionMs: 50 });
+    expect(
+      await short.unitOfWork.run(async () => {
+        ran = true;
+        return ok(1);
+      }),
+    ).toEqual(fail(failure('timeout')));
+    expect(ran).toBe(false);
+  } finally {
+    held.forEach((c) => c.release());
+  }
+  expect(
+    (
+      await adapter.unitOfWork.run(async (tx) =>
+        ok((await adapter.query(tx, 'SELECT 1 AS n')).rows[0]!.n),
+      )
+    ).ok,
+  ).toBe(true);
+  expect(pool.totalCount).toBeLessThanOrEqual(2);
+  expect(pool.waitingCount).toBe(0);
+});

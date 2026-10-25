@@ -1,6 +1,6 @@
 # P1-PR-012 — Content, operations, analytics and limiter adapters
 
-**October 24, 2026 · in review; owner acceptance pending.** Review: [PR #12](https://github.com/xmyqyl4x/tiresandtreads/pull/12). Baseline: owner-approved [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11), merged at `e94c7cd1f415e303193c546e8a8c7c3ca026e4d5`. Implementer: Codex. Acceptance owner: repository owner. Implements the [012 card](../tasks/phase-1-prs.md#p1-pr-012), S2/E04/E15/E16/E17/E18/E37/E38 and repository portions of DB16–DB19/DB27.
+**October 25, 2026 · accepted after owner approval and merge at `4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce`.** Review: [PR #12](https://github.com/xmyqyl4x/tiresandtreads/pull/12). Baseline: owner-approved [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11), merged at `e94c7cd1f415e303193c546e8a8c7c3ca026e4d5`. Implementer: Codex. Acceptance owner: repository owner. Implements the [012 card](../tasks/phase-1-prs.md#p1-pr-012), S2/E04/E15/E16/E17/E18/E37/E38 and repository portions of DB16–DB19/DB27.
 
 ## Contracts, roles and migration
 

@@ -1,6 +1,6 @@
 # P1-PR-012 validation evidence
 
-**October 24, 2026 America/Los_Angeles · owner acceptance pending.** Baseline: approved PR #11 merge `e94c7cd1f415e303193c546e8a8c7c3ca026e4d5`. See the [implementation protocol](../../P1-PR-012-content-operations-analytics.md) for scope and caller responsibilities.
+**October 24, 2026 America/Los_Angeles validation; accepted after owner approval and merge October 25, 2026.** Baseline: approved PR #11 merge `e94c7cd1f415e303193c546e8a8c7c3ca026e4d5`. See the [implementation protocol](../../P1-PR-012-content-operations-analytics.md) for scope and caller responsibilities.
 
 ## TDD and focused evidence
 
@@ -33,7 +33,7 @@
 
 Total: **235 passing tests**. The 10,000-page SEO fixture used its primary-key index with a bounded 101-row fetch. Recovery elapsed 25398 ms including preparation; synthetic backup window 4795 ms. These local proof measurements are not production throughput or RTO/RPO promises.
 
-The review-link/evidence commit repeats full exact-commit verification before push. [PR #12](https://github.com/xmyqyl4x/tiresandtreads/pull/12) records the final tested SHA and independent CI. Owner acceptance and the full S2 gate at 013 remain pending.
+Final head `1e908c8c7d3e0c50021b350bdf60065205fbed6c` passed full local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40160948554). The owner approved [PR #12](https://github.com/xmyqyl4x/tiresandtreads/pull/12), merged at `4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce`. P1-PR-012 is accepted; full S2 acceptance is recorded at 013 after its owner approval.
 
 ## Remaining gates
 
