@@ -291,6 +291,14 @@ it('fences late refresh completions and recovers expired leases', async () => {
     await result(f.ingestScope.unitOfWork, (tx) => sources.complete(tx, old, receipt, false)),
   ).toMatchObject({ error: { code: 'conflict' } });
   await success(f.ingestScope.unitOfWork, (tx) => sources.complete(tx, current, receipt, false));
+  expect(
+    (
+      await f.owner.query(
+        'SELECT last_success_at=last_attempt_at AS same_check FROM app.feed_health WHERE provider_id=$1 AND kind=$2',
+        [recall.providerId, sourceKey(recall.spec)],
+      )
+    ).rows[0].same_check,
+  ).toBe(true);
 });
 it('denies expired rights before HTTP and persists the failure without starving other due work', async () => {
   const before = requests;

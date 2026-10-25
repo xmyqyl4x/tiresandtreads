@@ -256,7 +256,7 @@ export function createSourceRepository(scope: WriteScope): SourceRepository {
       if (!run.rowCount) return stop('integrity');
       await q(
         tx,
-        `UPDATE app.feed_health SET source_receipt=$3::jsonb,last_attempt_at=clock_timestamp(),last_success_at=clock_timestamp(),last_run_id=$4,error_code=NULL,last_full_at=CASE WHEN $5 THEN clock_timestamp() ELSE last_full_at END,next_check_at=LEAST(clock_timestamp()+$6*interval '1 second',(SELECT expires_at FROM app.data_licenses WHERE id=$7)),lease_token=NULL,lease_until=NULL,failure_count=0,updated_at=clock_timestamp(),revision=revision+1 WHERE provider_id=$1 AND kind=$2`,
+        `UPDATE app.feed_health SET source_receipt=$3::jsonb,last_attempt_at=statement_timestamp(),last_success_at=statement_timestamp(),last_run_id=$4,error_code=NULL,last_full_at=CASE WHEN $5 THEN statement_timestamp() ELSE last_full_at END,next_check_at=LEAST(statement_timestamp()+$6*interval '1 second',(SELECT expires_at FROM app.data_licenses WHERE id=$7)),lease_token=NULL,lease_until=NULL,failure_count=0,updated_at=clock_timestamp(),revision=revision+1 WHERE provider_id=$1 AND kind=$2`,
         [
           lease.providerId,
           sourceKey(lease.spec),
