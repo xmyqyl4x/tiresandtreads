@@ -1,5 +1,5 @@
 import type { Id, Instant, Revision } from '../../../domain/src/values/index.ts';
-import type { ImportIdentity } from '../../../domain/src/entities/import.ts';
+import type { ImportIdentity, ImportRun } from '../../../domain/src/entities/import.ts';
 import type { TransactionContext } from './transactions.ts';
 import type { FactKind, FactRecords, JsonObject } from './catalog-records.ts';
 import type { Page, PageRequest } from './pagination.ts';
@@ -8,7 +8,7 @@ export interface RunState {
   readonly datasetId: Id<'dataset'>;
   readonly revision: Revision;
   readonly fence: bigint;
-  readonly status: string;
+  readonly status: ImportRun['status'];
   readonly throughRow: bigint;
   readonly accepted: bigint;
   readonly rejected: bigint;

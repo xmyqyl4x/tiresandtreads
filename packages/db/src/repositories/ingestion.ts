@@ -5,7 +5,12 @@ import type {
   StagingRow,
 } from '../../../application/src/ports/ingestion.ts';
 import type { TransactionContext } from '../../../application/src/ports/transactions.ts';
-import { id, revision, instant } from '../../../domain/src/values/index.ts';
+import {
+  id,
+  revision,
+  instant,
+  integer as storedInteger,
+} from '../../../domain/src/values/index.ts';
 import type { Sql } from './catalog.ts';
 import { boundedJson, pageLimit, reject } from './bounds.ts';
 import { spec, encode } from './codec.ts';
@@ -16,25 +21,42 @@ export function runState(row: Record<string, unknown>): RunState {
     dataset = id('dataset', row.dataset_version_id),
     rev = revision(row.revision);
   const checkpoint = row.checkpoint as Record<string, unknown> | null;
+  const through = storedInteger(checkpoint?.throughRow, 0n),
+    fence = storedInteger(row.fence, 0n),
+    accepted = storedInteger(row.accepted_count, 0n),
+    rejected = storedInteger(row.rejected_count, 0n);
   if (
     !run.ok ||
     !dataset.ok ||
     !rev.ok ||
     !checkpoint ||
     checkpoint.schemaVersion !== 1 ||
-    typeof checkpoint.throughRow !== 'string' ||
-    !/^\d{1,19}$/.test(checkpoint.throughRow)
+    !through.ok ||
+    !fence.ok ||
+    !accepted.ok ||
+    !rejected.ok ||
+    ![
+      'registered',
+      'fetching',
+      'staging',
+      'validated',
+      'rejected',
+      'publishing',
+      'published',
+      'failed',
+      'cancelled',
+    ].includes(String(row.status))
   )
     return stop('integrity');
   return Object.freeze({
     id: run.value,
     datasetId: dataset.value,
     revision: rev.value,
-    fence: BigInt(String(row.fence)),
-    status: String(row.status),
-    throughRow: BigInt(checkpoint.throughRow),
-    accepted: BigInt(String(row.accepted_count)),
-    rejected: BigInt(String(row.rejected_count)),
+    fence: fence.value,
+    status: row.status as RunState['status'],
+    throughRow: through.value,
+    accepted: accepted.value,
+    rejected: rejected.value,
   });
 }
 const runColumns =

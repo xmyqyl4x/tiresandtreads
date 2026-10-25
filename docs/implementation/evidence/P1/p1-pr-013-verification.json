@@ -1,0 +1,90 @@
+{
+  "sourceCommit": "da3dac6ba61923dd43ec0a768c36ee17bea7f8ba",
+  "verifiedAt": "2026-10-25T18:19:36.157Z",
+  "runtime": {
+    "node": "24.22.1",
+    "postgresql": "18.6",
+    "payload": "3.92.0",
+    "drizzle": "0.45.2"
+  },
+  "tests": {
+    "unitAndUsecase": 95,
+    "database": 65,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 240
+  },
+  "storageParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appColumns": 1574,
+    "catalogFamilies": 25,
+    "catalogFields": 247,
+    "cmsTables": 28
+  },
+  "sourceAudit": {
+    "files": 48,
+    "interfaces": 79,
+    "repositoryMethods": 83
+  },
+  "coverage": {
+    "statements": 92.47,
+    "branches": 87.47,
+    "functions": 99.65,
+    "lines": 97.63
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-ef2986f1066606ae",
+  "appImageId": "ee7ebe5c3ea1561799b6f9e38a0ff1b84dd24474ec80990f7bb7ab51e1147583",
+  "retainedEnvironments": {
+    "dev": {
+      "appMigrations": 14,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true
+    },
+    "stage": {
+      "appMigrations": 14,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true
+    }
+  },
+  "recovery": {
+    "project": "tt-test-143ef9e086dee37e",
+    "elapsedMs": 23596,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 665,
+    "backupWindowMs": 4345,
+    "tables": {
+      "app": 123,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "b473b768bcf6fa69c24c90036bfcbcc161f3030ea2afaf8eb504b3e9e944b0d5",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 613133,
+      "cms": 194200
+    },
+    "backupSha256": {
+      "app": "7e38f7e62737aae6c5b59aba40ad7d9648620b3f03b2cb6fadb5e834754217d0",
+      "cms": "e35fb6beef70df9a22ce96be7a43517617c2531dfbed37e45b148fd3f9899e33"
+    },
+    "migrations": {
+      "app": 14,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  }
+}
