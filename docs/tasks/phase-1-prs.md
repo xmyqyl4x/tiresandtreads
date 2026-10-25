@@ -316,7 +316,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Normalize units, retain unresolved recall targets, validate source schemas and reviewed cross-source mappings.
 - [x] Schedule bounded refresh/reconciliation, record no-change success and alert on coverage/freshness/rights failures.
 
-**Verification and acceptance:** DD01/DD02 rights and source contracts resolved for each accepted connector; recorded source-contract fixtures and permitted live compatibility checks. vPIC identity never asserts fitment; stale recall issuance is blocked. Synthetic tests cannot accept an unselected licensed connector. [Implementation](../implementation/P1-PR-016-domain-source-adapters.md) records the NHTSA/shared-infrastructure work, read-only compatibility observations and open acceptance gates. The card remains in progress: licensed providers/contracts, public-source rights review and the future issuance-service integration are not accepted by synthetic tests or this PR. The owner directed that licensed adapters remain pending while the NHTSA/shared portion proceeds; [validation](../implementation/evidence/P1/p1-pr-016-validation.md) records the completed checks for that portion.
+**Verification and acceptance:** DD01/DD02 rights and source contracts resolved for each accepted connector; recorded source-contract fixtures and permitted live compatibility checks. vPIC identity never asserts fitment; stale recall issuance is blocked. Synthetic tests cannot accept an unselected licensed connector. [Implementation](../implementation/P1-PR-016-domain-source-adapters.md) records the NHTSA/shared-infrastructure work, read-only compatibility observations and open acceptance gates. PR #16 was owner-approved and merged at `a774e1f`; the owner authorized 017 while retaining the licensed-adapter deferral. The card remains in progress: licensed providers/contracts, public-source rights review and the future issuance-service integration are not accepted by synthetic tests or this PR. The owner directed that licensed adapters remain pending while the NHTSA/shared portion proceeds; [validation](../implementation/evidence/P1/p1-pr-016-validation.md) records the completed checks for that portion.
 
 ### P1-PR-017
 
@@ -328,11 +328,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC01, UC02, AT01, AT02, AT03, AT17. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement input normalization, wheel/axle fitment, load/speed, seasonal, replacement/AWD and recall eligibility.
-- [ ] Implement evidence-backed preference ordering, unknowns, stable tie-breaks, exclusions and reason codes.
+- [x] Implement input normalization, wheel/axle fitment, load/speed, seasonal, replacement/AWD and recall eligibility.
+- [x] Implement evidence-backed preference ordering, unknowns, stable tie-breaks, exclusions and reason codes.
 - [ ] Build at least 50 specialist-reviewed golden scenarios and property tests; exclude all paid terms from engine inputs.
 
-**Verification and acceptance:** Unit/property/use-case suites demonstrate safety-before-budget, reproducibility, sparse evidence and commercial invariance; G1 evidence prepared.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-017-eligibility-recommendations.md) and [98-case draft specialist packet](../implementation/evidence/P1/p1-pr-017-golden-review.json) cover deterministic rules, sparse evidence, stable ordering, bounded portfolios and commercial invariance. The third task stays unchecked: actual named specialist review and G1 acceptance remain pending DD06, along with real source/data and 019 resolver/report integration evidence. The technical implementation cannot establish production fitment coverage or issuance authority.
 
 ### P1-PR-018
 

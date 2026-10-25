@@ -109,7 +109,7 @@
   "acceptanceLimits": [
     "Licensed catalog/fitment/pricing/climate adapters remain pending DD01/DD02 by explicit owner direction",
     "NHTSA read-only compatibility is not per-source rights, retention, cross-source mapping or production coverage acceptance; no real source registered/imported/published",
-    "Recall readiness guard is an input to later issuance service 020; no universal recall clearance or safe-to-drive assertion",
+    "Recall readiness guard is an input to later report issuance service 019; no universal recall clearance or safe-to-drive assertion",
     "Cron is a template only; hosted configuration, aggregate pool budget and notification delivery remain pending; original DD03/DD05 hosted provider proofs stay open",
     "No product frontend/API or live-phase release"
   ]
