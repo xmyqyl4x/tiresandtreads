@@ -31,6 +31,8 @@
       "app.code_values",
       "app.comparison_items",
       "app.comparisons",
+      "app.content_publication_heads",
+      "app.content_publications",
       "app.countries",
       "app.currencies",
       "app.data_licenses",
@@ -67,6 +69,7 @@
       "app.owner_sessions",
       "app.price_components",
       "app.prices",
+      "app.public_configurations",
       "app.published_content",
       "app.rate_limit_buckets",
       "app.rate_limit_policies",
@@ -123,7 +126,13 @@
       "privacy.verification_challenges"
     ],
     "views": [
+      "admin.ad_slot_projection",
+      "admin.affiliate_projection",
+      "admin.configuration_projection",
       "admin.current_ad_daily_metrics",
+      "admin.search_projection",
+      "admin.seo_projection",
+      "admin.staff_projection",
       "analytics.visible_daily_metrics",
       "app.catalog_advice_fact_sources",
       "app.catalog_advice_facts",
@@ -153,7 +162,9 @@
       "app.catalog_tire_skus",
       "app.catalog_vehicle_lookup_options",
       "app.catalog_vehicle_reference_links",
-      "app.catalog_vehicles"
+      "app.catalog_vehicles",
+      "app.current_public_content",
+      "app.public_configuration"
     ]
   },
   "cms": {

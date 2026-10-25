@@ -10,6 +10,11 @@ export const databaseRoles = {
     'tt_ingest_runtime',
     'tt_publish_runtime',
     'tt_private_runtime',
+    'tt_content_runtime',
+    'tt_public_runtime',
+    'tt_analytics_runtime',
+    'tt_limiter_runtime',
+    'tt_operations_runtime',
   ],
   cms: ['tt_cms_migrator', 'tt_cms_runtime'],
 } as const;

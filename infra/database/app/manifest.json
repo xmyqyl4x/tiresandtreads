@@ -50,5 +50,9 @@
   {
     "id": "0013_private_access",
     "sha256": "b349254f5507e98ea9c9d1a3d6821ad5e0433d572e2b4a61947ecb17582570d0"
+  },
+  {
+    "id": "0014_operations_access",
+    "sha256": "2691aac16ab7cdeb7bd7908adad910cf9e7490d39129c02b214f17a54c0078c3"
   }
 ]
