@@ -10,6 +10,8 @@
 - Configuration tests cover SQL/object parity, exact schema/checksum validation, restart, monotonic adoption, invalidation during a pending read, cache/expiry, bounded waits, oversized objects and outages. Object transport is injected at the S3 boundary; hosted credentials and full CMS/S3 publication are later composition/service work.
 - Reporting tests preserve missing-versus-zero, nullable denominators, signed revenue, latest complete ad snapshots, expired affiliate checks and private-route exclusions. All records are synthetic; no advertising, analytics collection or external provider is activated.
 
+- A deterministic PostgreSQL statement-trigger barrier reproduced snapshot drift: intake committed after capture started but before its row lock, and a single UPDATE CTE returned generation two with only one event. Capturing under the day lock and then taking a fresh source snapshot restores the correct two-event result. The barrier is synthetic fixture code only.
+
 ## Full verification
 
 Exact-commit pipeline, coverage, retained dev/stage upgrades and final independent CI evidence will be recorded after verification. No owner acceptance, production throughput or live product release is claimed.

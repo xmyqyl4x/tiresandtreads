@@ -253,7 +253,54 @@ it('hides generations immediately on subject restriction and fences a captured p
     await result(analytics.unitOfWork, (tx) => events.purgeSubject(tx, active.subjectId, 10)),
   ).toMatchObject({ ok: false, error: { code: 'forbidden' } });
 });
+it('prevents snapshot drift when receipt commits after capture starts but before its row lock', async () => {
+  const c = await authorized();
+  await success(analytics.unitOfWork, (tx) =>
+    events.receive(tx, c, [{ ...event(), channel: 'app' }]),
+  );
+  // A statement-level fixture barrier deterministically exposes READ COMMITTED row rechecks.
+  await f.admin.query(
+    `CREATE FUNCTION analytics.fixture_capture_barrier() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF current_setting('tt.fixture_capture',true)='yes' THEN PERFORM pg_advisory_xact_lock(19012,1); END IF; RETURN NULL; END $$`,
+  );
+  await f.admin.query(
+    'CREATE TRIGGER fixture_capture_barrier BEFORE UPDATE ON analytics.dirty_days FOR EACH STATEMENT EXECUTE FUNCTION analytics.fixture_capture_barrier()',
+  );
+  await f.admin.query('SELECT pg_advisory_lock(19012,1)');
+  const pending = result(analytics.unitOfWork, async (tx) => {
+    await analytics.query(tx, "SELECT set_config('tt.fixture_capture','yes',true)");
+    return events.capture(tx, 60);
+  });
+  try {
+    let blocked = false;
+    for (let n = 0; n < 100; n++) {
+      blocked =
+        (
+          await f.admin.query(
+            'SELECT 1 FROM pg_locks WHERE locktype=$$advisory$$ AND classid=19012 AND objid=1 AND NOT granted',
+          )
+        ).rowCount! > 0;
+      if (blocked) break;
+      await new Promise((resolve) => setTimeout(resolve, 5));
+    }
+    expect(blocked).toBe(true);
+    await success(analytics.unitOfWork, (tx) =>
+      events.receive(tx, c, [{ ...event(), channel: 'app' }]),
+    );
+  } finally {
+    await f.admin.query('SELECT pg_advisory_unlock(19012,1)');
+  }
+  const captured = await pending;
+  await f.admin.query('DROP TRIGGER fixture_capture_barrier ON analytics.dirty_days');
+  await f.admin.query('DROP FUNCTION analytics.fixture_capture_barrier()');
+  if (!captured.ok || !captured.value) throw Error('Capture fixture failed');
+  await success(analytics.unitOfWork, (tx) => events.publish(tx, captured.value!));
+  expect(
+    captured.value.metrics.find((m) => m.metric === 'events' && m.dimension === 'app')!.value,
+  ).toBe(2n);
+});
 it('expires worker fences, rolls back partial metric replacement, and cleans expired receipts in bounded batches', async () => {
+  const c = await authorized();
+  await success(analytics.unitOfWork, (tx) => events.receive(tx, c, [event()]));
   const b = await build();
   const forged = {
     ...b,

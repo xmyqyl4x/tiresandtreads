@@ -81,24 +81,30 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
     },
     async capture(tx, seconds) {
       if (integer(seconds) > 300) reject();
-      // One SQL statement supplies one MVCC snapshot for generation, restrictions and all source counts.
+      // Lock the day first, then take a fresh source snapshot. A single READ COMMITTED UPDATE CTE
+      // may recheck a newer day row while its sibling SELECT still sees older event rows.
+      // Receipt/restriction/purge cannot commit changes to this day while we hold its row lock.
       const r = await q(
         tx,
         `WITH candidate AS (
      SELECT day FROM analytics.dirty_days WHERE completed_revision<requested_revision AND next_attempt_at<=clock_timestamp() AND (lease_until IS NULL OR lease_until<=clock_timestamp()) AND attempts<1000 ORDER BY next_attempt_at,day LIMIT 1 FOR UPDATE SKIP LOCKED
     ), leased AS (
      UPDATE analytics.dirty_days d SET lease_token=gen_random_uuid(),lease_until=clock_timestamp()+$1*interval '1 second',attempts=attempts+1,updated_at=clock_timestamp(),revision=revision+1 FROM candidate c WHERE d.day=c.day RETURNING d.*
-    ), totals AS (
-     SELECT e.market,CASE WHEN grouping(e.channel)=1 THEN 'all' ELSE e.channel END AS dimension,count(*)::text AS events,count(DISTINCT (e.subject_id,e.session_ref)) FILTER(WHERE e.session_ref IS NOT NULL)::text AS sessions
-     FROM analytics.events e JOIN leased l ON l.day=e.event_day JOIN app.subjects s ON s.id=e.subject_id
-     WHERE s.status='active' AND (s.expires_at IS NULL OR s.expires_at>statement_timestamp()) AND e.expires_at>statement_timestamp() AND e.bot_classification NOT IN ('internal','suspected_bot')
-     GROUP BY GROUPING SETS((e.market),(e.market,e.channel))
-    ) SELECT l.day::text,l.lease_token,l.requested_revision,l.privacy_revision,COALESCE((SELECT jsonb_agg(t) FROM totals t),'[]'::jsonb) AS totals FROM leased l`,
+    ) SELECT day::text,lease_token,requested_revision,privacy_revision FROM leased`,
         [seconds],
       );
       const x = r.rows[0];
       if (!x) return null;
-      const totals = x.totals as {
+      const source = await q(
+        tx,
+        `
+     SELECT e.market,CASE WHEN grouping(e.channel)=1 THEN 'all' ELSE e.channel END AS dimension,count(*)::text AS events,count(DISTINCT (e.subject_id,e.session_ref)) FILTER(WHERE e.session_ref IS NOT NULL)::text AS sessions
+     FROM analytics.events e JOIN app.subjects s ON s.id=e.subject_id
+     WHERE e.event_day=$1 AND s.status='active' AND (s.expires_at IS NULL OR s.expires_at>statement_timestamp()) AND e.expires_at>statement_timestamp() AND e.bot_classification NOT IN ('internal','suspected_bot')
+     GROUP BY GROUPING SETS((e.market),(e.market,e.channel))`,
+        [x.day],
+      );
+      const totals = source.rows as readonly {
         market: string;
         dimension: Metric['dimension'];
         events: string;
