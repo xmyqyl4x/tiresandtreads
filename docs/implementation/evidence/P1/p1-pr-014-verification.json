@@ -1,0 +1,101 @@
+{
+  "sourceCommit": "0f46e022a2af0fd0bf834a6101612d4c65d5e1bd",
+  "verifiedAt": "2026-10-25T19:44:45.370Z",
+  "runtime": {
+    "node": "24.22.1",
+    "postgresql": "18.6",
+    "payload": "3.92.0",
+    "drizzle": "0.45.2",
+    "awsSdk": "3.1156.0",
+    "inngestSdk": "4.26.0",
+    "moto": "5.2.0",
+    "inngestDevServer": "1.49.0-28cb5336b"
+  },
+  "tests": {
+    "unitAndUsecase": 121,
+    "database": 79,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 280
+  },
+  "storageParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appColumns": 1576,
+    "cmsTables": 28
+  },
+  "coverage": {
+    "statements": 92.05,
+    "branches": 87.19,
+    "functions": 97.83,
+    "lines": 96.56
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-941daab4b7397d3b",
+  "appImageId": "c3941d77bc0e7a4c9c3d091e4ac4cadef1c9dded8e4a69477543032699f2a832",
+  "lifecycle": {
+    "stopMs": 659,
+    "exitCode": 143,
+    "appMemory": "50.79MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "85.83MiB / 512MiB",
+    "postgresCpu": "0.03%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "retainedEnvironments": {
+    "dev": {
+      "appMigrations": 15,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true,
+      "stopped": true
+    },
+    "stage": {
+      "appMigrations": 15,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true,
+      "stopped": true
+    }
+  },
+  "hostedAcceptance": "DD03/DD05 still open; local fixtures do not satisfy cloud acceptance",
+  "recovery": {
+    "project": "tt-test-0b98cf1dbe039e3f",
+    "elapsedMs": 22410,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 639,
+    "backupWindowMs": 3971,
+    "tables": {
+      "app": 123,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "dc6d20bd88d5ebb90de9d079075e5470e71bf242f9a503fd6ef50dc5c1518bde",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 616882,
+      "cms": 194207
+    },
+    "backupSha256": {
+      "app": "82acac9332302a152ecc712c86a6972cd6aa6f744e758d348b887ba29682bab7",
+      "cms": "8280cebd21f7a9665653c3fc685fd586b0141c13b0b1c1f9a12d1e707ad091cd"
+    },
+    "migrations": {
+      "app": 15,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  }
+}

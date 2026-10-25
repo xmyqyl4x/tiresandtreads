@@ -1,6 +1,6 @@
 # P1-PR-014 validation evidence
 
-**October 25, 2026 America/Los_Angeles · local verification in progress; owner and hosted provider acceptance pending.** Baseline: approved PR #13 merge `b3286d023dff392e23099377220a359b3d4337f2`. See the [implementation packet](../../P1-PR-014-jobs-assets-runtime.md).
+**October 25, 2026 America/Los_Angeles · local verification passed; owner and hosted provider acceptance pending.** Baseline: approved PR #13 merge `b3286d023dff392e23099377220a359b3d4337f2`. See the [implementation packet](../../P1-PR-014-jobs-assets-runtime.md).
 
 ## TDD and recovery cases
 
@@ -12,7 +12,23 @@ The first integration run exposed an admission-count defect and an insufficient 
 
 ## Final verification
 
-Exact-commit Linux verification, retained dev/stage migration status and independent GitHub CI will be recorded after completion. No full hosted adapter acceptance or live product delivery is claimed.
+`pnpm verify:push` passed on implementation commit `0f46e022a2af0fd0bf834a6101612d4c65d5e1bd` with pinned Linux containers. Main project `tt-test-941daab4b7397d3b` and separate recovery project `tt-test-0b98cf1dbe039e3f` were removed, including provider fixtures and disposable volumes. [Redacted verification record](p1-pr-014-verification.json) retains hashes, counts, lifecycle and recovery timings.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 121 passed |
+| Database/provider | 79 passed, including seven new durability and seven runtime/provider cases |
+| Foundation/schema/recovery | Six / 63 / 11 passed |
+| Total | **280 passing tests** |
+| Coverage | 96.56% lines, 92.05% statements, 97.83% functions, 87.19% branches; existing thresholds unchanged |
+| SQL/model parity | 15 app/two CMS migration checksums; 123 app tables, 39 app views, 1,576 app columns and 28 CMS tables |
+| Provider contracts | Real Inngest callback/reconciliation and Moto S3/KMS SDK requests pass; no external cloud activation |
+| Worker packaging/lifecycle | Bundled worker imports in the actual runner without workspace dependencies and rejects hosted fixture configuration; a valid bundled Linux worker exits zero on SIGTERM; bounded checkout overflow, successful query drain and forced cleanup pass |
+| Full gates | Frozen install, advisory audit, quality, seven deliberate failure gates, health-only web HTTP/restart and separate backup/restore/deletion replay pass |
+| Dev/stage | Additive 0015 applied, replay no-op, 15 app/two CMS with zero pending, credential files unchanged; stopped with retained volumes |
+| Documentation | All 119 cards, 137 original FR rows, dependency edges, source archives and historical approval sections preserved |
+
+The review/evidence commit repeats full exact-commit verification before push. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) records the final tested SHA and independent GitHub CI. Local technical verification is complete; owner review and the original DD03/DD05 hosted adapter acceptance remain pending. These synthetic measurements do not establish production capacity, physical erasure timing or hosted RTO/RPO.
 
 ## Scope limits
 
