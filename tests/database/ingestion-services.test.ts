@@ -290,6 +290,7 @@ it('refuses rollback that would suppress a newer recall warning, including mixed
         authority: 'NHTSA',
         recallNumber: 'SYNTHETIC-015',
         announcedOn: '2026-10-24',
+        reportReceivedOn: null,
         status: 'open',
         sourceUrl: 'https://example.test/recall',
         summary: 'Synthetic warning',

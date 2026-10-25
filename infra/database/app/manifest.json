@@ -66,5 +66,25 @@
   {
     "id": "0017_import_services",
     "sha256": "233235bf9b1b375185bae73759b5212d8a964de3f9bedc02c16da5c2197ce918"
+  },
+  {
+    "id": "0018_source_refresh",
+    "sha256": "5e4f8770c5d0d4808af6a9c0f4062ed093a95bd110ac22a33a11ede80c266990"
+  },
+  {
+    "id": "0019_recall_unknown_summary",
+    "sha256": "f443e0d311ed8e8ad5d6e18c0b4c5e767ef3a3e1c33366c8bef341f94ea53d5b"
+  },
+  {
+    "id": "0020_source_audit_projection",
+    "sha256": "70d52c68f3bfe4dabf601093e0ec2888f5f89dfab802116ca0ebab892b9c2dbe"
+  },
+  {
+    "id": "0021_recall_source_dates",
+    "sha256": "c9e9769d21d3ca9a6b90370da2bc148cbf3176fdb86d0dacdaf56f169dc8c6a0"
+  },
+  {
+    "id": "0022_source_connector_identity",
+    "sha256": "025bb0d2b172be05b2f2d1c1410231b6537becb0a8f7dae46fc51c5a6d68a111"
   }
 ]

@@ -1,0 +1,5 @@
+# Deployment template, not installed or activated by P1-PR-016.
+# One US scheduler host only. flock prevents overlapping tick processes.
+# Supply a reviewed image digest and a private, mode-0600 role-URL environment file.
+# The source CLI itself never publishes validated data or creates approvals.
+* * * * * flock -n /run/lock/tiresandtreads-sources.lock docker run --rm --read-only --tmpfs /tmp:rw,noexec,nosuid,size=256m --memory=768m --cpus=2 --env-file /etc/tiresandtreads/source-worker.env tiresandtreads@sha256:REVIEWED_DIGEST node source.mjs tick

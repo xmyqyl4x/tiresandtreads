@@ -1,0 +1,111 @@
+{
+  "observations": [
+    {
+      "source": "models",
+      "url": "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/474/modelyear/2024/vehicletype/passenger%20car?format=json",
+      "observedAt": "2026-10-25T21:38:59.765393+00:00",
+      "httpStatus": 200,
+      "bytes": 654,
+      "sha256": "65de5be9357294024f355acc5b125bf6a988d335eb78c83d355059fe9e94d3fa",
+      "reportedCount": 4,
+      "observedRows": 4,
+      "rowFields": [
+        "Make_ID",
+        "Make_Name",
+        "Model_ID",
+        "Model_Name",
+        "VehicleTypeId",
+        "VehicleTypeName"
+      ],
+      "scope": "one scoped response; manufacturer page is not whole-source completeness"
+    },
+    {
+      "source": "manufacturers",
+      "url": "https://vpic.nhtsa.dot.gov/api/vehicles/GetAllManufacturers?ManufacturerType=Equipment&format=json&page=1",
+      "observedAt": "2026-10-25T21:39:00.177393+00:00",
+      "httpStatus": 200,
+      "bytes": 15685,
+      "sha256": "392c3cec0a860f0e00e5b59684701e83ad30df37c75ac2505af128c62b7fe6ac",
+      "reportedCount": 100,
+      "observedRows": 100,
+      "rowFields": [
+        "Country",
+        "Mfr_CommonName",
+        "Mfr_ID",
+        "Mfr_Name",
+        "VehicleTypes"
+      ],
+      "scope": "one scoped response; manufacturer page is not whole-source completeness"
+    },
+    {
+      "source": "plants",
+      "url": "https://vpic.nhtsa.dot.gov/api/vehicles/GetEquipmentPlantCodes?equipmentType=1&format=json&reportType=all&year=2024",
+      "observedAt": "2026-10-25T21:39:51.342242+00:00",
+      "httpStatus": 200,
+      "bytes": 279768,
+      "sha256": "cbc2f9b260b9ee72b29bb889a644ac77bcc7ed266c3570f4da308b1f9894dd49",
+      "reportedCount": 1244,
+      "observedRows": 1244,
+      "rowFields": [
+        "Address",
+        "City",
+        "Country",
+        "DOTCode",
+        "Name",
+        "OldDotCode",
+        "PostalCode",
+        "StateProvince",
+        "Status"
+      ],
+      "scope": "one scoped response; manufacturer page is not whole-source completeness"
+    },
+    {
+      "source": "dictionary",
+      "url": "https://static.nhtsa.gov/odi/ffdd/rcl/RCL.txt",
+      "observedAt": "2026-10-25T21:39:00.691566+00:00",
+      "httpStatus": 200,
+      "bytes": 3053,
+      "sha256": "3438cc7e4131efa401dfe6437dbe035607e092c129155dfb411d459d58802203"
+    },
+    {
+      "source": "recall-PRE",
+      "url": "https://static.nhtsa.gov/odi/ffdd/rcl/FLAT_RCL_PRE_2010.zip",
+      "observedAt": "2026-10-25T21:42:44.731049+00:00",
+      "httpStatus": 200,
+      "bytes": 7445650,
+      "sha256": "b08aef9e6dce114b617692bf655a2600211cf68dd79ca756b6fc365fa7e4e2b9",
+      "scope": "local read-only archive inspection; no database import"
+    },
+    {
+      "source": "recall-POST",
+      "url": "https://static.nhtsa.gov/odi/ffdd/rcl/FLAT_RCL_POST_2010.zip",
+      "observedAt": "2026-10-25T21:42:45.672806+00:00",
+      "httpStatus": 200,
+      "bytes": 14936173,
+      "sha256": "e150aa014a295853ebe4949828d88b134788b58d6cc66cd82b6b23167169f125",
+      "scope": "local read-only archive inspection; no database import"
+    }
+  ],
+  "sharedCommandProbe": {
+    "observedAt": "2026-10-25T22:02:34.042Z",
+    "spec": {
+      "type": "nhtsa-tire-recalls"
+    },
+    "rawFingerprint": "dee0772abd237481a143b6b6ac39fcf785b467f334be99d1179b7e6c69d9a818",
+    "normalizedChecksum": "1b373e94e2b84325411d8acc33d153102602ca1a42d83aa349a8e1f34549e1f6",
+    "rows": 23095,
+    "families": {
+      "recalls": 788,
+      "recallSourceTargets": 22307
+    },
+    "unknownSummaries": 131,
+    "maxRowBytes": 3044,
+    "scope": "read-only compatibility; no database import, rights or coverage acceptance"
+  },
+  "normalizedBytes": 17934902,
+  "historicalRowsWithoutSummary": 484,
+  "distinctCampaignsWithoutSummary": 131,
+  "rights": "unresolved for production; technical compatibility is not a rights grant",
+  "licensedSources": "unselected; not tested or accepted",
+  "launchCoverage": "unchanged: zero verified fitment configurations and zero licensed tire models"
+}

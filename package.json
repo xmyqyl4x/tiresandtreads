@@ -43,7 +43,9 @@
     "data:status": "tsx scripts/data/import.ts status",
     "data:diff": "tsx scripts/data/import.ts diff",
     "data:publish": "tsx scripts/data/import.ts publish",
-    "data:rollback": "tsx scripts/data/import.ts rollback"
+    "data:rollback": "tsx scripts/data/import.ts rollback",
+    "data:source": "tsx scripts/data/source.ts",
+    "data:source-probe": "tsx scripts/data/source-probe.ts"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",
@@ -52,6 +54,7 @@
     "@payloadcms/db-postgres": "3.92.0",
     "@types/node": "24.19.2",
     "@types/pg": "8.23.1",
+    "@types/yauzl": "3.4.0",
     "@vitest/coverage-v8": "5.0.5",
     "dependency-cruiser": "18.7.0",
     "drizzle-orm": "0.45.2",
@@ -66,6 +69,7 @@
     "tsx": "4.23.15",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.0",
-    "vitest": "5.0.5"
+    "vitest": "5.0.5",
+    "yauzl": "3.4.0"
   }
 }

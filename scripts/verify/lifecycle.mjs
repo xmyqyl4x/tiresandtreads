@@ -141,6 +141,38 @@ export function verifyLifecycle(plan) {
   } finally {
     run('docker', ['rm', '--force', importId], { capture: true });
   }
+  const sourceId = run(
+    'docker',
+    [
+      'create',
+      '--name',
+      `${plan.project}-source-config-refusal`,
+      '--network',
+      'none',
+      '--memory',
+      '768m',
+      '--read-only',
+      `tiresandtreads-local:${plan.project}`,
+      'node',
+      'source.mjs',
+      'tick',
+    ],
+    { capture: true },
+  );
+  assert.match(sourceId, /^[a-f0-9]{12,64}$/);
+  try {
+    const rejected = spawnSync('docker', ['start', '--attach', sourceId], {
+      encoding: 'utf8',
+      timeout: 15000,
+    });
+    assert(!rejected.error && rejected.status === 1);
+    assert.deepEqual(JSON.parse((rejected.stdout + rejected.stderr).trim()), {
+      ok: false,
+      error: { code: 'unavailable', messageKey: 'errors.source_command', retryable: false },
+    });
+  } finally {
+    run('docker', ['rm', '--force', sourceId], { capture: true });
+  }
   const evidence = {
     stopMs,
     exitCode: state.ExitCode,
@@ -151,6 +183,7 @@ export function verifyLifecycle(plan) {
     invalidHostedConfig: 'rejected',
     workerBundleStartup: 'validated in production image without workspace dependencies',
     importBundleStartup: 'validated in production image without workspace dependencies',
+    sourceBundleStartup: 'validated in production image without workspace dependencies',
     scope: 'idle headless host; DB pool drain measured separately',
   };
   console.log('Container lifecycle measurements:', JSON.stringify(evidence));

@@ -1,0 +1,116 @@
+{
+  "sourceCommit": "b41ee3e8a00d52527f42c15322c2e9add1d60b74",
+  "verifiedAt": "2026-10-25T22:18:28.684Z",
+  "scope": "NHTSA adapters and shared refresh infrastructure; full P1-PR-016 card remains in progress",
+  "ownerDecision": "Keep licensed adapters pending; proceed with NHTSA and shared infrastructure",
+  "tests": {
+    "unitAndUsecase": 153,
+    "database": 103,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 336
+  },
+  "coverage": {
+    "statements": 90.31,
+    "branches": 85.2,
+    "functions": 97.6,
+    "lines": 94.85
+  },
+  "storageParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appTableAndViewColumns": 1594,
+    "codecFields": 250,
+    "factFamilies": 25,
+    "cmsTables": 28,
+    "appMigrations": 22,
+    "cmsMigrations": 2
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-b4f54bbead8ce157",
+  "appImageId": "c5f47d9c2ff916fda67195c60d85601512cb1d490acfce057f0403e6c5b50877",
+  "lifecycle": {
+    "stopMs": 655,
+    "exitCode": 143,
+    "appMemory": "51.56MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "86.62MiB / 512MiB",
+    "postgresCpu": "3.86%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-86df3c6f38ab7fc2",
+    "elapsedMs": 24153,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 722,
+    "backupWindowMs": 4297,
+    "tables": {
+      "app": 123,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "26fa1bfe0aee04abac8cfb059467590ee31e7b7c3395b182671b1ac6da825db6",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 632107,
+      "cms": 194204
+    },
+    "backupSha256": {
+      "app": "207fc6e8b2b088b7688f5bee238c0ebc402bb63f825940b2f933620db3ff31c4",
+      "cms": "18e7a0fd6757516120063ca29e86dbd240af8860fe2720d04bde6d621d4b06a8"
+    },
+    "migrations": {
+      "app": 22,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "retainedEnvironments": {
+    "dev": {
+      "appMigrations": 22,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true,
+      "stopped": true
+    },
+    "stage": {
+      "appMigrations": 22,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "credentialFileUnchanged": true,
+      "stopped": true
+    }
+  },
+  "publicCompatibility": {
+    "evidence": "p1-pr-016-source-probes.json",
+    "normalizedRows": 23095,
+    "tireCampaigns": 788,
+    "unresolvedTargets": 22307,
+    "campaignsWithUnknownSummary": 131,
+    "normalizedBytes": 17934902,
+    "maxNormalizedRowBytes": 3044,
+    "databaseWrites": false,
+    "rightsOrCoverageAcceptance": false
+  },
+  "acceptanceLimits": [
+    "Licensed catalog/fitment/pricing/climate adapters remain pending DD01/DD02 by explicit owner direction",
+    "NHTSA read-only compatibility is not per-source rights, retention, cross-source mapping or production coverage acceptance; no real source registered/imported/published",
+    "Recall readiness guard is an input to later issuance service 020; no universal recall clearance or safe-to-drive assertion",
+    "Cron is a template only; hosted configuration, aggregate pool budget and notification delivery remain pending; original DD03/DD05 hosted provider proofs stay open",
+    "No product frontend/API or live-phase release"
+  ]
+}
