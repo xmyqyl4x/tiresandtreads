@@ -260,10 +260,11 @@ export interface FactRecords {
     readonly id: Id<'recall'>;
     readonly authority: string;
     readonly recallNumber: string;
-    readonly announcedOn: string;
+    readonly announcedOn: string | null;
+    readonly reportReceivedOn: string | null;
     readonly status: string;
     readonly sourceUrl: string;
-    readonly summary: string;
+    readonly summary: string | null;
     readonly productType: string;
     readonly manufacturerEntityId: Id<'domain_entity'> | null;
     readonly componentCode: string | null;
@@ -287,6 +288,8 @@ export interface FactRecords {
     readonly sourceDetails: JsonObject;
     readonly matchStatus: string;
     readonly schemaVersion: 1;
+    readonly doNotDrive: boolean | null;
+    readonly parkOutside: boolean | null;
   }>;
   readonly recallTargets: Readonly<{
     readonly id: Id<'recall_target'>;

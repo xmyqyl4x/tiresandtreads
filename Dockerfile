@@ -38,6 +38,7 @@ COPY --from=builder --chown=node:node /workspace/apps/web/.next/static ./apps/we
 COPY --from=builder --chown=node:node /workspace/.local/preflight.mjs ./preflight.mjs
 COPY --from=builder --chown=node:node /workspace/.local/worker.mjs ./worker.mjs
 COPY --from=builder --chown=node:node /workspace/.local/import.mjs ./import.mjs
+COPY --from=builder --chown=node:node /workspace/.local/source.mjs ./source.mjs
 COPY --chown=node:node scripts/runtime/start.mjs ./start.mjs
 USER node
 EXPOSE 3000

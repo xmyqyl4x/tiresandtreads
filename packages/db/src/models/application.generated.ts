@@ -827,6 +827,8 @@ export const appCatalogRecallSourceTargets = app
     schema_version: integer('schema_version'),
     created_at: timestamp('created_at', { withTimezone: true, mode: 'date' }),
     dataset_version_id: uuid('dataset_version_id'),
+    do_not_drive: boolean('do_not_drive'),
+    park_outside: boolean('park_outside'),
   })
   .existing();
 export type AppCatalogRecallSourceTargetsRow = typeof appCatalogRecallSourceTargets.$inferSelect;
@@ -867,6 +869,7 @@ export const appCatalogRecalls = app
     created_at: timestamp('created_at', { withTimezone: true, mode: 'date' }),
     dataset_version_id: uuid('dataset_version_id'),
     source_record_key: text('source_record_key'),
+    report_received_on: date('report_received_on', { mode: 'string' }),
   })
   .existing();
 export type AppCatalogRecallsRow = typeof appCatalogRecalls.$inferSelect;
@@ -1310,6 +1313,15 @@ export const appFeedHealth = app.table('feed_health', {
     .notNull()
     .default(sql.raw('now()')),
   revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  lease_token: uuid('lease_token'),
+  lease_until: timestamp('lease_until', { withTimezone: true, mode: 'date' }),
+  fence: bigint('fence', { mode: 'bigint' }).notNull().default(sql.raw('0')),
+  next_check_at: timestamp('next_check_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+  source_receipt: jsonb('source_receipt'),
+  last_full_at: timestamp('last_full_at', { withTimezone: true, mode: 'date' }),
+  failure_count: integer('failure_count').notNull().default(sql.raw('0')),
 });
 export type AppFeedHealthRow = typeof appFeedHealth.$inferSelect;
 export type AppFeedHealthInsert = typeof appFeedHealth.$inferInsert;
@@ -1786,6 +1798,8 @@ export const appRecallSourceTargets = app.table('recall_source_targets', {
     .notNull()
     .default(sql.raw('now()')),
   dataset_version_id: uuid('dataset_version_id').notNull(),
+  do_not_drive: boolean('do_not_drive'),
+  park_outside: boolean('park_outside'),
 });
 export type AppRecallSourceTargetsRow = typeof appRecallSourceTargets.$inferSelect;
 export type AppRecallSourceTargetsInsert = typeof appRecallSourceTargets.$inferInsert;
@@ -1812,10 +1826,10 @@ export const appRecalls = app.table('recalls', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   authority: text('authority').notNull(),
   recall_number: text('recall_number').notNull(),
-  announced_on: date('announced_on', { mode: 'string' }).notNull(),
+  announced_on: date('announced_on', { mode: 'string' }),
   status: text('status').notNull(),
   source_url: text('source_url').notNull(),
-  summary: text('summary').notNull(),
+  summary: text('summary'),
   product_type: text('product_type').notNull(),
   manufacturer_entity_id: uuid('manufacturer_entity_id'),
   component_code: text('component_code'),
@@ -1829,6 +1843,7 @@ export const appRecalls = app.table('recalls', {
     .default(sql.raw('now()')),
   dataset_version_id: uuid('dataset_version_id').notNull(),
   source_record_key: text('source_record_key').notNull(),
+  report_received_on: date('report_received_on', { mode: 'string' }),
 });
 export type AppRecallsRow = typeof appRecalls.$inferSelect;
 export type AppRecallsInsert = typeof appRecalls.$inferInsert;
@@ -2042,6 +2057,10 @@ export const appSourceConnectors = app.table('source_connectors', {
     .notNull()
     .default(sql.raw('now()')),
   revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  license_id: uuid('license_id'),
+  configuration: jsonb('configuration'),
+  approval_record_id: uuid('approval_record_id'),
+  reviewed_by: uuid('reviewed_by'),
 });
 export type AppSourceConnectorsRow = typeof appSourceConnectors.$inferSelect;
 export type AppSourceConnectorsInsert = typeof appSourceConnectors.$inferInsert;

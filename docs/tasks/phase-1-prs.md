@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are accepted; P1-PR-013 S2 validation is accepted; P1-PR-014 runtime/jobs/assets is accepted; P1-PR-015 ingestion/publication services is in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are accepted; P1-PR-013 S2 validation is accepted; P1-PR-014 runtime/jobs/assets is accepted; P1-PR-015 ingestion/publication services is accepted; P1-PR-016 source adapters is in progress. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -300,7 +300,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add planned CLI commands for dry-run, publish, resume, status and safe rollback through shared services.
 - [x] Publish coherent bundles with expected-head concurrency and outbox invalidation; enforce source rights and complete-snapshot semantics.
 
-**Verification and acceptance:** [Implementation](../implementation/P1-PR-015-ingestion-publication-services.md) and [validation](../implementation/evidence/P1/p1-pr-015-validation.md) record 310 passing tests, including real PostgreSQL/process CLI proofs for truncated snapshots, duplicates, resumes, expected-head races, rights expiry and rollback that cannot erase a newer recall warning. [PR #15](https://github.com/xmyqyl4x/tiresandtreads/pull/15) is in review; owner approval is pending. Source-specific provider contracts remain 016.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-015-ingestion-publication-services.md) and [validation](../implementation/evidence/P1/p1-pr-015-validation.md) record 310 passing tests, including real PostgreSQL/process CLI proofs for truncated snapshots, duplicates, resumes, expected-head races, rights expiry and rollback that cannot erase a newer recall warning. [PR #15](https://github.com/xmyqyl4x/tiresandtreads/pull/15) was owner-approved and merged at `5504a4a`. Source-specific provider contracts remain 016.
 
 ### P1-PR-016
 
@@ -314,9 +314,9 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 - [ ] Implement official vehicle/manufacturer/plant/recall and selected licensed catalog/fitment/price/climate connectors.
 - [ ] Normalize units, retain unresolved recall targets, validate source schemas and reviewed cross-source mappings.
-- [ ] Schedule bounded refresh/reconciliation, record no-change success and alert on coverage/freshness/rights failures.
+- [x] Schedule bounded refresh/reconciliation, record no-change success and alert on coverage/freshness/rights failures.
 
-**Verification and acceptance:** DD01/DD02 rights and source contracts resolved for each accepted connector; recorded source-contract fixtures and permitted live compatibility checks. vPIC identity never asserts fitment; stale recall issuance is blocked. Synthetic tests cannot accept an unselected licensed connector.
+**Verification and acceptance:** DD01/DD02 rights and source contracts resolved for each accepted connector; recorded source-contract fixtures and permitted live compatibility checks. vPIC identity never asserts fitment; stale recall issuance is blocked. Synthetic tests cannot accept an unselected licensed connector. [Draft implementation](../implementation/P1-PR-016-domain-source-adapters.md) records the NHTSA/shared-infrastructure work, read-only compatibility observations and open acceptance gates. The card remains in progress: licensed providers/contracts, public-source rights review and the future issuance-service integration are not accepted by synthetic tests or this draft.
 
 ### P1-PR-017
 

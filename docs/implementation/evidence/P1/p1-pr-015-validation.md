@@ -1,6 +1,6 @@
 # P1-PR-015 validation evidence
 
-**October 25, 2026 · local verification passed; owner review pending.** Baseline: PR #14 merge `969235fe712ea4989602c8908bc63ad9ca9bcf7a`. See the [implementation packet](../../P1-PR-015-ingestion-publication-services.md) and [redacted verification record](p1-pr-015-verification.json).
+**October 25, 2026 · local verification owner-approved; PR #15 merged at `5504a4a5b543d474bb031d714513de82170f651f`.** Baseline: PR #14 merge `969235fe712ea4989602c8908bc63ad9ca9bcf7a`. See the [implementation packet](../../P1-PR-015-ingestion-publication-services.md) and [redacted verification record](p1-pr-015-verification.json).
 
 ## TDD and functional proof
 
