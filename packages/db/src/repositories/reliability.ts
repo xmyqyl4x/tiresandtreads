@@ -2,6 +2,7 @@ import type { ReliabilityRepository, Inbox } from '../../../application/src/port
 import { guarded, stop, type WriteScope } from './mutations.ts';
 import { digest, reject } from './bounds.ts';
 import { hex, integer, jsonObject, one, rev, rid, text, type Row } from './private-values.ts';
+export const inboxRecoveryQuery = `WITH c AS MATERIALIZED ((SELECT id FROM app.webhook_inbox WHERE state IN ('pending','failed') AND job_id IS NULL AND next_attempt_at IS NULL ORDER BY id LIMIT 4) UNION ALL (SELECT id FROM app.webhook_inbox WHERE state IN ('pending','failed') AND job_id IS NULL AND next_attempt_at<=statement_timestamp() ORDER BY next_attempt_at,id LIMIT 4)) SELECT i.id,i.revision,i.state FROM app.webhook_inbox i JOIN c USING(id) WHERE i.job_id IS NULL AND i.state IN ('pending','failed') ORDER BY i.created_at,i.id LIMIT 4 FOR UPDATE OF i SKIP LOCKED`;
 
 function inbox(row: Row): Inbox {
   if (!['pending', 'processing', 'processed', 'quarantined', 'failed'].includes(String(row.state)))
@@ -15,6 +16,38 @@ function inbox(row: Row): Inbox {
 export function createReliabilityRepository(scope: WriteScope): ReliabilityRepository {
   const q = scope.query;
   return guarded(scope, {
+    async current(tx, id, jobId) {
+      const x = (
+        await q(
+          tx,
+          'SELECT id,revision,state FROM app.webhook_inbox WHERE id=$1 AND ($2::uuid IS NULL OR job_id=$2) FOR UPDATE',
+          [id, jobId ?? null],
+        )
+      ).rows[0];
+      return x ? inbox(x) : null;
+    },
+    async unscheduled(tx) {
+      return (await q(tx, inboxRecoveryQuery)).rows.map(inbox);
+    },
+    async scheduled(tx, id, jobId) {
+      one(
+        (
+          await q(
+            tx,
+            `UPDATE app.webhook_inbox SET job_id=$2 WHERE id=$1 AND (job_id IS NULL OR job_id=$2) RETURNING id`,
+            [id, jobId],
+          )
+        ).rows,
+      );
+    },
+    async quarantineOrphans(tx) {
+      // New consumers never commit 'processing' separately from their SQL effect/completion.
+      // Preserve uncertainty from legacy/unfenced consumers instead of blindly repeating them.
+      await q(
+        tx,
+        `WITH c AS (SELECT id FROM app.webhook_inbox WHERE state='processing' ORDER BY id LIMIT 100 FOR UPDATE SKIP LOCKED) UPDATE app.webhook_inbox i SET state='quarantined',last_error_code='legacy_processing',revision=revision+1,updated_at=clock_timestamp() FROM c WHERE i.id=c.id AND NOT EXISTS(SELECT 1 FROM app.job_runs j WHERE j.id=i.job_id AND j.state IN ('pending','running','failed'))`,
+      );
+    },
     async append(tx, e) {
       const payload = jsonObject(e.payload, 4096);
       integer(e.version);

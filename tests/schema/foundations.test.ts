@@ -268,18 +268,19 @@ it('validates asset purpose, readiness, digest, size, deletion and opaque object
     ]),
   ).rejects.toMatchObject({ code: '23514', constraint: 'object_assets_key_ck' });
   for (const [change, constraint] of [
-    ["state='ready'", 'object_assets_ready_ck'],
+    ["state='ready'", null],
     ["sha256='invalid'", 'object_assets_hash_ck'],
     ['size_bytes=-1', 'object_assets_size_ck'],
-    ["state='deleted'", 'object_assets_deleted_ck'],
+    ["state='deleted'", null],
   ])
     await expect(
       asset.query(`UPDATE app.object_assets SET ${change} WHERE id=$1`, [assetId]),
-    ).rejects.toMatchObject({ code: '23514', constraint });
+    ).rejects.toMatchObject({ code: '23514', ...(constraint ? { constraint } : {}) });
   await asset.query(
-    "UPDATE app.object_assets SET state='ready',sha256=$2,size_bytes=12 WHERE id=$1",
+    "UPDATE app.object_assets SET state='ready',sha256=$2,size_bytes=12,object_version='fixture-v1',key_version='fixture-key' WHERE id=$1",
     [assetId, 'a'.repeat(64)],
   );
+  await asset.query("UPDATE app.object_assets SET state='deleting' WHERE id=$1", [assetId]);
   await asset.query("UPDATE app.object_assets SET state='deleted',deleted_at=now() WHERE id=$1", [
     assetId,
   ]);

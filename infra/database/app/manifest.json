@@ -54,5 +54,13 @@
   {
     "id": "0014_operations_access",
     "sha256": "2691aac16ab7cdeb7bd7908adad910cf9e7490d39129c02b214f17a54c0078c3"
+  },
+  {
+    "id": "0015_runtime_durability",
+    "sha256": "fe0785ac06b6ed3d55abba2a9fd0b01f389a64cb37bb8c41497323bd5c0be365"
+  },
+  {
+    "id": "0016_inbox_job_binding",
+    "sha256": "7d4c845675c9c3c4d3cde8e21595f19edc3108d234d8325b871141b6a6cd3057"
   }
 ]

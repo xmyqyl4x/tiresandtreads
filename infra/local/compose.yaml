@@ -87,9 +87,47 @@ services:
       TEST_DATABASE_URL: postgresql://local_harness:${POSTGRES_PASSWORD:?}@postgres:5432/tt_app
       TEST_CMS_DATABASE_URL: postgresql://local_harness:${POSTGRES_PASSWORD:?}@postgres:5432/tt_cms
       TEST_BASE_URL: http://app:3000
+      TEST_STORAGE_ENDPOINT: http://moto:5000
+      TEST_WORKFLOW_ENDPOINT: http://inngest:8288
     command: [pnpm, test:db]
     mem_limit: 1536m
     cpus: 2
+    networks: [local]
+  moto:
+    profiles: [verify, providers]
+    image: motoserver/moto:5.2.0@sha256:d8d063e3e704d256cbe8165072fa273c17698be91311e49fc602b7716f459bea
+    environment:
+      MOTO_PORT: '5000'
+    healthcheck:
+      test:
+        [
+          CMD,
+          python,
+          -c,
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/moto-api/')",
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    mem_limit: 512m
+    cpus: 1
+    networks: [local]
+  inngest:
+    profiles: [verify, providers]
+    image: inngest/inngest@sha256:ad551e89e493e34db74d155be37dc5549930fcb6eb8382e502c17da9762821c7
+    command:
+      [
+        inngest,
+        dev,
+        --host,
+        '0.0.0.0',
+        --no-discovery,
+        --no-poll,
+        -u,
+        'http://test:8123/internal/inngest',
+      ]
+    mem_limit: 512m
+    cpus: 1
     networks: [local]
 volumes:
   postgres-data:

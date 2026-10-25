@@ -25,6 +25,10 @@ export interface Inbox {
   readonly state: 'pending' | 'processing' | 'processed' | 'quarantined' | 'failed';
 }
 export interface ReliabilityRepository {
+  current(tx: Tx, id: Id<'inbox'>, jobId?: Id<'job'>): Promise<Inbox | null>;
+  scheduled(tx: Tx, id: Id<'inbox'>, jobId: Id<'job'>): Promise<void>;
+  unscheduled(tx: Tx): Promise<readonly Inbox[]>;
+  quarantineOrphans(tx: Tx): Promise<void>;
   append(tx: Tx, event: OutboxEvent): Promise<Id<'outbox'>>;
   lease(tx: Tx, worker: string, seconds: number): Promise<OutboxLease | null>;
   acknowledge(tx: Tx, lease: OutboxLease): Promise<void>;

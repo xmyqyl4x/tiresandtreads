@@ -22,9 +22,21 @@ export function verifyLocal() {
       '--audit-level',
       'high',
     ]);
-    compose(plan, ['up', '--detach', '--wait', '--wait-timeout', '120', 'postgres', 'app']);
+    compose(plan, [
+      '--profile',
+      'verify',
+      'up',
+      '--detach',
+      '--wait',
+      '--wait-timeout',
+      '120',
+      'postgres',
+      'app',
+      'moto',
+      'inngest',
+    ]);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'quality']);
-    compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:coverage']);
+    compose(plan, ['run', '--rm', '--no-deps', '--use-aliases', 'test', 'pnpm', 'test:coverage']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:gates']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:foundation']);
     compose(plan, ['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:schema']);
@@ -39,7 +51,7 @@ export function verifyLocal() {
       recovery: verifyRecovery(),
     };
   } finally {
-    compose(plan, ['down', '--volumes', '--remove-orphans']);
+    compose(plan, ['--profile', 'verify', 'down', '--volumes', '--remove-orphans']);
     unlinkSync(plan.envFile);
   }
 }

@@ -224,6 +224,7 @@ export async function catalogFixture() {
       };
     }
     return {
+      connectionUrl: url,
       adapter,
       owner: db,
       provider,

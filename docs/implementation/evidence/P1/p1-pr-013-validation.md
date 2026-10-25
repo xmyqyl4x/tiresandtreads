@@ -1,6 +1,6 @@
 # P1-PR-013 validation evidence
 
-**October 25, 2026 America/Los_Angeles · owner S2 acceptance pending.** Baseline: approved PR #12 merge `4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce`. See the [gate packet](../../P1-PR-013-s2-data-access-gate.md) and [audit](../../P1-PR-013-s2-contract-audit.md).
+**October 25, 2026 America/Los_Angeles · accepted after owner approval and merge October 25, 2026.** Baseline: approved PR #12 merge `4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce`. See the [gate packet](../../P1-PR-013-s2-data-access-gate.md) and [audit](../../P1-PR-013-s2-contract-audit.md).
 
 ## TDD and focused checks
 
@@ -33,7 +33,7 @@
 
 Total: **240 passing tests**. Recovery elapsed 23596 ms including preparation; synthetic backup window 4345 ms. Selected query fixtures remain bounded at 101 fetched rows and use their measured indexes. These local results are not production capacity or hosted RTO/RPO claims.
 
-The review/evidence commit repeats exact-commit verification before push. [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13) records its final tested SHA and independent CI. Technical S2 validation is complete; owner gate acceptance remains pending before dependent S3 work starts.
+Final head `b6238b6b4d328171336ee8ee361131e49a140fd4` passed exact-commit local verification and [independent GitHub CI](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40220957645). The owner approved [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13), merged at `b3286d023dff392e23099377220a359b3d4337f2`. The internal S2 gate is accepted and P1-PR-014 is authorized.
 
 ## Evidence and limits
 

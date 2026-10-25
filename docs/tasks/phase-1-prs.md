@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are accepted; P1-PR-013 S2 validation is in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are accepted; P1-PR-012 content/operations/analytics/limiter adapters are accepted; P1-PR-013 S2 validation is accepted; P1-PR-014 runtime/jobs/assets is in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -268,7 +268,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Run real transaction/ownership/pool/query suites and dependency lint rules.
 - [x] Publish S2 evidence and revised effort/critical-path forecast; assign any required schema corrections before services start.
 
-**Verification and acceptance:** [Gate packet](../implementation/P1-PR-013-s2-data-access-gate.md), [audit](../implementation/P1-PR-013-s2-contract-audit.md), [forecast](../implementation/P1-PR-013-s2-forecast.md) and [validation](../implementation/evidence/P1/p1-pr-013-validation.md). Complete live-schema/model/codec, real transaction/pool/owner/query and dependency checks are included. [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13) is in review; owner S2 acceptance remains pending before 014 starts.
+**Verification and acceptance:** [Gate packet](../implementation/P1-PR-013-s2-data-access-gate.md), [audit](../implementation/P1-PR-013-s2-contract-audit.md), [forecast](../implementation/P1-PR-013-s2-forecast.md) and [validation](../implementation/evidence/P1/p1-pr-013-validation.md). Complete live-schema/model/codec, real transaction/pool/owner/query and dependency checks are included. [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13) was owner-approved and merged at `b3286d0`; S2 is accepted.
 
 ### P1-PR-014
 
@@ -280,11 +280,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB08, DB15. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Compose narrow runtime credentials, clocks, repositories and provider ports; add bounded container pools, graceful shutdown and host-neutral deployment metadata.
-- [ ] Implement outbox relay/Inngest retry/lease/reconciliation and private S3 asset lifecycle/encryption adapters.
-- [ ] Add redacted operational telemetry, job deadlines, retry limits and failure queues.
+- [x] Compose narrow runtime credentials, clocks, repositories and provider ports; add bounded container pools, graceful shutdown and host-neutral deployment metadata.
+- [x] Implement outbox relay/Inngest retry/lease/reconciliation and private S3 asset lifecycle/encryption adapters.
+- [x] Add redacted operational telemetry, job deadlines, retry limits and failure queues.
 
-**Verification and acceptance:** Crash/replay/late-worker and revoked-asset tests; retries cannot create a second logical effect and secrets stay out of logs.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-014-jobs-assets-runtime.md) and [validation](../implementation/evidence/P1/p1-pr-014-validation.md) cover local crash/replay/late-worker, revoked-asset, real SDK/dev-server and bounded worker/pool tests. [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14) is in review; owner review and the original DD03/DD05 hosted provider proofs remain pending for full adapter acceptance. No exactly-once external effect or live product claim.
 
 ### P1-PR-015
 

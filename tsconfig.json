@@ -18,6 +18,7 @@
     "packages/**/*.ts",
     "tests/**/*.ts",
     "scripts/database/**/*.ts",
+    "scripts/runtime/**/*.ts",
     "infra/database/**/*.ts",
     "vitest.config.ts"
   ],

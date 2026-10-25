@@ -64,6 +64,45 @@ export function verifyLifecycle(plan) {
     // Remove exactly the container created above, including a failed startup timeout.
     run('docker', ['rm', '--force', refusalId], { capture: true });
   }
+  // The runner has no workspace node_modules. Validate the actual bundled worker entry point.
+  const workerId = run(
+    'docker',
+    [
+      'create',
+      '--name',
+      `${plan.project}-worker-config-refusal`,
+      '--network',
+      'none',
+      '--memory',
+      '768m',
+      '--cpus',
+      '2',
+      '--read-only',
+      '-e',
+      'APP_ENV=production',
+      '-e',
+      'PROVIDER_MODE=fixtures',
+      `tiresandtreads-local:${plan.project}`,
+      'node',
+      'worker.mjs',
+    ],
+    { capture: true },
+  );
+  assert.match(workerId, /^[a-f0-9]{12,64}$/);
+  try {
+    const rejected = spawnSync('docker', ['start', '--attach', workerId], {
+      encoding: 'utf8',
+      timeout: 15000,
+    });
+    assert(!rejected.error && rejected.status !== null && rejected.status !== 0);
+    assert.equal(
+      (rejected.stdout + rejected.stderr).trim(),
+      'Worker unavailable',
+      'Bundled worker imports must load without workspace dependencies and reject unsafe configuration safely',
+    );
+  } finally {
+    run('docker', ['rm', '--force', workerId], { capture: true });
+  }
   const evidence = {
     stopMs,
     exitCode: state.ExitCode,
@@ -72,6 +111,7 @@ export function verifyLifecycle(plan) {
     postgresMemory: databaseResources.MemUsage,
     postgresCpu: databaseResources.CPUPerc,
     invalidHostedConfig: 'rejected',
+    workerBundleStartup: 'validated in production image without workspace dependencies',
     scope: 'idle headless host; DB pool drain measured separately',
   };
   console.log('Container lifecycle measurements:', JSON.stringify(evidence));

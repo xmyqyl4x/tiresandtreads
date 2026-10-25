@@ -1,6 +1,6 @@
 # P1-PR-013 — S2 contract and storage audit
 
-**October 25, 2026 · technical review complete; owner S2 acceptance pending.** Scope: accepted SQL/Payload schema plus 009–012 entities, records, mappers, repository interfaces and implementations, including the corrections in [013](P1-PR-013-s2-data-access-gate.md).
+**October 25, 2026 · accepted with owner-approved PR #13, merged at `b3286d0`.** Scope: accepted SQL/Payload schema plus 009–012 entities, records, mappers, repository interfaces and implementations, including the corrections in [013](P1-PR-013-s2-data-access-gate.md).
 
 ## Complete inventory
 
