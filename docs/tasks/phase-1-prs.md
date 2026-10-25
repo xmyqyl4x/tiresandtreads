@@ -1,6 +1,6 @@
 # Phase 1 — live US tire-advice website
 
-**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 43 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. P1-PR-001/002/003 are accepted; P1-PR-004 database foundations are accepted; P1-PR-005 domain/catalog/import schemas are accepted; P1-PR-006 report/consent/delivery/reliability schemas are accepted; P1-PR-007 CMS/SEO/ads/analytics/quota schemas are accepted; P1-PR-008 S1 validation and recovery proofs are accepted; P1-PR-009 entities and transaction helpers are accepted; P1-PR-010 catalog and ingestion repositories are accepted; P1-PR-011 owner/report/privacy/delivery repositories are in review. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** A driver completes supported assessment, comparison and optional report delivery; staff operates licensed imports, privacy, SEO and ad-ready public education.
 
@@ -220,7 +220,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Implement bounded staging/batch/checkpoint, coherent publication/head compare-and-set and source reverse indexes.
 - [x] Add parameterized queries, keyset pagination and explicit license/coverage projections.
 
-**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-010-catalog-ingestion.md) and [validation evidence](../implementation/evidence/P1/p1-pr-010-validation.md). Real PostgreSQL tests cover all 25 fact families, restricted capabilities, partial publication, fenced/resumed imports, head contention and pinned keyset reads. Synthetic query-plan/memory evidence records workload and limits. [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10) is in review; owner acceptance remains pending.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-010-catalog-ingestion.md) and [validation evidence](../implementation/evidence/P1/p1-pr-010-validation.md). Real PostgreSQL tests cover all 25 fact families, restricted capabilities, partial publication, fenced/resumed imports, head contention and pinned keyset reads. Synthetic query-plan/memory evidence records workload and limits. [PR #10](https://github.com/xmyqyl4x/tiresandtreads/pull/10) was owner-approved and merged at `18a264a`.
 
 ### P1-PR-011
 
@@ -232,11 +232,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB01, DB03, DB04, DB07, DB12, DB15. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement scoped report/draft/compare/capability and contact/permission repositories with explicit mappers.
-- [ ] Implement send/attempt/outbox/inbox and privacy/deletion graph persistence on one transaction client.
-- [ ] Add revision checks, lock ordering, key rotation lookup and asset-grant projections.
+- [x] Implement scoped report/draft/compare/capability and contact/permission repositories with explicit mappers.
+- [x] Implement send/attempt/outbox/inbox and privacy/deletion graph persistence on one transaction client.
+- [x] Add revision checks, lock ordering, key rotation lookup and asset-grant projections.
 
-**Verification and acceptance:** Round-trip/null/money tests plus real rollback, wrong-owner and concurrent identity/cancel tests; no hidden cross-pool transaction.
+**Verification and acceptance:** [Implementation packet](../implementation/P1-PR-011-owner-report-delivery.md) and [validation evidence](../implementation/evidence/P1/p1-pr-011-validation.md). Real PostgreSQL tests cover scoped ownership/capabilities, immutable versions, exact money, identity rotation, consent revisions, delivery contention, transactional rollback and fenced reliability records. [PR #11](https://github.com/xmyqyl4x/tiresandtreads/pull/11) is in review; owner acceptance remains pending.
 
 ### P1-PR-012
 

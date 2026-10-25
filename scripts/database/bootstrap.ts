@@ -9,6 +9,7 @@ export const databaseRoles = {
     'tt_catalog_runtime',
     'tt_ingest_runtime',
     'tt_publish_runtime',
+    'tt_private_runtime',
   ],
   cms: ['tt_cms_migrator', 'tt_cms_runtime'],
 } as const;

@@ -46,5 +46,9 @@
   {
     "id": "0012_catalog_access",
     "sha256": "c6ad68ba46923347160b0fe0905c6b0c5dd94b8b5af07f081a4207e29889ed7a"
+  },
+  {
+    "id": "0013_private_access",
+    "sha256": "b349254f5507e98ea9c9d1a3d6821ad5e0433d572e2b4a61947ecb17582570d0"
   }
 ]
