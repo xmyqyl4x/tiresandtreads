@@ -19,6 +19,7 @@
     "tests/**/*.ts",
     "scripts/database/**/*.ts",
     "scripts/runtime/**/*.ts",
+    "scripts/data/**/*.ts",
     "infra/database/**/*.ts",
     "vitest.config.ts"
   ],

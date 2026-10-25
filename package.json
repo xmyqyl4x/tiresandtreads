@@ -37,7 +37,13 @@
     "source:check": "node scripts/verify/source.mjs",
     "verify:data-access": "node scripts/verify/data-access.mjs",
     "test:coverage": "vitest run --project unit --project usecases --project database --coverage",
-    "db:models": "node scripts/verify/storage-models.mjs"
+    "db:models": "node scripts/verify/storage-models.mjs",
+    "data:dry-run": "tsx scripts/data/import.ts dry-run",
+    "data:resume": "tsx scripts/data/import.ts resume",
+    "data:status": "tsx scripts/data/import.ts status",
+    "data:diff": "tsx scripts/data/import.ts diff",
+    "data:publish": "tsx scripts/data/import.ts publish",
+    "data:rollback": "tsx scripts/data/import.ts rollback"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",

@@ -62,5 +62,9 @@
   {
     "id": "0016_inbox_job_binding",
     "sha256": "7d4c845675c9c3c4d3cde8e21595f19edc3108d234d8325b871141b6a6cd3057"
+  },
+  {
+    "id": "0017_import_services",
+    "sha256": "233235bf9b1b375185bae73759b5212d8a964de3f9bedc02c16da5c2197ce918"
   }
 ]

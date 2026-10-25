@@ -1,6 +1,6 @@
 # P1-PR-014 validation evidence
 
-**October 25, 2026 America/Los_Angeles · local verification passed; owner and hosted provider acceptance pending.** Baseline: approved PR #13 merge `b3286d023dff392e23099377220a359b3d4337f2`. See the [implementation packet](../../P1-PR-014-jobs-assets-runtime.md).
+**October 25, 2026 America/Los_Angeles · local verification accepted by the owner; PR #14 merged at `969235fe712ea4989602c8908bc63ad9ca9bcf7a`. Hosted DD03/DD05 provider acceptance remains pending.** Baseline: approved PR #13 merge `b3286d023dff392e23099377220a359b3d4337f2`. See the [implementation packet](../../P1-PR-014-jobs-assets-runtime.md).
 
 ## TDD and recovery cases
 

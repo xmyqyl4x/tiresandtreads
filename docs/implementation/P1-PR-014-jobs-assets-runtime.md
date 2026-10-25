@@ -1,6 +1,6 @@
 # P1-PR-014 — Durable jobs, private assets and runtime composition
 
-**October 25, 2026 · local implementation in review; owner review and hosted adapter acceptance pending.** Review: [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14). Baseline: owner-approved [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13), merged at `b3286d023dff392e23099377220a359b3d4337f2`. Implements the [014 card](../tasks/phase-1-prs.md#p1-pr-014), S3/E02/E12/E13/E14 and foundation portions of DB08/DB15. [Validation](evidence/P1/p1-pr-014-validation.md) records the actual local proof. Four live phases, database-first construction, PostgreSQL consolidation and option-C deployment are unchanged.
+**October 25, 2026 · local implementation owner-approved and merged at `969235fe712ea4989602c8908bc63ad9ca9bcf7a`; hosted DD03/DD05 adapter acceptance remains pending.** Review: [PR #14](https://github.com/xmyqyl4x/tiresandtreads/pull/14). Baseline: owner-approved [PR #13](https://github.com/xmyqyl4x/tiresandtreads/pull/13), merged at `b3286d023dff392e23099377220a359b3d4337f2`. Implements the [014 card](../tasks/phase-1-prs.md#p1-pr-014), S3/E02/E12/E13/E14 and foundation portions of DB08/DB15. [Validation](evidence/P1/p1-pr-014-validation.md) records the actual local proof. Four live phases, database-first construction, PostgreSQL consolidation and option-C deployment are unchanged.
 
 ## Runtime and ownership
 
