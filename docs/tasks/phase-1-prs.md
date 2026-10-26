@@ -390,7 +390,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Unit/use-case/real DB tests cover forged grants, withdraw/grant races, hard-bounce suppression and no email-gated assessment.
 
-**Implementation status:** S3 technical implementation in owner review in [PR #20](https://github.com/xmyqyl4x/tiresandtreads/pull/20); [service contract](../implementation/P1-PR-020-contact-consent.md) and [validation](../implementation/evidence/P1/p1-pr-020-validation.md). Public transports, actual sender/notice review and physical privacy-job fulfillment remain at their planned cards. Specialist review and licensed adapters remain pending independently.
+**Implementation status:** S3 technical implementation accepted after owner approval and [PR #20](https://github.com/xmyqyl4x/tiresandtreads/pull/20) merge `2de57d88`; [service contract](../implementation/P1-PR-020-contact-consent.md) and [validation](../implementation/evidence/P1/p1-pr-020-validation.md). Public transports, actual sender/notice review and physical privacy-job fulfillment remain at their planned cards. Specialist review and licensed adapters remain pending independently.
 
 ### P1-PR-021
 
@@ -402,11 +402,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-02, UC10, UC17, AT16, AT27, DB16, DB27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement reviewed CMS publication bridge, learning-link selection, glossary and pure decoder/checklist behavior.
-- [ ] Implement portable SQL/S3 public-config and safe redirect publication with revision, expiry and cross-replica invalidation; public page registry, metadata/sitemap/structured-data policies and private exclusion.
-- [ ] Add bounded crawl audits, Search Console/IndexNow adapters and aggregate metrics where authorized; expose missing data honestly.
+- [x] Implement reviewed CMS publication bridge, learning-link selection, glossary and pure decoder/checklist behavior.
+- [x] Implement portable SQL/S3 public-config and safe redirect publication with revision, expiry and cross-replica invalidation; public page registry, metadata/sitemap/structured-data policies and private exclusion.
+- [x] Add bounded crawl audits, Search Console/IndexNow adapters and aggregate metrics where authorized; expose missing data honestly.
 
 **Verification and acceptance:** Role/publication retry tests and headless SEO/tool contracts; publication reaches all replicas within 60 seconds, out-of-order updates are rejected and expired safety/privacy configuration fails closed; unsafe redirects and private indexing rejected.
+
+**Implementation status:** S3 technical implementation for owner review; [contract](../implementation/P1-PR-021-content-seo.md) and [validation](../implementation/evidence/P1/p1-pr-021-validation.md). Real editorial/provider property/key-file verification, worker/CDN propagation and API/browser/live acceptance remain at their declared gates. Specialist review and licensed adapters remain pending independently.
 
 ### P1-PR-022
 

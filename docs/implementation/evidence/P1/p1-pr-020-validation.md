@@ -1,6 +1,6 @@
 # P1-PR-020 validation evidence
 
-**October 25, 2026 · S3 implementation for review.** Baseline: approved PR #19 merge `2bacfc78c60a86e6d49eed372ccd5c6b6fd7b714`. See the [service contract](../../P1-PR-020-contact-consent.md). Specialist review and licensed adapters remain pending under the owner's instruction; this independent contact/consent card does not close those gates.
+**October 25, 2026 · S3 technical implementation approved and merged as PR #20 at `2de57d88`.** Baseline: approved PR #19 merge `2bacfc78c60a86e6d49eed372ccd5c6b6fd7b714`. See the [service contract](../../P1-PR-020-contact-consent.md). Specialist review and licensed adapters remain pending under the owner's instruction; this independent contact/consent card does not close those gates.
 
 ## TDD and behavioral evidence
 

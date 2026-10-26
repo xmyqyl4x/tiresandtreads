@@ -94,5 +94,9 @@
   {
     "id": "0024_contact_services",
     "sha256": "e116b93a025c49c94c10794b8c0537c9bc8d06569a55965a415a4ceee62c6d58"
+  },
+  {
+    "id": "0025_content_services",
+    "sha256": "badef02daf9401b6949858fd88e151c35aa7557e8b6a4b2b1241d6fdb45c9c4e"
   }
 ]

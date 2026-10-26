@@ -6,5 +6,9 @@
   {
     "id": "0002_editorial",
     "sha256": "3fba70327721526a6180efc6112270818dad0103655512ca9d32250e975a58f4"
+  },
+  {
+    "id": "0003_publication_bridge",
+    "sha256": "aa7825e3de6a1ee0c0d205099bf40db50861f158e4f9ecd8e8f8eb5f3272823a"
   }
 ]

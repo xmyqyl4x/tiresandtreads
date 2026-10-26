@@ -474,9 +474,10 @@ export function registerCmsEditorialTests(
     await expect(
       cms.create({ collection: 'articles', overrideAccess: false, data: { title: 'Denied' } }),
     ).rejects.toMatchObject({ status: 403 });
+    // PR-021 grants the trusted bridge source reads; Payload HTTP/local access checks still deny guests.
     await expect(
-      clients().tt_cms_runtime.query('SELECT * FROM public.articles'),
-    ).rejects.toMatchObject({ code: '42501' });
+      clients().tt_cms_runtime.query('SELECT id FROM public.articles'),
+    ).resolves.toBeDefined();
   });
   it('P1-PR-007 UC10 DB16 constrains publication identity and rolls back content plus work atomically', async () => {
     const db = clients().tt_cms_migrator;

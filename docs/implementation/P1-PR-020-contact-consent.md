@@ -1,6 +1,6 @@
 # P1-PR-020 — Contact, consent and suppression services
 
-**October 25, 2026 · S3 implementation for review.** Baseline: owner-approved [PR #19](https://github.com/xmyqyl4x/tiresandtreads/pull/19), merged at `2bacfc78c60a86e6d49eed372ccd5c6b6fd7b714`. The owner retained specialist review and licensed adapters as pending. This implements E11 service behavior for UC06/UC08, AT10/AT11/AT19 and DB07, advancing FR-DEL-01/02/03/04/05/07, FR-CKE-01/02/03/06/09, FR-DAT-04, FR-PRV-04 and CORE-01 at S3 only. It does not activate email providers, advertising vendors, identity sharing or a live product.
+**October 25, 2026 · S3 technical implementation approved and merged as PR #20 at `2de57d88`.** Baseline: owner-approved [PR #19](https://github.com/xmyqyl4x/tiresandtreads/pull/19), merged at `2bacfc78c60a86e6d49eed372ccd5c6b6fd7b714`. The owner retained specialist review and licensed adapters as pending. This implements E11 service behavior for UC06/UC08, AT10/AT11/AT19 and DB07, advancing FR-DEL-01/02/03/04/05/07, FR-CKE-01/02/03/06/09, FR-DAT-04, FR-PRV-04 and CORE-01 at S3 only. It does not activate email providers, advertising vendors, identity sharing or a live product.
 
 ## Service and trust boundaries
 

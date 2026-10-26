@@ -1110,6 +1110,16 @@ export const appCurrentPublicContent = app
   })
   .existing();
 export type AppCurrentPublicContentRow = typeof appCurrentPublicContent.$inferSelect;
+export const appCurrentRedirects = app
+  .view('current_redirects', {
+    revision: integer('revision'),
+    issued_at: timestamp('issued_at', { withTimezone: true, mode: 'date' }),
+    expires_at: timestamp('expires_at', { withTimezone: true, mode: 'date' }),
+    rules: jsonb('rules'),
+    checksum: text('checksum'),
+  })
+  .existing();
+export type AppCurrentRedirectsRow = typeof appCurrentRedirects.$inferSelect;
 export const appDataLicenses = app.table('data_licenses', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   provider_id: uuid('provider_id').notNull(),
@@ -1736,6 +1746,29 @@ export const appPublicConfigurations = app.table('public_configurations', {
 });
 export type AppPublicConfigurationsRow = typeof appPublicConfigurations.$inferSelect;
 export type AppPublicConfigurationsInsert = typeof appPublicConfigurations.$inferInsert;
+export const appPublicPageDetails = app.table('public_page_details', {
+  content_key: text('content_key').notNull(),
+  locale: text('locale').notNull(),
+  market: text('market').notNull(),
+  generation: bigint('generation', { mode: 'bigint' }).notNull(),
+  document_id: uuid('document_id').notNull(),
+  collection: text('collection').notNull(),
+  public_path: text('public_path').notNull(),
+  document: jsonb('document'),
+});
+export type AppPublicPageDetailsRow = typeof appPublicPageDetails.$inferSelect;
+export type AppPublicPageDetailsInsert = typeof appPublicPageDetails.$inferInsert;
+export const appPublicPages = app
+  .view('public_pages', {
+    id: uuid('id'),
+    public_path: text('public_path'),
+    content_key: text('content_key'),
+    locale: text('locale'),
+    market: text('market'),
+    document: jsonb('document'),
+  })
+  .existing();
+export type AppPublicPagesRow = typeof appPublicPages.$inferSelect;
 export const appPublishedContent = app.table('published_content', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   content_key: text('content_key').notNull(),
@@ -1847,6 +1880,16 @@ export const appRecalls = app.table('recalls', {
 });
 export type AppRecallsRow = typeof appRecalls.$inferSelect;
 export type AppRecallsInsert = typeof appRecalls.$inferInsert;
+export const appRedirectPublications = app.table('redirect_publications', {
+  revision: integer('revision').notNull(),
+  issued_at: timestamp('issued_at', { withTimezone: true, mode: 'date' }).notNull(),
+  expires_at: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull(),
+  rules: jsonb('rules').notNull(),
+  checksum: text('checksum').notNull(),
+  reviewer_id: uuid('reviewer_id').notNull(),
+});
+export type AppRedirectPublicationsRow = typeof appRedirectPublications.$inferSelect;
+export type AppRedirectPublicationsInsert = typeof appRedirectPublications.$inferInsert;
 export const appReferenceCodeValues = app.table('reference_code_values', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   system: text('system').notNull(),
@@ -2783,12 +2826,14 @@ export const storageTables = {
   appPriceComponents,
   appPrices,
   appPublicConfigurations,
+  appPublicPageDetails,
   appPublishedContent,
   appRateLimitBuckets,
   appRateLimitPolicies,
   appRecallSourceTargets,
   appRecallTargets,
   appRecalls,
+  appRedirectPublications,
   appReferenceCodeValues,
   appReportAssets,
   appReportCapabilities,
@@ -2879,6 +2924,8 @@ export const storageViews = {
   appCatalogVehicleReferenceLinks,
   appCatalogVehicles,
   appCurrentPublicContent,
+  appCurrentRedirects,
   appPublicConfiguration,
+  appPublicPages,
   appReportPolicies,
 } as const;
