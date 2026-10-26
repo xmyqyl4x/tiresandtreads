@@ -1,6 +1,6 @@
 # P1-PR-021 validation evidence
 
-**October 25, 2026 · S3 implementation for review.** Baseline: approved PR #20 merge `2de57d88b69b7683b9a0ed1831548d2908e06555`. See the [service contract](../../P1-PR-021-content-seo.md). Specialist review and licensed adapters remain pending under the owner's instruction; this independent card does not close those gates.
+**October 25, 2026 · S3 technical implementation owner-approved and merged in PR #21 at `c7595c59`.** Baseline: approved PR #20 merge `2de57d88b69b7683b9a0ed1831548d2908e06555`. See the [service contract](../../P1-PR-021-content-seo.md). Specialist review and licensed adapters remain pending under the owner's instruction; this independent card does not close those gates.
 
 ## TDD and scope
 

@@ -2285,6 +2285,36 @@ export const appWebhookInbox = app.table('webhook_inbox', {
 });
 export type AppWebhookInboxRow = typeof appWebhookInbox.$inferSelect;
 export type AppWebhookInboxInsert = typeof appWebhookInbox.$inferInsert;
+export const emailDeliverySnapshots = email.table('delivery_snapshots', {
+  send_id: uuid('send_id').notNull(),
+  verification_id: uuid('verification_id').notNull(),
+  offers_verification_id: uuid('offers_verification_id'),
+  permission_event_id: uuid('permission_event_id').notNull(),
+  document: jsonb('document').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type EmailDeliverySnapshotsRow = typeof emailDeliverySnapshots.$inferSelect;
+export type EmailDeliverySnapshotsInsert = typeof emailDeliverySnapshots.$inferInsert;
+export const emailDeliveryWork = email.table('delivery_work', {
+  send_id: uuid('send_id').notNull(),
+  lease_token: uuid('lease_token'),
+  lease_generation: bigint('lease_generation', { mode: 'bigint' }).notNull().default(sql.raw('0')),
+  lease_until: timestamp('lease_until', { withTimezone: true, mode: 'date' }),
+  next_attempt_at: timestamp('next_attempt_at', { withTimezone: true, mode: 'date' }).notNull(),
+  failures: integer('failures').notNull().default(sql.raw('0')),
+  first_attempt_at: timestamp('first_attempt_at', { withTimezone: true, mode: 'date' }),
+  payload_asset_id: uuid('payload_asset_id'),
+  pdf_asset_id: uuid('pdf_asset_id'),
+  payload_hash: text('payload_hash'),
+  last_error: text('last_error'),
+  updated_at: timestamp('updated_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type EmailDeliveryWorkRow = typeof emailDeliveryWork.$inferSelect;
+export type EmailDeliveryWorkInsert = typeof emailDeliveryWork.$inferInsert;
 export const emailEducationTopicMap = email.table('education_topic_map', {
   rule_version_id: uuid('rule_version_id').notNull(),
   reason_code: text('reason_code').notNull(),
@@ -2856,6 +2886,8 @@ export const storageTables = {
   appVehicleReferenceLinks,
   appVehicles,
   appWebhookInbox,
+  emailDeliverySnapshots,
+  emailDeliveryWork,
   emailEducationTopicMap,
   emailEmailEvents,
   emailEmailFeedback,

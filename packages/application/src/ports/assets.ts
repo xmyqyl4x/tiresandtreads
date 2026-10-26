@@ -12,7 +12,7 @@ export interface AssetLocation {
 }
 export interface AssetInput {
   readonly id: Id<'asset'>;
-  readonly purpose: 'report_pdf' | 'import_source';
+  readonly purpose: 'report_pdf' | 'import_source' | 'email_payload';
   readonly mime: 'application/pdf' | 'application/json' | 'text/csv';
   readonly sha256: string;
   readonly size: number;
