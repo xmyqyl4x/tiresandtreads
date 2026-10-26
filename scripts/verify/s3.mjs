@@ -7,7 +7,10 @@ export function evaluateServiceGate(register, packet) {
     register.schemaVersion !== 1 ||
     register.stage !== 'S3' ||
     !Array.isArray(register.gates) ||
-    register.gates.length < 6 ||
+    register.gates.length !== 6 ||
+    ['acceptanceRequested', 'endpointImplementationAllowed', 'publicActivation'].some(
+      (key) => typeof register[key] !== 'boolean',
+    ) ||
     new Set(register.gates.map((g) => g.id)).size !== register.gates.length
   )
     throw Error('Invalid S3 register');
@@ -21,22 +24,51 @@ export function evaluateServiceGate(register, packet) {
   ];
   if (required.some((id) => !register.gates.some((g) => g.id === id)))
     throw Error('Missing S3 gate');
-  if (!Array.isArray(packet.scenarios) || packet.scenarioCount !== packet.scenarios.length)
+  if (
+    !Array.isArray(packet.scenarios) ||
+    packet.scenarioCount !== packet.scenarios.length ||
+    packet.scenarios.some((s) => typeof s.id !== 'string' || !s.id.trim()) ||
+    new Set(packet.scenarios.map((s) => s.id)).size !== packet.scenarios.length
+  )
     throw Error('Invalid specialist packet');
+  const kinds = {
+    'G1-specialist': 'human_review',
+    'G1-fitment-catalog': 'provider',
+    'G1-prices': 'provider',
+    'G2-provider-effects': 'provider',
+    'G2-privacy-policy': 'human_review',
+    'S3-service-host': 'technical_integration',
+  };
+  const dated = (value) =>
+    typeof value === 'string' &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value) &&
+    Number.isFinite(Date.parse(value)) &&
+    new Date(value).toISOString() === value;
   const reviewed = packet.scenarios.filter(
     (s) =>
       s.specialistReview?.status === 'accepted' &&
       typeof s.specialistReview.reviewer === 'string' &&
       s.specialistReview.reviewer.trim() &&
-      typeof s.specialistReview.reviewedAt === 'string',
+      dated(s.specialistReview.reviewedAt),
   ).length;
   for (const gate of register.gates) {
-    if (!['pending', 'accepted'].includes(gate.status) || !Array.isArray(gate.records))
+    if (
+      gate.kind !== kinds[gate.id] ||
+      !['pending', 'accepted'].includes(gate.status) ||
+      !Array.isArray(gate.records)
+    )
       throw Error('Invalid S3 evidence state');
     if (
       gate.status === 'accepted' &&
       (gate.records.length === 0 ||
-        gate.records.some((r) => r.kind !== gate.kind || !r.path || !r.reviewer))
+        gate.records.some(
+          (r) =>
+            r.kind !== gate.kind ||
+            typeof r.path !== 'string' ||
+            !r.path.trim() ||
+            typeof r.reviewer !== 'string' ||
+            !r.reviewer.trim(),
+        ))
     )
       throw Error('Actual scoped evidence required');
   }

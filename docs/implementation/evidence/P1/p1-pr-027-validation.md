@@ -30,6 +30,8 @@ Retained Docker dev/stage both have **33 app/three CMS applied, zero pending**, 
 
 The first coverage run caught an incorrect test expectation for an invalid maintenance result: the project contract redacts unknown failures to `unavailable`. The expectation now follows that existing contract. Combined-fixture setup was corrected to match stored notice policy and schema references; stale-token refusal uses an otherwise valid event batch. No coverage threshold, constraint, trigger or gate was weakened.
 
+A final gate review reproduced an older-predicate false positive with a malformed review date. The checker now rejects malformed/noncanonical dates, duplicate scenario IDs, relabeled evidence kinds, blank reviewers and non-boolean decisions. The regression cases pass against the corrected predicate; the actual on-disk specialist packet remains unchanged at zero accepted reviews. The final pushed code receives the complete exact-commit gate again.
+
 ## Acceptance result
 
 `s3:check` verifies the inventory; `s3:acceptance` must fail with the current pending evidence. The [register](s3-service-register.json) preserves 98 draft cases/zero actual specialist reviews and pending provider/source/privacy/host proof. Full S3/G1/G2 and dependent endpoint work remain open/held. Four live phases, PostgreSQL consolidation, app/DB outside Vercel and APIs before UI remain unchanged.

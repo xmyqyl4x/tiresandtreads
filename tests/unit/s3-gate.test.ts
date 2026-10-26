@@ -64,5 +64,21 @@ it('can accept a fully evidenced in-memory predicate without altering any real r
     endpointImplementationAllowed: true,
     actualSpecialistReviews: 50,
   });
+  for (const reviewedAt of ['', 'not-a-date', '2026-02-30T00:00:00.000Z']) {
+    const malformed = structuredClone(p);
+    malformed.scenarios[0].specialistReview.reviewedAt = reviewedAt;
+    expect(() => evaluateServiceGate(r, malformed)).toThrow('specialist');
+  }
+  const duplicate = structuredClone(p);
+  duplicate.scenarios[1].id = duplicate.scenarios[0].id;
+  expect(() => evaluateServiceGate(r, duplicate)).toThrow('packet');
+  const relabeled = structuredClone(r);
+  relabeled.gates[1].kind = 'fixture';
+  relabeled.gates[1].records[0].kind = 'fixture';
+  expect(() => evaluateServiceGate(relabeled, p)).toThrow('evidence state');
+  const unnamed = structuredClone(r);
+  unnamed.gates[1].records[0].reviewer = '  ';
+  expect(() => evaluateServiceGate(unnamed, p)).toThrow('scoped evidence');
+  expect(() => evaluateServiceGate({ ...r, acceptanceRequested: 'true' as never }, p)).toThrow();
   expect(inspectServiceRegister().actualSpecialistReviews).toBe(0);
 });

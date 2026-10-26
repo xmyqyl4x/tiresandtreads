@@ -20,6 +20,7 @@ export interface GoldenPacket {
   readonly scenarioCount: number;
   readonly reviewStatus: string;
   readonly scenarios: readonly {
+    readonly id: string;
     readonly specialistReview?: {
       readonly status: string;
       readonly reviewer: string | null;
