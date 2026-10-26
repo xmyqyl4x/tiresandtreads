@@ -164,6 +164,8 @@ export function createDeliveryServices(d: {
               verificationId: ctx.reportIntentId,
               offersId: ctx.offersIntentId,
               document,
+              pdfAssetId: d.crypto.id('asset', id + ':pdf'),
+              payloadAssetId: d.crypto.id('asset', id + ':payload'),
             });
             await d.reliability.append(tx, {
               eventId: d.crypto.id('event'),

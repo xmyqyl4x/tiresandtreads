@@ -1,6 +1,6 @@
 # P1-PR-024 validation evidence
 
-**October 26, 2026 · S3 implementation in [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24) for review.** Baseline: approved PR #23 merge `c71df71471544868fd0a47b9ca7275508670e7ae`. See the [service/database/budget contract](../../P1-PR-024-analytics-limits-operations.md). Specialist review and licensed adapters remain pending.
+**October 26, 2026 · S3 implementation approved and merged in [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24) at `4ba7b446ee343eac9baabd3d98bb8ba228d11890`.** Baseline: approved PR #23 merge `c71df71471544868fd0a47b9ca7275508670e7ae`. See the [service/database/budget contract](../../P1-PR-024-analytics-limits-operations.md). Specialist review and licensed adapters remain pending.
 
 ## TDD and scope
 

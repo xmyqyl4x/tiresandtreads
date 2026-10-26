@@ -70,3 +70,23 @@ export function createAssetService(deps: {
     },
   };
 }
+
+export function createAssetRetentionService(
+  services: readonly Pick<ReturnType<typeof createAssetService>, 'reconcile' | 'erase'>[],
+) {
+  return async (dryRun = true) => {
+    if (typeof dryRun !== 'boolean') throw Error('Invalid retention mode');
+    let candidates = 0,
+      erased = 0;
+    for (const service of services) {
+      const ids = await service.reconcile();
+      candidates += ids.length;
+      if (!dryRun)
+        for (const id of ids) {
+          await service.erase(id);
+          erased++;
+        }
+    }
+    return { dryRun, candidates, erased };
+  };
+}

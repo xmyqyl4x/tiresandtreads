@@ -47,6 +47,8 @@ export interface DeliveryWorkRepository {
       verificationId: Id<'verification'>;
       offersId: Id<'verification'> | null;
       document: DeliveryDocument;
+      pdfAssetId: Id<'asset'>;
+      payloadAssetId: Id<'asset'>;
     }>,
   ): Promise<void>;
   template(
