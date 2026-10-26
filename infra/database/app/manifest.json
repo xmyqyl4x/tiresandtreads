@@ -122,5 +122,9 @@
   {
     "id": "0031_privacy_recovery_index",
     "sha256": "9ee6130b47ac46a52fd659630c3f04399f27403935360c40126150c581028bd7"
+  },
+  {
+    "id": "0032_staff_commercial_services",
+    "sha256": "f604edf0837deb5410525aa88c33b6bd7d8fa28d44cfff7bbb2177a11b1b21ae"
   }
 ]

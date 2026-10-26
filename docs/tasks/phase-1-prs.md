@@ -480,7 +480,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Deletion while processing and restored-backup use cases pass; revoked shares/assets cannot be recovered by stale caches or jobs.
 
-**Implementation status:** S3 implementation in [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) for owner review; [contract](../implementation/P1-PR-025-privacy-retention-recovery.md) and [validation](../implementation/evidence/P1/p1-pr-025-validation.md). Separate privacy authority, owner/email proofs, immediate restriction, durable journal acknowledgment, fenced SQL/email/object/analytics erasure, late-renderer barriers, dry-run retention and authenticated restore replay are implemented. Access/export/correction use audited actual operator fulfillment. Production jurisdiction/provider/journal durability, HTTP/UI and scheduled-host evidence retain their gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** Owner-approved [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25), merged `7aa1b542`; [contract](../implementation/P1-PR-025-privacy-retention-recovery.md) and [validation](../implementation/evidence/P1/p1-pr-025-validation.md). Separate privacy authority, owner/email proofs, immediate restriction, durable journal acknowledgment, fenced SQL/email/object/analytics erasure, late-renderer barriers, dry-run retention and authenticated restore replay are implemented. Access/export/correction use audited actual operator fulfillment. Production jurisdiction/provider/journal durability, HTTP/UI and scheduled-host evidence retain their gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-026
 
@@ -492,11 +492,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-03, UC17, AT03, AT27, DB27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement role-scoped staff queues, masked queries, audited configuration and recovery commands.
-- [ ] Implement approved affiliate destinations, ad route/slot/consent/brand policy, ads.txt and house fallback configuration.
-- [ ] Import/reconcile aggregate ad reports, source revisions and currencies; expose fill/revenue/consent/latency status without private joins.
+- [x] Implement role-scoped staff queues, masked queries, audited configuration and recovery commands.
+- [x] Implement approved affiliate destinations, ad route/slot/consent/brand policy, ads.txt and house fallback configuration.
+- [x] Import/reconcile aggregate ad reports, source revisions and currencies; expose fill/revenue/consent/latency status without private joins.
 
 **Verification and acceptance:** Role and financial-correction tests; private/form placements rejected and ad configuration leaves tire ranking unchanged.
+
+**Implementation status:** S3 staff/commercial/revenue implementation in [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26) for owner review; [contract](../implementation/P1-PR-026-staff-commerce-revenue.md), [validation](../implementation/evidence/P1/p1-pr-026-validation.md). Current-role masked queues, audited fenced recovery, independent commercial review, checked destinations, deny-first placement/house policy and immutable correction-aware aggregate imports are implemented. Network/affiliate approvals, live adapters, staff MFA/HTTP/UI and rendered privacy/performance retain their gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-027
 

@@ -1,6 +1,6 @@
 # P1-PR-025 — Privacy rights, retention and recovery services
 
-**October 26, 2026 · S3 implementation in [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) for owner review.** Baseline: approved [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24), merged at `4ba7b446ee343eac9baabd3d98bb8ba228d11890`. Dependencies #13/#14/#19/#20/#23/#24 are merged; the explicit specialist/source acceptance deferrals on #19 remain. DD01/DD02 licensed adapters and DD06/G1 specialist review stay pending. Report issuance, actual email and product analytics collection remain disabled.
+**October 26, 2026 · S3 technical scope accepted; owner-approved [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) merged at `7aa1b54216b50fc687ff8990fb7edb93a83f8d4c`.** Baseline: approved [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24), merged at `4ba7b446ee343eac9baabd3d98bb8ba228d11890`. Dependencies #13/#14/#19/#20/#23/#24 are merged; the explicit specialist/source acceptance deferrals on #19 remain. DD01/DD02 licensed adapters and DD06/G1 specialist review stay pending. Report issuance, actual email and product analytics collection remain disabled.
 
 This implements the P1 headless portion of E14, UC09, AT14 and DB13/DB18, with NFR-04/05/06, CORE-13 and the erasable-linkage portion of FR-CKE-09. It does not mark original FR rows, full legal applicability, production provider erasure, future AI/photo/mobile/buyer stores, HTTP/UI journeys or a live phase accepted. See [validation evidence](evidence/P1/p1-pr-025-validation.md).
 

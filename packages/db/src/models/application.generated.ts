@@ -55,6 +55,16 @@ export const adminAdDailyMetrics = admin.table('ad_daily_metrics', {
 });
 export type AdminAdDailyMetricsRow = typeof adminAdDailyMetrics.$inferSelect;
 export type AdminAdDailyMetricsInsert = typeof adminAdDailyMetrics.$inferInsert;
+export const adminAdMetricObservations = admin.table('ad_metric_observations', {
+  metric_id: uuid('metric_id').notNull(),
+  viewable_impressions: bigint('viewable_impressions', { mode: 'bigint' }),
+  consent_requests: bigint('consent_requests', { mode: 'bigint' }),
+  total_requests: bigint('total_requests', { mode: 'bigint' }),
+  latency_samples: bigint('latency_samples', { mode: 'bigint' }),
+  latency_total_ms: bigint('latency_total_ms', { mode: 'bigint' }),
+});
+export type AdminAdMetricObservationsRow = typeof adminAdMetricObservations.$inferSelect;
+export type AdminAdMetricObservationsInsert = typeof adminAdMetricObservations.$inferInsert;
 export const adminAdNetworkAccounts = admin.table('ad_network_accounts', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   network: text('network').notNull(),
@@ -130,6 +140,13 @@ export const adminAffiliateApplications = admin.table('affiliate_applications', 
 });
 export type AdminAffiliateApplicationsRow = typeof adminAffiliateApplications.$inferSelect;
 export type AdminAffiliateApplicationsInsert = typeof adminAffiliateApplications.$inferInsert;
+export const adminAffiliateCheckBindings = admin.table('affiliate_check_bindings', {
+  check_id: uuid('check_id').notNull(),
+  link_revision: bigint('link_revision', { mode: 'bigint' }).notNull(),
+  destination_hash: text('destination_hash').notNull(),
+});
+export type AdminAffiliateCheckBindingsRow = typeof adminAffiliateCheckBindings.$inferSelect;
+export type AdminAffiliateCheckBindingsInsert = typeof adminAffiliateCheckBindings.$inferInsert;
 export const adminAffiliateLinkChecks = admin.table('affiliate_link_checks', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   link_id: uuid('link_id').notNull(),
@@ -196,6 +213,52 @@ export const adminAuditIdentityLinks = admin.table('audit_identity_links', {
 });
 export type AdminAuditIdentityLinksRow = typeof adminAuditIdentityLinks.$inferSelect;
 export type AdminAuditIdentityLinksInsert = typeof adminAuditIdentityLinks.$inferInsert;
+export const adminCommercialAffiliates = admin
+  .view('commercial_affiliates', {
+    link_key: text('link_key'),
+    market: text('market'),
+    destination: text('destination'),
+    approved_origin: text('approved_origin'),
+    checked_at: timestamp('checked_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AdminCommercialAffiliatesRow = typeof adminCommercialAffiliates.$inferSelect;
+export const adminCommercialBrands = admin
+  .view('commercial_brands', {
+    brand_key: text('brand_key'),
+    market: text('market'),
+  })
+  .existing();
+export type AdminCommercialBrandsRow = typeof adminCommercialBrands.$inferSelect;
+export const adminCommercialPolicy = admin
+  .view('commercial_policy', {
+    version: integer('version'),
+    value: jsonb('value'),
+    network_ready: boolean('network_ready'),
+  })
+  .existing();
+export type AdminCommercialPolicyRow = typeof adminCommercialPolicy.$inferSelect;
+export const adminCommercialRevenue = admin
+  .view('commercial_revenue', {
+    account_id: uuid('account_id'),
+    source_revision: text('source_revision'),
+    source_generation: bigint('source_generation', { mode: 'bigint' }),
+    fetched_at: timestamp('fetched_at', { withTimezone: true, mode: 'date' }),
+    day: date('day', { mode: 'string' }),
+    dimension_key: text('dimension_key'),
+    currency: text('currency'),
+    impressions: bigint('impressions', { mode: 'bigint' }),
+    eligible_requests: bigint('eligible_requests', { mode: 'bigint' }),
+    revenue_minor: bigint('revenue_minor', { mode: 'bigint' }),
+    revenue_status: text('revenue_status'),
+    viewable_impressions: bigint('viewable_impressions', { mode: 'bigint' }),
+    consent_requests: bigint('consent_requests', { mode: 'bigint' }),
+    total_requests: bigint('total_requests', { mode: 'bigint' }),
+    latency_samples: bigint('latency_samples', { mode: 'bigint' }),
+    latency_total_ms: bigint('latency_total_ms', { mode: 'bigint' }),
+  })
+  .existing();
+export type AdminCommercialRevenueRow = typeof adminCommercialRevenue.$inferSelect;
 export const adminConfigurationProjection = admin
   .view('configuration_projection', {
     key: text('key'),
@@ -251,6 +314,19 @@ export const adminFeatureStates = admin.table('feature_states', {
 });
 export type AdminFeatureStatesRow = typeof adminFeatureStates.$inferSelect;
 export type AdminFeatureStatesInsert = typeof adminFeatureStates.$inferInsert;
+export const adminRecoveryCommands = admin.table('recovery_commands', {
+  id: uuid('id').notNull(),
+  actor_id: uuid('actor_id').notNull(),
+  kind: text('kind').notNull(),
+  input_digest: text('input_digest').notNull(),
+  state: text('state').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('clock_timestamp()')),
+  finished_at: timestamp('finished_at', { withTimezone: true, mode: 'date' }),
+});
+export type AdminRecoveryCommandsRow = typeof adminRecoveryCommands.$inferSelect;
+export type AdminRecoveryCommandsInsert = typeof adminRecoveryCommands.$inferInsert;
 export const adminRoles = admin.table('roles', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   code: text('code').notNull(),
@@ -374,6 +450,14 @@ export const adminSeoProjection = admin
   })
   .existing();
 export type AdminSeoProjectionRow = typeof adminSeoProjection.$inferSelect;
+export const adminStaffCallbackQueue = admin
+  .view('staff_callback_queue', {
+    id: uuid('id'),
+    state: text('state'),
+    due_at: timestamp('due_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AdminStaffCallbackQueueRow = typeof adminStaffCallbackQueue.$inferSelect;
 export const adminStaffIdentities = admin.table('staff_identities', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   provider_subject: text('provider_subject').notNull(),
@@ -390,6 +474,30 @@ export const adminStaffIdentities = admin.table('staff_identities', {
 });
 export type AdminStaffIdentitiesRow = typeof adminStaffIdentities.$inferSelect;
 export type AdminStaffIdentitiesInsert = typeof adminStaffIdentities.$inferInsert;
+export const adminStaffImportQueue = admin
+  .view('staff_import_queue', {
+    id: uuid('id'),
+    state: text('state'),
+    due_at: timestamp('due_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AdminStaffImportQueueRow = typeof adminStaffImportQueue.$inferSelect;
+export const adminStaffMailQueue = admin
+  .view('staff_mail_queue', {
+    id: uuid('id'),
+    state: text('state'),
+    due_at: timestamp('due_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AdminStaffMailQueueRow = typeof adminStaffMailQueue.$inferSelect;
+export const adminStaffPrivacyQueue = admin
+  .view('staff_privacy_queue', {
+    id: uuid('id'),
+    state: text('state'),
+    due_at: timestamp('due_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AdminStaffPrivacyQueueRow = typeof adminStaffPrivacyQueue.$inferSelect;
 export const adminStaffProjection = admin
   .view('staff_projection', {
     id: uuid('id'),
@@ -415,6 +523,14 @@ export const adminStaffRoleAssignments = admin.table('staff_role_assignments', {
 });
 export type AdminStaffRoleAssignmentsRow = typeof adminStaffRoleAssignments.$inferSelect;
 export type AdminStaffRoleAssignmentsInsert = typeof adminStaffRoleAssignments.$inferInsert;
+export const adminStaffSeoQueue = admin
+  .view('staff_seo_queue', {
+    id: uuid('id'),
+    state: text('state'),
+    due_at: timestamp('due_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AdminStaffSeoQueueRow = typeof adminStaffSeoQueue.$inferSelect;
 export const analyticsCurrentPermissions = analytics
   .view('current_permissions', {
     subject_id: uuid('subject_id'),
@@ -2924,16 +3040,19 @@ export type PrivacyVerificationChallengesInsert = typeof privacyVerificationChal
 export const storageTables = {
   adminAdBrandBlocks,
   adminAdDailyMetrics,
+  adminAdMetricObservations,
   adminAdNetworkAccounts,
   adminAdReportImports,
   adminAdSlots,
   adminAffiliateApplications,
+  adminAffiliateCheckBindings,
   adminAffiliateLinkChecks,
   adminAffiliateLinks,
   adminAuditEvents,
   adminAuditIdentityLinks,
   adminConfigurationVersions,
   adminFeatureStates,
+  adminRecoveryCommands,
   adminRoles,
   adminSearchDailyMetrics,
   adminSeoAuditRuns,
@@ -3064,12 +3183,21 @@ export const storageTables = {
 export const storageViews = {
   adminAdSlotProjection,
   adminAffiliateProjection,
+  adminCommercialAffiliates,
+  adminCommercialBrands,
+  adminCommercialPolicy,
+  adminCommercialRevenue,
   adminConfigurationProjection,
   adminCurrentAdDailyMetrics,
   adminRuntimeHealth,
   adminSearchProjection,
   adminSeoProjection,
+  adminStaffCallbackQueue,
+  adminStaffImportQueue,
+  adminStaffMailQueue,
+  adminStaffPrivacyQueue,
   adminStaffProjection,
+  adminStaffSeoQueue,
   analyticsCurrentPermissions,
   analyticsVisibleDailyMetrics,
   appCatalogAdviceFactSources,
