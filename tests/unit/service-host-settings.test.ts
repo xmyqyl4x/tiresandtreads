@@ -34,6 +34,8 @@ it('reads only an explicit bounded regular secret file and redacts malformed con
   const dir = mkdtempSync(join(tmpdir(), 'tt-host-config-')),
     file = join(dir, 'host.json'),
     env = { APP_ENV: 'test-local', PROVIDER_MODE: 'fixtures', SERVICE_HOST_CONFIG_FILE: file };
+  if (!resolve(dir).startsWith(resolve(tmpdir()) + sep + 'tt-host-config-'))
+    throw Error('Unexpected fixture cleanup path');
   try {
     writeFileSync(file, JSON.stringify(settings()), { mode: 0o600 });
     expect(loadServiceHostSettings(env).schemaVersion).toBe(1);
@@ -54,8 +56,6 @@ it('reads only an explicit bounded regular secret file and redacts malformed con
       expect(() => loadServiceHostSettings(env)).toThrow();
     }
   } finally {
-    if (!resolve(dir).startsWith(resolve(tmpdir()) + sep + 'tt-host-config-'))
-      throw Error('Unexpected fixture cleanup path');
     rmSync(dir, { recursive: true, force: true });
   }
 });
