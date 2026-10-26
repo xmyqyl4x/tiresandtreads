@@ -154,15 +154,14 @@ export function createCommercialRepository(s: WriteScope): CommercialRepository 
       return String(r.revision);
     },
     async affiliateCheck(tx, key) {
-      const r = one(
-        (
-          await q(
-            tx,
-            "SELECT l.id,l.destination,l.revision,r.approved_origin FROM admin.affiliate_links l JOIN app.retailers r ON r.id=l.retailer_id WHERE l.link_key=$1 AND l.status='active' AND r.status='active'",
-            [key],
-          )
-        ).rows,
-      );
+      const r = (
+        await q(
+          tx,
+          "SELECT l.id,l.destination,l.revision,r.approved_origin FROM admin.affiliate_links l JOIN app.retailers r ON r.id=l.retailer_id WHERE l.link_key=$1 AND l.status='active' AND r.status='active'",
+          [key],
+        )
+      ).rows[0];
+      if (!r) return stop('not_found');
       affiliateDestination(text(r.destination, 2048), text(r.approved_origin, 300));
       return {
         id: text(r.id),
