@@ -29,6 +29,7 @@ const filters = new Set([
   'authority',
   'recallNumber',
   'topicKey',
+  'regionKey',
 ]);
 function checked<T>(parsed: { ok: true; value: T } | { ok: false }): T {
   if (!parsed.ok) throw new PersistenceFailure(failure('integrity'));
@@ -69,6 +70,45 @@ function source(row: Record<string, unknown>): CatalogSource {
 }
 export function createCatalogRepository(sql: Sql): CatalogRepository {
   return {
+    async batch<K extends FactKind>(
+      tx: Parameters<Sql>[0],
+      request: Parameters<CatalogRepository['batch']>[1] & { kind: K },
+    ) {
+      const definition = spec(request.kind),
+        field = definition.fields[request.field];
+      if (
+        ![
+          'id',
+          'skuId',
+          'modelId',
+          'configurationId',
+          'sourceTargetId',
+          'recallId',
+          'priceId',
+        ].includes(request.field) ||
+        !field ||
+        request.ids.length > 200 ||
+        new Set(request.ids).size !== request.ids.length ||
+        request.ids.some((v) => !id('reference', v).ok)
+      )
+        return reject();
+      if (!request.ids.length) return [];
+      const columns = Object.entries(definition.fields)
+        .filter(([k]) => !privateFields.has(k))
+        .map(([, f]) => `f.${f.column}${f.codec === 'date' ? '::text' : ''} AS ${f.column}`)
+        .join(',');
+      const rows = (
+        await sql(
+          tx,
+          `SELECT ${columns},${sourceColumns} FROM app.catalog_${definition.table} f JOIN app.catalog_sources s ON s.dataset_id=f.dataset_version_id WHERE f.${field.column}=ANY($3::uuid[]) AND EXISTS(SELECT 1 FROM app.catalog_members m WHERE m.bundle_id=$1 AND m.market=$2 AND m.dataset_version_id=f.dataset_version_id) ORDER BY f.id LIMIT 2001`,
+          [request.bundleId, request.market, request.ids],
+        )
+      ).rows;
+      if (rows.length > 2000) throw new PersistenceFailure(failure('integrity'));
+      return rows.map((row) =>
+        Object.freeze({ fact: decode(request.kind, row), source: source(row) }),
+      );
+    },
     async pin(tx, market, bundleId) {
       const result = await sql(
         tx,

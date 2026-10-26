@@ -43,8 +43,14 @@ export interface CommandResponse {
   readonly schema_version: 1;
   readonly resource_id: Id<'resource'>;
   readonly status: 'created' | 'accepted';
+  readonly report_id?: Id<'report'>;
+  readonly report_version?: number;
+  readonly result_revision?: string;
+  readonly token_key_version?: string;
+  readonly expires_at?: string;
 }
 export interface CommandRepository {
+  lookup(tx: Tx, input: CommandIdentity): Promise<CommandResponse | null>;
   claim(tx: Tx, input: CommandIdentity): Promise<CommandResponse | null>;
   complete(tx: Tx, input: CommandIdentity, response: CommandResponse): Promise<void>;
 }

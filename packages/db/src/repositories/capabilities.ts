@@ -1,6 +1,15 @@
 import type { CapabilityRepository } from '../../../application/src/ports/owner-report.ts';
 import { guarded, stop, type WriteScope } from './mutations.ts';
-import { digestKeys, hex, integer, keyJson, reportGuard, rid, text } from './private-values.ts';
+import {
+  digestKeys,
+  hex,
+  integer,
+  keyJson,
+  reportGuard,
+  rid,
+  rev,
+  text,
+} from './private-values.ts';
 
 export function createCapabilityRepository(scope: WriteScope): CapabilityRepository {
   const q = scope.query;
@@ -10,7 +19,7 @@ export function createCapabilityRepository(scope: WriteScope): CapabilityReposit
       digestKeys([i.key]);
       await q(
         tx,
-        "INSERT INTO app.report_capabilities(id,report_id,report_version,scope,version_scope,token_hash,key_version,expires_at) VALUES($1,$2,$3,'view',$4,$5,$6,$7)",
+        "INSERT INTO app.report_capabilities(id,report_id,report_version,scope,version_scope,token_hash,key_version,expires_at,comparison_revision) VALUES($1,$2,$3,'view',$4,$5,$6,$7,$8)",
         [
           i.id,
           i.reportId,
@@ -19,13 +28,14 @@ export function createCapabilityRepository(scope: WriteScope): CapabilityReposit
           hex(i.key.digest),
           i.key.keyVersion,
           i.expiresAt,
+          i.comparisonRevision?.toString() ?? null,
         ],
       );
     },
     async resolveShare(tx, keys) {
       const r = await q(
         tx,
-        `SELECT c.id,c.report_id,c.version_binding,coalesce(c.report_version,r.current_version) AS version
+        `SELECT c.id,c.report_id,c.version_binding,c.comparison_revision,coalesce(c.report_version,r.current_version) AS version
         FROM app.report_capabilities c JOIN app.reports r ON r.id=c.report_id JOIN app.subjects s ON s.id=r.owner_subject_id
         JOIN jsonb_to_recordset($1::jsonb) k(key_version text,digest text) ON c.key_version=k.key_version AND c.token_hash=decode(k.digest,'hex')
         WHERE c.revoked_at IS NULL AND c.expires_at>clock_timestamp() AND r.status='active' AND r.expires_at>clock_timestamp()
@@ -40,6 +50,7 @@ export function createCapabilityRepository(scope: WriteScope): CapabilityReposit
             reportId: rid('report', x.report_id),
             version: integer(x.version),
             versionBinding: integer(x.version_binding, 0),
+            comparisonRevision: x.comparison_revision === null ? null : rev(x.comparison_revision),
           }
         : null;
     },
@@ -96,6 +107,19 @@ export function createCapabilityRepository(scope: WriteScope): CapabilityReposit
           return stop('forbidden');
         capability = share.capabilityId;
         binding = share.versionBinding;
+        const assets = await q(
+          tx,
+          'SELECT comparison_revision FROM app.report_assets WHERE asset_id=$1 AND report_id=$2 AND report_version=$3 AND view_scope=$4',
+          [i.assetId, i.reportId, i.version, i.scope],
+        );
+        if (
+          !assets.rows.length ||
+          (assets.rows[0]!.comparison_revision === null
+            ? null
+            : String(assets.rows[0]!.comparison_revision)) !==
+            (share.comparisonRevision?.toString() ?? null)
+        )
+          return stop('forbidden');
       }
       await q(
         tx,

@@ -56,10 +56,22 @@ export type FactFilters<K extends FactKind> = Partial<
       | 'authority'
       | 'recallNumber'
       | 'topicKey'
+      | 'regionKey'
     >
   >
 >;
 export interface CatalogRepository {
+  batch<K extends FactKind>(
+    tx: TransactionContext,
+    request: Readonly<{
+      kind: K;
+      bundleId: Id<'bundle'>;
+      market: string;
+      field:
+        'id' | 'skuId' | 'modelId' | 'configurationId' | 'sourceTargetId' | 'recallId' | 'priceId';
+      ids: readonly string[];
+    }>,
+  ): Promise<readonly Readonly<{ fact: PublicFact<K>; source: CatalogSource }>[]>;
   pin(
     tx: TransactionContext,
     market: string,

@@ -423,6 +423,7 @@ it('keeps share references and download grants scoped, revocable and free of pri
     reportId: r.head.id,
     version: 1,
     versionBinding: 0,
+    comparisonRevision: null,
   });
   expect(await run((tx) => f.caps.resolveShare(tx, [key()]))).toBeNull();
   const grantKey = key(),

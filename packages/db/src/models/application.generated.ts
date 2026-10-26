@@ -1901,6 +1901,7 @@ export const appReportCapabilities = app.table('report_capabilities', {
     .notNull()
     .default(sql.raw('now()')),
   revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  comparison_revision: bigint('comparison_revision', { mode: 'bigint' }),
 });
 export type AppReportCapabilitiesRow = typeof appReportCapabilities.$inferSelect;
 export type AppReportCapabilitiesInsert = typeof appReportCapabilities.$inferInsert;
@@ -1934,6 +1935,27 @@ export const appReportItems = app.table('report_items', {
 });
 export type AppReportItemsRow = typeof appReportItems.$inferSelect;
 export type AppReportItemsInsert = typeof appReportItems.$inferInsert;
+export const appReportPolicies = app
+  .view('report_policies', {
+    id: uuid('id'),
+    version: text('version'),
+    document: jsonb('document'),
+    reviewed_by: uuid('reviewed_by'),
+    reviewed_at: timestamp('reviewed_at', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AppReportPoliciesRow = typeof appReportPolicies.$inferSelect;
+export const appReportPolicyHeads = app.table('report_policy_heads', {
+  market: text('market').notNull(),
+  region_key: text('region_key').notNull(),
+  rule_version_id: uuid('rule_version_id').notNull(),
+  revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  updated_at: timestamp('updated_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type AppReportPolicyHeadsRow = typeof appReportPolicyHeads.$inferSelect;
+export type AppReportPolicyHeadsInsert = typeof appReportPolicyHeads.$inferInsert;
 export const appReportVersions = app.table('report_versions', {
   report_id: uuid('report_id').notNull(),
   version: integer('version').notNull(),
@@ -2758,6 +2780,7 @@ export const storageTables = {
   appReportCapabilities,
   appReportDrafts,
   appReportItems,
+  appReportPolicyHeads,
   appReportVersions,
   appReports,
   appRetailers,
@@ -2842,4 +2865,5 @@ export const storageViews = {
   appCatalogVehicles,
   appCurrentPublicContent,
   appPublicConfiguration,
+  appReportPolicies,
 } as const;

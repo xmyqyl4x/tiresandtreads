@@ -43,7 +43,11 @@ function fixture() {
     fail: vi.fn(),
     reconcile: vi.fn(),
   };
-  const commands: CommandRepository = { claim: vi.fn(async () => null), complete: vi.fn() };
+  const commands: CommandRepository = {
+    lookup: vi.fn(async () => null),
+    claim: vi.fn(async () => null),
+    complete: vi.fn(),
+  };
   const publisher: EventPublisher = { publish: vi.fn() };
   const telemetry = { record: vi.fn() };
   const uow: UnitOfWork = {

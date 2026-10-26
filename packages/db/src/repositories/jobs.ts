@@ -7,6 +7,7 @@ import type {
 import { guarded, stop, type WriteScope } from './mutations.ts';
 import { hex, integer, jsonObject, one, rev, rid, text } from './private-values.ts';
 import { createReliabilityRepository } from './reliability.ts';
+import { instant } from '../../../domain/src/values/core.ts';
 
 export function createJobRepository(scope: WriteScope): JobRepository {
   const q = scope.query;
@@ -150,6 +151,26 @@ export function createCommandRepository(scope: WriteScope): CommandRepository {
     integer(i.canonicalVersion),
   ];
   return guarded(scope, {
+    async lookup(tx, i) {
+      const k = keys(i),
+        x = (
+          await q(
+            tx,
+            'SELECT *,expires_at>clock_timestamp() AS live FROM app.idempotency_requests WHERE actor_scope_hash=$1 AND operation=$2 AND key_hash=$3',
+            k.slice(0, 3),
+          )
+        ).rows[0];
+      if (!x) return null;
+      if (
+        !Buffer.isBuffer(x.body_hash) ||
+        x.body_hash.toString('hex') !== i.bodyHash ||
+        x.canonical_version !== i.canonicalVersion ||
+        !x.live ||
+        x.state !== 'completed'
+      )
+        return stop('conflict');
+      return response(x.safe_response);
+    },
     async claim(tx, i) {
       const k = keys(i),
         inserted = await q(
@@ -195,10 +216,37 @@ export function createCommandRepository(scope: WriteScope): CommandRepository {
 function response(value: unknown): CommandResponse {
   const x = JSON.parse(jsonObject(value, 1024));
   if (
-    Object.keys(x).length !== 3 ||
+    Object.keys(x).some(
+      (k) =>
+        ![
+          'schema_version',
+          'resource_id',
+          'status',
+          'report_id',
+          'report_version',
+          'result_revision',
+          'token_key_version',
+          'expires_at',
+        ].includes(k),
+    ) ||
     x.schema_version !== 1 ||
     !['created', 'accepted'].includes(x.status)
   )
     return stop('integrity');
-  return { schema_version: 1, resource_id: rid('resource', x.resource_id), status: x.status };
+  const extra: Record<string, string | number> = {};
+  if ('report_id' in x) extra.report_id = rid('report', x.report_id);
+  if ('report_version' in x) extra.report_version = integer(x.report_version);
+  if ('result_revision' in x) extra.result_revision = rev(x.result_revision).toString();
+  if ('token_key_version' in x) extra.token_key_version = text(x.token_key_version, 100);
+  if ('expires_at' in x) {
+    const t = instant(x.expires_at);
+    if (!t.ok) return stop('integrity');
+    extra.expires_at = t.value;
+  }
+  return {
+    schema_version: 1,
+    resource_id: rid('resource', x.resource_id),
+    status: x.status,
+    ...extra,
+  };
 }

@@ -81,6 +81,7 @@
       "app.report_capabilities",
       "app.report_drafts",
       "app.report_items",
+      "app.report_policy_heads",
       "app.report_versions",
       "app.reports",
       "app.retailers",
@@ -164,7 +165,8 @@
       "app.catalog_vehicle_reference_links",
       "app.catalog_vehicles",
       "app.current_public_content",
-      "app.public_configuration"
+      "app.public_configuration",
+      "app.report_policies"
     ]
   },
   "cms": {
