@@ -498,7 +498,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role and financial-correction tests; private/form placements rejected and ad configuration leaves tire ranking unchanged.
 
-**Implementation status:** S3 staff/commercial/revenue implementation for owner review; [contract](../implementation/P1-PR-026-staff-commerce-revenue.md), [validation](../implementation/evidence/P1/p1-pr-026-validation.md). Current-role masked queues, audited fenced recovery, independent commercial review, checked destinations, deny-first placement/house policy and immutable correction-aware aggregate imports are implemented. Network/affiliate approvals, live adapters, staff MFA/HTTP/UI and rendered privacy/performance retain their gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 staff/commercial/revenue implementation in [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26) for owner review; [contract](../implementation/P1-PR-026-staff-commerce-revenue.md), [validation](../implementation/evidence/P1/p1-pr-026-validation.md). Current-role masked queues, audited fenced recovery, independent commercial review, checked destinations, deny-first placement/house policy and immutable correction-aware aggregate imports are implemented. Network/affiliate approvals, live adapters, staff MFA/HTTP/UI and rendered privacy/performance retain their gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-027
 

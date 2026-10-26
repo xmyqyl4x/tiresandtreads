@@ -1,6 +1,6 @@
 # P1-PR-026 validation evidence
 
-**October 26, 2026 · S3 implementation for owner review.** Baseline: approved PR #25 merge `7aa1b54216b50fc687ff8990fb7edb93a83f8d4c`. See the [staff/commercial service contract](../../P1-PR-026-staff-commerce-revenue.md).
+**October 26, 2026 · S3 implementation in [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26) for owner review.** Baseline: approved PR #25 merge `7aa1b54216b50fc687ff8990fb7edb93a83f8d4c`. See the [staff/commercial service contract](../../P1-PR-026-staff-commerce-revenue.md).
 
 ## TDD and scope
 
@@ -10,7 +10,23 @@ Tests cover route/shape/consent rejection, house fallback, category/URL gates, a
 
 ## Measured verification
 
-The complete exact-commit Linux run and redacted machine evidence are recorded here after verification. No current run is claimed before completion.
+`pnpm verify:push` passed on implementation commit `a06226e9263e336093892c99bb7207cddba118e1` at `2026-10-26T18:12:08.489Z`. The [redacted machine record](p1-pr-026-verification.json) pins that complete run. The final documentation/review commit receives the same complete exact-commit gate before push, followed by independent GitHub CI.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 675 passed; 21 new commercial policy tests |
+| Database/provider | 269 passed; 21 new real-role staff/commercial service scenarios |
+| Foundation/schema/recovery | Six / 63 / 11 passed |
+| Total | **1,024 passing tests**, including 42 new tests |
+| Coverage | 97.29% lines, 94.01% statements, 98.58% functions, 90.14% branches; thresholds unchanged |
+| Quality/build | Frozen Linux build/advisory audit, hygiene, formatting, lint, TypeScript, 203-module boundaries, health contract and migration checksums passed |
+| Storage | 141 app tables, 53 views, 1,780 table/view columns, 28 CMS tables; 32 app/three CMS migrations; generated Drizzle parity passed; 250 codec fields/25 fact families unchanged |
+| Queue profile | 10,000 synthetic callbacks; indexed query returned 100 rows in 0.105 ms; local synthetic measurement only |
+| Runtime/failure handling | Seven deliberately invalid verification cases rejected; standalone production bundles, shutdown/configuration refusal and HTTP health passed |
+| Recovery | Actual application/CMS dump/restore passed with synthetic data, including full leading FK indexes, fresh roles, corrupt archive refusal, current journal, incomplete deletion and CMS crash retry |
+| Documentation | 119 cards, 137 original FR rows, dependencies, source archives and historical approvals preserved; 75 checked tasks/282 unchecked |
+
+Retained Docker dev/stage both have **32 app/three CMS applied, zero pending**, and are stopped with volumes retained. Only the two new role credentials were added; every previous credential value was preserved. Native PostgreSQL and unrelated projects were untouched. Disposable test/recovery projects were removed with their own volumes. The first complete run caught a missing-link error-contract mismatch; the repository was corrected to return `not_found`, and the full gate passed without weakening tests, constraints or checks.
 
 ## Remaining gates
 

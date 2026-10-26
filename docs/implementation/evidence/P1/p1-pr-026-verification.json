@@ -1,0 +1,141 @@
+{
+  "status": "passed complete exact-commit local Linux gate",
+  "sourceCommit": "a06226e9263e336093892c99bb7207cddba118e1",
+  "verifiedAt": "2026-10-26T18:12:08.489Z",
+  "baseline": "7aa1b54216b50fc687ff8990fb7edb93a83f8d4c",
+  "tests": {
+    "newStaffCommercialTests": 42,
+    "unitAndUsecase": 675,
+    "databaseAndProvider": 269,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 1024
+  },
+  "coverage": {
+    "statements": 94.01,
+    "branches": 90.14,
+    "functions": 98.58,
+    "lines": 97.29
+  },
+  "migrationCounts": {
+    "app": 32,
+    "cms": 3
+  },
+  "storage": {
+    "tables": 141,
+    "views": 53,
+    "columns": 1780,
+    "drizzle": "0.45.2",
+    "status": "match",
+    "cmsTables": 28
+  },
+  "staffQueueProfile": {
+    "syntheticCallbacks": 10000,
+    "returned": 100,
+    "executionMs": 0.105,
+    "indexed": true
+  },
+  "retainedTargets": [
+    {
+      "target": "dev",
+      "previousCredentialsPreserved": true,
+      "newRoleCredentials": 2,
+      "appMigrations": 32,
+      "cmsMigrations": 3
+    },
+    {
+      "target": "stage",
+      "previousCredentialsPreserved": true,
+      "newRoleCredentials": 2,
+      "appMigrations": 32,
+      "cmsMigrations": 3
+    }
+  ],
+  "retainedTargetState": "dev and stage: zero pending, stopped, volumes retained; native PostgreSQL untouched",
+  "mainProject": "tt-test-b0276ec38478904f",
+  "appImageId": "69e93c80131b23abdb19abbec8634a4575d77039afa85880624d42517e88a649",
+  "lifecycle": {
+    "stopMs": 682,
+    "exitCode": 143,
+    "appMemory": "50.73MiB / 768MiB",
+    "appCpu": "0.01%",
+    "postgresMemory": "99.43MiB / 512MiB",
+    "postgresCpu": "0.02%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-9b7df89f01cea5a5",
+    "elapsedMs": 26010,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 749,
+    "backupWindowMs": 4056,
+    "tables": {
+      "app": 141,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "5d03fc6e3a460ed81125bef77f0b4944f712f0d6aa3212871739ee405f326e37",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 745302,
+      "cms": 197168
+    },
+    "backupSha256": {
+      "app": "2426ebcd012b97ffa1846d2363c7510e51aaea0ce59f0550565be5cb224bbc6b",
+      "cms": "33437848e776557dd81d9b382a94c1ccafa7de9d785a7e1a1346ce20c08f0e54"
+    },
+    "migrations": {
+      "app": 32,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "current active role/assignment/permission locks and separate restricted staff/commercial/public credentials",
+    "masked keyset queues and indexed 100-row query at 10000 synthetic callbacks",
+    "durable recovery approval, single concurrent invocation, actor/input-bound replay, failed/unknown outcomes without resend",
+    "independent reviewed commercial CAS publication, immutable history, expiry and no stale-policy fallback",
+    "private/form/query-token routes reject all placements, including house content",
+    "global/host/account/consent/CMP/child/internal/blocker/no-fill and category/URL/brand gates",
+    "validated ads.txt text and reserved first-party house fallback without live provider activation",
+    "approved retailer/application/terms/exact-origin links, revision-bound fresh checks, suspension and stale-I/O refusal",
+    "bounded normalized aggregate imports with strict schema, real currencies, immutable source identity and original source fetch time",
+    "distinct financial approval and account-generation fences, concurrent publication, idempotent reordered replay",
+    "complete-period estimated/finalized/negative/empty corrections without double counting old dimensions/currencies",
+    "exact integer ratios and explicit absent-versus-zero measurements; no private joins or invented FX/p95/cost totals",
+    "actual unchanged technical engine output before/after commercial configuration and no scoring-write privilege",
+    "full real application/CMS logical dump/restore, ownership/ACL/FK-index health, quarantine and replay proofs with synthetic data"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 75,
+    "uncheckedTasks": 282,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "S3 headless services only; HTTP/browser/staff UI/MFA/rendered ad placement and disclosures remain S4/S5 evidence",
+    "network/affiliate/terms/checker/mail/privacy recovery results in new service scenarios are explicit synthetic fixtures",
+    "actual network accounts, seller/site verification, affiliate rights, live link-check and financial-source adapters are not approved by fixtures",
+    "default checker unavailable and external activation false; manual category/URL/brand blocks keep external serving off pending proven provider synchronization",
+    "actual CMP vendor protocol, invalid-traffic alerts, field latency/viewability/consent metrics, density/CLS and real clicks remain launch gates",
+    "unknown or crashed recovery receipts never replay automatically; scheduling, monitoring and retention policy remain P1-PR-027 work",
+    "hosted RPO/RTO, external object/provider/journal disaster recovery are not established by local logical restores",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending: 98 draft scenarios, zero actual specialist reviews; report issuance, real email and product collection disabled"
+  ]
+}
