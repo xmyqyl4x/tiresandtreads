@@ -76,6 +76,7 @@ export interface SharedVersion {
   readonly reportId: Id<'report'>;
   readonly version: number;
   readonly versionBinding: number;
+  readonly comparisonRevision: Revision | null;
 }
 export interface AssetGrant {
   readonly assetId: Id<'asset'>;

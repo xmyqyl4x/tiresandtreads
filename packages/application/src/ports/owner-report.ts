@@ -29,6 +29,7 @@ export interface OwnerRepository {
   revoke(tx: Tx, owner: Owner): Promise<void>;
 }
 export interface ReportRepository {
+  touch(tx: Tx, owner: Owner, reportId: Id<'report'>): Promise<void>;
   items(
     tx: Tx,
     owner: Owner,
@@ -95,6 +96,7 @@ export interface CapabilityRepository {
       id: Id<'report_capability'>;
       reportId: Id<'report'>;
       version: number | null;
+      comparisonRevision?: Revision | null;
       key: KeyDigest;
       expiresAt: Instant;
     }>,

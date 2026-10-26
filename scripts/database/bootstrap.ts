@@ -15,6 +15,7 @@ export const databaseRoles = {
     'tt_analytics_runtime',
     'tt_limiter_runtime',
     'tt_operations_runtime',
+    'tt_report_source_runtime',
   ],
   cms: ['tt_cms_migrator', 'tt_cms_runtime'],
 } as const;

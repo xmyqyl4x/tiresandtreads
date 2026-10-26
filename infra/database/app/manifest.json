@@ -86,5 +86,9 @@
   {
     "id": "0022_source_connector_identity",
     "sha256": "025bb0d2b172be05b2f2d1c1410231b6537becb0a8f7dae46fc51c5a6d68a111"
+  },
+  {
+    "id": "0023_report_services",
+    "sha256": "8f64895dba1f7430d55aec091434cc9953923f0d4ce4a1add11e1f56c478f28c"
   }
 ]

@@ -1,6 +1,8 @@
 # P1-PR-018 — Prices, installed costs and comparison mathematics
 
-**October 25, 2026 · technical implementation for review; specialist/data acceptance pending.** Baseline: owner-approved [PR #17](https://github.com/xmyqyl4x/tiresandtreads/pull/17), merged at `89a4a098bd80796bff4b293497410118f36e8fcd`. The owner authorized 018 and explicitly retained the licensed-adapter and specialist-review deferrals. This implements the pure E06/E10 mathematics and a shared application-service boundary for UC02/UC04 and AT05/AT20. It does not accept a real pricing provider, tax policy, lifespan model, specialist explanation or live product. [DD01/DD02/DD06/G1](P1-PR-001-launch-baseline.md#deferred-decision-register) remain open.
+**October 25, 2026 · technical implementation approved and merged; specialist/data acceptance pending.** Baseline: owner-approved [PR #17](https://github.com/xmyqyl4x/tiresandtreads/pull/17), merged at `89a4a098bd80796bff4b293497410118f36e8fcd`. The owner authorized 018 and explicitly retained the licensed-adapter and specialist-review deferrals. This implements the pure E06/E10 mathematics and a shared application-service boundary for UC02/UC04 and AT05/AT20. It does not accept a real pricing provider, tax policy, lifespan model, specialist explanation or live product. [DD01/DD02/DD06/G1](P1-PR-001-launch-baseline.md#deferred-decision-register) remain open.
+
+The owner approved and merged [PR #18](https://github.com/xmyqyl4x/tiresandtreads/pull/18) at `752760736ecc9ab70186503bf27cd942768f7e83`, then authorized [019](P1-PR-019-report-services.md) while retaining specialist review and licensed adapters as pending.
 
 ## Layers and callable boundary
 

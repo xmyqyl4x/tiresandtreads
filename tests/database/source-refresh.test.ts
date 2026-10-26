@@ -29,6 +29,7 @@ import type {
 } from '../../packages/application/src/ports/sources.ts';
 import { digest } from '../../packages/db/src/repositories/bounds.ts';
 import { pageRequest } from '../../packages/application/src/ports/pagination.ts';
+import { createReportRecallRepository } from '../../packages/db/src/repositories/report-services.ts';
 
 const server = setupServer(),
   dictionary = 'synthetic 29-field dictionary',
@@ -206,6 +207,16 @@ it('fetches and validates both archives through the command/service path without
   ).toBe(true);
   bundle = bundleId;
   expect((await runtime.sourceRefresh.requireRecall(receipt.datasetId)).ok).toBe(true);
+  const reader = f.adapter('tt_report_source_runtime'),
+    reportRecall = createReportRecallRepository(reader);
+  expect(
+    await success(reader.unitOfWork, (tx) => reportRecall.checkedAt(tx, receipt.datasetId)),
+  ).not.toBeNull();
+  expect(
+    await result(reader.unitOfWork, (tx) =>
+      reader.query(tx, "UPDATE app.feed_health SET error_code='unapproved'"),
+    ),
+  ).toMatchObject({ ok: false });
   const page = pageRequest(10);
   if (!page.ok) throw Error('fixture');
   const targets = await success(f.readScope.unitOfWork, (tx) =>

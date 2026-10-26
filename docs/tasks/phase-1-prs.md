@@ -352,6 +352,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Implement scenario, winter-share and cost-per-distance calculations only with supported assumptions/evidence.
 - [x] Qualify unknown quote products and missing prices/warranty/lifespan evidence without invented precision.
 
+**Technical implementation approved and merged:** [PR #18](https://github.com/xmyqyl4x/tiresandtreads/pull/18) at `752760736ecc9ab70186503bf27cd942768f7e83`. The owner authorized 019 while retaining specialist review and licensed adapters as pending.
+
 **Verification and acceptance:** [Implementation](../implementation/P1-PR-018-pricing-comparison.md) and [validation](../implementation/evidence/P1/p1-pr-018-validation.md) cover exact money/units, explicit quantities and service/tax bases, freshness, private quote authorization boundaries, unknown products, scenario allocation/replacements, outward cost-per-distance bounds and deterministic comparisons. Technical math tasks are implemented; the full card remains **In progress** pending actual specialist approval of explanations and licensed/source/tax/life evidence. The owner explicitly retained specialist review and licensed adapters as pending when authorizing 018. No production resolver, price coverage or live release is accepted.
 
 ### P1-PR-019
@@ -364,11 +366,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC01, UC03, UC04, UC05, AT04, AT06, DB01, DB02, DB03, DB15. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement report snapshots pinned to engine/rule/data versions and current safety overlay.
-- [ ] Implement draft revision, refine/new-version diff, four-item comparison and shop-quote use cases.
-- [ ] Implement owner/read-only share/revoke/fork/PDF authorization and private DTOs; persist idempotent outcomes.
+- [x] Implement report snapshots pinned to engine/rule/data versions and current safety overlay.
+- [x] Implement draft revision, refine/new-version diff, four-item comparison and shop-quote use cases.
+- [x] Implement owner/read-only share/revoke/fork/PDF authorization and private DTOs; persist idempotent outcomes.
 
-**Verification and acceptance:** Use-case/DB tests prove immutable versions, stale-write conflicts, share denial and one outcome under duplicate requests.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-019-report-services.md) and [validation](../implementation/evidence/P1/p1-pr-019-validation.md) cover pinned immutable snapshots and current recall overlays, drafts/refine diffs, four-item comparisons, encrypted private quotes, owner/view/fork/revoke/PDF scope, safe exact-version command receipts and real transaction/race/rollback proofs. Technical workflows are implemented; the full card remains **In progress** for actual source/policy/clearance/inspection coverage and specialist acceptance under the owner-directed deferrals. All results remain technical evaluations with issuance disabled; HTTP, renderer, privacy-job and live release gates remain separate.
 
 ### P1-PR-020
 

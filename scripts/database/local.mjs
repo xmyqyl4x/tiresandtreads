@@ -27,6 +27,7 @@ const roles = [
   'tt_analytics_runtime',
   'tt_limiter_runtime',
   'tt_operations_runtime',
+  'tt_report_source_runtime',
   'tt_cms_migrator',
   'tt_cms_runtime',
 ];
@@ -56,6 +57,7 @@ if (action === 'bootstrap') {
       'TT_ANALYTICS_RUNTIME',
       'TT_LIMITER_RUNTIME',
       'TT_OPERATIONS_RUNTIME',
+      'TT_REPORT_SOURCE_RUNTIME',
     ].map((role) => `DB_PASSWORD_${role}`),
     () => randomBytes(32).toString('hex'),
   );

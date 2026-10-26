@@ -115,6 +115,8 @@ Use pnpm workspaces. Do not create an empty mobile application until its workstr
 
 [P1-PR-017](implementation/P1-PR-017-eligibility-recommendations.md) implements the pure rules and shared application-service entry point. The 98-case synthetic specialist packet is pending actual review; production source assembly, report integration and G1 acceptance are still open.
 
+[P1-PR-019](implementation/P1-PR-019-report-services.md) implements the repository-backed resolver and technical report/refine/compare/access workflows, explicit regional policy heads, scoped shares and safe exact-version command receipts. Current recall overlays remain separate from immutable report output. The resolver requires current rights and approved regional/source evidence; absent recall mappings do not establish clearance. Source contracts, positive clearance/inspection coverage, specialist acceptance and production issuance remain pending. A dedicated source-metadata role avoids ingestion credentials in the report process.
+
 ### Input normalization and evidence
 
 Represent wheel/axle configurations explicitly: fitment ID, front/rear size, quantity per axle, construction, load index/range, speed rating, XL, run-flat and approved options. Vehicle year/model alone is insufficient. Size-only input produces `verificationStatus: limited` unless required vehicle constraints are independently confirmed.

@@ -1,6 +1,8 @@
 # P1-PR-018 validation evidence
 
-**October 25, 2026 · technical implementation for review; specialist/data gates pending.** Baseline: owner-approved PR #17 merge `89a4a098bd80796bff4b293497410118f36e8fcd`. See the [implementation contract](../../P1-PR-018-pricing-comparison.md). The owner explicitly retained specialist review and licensed adapters as pending while authorizing 018. Actual named specialist reviews remain zero; DD01/DD02/DD06/G1 are not satisfied by this packet.
+**October 25, 2026 · technical implementation approved and merged; specialist/data gates pending.** Baseline: owner-approved PR #17 merge `89a4a098bd80796bff4b293497410118f36e8fcd`. See the [implementation contract](../../P1-PR-018-pricing-comparison.md). The owner explicitly retained specialist review and licensed adapters as pending while authorizing 018. Actual named specialist reviews remain zero; DD01/DD02/DD06/G1 are not satisfied by this packet.
+
+The owner approved and merged [PR #18](https://github.com/xmyqyl4x/tiresandtreads/pull/18) at `752760736ecc9ab70186503bf27cd942768f7e83`, then authorized 019 with both deferrals retained. Historical verification records below remain unchanged.
 
 ## TDD and behavior evidence
 

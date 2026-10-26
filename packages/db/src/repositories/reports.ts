@@ -28,7 +28,7 @@ function head(row: Row) {
   const r = reportHeadFromRow(row);
   return r.ok ? r.value : stop('integrity');
 }
-function version(row: Row): Version {
+export function reportVersionFromRow(row: Row): Version {
   if (row.schema_version !== 1) return stop('integrity');
   return {
     reportId: rid('report', row.report_id),
@@ -78,6 +78,15 @@ function quote(row: Row): Quote & { revision: ReturnType<typeof rev> } {
 export function createReportRepository(scope: WriteScope): ReportRepository {
   const q = scope.query;
   const repo: ReportRepository = {
+    async touch(tx, owner, id) {
+      await reportGuard(scope, tx, owner, id);
+      // Activity/retention metadata does not invalidate the content revision used by draft/refine.
+      await q(
+        tx,
+        "UPDATE app.reports SET last_owner_activity_at=clock_timestamp(),expires_at=LEAST(created_at+interval '1 year',clock_timestamp()+interval '180 days'),updated_at=clock_timestamp() WHERE id=$1",
+        [id],
+      );
+    },
     async items(tx, owner, id, n) {
       await reportGuard(scope, tx, owner, id);
       const r = await q(
@@ -140,7 +149,7 @@ export function createReportRepository(scope: WriteScope): ReportRepository {
         'SELECT report_id,version,base_version,bundle_id,rule_version_id,engine_version,schema_version,input_snapshot,output_snapshot FROM app.report_versions WHERE report_id=$1 AND version=$2',
         [id, integer(n)],
       );
-      return r.rows[0] ? version(r.rows[0]) : null;
+      return r.rows[0] ? reportVersionFromRow(r.rows[0]) : null;
     },
     async publish(tx, owner, expected, v, items) {
       const h = await reportGuard(scope, tx, owner, v.reportId);
