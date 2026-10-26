@@ -1,6 +1,6 @@
 # P1-PR-023 validation evidence
 
-**October 25, 2026 · S3 implementation in [PR #23](https://github.com/xmyqyl4x/tiresandtreads/pull/23) for review.** Baseline: approved PR #22 merge `5e6d4cd4866b3258d9f22978966a9adfe46f0e94`. See the [service contract](../../P1-PR-023-mail-events-actions.md). Licensed adapters and specialist review remain pending.
+**October 26, 2026 · S3 implementation approved and merged in PR #23 at `c71df71471544868fd0a47b9ca7275508670e7ae`.** Baseline: approved PR #22 merge `5e6d4cd4866b3258d9f22978966a9adfe46f0e94`. See the [service contract](../../P1-PR-023-mail-events-actions.md). Licensed adapters and specialist review remain pending.
 
 ## TDD and scope
 

@@ -1,7 +1,7 @@
 import type { AnalyticsRepository, Metric } from '../../../application/src/ports/analytics.ts';
 import { guarded, stop, type WriteScope } from './mutations.ts';
 import { boundedJson, digest, reject } from './bounds.ts';
-import { integer, jsonObject, one, rev, rid, text, lockSubjects } from './private-values.ts';
+import { integer, jsonObject, one, rev, rid, text, lockSubjects, stamp } from './private-values.ts';
 
 function batchLimit(value: number) {
   if (integer(value) > 1000) reject();
@@ -27,18 +27,35 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
       await lockSubjects(scope, tx, [c.subjectId]);
       const permission = await q(
         tx,
-        `SELECT s.id FROM app.subjects s JOIN privacy.consent_state c ON c.subject_id=s.id WHERE s.id=$1 AND s.status='active' AND s.permission_revision=$2 AND (s.expires_at IS NULL OR s.expires_at>clock_timestamp()) AND c.purpose='analytics' AND c.scope_key=$3 AND c.policy_version=$4 AND c.status='confirmed' AND c.effective_at<=clock_timestamp() AND (c.expires_at IS NULL OR c.expires_at>clock_timestamp())`,
-        [c.subjectId, c.permission.toString(), c.scope, c.policy],
+        `SELECT s.id FROM app.subjects s JOIN analytics.current_permissions c ON c.subject_id=s.id WHERE s.id=$1 AND s.status='active' AND s.permission_revision=$2 AND (s.expires_at IS NULL OR s.expires_at>clock_timestamp()) AND c.purpose='analytics' AND c.scope_key=$3 AND c.policy_version=$4 AND c.status='confirmed' AND date_trunc('milliseconds',c.effective_at)<=$5::timestamptz AND (c.expires_at IS NULL OR c.expires_at>clock_timestamp())
+         AND NOT EXISTS(SELECT 1 FROM analytics.processing_restrictions r WHERE r.subject_id=s.id AND r.scope_key=$3)`,
+        [
+          c.subjectId,
+          c.permission.toString(),
+          c.scope,
+          c.policy,
+          events.map((e) => e.occurredAt).sort()[0],
+        ],
       );
       if (!permission.rows.length) stop('forbidden');
       const days = new Set<string>();
       let inserted = 0;
       for (const e of [...events].sort((a, b) => a.id.localeCompare(b.id))) {
+        if (
+          (
+            await q(
+              tx,
+              'SELECT 1 FROM analytics.replay_barriers WHERE event_id=$1 AND expires_at>clock_timestamp()',
+              [e.id],
+            )
+          ).rows.length
+        )
+          stop('forbidden');
         const hash = digest({ ...e, context: { ...c, permission: c.permission.toString() } });
         const r = await q(
           tx,
-          `INSERT INTO analytics.events(id,subject_id,session_ref,event_name,schema_version,occurred_at,received_at,market,locale,route_template,channel,permission_revision,policy_version,props,payload_digest,bot_classification,expires_at)
-      VALUES($1,$2,$3,$4,1,$5,statement_timestamp(),$6,$7,$8,$9,$10,$11,$12,$13,$14,statement_timestamp()+interval '13 months') ON CONFLICT(id) DO NOTHING RETURNING event_day::text`,
+          `INSERT INTO analytics.events(id,subject_id,session_ref,event_name,schema_version,occurred_at,received_at,market,locale,route_template,channel,permission_revision,policy_version,props,payload_digest,bot_classification,expires_at,collection_scope)
+      VALUES($1,$2,$3,$4,1,$5,statement_timestamp(),$6,$7,$8,$9,$10,$11,$12,$13,$14,statement_timestamp()+interval '13 months',$15) ON CONFLICT(id) DO NOTHING RETURNING event_day::text`,
           [
             e.id,
             c.subjectId,
@@ -54,6 +71,7 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
             jsonObject(e.props, 4096),
             Buffer.from(hash, 'hex'),
             e.bot,
+            c.scope,
           ],
         );
         if (r.rows.length) {
@@ -90,7 +108,7 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
      SELECT day FROM analytics.dirty_days WHERE completed_revision<requested_revision AND next_attempt_at<=clock_timestamp() AND (lease_until IS NULL OR lease_until<=clock_timestamp()) AND attempts<1000 ORDER BY next_attempt_at,day LIMIT 1 FOR UPDATE SKIP LOCKED
     ), leased AS (
      UPDATE analytics.dirty_days d SET lease_token=gen_random_uuid(),lease_until=clock_timestamp()+$1*interval '1 second',attempts=attempts+1,updated_at=clock_timestamp(),revision=revision+1 FROM candidate c WHERE d.day=c.day RETURNING d.*
-    ) SELECT day::text,lease_token,requested_revision,privacy_revision FROM leased`,
+    ) SELECT day::text,lease_token,requested_revision,privacy_revision,statement_timestamp()+interval '24 hours' AS empty_until FROM leased`,
         [seconds],
       );
       const x = r.rows[0];
@@ -98,9 +116,10 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
       const source = await q(
         tx,
         `
-     SELECT e.market,CASE WHEN grouping(e.channel)=1 THEN 'all' ELSE e.channel END AS dimension,count(*)::text AS events,count(DISTINCT (e.subject_id,e.session_ref)) FILTER(WHERE e.session_ref IS NOT NULL)::text AS sessions
-     FROM analytics.events e JOIN app.subjects s ON s.id=e.subject_id
+     SELECT e.market,CASE WHEN grouping(e.channel)=1 THEN 'all' ELSE e.channel END AS dimension,count(*)::text AS events,count(DISTINCT (e.subject_id,e.session_ref)) FILTER(WHERE e.session_ref IS NOT NULL)::text AS sessions,min(least(e.expires_at,s.expires_at,p.valid_until)) AS valid_until
+     FROM analytics.events e JOIN app.subjects s ON s.id=e.subject_id JOIN analytics.current_permissions p ON p.subject_id=s.id AND p.purpose='analytics' AND p.scope_key=e.collection_scope AND p.status='confirmed' AND p.policy_version=e.policy_version
      WHERE e.event_day=$1 AND s.status='active' AND (s.expires_at IS NULL OR s.expires_at>statement_timestamp()) AND e.expires_at>statement_timestamp() AND e.bot_classification NOT IN ('internal','suspected_bot')
+     AND (p.expires_at IS NULL OR p.expires_at>statement_timestamp()) AND NOT EXISTS(SELECT 1 FROM analytics.processing_restrictions r WHERE r.subject_id=s.id AND r.scope_key=e.collection_scope)
      GROUP BY GROUPING SETS((e.market),(e.market,e.channel))`,
         [x.day],
       );
@@ -109,8 +128,12 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
         dimension: Metric['dimension'];
         events: string;
         sessions: string;
+        valid_until: Date;
       }[];
       return {
+        validUntil: totals.length
+          ? stamp(totals.map((t) => t.valid_until).sort((a, b) => a.getTime() - b.getTime())[0])
+          : stamp(x.empty_until),
         day: String(x.day),
         token: rid('lease', x.lease_token),
         generation: rev(x.requested_revision),
@@ -140,7 +163,7 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
       for (const m of b.metrics)
         await q(
           tx,
-          'INSERT INTO analytics.daily_metrics(day,metric_code,market,dimension_key,value,generation,computed_at,definition_version) VALUES($1,$2,$3,$4,$5,$6,clock_timestamp(),$7)',
+          'INSERT INTO analytics.daily_metrics(day,metric_code,market,dimension_key,value,generation,computed_at,definition_version,valid_until) VALUES($1,$2,$3,$4,$5,$6,clock_timestamp(),$7,$8)',
           [
             b.day,
             m.metric,
@@ -149,6 +172,7 @@ export function createAnalyticsRepository(scope: WriteScope): AnalyticsRepositor
             m.value.toString(),
             b.generation.toString(),
             'internal-v1',
+            b.validUntil,
           ],
         );
       await q(

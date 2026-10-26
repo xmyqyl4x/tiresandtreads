@@ -42,6 +42,7 @@ export interface Metric {
   readonly value: bigint;
 }
 export interface AnalyticsBuild {
+  readonly validUntil: Instant;
   readonly day: string;
   readonly token: Id<'lease'>;
   readonly generation: Revision;
