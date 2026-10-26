@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "plan": {
+    "urls": {
+      "report": "<private application PostgreSQL DSN for tt_private_runtime>",
+      "worker": "<private application PostgreSQL DSN for tt_private_runtime>",
+      "asset": "<private application PostgreSQL DSN for tt_asset_runtime>",
+      "catalog": "<private application PostgreSQL DSN for tt_catalog_runtime>",
+      "report_source": "<private application PostgreSQL DSN for tt_report_source_runtime>",
+      "ingest": "<private application PostgreSQL DSN for tt_ingest_runtime>",
+      "publish": "<private application PostgreSQL DSN for tt_publish_runtime>",
+      "content": "<private application PostgreSQL DSN for tt_content_runtime>",
+      "public": "<private application PostgreSQL DSN for tt_public_runtime>",
+      "privacy": "<private application PostgreSQL DSN for tt_privacy_runtime>",
+      "collector": "<private application PostgreSQL DSN for tt_analytics_runtime>",
+      "aggregate": "<private application PostgreSQL DSN for tt_analytics_runtime>",
+      "limiter": "<private application PostgreSQL DSN for tt_limiter_runtime>",
+      "operations": "<private application PostgreSQL DSN for tt_operations_runtime>",
+      "staff": "<private application PostgreSQL DSN for tt_staff_service_runtime>",
+      "commercial": "<private application PostgreSQL DSN for tt_commercial_runtime>",
+      "cms": "<private CMS PostgreSQL DSN for tt_cms_runtime>"
+    },
+    "max": {
+      "report": 1,
+      "worker": 1,
+      "asset": 1,
+      "catalog": 1,
+      "report_source": 1,
+      "ingest": 1,
+      "publish": 1,
+      "content": 1,
+      "public": 1,
+      "privacy": 1,
+      "collector": 1,
+      "aggregate": 1,
+      "limiter": 1,
+      "operations": 1,
+      "staff": 1,
+      "commercial": 1,
+      "cms": 1
+    },
+    "replicas": 1,
+    "reserve": 20,
+    "external": [
+      {
+        "name": "web",
+        "database": "application",
+        "max": 2,
+        "replicas": 1
+      },
+      {
+        "name": "app-operators",
+        "database": "application",
+        "max": 2,
+        "replicas": 1
+      },
+      {
+        "name": "cms-operators",
+        "database": "cms",
+        "max": 2,
+        "replicas": 1
+      }
+    ]
+  },
+  "keys": {
+    "token": {
+      "current": "local-v1",
+      "values": {
+        "local-v1": "<persistent independent 64-character lowercase hex secret>"
+      }
+    },
+    "report": {
+      "current": "local-v1",
+      "values": {
+        "local-v1": "<persistent independent 64-character lowercase hex secret>"
+      }
+    },
+    "privacy": {
+      "current": "local-v1",
+      "values": {
+        "local-v1": "<persistent independent 64-character lowercase hex secret>"
+      }
+    },
+    "collection": {
+      "current": "local-v1",
+      "values": {
+        "local-v1": "<persistent independent 64-character lowercase hex secret>"
+      }
+    },
+    "lookup": {
+      "local-v1": "<persistent lookup secret; retain every required old key version>"
+    },
+    "contactIdentity": "<64-character lowercase hex secret>",
+    "reportIdentity": "<independent 64-character lowercase hex secret>",
+    "collectionIdentity": "<independent 64-character lowercase hex secret>"
+  },
+  "policy": {
+    "fixture": true,
+    "version": "local-fixture",
+    "privacyVersion": "local-fixture",
+    "jurisdiction": "localfixture",
+    "notices": {
+      "report": "<existing explicitly synthetic notice UUID>",
+      "offers": "<existing explicitly synthetic notice UUID>",
+      "analytics": "<existing explicitly synthetic notice UUID>",
+      "ads": "<existing explicitly synthetic notice UUID>",
+      "targeted_ads": "<existing explicitly synthetic notice UUID>",
+      "necessary": "<existing explicitly synthetic notice UUID>"
+    },
+    "templateId": "<existing synthetic reviewed template UUID>",
+    "rendererHash": "<exact stored fixture renderer hash>"
+  },
+  "origin": "https://tiresandtreads.test",
+  "maintenance": {
+    "enabled": [],
+    "cycle": [
+      "privacy",
+      "quotas",
+      "analytics",
+      "assets"
+    ]
+  }
+}

@@ -3,7 +3,9 @@ import { once } from 'node:events';
 import { serve } from 'inngest/node';
 import type { createRuntime } from './runtime.ts';
 export async function startWorker(
-  runtime: Awaited<ReturnType<typeof createRuntime>>,
+  runtime: Pick<Awaited<ReturnType<typeof createRuntime>>, 'workflows' | 'shutdown'> & {
+    readonly ready?: () => Promise<boolean>;
+  },
   port: number,
   origin: string,
 ) {
@@ -24,7 +26,15 @@ export async function startWorker(
         return;
       }
       if (path === '/health/ready' && req.method === 'GET') {
-        res.writeHead(200, { 'Content-Type': 'application/json' }).end('{"ready":true}');
+        const finish = (value: boolean) => {
+          const ready = value && !stopping;
+          res
+            .writeHead(ready ? 200 : 503, { 'Content-Type': 'application/json' })
+            .end(JSON.stringify({ ready }));
+        };
+        void Promise.resolve()
+          .then(() => runtime.ready?.() ?? true)
+          .then(finish, () => finish(false));
         return;
       }
       if (path !== '/internal/inngest') {

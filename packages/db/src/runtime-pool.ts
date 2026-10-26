@@ -1,14 +1,20 @@
 import pg from 'pg';
 import type { PgConnection, PgPool } from './transactions.ts';
 
-export function createRuntimePool(connectionString: string, max = 2, queueLimit = 8) {
+export function createRuntimePool(
+  connectionString: string,
+  max = 2,
+  queueLimit = 8,
+  applicationName = 'tt-runtime',
+) {
   if (
     !Number.isInteger(max) ||
     max < 1 ||
     max > 10 ||
     !Number.isInteger(queueLimit) ||
     queueLimit < 1 ||
-    queueLimit > 100
+    queueLimit > 100 ||
+    !/^tt-[a-z0-9:_-]{1,64}$/.test(applicationName)
   )
     throw Error('Invalid pool bounds');
   const pool = new pg.Pool({
@@ -19,7 +25,7 @@ export function createRuntimePool(connectionString: string, max = 2, queueLimit 
     statement_timeout: 2000,
     lock_timeout: 500,
     idle_in_transaction_session_timeout: 3000,
-    application_name: 'tt-runtime',
+    application_name: applicationName,
   });
   let closing = false,
     requests = 0;

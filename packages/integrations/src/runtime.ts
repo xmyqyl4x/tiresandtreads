@@ -26,18 +26,27 @@ export type SqlJobHandler = (
   tx: TransactionContext,
   input: JobInput,
 ) => Promise<Result<void, ApplicationFailure>>;
+export interface SharedRuntime {
+  readonly privateScope: ReturnType<typeof createTransactions>;
+  readonly assetScope: ReturnType<typeof createTransactions>;
+  readonly requiredConnections: number;
+  readonly activity: <T>(work: () => Promise<T>) => Promise<T>;
+  readonly maintenance: () => Promise<unknown>;
+}
 export async function createRuntime(
   env: Readonly<Record<string, string | undefined>>,
   handlersFor: (ports: {
     readonly outbox: Pick<ReliabilityRepository, 'append'>;
   }) => Readonly<Record<string, SqlJobHandler>>,
   telemetry: Telemetry = { record() {} },
+  shared?: SharedRuntime,
 ) {
   const config = readWorkerConfig(env);
-  const privatePool = createRuntimePool(config.privateUrl, config.poolMax),
-    assetPool = createRuntimePool(config.assetUrl, config.poolMax);
-  const privateScope = createTransactions(privatePool.pool),
-    assetScope = createTransactions(assetPool.pool);
+  const privatePool = shared ? undefined : createRuntimePool(config.privateUrl, config.poolMax),
+    assetPool = shared ? undefined : createRuntimePool(config.assetUrl, config.poolMax);
+  const privateScope = shared?.privateScope ?? createTransactions(privatePool!.pool),
+    assetScope = shared?.assetScope ?? createTransactions(assetPool!.pool);
+  const activity = shared?.activity ?? (<T>(work: () => Promise<T>) => work());
   const credentials = { accessKeyId: config.accessKey, secretAccessKey: config.secretKey };
   const s3 = new S3Client({
     region: config.region,
@@ -56,7 +65,7 @@ export async function createRuntime(
     shutdown: Promise<void> | undefined;
   function stop() {
     stopping = true;
-    return (shutdown ??= Promise.all([privatePool.drain(), assetPool.drain()])
+    return (shutdown ??= Promise.all([privatePool?.drain(), assetPool?.drain()])
       .then(() => {})
       .finally(() => {
         s3.destroy();
@@ -72,8 +81,14 @@ export async function createRuntime(
         )
       ).rows[0]!;
       const required =
+        shared?.requiredConnections ??
         config.replicas * (2 * config.poolMax + config.otherConnections) + config.reserve;
-      if (row.role !== 'tt_private_runtime' || required > Number(row.maximum))
+      if (
+        row.role !== 'tt_private_runtime' ||
+        !Number.isSafeInteger(required) ||
+        required < 1 ||
+        required > Number(row.maximum)
+      )
         return fail(failure('unavailable'));
       return ok({ required, maximum: Number(row.maximum) });
     });
@@ -103,32 +118,40 @@ export async function createRuntime(
     const workflows = createWorkflows({
       baseUrl: config.workflowUrl,
       appId: 'tiresandtreads-' + config.appEnv,
+      ...(shared ? { maintenance: shared.maintenance } : {}),
       async run(jobId) {
-        if (stopping) throw Error('Runtime stopping');
-        const r = await durability.runJob(jobId, async (tx, input, lease) => {
-          const handler =
-            input.version === 1 && Object.hasOwn(handlers, input.type)
-              ? handlers[input.type]
-              : undefined;
-          const effect = () =>
-            handler ? handler(tx, input) : Promise.resolve(fail(failure('invalid_input')));
-          return input.type === 'inbox.process' ? inbox.apply(tx, lease, effect) : effect();
+        return activity(async () => {
+          if (stopping) throw Error('Runtime stopping');
+          const r = await durability.runJob(jobId, async (tx, input, lease) => {
+            const handler =
+              input.version === 1 && Object.hasOwn(handlers, input.type)
+                ? handlers[input.type]
+                : undefined;
+            const effect = () =>
+              handler ? handler(tx, input) : Promise.resolve(fail(failure('invalid_input')));
+            return input.type === 'inbox.process' ? inbox.apply(tx, lease, effect) : effect();
+          });
+          if (!r.ok) throw Error('Job deferred');
         });
-        if (!r.ok) throw Error('Job deferred');
       },
       async reconcile() {
-        if (stopping) throw Error('Runtime stopping');
-        const inboxRecovery = await inbox.reconcile();
-        if (!inboxRecovery.ok) throw Error('Runtime unavailable');
-        const r = await privateScope.unitOfWork.run(async (tx) => {
-          await relay.reconcile(tx);
-          return ok(await jobs.reconcile(tx));
+        return activity(async () => {
+          if (stopping) throw Error('Runtime stopping');
+          const inboxRecovery = await inbox.reconcile();
+          if (!inboxRecovery.ok) throw Error('Runtime unavailable');
+          const r = await privateScope.unitOfWork.run(async (tx) => {
+            await relay.reconcile(tx);
+            return ok(await jobs.reconcile(tx));
+          });
+          if (!r.ok) throw Error('Runtime unavailable');
+          for (let n = 0; n < 4; n++) await durability.relayOne();
+          // Shared hosts own their explicit maintenance/retention mode.
+          if (!shared) {
+            const stale = await assets.reconcile();
+            if (stale[0]) await assets.erase(stale[0]);
+          }
+          return r.value;
         });
-        if (!r.ok) throw Error('Runtime unavailable');
-        for (let n = 0; n < 4; n++) await durability.relayOne();
-        const stale = await assets.reconcile();
-        if (stale[0]) await assets.erase(stale[0]);
-        return r.value;
       },
     });
     const durability = createDurability({
@@ -195,6 +218,9 @@ export async function createRuntime(
       async command(...args: Parameters<typeof durability.command>) {
         if (stopping) throw Error('Runtime stopping');
         return durability.command(...args);
+      },
+      quiesce() {
+        stopping = true;
       },
       shutdown: stop,
     };

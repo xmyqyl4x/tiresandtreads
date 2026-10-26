@@ -205,6 +205,34 @@ export function verifyLifecycle(plan) {
   } finally {
     run('docker', ['rm', '--force', mailId], { capture: true });
   }
+  const serviceHostId = run(
+    'docker',
+    [
+      'create',
+      '--name',
+      `${plan.project}-service-host-config-refusal`,
+      '--network',
+      'none',
+      '--memory',
+      '768m',
+      '--read-only',
+      `tiresandtreads-local:${plan.project}`,
+      'node',
+      'service-host.mjs',
+      'check',
+    ],
+    { capture: true },
+  );
+  try {
+    const rejected = spawnSync('docker', ['start', '--attach', serviceHostId], {
+      encoding: 'utf8',
+      timeout: 15000,
+    });
+    assert(!rejected.error && rejected.status === 1);
+    assert.equal((rejected.stdout + rejected.stderr).trim(), 'Local service host unavailable');
+  } finally {
+    run('docker', ['rm', '--force', serviceHostId], { capture: true });
+  }
   const evidence = {
     stopMs,
     exitCode: state.ExitCode,
@@ -213,6 +241,7 @@ export function verifyLifecycle(plan) {
     postgresMemory: databaseResources.MemUsage,
     postgresCpu: databaseResources.CPUPerc,
     invalidHostedConfig: 'rejected',
+    serviceHostBundleStartup: 'validated in production image without workspace dependencies',
     workerBundleStartup: 'validated in production image without workspace dependencies',
     importBundleStartup: 'validated in production image without workspace dependencies',
     sourceBundleStartup: 'validated in production image without workspace dependencies',

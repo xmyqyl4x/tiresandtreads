@@ -1,6 +1,6 @@
 # P1-PR-027 validation evidence
 
-**October 26, 2026 · Technical validation in review as [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27); full S3 acceptance stays open.** Baseline: PR #26 merge `ac258ac7fbe63e62791993de634cbb5ec9b2f559`. [Contract](../../P1-PR-027-s3-validation-gate.md), [disposition](../../P1-PR-027-s3-gate-review.md).
+**October 26, 2026 · Technical scope owner-approved; [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27) merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`; full S3 acceptance stays open.** Baseline: PR #26 merge `ac258ac7fbe63e62791993de634cbb5ec9b2f559`. [Contract](../../P1-PR-027-s3-validation-gate.md), [disposition](../../P1-PR-027-s3-gate-review.md).
 
 ## TDD and scope
 
@@ -35,3 +35,5 @@ A final gate review reproduced an older-predicate false positive with a malforme
 ## Acceptance result
 
 `s3:check` verifies the inventory; `s3:acceptance` must fail with the current pending evidence. The [register](s3-service-register.json) preserves 98 draft cases/zero actual specialist reviews and pending provider/source/privacy/host proof. Full S3/G1/G2 and dependent endpoint work remain open/held. Four live phases, PostgreSQL consolidation, app/DB outside Vercel and APIs before UI remain unchanged.
+
+Owner-authorized [local-host continuation evidence](p1-pr-027-host-validation.md) is separate from this historical validation run. APIs remain on hold.
