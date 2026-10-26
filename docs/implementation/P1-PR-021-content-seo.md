@@ -1,6 +1,6 @@
 # P1-PR-021 — Content, public tools and SEO publication services
 
-**October 25, 2026 · S3 implementation for review.** Baseline: owner-approved [PR #20](https://github.com/xmyqyl4x/tiresandtreads/pull/20), merged at `2de57d88b69b7683b9a0ed1831548d2908e06555`. Specialist review and licensed adapters remain pending. This independent card depends on accepted S2 and runtime foundations, PR #13/#14. It advances E15/E37, CAP-02, UC10/UC17, AT16/AT27 and DB16/DB27. Service portions of FR-EML-06/08, FR-SEO-01/02/03/05/06/07/08/09/11/12 and CORE-06/07/08 are covered; their API, editorial, rendered-browser and live acceptance remain later gates.
+**October 25, 2026 · S3 implementation in [PR #21](https://github.com/xmyqyl4x/tiresandtreads/pull/21) for review.** Baseline: owner-approved [PR #20](https://github.com/xmyqyl4x/tiresandtreads/pull/20), merged at `2de57d88b69b7683b9a0ed1831548d2908e06555`. Specialist review and licensed adapters remain pending. This independent card depends on accepted S2 and runtime foundations, PR #13/#14. It advances E15/E37, CAP-02, UC10/UC17, AT16/AT27 and DB16/DB27. Service portions of FR-EML-06/08, FR-SEO-01/02/03/05/06/07/08/09/11/12 and CORE-06/07/08 are covered; their API, editorial, rendered-browser and live acceptance remain later gates.
 
 ## Service boundary
 

@@ -408,7 +408,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role/publication retry tests and headless SEO/tool contracts; publication reaches all replicas within 60 seconds, out-of-order updates are rejected and expired safety/privacy configuration fails closed; unsafe redirects and private indexing rejected.
 
-**Implementation status:** S3 technical implementation for owner review; [contract](../implementation/P1-PR-021-content-seo.md) and [validation](../implementation/evidence/P1/p1-pr-021-validation.md). Real editorial/provider property/key-file verification, worker/CDN propagation and API/browser/live acceptance remain at their declared gates. Specialist review and licensed adapters remain pending independently.
+**Implementation status:** S3 technical implementation in [PR #21](https://github.com/xmyqyl4x/tiresandtreads/pull/21) for owner review; [contract](../implementation/P1-PR-021-content-seo.md) and [validation](../implementation/evidence/P1/p1-pr-021-validation.md). Real editorial/provider property/key-file verification, worker/CDN propagation and API/browser/live acceptance remain at their declared gates. Specialist review and licensed adapters remain pending independently.
 
 ### P1-PR-022
 
