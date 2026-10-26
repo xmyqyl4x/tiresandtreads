@@ -1,0 +1,104 @@
+{
+  "sourceCommit": "ecf0a3cd6f09bd43b81d01c0fb426deadedeeb0e",
+  "verifiedAt": "2026-10-26T00:43:37.865Z",
+  "tests": {
+    "newPricing": 110,
+    "unitAndUsecase": 380,
+    "database": 103,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 563
+  },
+  "coverage": {
+    "statements": 92.12,
+    "branches": 88.68,
+    "functions": 98.14,
+    "lines": 95.8
+  },
+  "pricingCoverage": {
+    "statements": 100.0,
+    "branches": 97.14,
+    "functions": 100.0,
+    "lines": 100.0
+  },
+  "mathVersion": "1.0.0",
+  "storageParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appTableAndViewColumns": 1594,
+    "cmsTables": 28,
+    "appMigrations": 22,
+    "cmsMigrations": 2,
+    "codecFields": 250,
+    "factFamilies": 25,
+    "schemaChanges": false
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-28ac20a3dd27e26e",
+  "appImageId": "688c203cc847b1d98dfdcbd7d2987c5e2f4f18bad9900a8dd7007a3a2dff5ad9",
+  "lifecycle": {
+    "stopMs": 690,
+    "exitCode": 143,
+    "appMemory": "50.79MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "87.71MiB / 512MiB",
+    "postgresCpu": "0.04%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-810100f9ad80f79b",
+    "elapsedMs": 28177,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 653,
+    "backupWindowMs": 4405,
+    "tables": {
+      "app": 123,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "26fa1bfe0aee04abac8cfb059467590ee31e7b7c3395b182671b1ac6da825db6",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 632113,
+      "cms": 194206
+    },
+    "backupSha256": {
+      "app": "7e211b4df958f7d20278dee56e52a102c7f4b4d503a21d49a7c8f31ae31bbacf",
+      "cms": "96333b173409bcefbf78aae228162269d5c7f3bf879ccc31856109be05089d6e"
+    },
+    "migrations": {
+      "app": 22,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 51,
+    "uncheckedTasks": 306,
+    "dependenciesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "Licensed adapters and actual source/price coverage remain pending under owner-directed DD01/DD02 deferral",
+    "Actual specialist reviews remain zero; DD06/G1, tax/life assumptions and explanations require actual reviewed evidence",
+    "All pricing and ownership fixtures are synthetic financial what-if inputs, not retailer quotes, warranties-as-life or safe-life dates",
+    "019 must implement trusted repository-backed quote/owner authorization, policy/source/recall checks and pinned report inputs/results",
+    "Range comparison is available but the 017 hard-budget bridge accepts only current exact licensed installed points",
+    "Technical DTOs have issuanceAuthorized=false; no product HTTP/UI, hosted activation or live-phase release"
+  ]
+}

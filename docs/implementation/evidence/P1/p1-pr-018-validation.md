@@ -12,13 +12,28 @@ Scenario cases cover five-year and bounded horizons, one/two sets, exact and jus
 
 Seeded properties exercise 100 quote permutations/commercial-sidecar variations, 128 monotone source amounts, exact money beyond JS safe integers, 101 winter shares, frozen inputs and 100 outward-rounding fractions. Comparison tests separately assert fit, climate and price findings, signed interval deltas, incomparable scopes, stable ordering, interval-dominant highlights and the conservative point-only 017 budget bridge. Five application use cases prove one explicit clock, a trusted evidence port, raw-field refusal, denial propagation, scope integrity and redacted failures.
 
-## Verification status
+## Full verification
 
-The first disposable Linux database/provider coverage run passed **477 tests** (374 unit/use-case plus 103 database/provider) before the final six malformed-input cases were added. It reported 100% pricing statements/lines/functions and 97.13% pricing branches. That observation is preliminary, not an exact-final-commit claim. The final 110-test focused run passed afterward. The clean committed implementation will undergo the complete exact-commit Linux build, coverage, runtime, failure-gate and recovery suite before push; the resulting redacted record and final head will be recorded here and in PR #18.
+`pnpm verify:push` passed on implementation commit `ecf0a3cd6f09bd43b81d01c0fb426deadedeeb0e` at `2026-10-26T00:43:37.865Z`. The [redacted record](p1-pr-018-verification.json) captures that run. The final documentation/evidence commit is verified again before push; its exact head and independent CI status are recorded in [PR #18](https://github.com/xmyqyl4x/tiresandtreads/pull/18).
 
-No schema, migration, storage codec, grants, dependency or runtime-provider configuration changed. Baseline remains 123 app tables, 39 views, 1,594 table/view columns, 250 codec fields/25 fact families, 28 CMS tables and 22 app/two CMS migrations. Documentation preserves all 119 cards, original 137 FR rows, dependency edges, source archives and historical approvals; 51 technical tasks are checked and 306 remain unchecked. The full 016/017/018 cards stay in progress for their recorded external acceptance gates.
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 380 passed, including 110 new pricing tests |
+| Database/provider | Existing 103 passed; restricted-role, ingestion, source freshness, publication, runtime and repository proofs retained |
+| Foundation/schema/recovery | Six / 63 / 11 passed |
+| Total | **563 passing tests** |
+| Coverage | 95.8% lines, 92.12% statements, 98.14% functions, 88.68% branches; thresholds unchanged |
+| Pricing coverage | 100% statements/lines/functions, 97.14% branches |
+| Quality/build | Frozen Linux build/advisory audit, source hygiene, formatting, lint, TypeScript, inward/client boundaries, health contract and all migration checksums passed |
+| Storage | 123 application tables, 39 views, 1,594 table/view columns; 250 fields/25 fact families; 28 CMS tables; 22 app/two CMS migrations; no schema changes |
+| Runtime | Production image stop/restart and bundled worker/import/source CLI startup/refusal passed |
+| Failure propagation | Seven deliberate verification failures rejected |
+| Recovery | Separate synthetic backup/restore/deletion replay passed, including corrupt restore, stale/missing journal, incomplete deletion and inter-database crash retry |
+| Documentation | 119 cards/137 original FR rows/dependency edges/source archives/historical approvals preserved; 51 checked tasks/306 unchecked |
 
-The disposable first-run project `tt-test-0118c82e55c18ea9` and its fixture volume were removed. Retained local dev/stage remain stopped at the accepted schema baseline with volumes retained; native PostgreSQL and unrelated Docker projects remain untouched.
+The initial missing-module red test preceded implementation. A preliminary disposable database coverage run passed 477 tests before the final six malformed-input cases; the final run above includes all 110 new cases. The 98-case specialist packet from 017 is unchanged.
+
+Disposable projects `tt-test-28ac20a3dd27e26e` and `tt-test-810100f9ad80f79b` and their fixture volumes were removed by exact identity. The preliminary `tt-test-0118c82e55c18ea9` project was also removed. Retained local dev/stage remain stopped at the accepted schema baseline with volumes retained; native PostgreSQL and unrelated Docker projects remain untouched. Local synthetic recovery does not prove hosted RPO/RTO or provider/object recovery.
 
 ## Acceptance limits
 
