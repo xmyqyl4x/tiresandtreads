@@ -113,6 +113,8 @@ Use pnpm workspaces. Do not create an empty mobile application until its workstr
 
 ## Recommendation engine
 
+[P1-PR-017](implementation/P1-PR-017-eligibility-recommendations.md) implements the pure rules and shared application-service entry point. The 98-case synthetic specialist packet is pending actual review; production source assembly, report integration and G1 acceptance are still open.
+
 ### Input normalization and evidence
 
 Represent wheel/axle configurations explicitly: fitment ID, front/rear size, quantity per axle, construction, load index/range, speed rating, XL, run-flat and approved options. Vehicle year/model alone is insufficient. Size-only input produces `verificationStatus: limited` unless required vehicle constraints are independently confirmed.

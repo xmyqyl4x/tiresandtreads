@@ -1,0 +1,101 @@
+{
+  "sourceCommit": "46082082bae5a7e6d809a80796d425db830ee205",
+  "verifiedAt": "2026-10-25T23:13:20.393Z",
+  "tests": {
+    "unitAndUsecase": 270,
+    "database": 103,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 453
+  },
+  "coverage": {
+    "statements": 91.25,
+    "branches": 87.32,
+    "functions": 97.85,
+    "lines": 95.33
+  },
+  "goldenReview": {
+    "draftScenarios": 98,
+    "actualSpecialistReviews": 0,
+    "status": "pending",
+    "packet": "p1-pr-017-golden-review.json"
+  },
+  "portfolio": {
+    "plans": 1000,
+    "decisions": 1000,
+    "picks": 5,
+    "elapsedMs": 94,
+    "synthetic": true
+  },
+  "storageParity": {
+    "appTables": 123,
+    "appViews": 39,
+    "appTableAndViewColumns": 1594,
+    "cmsTables": 28,
+    "appMigrations": 22,
+    "cmsMigrations": 2,
+    "codecFields": 250,
+    "factFamilies": 25,
+    "schemaChanges": false
+  },
+  "failureGates": 7,
+  "mainProject": "tt-test-57583901213cae33",
+  "appImageId": "6da57b3ad08a49123696bd3ed7fa8ff6563512912ebac13c317e327a32c725f6",
+  "lifecycle": {
+    "stopMs": 644,
+    "exitCode": 143,
+    "appMemory": "51.34MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "85.83MiB / 512MiB",
+    "postgresCpu": "0.05%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-18a90ad7de38baeb",
+    "elapsedMs": 24449,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 712,
+    "backupWindowMs": 3988,
+    "tables": {
+      "app": 123,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "26fa1bfe0aee04abac8cfb059467590ee31e7b7c3395b182671b1ac6da825db6",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 632113,
+      "cms": 194206
+    },
+    "backupSha256": {
+      "app": "25f20cfc8c37aa418a24cc19ff256d28a856c26a447d80617d16a391df9c0fd3",
+      "cms": "e9d3e9da6541ed1fb397456cd5cc1b1bb8d04c153e1ad7b68a56701ceaed8a1b"
+    },
+    "migrations": {
+      "app": 22,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "acceptanceLimits": [
+    "Owner keeps licensed adapters pending under DD01/DD02; no real fitment/catalog/price/climate coverage accepted",
+    "DD06/G1 actual named specialist review, calibration and explanations remain pending; 98 synthetic cases are draft review material",
+    "Internal technical evaluation only, issuanceAuthorized=false; 019 must implement trusted database resolver, policy authorization and report/recall integration",
+    "018 owns actual comparable cost construction and scenario mathematics",
+    "No product HTTP adapter/frontend, hosted activation or live-phase release"
+  ]
+}

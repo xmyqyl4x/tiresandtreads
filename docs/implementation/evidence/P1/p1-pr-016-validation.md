@@ -1,6 +1,6 @@
 # P1-PR-016 validation evidence
 
-**October 25, 2026 · NHTSA/shared implementation verified for review; full card in progress.** Baseline: owner-approved PR #15 merge `5504a4a5b543d474bb031d714513de82170f651f`. The owner explicitly directed: **keep licensed adapters pending; proceed with NHTSA and shared infrastructure**. See the [implementation packet](../../P1-PR-016-domain-source-adapters.md), [redacted verification record](p1-pr-016-verification.json) and [read-only source observations](p1-pr-016-source-probes.json).
+**October 25, 2026 · NHTSA/shared implementation owner-approved and merged; licensed remainder pending.** Baseline: owner-approved PR #15 merge `5504a4a5b543d474bb031d714513de82170f651f`. The owner explicitly directed: **keep licensed adapters pending; proceed with NHTSA and shared infrastructure**. See the [implementation packet](../../P1-PR-016-domain-source-adapters.md), [redacted verification record](p1-pr-016-verification.json) and [read-only source observations](p1-pr-016-source-probes.json).
 
 ## TDD and functional proof
 
@@ -37,6 +37,6 @@ Official vPIC model/manufacturer-page/equipment-plant responses, the dictionary 
 
 ## Acceptance limits
 
-Licensed catalog/fitment/pricing/climate adapters remain pending under DD01/DD02 by owner direction. Per-source rights/retention/channel review, actual licensed field/unit contracts, production coverage fixtures and reviewed cross-source links remain open. P1-PR-016 therefore stays **In progress**, with this PR presenting its authorized NHTSA/shared implementation for review.
+Licensed catalog/fitment/pricing/climate adapters remain pending under DD01/DD02 by owner direction. Per-source rights/retention/channel review, actual licensed field/unit contracts, production coverage fixtures and reviewed cross-source links remain open. P1-PR-016 therefore stays **In progress**, with its NHTSA/shared implementation accepted in PR #16, merged at `a774e1f025ee81a0bce593f37bab63ac6b66bdc4`. The owner authorized 017 while keeping licensed adapters pending.
 
 The recall-readiness service is a freshness input for the later report issuance service; that service must call it and perform its own pinned-bundle/safety checks. The cron file is a single-host template, not a hosted activation. Operational notification delivery and original DD03/DD05 hosted workflow/storage proofs remain pending. No paid provider, product UI/API or live phase was activated. Four live phases, database-first construction and app plus PostgreSQL outside Vercel are unchanged.

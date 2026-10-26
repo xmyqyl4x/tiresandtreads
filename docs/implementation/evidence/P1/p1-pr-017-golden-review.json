@@ -1,0 +1,2900 @@
+{
+  "schemaVersion": 1,
+  "fixtureScope": "Synthetic technical cases; no actual specialist review or G1 acceptance",
+  "reviewStatus": "pending",
+  "scenarioCount": 98,
+  "scenarioSource": "tests/fixtures/engine/scenarios.ts",
+  "scenarios": [
+    {
+      "id": "G001",
+      "name": "Regional policy cannot be reused in another region",
+      "fixtureSha256": "e3088c702b00cc5dfb11f6952d60c19a72f9ea31fb72bc14fc1e4aa2ee93423d",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "REGIONAL_POLICY_UNCONFIRMED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G002",
+      "name": "Missing climate provenance is not supplied by a driver preference",
+      "fixtureSha256": "6b1fc9f32899aee62413ba81cbb56b7654f381bf4da9ec6fb6228e25eaf7bb25",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SOURCE_UNAVAILABLE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G003",
+      "name": "Expired regional guidance prevents verified eligibility",
+      "fixtureSha256": "3c2af66af254e9b599e0ce7e67779b4c4eb98074fa3d97f20cecd7e01c4de1dc",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SOURCE_UNAVAILABLE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G004",
+      "name": "Verified staggered full replacement",
+      "fixtureSha256": "7f5d8122e8b7bfc63db9189206770331eaf24f591f2df258083c6ef8ee6ec31d",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G005",
+      "name": "Ambiguous wheel package",
+      "fixtureSha256": "d33558bf4001ff345ce56f6b1a5b28ca33807430b02a7f794668f9491ca98b44",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "WHEEL_PACKAGE_UNCONFIRMED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G006",
+      "name": "Size-only does not establish vehicle fitment",
+      "fixtureSha256": "1c3f4333e8fa1949ce05fd69d0f041b583cb2551a7ae533f31614c7449ee5620",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_UNCONFIRMED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G007",
+      "name": "Unreviewed fitment stays unverified",
+      "fixtureSha256": "9f15598380f5c0f87bf84aec5000a786840c7ff2ce2203be82edbfd90010dbf8",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_UNCONFIRMED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G008",
+      "name": "User size conflicts with resolved package",
+      "fixtureSha256": "2d5127ec322a15b82e5987f4a4682c0b7999d4b8fd209d956a7a1eaa05dfd6e4",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_SIZE_CONFLICT",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G009",
+      "name": "Wrong front axle size",
+      "fixtureSha256": "d77fd7c34e6c09f6df8e5a596a778323927623664dabc8e9a9081482f2016730",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SIZE_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G010",
+      "name": "Wrong rear axle size",
+      "fixtureSha256": "33e00aa417bc95c0c11b0b4bd737e58659a71d7a34d1ef7774ac8837f436fb1e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SIZE_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G011",
+      "name": "Passenger prefix is not silently removed",
+      "fixtureSha256": "32d7f615fcf616c5c30a76af06f48396293f08eb4b9f73ee18fbc135e7768a1a",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SIZE_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G012",
+      "name": "Light truck prefix is not equated with passenger size",
+      "fixtureSha256": "a46ee03c536909f8656323763dd16f6ade76f1205d11f4d892339707dd5404cf",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SIZE_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G013",
+      "name": "Rim mismatch",
+      "fixtureSha256": "66b5800b9bf9a706ae5f947d7c1bc191b257cf0ce05c6319426c749e8d7f5cbe",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "RIM_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G014",
+      "name": "Malformed rim cannot pass",
+      "fixtureSha256": "3e45e0505f4ac2d495600b60172db304e4d5b73329f2ccab8b0befb0534a4204",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "RIM_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G015",
+      "name": "Construction mismatch",
+      "fixtureSha256": "1ffd85ed9a787c14b6df10ddd32026cbadcbae82edad13c04616a3d571f26db5",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "CONSTRUCTION_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G016",
+      "name": "Insufficient load",
+      "fixtureSha256": "d9d3fb186b953b7cdfae10dfc18b3d049b4a805820f071eeec2a236e72b035ae",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "INSUFFICIENT_LOAD",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G017",
+      "name": "Insufficient speed",
+      "fixtureSha256": "af15a3e0bb1ea438f3b2bc2f643c62b11f597dbd798916243d66cb87f3be9cfe",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "INSUFFICIENT_SPEED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G018",
+      "name": "Unknown required load",
+      "fixtureSha256": "2e5e44868dd91e1dea3b6300dc35cad155a6553bf2a35b7fc2aae2d12e969ba4",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G019",
+      "name": "Unknown SKU load",
+      "fixtureSha256": "541e905c4d5ba8cae26373ded35946aecd5e61d3b844c96b6274c38b6c0921d7",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G020",
+      "name": "Unknown required speed",
+      "fixtureSha256": "c90c1b8b57d8d9dd53694b7e94f15ccb0e0a0797d0435df8863fce925cb3f988",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G021",
+      "name": "Unknown SKU speed",
+      "fixtureSha256": "3992ad7ccb3af43b757cd7f0735001e32bc5717263865a7d5125af89d2e3cfa4",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G022",
+      "name": "Unknown XL requirement",
+      "fixtureSha256": "6cee1d6dbc02957db777a20d0e5e63750d84b0e864833ed9d8116db3d9fa2193",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G023",
+      "name": "Unknown run-flat requirement",
+      "fixtureSha256": "db8ac313123769b73485929d6fe48e472ecfc0a13878191105cae72cee928fb6",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G024",
+      "name": "Unknown load-range requirement",
+      "fixtureSha256": "c455e683829aa0008460607afabfef5f574a712f0b8abe0ed11225a409d3b37c",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G025",
+      "name": "Required XL missing",
+      "fixtureSha256": "540c14c3fe769e1d424e2dd79ed8d1a0fcef83c9421a412f80337aab330333f4",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "XL_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G026",
+      "name": "Required XL unknown",
+      "fixtureSha256": "3aca90a5cfa7c5c5c1007087db77ecb0275b9e50671738b853728c84d3c06b9f",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G027",
+      "name": "Required run-flat missing",
+      "fixtureSha256": "ee7ce227809c8144c423c88f607cf5603727e78e8012229ddeee6bfa4a09085a",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "RUN_FLAT_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G028",
+      "name": "Required run-flat unknown",
+      "fixtureSha256": "11a7595b25da37de39f950670e0bbe78bf6fd40a9d27ab8b255b4295c360c710",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G029",
+      "name": "Load ranges are exact constraints",
+      "fixtureSha256": "ab8ea819a2966091f61628d7b71d6c73207939a59f02da35013bd2c2df9d3919",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "LOAD_RANGE_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G030",
+      "name": "Required load range unknown on SKU",
+      "fixtureSha256": "bdff6e0a50fc5bfeb9cb8963fd53e8668e243d8f5e3ccc8b8e2b6f82b444ef94",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G031",
+      "name": "Missing rear axle",
+      "fixtureSha256": "6c0a8a8313f0787cf5a2fd288fc38eb890a9887a7fc044b45c211e8727cbda52",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G032",
+      "name": "Unsupported wheel quantity",
+      "fixtureSha256": "82897be39004a2c6114eeb0e64bdcd6457a36080edae808335ce905597469a2b",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G033",
+      "name": "Duplicate axle requirements",
+      "fixtureSha256": "201e94ea7f469a608cbcae9fcfdc5b5a929189891abd1d486a56e4c2f727c8fb",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G034",
+      "name": "Unknown drivetrain",
+      "fixtureSha256": "c2d2578408acbdac0f8df9fc5f11ef2070b3dcda7db903ff4beb37bbe7fc76de",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G035",
+      "name": "Unresolved OE constraint",
+      "fixtureSha256": "2202e7325c8bb4d6dedc308d6e0e2aa2c37cc0b2bde8ce1647a110a17662e9bc",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "FITMENT_CONSTRAINT_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G036",
+      "name": "Winter-only cannot be a year-round pick",
+      "fixtureSha256": "d7e4ef06673f2a7bd8d05c683dbbc537cb3ade0ada5285b96d4bc3691d9aa601",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SEASONAL_STRATEGY_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G037",
+      "name": "Winter-set request cannot use all-season label alone",
+      "fixtureSha256": "fd396f70f39b719f64baa3826286cf56be90c656d0f2d68d1564d679076753f7",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SEASONAL_STRATEGY_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G038",
+      "name": "Reviewed winter-set scope",
+      "fixtureSha256": "dd0fad3df880a712249216618cd3525c01397854b5bdaa584c1a55b65ac29d29",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G039",
+      "name": "Snow policy rejects unsupported all-season class",
+      "fixtureSha256": "99f11c4d4aecce583a632902b1f00d7b4cd59881bd0dcb54506dc129f7ab049f",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "SEASONAL_STRATEGY_MISMATCH",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G040",
+      "name": "All-weather label does not establish snow marking",
+      "fixtureSha256": "045a345bf6bc8476071d3baa2435b17e2b9e858a106a677d95c5a6bcc20be22f",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "WINTER_MARK_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G041",
+      "name": "Unknown snow marking",
+      "fixtureSha256": "914144b6b475bc8bf34ba1cf14a6ad19baf26ecb2dabe7e39a89f898abbadd5a",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "WINTER_MARK_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G042",
+      "name": "Reviewed all-weather snow scope with explicit marking",
+      "fixtureSha256": "dbed370d96822da081275f7b600706f2b97000b766baed86205a01c677ec5065",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G043",
+      "name": "Unknown climate is not guessed from location",
+      "fixtureSha256": "a0ad805f618c09a466b01ec6e88b09b758f127369d602a807e4dad167d613d84",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "CLIMATE_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G044",
+      "name": "Missing seasonal policy",
+      "fixtureSha256": "d1c3d2103945cd31e689245549f136dfdf946f37405f9320e21e454385397617",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SEASONAL_POLICY_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G045",
+      "name": "Conflicting seasonal policies",
+      "fixtureSha256": "3bd4cfc9eba3e2d60bb9a742d118ba91a0d6de449e89b6027fdae775ad0d184e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SEASONAL_POLICY_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G046",
+      "name": "Unknown seasonal class",
+      "fixtureSha256": "4632a57eaf953b78a06172058aaf0b592561a84e83f3372004d6c279cf86d8f7",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SEASONAL_POLICY_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G047",
+      "name": "Summer tire restricted to separate summer strategy",
+      "fixtureSha256": "13d784e6b2f1db040dbb7c492daaf1d4fd1cad35e5d373cfe35466f40013fad5",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G048",
+      "name": "Unknown availability",
+      "fixtureSha256": "aa7548477a74d8580808ef5c25a04801b5e755082d6d0918fcf409876ad1e93e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "AVAILABILITY_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G049",
+      "name": "Known unavailable product",
+      "fixtureSha256": "06cb66564a8a38a3df3cdd71255d87384416759218c13f511dd77926e884815f",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "MARKET_UNAVAILABLE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G050",
+      "name": "Expired availability observation",
+      "fixtureSha256": "e67bbb36d7344a8b1da4462692305a0ab28102dc437af932dff0ecd3adb5bb8b",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "AVAILABILITY_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G051",
+      "name": "Matched recall remains an exclusion with target reference",
+      "fixtureSha256": "6fa6d44a0052a6b2d6780be22f9fa7f3735b7b7c3ee0e34ec0060c70f2a0b010",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "RECALL_MATCHED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G052",
+      "name": "Unresolved DOT mapping cannot clear the product",
+      "fixtureSha256": "395fd6dafa05685b8da9728eb9db199d2de070b00ce008e3156b3de17ed9480e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "RECALL_REVIEW_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G053",
+      "name": "Unknown recall status",
+      "fixtureSha256": "d31a7f1c85f2d88d71887d8f82f9b544e094ee98fb96f9495fccf00cf219d623",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "RECALL_REVIEW_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G054",
+      "name": "Recall receipt bound to another dataset",
+      "fixtureSha256": "198c02e18ddff00daf5bc47648c4d18b6c246c09fda4d159afeda180fb13bb28",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "RECALL_REVIEW_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G055",
+      "name": "Exact 48-hour recall boundary is stale",
+      "fixtureSha256": "a8752a42f19a61c919ca1dc5e867dec658c0a059de828d28f2128dad50f2c2c6",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "RECALL_STALE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G056",
+      "name": "Recall check immediately inside 48-hour limit",
+      "fixtureSha256": "4cb509fae854d2ffd62ebfb7bb5c01911aa52ea07246a4d9b6515e01b9f13a46",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G057",
+      "name": "Future recall check cannot establish freshness",
+      "fixtureSha256": "89f69c525bf25ef37727590c35d4254129309573766deafc265d6dc83879e7a5",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "RECALL_STALE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G058",
+      "name": "Incomplete recall scope",
+      "fixtureSha256": "a330f4845dfa99aefc0576d9d5244603f3c6d58884b30bdf6e4bd3018bc98ca4",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "RECALL_STALE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G059",
+      "name": "Expired catalog license",
+      "fixtureSha256": "db177880b999419057ff3040f0b4bf67762a7b3be252434a0a27c533f50771fc",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SOURCE_UNAVAILABLE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G060",
+      "name": "Derived-use rights absent",
+      "fixtureSha256": "8b1f616f289be73a6eb30e7ca111ffde26b691f9db94ef8205e6d5a21f8e6c9e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SOURCE_UNAVAILABLE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G061",
+      "name": "Pending specialist policy review",
+      "fixtureSha256": "71ac6fe3843a17591aab744079119d5a43b1cfe5af24ddfebea58973cdb8e84b",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "POLICY_REVIEW_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G062",
+      "name": "Policy review expired",
+      "fixtureSha256": "9ca38605dbf240aeab00d11d98cc4b29b81dd8802db3c938d79d8695a16f4179",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "POLICY_REVIEW_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G063",
+      "name": "Missing fitment provenance",
+      "fixtureSha256": "0dd1cc5519819237146280c5032caa690587215d336ef9dd306264dda128ab93",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "SOURCE_UNAVAILABLE",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G064",
+      "name": "No replacement policy even for full set",
+      "fixtureSha256": "810e1a0c4abc17496639a5cf501667339aafa05fe12e60b13c219c1826f3499b",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "REPLACEMENT_POLICY_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G065",
+      "name": "Partial replacement without inspection proof",
+      "fixtureSha256": "9b37cf089eac0315b33db0ddd871e7a40ef553b6cfd982711aad14fc63995345",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "INSPECTION_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G066",
+      "name": "Explicit inspected rear-pair replacement",
+      "fixtureSha256": "b56cf6a17799d674fa450e58ecc94c39ccbafc84c0516cb57acbfb6c79483d13",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G067",
+      "name": "AWD partial replacement has no generic tolerance",
+      "fixtureSha256": "9619f913c85bdb4c3702aee3adb4aed6b7cea2af9fa4e74d6fd877ea5e996bd8",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "REPLACEMENT_MEASUREMENTS_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G068",
+      "name": "AWD tread tolerance exceeded",
+      "fixtureSha256": "3b4389b7df562607773984723f2ec7651238ffe0b286dd8779183e0de1dcb164",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "TREAD_DIFFERENCE_EXCEEDED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G069",
+      "name": "AWD rolling circumference tolerance exceeded",
+      "fixtureSha256": "2009ed3ac7a795bb5acf56652a8567519df9a45c28a8b713753d9ae8af037652",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "CIRCUMFERENCE_DIFFERENCE_EXCEEDED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G070",
+      "name": "AWD full matching replacement",
+      "fixtureSha256": "545ce2e3dd4790169c6a26a2e7937ddde245e26f7a26152ddb31b763af1d953a",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G071",
+      "name": "Unapproved partial replacement pattern",
+      "fixtureSha256": "8e6420879d7477775079214e19b9fcd903161c32076930bbc1f539c30ed8c905",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "REPLACEMENT_PATTERN_UNAPPROVED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G072",
+      "name": "Unreviewed mixed front/rear models",
+      "fixtureSha256": "70d747ba1892c74fceb3014057ba1f5015f4e28d429d64f4d24ed212a99d168e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "MODEL_MIX_UNAPPROVED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G073",
+      "name": "Explicitly reviewed model pair",
+      "fixtureSha256": "d4887c8dfb574a9b5361bd2c77e44d5cfd98e7206296b397d45478900ca0628e",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G074",
+      "name": "Inspection proof expired",
+      "fixtureSha256": "beb912cb7384c91de5b5c9440c0760f8167735beb0d7af75aabe0284a12a65a5",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "INSPECTION_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G075",
+      "name": "Inspection belongs to another plan",
+      "fixtureSha256": "e4fe7db1d8077825787a2cacf6ed8a464e0d2bce1a8656de165edab61015270f",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "INSPECTION_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G076",
+      "name": "Inspection names another fitted SKU",
+      "fixtureSha256": "1ce81850657305598beb502cbbea2060d2460fccc1685da9c8e07724c0796239",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "INSPECTION_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G077",
+      "name": "Inspection omits a retained wheel",
+      "fixtureSha256": "1034ea32d8f0b8b71b0be709d700189a9a1f93de88b952b78a9ea03333ed02e1",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "INSPECTION_REQUIRED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G078",
+      "name": "Missing measured tread remains unknown",
+      "fixtureSha256": "6e97acdc38005770fd77d41e1f03db3514c274efa20973438c692cb9c0694503",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "unverified",
+        "scoreBp": null,
+        "requiredReason": "REPLACEMENT_MEASUREMENTS_UNKNOWN",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G079",
+      "name": "Exact approved tread difference boundary",
+      "fixtureSha256": "0275fd876217b07a9ee6ac0e4ef4fff8a903a1638315663e27a7db8756111491",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G080",
+      "name": "Exact approved circumference difference boundary",
+      "fixtureSha256": "8834df8865005975e4dd6f13fb70738748a5402df6dbb39dbaac7ce756b6bca2",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G081",
+      "name": "Single replacement needs explicitly approved pattern and inspection",
+      "fixtureSha256": "8b14b459d5f70b23dd67b7e26361b0bb70691aa5c49d387b08320d19d14f2469",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G082",
+      "name": "Missing performance metric does not become zero",
+      "fixtureSha256": "beaf92a388fbdf46ccc41c7a926beca9ed3110641ea486bfe76d2b8b480266ec",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": null,
+        "requiredReason": "EVIDENCE_MISSING",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G083",
+      "name": "Incompatible evidence method suppresses numeric scores",
+      "fixtureSha256": "aa8d3b200ee4bcd8558c9074c73a12c86d7c0c96ec73fb89101192968db01a1f",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": null,
+        "requiredReason": "EVIDENCE_NOT_COMPARABLE",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G084",
+      "name": "Model-family evidence cannot transfer to a SKU",
+      "fixtureSha256": "eb01d15ad0a01cddca9aa57b82d6ea570d9dc1a73f7f97bc37a0505814a39be6",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": null,
+        "requiredReason": "EVIDENCE_MISSING",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G085",
+      "name": "Measured zero is known evidence",
+      "fixtureSha256": "ffdf5625b93e720280269803fd2edb82bd25f55787609cde62f7d7a5c197fce6",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 3000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G086",
+      "name": "Wet priority multiplier is normalized exactly",
+      "fixtureSha256": "9caeedccfba83eea561e1d26624b85a0c2dee6d914e2da68f3e5105b24678373",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7333,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G087",
+      "name": "Comfort priority multiplier is normalized exactly",
+      "fixtureSha256": "032ca13136853c0dd234b66ab01063f25e0502568ce5270c307edd38355b9524",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 6667,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G088",
+      "name": "Sparse competitor suppresses numeric precision for entire cohort",
+      "fixtureSha256": "208ffb91635b3a6bd794fb42fb200244062fdf9f40b38863f3be3d94c0ba8f08",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": null,
+        "requiredReason": "EVIDENCE_MISSING",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101",
+          "10000000-0000-4000-8000-000000000102"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G089",
+      "name": "Evidence confidence breaks equal scores",
+      "fixtureSha256": "76e0e226d40da520a9890e14a28e6001779be387611b815911fd53ef3fa64fdd",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000102",
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G090",
+      "name": "Stable identifier breaks exact ties regardless of input order",
+      "fixtureSha256": "7aa4f85f8cc394c007a231f1aaa4768a9012f0e7d3c35eeadc019747e5fa95b2",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101",
+          "10000000-0000-4000-8000-000000000102"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G091",
+      "name": "Comparable installed cost breaks equal evidence ties",
+      "fixtureSha256": "0c853ccfcd337c3e0a6bf7786417be9f82495a9688cbd18455a63033b4663a99",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000102",
+          "10000000-0000-4000-8000-000000000101"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G092",
+      "name": "Missing cost cannot beat a known comparable price",
+      "fixtureSha256": "f1e38ab23c9ebd6fcbb4d21eff641888e015108e5221f1c4b09f1d3e2aa6efa3",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "FITMENT_VERIFIED",
+        "picks": [
+          "10000000-0000-4000-8000-000000000101",
+          "10000000-0000-4000-8000-000000000102"
+        ]
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G093",
+      "name": "Above-budget eligible options are separate",
+      "fixtureSha256": "59a38a24fc230596aba83a0283e5a2a804160de5ab15e956e21e4637876368bd",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "ABOVE_BUDGET",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G094",
+      "name": "Missing installed cost cannot claim budget compliance",
+      "fixtureSha256": "0de1f90cf5fd271edec3f9c93e646b5c832774b3738486ff887d0a5eb5e77d43",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "BUDGET_UNVERIFIED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G095",
+      "name": "Merchandise cost cannot satisfy installed budget",
+      "fixtureSha256": "f4b3d2657eb21fa0a9b25037cb2df22023a2449bd8798622bf4902f12a28f6f7",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "BUDGET_UNVERIFIED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G096",
+      "name": "Different quantity cost is not comparable",
+      "fixtureSha256": "03e2333f854faacef57114c2ccd1b77b3142487ba4f69dc36a8a5df0617ca9d0",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "BUDGET_UNVERIFIED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G097",
+      "name": "Expired cost cannot satisfy budget",
+      "fixtureSha256": "2ee27a96cd26db36d748c00bf35589036c586ea7d1e70635a338272fe8e639cb",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "eligible",
+        "scoreBp": 7000,
+        "requiredReason": "BUDGET_UNVERIFIED",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "G098",
+      "name": "Cheap below-spec item never fills a budget tier",
+      "fixtureSha256": "60aca7b4006c6b9b73d02509fe2491a1def2e6e7121c421c70ac185fe256ace6",
+      "configurationId": "10000000-0000-4000-8000-000000000040",
+      "datasetIds": [
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003",
+        "10000000-0000-4000-8000-000000000004",
+        "10000000-0000-4000-8000-000000000006",
+        "10000000-0000-4000-8000-000000000007"
+      ],
+      "engineVersion": "1.0.0",
+      "ruleVersionId": "10000000-0000-4000-8000-000000000005",
+      "policyVersion": "synthetic-rules-1",
+      "scoringVersion": "synthetic-minimum-axle-1",
+      "expected": {
+        "primaryPlanId": "10000000-0000-4000-8000-000000000101",
+        "status": "blocked",
+        "scoreBp": null,
+        "requiredReason": "INSUFFICIENT_LOAD",
+        "picks": []
+      },
+      "specialistReview": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    }
+  ]
+}
