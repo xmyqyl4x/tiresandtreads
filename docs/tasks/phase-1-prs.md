@@ -372,6 +372,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** [Implementation](../implementation/P1-PR-019-report-services.md) and [validation](../implementation/evidence/P1/p1-pr-019-validation.md) cover pinned immutable snapshots and current recall overlays, drafts/refine diffs, four-item comparisons, encrypted private quotes, owner/view/fork/revoke/PDF scope, safe exact-version command receipts and real transaction/race/rollback proofs. Technical workflows are implemented; the full card remains **In progress** for actual source/policy/clearance/inspection coverage and specialist acceptance under the owner-directed deferrals. All results remain technical evaluations with issuance disabled; HTTP, renderer, privacy-job and live release gates remain separate.
 
+**Technical implementation approved and merged:** [PR #19](https://github.com/xmyqyl4x/tiresandtreads/pull/19) at `2bacfc78c60a86e6d49eed372ccd5c6b6fd7b714`. The owner authorized 020 while retaining specialist review and licensed adapters as pending.
+
 ### P1-PR-020
 
 **Implement contact, consent and suppression services**
@@ -382,11 +384,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC06, UC08, AT10, AT11, AT19, DB07. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement report-only/offers-only contact flows, address verification and independent purpose events.
-- [ ] Implement restrictive default/GPC/CMP server policy and current-purpose projections.
-- [ ] Implement suppression, double opt-in, lookup-key rotation and permission rechecks for queued operations.
+- [x] Implement report-only/offers-only contact flows, address verification and independent purpose events.
+- [x] Implement restrictive default/GPC/CMP server policy and current-purpose projections.
+- [x] Implement suppression, double opt-in, lookup-key rotation and permission rechecks for queued operations.
 
 **Verification and acceptance:** Unit/use-case/real DB tests cover forged grants, withdraw/grant races, hard-bounce suppression and no email-gated assessment.
+
+**Implementation status:** S3 technical implementation for owner review; [service contract](../implementation/P1-PR-020-contact-consent.md) and [validation](../implementation/evidence/P1/p1-pr-020-validation.md). Public transports, actual sender/notice review and physical privacy-job fulfillment remain at their planned cards. Specialist review and licensed adapters remain pending independently.
 
 ### P1-PR-021
 

@@ -1,6 +1,6 @@
 # P1-PR-019 validation evidence
 
-**October 25, 2026 · technical implementation for review; specialist/source acceptance pending.** Baseline: owner-approved PR #18 merge `752760736ecc9ab70186503bf27cd942768f7e83`. See the [implementation contract](../../P1-PR-019-report-services.md). The owner explicitly retained specialist review and licensed adapters as pending when authorizing 019. Actual named specialist reviews remain zero; DD01/DD02/DD06/G1 and verified production issuance remain open.
+**October 25, 2026 · technical implementation approved and merged as PR #19 at `2bacfc78`; specialist/source acceptance pending.** Baseline: owner-approved PR #18 merge `752760736ecc9ab70186503bf27cd942768f7e83`. See the [implementation contract](../../P1-PR-019-report-services.md). The owner explicitly retained specialist review and licensed adapters as pending when authorizing 019. Actual named specialist reviews remain zero; DD01/DD02/DD06/G1 and verified production issuance remain open.
 
 ## TDD and workflow evidence
 

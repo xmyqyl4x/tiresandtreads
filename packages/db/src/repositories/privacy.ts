@@ -209,7 +209,7 @@ export function createPrivacyRepository(
       scopes.forEach((s) => text(s));
       const r = await q(
         tx,
-        'SELECT id FROM privacy.suppressions WHERE subject_id=$1 AND scope_key=ANY($2::text[]) AND effective_at<=clock_timestamp() AND (expires_at IS NULL OR expires_at>clock_timestamp()) LIMIT 1',
+        'SELECT id FROM privacy.suppressions WHERE lifted_at IS NULL AND subject_id=$1 AND scope_key=ANY($2::text[]) AND effective_at<=clock_timestamp() AND (expires_at IS NULL OR expires_at>clock_timestamp()) LIMIT 1',
         [subjectId, scopes],
       );
       return r.rows.length > 0;

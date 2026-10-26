@@ -178,7 +178,8 @@ export function createDeliveryRepository(scope: WriteScope): DeliveryRepository 
         AND (c.verified_at IS NOT NULL OR $4='necessary')
         AND (s.expires_at IS NULL OR s.expires_at>clock_timestamp()) AND (owner.expires_at IS NULL OR owner.expires_at>clock_timestamp())
         AND p.status='confirmed' AND (p.expires_at IS NULL OR p.expires_at>clock_timestamp())
-        AND NOT EXISTS(SELECT 1 FROM privacy.suppressions z WHERE z.subject_id=s.id AND z.scope_key=ANY($6::text[]) AND z.effective_at<=clock_timestamp() AND (z.expires_at IS NULL OR z.expires_at>clock_timestamp()))`,
+        AND NOT EXISTS(SELECT 1 FROM privacy.suppressions z WHERE z.lifted_at IS NULL AND z.subject_id=s.id AND z.scope_key=ANY($6::text[]) AND z.effective_at<=clock_timestamp() AND (z.expires_at IS NULL OR z.expires_at>clock_timestamp()))
+        AND NOT EXISTS(SELECT 1 FROM privacy.contact_lookups l JOIN privacy.suppression_tombstones z ON z.key_version=l.key_version AND z.lookup_hmac=l.email_hmac WHERE l.contact_id=c.id AND z.scope_key=ANY($6::text[]) AND z.effective_at<=clock_timestamp() AND (z.expires_at IS NULL OR z.expires_at>clock_timestamp()))`,
         [
           x.recipient_contact_id,
           i.recipientSubjectId,

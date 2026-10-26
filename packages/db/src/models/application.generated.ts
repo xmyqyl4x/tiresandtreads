@@ -2431,6 +2431,19 @@ export const privacyConsentState = privacy.table('consent_state', {
 });
 export type PrivacyConsentStateRow = typeof privacyConsentState.$inferSelect;
 export type PrivacyConsentStateInsert = typeof privacyConsentState.$inferInsert;
+export const privacyContactIntents = privacy.table('contact_intents', {
+  challenge_id: uuid('challenge_id').notNull(),
+  contact_id: uuid('contact_id').notNull(),
+  owner_subject_id: uuid('owner_subject_id').notNull(),
+  scope_key: text('scope_key').notNull(),
+  policy_version: text('policy_version').notNull(),
+  grant_event_id: uuid('grant_event_id').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type PrivacyContactIntentsRow = typeof privacyContactIntents.$inferSelect;
+export type PrivacyContactIntentsInsert = typeof privacyContactIntents.$inferInsert;
 export const privacyContactLookups = privacy.table('contact_lookups', {
   key_version: text('key_version').notNull(),
   email_hmac: bytea('email_hmac').notNull(),
@@ -2676,6 +2689,7 @@ export const privacySuppressions = privacy.table('suppressions', {
     .notNull()
     .default(sql.raw('now()')),
   revision: bigint('revision', { mode: 'bigint' }).notNull().default(sql.raw('1')),
+  lifted_at: timestamp('lifted_at', { withTimezone: true, mode: 'date' }),
 });
 export type PrivacySuppressionsRow = typeof privacySuppressions.$inferSelect;
 export type PrivacySuppressionsInsert = typeof privacySuppressions.$inferInsert;
@@ -2808,6 +2822,7 @@ export const storageTables = {
   migrationMetaApplied,
   privacyConsentEvents,
   privacyConsentState,
+  privacyContactIntents,
   privacyContactLookups,
   privacyContacts,
   privacyCookieConsents,
