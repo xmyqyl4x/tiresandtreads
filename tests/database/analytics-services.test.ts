@@ -261,7 +261,7 @@ it('published validity never outlives the consent deadline and maintenance rebui
   );
   expect(value(await s.analytics.maintenance()).invalidatedDays).toBe(1);
   await f.admin.query(
-    "UPDATE privacy.consent_state SET expires_at=clock_timestamp()-interval '1 second' WHERE subject_id=$1 AND purpose='analytics' AND scope_key='site'",
+    "UPDATE privacy.consent_state SET effective_at=clock_timestamp()-interval '2 seconds',expires_at=clock_timestamp()-interval '1 second' WHERE subject_id=$1 AND purpose='analytics' AND scope_key='site'",
     [s.owner.identity.subjectId],
   );
   value(await s.analytics.rebuildOne());

@@ -10,6 +10,8 @@ Real migrated PostgreSQL cases exercise parallel duplicate receipts, context ref
 
 ## Verification status
 
+The first exact-commit run rejected the deadline fixture because its simulated expiry preceded its effective time. The fixture now moves both times consistently; the production lifetime check is unchanged.
+
 Full exact-commit verification is pending. Measured counts, coverage, workload/profile results and retained dev/stage migrations will be recorded before pushing for review.
 
 ## Acceptance limits
