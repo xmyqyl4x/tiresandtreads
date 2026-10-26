@@ -146,15 +146,15 @@ export function metadata(page: PublicPage, origin: string, production: boolean, 
       {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Tires & Treads',
+        name: 'Tires & Tread',
         url: base,
       },
-      { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Tires & Treads', url: base },
+      { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Tires & Tread', url: base },
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Tires & Treads', item: base + '/' },
+          { '@type': 'ListItem', position: 1, name: 'Tires & Tread', item: base + '/' },
           ...(page.path === '/'
             ? []
             : [{ '@type': 'ListItem', position: 2, name: page.title, item: url }]),
