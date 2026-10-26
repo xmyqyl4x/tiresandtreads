@@ -1,6 +1,6 @@
 # P1-PR-025 validation evidence
 
-**October 26, 2026 · S3 implementation in [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) for owner review.** Baseline: approved PR #24 merge `4ba7b446ee343eac9baabd3d98bb8ba228d11890`. See the [privacy service and recovery contract](../../P1-PR-025-privacy-retention-recovery.md).
+**October 26, 2026 · S3 technical scope accepted; owner-approved [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) merged at `7aa1b54216b50fc687ff8990fb7edb93a83f8d4c`.** Baseline: approved PR #24 merge `4ba7b446ee343eac9baabd3d98bb8ba228d11890`. See the [privacy service and recovery contract](../../P1-PR-025-privacy-retention-recovery.md).
 
 ## TDD and scope
 
