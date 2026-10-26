@@ -480,7 +480,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Deletion while processing and restored-backup use cases pass; revoked shares/assets cannot be recovered by stale caches or jobs.
 
-**Implementation status:** S3 implementation candidate; [contract](../implementation/P1-PR-025-privacy-retention-recovery.md) and [validation](../implementation/evidence/P1/p1-pr-025-validation.md). Separate privacy authority, owner/email proofs, immediate restriction, durable journal acknowledgment, fenced SQL/email/object/analytics erasure, late-renderer barriers, dry-run retention and authenticated restore replay are implemented. Access/export/correction use audited actual operator fulfillment. Production jurisdiction/provider/journal durability, HTTP/UI and scheduled-host evidence retain their gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 implementation in [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) for owner review; [contract](../implementation/P1-PR-025-privacy-retention-recovery.md) and [validation](../implementation/evidence/P1/p1-pr-025-validation.md). Separate privacy authority, owner/email proofs, immediate restriction, durable journal acknowledgment, fenced SQL/email/object/analytics erasure, late-renderer barriers, dry-run retention and authenticated restore replay are implemented. Access/export/correction use audited actual operator fulfillment. Production jurisdiction/provider/journal durability, HTTP/UI and scheduled-host evidence retain their gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-026
 

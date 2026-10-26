@@ -1,5 +1,127 @@
 {
-  "status": "pending exact-commit verification",
+  "status": "passed complete exact-commit local Linux gate",
+  "sourceCommit": "b16348523a4d9436dc0c6effac95a370301a1cda",
+  "verifiedAt": "2026-10-26T17:09:16.271Z",
   "baseline": "4ba7b446ee343eac9baabd3d98bb8ba228d11890",
-  "scope": "S3 headless privacy/retention/recovery; production activation disabled"
+  "tests": {
+    "newPrivacyTests": 31,
+    "unitAndUsecase": 654,
+    "databaseAndProvider": 248,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 982
+  },
+  "coverage": {
+    "statements": 93.77,
+    "branches": 89.75,
+    "functions": 98.49,
+    "lines": 97.19
+  },
+  "migrationCounts": {
+    "app": 31,
+    "cms": 3
+  },
+  "storage": {
+    "tables": 138,
+    "views": 44,
+    "columns": 1723,
+    "drizzle": "0.45.2",
+    "status": "match",
+    "cmsTables": 28
+  },
+  "retainedTargets": {
+    "dev": "31 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "stage": "31 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "nativePostgres": "untouched"
+  },
+  "mainProject": "tt-test-8ba98cd53d37b1e6",
+  "appImageId": "3ee5e16f032bb0f26b823fbbb697ce3a919bc0d79213983faa0c46aac743815d",
+  "lifecycle": {
+    "stopMs": 797,
+    "exitCode": 143,
+    "appMemory": "51.52MiB / 768MiB",
+    "appCpu": "8.27%",
+    "postgresMemory": "91.48MiB / 512MiB",
+    "postgresCpu": "0.03%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-8d360711f856ddb0",
+    "elapsedMs": 26572,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 706,
+    "backupWindowMs": 4171,
+    "tables": {
+      "app": 138,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "0e6e4d0a935bbe035fde20caefbd10f1d127480df70c87305da6e002a572a3e6",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 719864,
+      "cms": 197159
+    },
+    "backupSha256": {
+      "app": "4c43a3280430a2eac25cdf7d5f8da11507e1a7b0a8bb91f9c466ce17b5bd6674",
+      "cms": "55797e12a198329d238e2be31a622661c5a7b75de388b04e5a6689f7d0649230"
+    },
+    "migrations": {
+      "app": 31,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "reviewed request-kind/jurisdiction policy and deadline escalation while fulfillment continues",
+    "owner session authority, separate privacy MAC proofs, expiry, rotation and purpose binding",
+    "unverified email intake stores no contact linkage; matching occurs after proof verification",
+    "durable necessary verification outbox and same accepted response for known/absent addresses",
+    "recoverable idempotent status receipt survives journal outage and physical owner-session erasure",
+    "immediate suppression, verification/session/share/download/link revocation and job/outbox cancellation",
+    "separate durable signed filesystem journal; tamper/conflict refusal; no raw subject/report ID or email",
+    "leased, bounded SQL/email/object/analytics deletion with stale-worker fencing and receipt evidence",
+    "full quote/comparison/private/report/delivery/callback dependency order with active constraints",
+    "contact erasure preserves independently owned reports and PDFs",
+    "unavailable journal/object, unsupported provider and legal holds remain incomplete and escalate",
+    "active privacy staff role required for audited actual manual fulfillment; deletion cannot be waived",
+    "deterministic delivery reservations plus serialized permanent barriers reject late asset registration",
+    "dry-run/apply persisted expiry and private object lifecycle retention",
+    "purpose-bound KMS envelope reply round-trip and cross-purpose denial on the local AWS-compatible fixture",
+    "authenticated current journal, key coverage, checkpointed restored-resource replay and withheld readiness",
+    "additive full FK index migration repairs restore health without rewriting applied 0030 history",
+    "complete synthetic application/CMS archive restore, migration ownership/ACL/health, quarantine and replay checks"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 72,
+    "uncheckedTasks": 285,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "S3 headless only; HTTP/browser/staff UI, verification/export production templates and real deliveries remain gated",
+    "mail/encryption/object/journal acknowledgments in privacy integration scenarios are explicit synthetic fixtures; settling clocks are advanced only without real in-flight I/O",
+    "actual ESP deletion/retention acknowledgments, external object recovery, power-loss durability and hosted RPO/RTO are not established by the fixture",
+    "G2 jurisdiction notices/clocks/extensions/appeals/exceptions and evidence/tombstone lifetime require review; no production rights policy seeded",
+    "initial independent file-journal snapshot has explicit 1000-record/2-MiB bounds; hosted storage, compaction/paging and independent current high-water evidence remain required",
+    "P1-PR-027 binds schedules, priority/lag alerts, notification dispatch and recovery commands; P1-PR-029/S5 supply transport and user/staff flows",
+    "future AI/photo/app/device/buyer stores must extend the same erasure and replay graph when activated",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending; 98 draft scenarios and zero actual specialist reviews; report issuance, real email and product collection disabled"
+  ]
 }

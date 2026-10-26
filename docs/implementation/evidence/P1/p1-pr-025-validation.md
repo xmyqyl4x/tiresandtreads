@@ -1,6 +1,6 @@
 # P1-PR-025 validation evidence
 
-**October 26, 2026 · S3 implementation candidate.** Baseline: approved PR #24 merge `4ba7b446ee343eac9baabd3d98bb8ba228d11890`. See the [privacy service and recovery contract](../../P1-PR-025-privacy-retention-recovery.md).
+**October 26, 2026 · S3 implementation in [PR #25](https://github.com/xmyqyl4x/tiresandtreads/pull/25) for owner review.** Baseline: approved PR #24 merge `4ba7b446ee343eac9baabd3d98bb8ba228d11890`. See the [privacy service and recovery contract](../../P1-PR-025-privacy-retention-recovery.md).
 
 ## TDD and scope
 
@@ -12,7 +12,22 @@ Provider/encryption/object ports use explicit synthetic fixtures. Advancing `bar
 
 ## Measured verification
 
-Final exact-commit totals, coverage, migration/model inventory and verification time are recorded in [the machine-readable evidence](p1-pr-025-verification.json) after the complete Linux gate passes. No production activation or full FR/UC/live acceptance is claimed by those measurements.
+`pnpm verify:push` passed on implementation commit `b16348523a4d9436dc0c6effac95a370301a1cda` at `2026-10-26T17:09:16.271Z`. The [redacted machine record](p1-pr-025-verification.json) pins that complete run. The documentation/evidence review commit receives the complete exact-commit gate again before push; its independent GitHub CI verifies the final review head.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 654 passed; 10 new privacy policy/crypto/journal tests |
+| Database/provider | 248 passed; 21 new privacy application/database scenarios plus reply-purpose KMS assertions |
+| Foundation/schema/recovery | Six / 63 / 11 passed |
+| Total | **982 passing tests**, including 31 new privacy tests |
+| Coverage | 97.19% lines, 93.77% statements, 98.49% functions, 89.75% branches; thresholds unchanged |
+| Quality/build | Frozen Linux build/advisory audit, hygiene, formatting, lint, TypeScript, 195-module boundaries, health contract and migration checksums passed |
+| Storage | 138 app tables, 44 views, 1,723 table/view columns, 28 CMS tables; 31 app/three CMS migrations; generated Drizzle parity passed; 250 codec fields/25 fact families unchanged |
+| Runtime/failure handling | Seven deliberate verification failures rejected; production lifecycle/configuration refusal and HTTP health checks passed |
+| Recovery | Real app/CMS dump/restore with synthetic data passed, including full leading FK indexes, corrupt archive refusal, fresh roles, current journal, incomplete deletion and CMS crash retry |
+| Documentation | 119 cards, 137 original FR rows, dependency edges, source archives and historical approvals preserved; 72 checked tasks/285 unchecked |
+
+Retained Docker dev and stage both have **31 app/three CMS applied, zero pending**, and are stopped with volumes retained. Native PostgreSQL and unrelated projects were untouched. The exact disposable verification and recovery projects recorded in the JSON were removed with their own volumes. The first full run's partial-index rejection was repaired through additive migration 0031; neither 0030 history nor the recovery health check was weakened. Public activation, actual ESP/object/journal disaster recovery and full FR/UC/live acceptance remain outside these local measurements.
 
 ## Remaining gates
 
