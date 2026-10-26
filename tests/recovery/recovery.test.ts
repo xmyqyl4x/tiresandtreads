@@ -356,9 +356,10 @@ it('replays restored migration histories as a no-op and reopens only existing re
     await expect(
       cmsRuntime.query('UPDATE public.articles SET title=$1 WHERE id=$2', ['Forbidden', cmsId]),
     ).rejects.toMatchObject({ code: '42501' });
-    await expect(cmsRuntime.query('SELECT * FROM public.cms_staff')).rejects.toMatchObject({
-      code: '42501',
-    });
+    // Existing read-only staff mappings are needed to resolve reviewer identity.
+    await expect(
+      cmsRuntime.query('UPDATE public.cms_staff SET app_staff_id=app_staff_id'),
+    ).rejects.toMatchObject({ code: '42501' });
     await expect(connect(target.url('app', 'tt_cms_runtime'))).rejects.toMatchObject({
       code: '42501',
     });
