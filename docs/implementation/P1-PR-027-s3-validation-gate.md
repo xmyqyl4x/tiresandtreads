@@ -1,6 +1,6 @@
 # P1-PR-027 — S3 validation and business service gate review
 
-**October 26, 2026 · Technical validation candidate; full S3 acceptance remains open.** Baseline: owner-approved [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26), merged at `ac258ac7fbe63e62791993de634cbb5ec9b2f559`. Specialist review and licensed adapters remain pending as directed. Technical validation does not waive G1/G2 or database-first stage gates.
+**October 26, 2026 · Technical validation in review as [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27); full S3 acceptance remains open.** Baseline: owner-approved [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26), merged at `ac258ac7fbe63e62791993de634cbb5ec9b2f559`. Specialist review and licensed adapters remain pending as directed. Technical validation does not waive G1/G2 or database-first stage gates.
 
 The [service register](evidence/P1/s3-service-register.json) inventories every application service module, owning card, regression suite and contract across P1-PR-014–027. [Gate disposition](P1-PR-027-s3-gate-review.md) and [validation](evidence/P1/p1-pr-027-validation.md) distinguish local technical proofs from actual acceptance. The original task IDs/dependency edges, 137 FR rows, four live phases, PostgreSQL consolidation and option-C deployment remain.
 
