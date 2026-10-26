@@ -146,7 +146,10 @@ export function inspectServiceRegister(root = process.cwd()) {
     .sort();
   if (JSON.stringify(actual) !== JSON.stringify(modules.map((m) => m.file).sort()))
     throw Error('Uninventoried S3 service module');
-  for (const gate of register.gates) for (const record of gate.records) evidencePath(record.path);
+  for (const gate of register.gates) {
+    for (const record of gate.records) evidencePath(record.path);
+    for (const local of gate.localEvidence ?? []) evidencePath(local);
+  }
   return {
     ...report,
     inventoryStatus: 'validated; acceptance is separate',

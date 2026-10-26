@@ -9,7 +9,7 @@ import { instant, ok } from '../../domain/src/values/core.ts';
 import { createSourceRepository } from '../../db/src/repositories/sources.ts';
 import { createSourceRefresh } from '../../application/src/services/source-refresh.ts';
 import { createNhtsaAdapter } from './sources/nhtsa.ts';
-import type { SourceDefinition } from '../../application/src/ports/sources.ts';
+import type { SourceDefinition, SourceAdapter } from '../../application/src/ports/sources.ts';
 import type { Id } from '../../domain/src/values/core.ts';
 
 export async function createImportRuntime(env: Readonly<Record<string, string | undefined>>) {
@@ -56,41 +56,50 @@ export async function createImportRuntime(env: Readonly<Record<string, string | 
       });
       if (!checked.ok) throw Error('Import runtime preflight failed');
     }
-    const service = createImportService({
-      ingest: createIngestionRepository(ingest),
-      publisher: createIngestionRepository(publish),
-      publish: createPublicationRepository(publish),
-      operations: createImportOperations(ingest),
-      publicationOperations: createImportOperations(publish),
-      ingestUow: ingest.unitOfWork,
-      publishUow: publish.unitOfWork,
-      decode: decodeImportFact,
-      expires: () => {
-        const x = instant(new Date(Date.now() + 86400000).toISOString());
-        if (!x.ok) throw Error('Clock unavailable');
-        return x.value;
-      },
-    });
-    const sources = createSourceRepository(ingest);
-    return {
-      service,
-      sourceRefresh: createSourceRefresh({
-        uow: ingest.unitOfWork,
-        sources,
-        adapter: createNhtsaAdapter(),
-        imports: service,
-      }),
-      registerSource: (
-        input: SourceDefinition & { actorId: Id<'staff'>; approvalId: Id<'audit_event'> },
-      ) =>
-        ingest.unitOfWork.run(async (tx) => {
-          await sources.register(tx, input);
-          return ok(input.id);
-        }),
-      shutdown,
-    };
+    return { ...createImportServices(ingest, publish), shutdown };
   } catch {
     await shutdown();
     throw Error('Import runtime unavailable');
   }
+}
+
+type Scope = ReturnType<typeof createTransactions>;
+// The composition root owns and budgets both scopes; no pools are allocated here.
+export function createImportServices(
+  ingest: Scope,
+  publish: Scope,
+  adapter: SourceAdapter = createNhtsaAdapter(),
+) {
+  const service = createImportService({
+    ingest: createIngestionRepository(ingest),
+    publisher: createIngestionRepository(publish),
+    publish: createPublicationRepository(publish),
+    operations: createImportOperations(ingest),
+    publicationOperations: createImportOperations(publish),
+    ingestUow: ingest.unitOfWork,
+    publishUow: publish.unitOfWork,
+    decode: decodeImportFact,
+    expires: () => {
+      const x = instant(new Date(Date.now() + 86400000).toISOString());
+      if (!x.ok) throw Error('Clock unavailable');
+      return x.value;
+    },
+  });
+  const sources = createSourceRepository(ingest);
+  return {
+    service,
+    sourceRefresh: createSourceRefresh({
+      uow: ingest.unitOfWork,
+      sources,
+      adapter,
+      imports: service,
+    }),
+    registerSource: (
+      input: SourceDefinition & { actorId: Id<'staff'>; approvalId: Id<'audit_event'> },
+    ) =>
+      ingest.unitOfWork.run(async (tx) => {
+        await sources.register(tx, input);
+        return ok(input.id);
+      }),
+  };
 }

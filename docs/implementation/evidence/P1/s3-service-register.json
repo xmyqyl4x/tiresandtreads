@@ -241,7 +241,10 @@
       ],
       "tests": [
         "tests/database/s3-journeys.test.ts",
-        "tests/usecases/service-maintenance.test.ts"
+        "tests/usecases/service-maintenance.test.ts",
+        "tests/database/service-host.test.ts",
+        "tests/unit/service-host-plan.test.ts",
+        "tests/unit/service-host-settings.test.ts"
       ],
       "trace": [
         "UC07",
@@ -298,8 +301,14 @@
       "kind": "technical_integration",
       "status": "pending",
       "owner": "Backend/platform owner",
-      "requiredEvidence": "Bind the accepted service factories and maintenance functions in the real host with one complete per-database connection budget, secret loading and shutdown. Current standalone worker has no product handlers.",
-      "records": []
+      "requiredEvidence": "Actual selected-provider/hosted service composition, physical topology/complete declared connection budget, secret and journal custody, shutdown, deployed schedules/monitoring and staffed response. Local composed factories and shared cluster budget are technical evidence only.",
+      "records": [],
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-service-host.md",
+        "docs/implementation/evidence/P1/p1-pr-027-host-validation.md",
+        "tests/database/service-host.test.ts",
+        "docs/implementation/evidence/P1/p1-pr-027-host-verification.json"
+      ]
     }
   ],
   "laterStageEvidence": [

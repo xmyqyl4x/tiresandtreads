@@ -140,6 +140,7 @@ export async function contentFixture() {
       publicScope,
       cmsScope,
       cmsAdmin,
+      cmsConnectionUrl: url,
       cmsStaff,
       role,
       document,

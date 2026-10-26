@@ -1,0 +1,150 @@
+{
+  "status": "passed complete exact-commit local Linux technical gate; full S3 remains open",
+  "sourceCommit": "ab8af853c4f4d82e1a2f84b998261000b7b114d9",
+  "verifiedAt": "2026-10-26T21:34:40.988Z",
+  "baseline": "026a14c707c567ccbeffaabca8ff74f5aaf59b59",
+  "tests": {
+    "newTests": 16,
+    "newBudgetAndSettingsTests": 7,
+    "newHostDatabaseJourneys": 9,
+    "unitAndUsecase": 693,
+    "databaseAndProvider": 286,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 1059
+  },
+  "coverage": {
+    "statements": 93.99,
+    "branches": 90.27,
+    "functions": 98.02,
+    "lines": 97.21
+  },
+  "serviceHost": {
+    "ownedPools": 17,
+    "perReplica": {
+      "application": 16,
+      "cms": 1
+    },
+    "replicas": 1,
+    "external": 28,
+    "reserve": 20,
+    "required": 65,
+    "capacity": 100,
+    "observedPhysicalPools": 17,
+    "allObservedWithinMax": true,
+    "providers": "local fixtures; external activation false"
+  },
+  "migrationCounts": {
+    "app": 33,
+    "cms": 3
+  },
+  "storage": {
+    "tables": 141,
+    "views": 54,
+    "columns": 1785,
+    "drizzle": "0.45.2",
+    "status": "match",
+    "cmsTables": 28
+  },
+  "mainProject": "tt-test-b083699b2d6e8d29",
+  "appImageId": "dafafe13a3ec7a22c7b5ab64b03ba8e1480bd635217db883523b2b9c728cfa10",
+  "lifecycle": {
+    "stopMs": 675,
+    "exitCode": 143,
+    "appMemory": "52.05MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "92.25MiB / 512MiB",
+    "postgresCpu": "0.02%",
+    "invalidHostedConfig": "rejected",
+    "serviceHostBundleStartup": "validated in production image without workspace dependencies",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-a6eb33eab1c76010",
+    "elapsedMs": 31052,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 890,
+    "backupWindowMs": 4599,
+    "tables": {
+      "app": 141,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "e7eb7e21f06d17b3e59674751fbb9646790ee4b726cd698aba4f6cd679e2fc27",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 752976,
+      "cms": 197157
+    },
+    "backupSha256": {
+      "app": "429adcf74fbd2b69a82477c9107e5766c31f3d6ad99ed634908cbe7ab9188921",
+      "cms": "f45b8e3783eb393612bcfe890432e40e906aad37526cabe42c68265af745caae"
+    },
+    "migrations": {
+      "app": 33,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "retainedEnvironments": "retained dev/stage credentials and data were not modified; native PostgreSQL untouched; all host proofs use isolated disposable projects",
+  "technicalProofs": [
+    "actual accepted service factories over 17 explicitly owned role-scoped pools; no hidden durable/import pool allocations",
+    "combined application and CMS maxima, replicas, all declared external harness maxima and one cluster reserve compared with actual PostgreSQL max_connections",
+    "65 configured connections of 100; 17 observed physical host pools each within configured maximum; separate pure two-replica example requires 58",
+    "strict bounded regular private file with persistent independent key rings, role/database/URL coverage and synthetic pinned notice/template references",
+    "real CMS publication and current-authority masked health through composed services; source refusal remains",
+    "signed file privacy journal survives restart; incompatible key bytes under reused version refuse startup",
+    "overbooking, failed CMS authentication, missing policy and unsafe hosted settings refuse startup and close partially opened pools",
+    "aggregate saturation leaves report lane available; admitted SQL-backed call completes before shutdown; no new admission and all lanes drained",
+    "actual CMS role login loss and backend termination remove readiness; restoring it recovers without restart",
+    "healthy bundled local host runs from a temporary directory without workspace dependencies, exposes only health/internal workflow routes and handles SIGTERM",
+    "runner image configuration refusal executes with no network; legacy import/worker/source/mail CLI paths remain verified",
+    "complete actual application/CMS logical dump/restore, ownership/ACL/leading FK index and quarantine/journal replay checks with synthetic data"
+  ],
+  "acceptance": {
+    "stage": "S3",
+    "accepted": false,
+    "endpointImplementationAllowed": false,
+    "publicActivation": false,
+    "draftGoldenScenarios": 98,
+    "actualSpecialistReviews": 0,
+    "pendingGates": [
+      "G1-specialist",
+      "G1-fitment-catalog",
+      "G1-prices",
+      "G2-provider-effects",
+      "G2-privacy-policy",
+      "S3-service-host"
+    ]
+  },
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 75,
+    "uncheckedTasks": 282,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "this is local composition and technical evidence; original PR027 closure tasks stay unchecked and P1-PR-028-030/APIs remain held by owner direction",
+    "specialist review and licensed adapters remain pending; selected-provider/hosted wiring, actual privacy policy, custody and operational response are not accepted",
+    "one direct local PostgreSQL server with distinct application/CMS databases only; replica and external pool maxima must match actual processes; no automatic discovery or pooler budget claim",
+    "startup does not bootstrap, migrate, seed approvals or rotate keys; intentional persistent dev/stage secret/policy preparation and registered cron execution remain separate operational work",
+    "local emulator storage, synthetic policy/template and unavailable provider ports do not establish mail, crawl/search/source, signing, external ad or product analytics acceptance",
+    "file journal snapshot bounds and encrypted independent custody/paging remain operational constraints; local logical restore does not establish hosted RPO/RTO or external recovery",
+    "actual-render/UI/MFA/full API and usable live-phase evidence remain later gates"
+  ]
+}
