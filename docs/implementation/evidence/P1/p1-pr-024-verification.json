@@ -1,0 +1,140 @@
+{
+  "sourceCommit": "9270a08bf943a1210a5e64c750231041a9b9c55a",
+  "verifiedAt": "2026-10-26T14:50:30.966Z",
+  "tests": {
+    "newAnalyticsTests": 48,
+    "unitAndUsecase": 644,
+    "databaseAndProvider": 227,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 951
+  },
+  "coverage": {
+    "statements": 94.19,
+    "branches": 90.47,
+    "functions": 98.56,
+    "lines": 97.31
+  },
+  "migrationCounts": {
+    "app": 29,
+    "cms": 3
+  },
+  "storage": {
+    "tables": 133,
+    "views": 44,
+    "columns": 1687,
+    "drizzle": "0.45.2",
+    "status": "match",
+    "cmsTables": 28
+  },
+  "measurements": {
+    "uncachedTechnicalEvaluation": {
+      "syntheticEvaluations": 200,
+      "p50Ms": 0.08568800000000465,
+      "p95Ms": 0.18779200000000174,
+      "maxMs": 0.9076739999999859,
+      "equalOutputs": true,
+      "cache": "absent",
+      "scope": "synthetic technical evaluation; fixture evidence resolver; no live issuance or SQL/provider latency"
+    },
+    "quotaRace": {
+      "concurrentAttempts": 24,
+      "accepted": 3,
+      "elapsedMs": 91.63747699999999
+    },
+    "poolIsolation": {
+      "requiredConnections": 16,
+      "reportElapsedMs": 0.6738650000002053,
+      "heldAggregateConnections": 1
+    },
+    "scope": "local synthetic only; no hosted report/dashboard p95, production peak support or network/provider cost claim"
+  },
+  "cacheDecision": "DB20 conditional; no computation cache table or external cache dependency",
+  "retainedTargets": {
+    "dev": "29 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "stage": "29 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "nativePostgres": "untouched"
+  },
+  "mainProject": "tt-test-38affb9294a74f0c",
+  "appImageId": "3767321614b667ff9140f1af170ef8478347c41ca9158f32dd5a1698d36be8e0",
+  "lifecycle": {
+    "stopMs": 664,
+    "exitCode": 143,
+    "appMemory": "51.28MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "99.9MiB / 512MiB",
+    "postgresCpu": "4.94%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-20e2af0975572d58",
+    "elapsedMs": 26047,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 752,
+    "backupWindowMs": 4121,
+    "tables": {
+      "app": 133,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "87c663d9e28eb47273ffae078ee2f14b662c116ede09644fe85615b2989841f5",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 695892,
+      "cms": 197161
+    },
+    "backupSha256": {
+      "app": "e41ac4eb555e77283b8889eba6f2302939362a17b23acf7394bb6dfff9ae6384",
+      "cms": "86a5fc3ec5565b74762dd34085b12dd13edcda7a50c27e45560d48875d95e2b1"
+    },
+    "migrations": {
+      "app": 29,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "signed expiring owner/permission context with independent stable session and security HMACs",
+    "bounded registered event/route/property intake; server-only dimensions and bot signal",
+    "parallel durable event deduplication and context refresh without changed digest",
+    "GPC/CMP/disabled/stale/withdrawn/suppressed refusal without behavioral storage",
+    "independent committed admission survives downstream receipt failure",
+    "atomic privacy generation hiding, captured-worker refusal, partial withdrawal purge and re-dated replay barrier",
+    "read-time aggregate deadlines and consent-deadline invalidation",
+    "concurrent multi-key quota caps, global cardinality rollback and exact cleanup counter",
+    "rotation overlap and refusal to retire keys with live buckets",
+    "authorized bounded staff metrics and privacy/capacity projections; denied public readers",
+    "six real pool lanes, aggregate saturation isolation and closed over-budget startup",
+    "uncached exact-output parity and measured synthetic repeated computation"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 69,
+    "uncheckedTasks": 288,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "Headless S3 only; no public collector/browser SDK/real analytics vendor or staff UI",
+    "Seeded quota policies and collection remain disabled pending S4/activation review",
+    "S4/S6 retain actual HTTP/client security, 10x forecast mixed load, report/dashboard p95 and hosted envelope",
+    "P1-PR-025 owns complete privacy rights/retention/deletion/restore; 027 scheduled workers and alarms",
+    "Full-schema synthetic restore is not the future actual new-table erasure graph, hosted RPO/RTO or external recovery",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending; 98 draft scenarios and zero actual specialist reviews unchanged; report issuance and real email disabled"
+  ]
+}

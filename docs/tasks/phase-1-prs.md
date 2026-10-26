@@ -462,7 +462,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Real race/load/expiry tests prove quota bounds and no deleted data in rebuilt aggregates; optional cache has evidence or remains absent.
 
-**Implementation status:** S3 implementation in progress; [contract](../implementation/P1-PR-024-analytics-limits-operations.md) and [validation](../implementation/evidence/P1/p1-pr-024-validation.md). Signed consent-aware intake, fenced aggregates, privacy expiry/replay barriers, capped SQL quotas, operations read models and separate workload pools are implemented. DB20 remains conditional with no computation cache after synthetic profiling. HTTP/client, scheduled worker, full privacy fulfillment and hosted capacity retain their later gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 implementation in [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24) for owner review; [contract](../implementation/P1-PR-024-analytics-limits-operations.md) and [validation](../implementation/evidence/P1/p1-pr-024-validation.md). Signed consent-aware intake, fenced aggregates, privacy expiry/replay barriers, capped SQL quotas, operations read models and separate workload pools are implemented. DB20 remains conditional with no computation cache after synthetic profiling. HTTP/client, scheduled worker, full privacy fulfillment and hosted capacity retain their later gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-025
 
