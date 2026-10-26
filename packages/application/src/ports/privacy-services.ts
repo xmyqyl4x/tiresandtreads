@@ -76,6 +76,12 @@ export interface PrivacyServiceRepository {
     kind: RightsKind,
   ): Promise<RightsPolicy | null>;
   contactSubject(tx: Tx, keys: readonly KeyDigest[]): Promise<Id<'subject'> | null>;
+  bindContact(
+    tx: Tx,
+    id: Id<'privacy_request'>,
+    proof: KeyDigest,
+    keys: readonly KeyDigest[],
+  ): Promise<void>;
   create(tx: Tx, input: PrivacyRequestInput): Promise<void>;
   authorize(tx: Tx, id: Id<'privacy_request'>, key: KeyDigest): Promise<RightsStatus>;
   confirm(tx: Tx, id: Id<'privacy_request'>, key: KeyDigest): Promise<void>;

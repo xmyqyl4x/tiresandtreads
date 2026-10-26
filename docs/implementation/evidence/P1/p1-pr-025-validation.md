@@ -21,3 +21,5 @@ Final exact-commit totals, coverage, migration/model inventory and verification 
 - #27 binds worker cadence, notification dispatch, retention, priority/lag alarms and recovery commands; #29/S5 provide the API and user/staff controls.
 - The first file-journal adapter has explicit 1,000-record/2 MiB snapshot bounds. The production volume, independent high-water evidence, paging/compaction and key retirement need hosted review.
 - Production collection, report issuance and real email remain disabled. PostgreSQL remains the consolidated store; no Redis, ClickHouse or optional computation cache is added.
+
+The first complete Linux gate passed 902 unit/use-case/database tests, foundation and schema checks, then rejected the partial `request_work_recovery_fk` index during actual restore health validation. Follow-up migration 0031 supplies the complete index; the original applied migration and the recovery check are preserved. Verification was rerun on the corrected committed source.

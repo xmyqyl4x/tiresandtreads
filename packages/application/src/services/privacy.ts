@@ -157,12 +157,11 @@ export function createPrivacyServices(d: {
           clock = rightsClock(d.now(), p.value),
           reply = await d.encryption.encrypt(new TextEncoder().encode(email), 'privacy_reply', id);
         const saved = await work(async (tx) => {
-          const subjectId = await d.repo.contactSubject(tx, d.contacts.emailKeys(email));
           await d.repo.create(tx, {
             id,
-            subjectId,
+            subjectId: null,
             targetKind: 'subject',
-            targetId: subjectId,
+            targetId: null,
             kind,
             jurisdiction,
             policyVersion: d.policyVersion,
@@ -215,7 +214,19 @@ export function createPrivacyServices(d: {
     async confirm(raw: string) {
       try {
         const p = proof(raw);
+        const pending = await work(async (tx) => {
+          await d.repo.authorize(tx, p.id, p.key);
+          return d.repo.notification(tx, p.id);
+        });
+        if (!pending.ok) return pending;
+        demand(pending.value, 'conflict');
+        const address = normalizeEmail(
+          new TextDecoder('utf-8', { fatal: true }).decode(
+            await d.encryption.decrypt(pending.value.envelope, 'privacy_reply', p.id),
+          ),
+        );
         const saved = await work(async (tx) => {
+          await d.repo.bindContact(tx, p.id, p.key, d.contacts.emailKeys(address));
           await d.repo.confirm(tx, p.id, p.key);
           await d.repo.restrict(tx, p.id);
           const e = await entry(tx, p.id);

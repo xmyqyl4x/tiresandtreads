@@ -118,5 +118,9 @@
   {
     "id": "0030_privacy_services",
     "sha256": "d51020f56d2b7c82a99107b2a5c0000681996a63a5bb5f7fada6a85b2645518c"
+  },
+  {
+    "id": "0031_privacy_recovery_index",
+    "sha256": "9ee6130b47ac46a52fd659630c3f04399f27403935360c40126150c581028bd7"
   }
 ]

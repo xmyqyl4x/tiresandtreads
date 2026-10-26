@@ -175,6 +175,32 @@ export function createPrivacyServiceRepository(
           [i.id, stage],
         );
     },
+    async bindContact(tx, id, key, keys) {
+      const current = await repo.authorize(tx, id, key);
+      if (current.status !== 'pending') return stop('conflict');
+      const subject = await repo.contactSubject(tx, keys);
+      if (subject)
+        await subjectGuard(s, tx, {
+          id,
+          kind: current.kind,
+          subjectId: subject,
+          targetId: subject,
+          targetKind: 'subject',
+        });
+      one(
+        (
+          await q(
+            tx,
+            `UPDATE privacy.privacy_requests SET subject_id=$2 WHERE id=$1 AND status='pending' RETURNING id`,
+            [id, subject],
+          )
+        ).rows,
+      );
+      await q(tx, `UPDATE privacy.request_work SET target_id=$2 WHERE request_id=$1`, [
+        id,
+        subject,
+      ]);
+    },
     async authorize(tx, id, key) {
       const x = one(
         (

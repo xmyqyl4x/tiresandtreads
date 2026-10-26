@@ -461,6 +461,14 @@ it('returns the same public email receipt for known and absent addresses, requir
       `SELECT id FROM privacy.privacy_requests WHERE status='pending' AND policy_version='p25' ORDER BY created_at DESC LIMIT 2`,
     )
   ).rows;
+  expect(
+    (
+      await f.admin.query(
+        'SELECT subject_id FROM privacy.privacy_requests WHERE id=ANY($1::uuid[])',
+        [pending.map((p) => p.id)],
+      )
+    ).rows,
+  ).toEqual([{ subject_id: null }, { subject_id: null }]);
   for (const p of pending) value(await s.dispatchVerification(p.id));
   expect(s.emails).toHaveLength(2);
   const delivered = s.emails.find((x) => x.address === c.email)!;
@@ -491,8 +499,7 @@ it('refuses an expired email proof and sweeps its encrypted address without dele
   value(await s.requestEmail(c.email, 'delete', 'synthetic'));
   const id = (
     await f.admin.query(
-      'SELECT id FROM privacy.privacy_requests WHERE subject_id=$1 ORDER BY created_at DESC LIMIT 1',
-      [c.c.subjectId],
+      "SELECT id FROM privacy.privacy_requests WHERE status='pending' AND policy_version='p25' ORDER BY created_at DESC LIMIT 1",
     )
   ).rows[0].id;
   value(await s.dispatchVerification(id));
@@ -650,8 +657,7 @@ it('erases delivery snapshots/work and contact mappings while retaining an indep
   value(await s.requestEmail(g.c.email, 'delete', 'synthetic'));
   const id = (
     await f.admin.query(
-      'SELECT id FROM privacy.privacy_requests WHERE subject_id=$1 ORDER BY created_at DESC LIMIT 1',
-      [g.c.c.subjectId],
+      "SELECT id FROM privacy.privacy_requests WHERE status='pending' AND policy_version='p25' ORDER BY created_at DESC LIMIT 1",
     )
   ).rows[0].id;
   value(await s.dispatchVerification(id));
