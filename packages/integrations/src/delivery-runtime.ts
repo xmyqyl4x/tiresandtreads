@@ -19,6 +19,7 @@ import { createOwnerRepository } from '../../db/src/repositories/owners.ts';
 import { createReportRepository } from '../../db/src/repositories/reports.ts';
 import { createReliabilityRepository } from '../../db/src/repositories/reliability.ts';
 import { ok } from '../../domain/src/values/core.ts';
+import { rid, text } from '../../db/src/repositories/private-values.ts';
 type Scope = ReturnType<typeof createTransactions>;
 export async function createDeliveryRuntime(o: {
   readonly privateScope: Scope;
@@ -51,6 +52,38 @@ export async function createDeliveryRuntime(o: {
       policy: o.contactPolicy,
       now: o.now,
     });
+  const reserved = await s.unitOfWork.run(async (tx) => {
+    const rows = (
+      await s.query(
+        tx,
+        `SELECT w.send_id,w.pdf_asset_id,w.payload_asset_id FROM email.delivery_work w JOIN email.email_sends e ON e.id=w.send_id WHERE e.anonymized_at IS NULL AND (SELECT count(*) FROM email.delivery_asset_reservations a WHERE a.send_id=w.send_id)<>2 ORDER BY w.send_id LIMIT 101`,
+      )
+    ).rows;
+    if (rows.length > 100)
+      throw Error('Delivery reservation backfill requires bounded operator batches');
+    for (const row of rows)
+      for (const [purpose, id] of [
+        [
+          'report_pdf',
+          row.pdf_asset_id === null
+            ? o.crypto.id('asset', text(row.send_id) + ':pdf')
+            : rid('asset', row.pdf_asset_id),
+        ],
+        [
+          'email_payload',
+          row.payload_asset_id === null
+            ? o.crypto.id('asset', text(row.send_id) + ':payload')
+            : rid('asset', row.payload_asset_id),
+        ],
+      ] as const)
+        await s.query(
+          tx,
+          `INSERT INTO email.delivery_asset_reservations(send_id,asset_id,purpose) VALUES($1,$2,$3) ON CONFLICT(send_id,purpose) DO NOTHING`,
+          [row.send_id, id, purpose],
+        );
+    return ok(null);
+  });
+  if (!reserved.ok) throw Error('Invalid delivery reservation recovery');
   return createDeliveryServices({
     uow: s.unitOfWork,
     owners: createOwnerRepository(s),

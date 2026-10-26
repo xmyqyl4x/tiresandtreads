@@ -202,6 +202,11 @@ it('DB15 KMS ciphertext is bound to its purpose/resource and public storage cann
   expect(await runtime.encryption.decrypt(cipher, 'contact', resource)).toEqual(
     new Uint8Array(plain),
   );
+  const reply = await runtime.encryption.encrypt(plain, 'privacy_reply', resource);
+  expect(await runtime.encryption.decrypt(reply, 'privacy_reply', resource)).toEqual(
+    new Uint8Array(plain),
+  );
+  await expect(runtime.encryption.decrypt(reply, 'contact', resource)).rejects.toThrow();
   const large = Buffer.alloc(60000, 42),
     envelope = await runtime.encryption.encrypt(large, 'report_private', resource);
   expect(await runtime.encryption.decrypt(envelope, 'report_private', resource)).toEqual(

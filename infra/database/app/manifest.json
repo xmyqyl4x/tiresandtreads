@@ -114,5 +114,9 @@
   {
     "id": "0029_analytics_services",
     "sha256": "1b500ad92a11359cde7ceee3ed28fbae8bbdb58240cb9ed16c8cb161ad7ce39a"
+  },
+  {
+    "id": "0030_privacy_services",
+    "sha256": "d51020f56d2b7c82a99107b2a5c0000681996a63a5bb5f7fada6a85b2645518c"
   }
 ]

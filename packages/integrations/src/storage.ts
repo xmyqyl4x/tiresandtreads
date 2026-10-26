@@ -177,7 +177,7 @@ export function createS3PublicReader(client: S3Client, bucket: string): PublicOb
 export function createEnvelopeEncryption(client: KMSClient, keyId: string) {
   function context(purpose: string, id: string) {
     if (
-      !['contact', 'report_private', 'delivery_payload'].includes(purpose) ||
+      !['contact', 'report_private', 'delivery_payload', 'privacy_reply'].includes(purpose) ||
       !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(id)
     )
       throw Error('Invalid encryption context');

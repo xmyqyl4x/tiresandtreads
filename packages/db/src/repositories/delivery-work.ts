@@ -70,6 +70,11 @@ export function createDeliveryWorkRepository(
         i.send.id,
         i.send.sendAfter,
       ]);
+      await q(
+        tx,
+        `INSERT INTO email.delivery_asset_reservations(send_id,asset_id,purpose) VALUES($1,$2,'report_pdf'),($1,$3,'email_payload')`,
+        [i.send.id, i.pdfAssetId, i.payloadAssetId],
+      );
     },
     async template(tx, id, locale) {
       const t = (

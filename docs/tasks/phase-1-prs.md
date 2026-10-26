@@ -462,7 +462,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Real race/load/expiry tests prove quota bounds and no deleted data in rebuilt aggregates; optional cache has evidence or remains absent.
 
-**Implementation status:** S3 implementation in [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24) for owner review; [contract](../implementation/P1-PR-024-analytics-limits-operations.md) and [validation](../implementation/evidence/P1/p1-pr-024-validation.md). Signed consent-aware intake, fenced aggregates, privacy expiry/replay barriers, capped SQL quotas, operations read models and separate workload pools are implemented. DB20 remains conditional with no computation cache after synthetic profiling. HTTP/client, scheduled worker, full privacy fulfillment and hosted capacity retain their later gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 implementation approved and merged in [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24) at `4ba7b446`; [contract](../implementation/P1-PR-024-analytics-limits-operations.md) and [validation](../implementation/evidence/P1/p1-pr-024-validation.md). Signed consent-aware intake, fenced aggregates, privacy expiry/replay barriers, capped SQL quotas, operations read models and separate workload pools are implemented. DB20 remains conditional with no computation cache after synthetic profiling. HTTP/client, scheduled worker, full privacy fulfillment and hosted capacity retain their later gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-025
 
@@ -474,11 +474,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC09, AT14, DB13, DB18. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement proportionate rights verification, current suppression/revocation and deadline-driven fulfillment.
-- [ ] Build idempotent SQL/object/email/analytics deletion graph, retention sweeps and minimal audit evidence.
-- [ ] Implement restore/import/outbox replay barriers and operator escalation for incomplete downstream deletion.
+- [x] Implement proportionate rights verification, current suppression/revocation and deadline-driven fulfillment.
+- [x] Build idempotent SQL/object/email/analytics deletion graph, retention sweeps and minimal audit evidence.
+- [x] Implement restore/import/outbox replay barriers and operator escalation for incomplete downstream deletion.
 
 **Verification and acceptance:** Deletion while processing and restored-backup use cases pass; revoked shares/assets cannot be recovered by stale caches or jobs.
+
+**Implementation status:** S3 implementation candidate; [contract](../implementation/P1-PR-025-privacy-retention-recovery.md) and [validation](../implementation/evidence/P1/p1-pr-025-validation.md). Separate privacy authority, owner/email proofs, immediate restriction, durable journal acknowledgment, fenced SQL/email/object/analytics erasure, late-renderer barriers, dry-run retention and authenticated restore replay are implemented. Access/export/correction use audited actual operator fulfillment. Production jurisdiction/provider/journal durability, HTTP/UI and scheduled-host evidence retain their gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-026
 

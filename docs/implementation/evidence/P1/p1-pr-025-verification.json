@@ -1,0 +1,5 @@
+{
+  "status": "pending exact-commit verification",
+  "baseline": "4ba7b446ee343eac9baabd3d98bb8ba228d11890",
+  "scope": "S3 headless privacy/retention/recovery; production activation disabled"
+}

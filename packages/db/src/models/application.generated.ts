@@ -2348,6 +2348,14 @@ export const emailCallbackObservations = email.table('callback_observations', {
 });
 export type EmailCallbackObservationsRow = typeof emailCallbackObservations.$inferSelect;
 export type EmailCallbackObservationsInsert = typeof emailCallbackObservations.$inferInsert;
+export const emailDeliveryAssetReservations = email.table('delivery_asset_reservations', {
+  send_id: uuid('send_id').notNull(),
+  asset_id: uuid('asset_id').notNull(),
+  purpose: text('purpose').notNull(),
+});
+export type EmailDeliveryAssetReservationsRow = typeof emailDeliveryAssetReservations.$inferSelect;
+export type EmailDeliveryAssetReservationsInsert =
+  typeof emailDeliveryAssetReservations.$inferInsert;
 export const emailDeliverySnapshots = email.table('delivery_snapshots', {
   send_id: uuid('send_id').notNull(),
   verification_id: uuid('verification_id').notNull(),
@@ -2532,6 +2540,14 @@ export const migrationMetaApplied = migration_meta.table('applied', {
 });
 export type MigrationMetaAppliedRow = typeof migrationMetaApplied.$inferSelect;
 export type MigrationMetaAppliedInsert = typeof migrationMetaApplied.$inferInsert;
+export const privacyAssetBarriers = privacy.table('asset_barriers', {
+  asset_id: uuid('asset_id').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type PrivacyAssetBarriersRow = typeof privacyAssetBarriers.$inferSelect;
+export type PrivacyAssetBarriersInsert = typeof privacyAssetBarriers.$inferInsert;
 export const privacyConsentEvents = privacy.table('consent_events', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   purpose: text('purpose').notNull(),
@@ -2664,6 +2680,17 @@ export const privacyDeletionMarkers = privacy.table('deletion_markers', {
 });
 export type PrivacyDeletionMarkersRow = typeof privacyDeletionMarkers.$inferSelect;
 export type PrivacyDeletionMarkersInsert = typeof privacyDeletionMarkers.$inferInsert;
+export const privacyErasureReceipts = privacy.table('erasure_receipts', {
+  request_id: uuid('request_id').notNull(),
+  store: text('store').notNull(),
+  resource_id: uuid('resource_id').notNull(),
+  evidence_digest: text('evidence_digest').notNull(),
+  completed_at: timestamp('completed_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type PrivacyErasureReceiptsRow = typeof privacyErasureReceipts.$inferSelect;
+export type PrivacyErasureReceiptsInsert = typeof privacyErasureReceipts.$inferInsert;
 export const privacyFulfillmentSteps = privacy.table('fulfillment_steps', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   request_id: uuid('request_id').notNull(),
@@ -2754,6 +2781,25 @@ export const privacyQuotePrivateData = privacy.table('quote_private_data', {
 });
 export type PrivacyQuotePrivateDataRow = typeof privacyQuotePrivateData.$inferSelect;
 export type PrivacyQuotePrivateDataInsert = typeof privacyQuotePrivateData.$inferInsert;
+export const privacyRecoveryRuns = privacy.table('recovery_runs', {
+  id: uuid('id').notNull(),
+  backup_finished_at: timestamp('backup_finished_at', {
+    withTimezone: true,
+    mode: 'date',
+  }).notNull(),
+  expected_digest: text('expected_digest').notNull(),
+  cursor_key: text('cursor_key'),
+  scan_complete: boolean('scan_complete').notNull().default(sql.raw('false')),
+  state: text('state').notNull().default(sql.raw("'scanning'::text")),
+  created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+  updated_at: timestamp('updated_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type PrivacyRecoveryRunsRow = typeof privacyRecoveryRuns.$inferSelect;
+export type PrivacyRecoveryRunsInsert = typeof privacyRecoveryRuns.$inferInsert;
 export const privacyReportPrivateData = privacy.table('report_private_data', {
   report_id: uuid('report_id').notNull(),
   encrypted_fields: bytea('encrypted_fields').notNull(),
@@ -2769,6 +2815,32 @@ export const privacyReportPrivateData = privacy.table('report_private_data', {
 });
 export type PrivacyReportPrivateDataRow = typeof privacyReportPrivateData.$inferSelect;
 export type PrivacyReportPrivateDataInsert = typeof privacyReportPrivateData.$inferInsert;
+export const privacyRequestWork = privacy.table('request_work', {
+  request_id: uuid('request_id').notNull(),
+  target_kind: text('target_kind').notNull(),
+  target_id: uuid('target_id'),
+  proof_hash: bytea('proof_hash'),
+  proof_key_version: text('proof_key_version').notNull(),
+  owner_key_version: text('owner_key_version'),
+  owner_request_hash: bytea('owner_request_hash'),
+  proof_expires_at: timestamp('proof_expires_at', { withTimezone: true, mode: 'date' }).notNull(),
+  policy: jsonb('policy').notNull(),
+  notified_at: timestamp('notified_at', { withTimezone: true, mode: 'date' }),
+  lease_token: uuid('lease_token'),
+  lease_generation: bigint('lease_generation', { mode: 'bigint' }).notNull().default(sql.raw('0')),
+  lease_until: timestamp('lease_until', { withTimezone: true, mode: 'date' }),
+  attempts: integer('attempts').notNull().default(sql.raw('0')),
+  next_attempt_at: timestamp('next_attempt_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+  barrier_until: timestamp('barrier_until', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw("(now() + '00:00:45'::interval)")),
+  recovery_run_id: uuid('recovery_run_id'),
+  last_error: text('last_error'),
+});
+export type PrivacyRequestWorkRow = typeof privacyRequestWork.$inferSelect;
+export type PrivacyRequestWorkInsert = typeof privacyRequestWork.$inferInsert;
 export const privacyRetentionPolicies = privacy.table('retention_policies', {
   id: uuid('id').notNull().default(sql.raw('gen_random_uuid()')),
   data_class: text('data_class').notNull(),
@@ -2953,6 +3025,7 @@ export const storageTables = {
   appVehicles,
   appWebhookInbox,
   emailCallbackObservations,
+  emailDeliveryAssetReservations,
   emailDeliverySnapshots,
   emailDeliveryWork,
   emailEducationTopicMap,
@@ -2964,6 +3037,7 @@ export const storageTables = {
   emailSendReceipts,
   emailTemplateVersions,
   migrationMetaApplied,
+  privacyAssetBarriers,
   privacyConsentEvents,
   privacyConsentState,
   privacyContactIntents,
@@ -2972,12 +3046,15 @@ export const storageTables = {
   privacyCookieConsents,
   privacyCookieRegistry,
   privacyDeletionMarkers,
+  privacyErasureReceipts,
   privacyFulfillmentSteps,
   privacyLegalHolds,
   privacyNotices,
   privacyPrivacyRequests,
   privacyQuotePrivateData,
+  privacyRecoveryRuns,
   privacyReportPrivateData,
+  privacyRequestWork,
   privacyRetentionPolicies,
   privacySubjectLinks,
   privacySuppressionTombstones,
