@@ -1,6 +1,6 @@
 # P1-PR-023 — Webhooks, preferences, feedback and safe redirects
 
-**October 25, 2026 · S3 implementation in [PR #23](https://github.com/xmyqyl4x/tiresandtreads/pull/23) for review.** Baseline: owner-approved [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22), merged at `5e6d4cd4866b3258d9f22978966a9adfe46f0e94`. Dependencies #13 and #22 are accepted. Licensed adapters DD01/DD02 and specialist review DD06/G1 remain pending; report issuance and actual email delivery remain disabled.
+**October 26, 2026 · S3 implementation approved and merged in [PR #23](https://github.com/xmyqyl4x/tiresandtreads/pull/23) at `c71df71471544868fd0a47b9ca7275508670e7ae`.** Baseline: owner-approved [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22), merged at `5e6d4cd4866b3258d9f22978966a9adfe46f0e94`. Dependencies #13 and #22 are accepted. Licensed adapters DD01/DD02 and specialist review DD06/G1 remain pending; report issuance and actual email delivery remain disabled.
 
 This advances E13, UC07, AT08/AT12/AT13 and DB06 at the headless service boundary: FR-EML-10/12/14/15, FR-DEL-05/07, CORE-01 and NFR-04. Original requirement rows and dependency edges are unchanged. HTTP ingress/routes, browser CSRF/CSP/referrer policy, global admission limits, authenticated sender/DKIM and rendered commercial message acceptance retain S4/S5/release gates.
 

@@ -266,6 +266,18 @@ export const adminRoles = admin.table('roles', {
 });
 export type AdminRolesRow = typeof adminRoles.$inferSelect;
 export type AdminRolesInsert = typeof adminRoles.$inferInsert;
+export const adminRuntimeHealth = admin
+  .view('runtime_health', {
+    sampled_at: timestamp('sampled_at', { withTimezone: true, mode: 'date' }),
+    analytics_pending: integer('analytics_pending'),
+    sends_queued: integer('sends_queued'),
+    sends_uncertain: integer('sends_uncertain'),
+    outbox_pending: integer('outbox_pending'),
+    quota_rows: integer('quota_rows'),
+    quota_capacity: integer('quota_capacity'),
+  })
+  .existing();
+export type AdminRuntimeHealthRow = typeof adminRuntimeHealth.$inferSelect;
 export const adminSearchDailyMetrics = admin.table('search_daily_metrics', {
   page_id: uuid('page_id').notNull(),
   day: date('day', { mode: 'string' }).notNull(),
@@ -403,6 +415,19 @@ export const adminStaffRoleAssignments = admin.table('staff_role_assignments', {
 });
 export type AdminStaffRoleAssignmentsRow = typeof adminStaffRoleAssignments.$inferSelect;
 export type AdminStaffRoleAssignmentsInsert = typeof adminStaffRoleAssignments.$inferInsert;
+export const analyticsCurrentPermissions = analytics
+  .view('current_permissions', {
+    subject_id: uuid('subject_id'),
+    purpose: text('purpose'),
+    scope_key: text('scope_key'),
+    status: text('status'),
+    expires_at: timestamp('expires_at', { withTimezone: true, mode: 'date' }),
+    policy_version: text('policy_version'),
+    effective_at: timestamp('effective_at', { withTimezone: true, mode: 'date' }),
+    valid_until: timestamp('valid_until', { withTimezone: true, mode: 'date' }),
+  })
+  .existing();
+export type AnalyticsCurrentPermissionsRow = typeof analyticsCurrentPermissions.$inferSelect;
 export const analyticsDailyMetrics = analytics.table('daily_metrics', {
   day: date('day', { mode: 'string' }).notNull(),
   metric_code: text('metric_code').notNull(),
@@ -417,6 +442,9 @@ export const analyticsDailyMetrics = analytics.table('daily_metrics', {
   created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
     .notNull()
     .default(sql.raw('now()')),
+  valid_until: timestamp('valid_until', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw("'-infinity'::timestamp with time zone")),
 });
 export type AnalyticsDailyMetricsRow = typeof analyticsDailyMetrics.$inferSelect;
 export type AnalyticsDailyMetricsInsert = typeof analyticsDailyMetrics.$inferInsert;
@@ -470,9 +498,27 @@ export const analyticsEvents = analytics.table('events', {
   created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
     .notNull()
     .default(sql.raw('now()')),
+  collection_scope: text('collection_scope').notNull().default(sql.raw("'analytics'::text")),
 });
 export type AnalyticsEventsRow = typeof analyticsEvents.$inferSelect;
 export type AnalyticsEventsInsert = typeof analyticsEvents.$inferInsert;
+export const analyticsProcessingRestrictions = analytics.table('processing_restrictions', {
+  subject_id: uuid('subject_id').notNull(),
+  scope_key: text('scope_key').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .default(sql.raw('now()')),
+});
+export type AnalyticsProcessingRestrictionsRow =
+  typeof analyticsProcessingRestrictions.$inferSelect;
+export type AnalyticsProcessingRestrictionsInsert =
+  typeof analyticsProcessingRestrictions.$inferInsert;
+export const analyticsReplayBarriers = analytics.table('replay_barriers', {
+  event_id: uuid('event_id').notNull(),
+  expires_at: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull(),
+});
+export type AnalyticsReplayBarriersRow = typeof analyticsReplayBarriers.$inferSelect;
+export type AnalyticsReplayBarriersInsert = typeof analyticsReplayBarriers.$inferInsert;
 export const analyticsVisibleDailyMetrics = analytics
   .view('visible_daily_metrics', {
     day: date('day', { mode: 'string' }),
@@ -1802,6 +1848,13 @@ export const appRateLimitBuckets = app.table('rate_limit_buckets', {
 });
 export type AppRateLimitBucketsRow = typeof appRateLimitBuckets.$inferSelect;
 export type AppRateLimitBucketsInsert = typeof appRateLimitBuckets.$inferInsert;
+export const appRateLimitCapacity = app.table('rate_limit_capacity', {
+  singleton: boolean('singleton').notNull().default(sql.raw('true')),
+  max_rows: integer('max_rows').notNull(),
+  used_rows: integer('used_rows').notNull(),
+});
+export type AppRateLimitCapacityRow = typeof appRateLimitCapacity.$inferSelect;
+export type AppRateLimitCapacityInsert = typeof appRateLimitCapacity.$inferInsert;
 export const appRateLimitPolicies = app.table('rate_limit_policies', {
   policy_key: text('policy_key').notNull(),
   policy_version: text('policy_version').notNull(),
@@ -2819,6 +2872,8 @@ export const storageTables = {
   analyticsDailyMetrics,
   analyticsDirtyDays,
   analyticsEvents,
+  analyticsProcessingRestrictions,
+  analyticsReplayBarriers,
   appAdviceFactSources,
   appAdviceFacts,
   appBundleMembers,
@@ -2869,6 +2924,7 @@ export const storageTables = {
   appPublicPageDetails,
   appPublishedContent,
   appRateLimitBuckets,
+  appRateLimitCapacity,
   appRateLimitPolicies,
   appRecallSourceTargets,
   appRecallTargets,
@@ -2933,9 +2989,11 @@ export const storageViews = {
   adminAffiliateProjection,
   adminConfigurationProjection,
   adminCurrentAdDailyMetrics,
+  adminRuntimeHealth,
   adminSearchProjection,
   adminSeoProjection,
   adminStaffProjection,
+  analyticsCurrentPermissions,
   analyticsVisibleDailyMetrics,
   appCatalogAdviceFactSources,
   appCatalogAdviceFacts,

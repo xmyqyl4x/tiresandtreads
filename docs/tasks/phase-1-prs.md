@@ -444,7 +444,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Functional service tests prove no state-changing scanner GET, correct one-click unsubscribe and no duplicate delivery metrics.
 
-**Implementation status:** S3 implementation in [PR #23](https://github.com/xmyqyl4x/tiresandtreads/pull/23) for owner review; [contract](../implementation/P1-PR-023-mail-events-actions.md) and [validation](../implementation/evidence/P1/p1-pr-023-validation.md). Signed synthetic callbacks, separate event facts, immediate suppression, POST-only actions, safe reviewed links and operator recovery are implemented. HTTP/browser, scheduled worker, real provider/client and full erasure acceptance retain their later gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 implementation approved and merged in [PR #23](https://github.com/xmyqyl4x/tiresandtreads/pull/23) at `c71df714`; [contract](../implementation/P1-PR-023-mail-events-actions.md) and [validation](../implementation/evidence/P1/p1-pr-023-validation.md). Signed synthetic callbacks, separate event facts, immediate suppression, POST-only actions, safe reviewed links and operator recovery are implemented. HTTP/browser, scheduled worker, real provider/client and full erasure acceptance retain their later gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-024
 
@@ -456,11 +456,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC08, UC09, AT11, DB17, DB18, DB19, DB20. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement allowlisted consent-aware intake, idempotent aggregation and privacy generation invalidation.
-- [ ] Implement SQL admission quotas, bounded cleanup, operational dashboards and separate report/worker pool budgets.
-- [ ] Profile repeated computation; document no-cache decision or implement DB20 only with measured parity/privacy benefit.
+- [x] Implement allowlisted consent-aware intake, idempotent aggregation and privacy generation invalidation.
+- [x] Implement SQL admission quotas, bounded cleanup, operational dashboards and separate report/worker pool budgets.
+- [x] Profile repeated computation; document no-cache decision or implement DB20 only with measured parity/privacy benefit.
 
 **Verification and acceptance:** Real race/load/expiry tests prove quota bounds and no deleted data in rebuilt aggregates; optional cache has evidence or remains absent.
+
+**Implementation status:** S3 implementation in [PR #24](https://github.com/xmyqyl4x/tiresandtreads/pull/24) for owner review; [contract](../implementation/P1-PR-024-analytics-limits-operations.md) and [validation](../implementation/evidence/P1/p1-pr-024-validation.md). Signed consent-aware intake, fenced aggregates, privacy expiry/replay barriers, capped SQL quotas, operations read models and separate workload pools are implemented. DB20 remains conditional with no computation cache after synthetic profiling. HTTP/client, scheduled worker, full privacy fulfillment and hosted capacity retain their later gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-025
 

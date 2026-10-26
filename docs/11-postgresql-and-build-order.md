@@ -69,3 +69,7 @@ Reviewed prior baseline: [`e4aa24c`](https://github.com/xmyqyl4x/tiresandtreads/
 On **October 22, 2026 (America/Los_Angeles)**, the requesting user approved this amendment and all associated plan, architecture, database, TDD, coding-standard, traceability and contribution updates at reviewed commit [`fc34cb5`](https://github.com/xmyqyl4x/tiresandtreads/commit/fc34cb54ae8ed9c3e3ef63aed9ab822f22ec00bf).
 
 The user's instruction was: “Approve these updates and merge the database-first implementation plan and PostgreSQL consolidation branch into main.” This approves D28/D29, ENG-07–ENG-09, the AS02/AS07 amendments and the documentation merge. Original approvals remain preserved. Application work is unstarted; stage acceptance, capacity tests, specialist/provider evidence and production release gates remain required.
+
+## S3 consolidation implementation
+
+[P1-PR-024](implementation/P1-PR-024-analytics-limits-operations.md) implements consent-aware PostgreSQL analytics, expiring/fenced generations, withdrawal purge/replay, SQL admission/storage limits and scoped operations with separate pool budgets. DB20 remains conditional/cache absent after the recorded synthetic profile. The actual 10× forecast workload, report/dashboard p95, hosted sizing and worker cadence retain S4/S6/027 gates. No Redis or ClickHouse dependency is introduced.

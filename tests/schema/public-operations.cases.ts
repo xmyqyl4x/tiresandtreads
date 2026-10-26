@@ -247,7 +247,7 @@ export function registerPublicOperationsTests(
         'INSERT INTO analytics.dirty_days(day,requested_revision,completed_revision,requested_at,completed_at,next_attempt_at) VALUES(current_date,2,1,now(),now(),now())',
       );
       await db.query(
-        "INSERT INTO analytics.daily_metrics(day,metric_code,market,dimension_key,value,generation,computed_at,definition_version) VALUES(current_date,'events','US','all',1,1,now(),'1')",
+        "INSERT INTO analytics.daily_metrics(day,metric_code,market,dimension_key,value,generation,computed_at,definition_version,valid_until) VALUES(current_date,'events','US','all',1,1,now(),'1',now()+interval '1 hour')",
       );
       expect((await db.query('SELECT value FROM analytics.visible_daily_metrics')).rows).toEqual([
         { value: '1' },
