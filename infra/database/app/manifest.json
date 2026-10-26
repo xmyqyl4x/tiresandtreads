@@ -98,5 +98,9 @@
   {
     "id": "0025_content_services",
     "sha256": "badef02daf9401b6949858fd88e151c35aa7557e8b6a4b2b1241d6fdb45c9c4e"
+  },
+  {
+    "id": "0026_content_reviewer_index",
+    "sha256": "24524ef1ab128a957057e3fa39c9e2288f966dc094a260a3dd5d12417edc357f"
   }
 ]
