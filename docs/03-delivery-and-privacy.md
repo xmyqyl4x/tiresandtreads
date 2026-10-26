@@ -120,7 +120,7 @@ The schedule below is a proposed launch policy to validate at G2. Every TTL is a
 | Contacts/profiles | 24 months inactivity maximum where continued purpose exists | Erase identifiers and disassociate reports unless independently retained for owner |
 | Raw consented analytics and linked sessions | 13 months maximum; earlier subject/purpose erasure | Batched SQL purge, or partition removal only after partitioning is justified; invalidate/rebuild affected projections |
 | Email events | 24 months | Remove subject linkage at deletion; retain necessary aggregate totals |
-| Raw webhook payload | 30 days, restricted/encrypted | Expire; retain normalized minimum event facts |
+| Raw webhook payload | Not retained by default (023); optional approved diagnostics restricted/encrypted for at most 30 days | Discard after verification; expire any approved diagnostic copy and retain only permitted minimum facts |
 | Security logs | 30 days baseline | Restrict, expire; extend only for a documented incident need |
 | Consent evidence and audit | Active reliance plus counsel-set limitation period | Erasable identity link; minimal immutable non-identifying event facts |
 | Suppression tombstone | As needed to enforce objection, reviewed annually | Restricted keyed hash and reason only; not a marketable profile |

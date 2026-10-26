@@ -444,7 +444,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Functional service tests prove no state-changing scanner GET, correct one-click unsubscribe and no duplicate delivery metrics.
 
-**Implementation status:** S3 implementation in progress; [contract](../implementation/P1-PR-023-mail-events-actions.md) and [validation](../implementation/evidence/P1/p1-pr-023-validation.md). Signed synthetic callbacks, separate event facts, immediate suppression, POST-only actions, safe reviewed links and operator recovery are implemented. HTTP/browser, scheduled worker, real provider/client and full erasure acceptance retain their later gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 implementation in [PR #23](https://github.com/xmyqyl4x/tiresandtreads/pull/23) for owner review; [contract](../implementation/P1-PR-023-mail-events-actions.md) and [validation](../implementation/evidence/P1/p1-pr-023-validation.md). Signed synthetic callbacks, separate event facts, immediate suppression, POST-only actions, safe reviewed links and operator recovery are implemented. HTTP/browser, scheduled worker, real provider/client and full erasure acceptance retain their later gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-024
 
