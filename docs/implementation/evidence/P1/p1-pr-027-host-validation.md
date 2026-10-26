@@ -1,6 +1,6 @@
 # P1-PR-027 local-host validation
 
-**October 26, 2026 · Local technical candidate; full S3 remains open.** Baseline: approved [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27), merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`. [Contract](../../P1-PR-027-local-service-host.md), [runbook](../../../operations/local-service-host.md).
+**October 26, 2026 · Local technical evidence in review as [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28); full S3 remains open.** Baseline: approved [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27), merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`. [Contract](../../P1-PR-027-local-service-host.md), [runbook](../../../operations/local-service-host.md).
 
 ## TDD and proof scope
 
@@ -12,7 +12,23 @@ The first host run rejected a loopback HTTP canonical origin under existing cont
 
 ## Measured verification
 
-Exact-commit Linux tests, coverage, lifecycle and dump/restore evidence will be recorded after the complete run. No pass is claimed in advance.
+`pnpm verify:push` passed on implementation commit `ab8af853c4f4d82e1a2f84b998261000b7b114d9` at `2026-10-26T21:34:40.988Z`. The [redacted machine record](p1-pr-027-host-verification.json) pins this run. The final review/documentation commit receives the same complete exact-commit gate before push and independent GitHub CI. Technical success does not close S3 acceptance.
+
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 693 passed; seven new budget/settings tests |
+| Database/provider | 286 passed; nine new real-role host journeys |
+| Foundation/schema/recovery | Six / 63 / 11 passed |
+| Total | **1,059 passing tests**, including 16 new tests |
+| Coverage | 97.21% lines, 93.99% statements, 98.02% functions, 90.27% branches; thresholds unchanged |
+| Shared cluster budget | 17 owned pools (16 app/one CMS), 28 external harness/web slots and reserve 20: 65 required of 100; observed 17 physical host pools, all within maxima |
+| Quality/build | Frozen Linux build/advisory audit, hygiene, formatting, lint, TypeScript, 213-module boundaries, health-only OpenAPI and migration checksums passed |
+| Storage | Unchanged: 141 app tables, 54 views, 1,785 table/view columns, 28 CMS tables; 33 app/three CMS migrations; model/codec parity passed |
+| Runtime | Healthy bundle without workspace dependencies, real role/readiness recovery and SIGTERM passed; runner image refuses invalid configuration with network disabled |
+| Failure/recovery | Seven deliberate verification failure cases rejected; actual app/CMS logical dump/restore, ACL/ownership/FK indexes, quarantine, incomplete deletion and CMS crash retry passed |
+| Documentation | 119 cards, 137 original FR rows, dependencies, source archives and historical approvals preserved; 75 checked tasks/282 unchecked |
+
+Retained dev/stage credentials and data were not modified, and native PostgreSQL was untouched. Disposable test/recovery projects and their own volumes were removed. The first complete gate caught a cleanup-path assertion placed inside `finally`; it was moved before the test's `try/finally`, retaining path validation and unconditional cleanup without suppressing an earlier failure. No check or rule was weakened.
 
 ## Remaining acceptance
 

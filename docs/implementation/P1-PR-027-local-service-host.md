@@ -1,6 +1,6 @@
 # P1-PR-027 continuation — local service host and connection budget
 
-**October 26, 2026 · Local technical implementation; full S3 acceptance stays open.** The owner approved [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27), merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`, and authorized this continuation while keeping APIs on hold. Specialist review and licensed adapters remain pending. This work adds no migration, database role, dependency or product endpoint.
+**October 26, 2026 · Local technical implementation in review as [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28); full S3 acceptance stays open.** The owner approved [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27), merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`, and authorized this continuation while keeping APIs on hold. Specialist review and licensed adapters remain pending. This work adds no migration, database role, dependency or product endpoint.
 
 ## One composition root, explicit ownership
 
@@ -40,7 +40,7 @@ S3/KMS clients use the existing local emulator endpoints and explicit fixture cr
 
 Key rings and stable identity keys come from a bounded, absolute, regular private JSON file, never from a committed sample. Linux rejects group/world-readable files; Windows relies on the operator's filesystem ACL. Unknown settings, malformed keys, unsupported activation and invalid references refuse startup. There is no automatic generation/rotation on restart. Existing suppression/privacy/quota coverage checks remain, and journal verification rejects incompatible key bytes even when a version label is reused.
 
-The signed file journal lives at an explicit absolute directory on independent durable encrypted storage; it is verified before readiness. Local filesystem proofs do not establish encrypted-volume custody, an independent disaster-recovery system or a production retention policy. See the [runbook](../operations/local-service-host.md), [settings shape](../operations/local-service-host.settings.example.json) and [validation](evidence/P1/p1-pr-027-host-validation.md).
+The signed file journal lives at an explicit absolute directory on independent durable encrypted storage; it is verified before readiness. The existing file-journal snapshot supports at most 1,000 records and a bounded signed manifest; paged storage is required before those limits are reached. Local filesystem proofs do not establish encrypted-volume custody, an independent disaster-recovery system or a production retention policy. See the [runbook](../operations/local-service-host.md), [settings shape](../operations/local-service-host.settings.example.json) and [validation](evidence/P1/p1-pr-027-host-validation.md).
 
 ## Acceptance boundary
 
