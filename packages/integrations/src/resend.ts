@@ -53,7 +53,7 @@ export function createResendProvider(o: {
       return { status: response.status, value };
     }, 5000);
   }
-  function payload(p: FrozenDelivery) {
+  function payload(p: FrozenDelivery, key: string) {
     validateMail(p.mail);
     if (
       p.schemaVersion !== 1 ||
@@ -72,6 +72,7 @@ export function createResendProvider(o: {
       subject: p.mail.subject,
       html: p.mail.html,
       text: p.mail.text,
+      tags: [{ name: 'tt_delivery_key', value: key }],
       attachments: [
         { filename: 'report.pdf', content: p.mail.pdf, content_type: 'application/pdf' },
       ],
@@ -82,7 +83,7 @@ export function createResendProvider(o: {
     fixture: false,
     async send(key, p) {
       if (!o.enabled || !/^[a-f0-9]{64}$/.test(key)) throw Error('Mail provider unavailable');
-      const body = payload(p);
+      const body = payload(p, key);
       try {
         const r = await call('/emails', 'POST', body, key);
         if (

@@ -39,6 +39,7 @@ COPY --from=builder --chown=node:node /workspace/.local/preflight.mjs ./prefligh
 COPY --from=builder --chown=node:node /workspace/.local/worker.mjs ./worker.mjs
 COPY --from=builder --chown=node:node /workspace/.local/import.mjs ./import.mjs
 COPY --from=builder --chown=node:node /workspace/.local/source.mjs ./source.mjs
+COPY --from=builder --chown=node:node /workspace/.local/mail-recover.mjs ./mail-recover.mjs
 COPY --chown=node:node scripts/runtime/start.mjs ./start.mjs
 USER node
 EXPOSE 3000

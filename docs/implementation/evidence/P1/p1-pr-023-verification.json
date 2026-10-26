@@ -1,0 +1,115 @@
+{
+  "sourceCommit": "b0387ccd5e829a729a4887a31756e71e1033b13d",
+  "verifiedAt": "2026-10-26T05:57:11.257Z",
+  "tests": {
+    "newEmailActionTests": 63,
+    "unitAndUsecase": 612,
+    "databaseAndProvider": 211,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 903
+  },
+  "coverage": {
+    "statements": 94.1,
+    "branches": 90.24,
+    "functions": 98.49,
+    "lines": 97.25
+  },
+  "migrationCounts": {
+    "app": 28,
+    "cms": 3
+  },
+  "storage": {
+    "appTables": 130,
+    "appViews": 42,
+    "tableViewColumns": 1662,
+    "cmsTables": 28
+  },
+  "retainedTargets": {
+    "dev": "28 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "stage": "28 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "nativePostgres": "untouched"
+  },
+  "mainProject": "tt-test-b2622be6ec015f5d",
+  "appImageId": "7c921b9e548c46c7dd65fcc8e1818d8f57b369c98c90517832b718c1503ec74d",
+  "lifecycle": {
+    "stopMs": 696,
+    "exitCode": 143,
+    "appMemory": "51.64MiB / 768MiB",
+    "appCpu": "0.00%",
+    "postgresMemory": "96.78MiB / 512MiB",
+    "postgresCpu": "0.06%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-d11d481ac02632de",
+    "elapsedMs": 25707,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 669,
+    "backupWindowMs": 3902,
+    "tables": {
+      "app": 130,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "f4a94abc1632d4d951e1f64cbef98eb98006c718bc9bb27bfad5e77492ad5eeb",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 680504,
+      "cms": 197158
+    },
+    "backupSha256": {
+      "app": "f224c11c523b3435fdcfec39a054a193646da7c03c1dd787fee079c349cd1ca3",
+      "cms": "f731f7c4f3982844dbe59e9f3d395c8f671cfdd11261eefd1f09155b75b067c8"
+    },
+    "migrations": {
+      "app": 28,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "independent published Svix signature vector and raw-byte/timestamp/key-rotation/tamper bounds",
+    "durable concurrent replay deduplication and conflicting-body refusal",
+    "atomic receipt/fact/suppression transaction and private address tombstones",
+    "independent reordered delivery facts and per-send boolean metric deduplication",
+    "early webhook/timeout correlation by signed stable provider tag without recipient address matching",
+    "unsupported or conflicting observations quarantined; unresolved callbacks deferred in bounded batches",
+    "current separate email analytics permission and conservative scanner classification; no retained raw PII",
+    "cookie/login/CAPTCHA-independent one-click POST and no final consent/feedback changes on scanner GET/HEAD",
+    "purpose-bound MACs, immutable feedback, fixed reviewed learning destinations and withdrawn/expired ownership refusal",
+    "known-ID provider retrieval without fabricated delivery metrics or replacement send identities",
+    "portable production-bundled operator recovery command and denied public database roles"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 66,
+    "uncheckedTasks": 291,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "Headless S3 only; actual HTTP ingress/browser security/admission controls and product routes remain S4",
+    "Provider callbacks and retrieval are signed synthetic fixtures; no real mail/sender/DKIM/client acceptance",
+    "Actual rendered mail/legal footers/commercial classification remain S5/release; report issuance disabled",
+    "Raw callback bodies are not retained; normalized private receipt minima support recovery, not analytics permission bypass",
+    "P1-PR-024 owns privacy-aware aggregate analytics; 025 complete retention/deletion; 027 automatic worker cadence/alarms",
+    "Full schema restore is synthetic and does not establish actual new-table erasure graph, hosted RPO/RTO or provider recovery",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending; 98 draft scenarios and zero actual specialist reviews unchanged"
+  ]
+}
