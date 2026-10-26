@@ -10,14 +10,14 @@ Real migrated PostgreSQL tests cover the atomic contact/consent/send/snapshot/ou
 
 ## Full verification
 
-`pnpm verify:push` passed on implementation commit `2f6bb582ad40656f76b210906d9e80aa46256ded` at `2026-10-26T05:06:51.281Z`. The [redacted machine record](p1-pr-022-verification.json) captures that exact run. The evidence/task-list commit receives the full gate again before push; its final head and independent CI status are recorded in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22).
+`pnpm verify:push` passed on implementation commit `b377c41a0587b95334bd1ff574eb75563650e69a` at `2026-10-26T05:17:24.147Z`. The [redacted machine record](p1-pr-022-verification.json) captures that exact run. The evidence/task-list commit receives the full gate again before push; its final head and independent CI status are recorded in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22).
 
 | Check | Observed result |
 | --- | --- |
 | Unit/use-case | 574 passed, including 44 new policy/provider/render fixture tests |
-| Database/provider | 185 passed, including 28 new migrated delivery service tests |
+| Database/provider | 186 passed, including 29 new migrated delivery service tests |
 | Foundation/schema/recovery | Six / 63 / 11 passed |
-| Total | **839 passing tests**, including 72 new delivery tests |
+| Total | **840 passing tests**, including 73 new delivery tests |
 | Coverage | 97.14% lines, 93.98% statements, 98.4% functions, 90.06% branches; thresholds unchanged |
 | Quality/build | Frozen Linux production build/advisory audit, source hygiene, format, lint, TypeScript, 168-module boundaries, health contract and reviewed migration checksums passed |
 | Storage | 129 app tables, 42 views, 1,656 table/view columns, 250 codec fields/25 fact families, 28 CMS tables; 27 app/three CMS migrations; generated Drizzle parity passed |
@@ -26,7 +26,7 @@ Real migrated PostgreSQL tests cover the atomic contact/consent/send/snapshot/ou
 | Recovery | Complete app/CMS synthetic restore/deletion replay passed at 27 app/three CMS, including corrupt restore, stale/missing journal, incomplete deletion and inter-database crash retry |
 | Documentation | 119 cards/137 original FR rows/dependency edges/source archives/historical approvals preserved; 63 checked tasks/294 unchecked |
 
-Retained Docker dev and stage targets both have **27 app/three CMS applied, zero pending**, and are stopped with their volumes retained. Native PostgreSQL, existing credentials and unrelated projects are unchanged. Disposable projects `tt-test-2e638ff665d3ca83` and `tt-test-ae8f3f3a8a0f76d1` and their volumes were removed by exact identity. Synthetic recovery does not establish hosted RPO/RTO, PITR or external provider/object recovery; actual new delivery-work erasure remains at P1-PR-025.
+Retained Docker dev and stage targets both have **27 app/three CMS applied, zero pending**, and are stopped with their volumes retained. Native PostgreSQL, existing credentials and unrelated projects are unchanged. Disposable projects `tt-test-37cdd938affe3d60` and `tt-test-7c0c2e7ce84b9253` and their volumes were removed by exact identity. Synthetic recovery does not establish hosted RPO/RTO, PITR or external provider/object recovery; actual new delivery-work erasure remains at P1-PR-025.
 
 ## Acceptance limits
 

@@ -1,14 +1,14 @@
 {
-  "sourceCommit": "2f6bb582ad40656f76b210906d9e80aa46256ded",
-  "verifiedAt": "2026-10-26T05:06:51.281Z",
+  "sourceCommit": "b377c41a0587b95334bd1ff574eb75563650e69a",
+  "verifiedAt": "2026-10-26T05:17:24.147Z",
   "tests": {
-    "newDeliveryTests": 72,
+    "newDeliveryTests": 73,
     "unitAndUsecase": 574,
-    "databaseAndProvider": 185,
+    "databaseAndProvider": 186,
     "foundation": 6,
     "schema": 63,
     "recovery": 11,
-    "total": 839
+    "total": 840
   },
   "coverage": {
     "statements": 93.98,
@@ -31,15 +31,15 @@
     "stage": "27 app/3 CMS applied; zero pending; stopped; volumes retained",
     "nativePostgres": "untouched"
   },
-  "mainProject": "tt-test-2e638ff665d3ca83",
-  "appImageId": "96958066dd01c4fcc2cc30c076b18cb183bfcccb9678ccde1859f68c49014c8a",
+  "mainProject": "tt-test-37cdd938affe3d60",
+  "appImageId": "5d05168b2d0695ecbffcff1967fd0090a933c44e5f7507cd9a8f71cd25c05d0d",
   "lifecycle": {
-    "stopMs": 739,
+    "stopMs": 680,
     "exitCode": 143,
-    "appMemory": "50.87MiB / 768MiB",
-    "appCpu": "0.00%",
-    "postgresMemory": "94.36MiB / 512MiB",
-    "postgresCpu": "0.08%",
+    "appMemory": "50.61MiB / 768MiB",
+    "appCpu": "11.55%",
+    "postgresMemory": "92.67MiB / 512MiB",
+    "postgresCpu": "0.06%",
     "invalidHostedConfig": "rejected",
     "workerBundleStartup": "validated in production image without workspace dependencies",
     "importBundleStartup": "validated in production image without workspace dependencies",
@@ -47,12 +47,12 @@
     "scope": "idle headless host; DB pool drain measured separately"
   },
   "recovery": {
-    "project": "tt-test-ae8f3f3a8a0f76d1",
-    "elapsedMs": 25639,
+    "project": "tt-test-7c0c2e7ce84b9253",
+    "elapsedMs": 25062,
     "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
     "status": "passed",
-    "checksMs": 647,
-    "backupWindowMs": 4100,
+    "checksMs": 760,
+    "backupWindowMs": 4311,
     "tables": {
       "app": 129,
       "cms": 28
@@ -62,12 +62,12 @@
       "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
     },
     "backupBytes": {
-      "app": 675718,
+      "app": 675723,
       "cms": 197161
     },
     "backupSha256": {
-      "app": "8627af0059e66d6f91eccbd2c2757990506f568efb26518e6568eebab86fcab0",
-      "cms": "457c6a05000743b5e4ddc493720c4a8865ab2befcd04f0aeaf8df2c2a9b16e9d"
+      "app": "60a9d8bd951234d1fd31ad617fe58241e29cca84c5983b6e906a605991df0ba4",
+      "cms": "5d10fa7603f8e600a5875ae59006e7dba7471375b48cce061c24110da7ae24c2"
     },
     "migrations": {
       "app": 27,
@@ -84,7 +84,7 @@
   },
   "technicalProofs": [
     "atomic contact, specific purpose evidence, send, immutable snapshot and outbox capture",
-    "exact command replay and changed-body refusal with complete SQL rollback",
+    "exact command replay, separate contact/delivery identity namespaces and changed-body refusal with complete SQL rollback",
     "fixed requested report/comparison/template and reviewed education selection",
     "one requested unverified report without general or marketing confirmation",
     "independent report cancellation and explicit wrong-address proof invalidation",
