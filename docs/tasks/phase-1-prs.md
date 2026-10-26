@@ -332,6 +332,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Implement evidence-backed preference ordering, unknowns, stable tie-breaks, exclusions and reason codes.
 - [ ] Build at least 50 specialist-reviewed golden scenarios and property tests; exclude all paid terms from engine inputs.
 
+**Technical implementation approved and merged:** [PR #17](https://github.com/xmyqyl4x/tiresandtreads/pull/17) at `89a4a098bd80796bff4b293497410118f36e8fcd`. Specialist review and licensed adapters remain pending by owner direction.
+
 **Verification and acceptance:** [Implementation](../implementation/P1-PR-017-eligibility-recommendations.md) and [98-case draft specialist packet](../implementation/evidence/P1/p1-pr-017-golden-review.json) cover deterministic rules, sparse evidence, stable ordering, bounded portfolios and commercial invariance. The third task stays unchecked: actual named specialist review and G1 acceptance remain pending DD06, along with real source/data and 019 resolver/report integration evidence. The technical implementation cannot establish production fitment coverage or issuance authority.
 
 **Owner direction, October 25, 2026:** Keep specialist review pending and proceed with implementation and draft scenarios. The 98-case packet remains draft; this direction does not close the third task or G1. Licensed adapters remain pending.
@@ -346,11 +348,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC02, UC04, AT05, AT20. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement unit/currency/quantity/installed-component normalization and comparable price bases.
-- [ ] Implement scenario, winter-share and cost-per-distance calculations only with supported assumptions/evidence.
-- [ ] Qualify unknown quote products and missing prices/warranty/lifespan evidence without invented precision.
+- [x] Implement unit/currency/quantity/installed-component normalization and comparable price bases.
+- [x] Implement scenario, winter-share and cost-per-distance calculations only with supported assumptions/evidence.
+- [x] Qualify unknown quote products and missing prices/warranty/lifespan evidence without invented precision.
 
-**Verification and acceptance:** Boundary/property tests cover incompatible units/currencies/quantities, absent assumptions and rounding; specialist approves explanations.
+**Verification and acceptance:** [Implementation](../implementation/P1-PR-018-pricing-comparison.md) and [validation](../implementation/evidence/P1/p1-pr-018-validation.md) cover exact money/units, explicit quantities and service/tax bases, freshness, private quote authorization boundaries, unknown products, scenario allocation/replacements, outward cost-per-distance bounds and deterministic comparisons. Technical math tasks are implemented; the full card remains **In progress** pending actual specialist approval of explanations and licensed/source/tax/life evidence. The owner explicitly retained specialist review and licensed adapters as pending when authorizing 018. No production resolver, price coverage or live release is accepted.
 
 ### P1-PR-019
 

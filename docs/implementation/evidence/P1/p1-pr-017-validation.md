@@ -1,8 +1,10 @@
 # P1-PR-017 validation evidence
 
-**October 25, 2026 · technical implementation verified for review; specialist/data gates pending.** Baseline: owner-approved PR #16 merge `a774e1f025ee81a0bce593f37bab63ac6b66bdc4`. See the [implementation packet](../../P1-PR-017-eligibility-recommendations.md), [redacted verification record](p1-pr-017-verification.json) and [98-case pending specialist packet](p1-pr-017-golden-review.json).
+**October 25, 2026 · technical implementation approved and merged; specialist/data gates pending.** Baseline: owner-approved PR #16 merge `a774e1f025ee81a0bce593f37bab63ac6b66bdc4`. See the [implementation packet](../../P1-PR-017-eligibility-recommendations.md), [redacted verification record](p1-pr-017-verification.json) and [98-case pending specialist packet](p1-pr-017-golden-review.json).
 
 The owner subsequently confirmed: “Keep specialist review pending; proceed with implementation and draft scenarios.” Actual specialist reviews remain zero. This decision authorizes the technical/draft work and leaves DD06/G1 production acceptance and licensed-source gates open.
+
+The owner approved and merged [PR #17](https://github.com/xmyqyl4x/tiresandtreads/pull/17) at `89a4a098bd80796bff4b293497410118f36e8fcd`, then authorized 018 while retaining specialist review and licensed adapters as pending. The historical verification record below remains unchanged.
 
 ## TDD, golden scenarios and use cases
 
