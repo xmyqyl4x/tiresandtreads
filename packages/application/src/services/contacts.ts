@@ -147,7 +147,9 @@ export function createContactServices(d: {
         });
         if (!pre.ok) return pre;
         if (pre.value.receipt) return ok(pre.value.receipt);
-        const stable = pre.value.cmd.actorHash + pre.value.cmd.keyHash,
+        // Preserve existing contact proof identities; a delivery command has its own resource namespace.
+        const stable =
+            (effect ? 'delivery.request:' : '') + pre.value.cmd.actorHash + pre.value.cmd.keyHash,
           id = d.crypto.id('contact', stable),
           subjectId = d.crypto.id('subject', stable),
           resource = d.crypto.id('resource', stable),

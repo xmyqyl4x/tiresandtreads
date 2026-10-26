@@ -237,6 +237,22 @@ it('UC06 freezes exact source identity, commits one request/outbox and returns s
     await s.service.request([s.owner.token], command, { ...s.input, comparisonRevision: '1' }),
   ).toMatchObject({ ok: false, error: { code: 'conflict' } });
 });
+it('separates command identities when contact and delivery reuse the same key', async () => {
+  const s = await setup(),
+    command = uid('command');
+  const contact = value(await s.contacts.request([s.owner.token], command, s.input));
+  const send = await s.request(command);
+  expect(send.id).not.toBe(contact.resource_id);
+  expect(await s.request(command)).toEqual(send);
+  expect(
+    (
+      await f.admin.query(
+        'SELECT challenge_id FROM privacy.contact_intents WHERE owner_subject_id=$1',
+        [s.owner.identity.subjectId],
+      )
+    ).rowCount,
+  ).toBe(2);
+});
 it('rolls contact, purpose, send, snapshot and outbox back when scheduling cannot complete', async () => {
   const s = await setup(),
     broken = createDeliveryServices({
