@@ -1,0 +1,116 @@
+{
+  "sourceCommit": "b377c41a0587b95334bd1ff574eb75563650e69a",
+  "verifiedAt": "2026-10-26T05:17:24.147Z",
+  "tests": {
+    "newDeliveryTests": 73,
+    "unitAndUsecase": 574,
+    "databaseAndProvider": 186,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 840
+  },
+  "coverage": {
+    "statements": 93.98,
+    "branches": 90.06,
+    "functions": 98.4,
+    "lines": 97.14
+  },
+  "migrationCounts": {
+    "app": 27,
+    "cms": 3
+  },
+  "storage": {
+    "appTables": 129,
+    "appViews": 42,
+    "tableViewColumns": 1656,
+    "cmsTables": 28
+  },
+  "retainedTargets": {
+    "dev": "27 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "stage": "27 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "nativePostgres": "untouched"
+  },
+  "mainProject": "tt-test-37cdd938affe3d60",
+  "appImageId": "5d05168b2d0695ecbffcff1967fd0090a933c44e5f7507cd9a8f71cd25c05d0d",
+  "lifecycle": {
+    "stopMs": 680,
+    "exitCode": 143,
+    "appMemory": "50.61MiB / 768MiB",
+    "appCpu": "11.55%",
+    "postgresMemory": "92.67MiB / 512MiB",
+    "postgresCpu": "0.06%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-7c0c2e7ce84b9253",
+    "elapsedMs": 25062,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 760,
+    "backupWindowMs": 4311,
+    "tables": {
+      "app": 129,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "cca72417a30b0aa5d96907741667ad8339c968d8a7193a30905ab0d49fd053fd",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 675723,
+      "cms": 197161
+    },
+    "backupSha256": {
+      "app": "60a9d8bd951234d1fd31ad617fe58241e29cca84c5983b6e906a605991df0ba4",
+      "cms": "5d10fa7603f8e600a5875ae59006e7dba7471375b48cce061c24110da7ae24c2"
+    },
+    "migrations": {
+      "app": 27,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "atomic contact, specific purpose evidence, send, immutable snapshot and outbox capture",
+    "exact command replay, separate contact/delivery identity namespaces and changed-body refusal with complete SQL rollback",
+    "fixed requested report/comparison/template and reviewed education selection",
+    "one requested unverified report without general or marketing confirmation",
+    "independent report cancellation and explicit wrong-address proof invalidation",
+    "two-connection cancel/claim ordering and duplicate worker refusal",
+    "stable frozen private PDF/payload, renderer version and provider identity",
+    "accepted-timeout replay with one simulated provider side effect",
+    "worker crash after handoff and before SQL acknowledgement recovers identical bytes",
+    "current suppression checked after decryption and after frozen object read",
+    "five-attempt and conservative 23-hour retry bounds, stale lease refusal, render exhaustion",
+    "private asset integrity/expiry and SQL role denial",
+    "bounded mocked Resend HTTP/credential failures and redacted known-ID retrieval",
+    "production issuance denied while specialist/source gates remain open"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 63,
+    "uncheckedTasks": 294,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "Headless S3 only; actual API/browser/abuse controls, reviewed legal/visual templates, authenticated sender and live delivery remain later gates",
+    "Workflow objects/contact encryption use explicit substitutes; prior Moto/KMS proofs remain separate",
+    "No real email or actual provider credentials; signed events and operator reconciliation remain P1-PR-023",
+    "Worker cadence, alarms and workload p95 remain P1-PR-027; no hosted latency/recovery proof",
+    "Full-schema restore includes new tables, but actual delivery-work erasure order must join P1-PR-025",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending; 98 draft scenarios and zero actual specialist reviews unchanged; report issuance disabled"
+  ]
+}

@@ -408,7 +408,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role/publication retry tests and headless SEO/tool contracts; publication reaches all replicas within 60 seconds, out-of-order updates are rejected and expired safety/privacy configuration fails closed; unsafe redirects and private indexing rejected.
 
-**Implementation status:** S3 technical implementation in [PR #21](https://github.com/xmyqyl4x/tiresandtreads/pull/21) for owner review; [contract](../implementation/P1-PR-021-content-seo.md) and [validation](../implementation/evidence/P1/p1-pr-021-validation.md). Real editorial/provider property/key-file verification, worker/CDN propagation and API/browser/live acceptance remain at their declared gates. Specialist review and licensed adapters remain pending independently.
+**Implementation status:** S3 technical implementation approved and merged in [PR #21](https://github.com/xmyqyl4x/tiresandtreads/pull/21) at `c7595c59`; [contract](../implementation/P1-PR-021-content-seo.md) and [validation](../implementation/evidence/P1/p1-pr-021-validation.md). Real editorial/provider property/key-file verification, worker/CDN propagation and API/browser/live acceptance remain at their declared gates. Specialist review and licensed adapters remain pending independently.
 
 ### P1-PR-022
 
@@ -420,11 +420,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC06, UC07, AT07, AT08, AT19, DB04, DB05. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Freeze report/comparison/template/content selection and implement render ports with labeled fixtures.
-- [ ] Implement scheduled send identity, 60-second cancellation, dispatch claim and final permission recheck.
-- [ ] Integrate Resend/private-PDF adapters, uncertain handoff reconciliation and retry limits without actual product templates.
+- [x] Freeze report/comparison/template/content selection and implement render ports with labeled fixtures.
+- [x] Implement scheduled send identity, 60-second cancellation, dispatch claim and final permission recheck.
+- [x] Integrate Resend/private-PDF adapters, uncertain handoff reconciliation and retry limits without actual product templates.
 
 **Verification and acceptance:** Two-connection cancel/claim races and accepted-timeout provider tests; headless rendering uses fixtures until S5.
+
+**Implementation status:** S3 technical implementation in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22) for owner review; [contract](../implementation/P1-PR-022-delivery-orchestration.md) and [validation](../implementation/evidence/P1/p1-pr-022-validation.md). Current production report issuance remains denied. Actual templates, signed provider events, worker cadence, abuse controls and API/browser/live acceptance retain their declared gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-023
 

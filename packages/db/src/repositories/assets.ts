@@ -28,9 +28,10 @@ export function createAssetRepository(
   return guarded(scope, {
     async register(tx, i) {
       if (
-        !['report_pdf', 'import_source'].includes(i.purpose) ||
+        !['report_pdf', 'import_source', 'email_payload'].includes(i.purpose) ||
         !['application/pdf', 'application/json', 'text/csv'].includes(i.mime) ||
         (i.purpose === 'report_pdf' && i.mime !== 'application/pdf') ||
+        (i.purpose === 'email_payload' && i.mime !== 'application/json') ||
         integer(i.size, 0) > maxBytes
       )
         stop('invalid_input');

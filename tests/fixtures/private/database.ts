@@ -46,7 +46,10 @@ export async function privateFixture() {
       );
       return { identity, token };
     }
-    async function report(identity: Owner) {
+    async function report(
+      identity: Owner,
+      output: Version['output'] = { cost: '123456789', evidence: 'unknown' },
+    ) {
       const h = await success(scope.unitOfWork, (tx) =>
         reports.create(tx, identity, {
           id: uid('report'),
@@ -64,7 +67,7 @@ export async function privateFixture() {
         engineVersion: 'synthetic-v1',
         schemaVersion: 1,
         input: { unknown: null },
-        output: { cost: '123456789', evidence: 'unknown' },
+        output,
       };
       const published = await success(scope.unitOfWork, (tx) =>
         reports.publish(tx, identity, h.revision, v, [

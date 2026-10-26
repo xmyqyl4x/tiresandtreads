@@ -102,5 +102,9 @@
   {
     "id": "0026_content_reviewer_index",
     "sha256": "24524ef1ab128a957057e3fa39c9e2288f966dc094a260a3dd5d12417edc357f"
+  },
+  {
+    "id": "0027_delivery_orchestration",
+    "sha256": "44810afc7bd3f101d93f467f28976e3c5d6cd046ffd304bfe33b238297be489b"
   }
 ]

@@ -239,7 +239,7 @@ Use `/api/v1` from the start for browser, future mobile, and non-MCP integration
 | `DELETE /api/v1/reports/{id}/shares/{shareId}` | 204 revoke | Owner; invalidate derived download grants |
 | `GET /api/v1/shared-reports/{token}` | Redacted view-only DTO | Capability; no contacts, owner secrets, or edit actions |
 | `POST /api/v1/reports/{id}/deliver` | 202 send ID, `sendAfter`, cancel deadline | Owner plus Turnstile; fixed version/template, independent purposes; 429 limits |
-| `POST /api/v1/sends/{id}/cancel` | 200 cancelled or 409 handoff already claimed | Owner send capability; compare-and-set against dispatch state |
+| `POST /api/v1/sends/{id}/cancel` | 200 cancelled or 409 cancellation window closed/handoff already claimed | Owner send capability; compare-and-set against dispatch state |
 | `GET /api/v1/sends/{id}` | Safe delivery state | Same scope; never expose provider payloads |
 | `POST /api/v1/reports/{id}/pdf` | 202 generation or authorized short-lived download | Owner/view capability over allowed fields only; pinned version |
 | `POST /api/v1/collect` | 202 after SQL event/invalidation commit, or 204 dropped by consent | Current signed subject/purpose state; dedupe/digest check; 422 invalid, 409 conflicting ID, 429 admission limit, 503 unavailable; no client-forged grants |
@@ -326,3 +326,5 @@ Keep 7+ days PITR when the selected plan supports it, plus encrypted daily backu
 [P1-PR-020](implementation/P1-PR-020-contact-consent.md) implements owner-bound contact requests, purpose-scoped inbox proofs, independent consent projections, restrictive browser/GPC policy and retained suppression rechecks. Worker-only address/token preparation and provider suppression methods must not become public controllers. It composes PostgreSQL repositories and existing encryption/durable command ports; product HTTP and actual delivery retain later gates.
 
 [P1-PR-021](implementation/P1-PR-021-content-seo.md) implements reviewed CMS-to-app publication with fenced recovery, immutable origin/route binding and notification intents; SQL/S3 public configuration and safe redirects; metadata/sitemap/private-route policy; glossary/education/checklist/decoder contracts; and bounded crawl/search adapters. Separate app/public/CMS credentials and current staff capabilities protect effects. Source snapshots, provider activation and actual worker/CDN/browser acceptance retain their explicit later gates.
+
+[P1-PR-022](implementation/P1-PR-022-delivery-orchestration.md) adds atomic contact/request/send capture, immutable delivery snapshots, 60-second cancellation and private PDF/payload orchestration. Current permission is rechecked before I/O and the final fenced SQL claim; an uncertain handoff retries only the same bytes/key within bounded provider limits. Separate private/asset roles and labeled renderer/provider fixtures keep product issuance disabled until its actual safety and delivery gates pass.

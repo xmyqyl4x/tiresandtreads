@@ -98,3 +98,17 @@ export interface BrowserChoices {
   readonly gpc: boolean;
   readonly notices: Readonly<Record<BrowserPurpose | 'necessary', Id<'notice'>>>;
 }
+// Application composition only. Never accept a function or operation context from a transport.
+export interface ContactRequestEffect {
+  readonly fingerprint: string;
+  apply(
+    tx: Tx,
+    value: Readonly<{
+      owner: Owner;
+      contact: Contact;
+      resourceId: Id<'resource'>;
+      reportIntentId: Id<'verification'>;
+      offersIntentId: Id<'verification'> | null;
+    }>,
+  ): Promise<void>;
+}

@@ -20,7 +20,7 @@ import {
 import { reject } from './bounds.ts';
 const columns =
   'id,revision,dispatch_state,owner_subject_id,recipient_contact_id,report_id,report_version,comparison_revision,provider,provider_key,send_after,cancel_deadline,template_id,payload_asset_id,payload_hash';
-function send(x: Row): Send {
+export function sendFromRow(x: Row): Send {
   if (
     ![
       'scheduled',
@@ -52,6 +52,7 @@ function send(x: Row): Send {
     payloadHash: x.payload_hash === null ? null : hex(x.payload_hash).toString('hex'),
   };
 }
+const send = sendFromRow;
 export function createDeliveryRepository(scope: WriteScope): DeliveryRepository {
   const q = scope.query;
   async function lock(tx: Tx, id: string) {
@@ -167,7 +168,7 @@ export function createDeliveryRepository(scope: WriteScope): DeliveryRepository 
       if (
         x.anonymized_at !== null ||
         rev(x.revision) !== i.expected ||
-        x.dispatch_state !== 'scheduled'
+        !['scheduled', 'uncertain'].includes(String(x.dispatch_state))
       )
         stop('conflict');
       const c = await q(
@@ -175,9 +176,12 @@ export function createDeliveryRepository(scope: WriteScope): DeliveryRepository 
         `SELECT c.id FROM privacy.contacts c JOIN app.subjects s ON s.id=c.subject_id JOIN app.subjects owner ON owner.id=$7
         JOIN privacy.consent_state p ON p.subject_id=s.id AND p.purpose=$4 AND p.scope_key=$5
         WHERE c.id=$1 AND s.id=$2 AND s.permission_revision=$3 AND s.status='active' AND c.status='active' AND owner.status='active'
-        AND (c.verified_at IS NOT NULL OR $4='necessary')
+        AND (((c.verified_at IS NOT NULL OR $4='necessary') AND p.status='confirmed') OR
+          ($4='report' AND EXISTS(SELECT 1 FROM email.delivery_snapshots d JOIN privacy.contact_intents i ON i.challenge_id=d.verification_id JOIN privacy.verification_challenges v ON v.id=i.challenge_id
+            WHERE d.send_id=$8 AND i.contact_id=c.id AND i.owner_subject_id=$7 AND v.purpose='report' AND i.scope_key=$5
+            AND d.permission_event_id=p.source_event_id AND v.invalidated_at IS NULL AND v.expires_at>clock_timestamp())))
         AND (s.expires_at IS NULL OR s.expires_at>clock_timestamp()) AND (owner.expires_at IS NULL OR owner.expires_at>clock_timestamp())
-        AND p.status='confirmed' AND (p.expires_at IS NULL OR p.expires_at>clock_timestamp())
+        AND (p.expires_at IS NULL OR p.expires_at>clock_timestamp())
         AND NOT EXISTS(SELECT 1 FROM privacy.suppressions z WHERE z.lifted_at IS NULL AND z.subject_id=s.id AND z.scope_key=ANY($6::text[]) AND z.effective_at<=clock_timestamp() AND (z.expires_at IS NULL OR z.expires_at>clock_timestamp()))
         AND NOT EXISTS(SELECT 1 FROM privacy.contact_lookups l JOIN privacy.suppression_tombstones z ON z.key_version=l.key_version AND z.lookup_hmac=l.email_hmac WHERE l.contact_id=c.id AND z.scope_key=ANY($6::text[]) AND z.effective_at<=clock_timestamp() AND (z.expires_at IS NULL OR z.expires_at>clock_timestamp()))`,
         [
@@ -193,6 +197,7 @@ export function createDeliveryRepository(scope: WriteScope): DeliveryRepository 
             i.scope,
           ],
           x.owner_subject_id,
+          i.id,
         ],
       );
       if (!c.rows.length || i.purpose !== (x.kind === 'confirmation' ? 'necessary' : x.kind))
@@ -211,6 +216,22 @@ export function createDeliveryRepository(scope: WriteScope): DeliveryRepository 
         [i.payloadAssetId, hex(i.payloadHash).toString('hex')],
       );
       if (!asset.rows.length) stop('conflict');
+      if (x.dispatch_state === 'uncertain') {
+        const retry = await q(
+          tx,
+          `SELECT 1 FROM email.delivery_work WHERE send_id=$1 AND lease_token=$2 AND lease_generation=$3 AND lease_until>clock_timestamp()
+          AND first_attempt_at>clock_timestamp()-interval '23 hours' AND payload_asset_id=$4 AND payload_hash=$5
+          AND (SELECT count(*) FROM email.send_attempts WHERE send_id=$1)<5`,
+          [
+            i.id,
+            i.retryLease?.token ?? null,
+            i.retryLease?.generation.toString() ?? null,
+            i.payloadAssetId,
+            i.payloadHash,
+          ],
+        );
+        if (!retry.rows.length) stop('conflict');
+      }
       const r = await q(
         tx,
         `UPDATE email.email_sends SET dispatch_state='dispatching',claimed_at=clock_timestamp(),payload_asset_id=$3,payload_hash=$4,authorized_consent_revision=$5,revision=revision+1,updated_at=clock_timestamp() WHERE id=$1 AND revision=$2 AND send_after<=clock_timestamp() AND (expires_at IS NULL OR expires_at>clock_timestamp()) RETURNING ${columns}`,
@@ -225,7 +246,7 @@ export function createDeliveryRepository(scope: WriteScope): DeliveryRepository 
       const s = send(one(r.rows));
       const a = await q(
         tx,
-        "INSERT INTO email.send_attempts(send_id,attempt_no,started_at,outcome) VALUES($1,1,clock_timestamp(),'in_progress') RETURNING id",
+        "INSERT INTO email.send_attempts(send_id,attempt_no,started_at,outcome) SELECT $1,coalesce(max(attempt_no),0)+1,clock_timestamp(),'in_progress' FROM email.send_attempts WHERE send_id=$1 RETURNING id",
         [i.id],
       );
       return { send: s, attemptId: rid('send_attempt', one(a.rows).id) };

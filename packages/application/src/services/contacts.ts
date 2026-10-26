@@ -12,6 +12,7 @@ import type {
   ContactRequest,
   BrowserChoices,
   ContactIntent,
+  ContactRequestEffect,
 } from '../ports/contact-services.ts';
 import type { OwnerRepository, ReportRepository } from '../ports/owner-report.ts';
 import type { PrivacyRepository } from '../ports/privacy.ts';
@@ -101,7 +102,12 @@ export function createContactServices(d: {
     return i;
   }
   return {
-    async request(keys: readonly KeyDigest[], key: string, input: ContactRequest) {
+    async request(
+      keys: readonly KeyDigest[],
+      key: string,
+      input: ContactRequest,
+      effect?: ContactRequestEffect,
+    ) {
       try {
         let email: string;
         try {
@@ -124,7 +130,12 @@ export function createContactServices(d: {
           at = clock();
         const pre = await work(async (tx) => {
           const o = await owner(tx, keys),
-            cmd = identity(o.subjectId, 'contact.request', key, body);
+            cmd = identity(
+              o.subjectId,
+              effect ? 'delivery.request' : 'contact.request',
+              key,
+              effect ? { ...body, delivery: effect.fingerprint } : body,
+            );
           if (input.report)
             demand(
               await d.reports.version(tx, o, input.report.id, input.report.version),
@@ -136,7 +147,9 @@ export function createContactServices(d: {
         });
         if (!pre.ok) return pre;
         if (pre.value.receipt) return ok(pre.value.receipt);
-        const stable = pre.value.cmd.actorHash + pre.value.cmd.keyHash,
+        // Preserve existing contact proof identities; a delivery command has its own resource namespace.
+        const stable =
+            (effect ? 'delivery.request:' : '') + pre.value.cmd.actorHash + pre.value.cmd.keyHash,
           id = d.crypto.id('contact', stable),
           subjectId = d.crypto.id('subject', stable),
           resource = d.crypto.id('resource', stable),
@@ -234,6 +247,16 @@ export function createContactServices(d: {
               type: 'contact.verification_requested',
               version: 1,
               payload: { resource_id: challenge, resource_kind: 'contact_verification' },
+            });
+          }
+          if (effect) {
+            demand(input.report);
+            await effect.apply(tx, {
+              owner: o,
+              contact: c,
+              resourceId: resource,
+              reportIntentId: d.crypto.id('verification', stable + 'report'),
+              offersIntentId: input.offers ? d.crypto.id('verification', stable + 'offers') : null,
             });
           }
           const receipt: CommandResponse = {

@@ -33,6 +33,7 @@ export interface DeliveryRepository {
       scope: string;
       payloadAssetId: Id<'asset'>;
       payloadHash: string;
+      retryLease?: Readonly<{ token: Id<'lease'>; generation: Revision }>;
     }>,
   ): Promise<Readonly<{ send: Send; attemptId: Id<'send_attempt'> }>>;
   finish(
