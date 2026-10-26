@@ -2285,6 +2285,16 @@ export const appWebhookInbox = app.table('webhook_inbox', {
 });
 export type AppWebhookInboxRow = typeof appWebhookInbox.$inferSelect;
 export type AppWebhookInboxInsert = typeof appWebhookInbox.$inferInsert;
+export const emailCallbackObservations = email.table('callback_observations', {
+  inbox_id: uuid('inbox_id').notNull(),
+  message_id: text('message_id'),
+  delivery_key: text('delivery_key'),
+  type: text('type').notNull(),
+  classification: text('classification').notNull(),
+  occurred_at: timestamp('occurred_at', { withTimezone: true, mode: 'date' }).notNull(),
+});
+export type EmailCallbackObservationsRow = typeof emailCallbackObservations.$inferSelect;
+export type EmailCallbackObservationsInsert = typeof emailCallbackObservations.$inferInsert;
 export const emailDeliverySnapshots = email.table('delivery_snapshots', {
   send_id: uuid('send_id').notNull(),
   verification_id: uuid('verification_id').notNull(),
@@ -2886,6 +2896,7 @@ export const storageTables = {
   appVehicleReferenceLinks,
   appVehicles,
   appWebhookInbox,
+  emailCallbackObservations,
   emailDeliverySnapshots,
   emailDeliveryWork,
   emailEducationTopicMap,

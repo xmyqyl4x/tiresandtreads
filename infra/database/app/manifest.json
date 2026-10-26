@@ -106,5 +106,9 @@
   {
     "id": "0027_delivery_orchestration",
     "sha256": "44810afc7bd3f101d93f467f28976e3c5d6cd046ffd304bfe33b238297be489b"
+  },
+  {
+    "id": "0028_mail_events",
+    "sha256": "67c33ecbb2b46cf87e8106569c9e569fcc6c1d6274ae9410041a8ddbfe2ef53b"
   }
 ]

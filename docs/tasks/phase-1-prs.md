@@ -426,7 +426,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Two-connection cancel/claim races and accepted-timeout provider tests; headless rendering uses fixtures until S5.
 
-**Implementation status:** S3 technical implementation in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22) for owner review; [contract](../implementation/P1-PR-022-delivery-orchestration.md) and [validation](../implementation/evidence/P1/p1-pr-022-validation.md). Current production report issuance remains denied. Actual templates, signed provider events, worker cadence, abuse controls and API/browser/live acceptance retain their declared gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 technical implementation approved and merged in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22) at `5e6d4cd4`; [contract](../implementation/P1-PR-022-delivery-orchestration.md) and [validation](../implementation/evidence/P1/p1-pr-022-validation.md). Current production report issuance remains denied. Actual templates, signed provider events, worker cadence, abuse controls and API/browser/live acceptance retain their declared gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-023
 
@@ -438,11 +438,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC07, AT08, AT12, AT13, DB06. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Verify and durably deduplicate provider callbacks, including reordered/delayed observations.
-- [ ] Implement preference/unsubscribe/feedback state transitions and fixed-destination tracked links.
-- [ ] Classify scanner/bot activity, reconcile uncertain sends and expose operator recovery commands.
+- [x] Verify and durably deduplicate provider callbacks, including reordered/delayed observations.
+- [x] Implement preference/unsubscribe/feedback state transitions and fixed-destination tracked links.
+- [x] Classify scanner/bot activity, reconcile uncertain sends and expose operator recovery commands.
 
 **Verification and acceptance:** Functional service tests prove no state-changing scanner GET, correct one-click unsubscribe and no duplicate delivery metrics.
+
+**Implementation status:** S3 implementation in progress; [contract](../implementation/P1-PR-023-mail-events-actions.md) and [validation](../implementation/evidence/P1/p1-pr-023-validation.md). Signed synthetic callbacks, separate event facts, immediate suppression, POST-only actions, safe reviewed links and operator recovery are implemented. HTTP/browser, scheduled worker, real provider/client and full erasure acceptance retain their later gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-024
 

@@ -311,6 +311,15 @@ export function createContactServices(d: {
         return fail(serviceFailure(e));
       }
     },
+    async preferences(raw: string, method: string) {
+      return work(async (tx) => {
+        demand(method === 'GET' || method === 'HEAD');
+        const i = await proof(tx, raw, 'unsubscribe');
+        await d.contacts.guard(tx, null, i.contactId);
+        const p = await d.privacy.permission(tx, i.subjectId, i.purpose, i.scope);
+        return { purpose: i.purpose, status: p.status };
+      });
+    },
     async confirm(raw: string, method: string) {
       return work(async (tx) => {
         demand(method === 'POST');

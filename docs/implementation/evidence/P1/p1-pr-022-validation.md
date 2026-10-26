@@ -1,6 +1,6 @@
 # P1-PR-022 validation evidence
 
-**October 25, 2026 · S3 implementation for review.** Baseline: approved PR #21 merge `c7595c59f33481254979e69faf588578c4393951`. See the [service contract](../../P1-PR-022-delivery-orchestration.md). Specialist review and licensed adapters remain pending under the owner's instruction.
+**October 25, 2026 · S3 implementation approved and merged in PR #22 at `5e6d4cd4866b3258d9f22978966a9adfe46f0e94`.** Baseline: approved PR #21 merge `c7595c59f33481254979e69faf588578c4393951`. See the [service contract](../../P1-PR-022-delivery-orchestration.md). Specialist review and licensed adapters remain pending under the owner's instruction.
 
 ## TDD and scope
 
