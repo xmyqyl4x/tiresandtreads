@@ -85,6 +85,8 @@ export function createContactServices(d: {
     demand(!(await d.contacts.tombstoned(tx, ks, ss)), 'forbidden');
     return c;
   }
+  const proofCurrent = (i: ContactIntent, eventId: Id<'consent_event'> | null) =>
+    i.permissionDigest === d.crypto.hash('proof_permission', i.id + ':' + eventId);
   async function proof(tx: Tx, raw: string, audience: 'verify' | 'unsubscribe') {
     const parsed = d.crypto.parse(audience, raw);
     demand(parsed, 'forbidden');
@@ -181,22 +183,37 @@ export function createContactServices(d: {
               'forbidden',
             );
             const p = await d.privacy.permission(tx, c.subjectId, purpose, scopeKey);
-            await d.contacts.invalidate(tx, c.subjectId, purpose, scopeKey);
             const eventId = d.crypto.id('consent_event'),
               challenge = d.crypto.id('verification', stable + purpose),
               token = d.crypto.token('verify', challenge, d.crypto.currentTokenVersion);
-            await d.privacy.consent(tx, {
-              id: eventId,
-              subjectId: c.subjectId,
-              purpose,
-              scope: scopeKey,
-              expectedRevision: p.revision,
-              action: 'grant',
-              noticeId: d.policy.notices[purpose],
-              policyVersion: d.policy.version,
-              method: 'explicit_request',
-              expiresAt: expires(at, 30),
-            });
+            const permissionDigest = d.crypto.hash(
+              'proof_permission',
+              challenge + ':' + (p.status === 'unknown' ? eventId : p.eventId),
+            );
+            if (p.status === 'unknown')
+              await d.privacy.consent(tx, {
+                id: eventId,
+                subjectId: c.subjectId,
+                purpose,
+                scope: scopeKey,
+                expectedRevision: p.revision,
+                action: 'grant',
+                noticeId: d.policy.notices[purpose],
+                policyVersion: d.policy.version,
+                method: 'explicit_request',
+                expiresAt: expires(at, 30),
+                evidenceDigest: permissionDigest,
+              });
+            else
+              await d.contacts.recordGrant(tx, {
+                eventId,
+                subjectId: c.subjectId,
+                purpose,
+                scope: scopeKey,
+                noticeId: d.policy.notices[purpose],
+                policyVersion: d.policy.version,
+                permissionDigest,
+              });
             await d.contacts.createIntent(tx, {
               id: challenge,
               contactId: c.id,
@@ -240,7 +257,7 @@ export function createContactServices(d: {
         await notice(tx, i.purpose, i.noticeId);
         const c = await allowed(tx, i, true),
           p = await d.privacy.permission(tx, i.subjectId, i.purpose, i.scope);
-        demand(p.status === 'pending' && p.eventId === i.eventId, 'forbidden');
+        demand(proofCurrent(i, p.eventId), 'forbidden');
         return { i, c };
       });
       if (!pre.ok) return pre;
@@ -253,7 +270,7 @@ export function createContactServices(d: {
           demand(current && current.live && !current.usedAt && !current.invalidated, 'forbidden');
           await allowed(tx, current, true);
           const p = await d.privacy.permission(tx, i.subjectId, i.purpose, i.scope);
-          demand(p.status === 'pending' && p.eventId === i.eventId, 'forbidden');
+          demand(proofCurrent(i, p.eventId), 'forbidden');
           return {
             email,
             purpose: i.purpose,
@@ -283,7 +300,7 @@ export function createContactServices(d: {
           demand(p.status === 'confirmed', 'forbidden');
           return { status: 'confirmed' as const };
         }
-        demand(p.status === 'pending' && p.eventId === i.eventId, 'conflict');
+        demand(proofCurrent(i, p.eventId), 'conflict');
         await d.contacts.consume(tx, i.id);
         const c = await d.contacts.guard(tx, null, i.contactId);
         if (!c.verifiedAt) await d.privacy.confirmContact(tx, c.id, c.revision);
@@ -386,8 +403,7 @@ export function createContactServices(d: {
               i.live &&
               !i.usedAt &&
               !i.invalidated &&
-              p.status === 'pending' &&
-              p.eventId === i.eventId,
+              proofCurrent(i, p.eventId),
             'forbidden',
           );
           await notice(tx, purpose, i.noticeId);

@@ -171,8 +171,17 @@ export function createPrivacyRepository(
       if (!status) reject();
       await q(
         tx,
-        'INSERT INTO privacy.consent_events(id,purpose,action,notice_id,policy_version,scope_key,occurred_at,method) VALUES($1,$2,$3,$4,$5,$6,clock_timestamp(),$7)',
-        [i.id, i.purpose, i.action, i.noticeId, i.policyVersion, i.scope, i.method],
+        'INSERT INTO privacy.consent_events(id,purpose,action,notice_id,policy_version,scope_key,occurred_at,method,evidence_digest) VALUES($1,$2,$3,$4,$5,$6,clock_timestamp(),$7,$8)',
+        [
+          i.id,
+          i.purpose,
+          i.action,
+          i.noticeId,
+          i.policyVersion,
+          i.scope,
+          i.method,
+          i.evidenceDigest === undefined ? null : hex(i.evidenceDigest).toString('hex'),
+        ],
       );
       await q(tx, 'INSERT INTO privacy.subject_links(event_id,subject_id) VALUES($1,$2)', [
         i.id,

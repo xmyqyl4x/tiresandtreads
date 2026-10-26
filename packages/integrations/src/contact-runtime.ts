@@ -24,6 +24,20 @@ export async function createContactRuntime(deps: {
     ok((await s.query(tx, 'SELECT current_user AS role')).rows[0]?.role),
   );
   if (!role.ok || role.value !== 'tt_private_runtime') throw Error('Invalid contact runtime role');
+  const coverage = await s.unitOfWork.run(async (tx) =>
+    ok(
+      (
+        await s.query(
+          tx,
+          `
+    SELECT 1 FROM privacy.suppression_tombstones WHERE NOT(key_version=ANY($1::text[])) AND (expires_at IS NULL OR expires_at>clock_timestamp())
+    UNION ALL SELECT 1 FROM privacy.contacts c WHERE NOT EXISTS(SELECT 1 FROM privacy.contact_lookups l WHERE l.contact_id=c.id AND l.key_version=ANY($1::text[])) LIMIT 1`,
+          [deps.crypto.lookupVersions],
+        )
+      ).rows.length === 0,
+    ),
+  );
+  if (!coverage.ok || !coverage.value) throw Error('Invalid contact lookup key coverage');
   return createContactServices({
     uow: s.unitOfWork,
     owners: createOwnerRepository(s),

@@ -51,6 +51,7 @@ export interface PrivacyRepository {
       noticeId: Id<'notice'>;
       policyVersion: string;
       method: string;
+      evidenceDigest?: string;
       expiresAt: Instant | null;
     }>,
   ): Promise<Permission>;

@@ -517,6 +517,21 @@ it('runtime composition requires the intended private role and grants no public/
     return { ok: true as const, value: null };
   });
   expect(denied.ok).toBe(false);
+  const missingKeys = createContactCrypto(
+    'v1',
+    { v1: new Uint8Array(32).fill(9) },
+    { missing: new Uint8Array(32).fill(99) },
+    new Uint8Array(32).fill(11),
+  );
+  await expect(
+    createContactRuntime({
+      scope: f.scope,
+      crypto: missingKeys,
+      encryption: s.encryption,
+      policy: s.deps.policy,
+      now: () => time(),
+    }),
+  ).rejects.toThrow('Invalid contact lookup key coverage');
 });
 it('the final SQL dispatch claim rechecks withdrawal and tombstones after a queued permission decision', async () => {
   const s = await setup(),
@@ -601,4 +616,37 @@ it('contact restriction, stale policy and decryption failures fail closed withou
   await success(f.scope.unitOfWork, (tx) => s.privacy.restrict(tx, i.subjectId));
   expect((await s.service.permission(i.contactId, 'offers', 'offers')).ok).toBe(false);
   expect((await s.service.confirm(m.verificationToken, 'POST')).ok).toBe(false);
+});
+it('FR-DEL-07 entering an existing address cannot alter its confirmed preferences before new inbox proof', async () => {
+  const s = await setup(),
+    r = await s.requested(),
+    i = r.all[0]!,
+    m = value(await s.service.verificationMessage(i.id));
+  value(await s.service.confirm(m.verificationToken, 'POST'));
+  const prior = await success(f.scope.unitOfWork, (tx) =>
+      s.privacy.permission(tx, i.subjectId, 'offers', 'offers'),
+    ),
+    other = await f.owner();
+  value(
+    await s.service.request([other.token], uid('command'), {
+      ...s.request,
+      email: s.email.toUpperCase(),
+    }),
+  );
+  expect(
+    await success(f.scope.unitOfWork, (tx) =>
+      s.privacy.permission(tx, i.subjectId, 'offers', 'offers'),
+    ),
+  ).toEqual(prior);
+  expect((await s.service.permission(i.contactId, 'offers', 'offers')).ok).toBe(true);
+  const row = (
+    await f.admin.query(
+      'SELECT challenge_id FROM privacy.contact_intents WHERE owner_subject_id=$1',
+      [other.identity.subjectId],
+    )
+  ).rows[0];
+  const fresh = value(await s.service.verificationMessage(row.challenge_id));
+  expect(fresh.email).toBe(s.email);
+  value(await s.service.withdraw(m.unsubscribeToken, 'POST'));
+  expect((await s.service.confirm(fresh.verificationToken, 'POST')).ok).toBe(false);
 });

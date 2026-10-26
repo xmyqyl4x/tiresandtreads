@@ -57,8 +57,8 @@ export function createContactServiceRepository(
       const r = (
         await q(
           tx,
-          `SELECT v.*,i.contact_id,i.owner_subject_id,i.scope_key,i.policy_version,i.grant_event_id,
-        v.expires_at>clock_timestamp() AS live FROM privacy.verification_challenges v JOIN privacy.contact_intents i ON i.challenge_id=v.id WHERE v.id=$1 FOR UPDATE OF v`,
+          `SELECT v.*,i.contact_id,i.owner_subject_id,i.scope_key,i.policy_version,i.grant_event_id,e.evidence_digest,
+        v.expires_at>clock_timestamp() AS live FROM privacy.verification_challenges v JOIN privacy.contact_intents i ON i.challenge_id=v.id JOIN privacy.consent_events e ON e.id=i.grant_event_id WHERE v.id=$1 FOR UPDATE OF v`,
           [id],
         )
       ).rows[0]!;
@@ -74,6 +74,7 @@ export function createContactServiceRepository(
         policyVersion: text(r.policy_version, 100),
         noticeId: rid('notice', r.notice_id),
         eventId: rid('consent_event', r.grant_event_id),
+        permissionDigest: r.evidence_digest === null ? null : text(r.evidence_digest, 64),
         key: { keyVersion: text(r.key_version, 100), digest: r.token_hash.toString('hex') },
         expiresAt: stamp(r.expires_at),
         usedAt: r.used_at === null ? null : stamp(r.used_at),
@@ -110,6 +111,25 @@ export function createContactServiceRepository(
         'INSERT INTO privacy.contact_intents(challenge_id,contact_id,owner_subject_id,scope_key,policy_version,grant_event_id) VALUES($1,$2,$3,$4,$5,$6)',
         [i.id, i.contactId, i.ownerId, text(i.scope), text(i.policyVersion, 100), i.eventId],
       );
+    },
+    async recordGrant(tx, i) {
+      await lockSubjects(scope, tx, [i.subjectId]);
+      await q(
+        tx,
+        "INSERT INTO privacy.consent_events(id,purpose,action,notice_id,policy_version,scope_key,occurred_at,method,evidence_digest) VALUES($1,$2,'grant',$3,$4,$5,clock_timestamp(),'explicit_request',$6)",
+        [
+          i.eventId,
+          i.purpose,
+          i.noticeId,
+          text(i.policyVersion, 100),
+          text(i.scope),
+          hex(i.permissionDigest).toString('hex'),
+        ],
+      );
+      await q(tx, 'INSERT INTO privacy.subject_links(event_id,subject_id) VALUES($1,$2)', [
+        i.eventId,
+        i.subjectId,
+      ]);
     },
     async consume(tx, id) {
       one(

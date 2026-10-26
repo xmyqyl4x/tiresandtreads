@@ -13,6 +13,7 @@ export interface ContactIntent {
   readonly noticeId: Id<'notice'>;
   readonly policyVersion: string;
   readonly eventId: Id<'consent_event'>;
+  readonly permissionDigest: string | null;
   readonly key: KeyDigest;
   readonly expiresAt: Instant;
   readonly usedAt: Instant | null;
@@ -25,7 +26,14 @@ export interface ContactServiceRepository {
   intent(tx: Tx, id: Id<'verification'>): Promise<ContactIntent | null>;
   createIntent(
     tx: Tx,
-    input: Omit<ContactIntent, 'usedAt' | 'invalidated' | 'live'>,
+    input: Omit<ContactIntent, 'usedAt' | 'invalidated' | 'live' | 'permissionDigest'>,
+  ): Promise<void>;
+  recordGrant(
+    tx: Tx,
+    input: Pick<
+      ContactIntent,
+      'eventId' | 'subjectId' | 'purpose' | 'scope' | 'noticeId' | 'policyVersion'
+    > & { readonly permissionDigest: string },
   ): Promise<void>;
   consume(tx: Tx, id: Id<'verification'>): Promise<void>;
   invalidate(tx: Tx, subject: Id<'subject'>, purpose: EmailPurpose, scope: string): Promise<void>;
