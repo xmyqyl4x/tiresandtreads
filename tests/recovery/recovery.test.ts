@@ -349,7 +349,14 @@ it('replays restored migration histories as a no-op and reopens only existing re
     await expect(runtime.query('CREATE TABLE public.forbidden(id int)')).rejects.toMatchObject({
       code: '42501',
     });
-    await expect(cmsRuntime.query('SELECT * FROM public.articles')).rejects.toMatchObject({
+    // The trusted publication bridge may read source documents after restore.
+    expect(
+      (await cmsRuntime.query('SELECT id FROM public.articles WHERE id=$1', [cmsId])).rowCount,
+    ).toBe(1);
+    await expect(
+      cmsRuntime.query('UPDATE public.articles SET title=$1 WHERE id=$2', ['Forbidden', cmsId]),
+    ).rejects.toMatchObject({ code: '42501' });
+    await expect(cmsRuntime.query('SELECT * FROM public.cms_staff')).rejects.toMatchObject({
       code: '42501',
     });
     await expect(connect(target.url('app', 'tt_cms_runtime'))).rejects.toMatchObject({
