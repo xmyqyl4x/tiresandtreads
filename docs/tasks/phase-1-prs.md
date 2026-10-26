@@ -498,7 +498,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role and financial-correction tests; private/form placements rejected and ad configuration leaves tire ranking unchanged.
 
-**Implementation status:** S3 staff/commercial/revenue implementation in [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26) for owner review; [contract](../implementation/P1-PR-026-staff-commerce-revenue.md), [validation](../implementation/evidence/P1/p1-pr-026-validation.md). Current-role masked queues, audited fenced recovery, independent commercial review, checked destinations, deny-first placement/house policy and immutable correction-aware aggregate imports are implemented. Network/affiliate approvals, live adapters, staff MFA/HTTP/UI and rendered privacy/performance retain their gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** Owner-approved [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26), merged `ac258ac7`; [contract](../implementation/P1-PR-026-staff-commerce-revenue.md), [validation](../implementation/evidence/P1/p1-pr-026-validation.md). Current-role masked queues, audited fenced recovery, independent commercial review, checked destinations, deny-first placement/house policy and immutable correction-aware aggregate imports are implemented. Network/affiliate approvals, live adapters, staff MFA/HTTP/UI and rendered privacy/performance retain their gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-027
 
@@ -516,6 +516,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** All committed P1 services accepted before endpoint implementation; fixtures are explicitly identified and cannot close UI/render gates.
 
+**Implementation status:** Technical fixes/validation in review as [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27); full parent gate remains in progress. [Contract](../implementation/P1-PR-027-s3-validation-gate.md), [gate disposition](../implementation/P1-PR-027-s3-gate-review.md), [service register](../implementation/evidence/P1/s3-service-register.json) and [validation](../implementation/evidence/P1/p1-pr-027-validation.md). Combined service journeys, executable privacy selections, bounded maintenance bindings and masked queue alarms are implemented. Full S3 acceptance is OPEN: 98 draft cases/zero actual specialist reviews; licensed source, affected provider, policy and full host/budget proof remain outstanding. Original completion boxes stay open because they require missing acceptance. P1-PR-028–030 remain held under existing dependencies; no exception to database → repositories → services → APIs → UI is created.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
@@ -531,6 +533,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Publish OpenAPI/client contracts, pagination and source/coverage/freshness fields.
 
 **Verification and acceptance:** Running HTTP tests against real DB cover normal, unknown, denied, duplicate, stale-version and overload paths.
+
+**Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
 
 ### P1-PR-029
 
@@ -548,6 +552,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role matrix, no-enumeration, withdrawal, unsafe import command and private-metadata API tests pass.
 
+**Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
+
 ### P1-PR-030
 
 **Expose provider callbacks, event intake and workflow endpoints**
@@ -563,6 +569,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Verify environment secrets, safe log redaction, provider retries and endpoint observability.
 
 **Verification and acceptance:** Running HTTP/provider sandbox tests cover forged/replayed events, committed receipt and uncertain delivery recovery.
+
+**Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
 
 ### P1-PR-031
 

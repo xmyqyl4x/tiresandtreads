@@ -126,5 +126,9 @@
   {
     "id": "0032_staff_commercial_services",
     "sha256": "f604edf0837deb5410525aa88c33b6bd7d8fa28d44cfff7bbb2177a11b1b21ae"
+  },
+  {
+    "id": "0033_service_validation_operations",
+    "sha256": "6476008d396d9b1fcf1097cea05e762ae5be341d552775f1d6a19d4db16e06b5"
   }
 ]

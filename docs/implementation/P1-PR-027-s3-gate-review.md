@@ -1,0 +1,18 @@
+# S3 business service gate disposition
+
+**October 26, 2026 · Full S3 is OPEN.** Local technical review and merged component PRs are separate from actual source, specialist, provider and privacy acceptance. Standing deferrals remain. [Contract](P1-PR-027-s3-validation-gate.md), [register](evidence/P1/s3-service-register.json).
+
+| Gate | Actual state | Required evidence / next action | Acceptance owner |
+| --- | --- | --- | --- |
+| G1 specialist / DD06 | 98 draft cases; zero actual named reviews | Review at least 50 cases, disputed rules, calibration and explanations; record actual reviewer/date/outcomes | Owner and tire specialist; specialist unassigned |
+| G1 fitment/catalog / DD01 | Licensed adapters and reviewed coverage pending | Select permitted source, approve scoped rights and authoritative mappings/coverage, then accept real connector/resolver evidence | Owner and data/tire reviewer |
+| G1 pricing / DD02 | Actual source/reconciliation pending | Review permitted fields, units/bases/tax/freshness/retention and installed-cost corrections | Owner and data reviewer |
+| G2 providers / DD05 | Local fixtures only | Prove actual S3/KMS custody/private versions/deletion, hosted workflow signing/network/concurrency and selected ESP idempotency/uncertainty/erasure in permitted sandboxes | Platform/privacy owner; operators unassigned |
+| G2 policy / DD06 | Synthetic jurisdiction and file journal only | Review applicable notices, proof/deadline/hold/extension/appeal handling, independent journal durability and marker/key/command-receipt retention | Owner and privacy reviewer; reviewer unassigned |
+| Service host / operations | Factories and headless bindings exist; standalone worker has no product handlers | Compose selected-provider host with every app/CMS pool included in the right budget, secrets, shutdown, schedules and monitored alerts; coordinate overlap with S4/031 | Backend/platform owner |
+
+No row closes by changing a flag or copying a synthetic fixture into an acceptance record. Per-PR verification remains historical implementation evidence; fresh aggregate regression and combined journeys are technical evidence. S1/S2 acceptance is preserved; original FR rows and dependencies are unchanged.
+
+P1-PR-028, 029 and 030 depend on accepted 027 and remain held. Review/merge may accept the **technical validation record and fixes** while P1-PR-027 stays in progress. Endpoint implementation requires missing evidence or an explicit owner-approved change to the existing stage rule; keeping specialists/licensed adapters pending does not itself change it. No new vendor purchase or approval question is needed for this local review.
+
+Later gates remain: S4 identity/MFA, CSRF/limits, callbacks and complete API contracts; S5 real browser, production email/PDF rendering, CMP/ad checks, reviewed content and accessibility; S6 hosted recovery, support ownership, rollout and usable live-phase evidence. Local technical readiness does not declare a live product.

@@ -1,0 +1,350 @@
+{
+  "status": "passed complete exact-commit local Linux technical gate; full S3 acceptance remains open",
+  "sourceCommit": "b8225e7b3a766ba9dd4b95a01284ab82e2bd4509",
+  "verifiedAt": "2026-10-26T19:12:14.050Z",
+  "baseline": "ac258ac7fbe63e62791993de634cbb5ec9b2f559",
+  "tests": {
+    "newTests": 19,
+    "newCombinedDatabaseJourneys": 8,
+    "newGateAndMaintenanceTests": 11,
+    "unitAndUsecase": 686,
+    "databaseAndProvider": 277,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 1043
+  },
+  "coverage": {
+    "statements": 94.06,
+    "branches": 90.19,
+    "functions": 98.67,
+    "lines": 97.3
+  },
+  "migrationCounts": {
+    "app": 33,
+    "cms": 3
+  },
+  "storage": {
+    "tables": 141,
+    "views": 54,
+    "columns": 1785,
+    "drizzle": "0.45.2",
+    "status": "match",
+    "cmsTables": 28
+  },
+  "serviceInventory": {
+    "stage": "S3",
+    "accepted": false,
+    "endpointImplementationAllowed": false,
+    "publicActivation": false,
+    "pendingGates": [
+      "G1-specialist",
+      "G1-fitment-catalog",
+      "G1-prices",
+      "G2-provider-effects",
+      "G2-privacy-policy",
+      "S3-service-host"
+    ],
+    "draftGoldenScenarios": 98,
+    "actualSpecialistReviews": 0,
+    "inventoryStatus": "validated; acceptance is separate",
+    "components": 14,
+    "serviceModules": 26,
+    "modules": [
+      {
+        "file": "packages/application/src/services/assets.ts",
+        "card": "P1-PR-014",
+        "exports": [
+          "createAssetService",
+          "createAssetRetentionService"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/durability.ts",
+        "card": "P1-PR-014",
+        "exports": [
+          "createDurability"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/inbox.ts",
+        "card": "P1-PR-014",
+        "exports": [
+          "createInboxDurability"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/service-work.ts",
+        "card": "P1-PR-014",
+        "exports": [
+          "demand",
+          "serviceFailure",
+          "serviceWork"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/ingestion.ts",
+        "card": "P1-PR-015",
+        "exports": [
+          "createImportService"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/source-refresh.ts",
+        "card": "P1-PR-016",
+        "exports": [
+          "createSourceRefresh"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/source-policy.ts",
+        "card": "P1-PR-016",
+        "exports": [
+          "parseSourceSpec",
+          "sourceKey",
+          "sourceInterval"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/recommendations.ts",
+        "card": "P1-PR-017",
+        "exports": [
+          "createRecommendationService"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/pricing.ts",
+        "card": "P1-PR-018",
+        "exports": [
+          "createPricingService"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/reports.ts",
+        "card": "P1-PR-019",
+        "exports": [
+          "createReportServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/report-evidence.ts",
+        "card": "P1-PR-019",
+        "exports": [
+          "createReportEvidence"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/report-records.ts",
+        "card": "P1-PR-019",
+        "exports": [
+          "publicComparison",
+          "reportDiff",
+          "publicReport"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/report-prices.ts",
+        "card": "P1-PR-019",
+        "exports": [
+          "compileCatalogPrice"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/report-comparison.ts",
+        "card": "P1-PR-019",
+        "exports": [
+          "parsePrivateQuote",
+          "buildComparison"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/contacts.ts",
+        "card": "P1-PR-020",
+        "exports": [
+          "createContactServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/content.ts",
+        "card": "P1-PR-021",
+        "exports": [
+          "redirectSnapshot",
+          "createContentServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/service-records.ts",
+        "card": "P1-PR-021",
+        "exports": [
+          "object",
+          "exact",
+          "canonical"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/delivery.ts",
+        "card": "P1-PR-022",
+        "exports": [
+          "createDeliveryServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/mail-events.ts",
+        "card": "P1-PR-023",
+        "exports": [
+          "createMailEventServices",
+          "createEmailActionServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/analytics.ts",
+        "card": "P1-PR-024",
+        "exports": [
+          "createAdmissionServices",
+          "createAnalyticsServices",
+          "createOperationsServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/privacy.ts",
+        "card": "P1-PR-025",
+        "exports": [
+          "createPrivacyServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/privacy-clock.ts",
+        "card": "P1-PR-025",
+        "exports": [
+          "rightsClock"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/staff.ts",
+        "card": "P1-PR-026",
+        "exports": [
+          "createStaffServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/commercial.ts",
+        "card": "P1-PR-026",
+        "exports": [
+          "createCommercialServices"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/service-maintenance.ts",
+        "card": "P1-PR-027",
+        "exports": [
+          "createServiceMaintenance"
+        ]
+      },
+      {
+        "file": "packages/application/src/services/service-health.ts",
+        "card": "P1-PR-027",
+        "exports": [
+          "createServiceHealth"
+        ]
+      }
+    ]
+  },
+  "retainedTargets": [
+    {
+      "target": "dev",
+      "previousCredentialsPreserved": true,
+      "newRoleCredentials": 0,
+      "appMigrations": 33,
+      "cmsMigrations": 3
+    },
+    {
+      "target": "stage",
+      "previousCredentialsPreserved": true,
+      "newRoleCredentials": 0,
+      "appMigrations": 33,
+      "cmsMigrations": 3
+    }
+  ],
+  "retainedTargetState": "dev and stage: zero pending, stopped, volumes retained; native PostgreSQL untouched",
+  "mainProject": "tt-test-d7e50014f89c501b",
+  "appImageId": "850cc821422e09d9a89ba7b772ca30fede3d8c01f8c56b4aef482e66d83bb057",
+  "lifecycle": {
+    "stopMs": 679,
+    "exitCode": 143,
+    "appMemory": "51.34MiB / 768MiB",
+    "appCpu": "15.27%",
+    "postgresMemory": "91.47MiB / 512MiB",
+    "postgresCpu": "0.02%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-e342e48c594c13cc",
+    "elapsedMs": 27854,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 782,
+    "backupWindowMs": 3903,
+    "tables": {
+      "app": 141,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "e7eb7e21f06d17b3e59674751fbb9646790ee4b726cd698aba4f6cd679e2fc27",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 752985,
+      "cms": 197164
+    },
+    "backupSha256": {
+      "app": "ccebfebaab522aaa4c1817ca464cd94655f508af4c3898008087628b80a4fbeb",
+      "cms": "0e5da1056ac91234b3dc911d02b4b75c39d4222509e40069ecd1431dad81d7f4"
+    },
+    "migrations": {
+      "app": 33,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "combined technical report/refine/share, verified contact, cancellation, immediate revocation and owner erasure with real restricted repositories; no provider send",
+    "actual catalog-backed report resolver refuses absent trusted source and policy evidence",
+    "browser permission through collection, aggregate rebuilding, withdrawal, stale-token refusal and physical purge",
+    "executable privacy candidate selected beyond 101 earlier manual cases; live lease and expired notification proof excluded",
+    "explicit maintenance bindings for accepted methods, disabled defaults, retention dry-run, bounded cycles, local overlap guard, redacted errors and no coordinator retry",
+    "restricted masked ten-series health view, capped 1001-row callback sample at 1500 synthetic rows, age/backlog/capacity/unknown-recovery alarms and current operations permission",
+    "optional local workflow declaration only when callback supplied; no claim of actual hosted execution",
+    "complete inventory of 14 component cards and all 26 application service modules with extracted exports and proof paths",
+    "strict acceptance command exits 2 while six actual evidence gates remain pending; no fixture, green CI or owner deferral substitution",
+    "complete real application/CMS logical dump/restore with synthetic data, fresh roles, ACL/leading-FK-index checks, quarantine and journal replay"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 75,
+    "uncheckedTasks": 282,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "full S3/G1/G2 remains OPEN; the three original PR027 completion boxes remain unchecked and PR028-030 endpoints held",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending: 98 draft scenarios, zero actual specialist reviews",
+    "actual source coverage/rights, pricing reconciliation, selected provider effects, applicable privacy policy and complete service-host/pool-budget evidence remain outstanding",
+    "new combined journeys use explicit synthetic evidence/encryption/mail/object/journal/empty CMS-source bindings; technical report issuance remains false",
+    "headless bindings and an optional local workflow do not activate maintenance or establish a hosted scheduler, selected-provider host, exactly-once external effects, monitors or staffed response",
+    "current standalone worker still has no product handler map; actual endpoint/MFA/transport acceptance remains S4, actual browser/email/PDF/CMP/ad rendering remains S5",
+    "local logical restore does not establish hosted RPO/RTO, external object/provider/journal disaster recovery or any usable live phase",
+    "report issuance, real email, product analytics and external advertising activation remain disabled"
+  ]
+}
