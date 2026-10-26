@@ -9,6 +9,7 @@ export function createWorkflows(options: {
   readonly appId: string;
   readonly run: (id: Id<'job'>) => Promise<void>;
   readonly reconcile: () => Promise<readonly Id<'job'>[]>;
+  readonly maintenance?: () => Promise<unknown>;
 }) {
   const sending = new AsyncLocalStorage<AbortSignal>();
   // This local adapter cannot accidentally select cloud mode because NODE_ENV=production.
@@ -80,5 +81,22 @@ export function createWorkflows(options: {
       return { count: ids.length };
     },
   );
-  return { client, publisher, functions: [job, recovery], dispatch };
+  const maintenance = options.maintenance
+    ? client.createFunction(
+        {
+          id: 'service-maintenance-v1',
+          triggers: { cron: '* * * * *' },
+          retries: 0,
+          concurrency: 1,
+          timeouts: { finish: '1m' },
+        },
+        async ({ step }) => step.run('bounded-service-maintenance', options.maintenance!),
+      )
+    : null;
+  return {
+    client,
+    publisher,
+    functions: maintenance ? [job, recovery, maintenance] : [job, recovery],
+    dispatch,
+  };
 }

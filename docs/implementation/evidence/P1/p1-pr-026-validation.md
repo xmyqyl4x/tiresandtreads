@@ -1,6 +1,6 @@
 # P1-PR-026 validation evidence
 
-**October 26, 2026 · S3 implementation in [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26) for owner review.** Baseline: approved PR #25 merge `7aa1b54216b50fc687ff8990fb7edb93a83f8d4c`. See the [staff/commercial service contract](../../P1-PR-026-staff-commerce-revenue.md).
+**October 26, 2026 · S3 technical scope accepted; owner-approved [PR #26](https://github.com/xmyqyl4x/tiresandtreads/pull/26) merged at `ac258ac7fbe63e62791993de634cbb5ec9b2f559`.** Baseline: approved PR #25 merge `7aa1b54216b50fc687ff8990fb7edb93a83f8d4c`. See the [staff/commercial service contract](../../P1-PR-026-staff-commerce-revenue.md).
 
 ## TDD and scope
 

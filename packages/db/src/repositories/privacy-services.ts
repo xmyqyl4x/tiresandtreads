@@ -500,6 +500,26 @@ export function createPrivacyServiceRepository(
         )
       ).rows.map(status);
     },
+    async ready(tx, limit) {
+      if (!Number.isInteger(limit) || limit < 1 || limit > 100) return stop('invalid_input');
+      return (
+        await q(
+          tx,
+          `SELECT r.id FROM privacy.request_work w JOIN privacy.privacy_requests r ON r.id=w.request_id WHERE r.status IN ('verified','processing') AND w.next_attempt_at<=clock_timestamp() AND (w.lease_until IS NULL OR w.lease_until<=clock_timestamp()) AND (w.barrier_until<=clock_timestamp() OR EXISTS(SELECT 1 FROM privacy.fulfillment_steps f WHERE f.request_id=r.id AND f.store='journal' AND f.status<>'completed')) ORDER BY w.next_attempt_at,r.id LIMIT $1`,
+          [limit],
+        )
+      ).rows.map((r) => rid('privacy_request', r.id));
+    },
+    async notifications(tx, limit) {
+      if (!Number.isInteger(limit) || limit < 1 || limit > 100) return stop('invalid_input');
+      return (
+        await q(
+          tx,
+          `SELECT r.id FROM privacy.request_work w JOIN privacy.privacy_requests r ON r.id=w.request_id WHERE r.status='pending' AND w.notified_at IS NULL AND w.proof_expires_at>clock_timestamp() AND r.encrypted_reply_context IS NOT NULL ORDER BY w.proof_expires_at,r.id LIMIT $1`,
+          [limit],
+        )
+      ).rows.map((r) => rid('privacy_request', r.id));
+    },
     async retry(tx, actor, id, evidence) {
       await staff(tx, actor);
       const x = await root(tx, id);

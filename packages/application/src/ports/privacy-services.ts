@@ -135,6 +135,8 @@ export interface PrivacyServiceRepository {
   ): Promise<void>;
   release(tx: Tx, lease: PrivacyLease): Promise<void>;
   queue(tx: Tx): Promise<readonly RightsStatus[]>;
+  ready(tx: Tx, limit: number): Promise<readonly Id<'privacy_request'>[]>;
+  notifications(tx: Tx, limit: number): Promise<readonly Id<'privacy_request'>[]>;
   retry(tx: Tx, actor: Id<'staff'>, id: Id<'privacy_request'>, evidence: string): Promise<void>;
   review(
     tx: Tx,

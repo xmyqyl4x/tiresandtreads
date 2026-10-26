@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "baseline": "ac258ac7fbe63e62791993de634cbb5ec9b2f559",
+  "stage": "S3",
+  "acceptanceRequested": false,
+  "publicActivation": false,
+  "endpointImplementationAllowed": false,
+  "components": [
+    {
+      "id": "durability-assets",
+      "card": "P1-PR-014",
+      "modules": [
+        "packages/application/src/services/assets.ts",
+        "packages/application/src/services/durability.ts",
+        "packages/application/src/services/inbox.ts",
+        "packages/application/src/services/service-work.ts"
+      ],
+      "tests": [
+        "tests/database/runtime.test.ts",
+        "tests/usecases/durability.test.ts",
+        "tests/usecases/assets.test.ts"
+      ],
+      "trace": [
+        "UC05",
+        "UC07",
+        "DB08",
+        "DB15"
+      ],
+      "contract": "docs/implementation/P1-PR-014-jobs-assets-runtime.md"
+    },
+    {
+      "id": "ingestion-publication",
+      "card": "P1-PR-015",
+      "modules": [
+        "packages/application/src/services/ingestion.ts"
+      ],
+      "tests": [
+        "tests/database/ingestion-services.test.ts"
+      ],
+      "trace": [
+        "UC13",
+        "DB21",
+        "DB22"
+      ],
+      "contract": "docs/implementation/P1-PR-015-ingestion-publication-services.md"
+    },
+    {
+      "id": "domain-sources",
+      "card": "P1-PR-016",
+      "modules": [
+        "packages/application/src/services/source-refresh.ts",
+        "packages/application/src/services/source-policy.ts"
+      ],
+      "tests": [
+        "tests/database/source-refresh.test.ts"
+      ],
+      "trace": [
+        "UC13",
+        "CAP-04",
+        "DB21"
+      ],
+      "contract": "docs/implementation/P1-PR-016-domain-source-adapters.md"
+    },
+    {
+      "id": "technical-recommendations",
+      "card": "P1-PR-017",
+      "modules": [
+        "packages/application/src/services/recommendations.ts"
+      ],
+      "tests": [
+        "tests/unit/engine-golden.test.ts",
+        "tests/unit/engine-properties.test.ts",
+        "tests/usecases/recommendations.test.ts"
+      ],
+      "trace": [
+        "UC01",
+        "UC02",
+        "AT01",
+        "G1"
+      ],
+      "contract": "docs/implementation/P1-PR-017-eligibility-recommendations.md"
+    },
+    {
+      "id": "pricing-comparison",
+      "card": "P1-PR-018",
+      "modules": [
+        "packages/application/src/services/pricing.ts"
+      ],
+      "tests": [
+        "tests/usecases/pricing.test.ts"
+      ],
+      "trace": [
+        "UC02",
+        "UC04",
+        "AT05"
+      ],
+      "contract": "docs/implementation/P1-PR-018-pricing-comparison.md"
+    },
+    {
+      "id": "report-access",
+      "card": "P1-PR-019",
+      "modules": [
+        "packages/application/src/services/reports.ts",
+        "packages/application/src/services/report-evidence.ts",
+        "packages/application/src/services/report-records.ts",
+        "packages/application/src/services/report-prices.ts",
+        "packages/application/src/services/report-comparison.ts"
+      ],
+      "tests": [
+        "tests/database/report-services.test.ts",
+        "tests/usecases/report-evidence.test.ts"
+      ],
+      "trace": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "contract": "docs/implementation/P1-PR-019-report-services.md"
+    },
+    {
+      "id": "contact-consent",
+      "card": "P1-PR-020",
+      "modules": [
+        "packages/application/src/services/contacts.ts"
+      ],
+      "tests": [
+        "tests/database/contact-services.test.ts"
+      ],
+      "trace": [
+        "UC06",
+        "UC08",
+        "UC09"
+      ],
+      "contract": "docs/implementation/P1-PR-020-contact-consent.md"
+    },
+    {
+      "id": "content-seo-tools",
+      "card": "P1-PR-021",
+      "modules": [
+        "packages/application/src/services/content.ts",
+        "packages/application/src/services/service-records.ts"
+      ],
+      "tests": [
+        "tests/database/content-services.test.ts"
+      ],
+      "trace": [
+        "UC10",
+        "UC17",
+        "CAP-02"
+      ],
+      "contract": "docs/implementation/P1-PR-021-content-seo.md"
+    },
+    {
+      "id": "report-delivery",
+      "card": "P1-PR-022",
+      "modules": [
+        "packages/application/src/services/delivery.ts"
+      ],
+      "tests": [
+        "tests/database/delivery-services.test.ts"
+      ],
+      "trace": [
+        "UC06",
+        "UC07"
+      ],
+      "contract": "docs/implementation/P1-PR-022-delivery-orchestration.md"
+    },
+    {
+      "id": "callbacks-actions",
+      "card": "P1-PR-023",
+      "modules": [
+        "packages/application/src/services/mail-events.ts"
+      ],
+      "tests": [
+        "tests/database/mail-events.test.ts"
+      ],
+      "trace": [
+        "UC07",
+        "UC08"
+      ],
+      "contract": "docs/implementation/P1-PR-023-mail-events-actions.md"
+    },
+    {
+      "id": "analytics-limits",
+      "card": "P1-PR-024",
+      "modules": [
+        "packages/application/src/services/analytics.ts"
+      ],
+      "tests": [
+        "tests/database/analytics-services.test.ts",
+        "tests/database/operations.test.ts"
+      ],
+      "trace": [
+        "UC08",
+        "DB18",
+        "DB19"
+      ],
+      "contract": "docs/implementation/P1-PR-024-analytics-limits-operations.md"
+    },
+    {
+      "id": "privacy-retention",
+      "card": "P1-PR-025",
+      "modules": [
+        "packages/application/src/services/privacy.ts",
+        "packages/application/src/services/privacy-clock.ts"
+      ],
+      "tests": [
+        "tests/database/privacy-services.test.ts"
+      ],
+      "trace": [
+        "UC09",
+        "AT14",
+        "DB13"
+      ],
+      "contract": "docs/implementation/P1-PR-025-privacy-retention-recovery.md"
+    },
+    {
+      "id": "staff-commercial",
+      "card": "P1-PR-026",
+      "modules": [
+        "packages/application/src/services/staff.ts",
+        "packages/application/src/services/commercial.ts"
+      ],
+      "tests": [
+        "tests/database/commercial-services.test.ts"
+      ],
+      "trace": [
+        "UC17",
+        "CAP-03",
+        "DB27"
+      ],
+      "contract": "docs/implementation/P1-PR-026-staff-commerce-revenue.md"
+    },
+    {
+      "id": "maintenance-health",
+      "card": "P1-PR-027",
+      "modules": [
+        "packages/application/src/services/service-maintenance.ts",
+        "packages/application/src/services/service-health.ts"
+      ],
+      "tests": [
+        "tests/database/s3-journeys.test.ts",
+        "tests/usecases/service-maintenance.test.ts"
+      ],
+      "trace": [
+        "UC07",
+        "UC08",
+        "UC09",
+        "ENG-06"
+      ],
+      "contract": "docs/implementation/P1-PR-027-s3-validation-gate.md"
+    }
+  ],
+  "gates": [
+    {
+      "id": "G1-specialist",
+      "kind": "human_review",
+      "status": "pending",
+      "owner": "DD06 / tire specialist unassigned",
+      "requiredEvidence": "At least 50 actual named scenario reviews, disputed rules/calibration and source-backed explanations accepted.",
+      "records": []
+    },
+    {
+      "id": "G1-fitment-catalog",
+      "kind": "provider",
+      "status": "pending",
+      "owner": "DD01 / owner and data reviewer",
+      "requiredEvidence": "Selected permitted catalog/fitment/reference contracts, scoped rights, reviewed vehicle coverage and actual accepted adapter evidence.",
+      "records": []
+    },
+    {
+      "id": "G1-prices",
+      "kind": "provider",
+      "status": "pending",
+      "owner": "DD02 / owner and data reviewer",
+      "requiredEvidence": "Permitted pricing/retailer source contract, units/bases/tax/freshness and actual installed-cost reconciliation evidence.",
+      "records": []
+    },
+    {
+      "id": "G2-provider-effects",
+      "kind": "provider",
+      "status": "pending",
+      "owner": "DD05 / platform and privacy reviewer",
+      "requiredEvidence": "Actual S3/KMS authority/deletion, hosted workflow signing/reachability and selected ESP no-send/sandbox/reconciliation/erasure evidence.",
+      "records": []
+    },
+    {
+      "id": "G2-privacy-policy",
+      "kind": "human_review",
+      "status": "pending",
+      "owner": "DD06 / privacy reviewer unassigned",
+      "requiredEvidence": "Actual applicable notices/deadlines/extensions/holds, journal durability and key/marker/receipt retention accepted.",
+      "records": []
+    },
+    {
+      "id": "S3-service-host",
+      "kind": "technical_integration",
+      "status": "pending",
+      "owner": "Backend/platform owner",
+      "requiredEvidence": "Bind the accepted service factories and maintenance functions in the real host with one complete per-database connection budget, secret loading and shutdown. Current standalone worker has no product handlers.",
+      "records": []
+    }
+  ],
+  "laterStageEvidence": [
+    {
+      "stage": "S4",
+      "required": "Actual authenticated/MFA staff identity, transport validation/CSRF/limits, provider callbacks and complete OpenAPI acceptance."
+    },
+    {
+      "stage": "S5",
+      "required": "Real browser, production email/PDF render, CMP/ad referrer/layout, 25 reviewed articles and accessible user/staff flows."
+    },
+    {
+      "stage": "S6",
+      "required": "Hosted recovery/RPO/RTO, support ownership, rollout/rollback, final provider/network approval and live-phase journey."
+    }
+  ]
+}

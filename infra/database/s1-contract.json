@@ -155,6 +155,7 @@
       "admin.runtime_health",
       "admin.search_projection",
       "admin.seo_projection",
+      "admin.service_health",
       "admin.staff_callback_queue",
       "admin.staff_import_queue",
       "admin.staff_mail_queue",

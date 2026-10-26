@@ -334,6 +334,8 @@ export function createPrivacyServices(d: {
       }
     },
     queue: () => work((tx) => d.repo.queue(tx)),
+    ready: (limit = 4) => work((tx) => d.repo.ready(tx, limit)),
+    notifications: (limit = 4) => work((tx) => d.repo.notifications(tx, limit)),
     retry: (actor: Id<'staff'>, id: Id<'privacy_request'>, evidence: string) =>
       work((tx) => d.repo.retry(tx, actor, id, evidence)),
     review: (

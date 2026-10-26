@@ -450,6 +450,16 @@ export const adminSeoProjection = admin
   })
   .existing();
 export type AdminSeoProjectionRow = typeof adminSeoProjection.$inferSelect;
+export const adminServiceHealth = admin
+  .view('service_health', {
+    code: text('code'),
+    queued: integer('queued'),
+    oldest_at: timestamp('oldest_at', { withTimezone: true, mode: 'date' }),
+    sampled_at: timestamp('sampled_at', { withTimezone: true, mode: 'date' }),
+    capacity: integer('capacity'),
+  })
+  .existing();
+export type AdminServiceHealthRow = typeof adminServiceHealth.$inferSelect;
 export const adminStaffCallbackQueue = admin
   .view('staff_callback_queue', {
     id: uuid('id'),
@@ -3192,6 +3202,7 @@ export const storageViews = {
   adminRuntimeHealth,
   adminSearchProjection,
   adminSeoProjection,
+  adminServiceHealth,
   adminStaffCallbackQueue,
   adminStaffImportQueue,
   adminStaffMailQueue,
