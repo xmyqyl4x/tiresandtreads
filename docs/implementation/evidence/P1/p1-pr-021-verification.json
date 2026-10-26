@@ -1,0 +1,113 @@
+{
+  "sourceCommit": "0b6931f9686582be2c0abfea21ce7490f2636293",
+  "verifiedAt": "2026-10-26T03:59:01.037Z",
+  "tests": {
+    "newContentTests": 82,
+    "unitAndUsecase": 530,
+    "databaseAndProvider": 157,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 767
+  },
+  "coverage": {
+    "statements": 93.85,
+    "branches": 89.99,
+    "functions": 98.22,
+    "lines": 97.03
+  },
+  "migrationCounts": {
+    "app": 26,
+    "cms": 3
+  },
+  "storage": {
+    "appTables": 127,
+    "appViews": 42,
+    "tableViewColumns": 1638,
+    "cmsTables": 28
+  },
+  "retainedTargets": {
+    "dev": "26 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "stage": "26 app/3 CMS applied; zero pending; stopped; volumes retained",
+    "nativePostgres": "untouched"
+  },
+  "mainProject": "tt-test-207571f6e0d22dc5",
+  "appImageId": "b176bc8bc907fdc9a6b3c22d7a48c8cdabaa99519314795322a8fac3eccae165",
+  "lifecycle": {
+    "stopMs": 687,
+    "exitCode": 143,
+    "appMemory": "50.96MiB / 768MiB",
+    "appCpu": "10.38%",
+    "postgresMemory": "90.76MiB / 512MiB",
+    "postgresCpu": "3.55%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-d5e7f2ba07b436df",
+    "elapsedMs": 26483,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 665,
+    "backupWindowMs": 4067,
+    "tables": {
+      "app": 127,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "aea59eba4b9e126c793546ac2e4f22ce7111eeda74bf2f67e94c9796bed22b07",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 663903,
+      "cms": 197165
+    },
+    "backupSha256": {
+      "app": "ed01d7f1614fde154516e2d72dca1f15da62159e437c2d80c6b74f47917ebc4a",
+      "cms": "624c8f7832c34408011281b7e8bbb660383e73f2a1629c07531eb4b2226fa53e"
+    },
+    "migrations": {
+      "app": 26,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "real migrated CMS/app databases with separate restricted runtime roles",
+    "reviewed source capture, capability revocation, fenced leases and bounded retry",
+    "immutable CMS origin and public route identity, rollback, stale work cancellation",
+    "lost CMS acknowledgement adopts exact app receipt without duplicate notification",
+    "transactional route/register/outbox and withdrawal visible to independent SQL reader",
+    "immutable public SQL/S3 publication and independent redirect reader convergence",
+    "safe public paths, metadata and structured data; previews and private-path exclusion",
+    "bounded CSV, redirect conflicts and fixed linear pattern grammar",
+    "pure size decoder, fourteen-item reviewed checklist contract and descriptive scorecards",
+    "deterministic current educational links with no unpermitted history",
+    "mocked Search Console exact daily final scope and IndexNow acknowledgement distinctions",
+    "aggregate correction ordering, missing/zero/stale metrics, bounded code-only crawl audit"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 60,
+    "uncheckedTasks": 297,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "Headless S3 services only; actual authenticated editor/API/browser/UI and reviewed editorial content remain planned work",
+    "SQL/S3 workflow uses explicit in-memory objects and mocked SDK transport; prior Moto/KMS proofs remain separate",
+    "No live indexing or Search Console credentials/property/key-file verification; worker scheduling and CDN propagation under load remain later runtime gates",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending; 98 draft scenarios and zero actual specialist reviews unchanged",
+    "All report issuance remains disabled; hosted recovery and live phase acceptance remain open"
+  ]
+}
