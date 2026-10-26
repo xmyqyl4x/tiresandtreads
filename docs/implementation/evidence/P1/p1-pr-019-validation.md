@@ -10,13 +10,29 @@ Real restricted-role PostgreSQL tests exercise concurrent duplicate creation wit
 
 The policy-head proof keeps published rule documents unchanged while moving the explicit regional pointer. Role tests separate catalog/private/source metadata access. Batch reads enforce pinned source rights, bounded identities and permitted fields. The report-source role reuses the existing approval-digest/current-rights/exact-dataset/48-hour recall check, with only metadata and lock privileges. Synthetic source/reviewer fixtures establish technical behavior, not actual licensed coverage or specialist review.
 
-## Verification status
+## Full verification
 
-The preliminary disposable Linux coverage run passed **562 unit/use-case/database tests** before the final two source-rights/expiry cases and additional metadata-role assertions. It reported 96.40% lines, 93.03% statements, 97.87% functions and 88.93% branches; all existing thresholds passed. Quality checks passed source hygiene, formatting, lint, TypeScript, 141-module boundaries, the health contract and 23 app/two CMS migration checksums. The final clean committed source will run the complete Linux build/advisory/coverage/runtime/failure-gate/recovery suite before push; the redacted record and final head will be recorded here and in PR #19.
+`pnpm verify:push` passed on implementation commit `7fbeeccf35e2852423503844ea3ca4a5d7fe010c` at `2026-10-26T02:09:47.369Z`. The [redacted record](p1-pr-019-verification.json) captures that run. The final evidence/documentation commit is verified again before push; its exact head and independent CI status are recorded in [PR #19](https://github.com/xmyqyl4x/tiresandtreads/pull/19).
 
-Storage parity is **124 application tables, 40 views and 1,605 table/view columns**, 250 codec fields/25 fact families and 28 CMS tables. Migration 0023 preserves previous migration checksums and adds the explicit policy pointer, share-comparison binding, scalar receipt fields and narrowed source-metadata role. Both retained Docker dev/stage targets passed bootstrap/migrate/status with **23 app/two CMS applied, zero pending**, then were stopped with their volumes retained. Bootstrap added only the missing role credential; existing credentials and native PostgreSQL were untouched.
+| Check | Observed result |
+| --- | --- |
+| Unit/use-case | 447 passed, including 67 new report/quote/DTO/capability/resolver cases |
+| Database/provider | 117 passed, including 14 new report workflow/transaction/access cases; the existing source suite also proves the new metadata role's readiness read and denied feed update |
+| Foundation/schema/recovery | Six / 63 / 11 passed |
+| Total | **644 passing tests**, including 81 new report tests |
+| Coverage | 96.49% lines, 93.09% statements, 97.98% functions, 89.17% branches; thresholds unchanged |
+| Quality/build | Frozen Linux production build/advisory audit, source hygiene, formatting, lint, TypeScript, 141-module boundaries, health contract and reviewed migration checksums passed |
+| Storage | 124 app tables, 40 views, 1,605 table/view columns, 250 codec fields/25 fact families, 28 CMS tables; 23 app/two CMS migrations; generated Drizzle parity passed |
+| Failure propagation | Seven deliberate verification failures rejected |
+| Runtime | Production image stop/restart, worker/import/source CLI loading and invalid hosted-configuration refusal passed |
+| Recovery | Separate synthetic backup/restore/deletion replay passed at 23 app/two CMS, including corrupt restore, stale/missing journal, incomplete deletion and inter-database crash retry |
+| Documentation | 119 cards/137 original FR rows/dependency edges/source archives/historical approvals preserved; 54 checked tasks/303 unchecked |
 
-The preliminary projects and fixture volumes were removed by exact identity. The final run will independently prove backup/restore and deletion replay at the new schema. Documentation preserves all 119 cards, original 137 FR rows, dependency edges, source archives and historical approvals; 54 technical tasks are checked and 303 remain unchecked. The full 016/017/018/019 cards retain their recorded external acceptance gates.
+The initial missing-module red test preceded implementation. Preliminary runs exposed a bigint test-serialization issue and an attempted edit of an immutable published rule; the corrected tests use exact canonical JSON and explicit policy-head movement. The final suite above includes the extra rights/expiry cases, known-warning fallback and real metadata-role permission proof. No failing safety, authorization or money test is skipped or quarantined.
+
+Both retained Docker dev/stage targets passed bootstrap/migrate/status with **23 app/two CMS applied, zero pending**, then were stopped with their volumes retained. Bootstrap added only the missing source-metadata role credential and preserved existing credentials. Native PostgreSQL and unrelated Docker projects were untouched.
+
+Disposable projects `tt-test-3798d5766cd85201` and `tt-test-083ee1bc511e1913` and their fixture volumes were removed by exact identity; preliminary verification projects were also removed. Local synthetic logical restore does not establish hosted RPO/RTO, PITR or external-provider/object recovery.
 
 ## Acceptance limits
 

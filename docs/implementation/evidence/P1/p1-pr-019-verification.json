@@ -1,0 +1,123 @@
+{
+  "sourceCommit": "7fbeeccf35e2852423503844ea3ca4a5d7fe010c",
+  "verifiedAt": "2026-10-26T02:09:47.369Z",
+  "tests": {
+    "newReportTests": 81,
+    "unitAndUsecase": 447,
+    "database": 117,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 644
+  },
+  "coverage": {
+    "statements": 93.09,
+    "branches": 89.17,
+    "functions": 97.98,
+    "lines": 96.49
+  },
+  "failureGates": 7,
+  "storageParity": {
+    "appTables": 124,
+    "appViews": 40,
+    "appTableAndViewColumns": 1605,
+    "cmsTables": 28,
+    "appMigrations": 23,
+    "cmsMigrations": 2,
+    "codecFields": 250,
+    "factFamilies": 25
+  },
+  "localTargets": {
+    "dev": {
+      "appMigrations": 23,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "state": "stopped, volumes retained"
+    },
+    "stage": {
+      "appMigrations": 23,
+      "cmsMigrations": 2,
+      "pending": 0,
+      "state": "stopped, volumes retained"
+    },
+    "credentials": "only the missing report-source role credential added; existing credentials preserved; native PostgreSQL untouched"
+  },
+  "mainProject": "tt-test-3798d5766cd85201",
+  "appImageId": "30f4d35b9a612cede81140e51e6685835a24c6b4bb72a9a0db04e082b11437b9",
+  "lifecycle": {
+    "stopMs": 725,
+    "exitCode": 143,
+    "appMemory": "51.66MiB / 768MiB",
+    "appCpu": "10.65%",
+    "postgresMemory": "90.45MiB / 512MiB",
+    "postgresCpu": "3.59%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-083ee1bc511e1913",
+    "elapsedMs": 25591,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 642,
+    "backupWindowMs": 5561,
+    "tables": {
+      "app": 124,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "f6edd5867fea1b680f629c92f1e08d118c8bde8acde1566e00b9ec88de4c3890",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 644961,
+      "cms": 194205
+    },
+    "backupSha256": {
+      "app": "925d602956f581d167b93c027374bd8a5adb09d14b2a8b0e48e36c71b4fde27c",
+      "cms": "ad81028321831a860ee92f306fbef616ddb4c70156d397c9c0c6dbaa66aaf55e"
+    },
+    "migrations": {
+      "app": 23,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "one immutable outcome under duplicate create; original version/revision receipts on retry",
+    "stale drafts and quote/comparison races conflict",
+    "fixed/latest and explicit comparison-bound sharing",
+    "owner/share authority rechecked after source and decryption work",
+    "revocation denies reads, forks and derived downloads",
+    "receipt failure rolls back both command and report",
+    "current regional head moves without changing published rules",
+    "known recall warnings survive missing or failed current refresh",
+    "report-source role verifies current approvals but cannot update feed state",
+    "all five source rights checked before persisting source-derived snapshots",
+    "audience-separated capabilities and command identities stable across bearer-key rotation"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 54,
+    "uncheckedTasks": 303,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "Licensed adapters and actual source/positive clearance/marking/inspection coverage remain pending under DD01/DD02",
+    "Actual named specialist reviews remain zero; 98 draft 017 scenarios unchanged; DD06/G1 and explanation/calibration acceptance remain open",
+    "All persisted reports/comparisons remain technical evaluations with issuanceAuthorized=false",
+    "Envelope workflow tests use an explicit ciphertext substitute; earlier Moto/KMS/object proofs are retained; hosted key custody remains pending",
+    "No product HTTP/frontend, renderer, physical privacy-job completion, hosted activation or live-phase acceptance"
+  ]
+}
