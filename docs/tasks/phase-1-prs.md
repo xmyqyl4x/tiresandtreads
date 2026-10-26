@@ -426,7 +426,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Two-connection cancel/claim races and accepted-timeout provider tests; headless rendering uses fixtures until S5.
 
-**Implementation status:** S3 technical implementation for owner review; [contract](../implementation/P1-PR-022-delivery-orchestration.md) and [validation](../implementation/evidence/P1/p1-pr-022-validation.md). Current production report issuance remains denied. Actual templates, signed provider events, worker cadence, abuse controls and API/browser/live acceptance retain their declared gates. Specialist review and licensed adapters remain pending.
+**Implementation status:** S3 technical implementation in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22) for owner review; [contract](../implementation/P1-PR-022-delivery-orchestration.md) and [validation](../implementation/evidence/P1/p1-pr-022-validation.md). Current production report issuance remains denied. Actual templates, signed provider events, worker cadence, abuse controls and API/browser/live acceptance retain their declared gates. Specialist review and licensed adapters remain pending.
 
 ### P1-PR-023
 

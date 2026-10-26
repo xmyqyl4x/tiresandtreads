@@ -239,7 +239,7 @@ Use `/api/v1` from the start for browser, future mobile, and non-MCP integration
 | `DELETE /api/v1/reports/{id}/shares/{shareId}` | 204 revoke | Owner; invalidate derived download grants |
 | `GET /api/v1/shared-reports/{token}` | Redacted view-only DTO | Capability; no contacts, owner secrets, or edit actions |
 | `POST /api/v1/reports/{id}/deliver` | 202 send ID, `sendAfter`, cancel deadline | Owner plus Turnstile; fixed version/template, independent purposes; 429 limits |
-| `POST /api/v1/sends/{id}/cancel` | 200 cancelled or 409 handoff already claimed | Owner send capability; compare-and-set against dispatch state |
+| `POST /api/v1/sends/{id}/cancel` | 200 cancelled or 409 cancellation window closed/handoff already claimed | Owner send capability; compare-and-set against dispatch state |
 | `GET /api/v1/sends/{id}` | Safe delivery state | Same scope; never expose provider payloads |
 | `POST /api/v1/reports/{id}/pdf` | 202 generation or authorized short-lived download | Owner/view capability over allowed fields only; pinned version |
 | `POST /api/v1/collect` | 202 after SQL event/invalidation commit, or 204 dropped by consent | Current signed subject/purpose state; dedupe/digest check; 422 invalid, 409 conflicting ID, 429 admission limit, 503 unavailable; no client-forged grants |
