@@ -109,6 +109,7 @@
       "migration_meta.applied",
       "privacy.consent_events",
       "privacy.consent_state",
+      "privacy.contact_intents",
       "privacy.contact_lookups",
       "privacy.contacts",
       "privacy.cookie_consents",

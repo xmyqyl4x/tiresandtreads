@@ -322,3 +322,5 @@ AI/image jobs, import streams, SEO crawls and ad-report aggregation have bounded
 | Recovery | Proposed RPO at most 24h using separate daily backup; target 15min when proven PITR coverage exists; RTO 4h after drill |
 
 Keep 7+ days PITR when the selected plan supports it, plus encrypted daily backups in separate storage and a quarterly restore drill. Alert on safety-data staleness, dead-letter jobs, email uncertain sends, bounce/complaint thresholds, queue lag, privacy deadlines, tenant failures, and cost anomalies. Metrics include engine/data/template versions and opaque request IDs, not personal text.
+
+[P1-PR-020](implementation/P1-PR-020-contact-consent.md) implements owner-bound contact requests, purpose-scoped inbox proofs, independent consent projections, restrictive browser/GPC policy and retained suppression rechecks. Worker-only address/token preparation and provider suppression methods must not become public controllers. It composes PostgreSQL repositories and existing encryption/durable command ports; product HTTP and actual delivery retain later gates.

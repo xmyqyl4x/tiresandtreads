@@ -1,0 +1,111 @@
+{
+  "sourceCommit": "eccefcb18db7242e0da3e4e6fcdfd6d473601457",
+  "verifiedAt": "2026-10-26T02:51:33.848Z",
+  "tests": {
+    "newContactTests": 41,
+    "unitAndUsecase": 465,
+    "databaseAndProvider": 140,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 685
+  },
+  "coverage": {
+    "statements": 93.51,
+    "branches": 89.69,
+    "functions": 98.12,
+    "lines": 96.7
+  },
+  "migrationCounts": {
+    "app": 24,
+    "cms": 2
+  },
+  "storage": {
+    "appTables": 125,
+    "appViews": 40,
+    "tableViewColumns": 1613,
+    "cmsTables": 28
+  },
+  "retainedTargets": {
+    "dev": "24 app/2 CMS applied; zero pending; stopped; volumes retained",
+    "stage": "24 app/2 CMS applied; zero pending; stopped; volumes retained",
+    "nativePostgres": "untouched"
+  },
+  "mainProject": "tt-test-af2546a6106613f1",
+  "appImageId": "4fc08613f056a0302c1213857e1c835f23c4b0403e58d01256f98b52d4a3d350",
+  "lifecycle": {
+    "stopMs": 707,
+    "exitCode": 143,
+    "appMemory": "51.46MiB / 768MiB",
+    "appCpu": "11.01%",
+    "postgresMemory": "88.55MiB / 512MiB",
+    "postgresCpu": "3.45%",
+    "invalidHostedConfig": "rejected",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "recovery": {
+    "project": "tt-test-3a2a18091b361a3a",
+    "elapsedMs": 25500,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 661,
+    "backupWindowMs": 4690,
+    "tables": {
+      "app": 125,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "f75dc564fd08024df635e5812dc28bdda15f10c50c1c639e487c81d2b31ef151",
+      "cms": "79f2496cc3698f07bc9ddc9f058d93b456ae4cef6342a635903d5f3f5a203082"
+    },
+    "backupBytes": {
+      "app": 650746,
+      "cms": 194206
+    },
+    "backupSha256": {
+      "app": "cf914cbdb2bff9b3a97a6dde59772806722d05cb7112598bcfed4b97144e6144",
+      "cms": "d774dcae9037ba798d01addbd00e9703dec2a899ec1247337da0af58fbf67e68"
+    },
+    "migrations": {
+      "app": 24,
+      "cms": 2
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "technicalProofs": [
+    "report-only, offers-only and independent dual requests; no email assessment gate",
+    "purpose-scoped expiring POST inbox proof and independent unsubscribe MAC",
+    "existing-address raw submission preserves confirmed preferences and permission revision",
+    "immutable prior-event HMAC prevents stale proof from undoing withdrawal",
+    "duplicate command receipt/outbox and complete transaction rollback",
+    "hard-bounce, complaint and deletion survive re-entry and queued decisions",
+    "lookup overlap retains canonical contacts and old tombstones; startup refuses stranded keys",
+    "GPC/CMP restrictive defaults and optimistic purpose-state races",
+    "address encryption/decryption occurs outside SQL with post-decrypt reauthorization",
+    "last SQL dispatch claim checks live and retained suppressions; no provider attempt on denial"
+  ],
+  "documentation": {
+    "phaseCards": 119,
+    "originalFrRows": 137,
+    "completedTasks": 57,
+    "uncheckedTasks": 300,
+    "dependenciesSourcesAndHistoricalApprovals": "unchanged"
+  },
+  "acceptanceLimits": [
+    "No public product transport/frontend, actual sender/provider/CMP activation or real email",
+    "Physical contact-intent/challenge/receipt erasure remains P1-PR-025",
+    "Workflow envelope tests use an explicit ciphertext substitute; earlier Moto/KMS proofs retained; hosted key custody remains pending",
+    "DD01/DD02 licensed adapters and DD06/G1 specialist review remain pending; 98 draft scenarios and zero actual specialist reviews unchanged",
+    "All existing reports/comparisons remain technical evaluations with issuance disabled; hosted and live phase acceptance remain open"
+  ]
+}

@@ -1,6 +1,6 @@
 # P1-PR-019 — Report, refine, compare and access services
 
-**October 25, 2026 · technical implementation for review; specialist/source acceptance pending.** Baseline: owner-approved [PR #18](https://github.com/xmyqyl4x/tiresandtreads/pull/18), merged at `752760736ecc9ab70186503bf27cd942768f7e83`. The owner explicitly retained licensed adapters and specialist review as pending while authorizing 019. This supplies the S3 E08/E10 workflows for UC01/UC03/UC04/UC05, AT04/AT06 and DB01/DB02/DB03/DB15. It does not close [DD01/DD02/DD06/G1](P1-PR-001-launch-baseline.md#deferred-decision-register), source contracts, actual fitment/clearance coverage or live-product acceptance.
+**October 25, 2026 · technical implementation approved and merged as PR #19 at `2bacfc78`; specialist/source acceptance pending.** Baseline: owner-approved [PR #18](https://github.com/xmyqyl4x/tiresandtreads/pull/18), merged at `752760736ecc9ab70186503bf27cd942768f7e83`. The owner explicitly retained licensed adapters and specialist review as pending while authorizing 019. This supplies the S3 E08/E10 workflows for UC01/UC03/UC04/UC05, AT04/AT06 and DB01/DB02/DB03/DB15. It does not close [DD01/DD02/DD06/G1](P1-PR-001-launch-baseline.md#deferred-decision-register), source contracts, actual fitment/clearance coverage or live-product acceptance.
 
 ## Application boundary
 
