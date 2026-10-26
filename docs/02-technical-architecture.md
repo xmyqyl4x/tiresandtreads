@@ -140,6 +140,8 @@ Return structured reasons such as `FITMENT_VERIFIED`, `FITMENT_UNCONFIRMED`, `CL
 
 ### Cost mathematics
 
+The [018 implementation contract](implementation/P1-PR-018-pricing-comparison.md) specifies versioned exact USD arithmetic, coherent source/owner-quote snapshots, explicit tax/fee dependencies and rounding, freshness, independent quote verdicts and one/two-set ownership scenarios. Its conservative bridge attaches only current exact installed totals to 017's point-cost budget contract; range midpoints cannot prove a hard budget. The 019 trusted resolver must authorize private quotes and bind actual published sources and assumptions. Licensed coverage and specialist acceptance remain pending.
+
 All money uses integer minor units and ISO currency. Quantities are explicit; staggered sets sum each axle's SKU/quantity. Never add per-tire and per-axle fees without units.
 
 ```text
