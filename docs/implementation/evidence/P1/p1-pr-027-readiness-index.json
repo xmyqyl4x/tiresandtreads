@@ -177,7 +177,18 @@
     {
       "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
       "sha256": "25583193194f7bfdcc3ef39263d3d5ea7b96312f35923ba0f0b1e2e7ff75a8ef"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json",
+      "sha256": "b0cfe8818910c6ce75d1acfaa4aca076ff1e12d97fd3ba733e6f7c2b2a66b89d"
     }
   ],
-  "verificationNote": "Pinned receipts describe implementation commits. Successful final-head CI and merge ancestry are separate evidence; totals are not cumulative. Fresh reconciliation regression is recorded separately after exact-commit verification. This index is a snapshot, not the acceptance authority."
+  "verificationNote": "Pinned receipts describe implementation commits. Successful final-head CI and merge ancestry are separate evidence; totals are not cumulative. Fresh reconciliation regression is recorded separately after exact-commit verification. This index is a snapshot, not the acceptance authority.",
+  "reviewPullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/32",
+  "reconciliationVerification": {
+    "receipt": "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json",
+    "implementationCommit": "7e4f7a0219105d3d5f4931d771058896c7f37432",
+    "verifiedAt": "2026-10-27T14:42:53.561Z",
+    "totalTests": 1083
+  }
 }
