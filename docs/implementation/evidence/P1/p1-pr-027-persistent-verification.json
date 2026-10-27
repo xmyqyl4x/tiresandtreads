@@ -1,0 +1,88 @@
+{
+  "status": "passed complete exact-commit local Linux technical gate; full S3 remains open",
+  "sourceCommit": "a37ed2085a2a3710bf59ebfe8d3bdfada2512362",
+  "verifiedAt": "2026-10-27T00:17:53.929Z",
+  "baseline": "7c86af95e8f78bc4b4c6d29ac8ebefe771b57bd5",
+  "tests": {
+    "newTests": 5,
+    "newUnit": 2,
+    "newUsecases": 1,
+    "newDatabase": 2,
+    "combinedUnitUsecaseDatabase": 984,
+    "foundation": 6,
+    "schema": 63,
+    "recovery": 11,
+    "total": 1064
+  },
+  "coverage": {
+    "statements": 94.05,
+    "branches": 90.31,
+    "functions": 98.2,
+    "lines": 97.27
+  },
+  "localLinux": {
+    "sha": "a37ed2085a2a3710bf59ebfe8d3bdfada2512362",
+    "tree": "9d325bcec7095f98f38c85344ea758fbef23ca79",
+    "lockfileSha256": "27e7299f0ecbe22d9a2f92eda86831e92ece8ba63eed2899691de55dd25905f9",
+    "verifiedAt": "2026-10-27T00:17:53.929Z",
+    "project": "tt-test-817f7a0e06e88a7c",
+    "lifecycle": {
+      "stopMs": 700,
+      "exitCode": 143,
+      "appMemory": "52.23MiB / 768MiB",
+      "appCpu": "0.00%",
+      "postgresMemory": "88.15MiB / 512MiB",
+      "postgresCpu": "3.33%",
+      "invalidHostedConfig": "rejected",
+      "serviceHostBundleStartup": "validated in production image without workspace dependencies",
+      "workerBundleStartup": "validated in production image without workspace dependencies",
+      "importBundleStartup": "validated in production image without workspace dependencies",
+      "sourceBundleStartup": "validated in production image without workspace dependencies",
+      "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+      "scope": "idle headless host; DB pool drain measured separately"
+    },
+    "appImageId": "d0bdaf296a36b5b3706ca58254f403eb655c19ce38d149e83dbb12a1ac74cc69",
+    "recovery": {
+      "project": "tt-test-4a4baf4351f78b07",
+      "elapsedMs": 30144,
+      "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+      "status": "passed",
+      "checksMs": 813,
+      "backupWindowMs": 4257,
+      "tables": {
+        "app": 141,
+        "cms": 28
+      },
+      "inventorySha256": {
+        "app": "e7eb7e21f06d17b3e59674751fbb9646790ee4b726cd698aba4f6cd679e2fc27",
+        "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+      },
+      "backupBytes": {
+        "app": 752986,
+        "cms": 197169
+      },
+      "backupSha256": {
+        "app": "3a696a7a8f23d4637e2e3beed4e964b91eb84520bf684d82ef246b15f3ab77cc",
+        "cms": "fda3b07b3b479917a0dd1bc935253341b0590e629d73c1d4e0bc2b27bcba706b"
+      },
+      "migrations": {
+        "app": 33,
+        "cms": 3
+      },
+      "failures": [
+        "corrupt restore rolled back",
+        "missing/stale journal denied",
+        "incomplete deletion rolled back",
+        "inter-database publication crash retried"
+      ],
+      "lateWrite": "known post-backup write absent; no PITR claim",
+      "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+    }
+  },
+  "retainedLocalEvidence": "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
+  "limitations": [
+    "Moto provider state does not survive cold restart; no automatic key/version replacement",
+    "Retained local journal empty; signed-record restart proved separately in isolated host suite",
+    "All six S3 gates open; specialists and licensed adapters pending; APIs held"
+  ]
+}

@@ -311,7 +311,8 @@
         "docs/implementation/P1-PR-027-persistent-local-workflows.md",
         "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
         "scripts/runtime/local-workflow-proof.ts",
-        "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json"
+        "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json"
       ]
     }
   ],

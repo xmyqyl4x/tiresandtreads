@@ -1,6 +1,6 @@
 # P1-PR-027 continuation — retained local hosts and workflow execution
 
-**October 26, 2026 · Local technical continuation; full S3 remains open.** The owner approved [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28), merged at `7c86af95e8f78bc4b4c6d29ac8ebefe771b57bd5`, and authorized retained dev/stage setup and local workflow proofs. Specialist review and licensed adapters remain pending. Product APIs remain on hold. This adds no dependency, schema migration, database role, frontend or product endpoint.
+**October 26, 2026 · Local technical continuation in review as [PR #29](https://github.com/xmyqyl4x/tiresandtreads/pull/29); full S3 remains open.** The owner approved [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28), merged at `7c86af95e8f78bc4b4c6d29ac8ebefe771b57bd5`, and authorized retained dev/stage setup and local workflow proofs. Specialist review and licensed adapters remain pending. Product APIs remain on hold. This adds no dependency, schema migration, database role, frontend or product endpoint.
 
 ## Retained setup
 
