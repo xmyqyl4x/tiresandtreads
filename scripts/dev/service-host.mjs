@@ -1,4 +1,4 @@
-import { existsSync, writeFileSync, readFileSync } from 'node:fs';
+import { existsSync, writeFileSync, readFileSync, openSync, closeSync, unlinkSync } from 'node:fs';
 import { environmentPlan } from './plan.mjs';
 import { compose } from './local.mjs';
 
@@ -56,17 +56,60 @@ async function main() {
   const [action, target] = process.argv.slice(2);
   const plan = persistentHostPlan(target);
   if (
-    process.argv.length !== 4 ||
-    !['prepare', 'up', 'stop', 'status', 'prove', 'provider-upgrade', 'cold-restart'].includes(
-      action,
-    )
+    (action === 'observe' ? ![5, 6].includes(process.argv.length) : process.argv.length !== 4) ||
+    ![
+      'prepare',
+      'up',
+      'stop',
+      'status',
+      'prove',
+      'provider-upgrade',
+      'cold-restart',
+      'observe',
+      'prove-observability',
+    ].includes(action)
   )
     throw Error(
-      'Usage: pnpm local:host <prepare|up|stop|status|prove|provider-upgrade|cold-restart> <dev|stage>',
+      'Usage: pnpm local:host <prepare|up|stop|status|prove|provider-upgrade|cold-restart|prove-observability> <dev|stage>; observe <dev|stage> <staff UUID> [samples 1..12]',
     );
   if (!existsSync(plan.envFile) || !existsSync(`.local/db-${target}.env`))
     throw Error('Initialize and explicitly bootstrap/migrate this database target first');
-  if (action === 'prepare') {
+  if (action === 'observe' || action === 'prove-observability') {
+    const options = {};
+    if (action === 'observe') {
+      const values = readFileSync(`.local/db-${target}.env`, 'utf8')
+        .split(/\r?\n/)
+        .filter((line) => line.startsWith('DB_PASSWORD_TT_OPERATIONS_RUNTIME='));
+      if (
+        values.length !== 1 ||
+        !/^DB_PASSWORD_TT_OPERATIONS_RUNTIME=[a-f0-9]{64}$/.test(values[0])
+      )
+        throw Error('Restricted observer credential unavailable');
+      options.env = { LOCAL_OBSERVER_PASSWORD: values[0].split('=')[1] };
+    }
+    const lock = `.local/observer-${target}.lock`;
+    const handle = openSync(lock, 'wx', 0o600);
+    try {
+      hostCompose(
+        plan,
+        [
+          'run',
+          '--rm',
+          '--no-deps',
+          action === 'observe' ? 'service-observer' : 'service-setup',
+          ...(action === 'observe' ? ['node', '--import', 'tsx'] : ['pnpm', 'exec', 'tsx']),
+          action === 'observe'
+            ? 'scripts/runtime/observe-local-host.ts'
+            : 'scripts/runtime/prove-local-observability.ts',
+          ...process.argv.slice(4),
+        ],
+        options,
+      );
+    } finally {
+      closeSync(handle);
+      unlinkSync(lock);
+    }
+  } else if (action === 'prepare') {
     // Build outputs only; this command never bootstraps, migrates, resets, or seeds existing fixtures.
     compose(plan, ['--profile', 'database', 'build', 'database']);
     hostCompose(plan, ['build', 'service-host']);
@@ -146,7 +189,9 @@ async function main() {
 if (process.argv[1]?.replaceAll('\\', '/').endsWith('/scripts/dev/service-host.mjs'))
   main().catch(() => {
     console.error(
-      'Local host command failed; inspect target readiness, migration status and private fixture state. No automatic reset is performed.',
+      process.argv[2] === 'observe'
+        ? 'Local observer did not complete healthy; inspect masked output and local configuration.'
+        : 'Local host command failed; inspect target readiness, migration status and private fixture state. No automatic reset is performed.',
     );
     process.exitCode = 1;
   });

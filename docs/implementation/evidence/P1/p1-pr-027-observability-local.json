@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "b02335bc9c2cd890fc81dc4ffeae2cf20b89a7f4",
+  "measuredAt": "2026-10-27T05:24:29.331279+00:00",
+  "scope": "Local fixture observer and synthetic operator drills; no hosted monitoring or policy acceptance",
+  "credentialFilesUnchanged": 4,
+  "targets": {
+    "dev": {
+      "drill": {
+        "target": "dev",
+        "proof": {
+          "baselineHealthy": true,
+          "injectedSyntheticCallbacks": 101,
+          "alerts": [
+            {
+              "component": "callbacks",
+              "state": "alert",
+              "reasons": [
+                "backlog",
+                "lag"
+              ]
+            }
+          ],
+          "stableRepeatEvents": 0,
+          "revokedAccessRetainedAlarm": true,
+          "recovery": [
+            {
+              "component": "telemetry",
+              "state": "recovered",
+              "reasons": []
+            },
+            {
+              "component": "callbacks",
+              "state": "recovered",
+              "reasons": []
+            }
+          ],
+          "finalHealthy": true,
+          "fixtureWithdrawal": 101,
+          "automaticRemediation": false,
+          "externalMailSends": 0,
+          "elapsedMs": 299
+        },
+        "productApis": false,
+        "productApiStatus": 404,
+        "observerPoolMax": 1,
+        "additionalOperatorConnections": 1
+      },
+      "settingsAndHostKeysUnchanged": true,
+      "legacyAndActiveProviderManifestsUnchanged": true,
+      "originalSubjectAndSessionPreserved": true,
+      "notices": 6,
+      "templates": 1,
+      "appMigrations": 33,
+      "journalFiles": 0,
+      "drillActorsRemaining": 0,
+      "drillCallbacksRemaining": 0,
+      "settingsMode": "600",
+      "settingsUid": 1000,
+      "journalMode": "700",
+      "journalUid": 1000,
+      "budget": "observer uses one of two already declared operator slots; proof uses both; existing host budget remains 42/100"
+    },
+    "stage": {
+      "drill": {
+        "target": "stage",
+        "proof": {
+          "baselineHealthy": true,
+          "injectedSyntheticCallbacks": 101,
+          "alerts": [
+            {
+              "component": "callbacks",
+              "state": "alert",
+              "reasons": [
+                "backlog",
+                "lag"
+              ]
+            }
+          ],
+          "stableRepeatEvents": 0,
+          "revokedAccessRetainedAlarm": true,
+          "recovery": [
+            {
+              "component": "telemetry",
+              "state": "recovered",
+              "reasons": []
+            },
+            {
+              "component": "callbacks",
+              "state": "recovered",
+              "reasons": []
+            }
+          ],
+          "finalHealthy": true,
+          "fixtureWithdrawal": 101,
+          "automaticRemediation": false,
+          "externalMailSends": 0,
+          "elapsedMs": 195
+        },
+        "productApis": false,
+        "productApiStatus": 404,
+        "observerPoolMax": 1,
+        "additionalOperatorConnections": 1
+      },
+      "settingsAndHostKeysUnchanged": true,
+      "legacyAndActiveProviderManifestsUnchanged": true,
+      "originalSubjectAndSessionPreserved": true,
+      "notices": 6,
+      "templates": 1,
+      "appMigrations": 33,
+      "journalFiles": 0,
+      "drillActorsRemaining": 0,
+      "drillCallbacksRemaining": 0,
+      "settingsMode": "600",
+      "settingsUid": 1000,
+      "journalMode": "700",
+      "journalUid": 1000,
+      "budget": "observer uses one of two already declared operator slots; proof uses both; existing host budget remains 42/100"
+    }
+  },
+  "disabledSeedStaffCli": "nonzero; telemetry access_denied; queues withheld; no role changes",
+  "isolatedProofs": {
+    "focusedDatabaseTests": 14,
+    "newDatabaseTests": 2,
+    "newUnitTests": 5,
+    "realCmsLoginLoss": "existing host proof extended with observer alert/recovery",
+    "localHttp": "200/503/recovery, refused redirect/hosted target/query, actual 3-second stall timeout"
+  },
+  "gateStatus": {
+    "S3": "open",
+    "sixAcceptanceGates": "pending",
+    "specialistReview": "pending",
+    "licensedAdapters": "pending",
+    "productApis": "held"
+  },
+  "readOnlyProcessIsolation": {
+    "dev": {
+      "healthy": true,
+      "queueCount": 10,
+      "dbCredentialNames": [
+        "DB_PASSWORD_TT_OPERATIONS_RUNTIME"
+      ],
+      "hostStateMounted": false,
+      "journalMounted": false
+    },
+    "stage": {
+      "healthy": true,
+      "queueCount": 10,
+      "dbCredentialNames": [
+        "DB_PASSWORD_TT_OPERATIONS_RUNTIME"
+      ],
+      "hostStateMounted": false,
+      "journalMounted": false
+    }
+  }
+}

@@ -318,7 +318,14 @@
         "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
         "tests/provider/test_recovery.py",
         "tests/database/provider-audit.test.ts",
-        "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json"
+        "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json",
+        "docs/implementation/P1-PR-027-local-observability.md",
+        "docs/implementation/evidence/P1/p1-pr-027-observability-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-observability-validation.md",
+        "docs/operations/local-observability.md",
+        "tests/unit/local-observer.test.ts",
+        "tests/database/local-observer.test.ts",
+        "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json"
       ]
     }
   ],
