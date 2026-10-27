@@ -1,6 +1,6 @@
 # P1-PR-027 continuation — local provider recovery and workflow replay
 
-**October 26, 2026 · Local technical continuation; full S3 OPEN.** The owner approved [PR #29](https://github.com/xmyqyl4x/tiresandtreads/pull/29), merged at `92aa5d77e6563b7bcea1fb1f4d80bbbde17c151b`, and authorized provider cold-restart and workflow failure/replay proofs. Specialist review and licensed adapters remain pending. Product APIs remain held. This continues the original parent card; it is not the S4 API card P1-PR-030.
+**October 26, 2026 · Local technical continuation in review as [PR #30](https://github.com/xmyqyl4x/tiresandtreads/pull/30); full S3 OPEN.** The owner approved [PR #29](https://github.com/xmyqyl4x/tiresandtreads/pull/29), merged at `92aa5d77e6563b7bcea1fb1f4d80bbbde17c151b`, and authorized provider cold-restart and workflow failure/replay proofs. Specialist review and licensed adapters remain pending. Product APIs remain held. This continues the original parent card; it is not the S4 API card P1-PR-030.
 
 ## Local provider persistence
 

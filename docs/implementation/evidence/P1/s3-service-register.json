@@ -317,7 +317,8 @@
         "docs/implementation/evidence/P1/p1-pr-027-recovery-validation.md",
         "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
         "tests/provider/test_recovery.py",
-        "tests/database/provider-audit.test.ts"
+        "tests/database/provider-audit.test.ts",
+        "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json"
       ]
     }
   ],

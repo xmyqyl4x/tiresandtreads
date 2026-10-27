@@ -1,0 +1,79 @@
+{
+  "sha": "16b65e4df7a3541862fb91c30215564a886081d2",
+  "tree": "53fb9a91cc0535cb21b988729015d03ed5b8b047",
+  "lockfileSha256": "27e7299f0ecbe22d9a2f92eda86831e92ece8ba63eed2899691de55dd25905f9",
+  "verifiedAt": "2026-10-27T02:59:43.133Z",
+  "project": "tt-test-fca939a7e8904e0c",
+  "lifecycle": {
+    "stopMs": 713,
+    "exitCode": 143,
+    "appMemory": "52.43MiB / 768MiB",
+    "appCpu": "12.70%",
+    "postgresMemory": "88.05MiB / 512MiB",
+    "postgresCpu": "3.56%",
+    "invalidHostedConfig": "rejected",
+    "serviceHostBundleStartup": "validated in production image without workspace dependencies",
+    "workerBundleStartup": "validated in production image without workspace dependencies",
+    "importBundleStartup": "validated in production image without workspace dependencies",
+    "sourceBundleStartup": "validated in production image without workspace dependencies",
+    "mailRecoveryBundleStartup": "validated in production image without workspace dependencies",
+    "scope": "idle headless host; DB pool drain measured separately"
+  },
+  "appImageId": "de59bc64f486df75037b17e7ca37140901d5b3617e6bdb98e9394fc70264e740",
+  "recovery": {
+    "project": "tt-test-244d483147cc7821",
+    "elapsedMs": 32639,
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "status": "passed",
+    "checksMs": 799,
+    "backupWindowMs": 4558,
+    "tables": {
+      "app": 141,
+      "cms": 28
+    },
+    "inventorySha256": {
+      "app": "e7eb7e21f06d17b3e59674751fbb9646790ee4b726cd698aba4f6cd679e2fc27",
+      "cms": "3c28fddbd689d06ba471359980ed4d94b62a1e84e287bc77b38046f9528181a5"
+    },
+    "backupBytes": {
+      "app": 752992,
+      "cms": 197160
+    },
+    "backupSha256": {
+      "app": "3f99ed54d97a04cdb288bd330bb897e6f4d9bfd4e1deb32aa11a28e294cefa67",
+      "cms": "8eaef422b1ec840fa4d890665ddb1c353cb26c8bb34e72c06d034dbae54bf80d"
+    },
+    "migrations": {
+      "app": 33,
+      "cms": 3
+    },
+    "failures": [
+      "corrupt restore rolled back",
+      "missing/stale journal denied",
+      "incomplete deletion rolled back",
+      "inter-database publication crash retried"
+    ],
+    "lateWrite": "known post-backup write absent; no PITR claim",
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "providerRecovery": {
+    "tests": 6,
+    "image": "sha256:6d76d02fff5a87ee3976a97cd17d6f5e461f9bf06bf04b9715b19b1e07518a06",
+    "status": "passed",
+    "scope": "pinned local S3/KMS fixture; SIGKILL, exact versions, authenticated snapshot and failed-ack recovery; not hosted custody"
+  },
+  "testSummary": {
+    "unitUsecaseDatabase": 990,
+    "foundation": 6,
+    "schema": 63,
+    "databaseRecovery": 11,
+    "providerRecovery": 6,
+    "total": 1076
+  },
+  "coveragePercent": {
+    "lines": 97.23,
+    "statements": 94.03,
+    "functions": 98.27,
+    "branches": 90.36
+  }
+}
