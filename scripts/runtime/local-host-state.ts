@@ -91,7 +91,11 @@ export async function readProviderState(file: string, target: string) {
 }
 
 export async function verifyProviderState(state: LocalProviderState, endpoint: string) {
-  if (endpoint !== 'http://moto:5000' && !/^http:\/\/127\.0\.0\.1:\d+$/.test(endpoint))
+  if (
+    endpoint !== 'http://moto:5000' &&
+    endpoint !== 'http://moto-durable:5000' &&
+    !/^http:\/\/127\.0\.0\.1:\d+$/.test(endpoint)
+  )
     throw Error('Invalid fixture endpoint');
   const options = {
     endpoint,

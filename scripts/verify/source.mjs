@@ -30,7 +30,7 @@ for (const name of paths) {
   folded.add(key);
   if (/\/(\.env($|\.)|.*\.(pem|dump)$)/.test('/' + name) && !name.endsWith('.env.example'))
     throw new Error(`Private environment/artifact in source: ${name}`);
-  if (statSync(name).size > 2_000_000 || !/\.(ts|tsx|mjs|cjs|json|ya?ml|sql|md)$/.test(name))
+  if (statSync(name).size > 2_000_000 || !/\.(ts|tsx|mjs|cjs|json|ya?ml|sql|md|py)$/.test(name))
     continue;
   const text = readFileSync(name, 'utf8');
   if (!name.endsWith('.md') && text.includes('\r')) throw new Error(`Use LF line endings: ${name}`);

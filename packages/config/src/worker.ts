@@ -59,7 +59,7 @@ export function readWorkerConfig(env: Readonly<Record<string, string | undefined
     const u = new URL(url);
     if (
       u.protocol !== 'http:' ||
-      !['127.0.0.1', 'localhost', 'moto', 'inngest'].includes(u.hostname) ||
+      !['127.0.0.1', 'localhost', 'moto', 'moto-durable', 'inngest'].includes(u.hostname) ||
       u.username ||
       u.password ||
       u.pathname !== '/' ||

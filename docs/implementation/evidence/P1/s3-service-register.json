@@ -312,7 +312,13 @@
         "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
         "scripts/runtime/local-workflow-proof.ts",
         "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
-        "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json"
+        "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json",
+        "docs/implementation/P1-PR-027-provider-recovery-replay.md",
+        "docs/implementation/evidence/P1/p1-pr-027-recovery-validation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
+        "tests/provider/test_recovery.py",
+        "tests/database/provider-audit.test.ts",
+        "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json"
       ]
     }
   ],

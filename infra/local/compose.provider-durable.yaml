@@ -1,0 +1,8 @@
+services:
+  service-host:
+    environment:
+      STORAGE_ENDPOINT: http://moto-durable:5000
+      SERVICE_HOST_PROVIDER_FILE: /state/provider-v2/provider.json
+  service-setup:
+    environment:
+      LOCAL_PROVIDER_MODE: durable

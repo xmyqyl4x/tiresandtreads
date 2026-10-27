@@ -1,14 +1,13 @@
 import pg from 'pg';
+import { providerSelection } from './fixture-provider.ts';
 import { proveWorkflow } from './local-workflow-proof.ts';
 import { readProviderState, verifyProviderState } from './local-host-state.ts';
 try {
   const target = process.env.LOCAL_ENV;
   if (!['dev', 'stage'].includes(target ?? '') || process.env.APP_ENV !== target + '-local')
     throw Error();
-  await verifyProviderState(
-    await readProviderState('/state/current/provider.json', target!),
-    'http://moto:5000',
-  );
+  const selected = providerSelection(process.env.LOCAL_PROVIDER_MODE);
+  await verifyProviderState(await readProviderState(selected.file, target!), selected.endpoint);
   const client = new pg.Client({
     connectionString: `postgresql://tt_app_migrator:${process.env.DB_PASSWORD_TT_APP_MIGRATOR}@postgres:5432/tt_app`,
     connectionTimeoutMillis: 3000,

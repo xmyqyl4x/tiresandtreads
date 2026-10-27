@@ -42,6 +42,24 @@ The host uses 0600 settings owned by Linux UID 1000 inside `tt-dev_host-state` /
 
 Dev health is `http://127.0.0.1:8123/health/ready`; stage is port 8223. Only health and `/internal/inngest` are served. Providers and Inngest have no published ports. `up` verifies provider custody, starts the host, and registers its three functions. `prove` waits at most 85 seconds for the real cron callback to remove its expired SQL bucket while retaining an unexpired bucket and disabled policy. It confirms product APIs remain 404 and cleans only its own records. Failure is a failed proof, not an activation approval.
 
-`stop` drains the host and stops Inngest, retaining all volumes and leaving PostgreSQL/Moto running. `local down` refuses marked prepared targets because removing Moto loses its in-memory KMS/S3 state. Keep Moto running during host/workflow restarts. Docker/OS restart, manually stopping/recreating Moto, or removing provider state requires deliberate fixture recovery; startup then refuses missing canary ciphertext/version custody. **This is not a complete cold-restart persistent provider environment.** Do not replay recordings, recreate keys/versions, delete manifests or rerun bootstrap to hide a mismatch. Provider cold-restart recovery remains a next local task; hosted custody remains gated.
+`stop` drains the host and stops Inngest, retaining every volume and both provider generations. `local down` refuses marked prepared targets. Legacy stock Moto must stay running because its KMS material cannot be exported; explicitly upgraded fixture targets use the separately checkpointed provider described below. Do not replay recordings, delete manifests, recreate keys/versions or rerun bootstrap to hide a custody mismatch. Hosted custody remains gated.
 
 Before enabling additional maintenance lanes, review the fixture data and declare every additional process's pool maximum. The retained plan enables only bounded SQL quota cleanup (17 owned pools + five external slots + reserve 20 = 42 of the actual 100 PostgreSQL slots). It does not enable quota admission policies, product reports, mail, analytics collection, ads or source pulls. The current web process opens no database pool. Retention remains dry-run. Original six S3 gates and the API hold are unchanged.
+
+## Provider cold-restart and replay
+
+See the [recovery contract and limits](../implementation/P1-PR-027-provider-recovery-replay.md). For an existing legacy target, first stop all other writers/operators and inspect the fixture inventory. Only disposable declared canaries with no encrypted database data, old-key references or journal entries may use:
+
+```sh
+pnpm local:host provider-upgrade dev
+pnpm local:host cold-restart dev
+pnpm local:host prove dev
+```
+
+Repeat explicitly with `stage`. `provider-upgrade` quiesces the host/workflow, audits both databases and legacy provider, then creates a separate fixture generation and private manifest. It never exports or recovers old KMS bytes. Existing settings/key rings, role credentials, SQL rows, old provider manifest and container remain intact. Unexpected data/resources, busy runtime clients or interrupted setup stop the operation; preserve both generations and investigate rather than resetting them. Repeating a completed upgrade verifies its existing canary and performs no rotation.
+
+`cold-restart` kills and replaces only the selected checkpointed provider, using the same `provider-state` volume, then verifies custody and re-registers the host. The command refuses legacy/unselected targets. `prove` establishes fresh cron/HTTP/SQL execution and API 404 afterward. Provider/workflow ports are private; do not publish their unsigned development interfaces.
+
+Keep `provider-state` (both `auth.key` and `state.json`), `host-state`, the separate `host-journal`, `workflow-state`, ignored selection marker and database backups under protected encrypted backup custody. A MAC authenticates plaintext fixture state; it does not encrypt the keys. No host-disk-loss or independent recovery guarantee is established. Preserve an interrupted `state.pending` for inspection; only the verified committed `state.json` is loaded. Missing/corrupt checkpoint or MAC key refuses startup; never replace a key to make verification pass. On a 503/unknown acknowledgement, inspect actual persisted key/object effects before retrying, because a mutation may already have committed.
+
+For a failed maintenance run, inspect its configured action, masked outcome and SQL/effect state first. The isolated regression uses the private local Inngest `rerun(runID)` operation after removing the SQL lock; it proves quota cleanup can be repeated without deleting a live bucket. The internal `tt/maintenance.requested` event always uses the server-configured cycle; its payload cannot enable work. Do not generalize this proof into automatic replay of email, deletion or other external effects. Leave those lanes disabled and reconcile uncertain provider effects under their separate runbooks. No product API or new administrative endpoint is introduced.

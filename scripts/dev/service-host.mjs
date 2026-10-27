@@ -1,4 +1,4 @@
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, writeFileSync, readFileSync } from 'node:fs';
 import { environmentPlan } from './plan.mjs';
 import { compose } from './local.mjs';
 
@@ -8,23 +8,77 @@ export function persistentHostPlan(target) {
   return { ...plan, hostPort: target === 'dev' ? 8123 : 8223 };
 }
 export function hostCompose(plan, args, options = {}) {
-  return compose(plan, ['-f', 'infra/local/compose.service-host.yaml', ...args], {
+  const files = ['-f', 'infra/local/compose.service-host.yaml'];
+  if (durableProvider(plan)) files.push('-f', 'infra/local/compose.provider-durable.yaml');
+  return compose(plan, [...files, ...args], {
     ...options,
     env: { ...options.env, SERVICE_HOST_PORT: String(plan.hostPort) },
   });
 }
+function durableProvider(plan) {
+  const file = `.local/provider-${plan.target}.durable`;
+  if (!existsSync(file)) return false;
+  if (readFileSync(file, 'utf8') !== 'retained-fixture-provider-v2\n')
+    throw Error('Invalid provider selection');
+  return true;
+}
+async function startHost(plan) {
+  hostCompose(plan, [
+    '--profile',
+    'providers',
+    'up',
+    '-d',
+    '--wait',
+    'postgres',
+    durableProvider(plan) ? 'moto-durable' : 'moto',
+    'inngest',
+  ]);
+  hostCompose(plan, [
+    'run',
+    '--rm',
+    '--no-deps',
+    'service-setup',
+    'pnpm',
+    'exec',
+    'tsx',
+    'scripts/runtime/prepare-local-host.ts',
+    'check',
+  ]);
+  hostCompose(plan, ['up', '-d', '--wait', 'service-host']);
+  const r = await fetch(`http://127.0.0.1:${plan.hostPort}/internal/inngest`, {
+    method: 'PUT',
+    signal: AbortSignal.timeout(15000),
+  });
+  if (!r.ok) throw Error('Local workflow registration unavailable');
+  console.log(`${plan.project}: private host ready; local workflow functions registered`);
+}
 async function main() {
   const [action, target] = process.argv.slice(2);
   const plan = persistentHostPlan(target);
-  if (process.argv.length !== 4 || !['prepare', 'up', 'stop', 'status', 'prove'].includes(action))
-    throw Error('Usage: pnpm local:host <prepare|up|stop|status|prove> <dev|stage>');
+  if (
+    process.argv.length !== 4 ||
+    !['prepare', 'up', 'stop', 'status', 'prove', 'provider-upgrade', 'cold-restart'].includes(
+      action,
+    )
+  )
+    throw Error(
+      'Usage: pnpm local:host <prepare|up|stop|status|prove|provider-upgrade|cold-restart> <dev|stage>',
+    );
   if (!existsSync(plan.envFile) || !existsSync(`.local/db-${target}.env`))
     throw Error('Initialize and explicitly bootstrap/migrate this database target first');
   if (action === 'prepare') {
     // Build outputs only; this command never bootstraps, migrates, resets, or seeds existing fixtures.
     compose(plan, ['--profile', 'database', 'build', 'database']);
     hostCompose(plan, ['build', 'service-host']);
-    hostCompose(plan, ['--profile', 'providers', 'up', '-d', '--wait', 'postgres', 'moto']);
+    hostCompose(plan, [
+      '--profile',
+      'providers',
+      'up',
+      '-d',
+      '--wait',
+      'postgres',
+      durableProvider(plan) ? 'moto-durable' : 'moto',
+    ]);
     compose(plan, [
       'run',
       '--rm',
@@ -41,17 +95,12 @@ async function main() {
     if (!existsSync(marker))
       writeFileSync(marker, 'retained-local-host-v1\n', { flag: 'wx', mode: 0o600 });
   } else if (action === 'up') {
-    hostCompose(plan, [
-      '--profile',
-      'providers',
-      'up',
-      '-d',
-      '--wait',
-      'postgres',
-      'moto',
-      'inngest',
-    ]);
-    // A read-only repeat preflight refuses lost fixture KMS/object state before host admission.
+    await startHost(plan);
+  } else if (action === 'provider-upgrade') {
+    hostCompose(plan, ['stop', 'service-host', 'inngest']);
+    compose(plan, ['--profile', 'database', 'build', 'database']);
+    hostCompose(plan, ['build', 'moto-durable', 'service-host']);
+    hostCompose(plan, ['up', '-d', '--wait', 'moto-durable']);
     hostCompose(plan, [
       'run',
       '--rm',
@@ -60,18 +109,21 @@ async function main() {
       'pnpm',
       'exec',
       'tsx',
-      'scripts/runtime/prepare-local-host.ts',
-      'check',
+      'scripts/runtime/upgrade-local-provider.ts',
     ]);
-    hostCompose(plan, ['up', '-d', '--wait', 'service-host']);
-    const r = await fetch(`http://127.0.0.1:${plan.hostPort}/internal/inngest`, {
-      method: 'PUT',
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!r.ok) throw Error('Local workflow registration unavailable');
-    console.log(`${plan.project}: private host ready; local workflow functions registered`);
+    const marker = `.local/provider-${target}.durable`;
+    if (!existsSync(marker))
+      writeFileSync(marker, 'retained-fixture-provider-v2\n', { flag: 'wx', mode: 0o600 });
+    await startHost(plan);
+  } else if (action === 'cold-restart') {
+    if (!durableProvider(plan))
+      throw Error('Explicit fixture-only provider upgrade required first');
+    hostCompose(plan, ['stop', 'service-host', 'inngest']);
+    hostCompose(plan, ['kill', '-s', 'SIGKILL', 'moto-durable']);
+    hostCompose(plan, ['up', '-d', '--force-recreate', '--wait', 'moto-durable']);
+    await startHost(plan);
   } else if (action === 'stop') {
-    // Moto is memory-only. Keep its container alive; preserve every named volume and object version.
+    // Preserve both fixture generations and every named volume during a normal host stop.
     hostCompose(plan, ['stop', 'service-host', 'inngest']);
     console.log(
       `${plan.project}: host/workflows stopped; database, fixture provider and volumes retained`,
