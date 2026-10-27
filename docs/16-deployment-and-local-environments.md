@@ -345,3 +345,5 @@ The original DD03/DD05 Inngest and S3/KMS proof register in [003](implementation
 Retained dev/stage service hosts use `pnpm local:host prepare|up|prove|status|stop <dev|stage>`. See the [local workflow runbook](operations/local-service-host.md#retained-devstage-workflow) for separate keys/journal/workflow volumes, actual cron/SQL proofs and the explicit Moto cold-restart limitation. Product APIs and the six S3 acceptance gates remain held.
 
 Current local evidence: [retained dev/stage workflow](implementation/P1-PR-027-persistent-local-workflows.md) and [guarded fixture provider recovery/SQL replay](implementation/P1-PR-027-provider-recovery-replay.md). These preserve option C, existing credentials and native PostgreSQL. Independent/hosted custody, monitored response and all six S3 acceptance gates remain open; APIs stay held.
+
+The [local observer/response proof](implementation/P1-PR-027-local-observability.md) reuses the already budgeted operator connections for option C. It adds no hosted monitoring dependency or public API and does not close hosted alerting/staffing acceptance.

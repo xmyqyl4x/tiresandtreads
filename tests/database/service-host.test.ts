@@ -20,6 +20,8 @@ import { createServiceHostPools } from '../../packages/integrations/src/service-
 import { readServiceHostSettings } from '../../packages/config/src/service-host-settings.ts';
 import { createOwnerRepository } from '../../packages/db/src/repositories/owners.ts';
 import { startWorker } from '../../packages/integrations/src/worker-server.ts';
+import { createLocalObserver } from '../../packages/integrations/src/local-observer.ts';
+import { localHttpReady } from '../../packages/integrations/src/local-probe.ts';
 import { engineFixture } from '../fixtures/engine/base.ts';
 import { type Result, ok } from '../../packages/domain/src/values/core.ts';
 import { proveWorkflow } from '../../scripts/runtime/local-workflow-proof.ts';
@@ -568,13 +570,37 @@ it('withdraws readiness when the real CMS lane becomes unavailable and recovers 
       );
       expect(await h.ready()).toBe(false);
       const listener = await startWorker(h, 8127, 'http://test:8127');
+      const observer = createLocalObserver({
+        review: () =>
+          h.services.health.review(f.staff, {
+            backlog: 100,
+            lagSeconds: 300,
+            capacityBasisPoints: 8000,
+          }),
+        checks: {
+          host_readiness: () => localHttpReady('http://127.0.0.1:8127/health/ready'),
+          storage_fixture: () => localHttpReady(env.STORAGE_ENDPOINT! + '/moto-api/'),
+          workflow_freshness: async () => true,
+        },
+        now: Date.now,
+      });
       try {
         const response = await fetch('http://127.0.0.1:8127/health/ready');
         expect(response.status).toBe(503);
         expect(await response.json()).toEqual({ ready: false });
+        expect((await observer.sample()).events).toContainEqual({
+          component: 'host_readiness',
+          state: 'alert',
+          reasons: ['unavailable'],
+        });
       } finally {
         await admin.query('ALTER ROLE tt_cms_runtime LOGIN');
         expect(await h.ready()).toBe(true);
+        expect((await observer.sample()).events).toContainEqual({
+          component: 'host_readiness',
+          state: 'recovered',
+          reasons: [],
+        });
         await listener.stop();
       }
     } finally {
