@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-27",
+  "baselineMerge": "9d7006f71b7aba1eb0488c457850dd66d85f60cb",
+  "remoteEvidenceObservedAt": "2026-10-27T14:31:56.9329383Z",
+  "scope": "Final local S3 technical evidence reconciliation; no human/provider/hosted acceptance",
+  "disposition": {
+    "localTechnicalContinuation": "evidence reconciled; review requested",
+    "parentP1PR027": "in progress",
+    "S3": "open",
+    "specialistReview": "pending",
+    "licensedAdapters": "pending",
+    "productApis": "held",
+    "publicActivation": false,
+    "endpointImplementationAllowed": false
+  },
+  "inventory": {
+    "componentCards": 14,
+    "applicationServiceModules": 26,
+    "draftSpecialistScenarios": 98,
+    "actualSpecialistReviews": 0
+  },
+  "pendingGates": [
+    "G1-specialist",
+    "G1-fitment-catalog",
+    "G1-prices",
+    "G2-provider-effects",
+    "G2-privacy-policy",
+    "S3-service-host"
+  ],
+  "authority": "docs/implementation/evidence/P1/s3-service-register.json",
+  "lineage": [
+    {
+      "pr": 27,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/27",
+      "head": "aea2eb775abc5e9928172376d620468ab5da56f5",
+      "merge": "026a14c707c567ccbeffaabca8ff74f5aaf59b59",
+      "mergedAt": "2026-10-26T21:05:21Z",
+      "ci": {
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40386565614",
+        "head": "aea2eb775abc5e9928172376d620468ab5da56f5",
+        "conclusion": "success",
+        "completedAt": "2026-10-26T19:29:13Z"
+      },
+      "pinnedLocalImplementationCommit": "b8225e7b3a766ba9dd4b95a01284ab82e2bd4509",
+      "pinnedLocalVerifiedAt": "2026-10-26T19:12:14.050Z",
+      "pinnedLocalTestTotal": 1043,
+      "pinnedLocalReceipt": "docs/implementation/evidence/P1/p1-pr-027-verification.json",
+      "ancestry": "implementation is ancestor of final PR head; final head is ancestor of merge; merge is ancestor of reconciliation baseline"
+    },
+    {
+      "pr": 28,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/28",
+      "head": "3e5793643a54814ac8d5e5eddf1a80ae695d6227",
+      "merge": "7c86af95e8f78bc4b4c6d29ac8ebefe771b57bd5",
+      "mergedAt": "2026-10-26T23:56:53Z",
+      "ci": {
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40406317105",
+        "head": "3e5793643a54814ac8d5e5eddf1a80ae695d6227",
+        "conclusion": "success",
+        "completedAt": "2026-10-26T21:43:19Z"
+      },
+      "pinnedLocalImplementationCommit": "ab8af853c4f4d82e1a2f84b998261000b7b114d9",
+      "pinnedLocalVerifiedAt": "2026-10-26T21:34:40.988Z",
+      "pinnedLocalTestTotal": 1059,
+      "pinnedLocalReceipt": "docs/implementation/evidence/P1/p1-pr-027-host-verification.json",
+      "ancestry": "implementation is ancestor of final PR head; final head is ancestor of merge; merge is ancestor of reconciliation baseline"
+    },
+    {
+      "pr": 29,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/29",
+      "head": "3a21258a2611e6e9adb1c592e217386a4c1a8c26",
+      "merge": "92aa5d77e6563b7bcea1fb1f4d80bbbde17c151b",
+      "mergedAt": "2026-10-27T02:17:55Z",
+      "ci": {
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40426203579",
+        "head": "3a21258a2611e6e9adb1c592e217386a4c1a8c26",
+        "conclusion": "success",
+        "completedAt": "2026-10-27T00:29:20Z"
+      },
+      "pinnedLocalImplementationCommit": "a37ed2085a2a3710bf59ebfe8d3bdfada2512362",
+      "pinnedLocalVerifiedAt": "2026-10-27T00:17:53.929Z",
+      "pinnedLocalTestTotal": 1064,
+      "pinnedLocalReceipt": "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json",
+      "ancestry": "implementation is ancestor of final PR head; final head is ancestor of merge; merge is ancestor of reconciliation baseline"
+    },
+    {
+      "pr": 30,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/30",
+      "head": "6766874fcee91cac4c18b85c389fe1f7f5f7fee5",
+      "merge": "b02335bc9c2cd890fc81dc4ffeae2cf20b89a7f4",
+      "mergedAt": "2026-10-27T05:01:44Z",
+      "ci": {
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40442359704",
+        "head": "6766874fcee91cac4c18b85c389fe1f7f5f7fee5",
+        "conclusion": "success",
+        "completedAt": "2026-10-27T03:11:56Z"
+      },
+      "pinnedLocalImplementationCommit": "16b65e4df7a3541862fb91c30215564a886081d2",
+      "pinnedLocalVerifiedAt": "2026-10-27T02:59:43.133Z",
+      "pinnedLocalTestTotal": 1076,
+      "pinnedLocalReceipt": "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json",
+      "ancestry": "implementation is ancestor of final PR head; final head is ancestor of merge; merge is ancestor of reconciliation baseline"
+    },
+    {
+      "pr": 31,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/31",
+      "head": "a909136f3819504ab9663f06c4a24a74a9ec534a",
+      "merge": "9d7006f71b7aba1eb0488c457850dd66d85f60cb",
+      "mergedAt": "2026-10-27T14:30:08Z",
+      "ci": {
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40455845515",
+        "head": "a909136f3819504ab9663f06c4a24a74a9ec534a",
+        "conclusion": "success",
+        "completedAt": "2026-10-27T05:37:04Z"
+      },
+      "pinnedLocalImplementationCommit": "de2317adb1a7b28953fa04d7484d077aac2ae263",
+      "pinnedLocalVerifiedAt": "2026-10-27T05:20:50.994Z",
+      "pinnedLocalTestTotal": 1083,
+      "pinnedLocalReceipt": "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json",
+      "ancestry": "implementation is ancestor of final PR head; final head is ancestor of merge; merge is ancestor of reconciliation baseline"
+    }
+  ],
+  "receiptDigests": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-verification.json",
+      "sha256": "622f719948e1b795430dc7205fdc6e13c6e56b07be865e356937968dfb7e5e23"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-validation.md",
+      "sha256": "af9e5db85e33597f869350e8dfd96b2c3ccb96d935226e255611f4f477b63723"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-verification.json",
+      "sha256": "188532309a1c3cf06613785085140d2474ef456bf0a1e00f3de6318d011199f7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-validation.md",
+      "sha256": "e7cbf3ab5c3087823ccd02d74d6b041ccc3ff6d2810df9d1bad646da824bb88d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json",
+      "sha256": "2b0e0819c9f9c9a26253d64d6140b5db643ce52407c43d2a32db6f85679f1ccc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
+      "sha256": "00663476cce0330338405af39cae2a06bb38f9ad24bd4058afd84f90c456ffcb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json",
+      "sha256": "832cd2090771dfcca672ce2c006607e4dcc70bfe74bb4681341c45372a1ade31"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-validation.md",
+      "sha256": "899523c97f42509e2996d36a324fd6bfd51e513a953e8ef65215169d2e1c2e53"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json",
+      "sha256": "c10fcfdca85ebb7d4abea93d8d529aa116eb46cc8b17788c96608e13621612f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-validation.md",
+      "sha256": "d4a60c25554c4f0beb4da546428440b465e893736ab296bd0e7676c1ca560af7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
+      "sha256": "fa76c4077edac39a1390d0c21cd82a0e7c01edda19656b2644ff3bfacd71cc43"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
+      "sha256": "f9e0060f174f2eeed43408802201450d1d888b501ee01ffbeecee71e0e98a1a3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-local.json",
+      "sha256": "fefbbdd5952e508824980fe8c4581ad9c786d06c75b64d3fed69667a721b4f39"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
+      "sha256": "25583193194f7bfdcc3ef39263d3d5ea7b96312f35923ba0f0b1e2e7ff75a8ef"
+    }
+  ],
+  "verificationNote": "Pinned receipts describe implementation commits. Successful final-head CI and merge ancestry are separate evidence; totals are not cumulative. Fresh reconciliation regression is recorded separately after exact-commit verification. This index is a snapshot, not the acceptance authority."
+}

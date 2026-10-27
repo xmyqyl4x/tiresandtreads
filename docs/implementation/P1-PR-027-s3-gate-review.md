@@ -1,6 +1,6 @@
 # S3 business service gate disposition
 
-**October 26, 2026 · Full S3 is OPEN.** Local technical review and merged component PRs are separate from actual source, specialist, provider and privacy acceptance. Standing deferrals remain. [Contract](P1-PR-027-s3-validation-gate.md), [register](evidence/P1/s3-service-register.json).
+**Updated October 27, 2026 · Full S3 is OPEN.** Local technical review and merged component PRs are separate from actual source, specialist, provider and privacy acceptance. Standing deferrals remain. [Contract](P1-PR-027-s3-validation-gate.md), [register](evidence/P1/s3-service-register.json).
 
 | Gate | Actual state | Required evidence / next action | Acceptance owner |
 | --- | --- | --- | --- |
@@ -20,3 +20,5 @@ Later gates remain: S4 identity/MFA, CSRF/limits, callbacks and complete API con
 Owner-approved [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28) merged at `7c86af95`. Owner-approved [PR #29](https://github.com/xmyqyl4x/tiresandtreads/pull/29) merged at `92aa5d77`. The [retained workflow continuation](P1-PR-027-persistent-local-workflows.md) adds local cron/SQL proofs; the [provider recovery/replay continuation](P1-PR-027-provider-recovery-replay.md) proves a separately checkpointed fixture generation and SQL-only failed-run replay. All six acceptance gates remain open.
 
 Owner-approved [PR #30](https://github.com/xmyqyl4x/tiresandtreads/pull/30) merged at `b02335bc`. The [local observability and response continuation](P1-PR-027-local-observability.md) adds bounded read-only observation and synthetic dev/stage drills. It does not supply a hosted alert destination, actual human response ownership or S3 acceptance.
+
+Owner-approved [PR #31](https://github.com/xmyqyl4x/tiresandtreads/pull/31) merged at `9d7006f7`. The [final local readiness review](P1-PR-027-final-local-readiness.md) reconciles all five technical continuations, immutable receipts, actual final-head CI and remaining acceptance actions. The local technical continuation is ready for review; P1-PR-027 remains in progress with six pending gates, specialist/licensed adapters pending and APIs held. No additional local feature PR or stage-rule exception is implied.

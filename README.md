@@ -48,3 +48,5 @@ Complete the [S1 database, S2 data-access, S3 service and S4 API gates](docs/04-
 Retained dev/stage service hosts use `pnpm local:host prepare|up|prove|status|stop <dev|stage>`. See the [local workflow runbook](docs/operations/local-service-host.md#retained-devstage-workflow) for separate keys/journal/workflow volumes, guarded fixture-provider cold restart and actual cron/SQL failure/replay proofs. Product APIs and the six S3 acceptance gates remain held.
 
 The [local observability/response continuation](docs/implementation/P1-PR-027-local-observability.md) adds `local:host observe` and `prove-observability`. See the [masked operational response runbook](docs/operations/local-observability.md). All six S3 gates and the API hold remain unchanged.
+
+The [final local S3 readiness review](docs/implementation/P1-PR-027-final-local-readiness.md) reconciles merged PRs #27–31, current local state, evidence provenance and the six remaining acceptance actions. Local technical review does not close P1-PR-027 or release the API hold.

@@ -325,7 +325,11 @@
         "docs/operations/local-observability.md",
         "tests/unit/local-observer.test.ts",
         "tests/database/local-observer.test.ts",
-        "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json"
+        "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json",
+        "docs/implementation/P1-PR-027-final-local-readiness.md",
+        "docs/implementation/evidence/P1/p1-pr-027-readiness-index.json",
+        "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-readiness-validation.md"
       ]
     }
   ],
