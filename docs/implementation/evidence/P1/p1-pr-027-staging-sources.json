@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "researchWindowUtc": "2026-10-27",
+  "observedAt": "2026-10-27T18:37:11.005026+00:00",
+  "method": "Read-only public official vendor documentation; no account access, signup, CLI authentication, supplier contact or hosted test",
+  "scope": "Source metadata only; no raw pages or proprietary samples retained",
+  "recheck": "At material provider/edition/region/workload changes and immediately before purchase/provision approval; exact regional quote and account eligibility remain unverified",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "DigitalOcean Droplet pricing",
+      "url": "https://www.digitalocean.com/pricing/droplets"
+    },
+    {
+      "id": "S02",
+      "title": "DigitalOcean managed database pricing",
+      "url": "https://www.digitalocean.com/pricing/managed-databases"
+    },
+    {
+      "id": "S03",
+      "title": "DigitalOcean PostgreSQL limits",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/limits/"
+    },
+    {
+      "id": "S04",
+      "title": "DigitalOcean regional availability",
+      "url": "https://docs.digitalocean.com/platform/regional-availability/"
+    },
+    {
+      "id": "S05",
+      "title": "DigitalOcean PostgreSQL secure connections",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/secure/"
+    },
+    {
+      "id": "S06",
+      "title": "DigitalOcean PostgreSQL users and databases",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/manage-users-and-databases/"
+    },
+    {
+      "id": "S07",
+      "title": "DigitalOcean PostgreSQL features",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/features/"
+    },
+    {
+      "id": "S08",
+      "title": "DigitalOcean backup pricing",
+      "url": "https://docs.digitalocean.com/products/backups/details/pricing/"
+    },
+    {
+      "id": "S09",
+      "title": "AWS RDS PostgreSQL pricing",
+      "url": "https://aws.amazon.com/rds/postgresql/pricing/"
+    },
+    {
+      "id": "S10",
+      "title": "AWS RDS restricted administrator role",
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.PostgreSQL.CommonDBATasks.Roles.rds_superuser.html"
+    },
+    {
+      "id": "S11",
+      "title": "AWS RDS TLS certificate verification",
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html"
+    },
+    {
+      "id": "S12",
+      "title": "AWS S3 pricing dimensions",
+      "url": "https://aws.amazon.com/s3/pricing/"
+    },
+    {
+      "id": "S13",
+      "title": "AWS KMS pricing",
+      "url": "https://aws.amazon.com/kms/pricing/"
+    }
+  ]
+}

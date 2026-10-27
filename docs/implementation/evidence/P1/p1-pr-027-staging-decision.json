@@ -1,0 +1,364 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "7f2476e62864a671d437f932d8879f57d2de129d",
+  "preparedAt": "2026-10-27T18:37:11.005026+00:00",
+  "scope": "Private hosted staging decision proposal only; no hosted acceptance",
+  "authorization": {
+    "packetPreparation": true,
+    "provisioning": false,
+    "purchases": false,
+    "accountCreation": false,
+    "cloudAuthentication": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "notifications": false,
+    "productApiImplementation": false
+  },
+  "disposition": {
+    "parent": "P1-PR-027",
+    "parentStatus": "in progress",
+    "S3": "open",
+    "specialistReview": "pending",
+    "licensedAdapters": "pending",
+    "productApis": "held",
+    "hostedProofs": "not run"
+  },
+  "pendingGates": [
+    "G1-specialist",
+    "G1-fitment-catalog",
+    "G1-prices",
+    "G2-provider-effects",
+    "G2-privacy-policy",
+    "S3-service-host"
+  ],
+  "selectedProvider": null,
+  "selectedRegion": null,
+  "selectedDatabaseModel": null,
+  "approvedMonthlyBudgetUsd": null,
+  "primaryOperator": null,
+  "backupOperator": null,
+  "decisions": [
+    {
+      "id": "HS01",
+      "subject": "Host and US region",
+      "proposal": "Evaluate DigitalOcean NYC3; SFO3 fallback; AWS alternative needs quote",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD03",
+      "accountableRole": "Owner and platform reviewer",
+      "actualApprover": null
+    },
+    {
+      "id": "HS02",
+      "subject": "Database operating model",
+      "proposal": "Evaluate managed 4 GiB conditionally; self-operated alternative requires named DB operator",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD03/DD05",
+      "accountableRole": "Owner and DB/platform reviewer",
+      "actualApprover": null
+    },
+    {
+      "id": "HS03",
+      "subject": "Private access and domain",
+      "proposal": "Owned subdomain, TLS, restricted MFA operator path and exact signed internal callback exception",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD03/DD05",
+      "accountableRole": "Owner and security/platform reviewer",
+      "actualApprover": null
+    },
+    {
+      "id": "HS04",
+      "subject": "Budget ceiling",
+      "proposal": "Proposed USD 175/month; actual quotes, tax/labor and temporary resource allowance unresolved",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD04",
+      "accountableRole": "Repository owner",
+      "actualApprover": null
+    },
+    {
+      "id": "HS05",
+      "subject": "Actual operations ownership",
+      "proposal": "Name primary/backup, DB/restore owner, alert destination and maintenance/escalation coverage",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD05",
+      "accountableRole": "Owner and actual operators",
+      "actualApprover": null
+    },
+    {
+      "id": "HS06",
+      "subject": "Provider scope",
+      "proposal": "Actual scoped staging S3/KMS/workflow and no-send email boundaries; no credentials or effects approved",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD05",
+      "accountableRole": "Platform and privacy reviewers",
+      "actualApprover": null
+    },
+    {
+      "id": "HS07",
+      "subject": "Custody and retention",
+      "proposal": "Independent encrypted backups, nonempty signed-journal recovery, key continuity and reviewed policy",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD06",
+      "accountableRole": "Privacy reviewer and platform owner",
+      "actualApprover": null
+    },
+    {
+      "id": "HS08",
+      "subject": "Execution and approval sequence",
+      "proposal": "Decision packet then local preflight, separately reviewed provisioning, actual hosted proofs and gate review",
+      "status": "proposed",
+      "approvedValue": null,
+      "trigger": "DD03/DD04/DD05/DD06",
+      "accountableRole": "Owner and backend/platform reviewer",
+      "actualApprover": null
+    }
+  ],
+  "recommendation": {
+    "candidate": "S2",
+    "provider": "DigitalOcean",
+    "region": "nyc3",
+    "status": "conditional evaluation recommendation, not selected",
+    "condition": "Actual version, ownership/role/restore, TLS, effective capacity, growth and price eligibility must pass before acceptance",
+    "fallback": "S1 only after explicit owner selection and named DB operator; no automatic fallback"
+  },
+  "connectionBudget": {
+    "status": "proposed, not validated remotely",
+    "hostReplicas": 1,
+    "ownedAppMaxima": 16,
+    "ownedCmsMaxima": 1,
+    "externalAppMaxima": 5,
+    "externalCmsMaxima": 3,
+    "projectReserve": 20,
+    "providerReservedSlots": "subtract from raw server maximum separately",
+    "singleHostRequiredUsableSlots": 45,
+    "twoOverlappingHostsRequiredUsableSlots": 62,
+    "retainedLocalBudgetUnchanged": 42,
+    "isolatedHarnessBudgetUnchanged": 65
+  },
+  "costModel": {
+    "currency": "USD",
+    "basis": "Published monthly caps for listed minimum DigitalOcean configurations; ancillary figures are unquoted planning allowances",
+    "sourceIds": [
+      "S01",
+      "S02",
+      "S08",
+      "S09",
+      "S12",
+      "S13"
+    ],
+    "discountsAndCreditsAssumed": false,
+    "operatorLaborUsd": null,
+    "taxUsd": null,
+    "dataLicensesUsd": null,
+    "temporaryRestoreAndOverlapAllowanceUsd": null,
+    "proposedMonthlyCeilingUsd": 175,
+    "approvedMonthlyCeilingUsd": null,
+    "contingencyPercent": 20,
+    "scenarios": {
+      "low": {
+        "lines": [
+          {
+            "category": "appVm",
+            "usd": 24,
+            "kind": "published listed monthly price",
+            "source": "S01"
+          },
+          {
+            "category": "managedDbMinimum",
+            "usd": 60.9,
+            "kind": "published listed monthly minimum configuration; recheck disk/edition/region",
+            "source": "S02"
+          },
+          {
+            "category": "independentBackupJournal",
+            "usd": 8,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "kmsSecretsRequests",
+            "usd": 4,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "accessRegistryLogsAlertsDns",
+            "usd": 8,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "workflowEmailMinimums",
+            "usd": 3,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "egressExtraDiskRetrieval",
+            "usd": 2,
+            "kind": "unquoted planning allowance"
+          }
+        ],
+        "subtotalUsd": 109.9,
+        "contingencyUsd": 21.98,
+        "envelopeUsd": 131.88,
+        "fitsProposedCeiling": true,
+        "accepted": false
+      },
+      "base": {
+        "lines": [
+          {
+            "category": "appVm",
+            "usd": 24,
+            "kind": "published listed monthly price",
+            "source": "S01"
+          },
+          {
+            "category": "managedDbMinimum",
+            "usd": 60.9,
+            "kind": "published listed monthly minimum configuration; recheck disk/edition/region",
+            "source": "S02"
+          },
+          {
+            "category": "independentBackupJournal",
+            "usd": 15,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "kmsSecretsRequests",
+            "usd": 6,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "accessRegistryLogsAlertsDns",
+            "usd": 15,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "workflowEmailMinimums",
+            "usd": 9,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "egressExtraDiskRetrieval",
+            "usd": 5,
+            "kind": "unquoted planning allowance"
+          }
+        ],
+        "subtotalUsd": 134.9,
+        "contingencyUsd": 26.98,
+        "envelopeUsd": 161.88,
+        "fitsProposedCeiling": true,
+        "accepted": false
+      },
+      "high": {
+        "lines": [
+          {
+            "category": "appVm",
+            "usd": 48,
+            "kind": "published listed monthly price",
+            "source": "S01"
+          },
+          {
+            "category": "managedDbMinimum",
+            "usd": 60.9,
+            "kind": "published listed monthly minimum configuration; recheck disk/edition/region",
+            "source": "S02"
+          },
+          {
+            "category": "independentBackupJournal",
+            "usd": 30,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "kmsSecretsRequests",
+            "usd": 10,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "accessRegistryLogsAlertsDns",
+            "usd": 25,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "workflowEmailMinimums",
+            "usd": 20,
+            "kind": "unquoted planning allowance"
+          },
+          {
+            "category": "egressExtraDiskRetrieval",
+            "usd": 15,
+            "kind": "unquoted planning allowance"
+          }
+        ],
+        "subtotalUsd": 208.9,
+        "contingencyUsd": 41.78,
+        "envelopeUsd": 250.68,
+        "fitsProposedCeiling": false,
+        "accepted": false
+      }
+    },
+    "selfOperatedBaseComparison": {
+      "appDbSubtotalUsd": 48,
+      "ancillaryAllowanceUsd": 50,
+      "contingencyPercent": 20,
+      "envelopeUsd": 117.6,
+      "excludedUnquoted": "DB-specific backup/VM snapshots, human labor, tax, licenses and temporary recovery overlap"
+    },
+    "awsAlternative": {
+      "quoted": false,
+      "monthlyUsd": null,
+      "requiredQuoteComponents": [
+        "app compute and disks",
+        "RDS compute/storage/backups",
+        "public IP, endpoints or NAT if chosen",
+        "network/egress/cross-AZ",
+        "registry, access, monitoring, keys and support"
+      ]
+    }
+  },
+  "futureWork": [
+    {
+      "id": "SP01",
+      "status": "not started",
+      "scope": "Hosted endpoint/TLS configuration and local adverse tests"
+    },
+    {
+      "id": "SP02",
+      "status": "not started",
+      "scope": "Ownership/version/bootstrap compatibility preflight"
+    },
+    {
+      "id": "SP03",
+      "status": "not started",
+      "scope": "Actual provider composition and refusal boundaries"
+    },
+    {
+      "id": "SP04",
+      "status": "not started",
+      "scope": "Independent custody and measured recovery"
+    },
+    {
+      "id": "SP05",
+      "status": "not started",
+      "scope": "Protected deployment/access and rollback"
+    },
+    {
+      "id": "SP06",
+      "status": "not started",
+      "scope": "Complete physical capacity and lifecycle"
+    },
+    {
+      "id": "SP07",
+      "status": "not started",
+      "scope": "Actual observation/alert/response"
+    },
+    {
+      "id": "SP08",
+      "status": "not started",
+      "scope": "Scoped evidence handoff and acceptance"
+    }
+  ]
+}

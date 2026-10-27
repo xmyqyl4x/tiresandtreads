@@ -31,3 +31,5 @@ Full S3 stays open for actual specialist/source coverage/rights, pricing reconci
 The owner authorized a [local service-host and connection-budget continuation](P1-PR-027-local-service-host.md), retaining all external/human deferrals and the API hold. That continuation supersedes the empty standalone host as the local composition option; selected-provider/hosted acceptance remains open.
 
 The [October 27 final local reconciliation](P1-PR-027-final-local-readiness.md) is the current technical readiness summary after merged PRs #27–31. It preserves this historical contract and all six acceptance gates. The original empty standalone worker, later composed local host, legacy memory-only provider and separate durable fixture generation have distinct evidence scopes; none supplies actual hosted/provider/human acceptance.
+
+After accepting local reconciliation in merged PR #32 (`7f2476e`), the owner authorized the [private hosted staging decision packet](P1-PR-027-private-hosted-staging-decision.md) under `S3-service-host`. It plans future actual-host proofs without provisioning, purchases, accepted-provider records or API implementation.
