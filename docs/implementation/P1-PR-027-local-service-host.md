@@ -1,6 +1,6 @@
 # P1-PR-027 continuation — local service host and connection budget
 
-**October 26, 2026 · Local technical implementation in review as [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28); full S3 acceptance stays open.** The owner approved [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27), merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`, and authorized this continuation while keeping APIs on hold. Specialist review and licensed adapters remain pending. This work adds no migration, database role, dependency or product endpoint.
+**October 26, 2026 · Local technical implementation approved and merged as [PR #28](https://github.com/xmyqyl4x/tiresandtreads/pull/28), `7c86af95`; full S3 acceptance stays open.** The owner approved [PR #27](https://github.com/xmyqyl4x/tiresandtreads/pull/27), merged at `026a14c707c567ccbeffaabca8ff74f5aaf59b59`, and authorized this continuation while keeping APIs on hold. Specialist review and licensed adapters remain pending. This work adds no migration, database role, dependency or product endpoint.
 
 ## One composition root, explicit ownership
 
@@ -45,3 +45,5 @@ The signed file journal lives at an explicit absolute directory on independent d
 ## Acceptance boundary
 
 The service register records this local evidence separately from accepted evidence. The `S3-service-host` row stays pending for selected-provider/hosted wiring, actual secret custody, physical topology/budget and schedule/monitor/response proofs. All six existing S3 evidence gates remain open. Original P1-PR-027 completion boxes remain unchecked; P1-PR-028–030 and product APIs stay on hold. No S4/S5/S6 approval or usable live phase is claimed.
+
+The subsequent [retained dev/stage and real workflow continuation](P1-PR-027-persistent-local-workflows.md) supplies a repeatable operator without changing these acceptance boundaries.

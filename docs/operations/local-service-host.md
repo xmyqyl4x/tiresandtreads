@@ -4,6 +4,8 @@ The local host composes S3 services over one PostgreSQL server and separate appl
 
 ## Reproduce the isolated proof
 
+The [retained setup contract](../implementation/P1-PR-027-persistent-local-workflows.md) and commands below cover the separate dev/stage workflow; they do not reset a retained database.
+
 From the repository, run `pnpm verify:service-host`. It creates only a randomly named test project, starts pinned PostgreSQL and local provider containers, migrates isolated application/CMS fixtures, and runs the real-role host scenarios. It verifies pool ownership/capacity, CMS publication, signed-journal restart, missing-source refusal, configuration failures, readiness loss/recovery and shutdown. The healthy bundle runs from a temporary directory without workspace dependencies. Disposable resources are removed. Native PostgreSQL and retained dev/stage credentials/data are untouched.
 
 `pnpm verify:push` additionally runs the full Linux suite, advisory audit, layer/schema/model checks, health contracts, runtime lifecycle and actual application/CMS dump/restore. Fixtures cannot close actual provider, specialist, policy, render or live-release gates.
@@ -21,3 +23,25 @@ From the repository, run `pnpm verify:service-host`. It creates only a randomly 
 9. Check `/health/ready`; expect 200 only with usable application/CMS connectivity. Normal product URLs return 404. On stop send SIGTERM/SIGINT, allow the bounded service/pool drain, and confirm host connections disappear. Restart with the same file, journal, object versions and keys. Do not delete data or regenerate key rings to cure a configuration error.
 
 Configuration/admission errors are intentionally generic. Inspect the selected target, file permissions, pinned IDs/hashes, key coverage and budget locally without copying secrets into logs or tickets. The headless health service returns masked alarms to a currently authorized operations actor; actual hosted monitoring and staffed response remain pending.
+
+## Retained dev/stage workflow
+
+Use Node 24 and the pinned pnpm version from Windows PowerShell, WSL or Linux with a Linux Docker engine. Select `dev` or `stage` explicitly:
+
+```sh
+pnpm local:host prepare dev
+pnpm local:host up dev
+pnpm local:host prove dev
+pnpm local:host status dev
+pnpm local:host stop dev
+```
+
+Repeat with `stage`. Preparation builds the tooling and separate host runner, starts the existing PostgreSQL container plus the local Moto fixture, checks both migration histories, and generates private host custody once. It requires the existing `.local/dev.env` and `.local/db-dev.env` (or stage equivalents), current migrations and correct credentials. It never runs bootstrap/migrate/general seed. Six synthetic notices and one synthetic template are explicitly prepared without updating existing records. Repeated preparation verifies custody and preserves private key bytes.
+
+The host uses 0600 settings owned by Linux UID 1000 inside `tt-dev_host-state` / `tt-stage_host-state`, avoiding Windows bind-mount mode emulation. Journal directories are 0700 in separate `host-journal` volumes. Keep encrypted host backups and operating-system/Docker access controlled; the volume alone supplies no independent encryption or disaster recovery. `workflow-state` retains Inngest's dev database. Never print private JSON, environment files or Docker configuration containing credentials. No secret is baked into the image or committed.
+
+Dev health is `http://127.0.0.1:8123/health/ready`; stage is port 8223. Only health and `/internal/inngest` are served. Providers and Inngest have no published ports. `up` verifies provider custody, starts the host, and registers its three functions. `prove` waits at most 85 seconds for the real cron callback to remove its expired SQL bucket while retaining an unexpired bucket and disabled policy. It confirms product APIs remain 404 and cleans only its own records. Failure is a failed proof, not an activation approval.
+
+`stop` drains the host and stops Inngest, retaining all volumes and leaving PostgreSQL/Moto running. `local down` refuses marked prepared targets because removing Moto loses its in-memory KMS/S3 state. Keep Moto running during host/workflow restarts. Docker/OS restart, manually stopping/recreating Moto, or removing provider state requires deliberate fixture recovery; startup then refuses missing canary ciphertext/version custody. **This is not a complete cold-restart persistent provider environment.** Do not replay recordings, recreate keys/versions, delete manifests or rerun bootstrap to hide a mismatch. Provider cold-restart recovery remains a next local task; hosted custody remains gated.
+
+Before enabling additional maintenance lanes, review the fixture data and declare every additional process's pool maximum. The retained plan enables only bounded SQL quota cleanup (17 owned pools + five external slots + reserve 20 = 42 of the actual 100 PostgreSQL slots). It does not enable quota admission policies, product reports, mail, analytics collection, ads or source pulls. The current web process opens no database pool. Retention remains dry-run. Original six S3 gates and the API hold are unchanged.

@@ -1,0 +1,86 @@
+services:
+  service-setup:
+    profiles: [local-host]
+    image: tiresandtreads-tooling:${COMPOSE_PROJECT_NAME:?}
+    env_file: ['../../.local/db-${LOCAL_ENV:?}.env']
+    environment:
+      APP_ENV: ${APP_ENV:?}
+      LOCAL_ENV: ${LOCAL_ENV:?}
+      PROVIDER_MODE: fixtures
+    volumes:
+      - host-state:/state
+      - host-journal:/journal
+    command: [pnpm, exec, tsx, scripts/runtime/prepare-local-host.ts]
+    mem_limit: 768m
+    cpus: 1
+    networks: [local]
+  service-host:
+    profiles: [local-host]
+    image: tiresandtreads-host:${COMPOSE_PROJECT_NAME:?}
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-working}
+    command: [node, persistent-host.mjs, run]
+    user: node
+    init: true
+    environment:
+      APP_ENV: ${APP_ENV:?}
+      PROVIDER_MODE: fixtures
+      SOURCE_REVISION: ${SOURCE_REVISION:-working}
+      SERVICE_HOST_CONFIG_FILE: /state/current/settings.json
+      SERVICE_HOST_PROVIDER_FILE: /state/current/provider.json
+      SERVICE_HOST_JOURNAL_DIRECTORY: /journal
+      STORAGE_ENDPOINT: http://moto:5000
+      WORKFLOW_ENDPOINT: http://inngest:8288
+      PRIVATE_BUCKET: local-host-private-${LOCAL_ENV:?}
+      PUBLIC_BUCKET: local-host-public-${LOCAL_ENV:?}
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: fixture-access
+      AWS_SECRET_ACCESS_KEY: fixture-secret
+      WORKER_PORT: '8123'
+      WORKER_ORIGIN: http://service-host:8123
+    volumes:
+      - host-state:/state:ro
+      - host-journal:/journal
+    ports: ['127.0.0.1:${SERVICE_HOST_PORT:?}:8123']
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://127.0.0.1:8123/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    stop_grace_period: 20s
+    mem_limit: 768m
+    cpus: 2
+    networks: [local]
+  inngest:
+    command:
+      [
+        inngest,
+        dev,
+        --host,
+        '0.0.0.0',
+        --no-discovery,
+        --no-poll,
+        --persist,
+        -u,
+        'http://service-host:8123/internal/inngest',
+      ]
+    working_dir: /data
+    volumes: [workflow-state:/data]
+volumes:
+  host-state:
+  host-journal:
+  workflow-state:

@@ -1,6 +1,16 @@
 import { build } from 'esbuild';
 await Promise.all([
   build({
+    entryPoints: ['scripts/runtime/persistent-host.ts'],
+    bundle: true,
+    platform: 'node',
+    format: 'esm',
+    outfile: '.local/persistent-host.mjs',
+    banner: {
+      js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
+    },
+  }),
+  build({
     entryPoints: ['scripts/runtime/service-host.ts'],
     bundle: true,
     platform: 'node',

@@ -5,8 +5,15 @@ import {
   composeArguments,
   validateEnvironmentFile,
 } from '../../scripts/dev/plan.mjs';
+import { persistentHostPlan } from '../../scripts/dev/service-host.mjs';
 
 describe('ENG-06 operator manages local environments', () => {
+  it('uses separate loopback host ports and refuses native/hosted/disposable targets for retained workflows', () => {
+    expect(persistentHostPlan('dev').hostPort).toBe(8123);
+    expect(persistentHostPlan('stage').hostPort).toBe(8223);
+    for (const target of ['test', 'production', '../dev', 'native'])
+      expect(() => persistentHostPlan(target)).toThrow();
+  });
   it('accepts generated local values and rejects another environment or native port', () => {
     const plan = environmentPlan('dev');
     const text = `LOCAL_ENV=dev\nCOMPOSE_PROJECT_NAME=tt-dev\nAPP_ENV=dev-local\nAPP_PORT=3100\nDATABASE_PORT=55432\nPOSTGRES_PASSWORD=${'a'.repeat(64)}\n`;
