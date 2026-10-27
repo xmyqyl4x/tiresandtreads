@@ -24,6 +24,10 @@ import { engineFixture } from '../fixtures/engine/base.ts';
 import { type Result, ok } from '../../packages/domain/src/values/core.ts';
 import { proveWorkflow } from '../../scripts/runtime/local-workflow-proof.ts';
 import {
+  localWorkflowQuery,
+  type LocalWorkflowRun,
+} from '../../scripts/runtime/local-workflow-history.ts';
+import {
   verifyProviderState,
   digest,
   type LocalProviderState,
@@ -199,6 +203,119 @@ it('verifies retained KMS custody and every exact S3 canary version, refusing un
     'refusing automatic',
   );
 });
+it('records a SQL lock failure as FAILED and explicitly replays it through Inngest without duplicating committed quota effects', async () => {
+  await save({ ...settings, maintenance: { enabled: ['quotas'], cycle: ['quotas'] } });
+  const policy = 'replay_' + uid('probe'),
+    endpoint = process.env.TEST_WORKFLOW_ENDPOINT!;
+  await f.owner.query(
+    "INSERT INTO app.rate_limit_policies(policy_key,policy_version,window_seconds,limit_value,enabled) VALUES($1,'fixture',60,1,false)",
+    [policy],
+  );
+  for (const hours of [-2, 0])
+    await f.owner.query(
+      "INSERT INTO app.rate_limit_buckets(policy_key,policy_version,key_version,principal_hmac,window_start,window_seconds,limit_value,used,expires_at) VALUES($1,'fixture',$3,decode(repeat('21',32),'hex'),date_trunc('hour',now())+($2::int*interval '1 hour'),60,1,1,date_trunc('hour',now())+($2::int*interval '1 hour')+interval '90 minutes')",
+      [policy, hours, Object.keys(settings.keys.lookup)[0]],
+    );
+  const readCount = async () =>
+    (
+      await f.owner.query(
+        'SELECT count(*)::int AS n FROM app.rate_limit_buckets WHERE policy_key=$1',
+        [policy],
+      )
+    ).rows[0].n;
+  try {
+    await usingHost(async (h) => {
+      const listener = await startWorker(h, 8123, 'http://test:8123');
+      const fields = 'id status function{slug} cronSchedule triggerIDs';
+      const since = new Date(Date.now() - 5000).toISOString();
+      try {
+        expect((await fetch('http://127.0.0.1:8123/internal/inngest', { method: 'PUT' })).ok).toBe(
+          true,
+        );
+        await f.owner.query('BEGIN');
+        await f.owner.query('LOCK TABLE app.rate_limit_buckets IN ACCESS EXCLUSIVE MODE');
+        const event = await h.workflows.client.send({
+          id: uid('event'),
+          name: 'tt/maintenance.requested',
+          data: {},
+        });
+        let failed: LocalWorkflowRun | undefined;
+        await vi.waitFor(
+          async () => {
+            const data = await localWorkflowQuery(
+              endpoint,
+              `{runs(first:20,orderBy:[],filter:{from:${JSON.stringify(since)}}){edges{node{${fields}}}}}`,
+            );
+            failed = data.runs?.edges
+              .map((e) => e.node)
+              .find(
+                (r) =>
+                  r.function.slug.endsWith('-service-maintenance-v1') &&
+                  r.triggerIDs?.includes(event.ids[0]!),
+              );
+            expect(failed?.status).toBe('FAILED');
+          },
+          { timeout: 20000, interval: 250 },
+        );
+        expect(await readCount()).toBe(2);
+        await f.owner.query('COMMIT');
+        const rerun = async (runID: string) => {
+          if (!/^[0-9A-Z]{26}$/.test(runID)) throw Error('Invalid local run');
+          const response = await localWorkflowQuery(
+            endpoint,
+            `mutation {rerun(runID:${JSON.stringify(runID)})}`,
+          );
+          if (!response.rerun) throw Error('Replay unavailable');
+          await vi.waitFor(
+            async () => {
+              const data = await localWorkflowQuery(
+                endpoint,
+                `{run(runID:${JSON.stringify(response.rerun)}){${fields}}}`,
+              );
+              expect(data.run?.status).toBe('COMPLETED');
+            },
+            { timeout: 20000, interval: 250 },
+          );
+          return response.rerun;
+        };
+        const recovered = await rerun(failed!.id);
+        expect(await readCount()).toBe(1);
+        const repeated = await rerun(recovered);
+        expect(await readCount()).toBe(1);
+        expect(
+          (
+            await f.owner.query(
+              'SELECT expires_at>now() AS live FROM app.rate_limit_buckets WHERE policy_key=$1',
+              [policy],
+            )
+          ).rows[0].live,
+        ).toBe(true);
+        expect((await fetch('http://127.0.0.1:8123/api/reports')).status).toBe(404);
+        console.log(
+          'WORKFLOW_REPLAY_EVIDENCE',
+          JSON.stringify({
+            failed: failed!.id,
+            recovered,
+            repeated,
+            failedStatus: 'FAILED',
+            replayedStatus: 'COMPLETED',
+            rowsAfterFailure: 2,
+            rowsAfterReplay: 1,
+            rowsAfterSuccessfulReplay: 1,
+            productApis: false,
+          }),
+        );
+      } finally {
+        await f.owner.query('ROLLBACK');
+        await listener.stop();
+      }
+    });
+  } finally {
+    await f.owner.query('ROLLBACK');
+    await f.owner.query('DELETE FROM app.rate_limit_buckets WHERE policy_key=$1', [policy]);
+    await f.owner.query('DELETE FROM app.rate_limit_policies WHERE policy_key=$1', [policy]);
+  }
+}, 70000);
 it('composes accepted factories over exactly the declared role pools and both databases with provider activation false', async () => {
   await save({
     ...settings,

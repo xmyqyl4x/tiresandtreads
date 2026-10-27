@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "92aa5d77e6563b7bcea1fb1f4d80bbbde17c151b",
+  "measuredAt": "2026-10-27T02:51:46.655956+00:00",
+  "scope": "Local Docker fixture custody and SQL-only workflow recovery; no hosted acceptance",
+  "credentialFilesUnchanged": 4,
+  "targets": {
+    "dev": {
+      "fixtureUpgrade": {
+        "target": "dev",
+        "upgraded": true,
+        "fixtureOnly": true,
+        "encryptedColumnsChecked": 5,
+        "encryptedValues": 0,
+        "oldKeyReferences": 0,
+        "retiredCanaryVersions": 4,
+        "newCanaryVersions": 4,
+        "legacyProviderUntouched": true,
+        "hostKeysUnchanged": true
+      },
+      "legacyProviderManifestUnchanged": true,
+      "hostSettingsAndKeysUnchanged": true,
+      "newProviderManifestUnchangedAcrossColdRestart": true,
+      "providerContainerReplaced": true,
+      "originalSubjectAndSessionPreserved": true,
+      "syntheticNotices": 6,
+      "syntheticTemplates": 1,
+      "probePoliciesRemaining": 0,
+      "appMigrations": 33,
+      "settingsMode": "600",
+      "settingsUid": 1000,
+      "journalMode": "700",
+      "journalUid": 1000,
+      "retainedJournalRecords": 0,
+      "priorCompletedMaintenanceRunsPreserved": 50,
+      "postColdRestartProof": {
+        "trigger": "cron * * * * *",
+        "callbackRegistered": true,
+        "run": {
+          "id": "01M5XM7FXNFKKAA0VA3A9K798B",
+          "status": "COMPLETED",
+          "function": {
+            "slug": "tiresandtreads-dev-local-service-maintenance-v1"
+          },
+          "cronSchedule": "* * * * *"
+        },
+        "expiredRemoved": 1,
+        "unexpiredPreserved": 1,
+        "admissionPolicyEnabled": false,
+        "productApiStatus": 404,
+        "elapsedMs": 7501
+      }
+    },
+    "stage": {
+      "fixtureUpgrade": {
+        "target": "stage",
+        "upgraded": true,
+        "fixtureOnly": true,
+        "encryptedColumnsChecked": 5,
+        "encryptedValues": 0,
+        "oldKeyReferences": 0,
+        "retiredCanaryVersions": 4,
+        "newCanaryVersions": 4,
+        "legacyProviderUntouched": true,
+        "hostKeysUnchanged": true
+      },
+      "legacyProviderManifestUnchanged": true,
+      "hostSettingsAndKeysUnchanged": true,
+      "newProviderManifestUnchangedAcrossColdRestart": true,
+      "providerContainerReplaced": true,
+      "originalSubjectAndSessionPreserved": true,
+      "syntheticNotices": 6,
+      "syntheticTemplates": 1,
+      "probePoliciesRemaining": 0,
+      "appMigrations": 33,
+      "settingsMode": "600",
+      "settingsUid": 1000,
+      "journalMode": "700",
+      "journalUid": 1000,
+      "retainedJournalRecords": 0,
+      "priorCompletedMaintenanceRunsPreserved": 50,
+      "postColdRestartProof": {
+        "trigger": "cron * * * * *",
+        "callbackRegistered": true,
+        "run": {
+          "id": "01M5XM7FXEBY2N1N7NYK5P74JV",
+          "status": "COMPLETED",
+          "function": {
+            "slug": "tiresandtreads-stage-local-service-maintenance-v1"
+          },
+          "cronSchedule": "* * * * *"
+        },
+        "expiredRemoved": 1,
+        "unexpiredPreserved": 1,
+        "admissionPolicyEnabled": false,
+        "productApiStatus": 404,
+        "elapsedMs": 3565
+      }
+    }
+  },
+  "isolatedFailureReplay": {
+    "failed": "01M5XK91137CW9T5ZT2EV5B96P",
+    "recovered": "01M5XK91JFYPBQMMRC72139QPJ",
+    "repeated": "01M5XK91TJZ0FTN480JEWP14AX",
+    "failedStatus": "FAILED",
+    "replayedStatus": "COMPLETED",
+    "rowsAfterFailure": 2,
+    "rowsAfterReplay": 1,
+    "rowsAfterSuccessfulReplay": 1,
+    "productApis": false
+  },
+  "fixtureProviderTests": {
+    "tests": 6,
+    "status": "passed",
+    "cases": [
+      "SIGKILL twice; exact KMS ciphertext/context, S3 versions, metadata, SSE descriptor and delete marker",
+      "corrupt or missing checkpoint refuses startup without replacing auth key",
+      "whitelisted non-executable JSON codec refuses unknown types",
+      "failed checkpoint yields 503 and poisoned process; restart restores prior commit",
+      "wrong scope, key, permissions and bounded capacity refuse overwrite",
+      "lost acknowledgement after commit restores effect for reconciliation"
+    ]
+  },
+  "gateStatus": {
+    "S3": "open",
+    "sixAcceptanceGates": "pending",
+    "specialistReview": "pending",
+    "licensedAdapters": "pending",
+    "productApis": "held"
+  }
+}

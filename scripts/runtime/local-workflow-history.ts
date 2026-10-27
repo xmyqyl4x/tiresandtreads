@@ -3,6 +3,7 @@ export interface LocalWorkflowRun {
   readonly status: string;
   readonly function: { readonly slug: string };
   readonly cronSchedule: string | null;
+  readonly triggerIDs?: readonly string[];
 }
 export async function localWorkflowQuery(endpoint: string, query: string) {
   if (endpoint !== 'http://inngest:8288' && !/^http:\/\/127\.0\.0\.1:\d+$/.test(endpoint))
@@ -15,7 +16,11 @@ export async function localWorkflowQuery(endpoint: string, query: string) {
   });
   const body = (await r.json()) as {
     errors?: unknown;
-    data?: { runs?: { edges: { node: LocalWorkflowRun }[] }; run?: LocalWorkflowRun };
+    data?: {
+      runs?: { edges: { node: LocalWorkflowRun }[] };
+      run?: LocalWorkflowRun;
+      rerun?: string;
+    };
   };
   if (!r.ok || body.errors || !body.data) throw Error('Local workflow history unavailable');
   return body.data;

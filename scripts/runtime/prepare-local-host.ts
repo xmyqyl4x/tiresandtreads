@@ -10,24 +10,14 @@ import {
   lstat,
   open,
 } from 'node:fs/promises';
-import { randomBytes } from 'node:crypto';
 import pg from 'pg';
-import {
-  S3Client,
-  CreateBucketCommand,
-  PutBucketVersioningCommand,
-  PutObjectCommand,
-  HeadBucketCommand,
-} from '@aws-sdk/client-s3';
-import { KMSClient, CreateKeyCommand, EncryptCommand } from '@aws-sdk/client-kms';
 import {
   localHostSettings,
   digest,
-  fixtureCredentials,
   readProviderState,
   verifyProviderState,
-  type LocalProviderState,
 } from './local-host-state.ts';
+import { prepareFixtureProvider, providerSelection } from './fixture-provider.ts';
 import { readServiceHostSettings } from '../../packages/config/src/service-host-settings.ts';
 import { pendingMigrations, loadSources } from '../database/manifest.ts';
 import { readHistory } from '../database/migrate.ts';
@@ -44,7 +34,7 @@ async function main() {
     throw Error();
   // No inherited URL, target path or native database override is accepted by this operator.
   const dir = '/state/current',
-    endpoint = 'http://moto:5000';
+    { endpoint, file: providerFile } = providerSelection(process.env.LOCAL_PROVIDER_MODE);
   await mkdir('/state/lock', { mode: 0o700 });
   const client = new pg.Client({
     connectionString: `postgresql://tt_app_migrator:${process.env.DB_PASSWORD_TT_APP_MIGRATOR}@postgres:5432/tt_app`,
@@ -58,7 +48,8 @@ async function main() {
     const files = await readdir('/state');
     let settings;
     if (files.includes('current')) {
-      if (files.some((f) => !['current', 'lock'].includes(f))) throw Error('Incomplete setup');
+      if (files.some((f) => !['current', 'lock', 'provider-v2'].includes(f)))
+        throw Error('Incomplete setup');
       const info = await lstat(dir + '/settings.json');
       if (!info.isFile() || info.isSymbolicLink() || info.size > 65536 || info.mode & 0o077)
         throw Error();
@@ -72,103 +63,42 @@ async function main() {
         JSON.stringify(settings.maintenance) !== JSON.stringify(expected.maintenance)
       )
         throw Error('Retained configuration differs; do not rotate');
-      await verifyProviderState(await readProviderState(dir + '/provider.json', target!), endpoint);
+      await verifyProviderState(await readProviderState(providerFile, target!), endpoint);
     } else {
       if (check || files.some((f) => f !== 'lock'))
         throw Error('Prepare or inspect incomplete setup');
       settings = localHostSettings(target!, process.env);
-      const options = {
-        endpoint,
-        region: 'us-east-1',
-        credentials: fixtureCredentials,
-        maxAttempts: 1,
-        requestHandler: { connectionTimeout: 2000, requestTimeout: 10000 },
-      };
-      const s3 = new S3Client({ ...options, forcePathStyle: true }),
-        kms = new KMSClient(options);
+      if (process.env.LOCAL_PROVIDER_MODE)
+        throw Error('Initialize legacy settings before explicit provider upgrade');
+      const state = await prepareFixtureProvider(target as 'dev' | 'stage', endpoint);
+      await mkdir('/state/pending', { mode: 0o700 });
+      for (const [name, data] of [
+        ['settings', settings],
+        ['provider', state],
+      ] as const) {
+        const path = `/state/pending/${name}.json`;
+        await writeFile(path, JSON.stringify(data) + '\n', { flag: 'wx', mode: 0o600 });
+        await chown(path, 1000, 1000);
+        const handle = await open(path, 'r');
+        try {
+          await handle.sync();
+        } finally {
+          await handle.close();
+        }
+      }
+      await chown('/state/pending', 1000, 1000);
+      const staged = await open('/state/pending', 'r');
       try {
-        // Never adopt or overwrite existing provider buckets when the private manifest is missing.
-        for (const kind of ['private', 'public']) {
-          try {
-            await s3.send(new HeadBucketCommand({ Bucket: `local-host-${kind}-${target}` }));
-            throw Error('Existing bucket requires custody review');
-          } catch (e) {
-            if (!(
-              e &&
-              typeof e === 'object' &&
-              '$metadata' in e &&
-              (e.$metadata as { httpStatusCode?: number }).httpStatusCode === 404
-            ))
-              throw e;
-          }
-        }
-        const keyId = (
-          await kms.send(
-            new CreateKeyCommand({ Description: `Synthetic retained local host ${target}` }),
-          )
-        ).KeyMetadata!.Arn!;
-        const plaintext = randomBytes(32),
-          ciphertext = (await kms.send(new EncryptCommand({ KeyId: keyId, Plaintext: plaintext })))
-            .CiphertextBlob!;
-        const objects: LocalProviderState['objects'] = [];
-        for (const kind of ['private', 'public']) {
-          const Bucket = `local-host-${kind}-${target}`;
-          await s3.send(new CreateBucketCommand({ Bucket }));
-          await s3.send(
-            new PutBucketVersioningCommand({
-              Bucket,
-              VersioningConfiguration: { Status: 'Enabled' },
-            }),
-          );
-          for (let n = 0; n < 2; n++) {
-            const Body = Buffer.from(`Synthetic provider canary ${target} ${kind} ${n}`),
-              Key = 'fixture/provider-canary' as const;
-            const r = await s3.send(new PutObjectCommand({ Bucket, Key, Body }));
-            if (!r.VersionId) throw Error();
-            objects.push({ bucket: Bucket, key: Key, version: r.VersionId, sha256: digest(Body) });
-          }
-        }
-        const state = {
-          schemaVersion: 1 as const,
-          target: target as 'dev' | 'stage',
-          keyId,
-          ciphertext: Buffer.from(ciphertext).toString('base64'),
-          plaintextHash: digest(plaintext),
-          objects,
-        };
-        await verifyProviderState(state, endpoint);
-        await mkdir('/state/pending', { mode: 0o700 });
-        for (const [name, data] of [
-          ['settings', settings],
-          ['provider', state],
-        ] as const) {
-          const path = `/state/pending/${name}.json`;
-          await writeFile(path, JSON.stringify(data) + '\n', { flag: 'wx', mode: 0o600 });
-          await chown(path, 1000, 1000);
-          const handle = await open(path, 'r');
-          try {
-            await handle.sync();
-          } finally {
-            await handle.close();
-          }
-        }
-        await chown('/state/pending', 1000, 1000);
-        const staged = await open('/state/pending', 'r');
-        try {
-          await staged.sync();
-        } finally {
-          await staged.close();
-        }
-        await rename('/state/pending', dir);
-        const stateDirectory = await open('/state', 'r');
-        try {
-          await stateDirectory.sync();
-        } finally {
-          await stateDirectory.close();
-        }
+        await staged.sync();
       } finally {
-        s3.destroy();
-        kms.destroy();
+        await staged.close();
+      }
+      await rename('/state/pending', dir);
+      const stateDirectory = await open('/state', 'r');
+      try {
+        await stateDirectory.sync();
+      } finally {
+        await stateDirectory.close();
       }
     }
     if (!check) {

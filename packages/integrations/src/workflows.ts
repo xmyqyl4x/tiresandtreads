@@ -3,6 +3,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import type { EventPublisher } from '../../application/src/ports/jobs.ts';
 import { id, type Id } from '../../domain/src/values/index.ts';
 import { boundedIO } from './bounded-io.ts';
+import { completeMaintenance } from './maintenance-outcome.ts';
 const silent = { info() {}, warn() {}, error() {}, debug() {} };
 export function createWorkflows(options: {
   readonly baseUrl: string;
@@ -85,12 +86,15 @@ export function createWorkflows(options: {
     ? client.createFunction(
         {
           id: 'service-maintenance-v1',
-          triggers: { cron: '* * * * *' },
+          triggers: [{ cron: '* * * * *' }, { event: 'tt/maintenance.requested' }],
           retries: 0,
           concurrency: 1,
           timeouts: { finish: '1m' },
         },
-        async ({ step }) => step.run('bounded-service-maintenance', options.maintenance!),
+        async ({ step }) =>
+          step.run('bounded-service-maintenance', async () =>
+            completeMaintenance(await options.maintenance!()),
+          ),
       )
     : null;
   return {
