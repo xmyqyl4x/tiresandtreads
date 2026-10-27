@@ -208,3 +208,5 @@ P1-PR-022 adds the [delivery orchestration contract](implementation/P1-PR-022-de
 Retained dev/stage service hosts use `pnpm local:host prepare|up|prove|status|stop <dev|stage>`. See the [local workflow runbook](operations/local-service-host.md#retained-devstage-workflow) for separate keys/journal/workflow volumes, guarded fixture-provider cold restart and actual cron/SQL failure/replay proofs. Product APIs and the six S3 acceptance gates remain held.
 
 The [local observability/response continuation](implementation/P1-PR-027-local-observability.md) adds `local:host observe` and `prove-observability`. See the [masked operational response runbook](operations/local-observability.md). All six S3 gates and the API hold remain unchanged.
+
+The [final local S3 readiness review](implementation/P1-PR-027-final-local-readiness.md) is the current evidence entry point. Retained idle socket counts differ from declared maxima; local fixture recovery differs from independent hosted custody. Keep the six acceptance gates and API hold intact. No additional setup, migration or credential change is required for this documentation reconciliation.

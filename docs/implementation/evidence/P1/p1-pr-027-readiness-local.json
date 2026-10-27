@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "9d7006f71b7aba1eb0488c457850dd66d85f60cb",
+  "measuredAt": "2026-10-27T14:32:43.763Z",
+  "scope": "Read-only retained local reconciliation; earlier fault/restart drills are historical, not rerun here",
+  "credentialFilesUnchangedSinceObservability": 4,
+  "targets": {
+    "dev": {
+      "readinessStatus": 200,
+      "sampledProductApiStatus": 404,
+      "existingFixtureCustodyVerified": true,
+      "settingsAndHostKeyBytesPreserved": true,
+      "legacyAndActiveProviderManifestsPreserved": true,
+      "originalSubjectAndSessionPreserved": true,
+      "syntheticNotices": 6,
+      "syntheticTemplates": 1,
+      "appMigrations": 33,
+      "retainedJournalRecords": 0,
+      "temporaryObserverActors": 0,
+      "temporaryObserverCallbacks": 0,
+      "temporaryWorkflowPolicies": 0,
+      "settingsMode": "600",
+      "journalMode": "700",
+      "uid": 1000,
+      "hostConnectionsObserved": 0,
+      "declaredBudget": {
+        "ownedMaxima": 17,
+        "externalMaxima": 5,
+        "reserve": 20,
+        "required": 42,
+        "serverMaxConnectionsObserved": 100
+      },
+      "maintenanceEnabled": [
+        "quotas"
+      ],
+      "recentCompletedCron": {
+        "id": "01M5YWGHXHMQFQ1P0607XM3BRD",
+        "status": "COMPLETED",
+        "function": {
+          "slug": "tiresandtreads-dev-local-service-maintenance-v1"
+        },
+        "cronSchedule": "* * * * *"
+      },
+      "scope": "Observed connections are not load/performance or hosted capacity acceptance; recent-run window is not complete workflow history"
+    },
+    "stage": {
+      "readinessStatus": 200,
+      "sampledProductApiStatus": 404,
+      "existingFixtureCustodyVerified": true,
+      "settingsAndHostKeyBytesPreserved": true,
+      "legacyAndActiveProviderManifestsPreserved": true,
+      "originalSubjectAndSessionPreserved": true,
+      "syntheticNotices": 6,
+      "syntheticTemplates": 1,
+      "appMigrations": 33,
+      "retainedJournalRecords": 0,
+      "temporaryObserverActors": 0,
+      "temporaryObserverCallbacks": 0,
+      "temporaryWorkflowPolicies": 0,
+      "settingsMode": "600",
+      "journalMode": "700",
+      "uid": 1000,
+      "hostConnectionsObserved": 2,
+      "declaredBudget": {
+        "ownedMaxima": 17,
+        "externalMaxima": 5,
+        "reserve": 20,
+        "required": 42,
+        "serverMaxConnectionsObserved": 100
+      },
+      "maintenanceEnabled": [
+        "quotas"
+      ],
+      "recentCompletedCron": {
+        "id": "01M5YWGHXA70AXZRW07FC2FPWH",
+        "status": "COMPLETED",
+        "function": {
+          "slug": "tiresandtreads-stage-local-service-maintenance-v1"
+        },
+        "cronSchedule": "* * * * *"
+      },
+      "scope": "Observed connections are not load/performance or hosted capacity acceptance; recent-run window is not complete workflow history"
+    }
+  }
+}

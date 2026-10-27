@@ -1,0 +1,73 @@
+# P1-PR-027 — final local S3 reconciliation and readiness review
+
+**October 27, 2026 · Local technical review in [PR #32](https://github.com/xmyqyl4x/tiresandtreads/pull/32); full S3 OPEN; APIs HELD.** Owner-approved [PR #31](https://github.com/xmyqyl4x/tiresandtreads/pull/31) merged into main at `9d7006f71b7aba1eb0488c457850dd66d85f60cb`. Specialist review and licensed adapters remain pending. This review reconciles the authorized local continuations of P1-PR-027; GitHub PR numbers 28–32 are not the similarly numbered S4/S5 task cards.
+
+The local technical work requested across PRs #27–31 has supporting implementation, tests and measured evidence. The service inventory is complete at **14 component cards / 26 application service modules**. No additional local implementation gap was identified in this review of the requested scope. Approval of this reconciliation can finish this local technical continuation; it cannot finish the parent S3 acceptance gate. All six actual-evidence gates remain pending, all three original parent completion boxes remain unchecked, and P1-PR-028–030 remain blocked. The [service register](evidence/P1/s3-service-register.json) remains the acceptance authority.
+
+## Evidence provenance and reconciliation
+
+The [machine-readable index](evidence/P1/p1-pr-027-readiness-index.json) records full implementation, final PR head and merge SHAs, successful final-head CI, observation times, ancestry checks and SHA-256 digests of 15 evidence receipts. A pinned local receipt describes its implementation commit. It does not describe the later documentation/fix commit or merge commit. Final-head CI is separate evidence. Each implementation commit is an ancestor of its final PR head; every final head is included by its merge; all five merges are ancestors of this review baseline. Older receipts remain unchanged, including their historical dates and review wording.
+
+| Technical continuation | Pinned local implementation | Final PR head | Main merge | Pinned test total | Exact final-head CI |
+| --- | --- | --- | --- | --- | --- |
+| [PR #27: service gate](P1-PR-027-s3-validation-gate.md) | `b8225e7b` | `aea2eb77` | `026a14c7` | 1,043 | [Passed](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40386565614) |
+| [PR #28: host and budget](P1-PR-027-local-service-host.md) | `ab8af853` | `3e579364` | `7c86af95` | 1,059 | [Passed](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40406317105) |
+| [PR #29: retained workflows](P1-PR-027-persistent-local-workflows.md) | `a37ed208` | `3a21258a` | `92aa5d77` | 1,064 | [Passed](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40426203579) |
+| [PR #30: fixture recovery/replay](P1-PR-027-provider-recovery-replay.md) | `16b65e4d` | `6766874f` | `b02335bc` | 1,076 | [Passed](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40442359704) |
+| [PR #31: observation/response](P1-PR-027-local-observability.md) | `de2317ad` | `a909136f` | `9d7006f7` | 1,083 | [Passed](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40455845515) |
+
+Totals are successive snapshots, not additive. Coverage also belongs to the recorded commit. The PR #31 implementation receipt has 97.26% lines / 94.07% statements / 98.28% functions / 90.46% branches. Its final isolation revision received its own local gate and final-head CI; this review does not relabel the older receipt. [Fresh reconciliation validation](evidence/P1/p1-pr-027-readiness-validation.md) records this branch's complete gate separately. UTC machine timestamps and historical America/Los_Angeles document dates can differ by a calendar day.
+
+## Service coverage and remaining limits
+
+The register links every row below to its actual module set, exported service entry points, owning tests, trace IDs and original contract. `s3:check` independently discovers all files in the application service directory and refuses incomplete/duplicate module ownership. The index is a review snapshot; it does not replace that executable check or imply that every FR is complete.
+
+| Owning card and contract | Local evidence reconciled | Acceptance still required |
+| --- | --- | --- |
+| [014 — jobs/assets/runtime](P1-PR-014-jobs-assets-runtime.md) | SQL leases/outbox/inbox, private asset lifecycle, composed repositories and local provider fixtures | Selected-provider authority/custody and unknown external effects |
+| [015 — ingestion/publication](P1-PR-015-ingestion-publication-services.md) | Script-first import, quarantine, coherent publication, retry/rollback and separate CMS bridge | Permitted real source data and publication review |
+| [016 — domain sources](P1-PR-016-domain-source-adapters.md) | NHTSA/shared connector infrastructure and source-policy refusal | Licensed adapters, actual rights/coverage and live feed acceptance |
+| [017 — recommendation rules](P1-PR-017-eligibility-recommendations.md) | Pure deterministic safety rules, properties and 98 authored draft golden cases | At least 50 actual named specialist reviews and reviewed source coverage |
+| [018 — pricing/comparison](P1-PR-018-pricing-comparison.md) | Installed-cost/scenario mathematics and explicit unknown/stale cases | Permitted price source and actual reconciliation |
+| [019 — reports/access](P1-PR-019-report-services.md) | Immutable report/refine/compare, capability isolation and absent-trusted-source refusal | Source/specialist acceptance before live report issuance |
+| [020 — contact/consent](P1-PR-020-contact-consent.md) | Independent purposes, verified changes, suppression and restrictive defaults | Actual notices/sender review and provider fulfillment |
+| [021 — content/SEO/tools](P1-PR-021-content-seo.md) | Publication access, public DTOs, page registry/metadata policy and public-tool services | Real editorial/property verification, content, browser rendering and propagation |
+| [022 — delivery](P1-PR-022-delivery-orchestration.md) | Durable intent, cancellation, fixed render DTOs and no-send orchestration | Selected ESP, actual email/PDF rendering and delivery acceptance |
+| [023 — callbacks/actions](P1-PR-023-mail-events-actions.md) | Signed synthetic events, dedupe, preferences, feedback and safe redirects | Real provider signatures/events, public transport/client and erasure acceptance |
+| [024 — analytics/limits/operations](P1-PR-024-analytics-limits-operations.md) | SQL quotas, consent-aware collection/rebuild and masked inspection | Hosted load/capacity, actual collection permission and S4 transport checks |
+| [025 — privacy/retention](P1-PR-025-privacy-retention-recovery.md) | Fenced rights/deletion, journal/quarantine, restore barriers and isolated signed-journal restart | Applicable policy, independent custody/retention and actual provider deletion |
+| [026 — staff/commercial](P1-PR-026-staff-commerce-revenue.md) | Permission-scoped staff commands, affiliate/ad/revenue policy services | Actual staff identity/MFA at S4, approved destinations/CMP/ad property and later UI checks |
+| [027 — maintenance/health](P1-PR-027-s3-validation-gate.md) | Combined real-role journeys, executable privacy selections, bounded maintenance and masked health | All six S3 gates; selected hosted operations and staffed response |
+
+## Local host and operational evidence
+
+Composition supplies 17 owned one-connection pools across separate application/CMS databases. Retained dev/stage declare five additional external connections and a reserve of 20: **42 of the actual 100 PostgreSQL slots per environment**. The earlier isolated host harness declares 28 external slots and therefore requires **65/100**; these are different topologies. Never substitute an idle socket count for declared maxima. The current sample observes zero tagged idle host sockets, consistent with the one-second idle timeout; startup/real-call tests separately exercise all 17 lanes. An extra process/replica requires a revised complete budget before use. The observer consumes an existing operator allocation.
+
+PR #29 proved retained host/workflow restart while the legacy memory-only provider stayed running. It did not prove that provider's cold recovery. PR #30 introduced an explicit canary-only durable fixture generation after checking for encrypted database dependencies, old-key references and journal entries. The original provider/manifests remain. SIGKILL and same-volume recreation verified the new generation's exact canaries; six real-process tests cover checkpoint failure, unknown acknowledgement and custody refusal. Its private snapshots contain fixture key material and are not independent, encrypted disaster recovery or hosted S3/KMS acceptance.
+
+Both retained privacy journals have **zero records**. Isolated real-role tests separately prove signed restriction-record restart and incompatible-key refusal. This does not prove recovery of a nonempty retained dev/stage journal, independent journal backup, jurisdiction policy or production key retention. Fifty sampled earlier completed maintenance runs per target were individually retained through PR #30's provider replacement; this is not a claim that every historical run was audited.
+
+Failure/replay evidence is an actual SQL-lock failure followed by explicit local engine replay: rows **2 → 1 → 1**. It does not authorize replay of unknown email or deletion effects. Local alert drills use owned synthetic callback rows, permission revocation and explicit fixture withdrawal; they do not acknowledge real callback processing. The observer outputs bounded masked JSONL and keeps prior alarms through denied telemetry. Alert state is invocation-local; there is no durable alert inbox, hosted destination or assigned responder. Local workflow freshness is not hosted signing or a production availability SLO. [Operator runbook](../operations/local-observability.md).
+
+Fresh [read-only retained checks](evidence/P1/p1-pr-027-readiness-local.json) verify readiness 200, sampled report API 404, existing canary custody, 33 application migrations, unchanged host settings/key bytes, both provider manifests and all four credential files since the preceding observability proof. Original subject/session, six synthetic notices and one template per target remain; no temporary observer/workflow rows remain. Settings/journal modes remain 0600/0700 under UID 1000. Only SQL quota cleanup is enabled. No cold restart, fault injection, bootstrap, migration, reseed or key rotation was needed for this reconciliation. Native PostgreSQL and unrelated projects were untouched.
+
+## Remaining acceptance work and decision triggers
+
+These six gates remain pending with empty accepted-record lists. Named roles below describe responsibility; they do not appoint actual people. The owner has explicitly kept specialist review and licensed adapters pending. Prepare or execute these items when their existing decision trigger is reopened; this review makes no procurement, provisioning or public-activation decision.
+
+| Gate | Next concrete acceptance evidence | Owner / trigger |
+| --- | --- | --- |
+| `G1-specialist` | Review at least 50 actual cases; record named reviewer, canonical date, outcome, disputed rules/calibration and accepted explanations in the existing golden packet; rerun impacted regressions | Owner + tire specialist, currently unassigned; DD06 before engine acceptance |
+| `G1-fitment-catalog` | Permitted contract/sample, scoped storage/display/derived/channel rights, authoritative field mappings, chosen vehicle coverage and adverse/refusal evidence for actual adapters | Owner + data/tire reviewer; DD01 before licensed-adapter and engine acceptance |
+| `G1-prices` | Permitted feed contract, price units/bases/tax/freshness/retention, real installed-cost reconciliation and explicit unavailable/stale behavior | Owner + data reviewer; DD02 before affected price-source acceptance |
+| `G2-provider-effects` | Selected S3/KMS custody/version/deletion, hosted workflow signing/reachability/concurrency, selected ESP sandbox/no-send/idempotency/unknown-effect reconciliation and erasure evidence | Platform/privacy reviewer; DD05 before affected provider acceptance or external action |
+| `G2-privacy-policy` | Applicable notices/deadlines/holds/extensions/appeals; independent signed journal custody and recovery; marker/key/receipt retention and actual named policy review | Owner + privacy reviewer, currently unassigned; DD06 before accepting policy/destructive fulfillment |
+| `S3-service-host` | Chosen hosted topology and full maxima/replicas, US region/network/TLS/secrets/journal custody, shutdown/recovery, deployed schedules/alerts, actual destination, responder and response exercise | Backend/platform owner; DD03/DD04/DD05 before remote provisioning/host acceptance; host, budget and operators undecided |
+
+Accept each row only after reviewing actual scoped evidence with an accountable reviewer. Keep synthetic/local proofs under `localEvidence`, never copy them into accepted provider/human records. Reconcile the specialist packet and register, request scoped acceptance, run `s3:check`, then require `s3:acceptance` to succeed before ordinary S4 entry. Currently `s3:check` must pass and `s3:acceptance` must exit **2**. Owner merge approval of a technical PR does not override this sequence or the explicit API hold. An alternative sequence would require a separate explicit owner-approved stage-rule change; none is requested here.
+
+## Readiness disposition and handoff
+
+The authorized local technical continuation is ready for review. P1-PR-027 remains **in progress**, and the six gates above form the finite remaining S3 acceptance backlog. There is no automatic next local feature PR justified by this review. The next implementation step depends on the owner choosing/reopening an acceptance item. APIs and frontends remain held under the existing dependency graph.
+
+S4 still owes real authenticated/MFA identity, transport/CSRF/quotas/callbacks and complete OpenAPI acceptance. S5 still owes real browser/email/PDF/CMP/ad/accessibility and reviewed content evidence; S6 owes hosted recovery/RPO/RTO, support, rollout/rollback and a usable live-phase journey. Green local tests do not declare a live P1 product. The 119 original cards, their edges, 137 FR rows, 75 checked/282 unchecked tasks, historical approvals and source archives remain. Four usable phases, database → repositories → services → APIs → UI, PostgreSQL consolidation and app/DB outside Vercel remain the approved project direction.
