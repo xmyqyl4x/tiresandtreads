@@ -75,22 +75,36 @@ async function main() {
   if (!existsSync(plan.envFile) || !existsSync(`.local/db-${target}.env`))
     throw Error('Initialize and explicitly bootstrap/migrate this database target first');
   if (action === 'observe' || action === 'prove-observability') {
+    const options = {};
+    if (action === 'observe') {
+      const values = readFileSync(`.local/db-${target}.env`, 'utf8')
+        .split(/\r?\n/)
+        .filter((line) => line.startsWith('DB_PASSWORD_TT_OPERATIONS_RUNTIME='));
+      if (
+        values.length !== 1 ||
+        !/^DB_PASSWORD_TT_OPERATIONS_RUNTIME=[a-f0-9]{64}$/.test(values[0])
+      )
+        throw Error('Restricted observer credential unavailable');
+      options.env = { LOCAL_OBSERVER_PASSWORD: values[0].split('=')[1] };
+    }
     const lock = `.local/observer-${target}.lock`;
     const handle = openSync(lock, 'wx', 0o600);
     try {
-      hostCompose(plan, [
-        'run',
-        '--rm',
-        '--no-deps',
-        'service-setup',
-        'pnpm',
-        'exec',
-        'tsx',
-        action === 'observe'
-          ? 'scripts/runtime/observe-local-host.ts'
-          : 'scripts/runtime/prove-local-observability.ts',
-        ...process.argv.slice(4),
-      ]);
+      hostCompose(
+        plan,
+        [
+          'run',
+          '--rm',
+          '--no-deps',
+          action === 'observe' ? 'service-observer' : 'service-setup',
+          ...(action === 'observe' ? ['node', '--import', 'tsx'] : ['pnpm', 'exec', 'tsx']),
+          action === 'observe'
+            ? 'scripts/runtime/observe-local-host.ts'
+            : 'scripts/runtime/prove-local-observability.ts',
+          ...process.argv.slice(4),
+        ],
+        options,
+      );
     } finally {
       closeSync(handle);
       unlinkSync(lock);

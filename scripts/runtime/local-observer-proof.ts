@@ -93,7 +93,10 @@ export async function proveObservability(owner: pg.Client, create: (actor: strin
           [ids, prefix + ':%'],
         );
       } finally {
-        await owner.query('DELETE FROM admin.staff_role_assignments WHERE staff_id=$1', [actor]);
+        await owner.query(
+          'DELETE FROM admin.staff_role_assignments a USING admin.staff_identities s WHERE a.staff_id=s.id AND s.id=$1 AND s.provider_subject=$2',
+          [actor, prefix],
+        );
         await owner.query(
           'DELETE FROM admin.staff_identities WHERE id=$1 AND provider_subject=$2',
           [actor, prefix],

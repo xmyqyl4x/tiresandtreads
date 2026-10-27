@@ -1,4 +1,20 @@
 services:
+  service-observer:
+    profiles: [local-host]
+    image: tiresandtreads-tooling:${COMPOSE_PROJECT_NAME:?}
+    user: node
+    environment:
+      APP_ENV: ${APP_ENV:?}
+      LOCAL_ENV: ${LOCAL_ENV:?}
+      PROVIDER_MODE: fixtures
+      DB_PASSWORD_TT_OPERATIONS_RUNTIME: ${LOCAL_OBSERVER_PASSWORD:-}
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 1
+    networks: [local]
   service-setup:
     profiles: [local-host]
     image: tiresandtreads-tooling:${COMPOSE_PROJECT_NAME:?}

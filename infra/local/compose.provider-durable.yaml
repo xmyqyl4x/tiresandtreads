@@ -6,3 +6,6 @@ services:
   service-setup:
     environment:
       LOCAL_PROVIDER_MODE: durable
+  service-observer:
+    environment:
+      LOCAL_PROVIDER_MODE: durable
