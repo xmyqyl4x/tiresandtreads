@@ -210,3 +210,5 @@ Retained dev/stage service hosts use `pnpm local:host prepare|up|prove|status|st
 The [local observability/response continuation](implementation/P1-PR-027-local-observability.md) adds `local:host observe` and `prove-observability`. See the [masked operational response runbook](operations/local-observability.md). All six S3 gates and the API hold remain unchanged.
 
 The [final local S3 readiness review](implementation/P1-PR-027-final-local-readiness.md) is the current evidence entry point. Retained idle socket counts differ from declared maxima; local fixture recovery differs from independent hosted custody. Keep the six acceptance gates and API hold intact. No additional setup, migration or credential change is required for this documentation reconciliation.
+
+The [private hosted staging decision packet](implementation/P1-PR-027-private-hosted-staging-decision.md) identifies future hosted endpoint/TLS and ownership preflight work. Packet preparation changes no local setup or credentials and authorizes no cloud login, provisioning or purchases. Product APIs remain held; all proposed HS choices need explicit recorded decisions.

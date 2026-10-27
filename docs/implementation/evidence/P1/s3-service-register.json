@@ -330,7 +330,11 @@
         "docs/implementation/evidence/P1/p1-pr-027-readiness-index.json",
         "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
         "docs/implementation/evidence/P1/p1-pr-027-readiness-validation.md",
-        "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json"
+        "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json",
+        "docs/implementation/P1-PR-027-private-hosted-staging-decision.md",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-decision.json",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-validation.md"
       ]
     }
   ],

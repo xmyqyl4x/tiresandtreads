@@ -67,3 +67,5 @@ For a failed maintenance run, inspect its configured action, masked outcome and 
 For bounded read-only measurements, dependency alerts and a separately explicit synthetic response drill, use the [local observability runbook](local-observability.md). No monitoring endpoint or automatic repair is added.
 
 The [final local readiness reconciliation](../implementation/P1-PR-027-final-local-readiness.md) indexes the measured host/workflow/recovery/observer proofs and their limits. Retained journals are empty; local replay is SQL-only; alert state is invocation-local. Actual hosted custody, schedules, alert destination and named response ownership remain acceptance work. No new runtime command or maintenance lane is enabled.
+
+For future hosted staging, use the [decision packet](../implementation/P1-PR-027-private-hosted-staging-decision.md). These local-only commands/configurations are not a hosted deployment path: the packet identifies endpoint/TLS, bootstrap, provider and custody preflights before remote use. No local credential/state export, hosted command or new maintenance lane is authorized.

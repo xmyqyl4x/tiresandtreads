@@ -50,3 +50,5 @@ Retained dev/stage service hosts use `pnpm local:host prepare|up|prove|status|st
 The [local observability/response continuation](docs/implementation/P1-PR-027-local-observability.md) adds `local:host observe` and `prove-observability`. See the [masked operational response runbook](docs/operations/local-observability.md). All six S3 gates and the API hold remain unchanged.
 
 The [final local S3 readiness review](docs/implementation/P1-PR-027-final-local-readiness.md) reconciles merged PRs #27–31, current local state, evidence provenance and the six remaining acceptance actions. Local technical review does not close P1-PR-027 or release the API hold.
+
+Local S3 reconciliation is accepted in merged [PR #32](https://github.com/xmyqyl4x/tiresandtreads/pull/32). The next review artifact is the [private hosted staging decision packet](docs/implementation/P1-PR-027-private-hosted-staging-decision.md): no provisioning/purchases, specialist/licensed work pending and APIs held. Full P1-PR-027 remains open for six acceptance gates.
