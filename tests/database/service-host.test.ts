@@ -5,8 +5,14 @@ import { tmpdir } from 'node:os';
 import { join, resolve, sep } from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { once } from 'node:events';
-import { S3Client, CreateBucketCommand, PutBucketVersioningCommand } from '@aws-sdk/client-s3';
-import { KMSClient, CreateKeyCommand } from '@aws-sdk/client-kms';
+import {
+  S3Client,
+  CreateBucketCommand,
+  PutBucketVersioningCommand,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
+import { KMSClient, CreateKeyCommand, EncryptCommand } from '@aws-sdk/client-kms';
 import { contentFixture, uid, time, success } from '../fixtures/content/database.ts';
 import { hostSettings } from '../fixtures/service-host/settings.ts';
 import { createLocalServiceHost } from '../../packages/integrations/src/service-host.ts';
@@ -16,6 +22,12 @@ import { createOwnerRepository } from '../../packages/db/src/repositories/owners
 import { startWorker } from '../../packages/integrations/src/worker-server.ts';
 import { engineFixture } from '../fixtures/engine/base.ts';
 import { type Result, ok } from '../../packages/domain/src/values/core.ts';
+import { proveWorkflow } from '../../scripts/runtime/local-workflow-proof.ts';
+import {
+  verifyProviderState,
+  digest,
+  type LocalProviderState,
+} from '../../scripts/runtime/local-host-state.ts';
 let f: Awaited<ReturnType<typeof contentFixture>>,
   settings: ReturnType<typeof hostSettings>,
   env: Record<string, string>,
@@ -123,6 +135,69 @@ afterAll(async () => {
       throw Error('Unexpected fixture cleanup path');
     await rm(directory, { recursive: true, force: true });
   }
+});
+it('executes the composed SQL quota cleanup through a real local Inngest cron callback, preserving unexpired buckets and the API hold', async () => {
+  await save({ ...settings, maintenance: { enabled: ['quotas'], cycle: ['quotas'] } });
+  await usingHost(async (h) => {
+    const listener = await startWorker(h, 8123, 'http://test:8123');
+    try {
+      expect(await proveWorkflow(f.owner, 'http://127.0.0.1:8123')).toMatchObject({
+        expiredRemoved: 1,
+        unexpiredPreserved: 1,
+        productApiStatus: 404,
+        admissionPolicyEnabled: false,
+      });
+    } finally {
+      await listener.stop();
+    }
+  });
+  await noConnections();
+}, 100000);
+it('verifies retained KMS custody and every exact S3 canary version, refusing unavailable keys or missing versions without repair', async () => {
+  const plain = Buffer.from('Synthetic persistent host key canary');
+  const encrypted = await kms.send(
+    new EncryptCommand({ KeyId: env.KMS_KEY_ID!, Plaintext: plain }),
+  );
+  const objects: LocalProviderState['objects'] = [];
+  for (const Bucket of [env.PRIVATE_BUCKET!, env.PUBLIC_BUCKET!])
+    for (let n = 0; n < 2; n++) {
+      const Body = Buffer.from('Synthetic retained canary ' + n),
+        Key = 'fixture/provider-canary' as const;
+      const result = await s3.send(new PutObjectCommand({ Bucket, Key, Body }));
+      objects.push({ bucket: Bucket, key: Key, version: result.VersionId!, sha256: digest(Body) });
+    }
+  const state: LocalProviderState = {
+    schemaVersion: 1,
+    target: 'dev',
+    keyId: env.KMS_KEY_ID!,
+    ciphertext: Buffer.from(encrypted.CiphertextBlob!).toString('base64'),
+    plaintextHash: digest(plain),
+    objects,
+  };
+  await verifyProviderState(state, process.env.TEST_STORAGE_ENDPOINT!);
+  await expect(verifyProviderState(state, 'https://example.com')).rejects.toThrow(
+    'Invalid fixture endpoint',
+  );
+  await expect(
+    verifyProviderState(
+      { ...state, keyId: state.keyId.slice(0, -36) + '00000000-0000-4000-8000-000000000000' },
+      process.env.TEST_STORAGE_ENDPOINT!,
+    ),
+  ).rejects.toThrow('refusing automatic');
+  await expect(
+    verifyProviderState(
+      { ...state, plaintextHash: '0'.repeat(64) },
+      process.env.TEST_STORAGE_ENDPOINT!,
+    ),
+  ).rejects.toThrow('refusing automatic');
+  await verifyProviderState(state, process.env.TEST_STORAGE_ENDPOINT!);
+  const first = objects[0]!;
+  await s3.send(
+    new DeleteObjectCommand({ Bucket: first.bucket, Key: first.key, VersionId: first.version }),
+  );
+  await expect(verifyProviderState(state, process.env.TEST_STORAGE_ENDPOINT!)).rejects.toThrow(
+    'refusing automatic',
+  );
 });
 it('composes accepted factories over exactly the declared role pools and both databases with provider activation false', async () => {
   await save({

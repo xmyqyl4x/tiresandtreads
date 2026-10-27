@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "7c86af95e8f78bc4b4c6d29ac8ebefe771b57bd5",
+  "measuredAt": "2026-10-27T00:11:49.983200+00:00",
+  "scope": "Local retained Docker projects; no hosted acceptance",
+  "preservation": {
+    "credentialFilesUnchanged": 4,
+    "targets": {
+      "dev": {
+        "privateSettingsPreserved": true,
+        "providerManifestPreserved": true,
+        "settingsMode": "600",
+        "settingsUid": 1000,
+        "journalMode": "700",
+        "journalUid": 1000,
+        "retainedJournalRecords": 0,
+        "originalSubjectAndSessionPreserved": true,
+        "hostNotices": 6,
+        "hostTemplates": 1,
+        "probePoliciesRemaining": 0,
+        "appMigrations": 33,
+        "oldCompletedRunsPreserved": [
+          "01M5XASBYJA9A6J8SZA35HVWJA",
+          "01M5XAV6HG5EJEFR68HGV43GS4",
+          "01M5XAX1502HW2S4W17EQ1H838"
+        ],
+        "completedRunsAfterRestart": 5,
+        "providerVersionsVerified": 4,
+        "firstProof": {
+          "trigger": "cron * * * * *",
+          "callbackRegistered": true,
+          "expiredRemoved": 1,
+          "unexpiredPreserved": 1,
+          "admissionPolicyEnabled": false,
+          "productApiStatus": 404,
+          "elapsedMs": 5575
+        },
+        "afterRestartProof": {
+          "trigger": "cron * * * * *",
+          "callbackRegistered": true,
+          "run": {
+            "id": "01M5XB2GXNQMW76VVBK478W7RV",
+            "status": "COMPLETED",
+            "function": {
+              "slug": "tiresandtreads-dev-local-service-maintenance-v1"
+            },
+            "cronSchedule": "* * * * *"
+          },
+          "expiredRemoved": 1,
+          "unexpiredPreserved": 1,
+          "admissionPolicyEnabled": false,
+          "productApiStatus": 404,
+          "elapsedMs": 41336
+        },
+        "cmsMigrations": 3
+      },
+      "stage": {
+        "privateSettingsPreserved": true,
+        "providerManifestPreserved": true,
+        "settingsMode": "600",
+        "settingsUid": 1000,
+        "journalMode": "700",
+        "journalUid": 1000,
+        "retainedJournalRecords": 0,
+        "originalSubjectAndSessionPreserved": true,
+        "hostNotices": 6,
+        "hostTemplates": 1,
+        "probePoliciesRemaining": 0,
+        "appMigrations": 33,
+        "oldCompletedRunsPreserved": [
+          "01M5XAX14NPJKFTS4AN3PGKST8"
+        ],
+        "completedRunsAfterRestart": 3,
+        "providerVersionsVerified": 4,
+        "firstProof": {
+          "trigger": "cron * * * * *",
+          "callbackRegistered": true,
+          "expiredRemoved": 1,
+          "unexpiredPreserved": 1,
+          "admissionPolicyEnabled": false,
+          "productApiStatus": 404,
+          "elapsedMs": 53289
+        },
+        "afterRestartProof": {
+          "trigger": "cron * * * * *",
+          "callbackRegistered": true,
+          "run": {
+            "id": "01M5XB2GXJK56NYYV9Q2SEQWVH",
+            "status": "COMPLETED",
+            "function": {
+              "slug": "tiresandtreads-stage-local-service-maintenance-v1"
+            },
+            "cronSchedule": "* * * * *"
+          },
+          "expiredRemoved": 1,
+          "unexpiredPreserved": 1,
+          "admissionPolicyEnabled": false,
+          "productApiStatus": 404,
+          "elapsedMs": 41282
+        },
+        "cmsMigrations": 3
+      }
+    }
+  },
+  "guardedLocalDown": "refused dev and stage without removing resources",
+  "providerColdRestart": "Not supported by memory-only Moto; missing custody refuses startup; deliberate recovery remains open",
+  "gateStatus": {
+    "S3": "open",
+    "specialistReview": "pending",
+    "licensedAdapters": "pending",
+    "productApis": "held"
+  },
+  "implementationFilesSha256": {
+    "scripts/runtime/local-host-state.ts": "5ee1fb3342c0118a6f93eb0d42f5c86f175233cc8dfad3d447db3618925e069e",
+    "scripts/runtime/prepare-local-host.ts": "43dbb37a04c7cbb1aeafdb6e6d95358c9463c4da13a2a613566ec0b15943b9b1",
+    "scripts/runtime/prove-local-host.ts": "8224163425bc19e37ca262f2e8394eac4d81dbc4abf24e7ca0c20cca56797f1d",
+    "scripts/runtime/local-workflow-history.ts": "e1b5986de042128a9f32607466a5c297f8252facc1cd28e563696123e36ca72a",
+    "scripts/runtime/local-workflow-proof.ts": "0cc62d640139ab52396de9b4a54747f1df08a02036409bbc8931cdf57ce491ec",
+    "scripts/runtime/persistent-host.ts": "3b3a7b02855c54c31e11d468a46d7f2c22609a4a913883d5e5fe6c8cd2759d57",
+    "packages/config/src/local-provider-state.ts": "42f825590bf4364c090937a208f7d1205bac13214ebd99690a1116d2c8316e06",
+    "infra/local/compose.service-host.yaml": "b6a472af7f1c35dcae3e2b17a847521d4bb5540ecdcacd74cb45db662e6b8e0f"
+  }
+}

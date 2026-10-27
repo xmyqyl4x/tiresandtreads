@@ -97,6 +97,10 @@ async function main() {
     console.log(`Initialized ${plan.project}; generated values remain in ignored ${plan.envFile}`);
     return;
   }
+  if (command === 'down' && existsSync(`.local/host-${target}.prepared`))
+    throw Error(
+      'This target has retained host/provider state; use pnpm local:host stop to preserve the memory-only fixture provider',
+    );
   const args = {
     up: ['up', '--build', '--detach', '--wait', '--wait-timeout', '120'],
     down: ['down', '--remove-orphans'],

@@ -307,7 +307,11 @@
         "docs/implementation/P1-PR-027-local-service-host.md",
         "docs/implementation/evidence/P1/p1-pr-027-host-validation.md",
         "tests/database/service-host.test.ts",
-        "docs/implementation/evidence/P1/p1-pr-027-host-verification.json"
+        "docs/implementation/evidence/P1/p1-pr-027-host-verification.json",
+        "docs/implementation/P1-PR-027-persistent-local-workflows.md",
+        "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
+        "scripts/runtime/local-workflow-proof.ts",
+        "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json"
       ]
     }
   ],

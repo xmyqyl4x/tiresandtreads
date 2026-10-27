@@ -49,7 +49,8 @@
     "data:source": "tsx scripts/data/source.ts",
     "data:source-probe": "tsx scripts/data/source-probe.ts",
     "verify:service-host": "node scripts/verify/service-host.mjs",
-    "service-host": "tsx scripts/runtime/service-host.ts"
+    "service-host": "tsx scripts/runtime/service-host.ts",
+    "local:host": "node scripts/dev/service-host.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",
