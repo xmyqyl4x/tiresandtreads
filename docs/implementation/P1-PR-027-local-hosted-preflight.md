@@ -1,0 +1,53 @@
+# P1-PR-027 — SP01–SP02 local TLS and database ownership preflight
+
+**October 27, 2026 · Local implementation in review; hosted proofs not run.** The owner approved [PR #33](https://github.com/xmyqyl4x/tiresandtreads/pull/33), merged into `main` at `7d0849b7e2c8618856da2c8968b2e3e8c8709c38`, and authorized SP01–SP02 **local-only** work. Packet merge accepts the planning artifact. HS01–HS08 remain proposed, without approved selections, budget or operators. No provisioning, purchases, cloud authentication, account creation, DNS changes, remote deployment or notifications are authorized.
+
+This continues `S3-service-host` under P1-PR-027. All six [acceptance gates](P1-PR-027-s3-gate-review.md) remain pending with empty actual acceptance records. Specialist review and licensed adapters remain pending; APIs and frontends remain held. The [decision packet](P1-PR-027-private-hosted-staging-decision.md), four live phases, PostgreSQL consolidation, option C and database → repositories → services → APIs → UI sequence are unchanged. This is not the frontend task P1-PR-034.
+
+## Delivered local proof
+
+| Item | Implemented and measured locally | Still required later |
+| --- | --- | --- |
+| SP01 — TLS | A separate disposable-only configuration contract, explicit CA and server hostname verification, TLS 1.2 minimum, no URL SSL override. Both application and CMS migrators connect successfully over real PostgreSQL TLS. Wrong CA/name, expired server certificate and plaintext-only server fail | Selected endpoint, private routing/trusted sources, actual CA chain/rotation, all hosted runtime lanes and deployed connection lifecycle |
+| SP02 — ownership | Read-only inspection of separate application/CMS ownership, expected schemas/objects, all 17 application and two CMS roles, capability flags, memberships in either direction, database/schema PUBLIC ACLs, runtime own/peer database privileges, global future function/type defaults, pinned engine minor and complete ordered migration IDs/digests | Actual provider administrator powers and provisioning/bootstrap workflow; full ACL/RLS, extensions/collation/timezone, migration/replay and independent dump/restore on authorized disposable provider databases |
+| Bootstrap compatibility | A real non-superuser `CREATEROLE` actor creates a scoped fixture role. PostgreSQL grants it automatic ADMIN membership; the inspector flags this and the existing bootstrap refuses it without removing/adopting the membership | A reviewed provider-specific administration procedure that preserves the ownership/least-privilege contract; no provider has passed or failed acceptance yet |
+
+The new inspector is a bounded preflight, not a complete schema fingerprint or effective-privilege audit. It compares migration metadata, not arbitrary application data or every object definition. It checks global future function/type PUBLIC defaults, not every schema-specific default/object grant. Missing/inaccessible catalogs or history fail closed as unavailable. Existing full schema, models, ACL/RLS, migration, S1/S2/S3 regression and recovery checks remain mandatory. No new database migration, schema, dependency or runtime privilege is introduced.
+
+## Configuration and execution boundary
+
+The [configuration reader](../../packages/config/src/database-preflight.ts) requires `APP_ENV=test-local`, `PROVIDER_MODE=fixtures` and a randomly scoped `tt-test-<hex>` project. It accepts only the two fixed test-network DNS aliases on port 5432, an exact target migrator, a generated fixture password, the target database prefix and the opposite peer prefix. Remote, native/loopback, retained dev/stage, wrong-role, query-bearing and fragment-bearing inputs refuse before network I/O. The mismatch alias exists solely to test certificate identity rejection. Environment names are guards, not a sandbox for untrusted code; the internal Docker network supplies the execution boundary.
+
+Every connection field is explicit. There is no `connectionString` or URL `sslmode` merge. TLS uses a supplied valid CA, `rejectUnauthorized: true` and `minVersion: TLSv1.2`; hostname identity checking remains the Node driver default. A fixed `pg_catalog` search path and read-only session default avoid inherited session options. Connection/query/statement/lock/idle/transaction timeouts bound failure. Existing [service-host local restrictions](../../packages/config/src/service-host-plan.ts), [runtime pool](../../packages/db/src/runtime-pool.ts) and [runtime fixture configuration](../../packages/config/src/runtime.ts) are unchanged. This does not enable hosted runtime URLs.
+
+The [inspector](../../packages/db/src/database-preflight.ts) connects as the relevant migrator and uses a repeatable-read, read-only transaction with fixed catalog queries and parameterized identifiers/values. It does not bootstrap, migrate, grant/revoke, change ownership, repair a target, or read report/contact rows. Its result contains only local scope, a status, fixed finding codes and bounded structural counts/version/TLS/read-only facts. Endpoint names, role/database names, passwords, certificates and raw SQL/network errors are omitted. An unavailable result is deliberately generic; it is not a provider diagnosis.
+
+The [operator CLI](../../scripts/database/preflight.ts) consumes one absolute private regular JSON file, at most 128 KiB, with no symlink and no Unix group/world permissions. It checks the opened file identity and closes it on failure. The CLI requires the canonical checked-in version and migration digest manifest, preventing a caller from declaring a different version/history acceptable. Exit codes: **0** compatible local fixture, **2** incompatible local fixture, **1** invalid input or unavailable target. Credentials never belong in command arguments or committed examples. This CLI is not a hosted setup command or product API.
+
+Use the self-contained diagnostic from the repository root:
+
+```sh
+pnpm verify:db-preflight
+```
+
+It generates one isolated project, builds the existing pinned Linux tooling, starts only its disposable PostgreSQL/TLS fixture, runs the two focused test files and removes its own containers, volumes and environment file in `finally`. Docker Linux, Node and pnpm use the existing prerequisites. Do not supply a cloud endpoint, retained credential file or native PostgreSQL login; there are no target arguments. Windows remains an operator/development platform, not a deployment requirement.
+
+## TLS fixture and tests
+
+The [test-only Compose overlay](../../infra/local/compose.test.yaml) generates fresh synthetic certificates and a server key into its own named volume using the already pinned Moto image's cryptography package. The certificate generator has no network. The root private key is never persisted; server-key mode/owner are restricted for the pinned PostgreSQL image. The volume is mounted read-only into PostgreSQL/tooling and removed with its disposable project. No key/certificate bytes enter Git or test output. Existing material is verified rather than silently rotated.
+
+The main disposable PostgreSQL fixture supports both TLS and plaintext for existing tests; only this preflight mandates TLS. Expired-certificate and TLS-disabled adverse tests change only that isolated server, then restore settings and prove healthy TLS again. Retained dev/stage overlays, native PostgreSQL, existing secrets, journals and provider manifests are not targets. Test-source recovery inherits the fixture certificate; no claim that every historical recovery connection uses TLS is made.
+
+The [unit tests](../../tests/unit/database-preflight.test.ts) and [database tests](../../tests/database/database-preflight.test.ts) cover configuration refusals, actual TLS across both databases, real certificate failures, ownership/capability/membership/ACL drift, equal-count migration digest mismatch, strict bootstrap refusal, redaction and CLI file/version/history guards. Before/after schema inventories agree on successful inspection; deliberately incompatible ownership/grants remain unchanged until test cleanup. [Validation and TDD evidence](evidence/P1/p1-pr-027-preflight-validation.md) distinguishes focused results from the final committed full gate.
+
+## Evidence limits and next action
+
+No actual DigitalOcean/AWS/other provider administrator, CA chain, network, budget, engine inventory or backup system has been exercised. The observed role-creator behavior is a local PostgreSQL result, not a conclusion that a named managed provider is compatible or incompatible. Do not weaken bootstrap checks, grant runtime admin authority, downgrade PostgreSQL, bypass certificate verification, or export `.local` files to fit a proposal. Actual staging authority must be newly scoped later.
+
+All HS decisions remain proposed in the [machine-readable decision register](evidence/P1/p1-pr-027-staging-decision.json). SP01/SP02 now have local proofs in review and actual hosted proof pending; SP03–SP08 are not started. The [service register](evidence/P1/s3-service-register.json) adds only local evidence references. No acceptance record or activation flag changes. Original task cards/dependencies, 137 FR rows, historical approvals and the three unchecked parent completion boxes remain intact.
+
+After owner review/merge, the next useful bounded work is **SP03 local-only provider-composition preflight and refusal tests**, using synthetic/fixture ports to identify the future S3/KMS/workflow/no-send bindings without activating external effects or selecting HS values. Actual host-specific implementation, accounts, provisioning and purchases still require concrete choices and separately scoped authorization. Do not proceed to APIs while S3 is held.
+
+## Technical references
+
+[node-postgres SSL](https://node-postgres.com/features/ssl) describes the explicit `ssl` options passed to Node TLS and the risk of URL SSL parameters replacing those options. [PostgreSQL 18 role attributes](https://www.postgresql.org/docs/18/role-attributes.html) documents automatic ADMIN membership for roles created by a non-superuser role creator; the fixture reproduces it. [PostgreSQL 18 server TLS](https://www.postgresql.org/docs/18/ssl-tcp.html) documents TLS negotiation and certificate/key custody. These are implementation references, not provider acceptance evidence.

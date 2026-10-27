@@ -1,8 +1,31 @@
 services:
+  test-tls:
+    image: motoserver/moto:5.2.0@sha256:d8d063e3e704d256cbe8165072fa273c17698be91311e49fc602b7716f459bea
+    entrypoint: [python, /fixture/certificates.py]
+    network_mode: none
+    volumes:
+      - test-tls:/tls
+      - ../../tests/fixtures/database-preflight:/fixture:ro
+    mem_limit: 128m
+    cpus: 1
   postgres:
     ports: !reset []
+    depends_on:
+      test-tls:
+        condition: service_completed_successfully
+    volumes:
+      - test-tls:/tls:ro
+      - ./02-test-tls.sql:/docker-entrypoint-initdb.d/02-test-tls.sql:ro
+    networks:
+      local:
+        aliases: [postgres.preflight.test, postgres.mismatch.preflight.test]
+  test:
+    volumes:
+      - test-tls:/tls:ro
   app:
     ports: !reset []
+volumes:
+  test-tls:
 networks:
   local:
     internal: true
