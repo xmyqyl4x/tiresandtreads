@@ -349,7 +349,7 @@
     },
     {
       "id": "SP04",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #36; actual hosted proof pending",
       "scope": "Independent custody and measured recovery",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-custody-preflight.md",
@@ -358,8 +358,12 @@
     },
     {
       "id": "SP05",
-      "status": "not started",
-      "scope": "Protected deployment/access and rollback"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Protected deployment/access and rollback",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-deployment-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-deployment-preflight-validation.md"
+      ]
     },
     {
       "id": "SP06",

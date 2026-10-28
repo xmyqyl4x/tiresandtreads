@@ -360,7 +360,15 @@
         "infra/local/compose.custody.yaml",
         "tests/unit/custody.test.ts",
         "tests/unit/custody-file.test.ts",
-        "tests/custody/custody.test.ts"
+        "tests/custody/custody.test.ts",
+        "docs/implementation/P1-PR-027-local-deployment-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-deployment-preflight-validation.md",
+        "scripts/deployment/preflight.ts",
+        "scripts/verify/deployment-preflight.mjs",
+        "infra/local/compose.deployment.yaml",
+        "infra/local/deployment-baseline.json",
+        "tests/unit/deployment-preflight.test.ts",
+        "tests/deployment/preflight.test.ts"
       ]
     }
   ],

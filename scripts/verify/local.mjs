@@ -6,6 +6,7 @@ import { run } from '../lib/process.mjs';
 import { verifyLifecycle } from './lifecycle.mjs';
 import { verifyRecovery } from './recovery.mjs';
 import { verifyProviderRecovery } from './provider.mjs';
+import { verifyDeployment } from './deployment-preflight.mjs';
 
 // This function creates and deletes only its own randomly named test environment.
 export function verifyLocal() {
@@ -51,6 +52,7 @@ export function verifyLocal() {
       appImageId: compose(plan, ['images', '--quiet', 'app'], { capture: true }),
       recovery: verifyRecovery(),
       custodyRecovery: verifyRecovery({ custody: true }),
+      deploymentPreflight: verifyDeployment(),
       providerRecovery: verifyProviderRecovery(),
     };
   } finally {
