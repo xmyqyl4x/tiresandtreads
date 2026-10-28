@@ -57,7 +57,8 @@
     "verify:custody-preflight": "node scripts/verify/custody-preflight.mjs",
     "test:custody": "vitest run --project custody",
     "verify:deployment-preflight": "node scripts/verify/deployment-preflight.mjs",
-    "verify:capacity-preflight": "node scripts/verify/capacity-preflight.mjs"
+    "verify:capacity-preflight": "node scripts/verify/capacity-preflight.mjs",
+    "verify:observation-preflight": "node scripts/verify/observation-preflight.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",

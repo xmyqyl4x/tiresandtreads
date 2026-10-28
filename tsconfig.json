@@ -23,7 +23,8 @@
     "scripts/deployment/**/*.ts",
     "scripts/capacity/**/*.ts",
     "infra/database/**/*.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "scripts/observability/**/*.ts"
   ],
   "exclude": ["node_modules", "tests/probes"]
 }

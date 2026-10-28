@@ -101,6 +101,15 @@ export default defineConfig({
           fileParallelism: false,
         },
       },
+      {
+        test: {
+          name: 'observation',
+          include: ['tests/observation/**/*.test.ts'],
+          testTimeout: 20000,
+          hookTimeout: 120000,
+          fileParallelism: false,
+        },
+      },
       { test: { name: 'probe', include: ['tests/probes/**/*.test.ts'] } },
     ],
   },
