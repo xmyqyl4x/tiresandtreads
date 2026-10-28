@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "9d314d00255b18b6e7d6f873e6f70c9080dfd2e5",
+  "remoteEvidenceObservedAt": "2026-10-28T19:44:54.1609672Z",
+  "scope": "SP08 finite local SP01-SP07 evidence reconciliation; actual S3 acceptance not requested",
+  "disposition": {
+    "localEvidence": "reconciled; owner review requested",
+    "parentP1PR027": "in progress",
+    "S3": "open",
+    "specialistReview": "pending",
+    "licensedAdapters": "pending",
+    "productApis": "held",
+    "acceptanceRequested": false,
+    "publicActivation": false,
+    "endpointImplementationAllowed": false,
+    "provisioningAuthorized": false,
+    "purchasesAuthorized": false,
+    "notificationsAuthorized": false
+  },
+  "authority": "docs/implementation/evidence/P1/s3-service-register.json",
+  "proposedDecisions": [
+    "HS01",
+    "HS02",
+    "HS03",
+    "HS04",
+    "HS05",
+    "HS06",
+    "HS07",
+    "HS08"
+  ],
+  "pendingGates": [
+    "G1-specialist",
+    "G1-fitment-catalog",
+    "G1-prices",
+    "G2-provider-effects",
+    "G2-privacy-policy",
+    "S3-service-host"
+  ],
+  "inventory": {
+    "componentCards": 14,
+    "applicationServiceModules": 26,
+    "draftSpecialistScenarios": 98,
+    "actualSpecialistReviews": 0
+  },
+  "lineage": [
+    {
+      "pullRequest": 33,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/33",
+      "head": "9deed80e62bbf6a37b514f17d675ce86c4560047",
+      "merge": "7d0849b7e2c8618856da2c8968b2e3e8c8709c38",
+      "mergedAt": "2026-10-27T20:16:14Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40562720074,
+        "jobId": 122395764359,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40562720074",
+        "headSha": "9deed80e62bbf6a37b514f17d675ce86c4560047",
+        "conclusion": "success",
+        "completedAt": "2026-10-27T18:49:01Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          997,
+          6,
+          63,
+          11
+        ],
+        "providerTests": 6,
+        "testTotal": 1083
+      }
+    },
+    {
+      "pullRequest": 34,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/34",
+      "head": "f2f5de8e04e803e279be6647fa86a1aa9c547bd3",
+      "merge": "1f1db23641a1f5297e8812e8a43eaedee0989d7e",
+      "mergedAt": "2026-10-28T01:08:50Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40580316623,
+        "jobId": 122457633224,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40580316623",
+        "headSha": "f2f5de8e04e803e279be6647fa86a1aa9c547bd3",
+        "conclusion": "success",
+        "completedAt": "2026-10-27T20:45:24Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          1012,
+          6,
+          63,
+          11
+        ],
+        "providerTests": 6,
+        "testTotal": 1098
+      }
+    },
+    {
+      "pullRequest": 35,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/35",
+      "head": "cfcd99018a5e114df0a73ace04cb9b55b947e3b2",
+      "merge": "9529a3f8bced2c077f71e98d20268b6512aa4162",
+      "mergedAt": "2026-10-28T01:39:21Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40615337071,
+        "jobId": 122576393340,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40615337071",
+        "headSha": "cfcd99018a5e114df0a73ace04cb9b55b947e3b2",
+        "conclusion": "success",
+        "completedAt": "2026-10-28T01:34:07Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          1053,
+          6,
+          63,
+          11
+        ],
+        "providerTests": 6,
+        "testTotal": 1139
+      }
+    },
+    {
+      "pullRequest": 36,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/36",
+      "head": "f2e38589bcb0ad9daffaecd605551ed295fd8208",
+      "merge": "0e5214393c806d82180591619942d49c75ae34c0",
+      "mergedAt": "2026-10-28T04:30:52Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40620162113,
+        "jobId": 122591991938,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40620162113",
+        "headSha": "f2e38589bcb0ad9daffaecd605551ed295fd8208",
+        "conclusion": "success",
+        "completedAt": "2026-10-28T02:24:33Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          1072,
+          6,
+          63,
+          11,
+          2
+        ],
+        "providerTests": 6,
+        "testTotal": 1160
+      }
+    },
+    {
+      "pullRequest": 37,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/37",
+      "head": "41d47d7734e4add9ef27e855d679f5ead34265cf",
+      "merge": "3e86d3e5fdddd944f6b9be76a92edcaa028fc3ac",
+      "mergedAt": "2026-10-28T14:54:53Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40640623707,
+        "jobId": 122657659945,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40640623707",
+        "headSha": "41d47d7734e4add9ef27e855d679f5ead34265cf",
+        "conclusion": "success",
+        "completedAt": "2026-10-28T06:00:15Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          1095,
+          6,
+          63,
+          11,
+          2,
+          4,
+          1,
+          1,
+          1
+        ],
+        "providerTests": 6,
+        "testTotal": 1190
+      }
+    },
+    {
+      "pullRequest": 38,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/38",
+      "head": "8a117da075b35077607a421e908ce8b0de02121a",
+      "merge": "fa25c6b7caa37843a3b43bd7dd0f6d66b72c4806",
+      "mergedAt": "2026-10-28T18:50:34Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40716829572,
+        "jobId": 122916679401,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40716829572",
+        "headSha": "8a117da075b35077607a421e908ce8b0de02121a",
+        "conclusion": "success",
+        "completedAt": "2026-10-28T15:39:05Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          1112,
+          6,
+          63,
+          11,
+          2,
+          4,
+          1,
+          1,
+          1,
+          7
+        ],
+        "providerTests": 6,
+        "testTotal": 1214
+      }
+    },
+    {
+      "pullRequest": 39,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/39",
+      "head": "8f4a8081b7964c5bcd52fca6b128937f57e01961",
+      "merge": "9d314d00255b18b6e7d6f873e6f70c9080dfd2e5",
+      "mergedAt": "2026-10-28T19:42:28Z",
+      "headIncludedInMerge": true,
+      "mergeIncludedInBaseline": true,
+      "ci": {
+        "runId": 40753556460,
+        "jobId": 123046334526,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/40753556460",
+        "headSha": "8f4a8081b7964c5bcd52fca6b128937f57e01961",
+        "conclusion": "success",
+        "completedAt": "2026-10-28T19:27:20Z",
+        "scope": "Independent CI associated with final PR head; checkout may be a synthetic merge revision",
+        "testGroups": [
+          1137,
+          6,
+          63,
+          11,
+          2,
+          4,
+          1,
+          1,
+          1,
+          7,
+          8
+        ],
+        "providerTests": 6,
+        "testTotal": 1247
+      }
+    }
+  ],
+  "baselineState": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-decision.json",
+      "sourceCommit": "9d314d00255b18b6e7d6f873e6f70c9080dfd2e5",
+      "sha256": "94b776452066106f37b1f23b29d70d4b3e15e84fe3824b6b0362dae1dbb5e6c1",
+      "scope": "Historical baseline blob; current localEvidence/progress may advance without rewriting this snapshot"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/s3-service-register.json",
+      "sourceCommit": "9d314d00255b18b6e7d6f873e6f70c9080dfd2e5",
+      "sha256": "996c1be5c50e7678f754af7477c82a81881d317204736fe55e5f5063b8571bc1",
+      "scope": "Historical baseline blob; current localEvidence/progress may advance without rewriting this snapshot"
+    }
+  ],
+  "receiptDigests": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-verification.json",
+      "sha256": "622f719948e1b795430dc7205fdc6e13c6e56b07be865e356937968dfb7e5e23"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-validation.md",
+      "sha256": "af9e5db85e33597f869350e8dfd96b2c3ccb96d935226e255611f4f477b63723"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-verification.json",
+      "sha256": "188532309a1c3cf06613785085140d2474ef456bf0a1e00f3de6318d011199f7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-validation.md",
+      "sha256": "e7cbf3ab5c3087823ccd02d74d6b041ccc3ff6d2810df9d1bad646da824bb88d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json",
+      "sha256": "2b0e0819c9f9c9a26253d64d6140b5db643ce52407c43d2a32db6f85679f1ccc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
+      "sha256": "00663476cce0330338405af39cae2a06bb38f9ad24bd4058afd84f90c456ffcb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json",
+      "sha256": "832cd2090771dfcca672ce2c006607e4dcc70bfe74bb4681341c45372a1ade31"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-validation.md",
+      "sha256": "899523c97f42509e2996d36a324fd6bfd51e513a953e8ef65215169d2e1c2e53"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json",
+      "sha256": "c10fcfdca85ebb7d4abea93d8d529aa116eb46cc8b17788c96608e13621612f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-validation.md",
+      "sha256": "d4a60c25554c4f0beb4da546428440b465e893736ab296bd0e7676c1ca560af7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
+      "sha256": "fa76c4077edac39a1390d0c21cd82a0e7c01edda19656b2644ff3bfacd71cc43"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
+      "sha256": "f9e0060f174f2eeed43408802201450d1d888b501ee01ffbeecee71e0e98a1a3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-local.json",
+      "sha256": "fefbbdd5952e508824980fe8c4581ad9c786d06c75b64d3fed69667a721b4f39"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
+      "sha256": "25583193194f7bfdcc3ef39263d3d5ea7b96312f35923ba0f0b1e2e7ff75a8ef"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json",
+      "sha256": "b0cfe8818910c6ce75d1acfaa4aca076ff1e12d97fd3ba733e6f7c2b2a66b89d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-index.json",
+      "sha256": "5080dd43e3b8ef122d381cd2bd9cb3134d87d18647e1531fdf5a597a9b5c59b1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-preflight-validation.md",
+      "sha256": "fcb92c4fb9907d8f826d366a0e04c34c162278097321e78aa0bc1edc70acc146"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-provider-preflight-validation.md",
+      "sha256": "1935d1b7f1fc582dc272ff06a695a6ddc42204728c131f97c33eaff7d6b2e5f1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-custody-preflight-validation.md",
+      "sha256": "b0c92399f24798fac37ad664508a10eb1f5b7b61f7e6441de6d4bbd29974c75b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-deployment-preflight-validation.md",
+      "sha256": "fa01df867724b54523caacdb607f023273eaad01791cc635acda629ae16e556c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-capacity-preflight-validation.md",
+      "sha256": "db70aded25f6366ed9739c8b28842c12ee3c7aca6a4e28ef7d8917aedbe38caf"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observation-preflight-validation.md",
+      "sha256": "734643e4040a39af2645fb515bc64516f8cb9abf1b38c1ddf8453b51b0ba971b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
+      "sha256": "3b6b911cdde6fe237a7b404ccdb35922c71d9b77eb8ebbadccf11b0351a24808"
+    }
+  ],
+  "historicalLocalVerification": "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
+  "newBranchVerification": "Final SP08 exact-local SHA/tree/lockfile stamp and independent CI belong to this PR/checks, not the historical PR39 receipt",
+  "limits": [
+    "Counts are successive snapshots, never additive",
+    "Hashes and local ancestry establish consistency, not independent authenticity or reviewer approval",
+    "CI is associated with final PR head; checkout may be a synthetic merge revision",
+    "Earlier retained dev/stage observations are historical; SP08 does not refresh or fault those environments",
+    "Provider, region, configuration, operator and approval fields for actual hosted acceptance remain absent"
+  ]
+}

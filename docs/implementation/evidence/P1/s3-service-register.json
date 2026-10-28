@@ -389,7 +389,11 @@
         "infra/local/compose.observation.yaml",
         "tests/observation/preflight.test.ts",
         "tests/unit/observation-preflight.test.ts",
-        "tests/unit/observation-response.test.ts"
+        "tests/unit/observation-response.test.ts",
+        "docs/implementation/P1-PR-027-local-evidence-handoff.md",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
+        "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md"
       ]
     }
   ],

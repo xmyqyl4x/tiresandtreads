@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "scope": "Historical exact-local PR #39 receipt captured during SP08; not a fresh SP08 run, merge run or hosted acceptance",
+  "capturedAt": "2026-10-28T19:44:54.1609672Z",
+  "sha": "8f4a8081b7964c5bcd52fca6b128937f57e01961",
+  "tree": "7fc4488791d65a5c4f79922fe445732af13fd2dc",
+  "lockfileSha256": "27e7299f0ecbe22d9a2f92eda86831e92ece8ba63eed2899691de55dd25905f9",
+  "verifiedAt": "2026-10-28T19:20:38.395Z",
+  "project": "tt-test-b0873803b51738a6",
+  "appImageId": "911bbacda5753b71e065f673f46c956a71ef9fe39734251f67e7dc95f9e447c3",
+  "tests": {
+    "vitestGroups": [
+      1137,
+      6,
+      63,
+      11,
+      2,
+      4,
+      1,
+      1,
+      1,
+      7,
+      8
+    ],
+    "providerTests": 6,
+    "total": 1247
+  },
+  "coverage": {
+    "statements": 94.11,
+    "branches": 90.54,
+    "functions": 97.91,
+    "lines": 97.27
+  },
+  "schemaRecovery": {
+    "tools": "pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)",
+    "tables": {
+      "app": 141,
+      "cms": 28
+    },
+    "migrations": {
+      "app": 33,
+      "cms": 3
+    },
+    "scope": "isolated synthetic logical restore; hosted RPO/RTO and object/provider recovery remain unproven"
+  },
+  "deployment": {
+    "previousRevision": "0e5214393c806d82180591619942d49c75ae34c0",
+    "candidateRevision": "8f4a8081b7964c5bcd52fca6b128937f57e01961",
+    "currentImage": "sha256:1d33bb00073dc12b0d27bbae7a1c9eecc60369482e2ca00cee26ee2a79e5970b",
+    "previousImage": "sha256:7b208eecb57661a2ce13107ddabd42955e09eda61a9202de5f533171027e33ab",
+    "productActivation": false,
+    "hostedAccepted": false,
+    "registryProvenanceProved": false
+  },
+  "observation": {
+    "project": "tt-test-c06b3b3534623732",
+    "elapsedMs": 38733,
+    "hostedAccepted": false,
+    "productActivation": false,
+    "actualRecipientNotifications": 0,
+    "capacity": {
+      "required": 69,
+      "raw": 75,
+      "serverReserved": 5,
+      "usable": 70,
+      "controlledClients": 3,
+      "baselineDatabaseBackends": 8,
+      "observedDatabaseBackends": 11,
+      "fixtureThresholdBasisPoints": 1285,
+      "quotaRows": 0,
+      "readOnlyRuntimeRole": true,
+      "hiddenBackendDetails": true,
+      "counter": "pg_stat_database.numbackends (conservative database backends)"
+    },
+    "interruptedIntent": {
+      "injectedFinalIntentState": true,
+      "actualOsCrash": false,
+      "automaticFourthSendRefused": true,
+      "explicitRetryRetainedId": true,
+      "receiverEffects": 1
+    }
+  },
+  "limits": [
+    "Disposable synthetic projects; no actual selected host/account/region",
+    "Images are local Docker IDs, not signed registry provenance",
+    "Schema table inventory is the recovery fixture, not an empty production schema",
+    "Private keys, settings, journals, tokens, environment files and raw logs are excluded",
+    "Producer observation and checked-in hashes are not an independent signed attestation"
+  ]
+}
