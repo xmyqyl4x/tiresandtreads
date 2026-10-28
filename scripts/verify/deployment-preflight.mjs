@@ -5,6 +5,7 @@ import { resolve, dirname, basename } from 'node:path';
 import { environmentPlan } from '../dev/plan.mjs';
 import { initialize, compose } from '../dev/local.mjs';
 import { run } from '../lib/process.mjs';
+import { assertDisposableRemoved } from './disposable-cleanup.mjs';
 export function verifyDeployment() {
   const plan = environmentPlan('test', randomBytes(8).toString('hex'));
   initialize(plan);
@@ -198,6 +199,7 @@ export function verifyDeployment() {
     try {
       if (overlay) call(['--profile', 'verify', 'down', '--volumes', '--remove-orphans']);
       else compose(plan, ['--profile', 'verify', 'down', '--volumes', '--remove-orphans']);
+      assertDisposableRemoved(plan);
     } finally {
       for (const [key, value] of [
         ['DEPLOYMENT_CURRENT_IMAGE', old.current],
