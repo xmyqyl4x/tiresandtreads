@@ -340,7 +340,7 @@
     },
     {
       "id": "SP03",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #35; actual hosted proof pending",
       "scope": "Actual provider composition and refusal boundaries",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-provider-preflight.md",
@@ -349,8 +349,12 @@
     },
     {
       "id": "SP04",
-      "status": "not started",
-      "scope": "Independent custody and measured recovery"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Independent custody and measured recovery",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-custody-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-custody-preflight-validation.md"
+      ]
     },
     {
       "id": "SP05",

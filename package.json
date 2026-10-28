@@ -53,7 +53,9 @@
     "local:host": "node scripts/dev/service-host.mjs",
     "verify:provider": "node scripts/verify/provider.mjs",
     "verify:db-preflight": "node scripts/verify/database-preflight.mjs",
-    "verify:provider-preflight": "node scripts/verify/provider-preflight.mjs"
+    "verify:provider-preflight": "node scripts/verify/provider-preflight.mjs",
+    "verify:custody-preflight": "node scripts/verify/custody-preflight.mjs",
+    "test:custody": "vitest run --project custody"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",

@@ -352,7 +352,15 @@
         "scripts/verify/provider-preflight.mjs",
         "tests/unit/provider-preflight.test.ts",
         "tests/unit/provider-preflight-transport.test.ts",
-        "tests/database/provider-preflight.test.ts"
+        "tests/database/provider-preflight.test.ts",
+        "docs/implementation/P1-PR-027-local-custody-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-custody-preflight-validation.md",
+        "scripts/database/custody.ts",
+        "scripts/verify/custody-preflight.mjs",
+        "infra/local/compose.custody.yaml",
+        "tests/unit/custody.test.ts",
+        "tests/unit/custody-file.test.ts",
+        "tests/custody/custody.test.ts"
       ]
     }
   ],

@@ -3,15 +3,24 @@ import { mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { initialize, compose } from '../dev/local.mjs';
 import { environmentPlan } from '../dev/plan.mjs';
 
-export function verifyRecovery() {
+export function verifyRecovery({ custody = false } = {}) {
   const plan = environmentPlan('test', randomBytes(8).toString('hex'));
   initialize(plan);
   const started = Date.now();
   const call = (args, options) =>
-    compose(plan, ['-f', 'infra/local/compose.recovery.yaml', ...args], {
-      timeout: 600_000,
-      ...options,
-    });
+    compose(
+      plan,
+      [
+        '-f',
+        'infra/local/compose.recovery.yaml',
+        ...(custody ? ['-f', 'infra/local/compose.custody.yaml'] : []),
+        ...args,
+      ],
+      {
+        timeout: 600_000,
+        ...options,
+      },
+    );
   const fixture = (file) =>
     call([
       'run',
@@ -27,6 +36,7 @@ export function verifyRecovery() {
     call(['--profile', 'verify', 'build', 'test']);
     call(['up', '--detach', '--wait', '--wait-timeout', '120', 'postgres', 'recovery-postgres']);
     fixture('prepare');
+    if (custody) fixture('custody-seed');
     const versions = call(['exec', '-T', 'postgres', 'pg_dump', '--version'], { capture: true });
     if (!versions.includes('18.6'))
       throw new Error('Recovery requires pinned PostgreSQL 18.6 tools');
@@ -44,7 +54,10 @@ export function verifyRecovery() {
         `--file=/recovery/${kind}.dump`,
         `tt_${kind}_recovery`,
       ]);
-    fixture('seal');
+    if (custody) {
+      fixture('custody-seal');
+      fixture('custody-admit');
+    } else fixture('seal');
     const restore = (file, kind, database, options) =>
       call(
         [
@@ -67,13 +80,13 @@ export function verifyRecovery() {
     // The negative run intentionally bypasses checksum admission to test PostgreSQL's rollback.
     let failed = false;
     try {
-      restore('corrupt', 'app', 'tt_app_recovery_bad', { capture: true });
+      if (!custody) restore('corrupt', 'app', 'tt_app_recovery_bad', { capture: true });
     } catch {
       failed = true;
     }
-    if (!failed) throw new Error('Corrupt archive unexpectedly restored');
+    if (!custody && !failed) throw new Error('Corrupt archive unexpectedly restored');
     for (const kind of ['app', 'cms']) restore(kind, kind, `tt_${kind}_recovery`);
-    call(['run', '--rm', '--no-deps', 'test', 'pnpm', 'test:recovery']);
+    call(['run', '--rm', '--no-deps', 'test', 'pnpm', custody ? 'test:custody' : 'test:recovery']);
     mkdirSync('.local/recovery-evidence', { recursive: true });
     const file = `.local/recovery-evidence/${plan.project}.json`;
     call(['cp', 'recovery-postgres:/recovery/result.json', file]);
@@ -84,7 +97,10 @@ export function verifyRecovery() {
       tools: versions,
       ...result,
     };
-    console.log('Recovery drill evidence: ' + JSON.stringify(evidence));
+    console.log(
+      (custody ? 'Local custody drill evidence: ' : 'Recovery drill evidence: ') +
+        JSON.stringify(evidence),
+    );
     return evidence;
   } finally {
     call(['down', '--volumes', '--remove-orphans']);
