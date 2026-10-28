@@ -51,7 +51,8 @@
     "verify:service-host": "node scripts/verify/service-host.mjs",
     "service-host": "tsx scripts/runtime/service-host.ts",
     "local:host": "node scripts/dev/service-host.mjs",
-    "verify:provider": "node scripts/verify/provider.mjs"
+    "verify:provider": "node scripts/verify/provider.mjs",
+    "verify:db-preflight": "node scripts/verify/database-preflight.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",

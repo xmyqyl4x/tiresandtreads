@@ -322,13 +322,21 @@
   "futureWork": [
     {
       "id": "SP01",
-      "status": "not started",
-      "scope": "Hosted endpoint/TLS configuration and local adverse tests"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Hosted endpoint/TLS configuration and local adverse tests",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-hosted-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-preflight-validation.md"
+      ]
     },
     {
       "id": "SP02",
-      "status": "not started",
-      "scope": "Ownership/version/bootstrap compatibility preflight"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Ownership/version/bootstrap compatibility preflight",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-hosted-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-preflight-validation.md"
+      ]
     },
     {
       "id": "SP03",

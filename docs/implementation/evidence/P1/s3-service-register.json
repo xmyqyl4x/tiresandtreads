@@ -334,7 +334,16 @@
         "docs/implementation/P1-PR-027-private-hosted-staging-decision.md",
         "docs/implementation/evidence/P1/p1-pr-027-staging-decision.json",
         "docs/implementation/evidence/P1/p1-pr-027-staging-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-staging-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-staging-validation.md",
+        "docs/implementation/P1-PR-027-local-hosted-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-preflight-validation.md",
+        "packages/config/src/database-preflight.ts",
+        "packages/db/src/database-preflight.ts",
+        "scripts/database/preflight.ts",
+        "scripts/verify/database-preflight.mjs",
+        "tests/unit/database-preflight.test.ts",
+        "tests/database/database-preflight.test.ts",
+        "tests/fixtures/database-preflight/certificates.py"
       ]
     }
   ],
