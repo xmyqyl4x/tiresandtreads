@@ -2,6 +2,7 @@ import { randomBytes } from 'node:crypto';
 import { mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { initialize, compose } from '../dev/local.mjs';
 import { environmentPlan } from '../dev/plan.mjs';
+import { assertDisposableRemoved } from './disposable-cleanup.mjs';
 
 export function verifyRecovery({ custody = false } = {}) {
   const plan = environmentPlan('test', randomBytes(8).toString('hex'));
@@ -103,8 +104,12 @@ export function verifyRecovery({ custody = false } = {}) {
     );
     return evidence;
   } finally {
-    call(['down', '--volumes', '--remove-orphans']);
-    unlinkSync(plan.envFile);
+    try {
+      call(['--profile', 'verify', 'down', '--volumes', '--remove-orphans']);
+      assertDisposableRemoved(plan);
+    } finally {
+      unlinkSync(plan.envFile);
+    }
   }
 }
 if (process.argv[1]?.replaceAll('\\', '/').endsWith('/scripts/verify/recovery.mjs'))

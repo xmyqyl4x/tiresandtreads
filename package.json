@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit && pnpm --filter @tt/web typecheck",
+    "typecheck": "node --max-old-space-size=1024 ./node_modules/typescript/bin/tsc --noEmit && pnpm --filter @tt/web typecheck",
     "boundaries": "node scripts/verify/boundaries.mjs",
     "contracts:generate": "node scripts/contracts/openapi.mjs",
     "contracts:check": "node scripts/contracts/openapi.mjs --check",
@@ -55,7 +55,8 @@
     "verify:db-preflight": "node scripts/verify/database-preflight.mjs",
     "verify:provider-preflight": "node scripts/verify/provider-preflight.mjs",
     "verify:custody-preflight": "node scripts/verify/custody-preflight.mjs",
-    "test:custody": "vitest run --project custody"
+    "test:custody": "vitest run --project custody",
+    "verify:deployment-preflight": "node scripts/verify/deployment-preflight.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "3.1156.0",

@@ -1,0 +1,80 @@
+services:
+  deployment-tls:
+    image: motoserver/moto:5.2.0@sha256:d8d063e3e704d256cbe8165072fa273c17698be91311e49fc602b7716f459bea
+    entrypoint: [python, /fixture/certificates.py]
+    network_mode: none
+    volumes:
+      - deployment-tls:/deploy-tls
+      - ../../tests/fixtures/deployment:/fixture:ro
+    mem_limit: 128m
+    cpus: 1
+  app:
+    image: ${DEPLOYMENT_CURRENT_IMAGE:?}
+    build: !reset null
+    pull_policy: never
+  previous:
+    image: ${DEPLOYMENT_PREVIOUS_IMAGE:?}
+    pull_policy: never
+    environment:
+      APP_ENV: test-local
+      PROVIDER_MODE: fixtures
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    cpus: 2
+    networks: [local]
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://127.0.0.1:3000/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  ingress:
+    image: tiresandtreads-tooling:${COMPOSE_PROJECT_NAME:?}
+    environment:
+      APP_ENV: test-local
+      PROVIDER_MODE: fixtures
+      ISOLATED_TEST_PROJECT: ${COMPOSE_PROJECT_NAME:?}
+    command: [pnpm, exec, tsx, tests/fixtures/deployment/server.ts]
+    volumes:
+      - deployment-tls:/deploy-tls:ro
+      - deployment-state:/deployment:ro
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 1
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "const s=require('net').connect(9443,'127.0.0.1');s.once('connect',()=>s.end());s.once('error',()=>process.exit(1))",
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    networks:
+      local:
+        aliases: [ingress.preflight.test, ingress-mismatch.preflight.test]
+  expired-ingress:
+    extends: { service: ingress }
+    environment:
+      DEPLOYMENT_CERT_MODE: expired
+    networks: !override [local]
+  test:
+    volumes:
+      - deployment-tls:/deploy-tls:ro
+      - deployment-state:/deployment
+volumes:
+  deployment-tls:
+  deployment-state:
