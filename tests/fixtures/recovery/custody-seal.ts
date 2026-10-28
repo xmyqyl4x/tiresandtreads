@@ -3,12 +3,35 @@ import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { createPrivacyCrypto } from '../../../packages/integrations/src/privacy-crypto.ts';
 import { createFilePrivacyJournal } from '../../../packages/integrations/src/privacy-journal.ts';
 import { sealCustody } from '../../../scripts/database/custody.ts';
+import { loadSources } from '../../../scripts/database/manifest.ts';
 import { custodyContext, custodySubject, custodyKeys } from './custody-common.ts';
-import { readEvidence, connect } from './context.ts';
+import { readEvidence, writeEvidence, connect } from './context.ts';
 const ctx = custodyContext(),
   ring = custodyKeys(),
   old = createPrivacyCrypto('old', { old: ring.privacy.old }),
   current = createPrivacyCrypto('current', ring.privacy);
+// Custody has its own checkpoint: the separate S1 seal intentionally makes unrelated SQL-only
+// mutations and must not create erasures outside this scenario's signed journal.
+const window = {
+  ...readEvidence<{ startedAt: string; project: string }>('backup-window'),
+  finishedAt: new Date().toISOString(),
+};
+writeEvidence('backup-window', window);
+const dumps = { app: readFileSync('/recovery/app.dump'), cms: readFileSync('/recovery/cms.dump') };
+const artifacts = Object.fromEntries(
+  (['app', 'cms'] as const).map((kind) => [
+    kind,
+    {
+      version: 1,
+      kind,
+      project: ctx.project,
+      postgresMajor: 18,
+      sha256: createHash('sha256').update(dumps[kind]).digest('hex'),
+      bytes: dumps[kind].length,
+      migrations: loadSources(kind).map(({ id, sha256 }) => ({ id, sha256 })),
+    },
+  ]),
+);
 const entry = {
   version: 1 as const,
   action: 'delete' as const,
@@ -25,17 +48,15 @@ await journal.append('a'.repeat(64), old.sign(entry));
 const snapshot = await journal.capture(new Date().toISOString());
 const object = Buffer.from('Synthetic private tire report object; not customer data.');
 const metadata = {
-  ...readEvidence<Record<string, unknown>>('artifacts'),
+  ...artifacts,
   object: {
     versionId: 'synthetic-object-v1',
     keyVersion: 'synthetic-object-key-v1',
     sha256: createHash('sha256').update(object).digest('hex'),
   },
 };
-const window = readEvidence<{ finishedAt: string }>('backup-window');
 const bytes = {
-  app: readFileSync('/recovery/app.dump'),
-  cms: readFileSync('/recovery/cms.dump'),
+  ...dumps,
   object,
   journal: Buffer.from(JSON.stringify(snapshot)),
   metadata: Buffer.from(JSON.stringify(metadata)),
@@ -52,8 +73,7 @@ const bundle = sealCustody(
 );
 writeFileSync('/custody-backup/bundle.json', JSON.stringify(bundle), { mode: 0o600, flag: 'wx' });
 // Destroy plaintext transport before a NEW tooling process admits/decrypts the custody copy.
-for (const name of ['app.dump', 'cms.dump', 'corrupt.dump', 'current-journal.json'])
-  unlinkSync('/recovery/' + name);
+for (const name of ['app.dump', 'cms.dump']) unlinkSync('/recovery/' + name);
 for (const value of Object.values(bytes)) value.fill(0);
 const app = await connect(ctx.url('app'));
 try {

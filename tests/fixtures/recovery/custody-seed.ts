@@ -1,7 +1,8 @@
 import { chmodSync, mkdirSync, writeFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 import { custodyContext, custodySubject } from './custody-common.ts';
-import { connect } from './context.ts';
+import { connect, readEvidence, writeEvidence } from './context.ts';
+import { fingerprints } from './fingerprints.ts';
 const ctx = custodyContext(),
   app = await connect(ctx.url('app'));
 try {
@@ -21,6 +22,12 @@ try {
     ]),
   );
   writeFileSync('/custody-keys/versions.json', JSON.stringify(keys), { mode: 0o600, flag: 'wx' });
+  // Capture the complete source AFTER adding this scenario's guest and policy, BEFORE either dump.
+  writeEvidence('source-fingerprints', {
+    ...readEvidence<Record<string, unknown>>('source-fingerprints'),
+    app: await fingerprints(app),
+  });
+  writeEvidence('backup-window', { project: ctx.project, startedAt: new Date().toISOString() });
 } finally {
   await app.end();
 }

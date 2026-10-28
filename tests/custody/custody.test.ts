@@ -28,6 +28,7 @@ import { loadSources } from '../../scripts/database/manifest.ts';
 import { migrateApplication } from '../../scripts/database/migrate.ts';
 import { migrateCms } from '../../scripts/database/cms.ts';
 import { schemaHealth, schemaInventory } from '../../scripts/database/inventory.ts';
+import { fingerprints } from '../fixtures/recovery/fingerprints.ts';
 function value<R extends Result<unknown, unknown>>(r: R): Extract<R, { ok: true }>['value'] {
   if (!r.ok) throw Error('Synthetic custody service failed');
   return r.value as Extract<R, { ok: true }>['value'];
@@ -59,6 +60,14 @@ it('keeps product roles quarantined through encrypted restore and replays the re
       expect(
         (await source.query('SELECT id FROM app.subjects WHERE id=$1', [custodySubject])).rowCount,
       ).toBe(0);
+      const sourceIds = (await source.query('SELECT id FROM app.subjects ORDER BY id')).rows.map(
+        (r) => r.id,
+      );
+      const restoredIds = (await admin.query('SELECT id FROM app.subjects ORDER BY id')).rows.map(
+        (r) => r.id,
+      );
+      expect(restoredIds.filter((v) => !sourceIds.includes(v))).toEqual([custodySubject]);
+      expect(sourceIds.every((v) => restoredIds.includes(v))).toBe(true);
     } finally {
       await source.end();
     }
@@ -69,6 +78,9 @@ it('keeps product roles quarantined through encrypted restore and replays the re
       expect(await schemaHealth(db)).toEqual([]);
       expect(await schemaInventory(db)).toEqual(
         readEvidence<Record<string, unknown>>('source-inventory')[kind],
+      );
+      expect(await fingerprints(db)).toEqual(
+        readEvidence<Record<string, unknown>>('source-fingerprints')[kind],
       );
     }
     expect(
@@ -220,6 +232,8 @@ it('keeps product roles quarantined through encrypted restore and replays the re
     writeEvidence('result', {
       ...readEvidence<object>('custody-admission'),
       applicationReplay: true,
+      snapshotDataParity: true,
+      scenarioErasuresCovered: true,
       idempotent: true,
       productAccessOpened: false,
       hostedAccepted: false,

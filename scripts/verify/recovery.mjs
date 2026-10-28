@@ -54,11 +54,10 @@ export function verifyRecovery({ custody = false } = {}) {
         `--file=/recovery/${kind}.dump`,
         `tt_${kind}_recovery`,
       ]);
-    fixture('seal');
     if (custody) {
       fixture('custody-seal');
       fixture('custody-admit');
-    }
+    } else fixture('seal');
     const restore = (file, kind, database, options) =>
       call(
         [
