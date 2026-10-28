@@ -1,0 +1,50 @@
+# P1-PR-027 — SP04 local custody and recovery preflight
+
+**October 27, 2026 (Pacific) · Local implementation in review; actual hosted proof not run.** The owner approved [PR #35](https://github.com/xmyqyl4x/tiresandtreads/pull/35), merged into `main` at `9529a3f8bced2c077f71e98d20268b6512aa4162`, and authorized SP04 local-only custody/recovery preflight. [SP01–SP02](P1-PR-027-local-hosted-preflight.md) and [SP03](P1-PR-027-local-provider-preflight.md) local proofs are approved. Their actual hosted proofs remain pending. HS01–HS08 remain proposed, without approved provider, region, budget or operators. No provisioning, purchases, cloud authentication, accounts, DNS changes, remote deployment or notifications are authorized.
+
+This continues `S3-service-host` within P1-PR-027. It does not implement frontend card P1-PR-036. All [six acceptance gates](P1-PR-027-s3-gate-review.md) remain pending with empty actual acceptance records and false API/public activation flags. Specialist review and licensed adapters remain pending; APIs/frontends held. Four live phases, option C, PostgreSQL consolidation and database → repositories → services → APIs → UI remain unchanged.
+
+## Local recovery contract
+
+| Boundary | Executed local proof | Actual acceptance still required |
+| --- | --- | --- |
+| Backup artifacts | Real pinned PostgreSQL app/CMS custom archives, exact migration manifests, one opaque synthetic private object and a nonempty signed journal checkpoint; five authenticated encrypted items | Complete selected DB/CMS/object versions and independent off-host journal/backup coverage, inventory, retention, access controls and audit |
+| Custody | Fresh random 256-bit fixture keys in a dedicated private volume; ciphertext and signed journal in separate volumes; database containers mount neither custody keys nor encrypted backups | Separate approved account/authority/failure domain, encrypted storage, key access and escrow, restore under loss of source and primary operator |
+| Key continuity | Archive encrypted under the retained old backup key; old-signed entry verified and checkpoint signed under the new privacy key; old marker and lookup/tombstone versions retained | Actual KMS/secret rotation, recovery grants, revocation/deletion policy and retained historical object/contact/key versions |
+| Admission | All five GCM tags and bound headers, app/CMS hashes/kinds/project/PG major/migrations, object checksum/version, journal signature/freshness/nonempty entries and marker/tombstone key coverage verified before any restore file is returned | Trusted backup catalog and approved current-journal synchronization/cutover procedure; provider authority and actual unavailable/incorrect keys |
+| Recovery | Fresh tooling process after removing plaintext archive transport; isolated app/CMS restore, full schema parity, migration no-op, synthetic object recovery, real privacy-service deletion/tombstone replay, survivor preservation and idempotent readiness | Actual service/object/provider recovery, concurrent journal catch-up, analytics/CMS reconciliation, full platform readiness and controlled access restoration |
+| Quarantine | Seven admission refusals leave the destination empty and application CONNECT closed. Only the scoped privacy maintenance role receives temporary CONNECT after restore; its pool closes and permission is revoked afterward | Selected host ingress, every runtime pool, orchestration/fencing, operator controls and evidence that no product traffic/effect can escape before readiness |
+
+The [local envelope implementation](../../scripts/database/custody.ts) uses Node's AES-256-GCM with a fresh 96-bit nonce per item. Version, disposable project, backup time, key version and item kind are authenticated as additional data. Keys are supplied separately; they are absent from the bundle and published evidence. The format is for this synthetic preflight, not an approved production backup protocol or KMS design.
+
+App/CMS admission reuses the existing [archive validator](../../scripts/database/recovery-artifact.ts): custom archive magic, 64 MiB limit per database, SHA-256, exact project/kind/PG18 identity and complete reviewed migration history. Other plaintext items are capped at 2 MiB each. Unknown/missing envelope fields, truncated/malformed ciphertext, missing/wrong keys and tag changes refuse with one masked error. Decrypted buffers are cleared on failure; journal/metadata buffers are cleared before return, and the harness clears returned archive/object buffers after writing restricted restore files.
+
+The signed checkpoint uses the existing production [privacy crypto](../../packages/integrations/src/privacy-crypto.ts) and durable [file journal](../../packages/integrations/src/privacy-journal.ts), including an entry signed before key rotation. It must be captured after backup completion, no more than five minutes old (five seconds clock tolerance), and contain at least one entry. The backup itself must be no more than 24 hours old. Entry identity, action, policy shape and every marker/tombstone key version must be admissible. These are local refusal limits, not measured hosted RPO or approved retention policy.
+
+Admission independently captures the separately mounted durable journal in a fresh process and compares its canonical entry digest with the encrypted checkpoint. A valid, recent signed checkpoint that omits a later erasure is rejected. This controlled scenario quiesces synthetic writers; it does not prove journal catch-up under concurrent live traffic, remote durability or a complete recovery cutover protocol. Product access stays closed even after the tested replay becomes ready.
+
+## Reproduce and inspect
+
+```sh
+pnpm verify:custody-preflight
+```
+
+The command accepts no target/credential arguments. It creates a fresh random `tt-test-<hex>` Docker project, uses the existing pinned Linux tooling/PostgreSQL images and internal test network, and publishes no ports. The harness requires `APP_ENV=test-local` / `PROVIDER_MODE=fixtures` and the existing disposable database guard before fixture access. No new dependencies or platform selection are introduced.
+
+The [test-only overlay](../../infra/local/compose.custody.yaml) adds separate keys, ciphertext and signed-journal volumes to the tooling container. It reuses the existing isolated recovery PostgreSQL cluster and restore-work volume. Database containers cannot read the custody key/ciphertext/journal volumes. The authorized fixture tooling can read them for recovery; local root/Docker authority remains shared. Separate local volumes do not establish independent off-host custody or a separate security/failure domain.
+
+Setup creates fresh synthetic keys, a guest subject and a synthetic reviewed deletion policy in the disposable source. Existing recovery setup supplies the complete application and CMS schemas. After backup, the subject is deleted in the source and its nonempty signed deletion/tombstone checkpoint is saved separately. The ciphertext bundle is written, plaintext dump transport is removed, and that tooling process exits. A new process performs refusal cases against an empty quarantined target, admits/decrypts the bundle, and only then allows `pg_restore` to run.
+
+The workflow proof restores the subject from the old archive, verifies the restored CMS article/object, and uses the existing scoped privacy runtime/repository/transaction implementation to replay the signed deletion through its real durable worker. No mail/object/provider port is permitted to send or erase remotely. The subject is removed again, suppression/deletion markers survive, replay reaches readiness idempotently, and an unrelated survivor remains. The synthetic opaque object is a byte/checksum/version round trip, not actual S3/KMS all-version restore or provider erasure evidence.
+
+Keys/journal files use private directories and mode `0600`. Fixed custody paths are read through bounded regular-file descriptors with symlink and broad-permission refusal. No retained dev/stage or native PostgreSQL resource, secret, journal, provider manifest or data is read/exported/modified. Cleanup removes only this generated project's containers/volumes/env file in `finally`. Only bounded, nonsensitive counts/booleans/tool versions/timing are copied to ignored `.local/recovery-evidence`; keys, plaintext, signed journal entries and ciphertext are not exported there or to Git.
+
+The complete exact-commit Linux gate also runs this drill, separately from the existing S1 recovery and provider crash/restart proofs. Those older proofs and immutable receipts retain their original scope. [Validation receipt](evidence/P1/p1-pr-027-custody-preflight-validation.md).
+
+## Remaining acceptance and next handoff
+
+No local elapsed time establishes actual off-host recovery time, source-loss tolerance, hosted RTO ≤4 hours, RPO ≤24 hours, ≤15-minute PITR continuity or proposed retention windows. No WAL/PITR, remote storage/account, actual provider recovery, recipient effect, production policy approval, operator assignment or acceptance is supplied. Actual SP04 needs the selected inventory, custody/key operators, approved retention, independent backup/journal authority, source-loss drill and measured recovery/cutover under explicit later authorization.
+
+The [decision register](evidence/P1/p1-pr-027-staging-decision.json) changes SP03's local merge status and SP04's local progress/evidence only. The [service register](evidence/P1/s3-service-register.json) appends local evidence without closing any gate. Original cards/dependencies, 137 FR rows, 75 completed/282 unchecked tasks, historical approvals/source archives, all 15 pinned readiness receipts and both preceding preflight receipts are preserved. Parent P1-PR-027's three completion boxes remain unchecked.
+
+After owner review/merge, propose **SP05 local-only deployment/access and rollback preflight** using disposable fixture hosts, restricted routes and current/previous image references. Keep HS01–HS08 proposed, six actual gates pending, specialist/licensed work pending and APIs held. No provisioning or purchases.

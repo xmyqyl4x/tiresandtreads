@@ -50,6 +50,7 @@ export function verifyLocal() {
       lifecycle,
       appImageId: compose(plan, ['images', '--quiet', 'app'], { capture: true }),
       recovery: verifyRecovery(),
+      custodyRecovery: verifyRecovery({ custody: true }),
       providerRecovery: verifyProviderRecovery(),
     };
   } finally {

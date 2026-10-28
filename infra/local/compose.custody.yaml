@@ -1,0 +1,11 @@
+# Disposable test project only. The database containers never mount custody keys or ciphertext.
+services:
+  test:
+    volumes:
+      - custody-keys:/custody-keys
+      - custody-backup:/custody-backup
+      - custody-journal:/custody-journal
+volumes:
+  custody-keys:
+  custody-backup:
+  custody-journal:
