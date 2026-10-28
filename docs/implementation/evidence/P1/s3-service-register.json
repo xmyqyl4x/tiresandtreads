@@ -359,6 +359,7 @@
         "scripts/verify/custody-preflight.mjs",
         "infra/local/compose.custody.yaml",
         "tests/unit/custody.test.ts",
+        "tests/unit/custody-file.test.ts",
         "tests/custody/custody.test.ts"
       ]
     }

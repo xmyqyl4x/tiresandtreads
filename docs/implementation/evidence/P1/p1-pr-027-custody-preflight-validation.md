@@ -14,6 +14,8 @@ The first database drill reached real service replay but exposed two incorrect t
 
 The restored inventory matches the full 141 application / 28 CMS table schema and 33 / three migration histories; replayed migrations are a no-op. Only a temporary scoped privacy maintenance connection is admitted, then closed/revoked; product access never opens. Outputs explicitly record false hosted acceptance, off-host custody and PITR proof. No actual RTO/RPO, provider recovery, remote erasure, independent failure-domain custody or policy acceptance is inferred.
 
+Final review added two file-error regressions: malformed key JSON and an underlying filesystem error initially exposed raw parser/filesystem context. Both failed before the file reader masked errors, then passed while preserving descriptor ownership/closure. All 19 focused unit cases now pass. The new error-only change requires a fresh full gate/CI on its final commit; the earlier 1,158-test full pass on `0b88daca` is superseded for merge evidence and is not represented as validation of the final revision.
+
 ## Final committed gate and preservation
 
 Commit the full revision, require a clean worktree, then run `node scripts/verify/push.mjs`. Its ignored private stamp binds the exact SHA/tree/lockfile to the full Linux gate. Publish actual full-gate totals, drill timing and independent final-head CI in the PR body/checks. Earlier focused results are not relabeled as final-commit evidence; immutable historical receipts are not rewritten.

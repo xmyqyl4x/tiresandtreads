@@ -9,6 +9,13 @@ export function custodyContext() {
 }
 // Fixed local paths only; reject symlinks, devices, oversized inputs and unsafe permissions before parsing.
 export function privateRead(path: string, max: number) {
+  try {
+    return readFixed(path, max);
+  } catch {
+    throw Error('Local custody file refused');
+  }
+}
+function readFixed(path: string, max: number) {
   if (!/^\/custody-(keys|backup|journal)\/[a-z-]+\.json$/.test(path))
     throw Error('Local custody path refused');
   const fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW);
@@ -23,8 +30,8 @@ export function privateRead(path: string, max: number) {
       count = readSync(fd, bytes, size, bytes.length - size, null);
       size += count;
     } while (count && size < bytes.length);
-    if (size !== stat.size) throw Error('Local custody file refused');
     try {
+      if (size !== stat.size) throw Error('Local custody file refused');
       return JSON.parse(bytes.subarray(0, size).toString());
     } finally {
       bytes.fill(0);
