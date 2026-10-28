@@ -20,6 +20,7 @@ import type { JobInput, Telemetry } from '../../application/src/ports/jobs.ts';
 import type { TransactionContext } from '../../application/src/ports/transactions.ts';
 import { id, ok, fail, type Result } from '../../domain/src/values/core.ts';
 import { failure, type ApplicationFailure } from '../../application/src/ports/transactions.ts';
+import { postgresCapacity } from '../../config/src/postgres-capacity.ts';
 import type { ReliabilityRepository } from '../../application/src/ports/reliability.ts';
 
 export type SqlJobHandler = (
@@ -77,7 +78,7 @@ export async function createRuntime(
       const row = (
         await privateScope.query(
           tx,
-          "SELECT current_user AS role,current_setting('max_connections')::integer AS maximum",
+          "SELECT current_user AS role,current_setting('max_connections')::integer AS maximum,current_setting('superuser_reserved_connections')::integer AS super_reserved,current_setting('reserved_connections')::integer AS role_reserved",
         )
       ).rows[0]!;
       const required =
@@ -90,7 +91,18 @@ export async function createRuntime(
         required > Number(row.maximum)
       )
         return fail(failure('unavailable'));
-      return ok({ required, maximum: Number(row.maximum) });
+      const capacity = postgresCapacity(
+        Number(row.maximum),
+        Number(row.super_reserved),
+        Number(row.role_reserved),
+        required,
+      );
+      return ok({
+        required,
+        maximum: capacity.capacity,
+        usableCapacity: capacity.usableCapacity,
+        serverReserved: capacity.serverReserved,
+      });
     });
     const assetCheck = await assetScope.unitOfWork.run(async (tx) =>
       ok(

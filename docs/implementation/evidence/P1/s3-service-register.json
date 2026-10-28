@@ -368,7 +368,16 @@
         "infra/local/compose.deployment.yaml",
         "infra/local/deployment-baseline.json",
         "tests/unit/deployment-preflight.test.ts",
-        "tests/deployment/preflight.test.ts"
+        "tests/deployment/preflight.test.ts",
+        "docs/implementation/P1-PR-027-local-capacity-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-capacity-preflight-validation.md",
+        "packages/config/src/postgres-capacity.ts",
+        "scripts/capacity/headroom.ts",
+        "scripts/verify/capacity-preflight.mjs",
+        "infra/local/compose.capacity.yaml",
+        "tests/capacity/preflight.test.ts",
+        "tests/fixtures/capacity/peer.ts",
+        "tests/unit/postgres-capacity.test.ts"
       ]
     }
   ],
