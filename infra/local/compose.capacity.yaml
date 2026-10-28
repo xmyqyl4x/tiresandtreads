@@ -1,0 +1,17 @@
+# Only the randomly generated test project uses this capacity profile.
+services:
+  postgres:
+    command:
+      [
+        postgres,
+        -c,
+        max_connections=75,
+        -c,
+        superuser_reserved_connections=3,
+        -c,
+        reserved_connections=2,
+      ]
+  test:
+    volumes: [capacity-evidence:/capacity]
+volumes:
+  capacity-evidence:

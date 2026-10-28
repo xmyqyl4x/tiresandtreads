@@ -358,7 +358,7 @@
     },
     {
       "id": "SP05",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #37; actual hosted proof pending",
       "scope": "Protected deployment/access and rollback",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-deployment-preflight.md",
@@ -367,8 +367,12 @@
     },
     {
       "id": "SP06",
-      "status": "not started",
-      "scope": "Complete physical capacity and lifecycle"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Complete physical capacity and lifecycle",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-capacity-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-capacity-preflight-validation.md"
+      ]
     },
     {
       "id": "SP07",

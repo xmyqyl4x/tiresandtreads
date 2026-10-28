@@ -7,6 +7,7 @@ import {
 import { createRuntimePool } from '../../db/src/runtime-pool.ts';
 import { createTransactions } from '../../db/src/transactions.ts';
 import { ok } from '../../domain/src/values/core.ts';
+import { postgresCapacity } from '../../config/src/postgres-capacity.ts';
 export async function createServiceHostPools(plan: ServiceHostPlan) {
   const budget = validateServiceHostPlan(plan),
     names = Object.keys(serviceHostRoles) as ServiceHostLane[];
@@ -34,7 +35,7 @@ export async function createServiceHostPools(plan: ServiceHostPlan) {
           (
             await scopes[n].query(
               tx,
-              "SELECT current_user AS role,current_database() AS database,current_setting('max_connections')::integer AS capacity",
+              "SELECT current_user AS role,current_database() AS database,current_setting('max_connections')::integer AS capacity,current_setting('superuser_reserved_connections')::integer AS super_reserved,current_setting('reserved_connections')::integer AS role_reserved",
             )
           ).rows[0],
         ),
@@ -42,16 +43,20 @@ export async function createServiceHostPools(plan: ServiceHostPlan) {
       if (
         !r.ok ||
         r.value?.role !== serviceHostRoles[n] ||
-        r.value.database !== new URL(plan.urls[n]).pathname.slice(1) ||
-        budget.required > Number(r.value.capacity)
+        r.value.database !== new URL(plan.urls[n]).pathname.slice(1)
       )
         throw Error('Invalid service host capacity');
-      return Number(r.value.capacity);
+      return postgresCapacity(
+        Number(r.value.capacity),
+        Number(r.value.super_reserved),
+        Number(r.value.role_reserved),
+        budget.required,
+      );
     }
     // One connection discovers cluster capacity before any other lane is admitted.
     const capacity = await check('report');
     await Promise.all(names.filter((n) => n !== 'report').map(check));
-    return { scopes, budget: Object.freeze({ ...budget, capacity }), shutdown: stop };
+    return { scopes, budget: Object.freeze({ ...budget, ...capacity }), shutdown: stop };
   } catch {
     await stop();
     throw Error('Service host database unavailable');

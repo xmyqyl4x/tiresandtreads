@@ -21,6 +21,7 @@
     "scripts/runtime/**/*.ts",
     "scripts/data/**/*.ts",
     "scripts/deployment/**/*.ts",
+    "scripts/capacity/**/*.ts",
     "infra/database/**/*.ts",
     "vitest.config.ts"
   ],
