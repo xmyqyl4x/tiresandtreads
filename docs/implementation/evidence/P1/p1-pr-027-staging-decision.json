@@ -322,7 +322,7 @@
   "futureWork": [
     {
       "id": "SP01",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #34; actual hosted proof pending",
       "scope": "Hosted endpoint/TLS configuration and local adverse tests",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-hosted-preflight.md",
@@ -331,7 +331,7 @@
     },
     {
       "id": "SP02",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #34; actual hosted proof pending",
       "scope": "Ownership/version/bootstrap compatibility preflight",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-hosted-preflight.md",
@@ -340,8 +340,12 @@
     },
     {
       "id": "SP03",
-      "status": "not started",
-      "scope": "Actual provider composition and refusal boundaries"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Actual provider composition and refusal boundaries",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-provider-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-provider-preflight-validation.md"
+      ]
     },
     {
       "id": "SP04",

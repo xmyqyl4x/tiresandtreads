@@ -343,7 +343,16 @@
         "scripts/verify/database-preflight.mjs",
         "tests/unit/database-preflight.test.ts",
         "tests/database/database-preflight.test.ts",
-        "tests/fixtures/database-preflight/certificates.py"
+        "tests/fixtures/database-preflight/certificates.py",
+        "docs/implementation/P1-PR-027-local-provider-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-provider-preflight-validation.md",
+        "packages/config/src/provider-preflight.ts",
+        "packages/integrations/src/provider-preflight.ts",
+        "packages/integrations/src/provider-preflight-workflow.ts",
+        "scripts/verify/provider-preflight.mjs",
+        "tests/unit/provider-preflight.test.ts",
+        "tests/unit/provider-preflight-transport.test.ts",
+        "tests/database/provider-preflight.test.ts"
       ]
     }
   ],
