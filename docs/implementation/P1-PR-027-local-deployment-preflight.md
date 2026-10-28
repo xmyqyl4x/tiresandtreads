@@ -34,7 +34,9 @@ Readiness loads a fresh, bounded selection file and requires the exact reviewed 
 
 A fixture-only, fixed-search-path database function returns a boolean comparison against the protected app/CMS migration-history snapshots and the additive column. Runtime roles can execute this read-only capability but cannot read the snapshots. Actual checksum drift in either database withholds readiness and signed callbacks until restored. The ingress receives only runtime DSNs in a private read-only fixture file; neither it nor the production runners receive migration/admin database environment variables. This disposable capability introduces no production migration or grant and still needs a production readiness design before actual hosting.
 
-The fixture ingress mounts the state and secrets read-only. Only the local test controller can change selection; it performs an explicit file replacement after admission. All fixtures share Docker/root authority and are not an independent security/failure domain. Client certificates do not supply actual staff/MFA acceptance, approved operator staffing or production secret custody.
+The fixture ingress mounts the state and secrets read-only. The admitted public release metadata is written inside the volume by the fixture controller, with its container UID and mode `0600`, instead of copying host file ownership into a capability-restricted container. Only the local test controller can change selection; it performs an explicit file replacement after admission. All fixtures share Docker/root authority and are not an independent security/failure domain. Client certificates do not supply actual staff/MFA acceptance, approved operator staffing or production secret custody.
+
+On ingress startup failure, the runner inspects only its two named fixture containers, including exited containers. Diagnostics report status/exit/OOM fields and a fixed configuration-stage code extracted from bounded captured logs. Raw logs, configuration, keys and DSNs are never emitted. This makes cross-platform startup failures diagnosable without relaxing file or access restrictions.
 
 ## Migration and rollback meaning
 

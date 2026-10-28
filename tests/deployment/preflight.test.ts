@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
 import { request as secureRequest } from 'node:https';
 import { request as plainRequest } from 'node:http';
@@ -98,6 +98,9 @@ function call(
 }
 const callback = '/internal/preflight-inngest?probe=trust';
 it('access: real TLS verifies CA, hostname and expiry and requires the fixture operator certificate', async () => {
+  const releaseFile = statSync('/deployment/release.json');
+  expect(releaseFile.uid).toBe(process.getuid!());
+  expect(releaseFile.mode & 0o777).toBe(0o600);
   const r = await call('/health/ready', { operator: true });
   expect(r.status).toBe(200);
   expect(JSON.parse(r.body)).toEqual({

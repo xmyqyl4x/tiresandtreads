@@ -12,15 +12,19 @@ import { createLocalSignaturePreflight } from '../../../packages/integrations/sr
 import { readFixture } from './context.ts';
 import { localProviderProject } from '../../../packages/config/src/provider-preflight.ts';
 function configuration() {
+  let stage = 'scope';
   try {
     localProviderProject(process.env);
+    stage = 'release';
     const plan = admitLocalRelease(readFixture('release'), process.env);
+    stage = 'credentials';
     const secrets = readFixture<{
       app: string;
       cms: string;
       callbackKey: string;
       operatorFingerprint: string;
     }>('secrets');
+    stage = 'roles';
     for (const [kind, raw] of [
       ['app', secrets.app],
       ['cms', secrets.cms],
@@ -38,9 +42,11 @@ function configuration() {
       )
         throw Error('Local probe role refused');
     }
+    stage = 'signature';
     const probe = createLocalSignaturePreflight(process.env, secrets.callbackKey);
     return { plan, secrets, probe };
   } catch {
+    console.error('Local deployment startup refused: ' + stage);
     throw Error('Local deployment fixture unavailable');
   }
 }

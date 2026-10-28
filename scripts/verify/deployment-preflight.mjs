@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomBytes, createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync, unlinkSync } from 'node:fs';
 import { resolve, dirname, basename } from 'node:path';
 import { environmentPlan } from '../dev/plan.mjs';
@@ -120,26 +121,56 @@ export function verifyDeployment() {
     };
     const file = `.local/deployment-evidence/${plan.project}.json`;
     writeFileSync(file, JSON.stringify(manifest), { mode: 0o600, flag: 'wx' });
-    call(['create', 'test']);
-    call(['cp', file, 'test:/deployment/release.json']);
-    call(['rm', '--force', 'test']);
-    call([
-      'up',
-      '--detach',
-      '--wait',
-      '--wait-timeout',
-      '120',
-      'app',
-      'previous',
-      'ingress',
-      'expired-ingress',
-    ]);
+    fixture('release', JSON.stringify(manifest));
     const container = (service) =>
       JSON.parse(
-        run('docker', ['inspect', call(['ps', '--quiet', service], { capture: true })], {
+        run('docker', ['inspect', call(['ps', '--all', '--quiet', service], { capture: true })], {
           capture: true,
         }),
       )[0];
+    try {
+      call([
+        'up',
+        '--detach',
+        '--wait',
+        '--wait-timeout',
+        '120',
+        'app',
+        'previous',
+        'ingress',
+        'expired-ingress',
+      ]);
+    } catch {
+      for (const service of ['ingress', 'expired-ingress']) {
+        try {
+          const c = container(service);
+          console.error(
+            'Local ingress startup state: ' +
+              JSON.stringify({
+                service,
+                status: c.State.Status,
+                exitCode: c.State.ExitCode,
+                oomKilled: c.State.OOMKilled,
+              }),
+          );
+          const result = spawnSync('docker', ['logs', '--tail', '30', c.Id], {
+            encoding: 'utf8',
+            timeout: 5000,
+            maxBuffer: 16384,
+          });
+          const logs = (result.stdout ?? '') + '\n' + (result.stderr ?? '');
+          for (const line of logs.split('\n')) {
+            const stage = line.match(
+              /Local deployment startup refused: (scope|release|credentials|roles|signature)/,
+            )?.[1];
+            if (stage) console.error(`Local ingress ${service} refused stage: ${stage}`);
+          }
+        } catch {
+          /* Preserve original failure; never print raw log or configuration data. */
+        }
+      }
+      throw Error('Local deployment ingress startup refused');
+    }
     for (const [name, expected] of [
       ['app', current],
       ['previous', previous],
