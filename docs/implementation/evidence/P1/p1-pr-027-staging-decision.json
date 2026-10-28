@@ -376,7 +376,7 @@
     },
     {
       "id": "SP07",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #39; actual hosted proof pending",
       "scope": "Actual observation/alert/response",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-observation-preflight.md",
@@ -385,8 +385,14 @@
     },
     {
       "id": "SP08",
-      "status": "not started",
-      "scope": "Scoped evidence handoff and acceptance"
+      "status": "local-only evidence reconciliation in review; actual acceptance pending",
+      "scope": "Scoped evidence handoff and acceptance",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-evidence-handoff.md",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
+        "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md"
+      ]
     }
   ]
 }
