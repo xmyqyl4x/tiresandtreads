@@ -377,7 +377,19 @@
         "infra/local/compose.capacity.yaml",
         "tests/capacity/preflight.test.ts",
         "tests/fixtures/capacity/peer.ts",
-        "tests/unit/postgres-capacity.test.ts"
+        "tests/unit/postgres-capacity.test.ts",
+        "docs/implementation/P1-PR-027-local-observation-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-observation-preflight-validation.md",
+        "packages/config/src/observation-preflight.ts",
+        "scripts/observability/observer.ts",
+        "scripts/observability/postgres.ts",
+        "scripts/observability/response.ts",
+        "scripts/observability/transport.ts",
+        "scripts/verify/observation-preflight.mjs",
+        "infra/local/compose.observation.yaml",
+        "tests/observation/preflight.test.ts",
+        "tests/unit/observation-preflight.test.ts",
+        "tests/unit/observation-response.test.ts"
       ]
     }
   ],

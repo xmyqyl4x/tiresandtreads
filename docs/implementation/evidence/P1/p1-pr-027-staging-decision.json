@@ -367,7 +367,7 @@
     },
     {
       "id": "SP06",
-      "status": "local-only proof in review; actual hosted proof pending",
+      "status": "local-only proof approved in merged PR #38; actual hosted proof pending",
       "scope": "Complete physical capacity and lifecycle",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-capacity-preflight.md",
@@ -376,8 +376,12 @@
     },
     {
       "id": "SP07",
-      "status": "not started",
-      "scope": "Actual observation/alert/response"
+      "status": "local-only proof in review; actual hosted proof pending",
+      "scope": "Actual observation/alert/response",
+      "localEvidence": [
+        "docs/implementation/P1-PR-027-local-observation-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-observation-preflight-validation.md"
+      ]
     },
     {
       "id": "SP08",

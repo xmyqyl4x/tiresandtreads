@@ -9,6 +9,7 @@ import { verifyProviderRecovery } from './provider.mjs';
 import { verifyDeployment } from './deployment-preflight.mjs';
 import { assertDisposableRemoved } from './disposable-cleanup.mjs';
 import { verifyCapacity } from './capacity-preflight.mjs';
+import { verifyObservation } from './observation-preflight.mjs';
 
 // This function creates and deletes only its own randomly named test environment.
 export function verifyLocal() {
@@ -56,6 +57,7 @@ export function verifyLocal() {
       custodyRecovery: verifyRecovery({ custody: true }),
       deploymentPreflight: verifyDeployment(),
       capacityPreflight: verifyCapacity(),
+      observationPreflight: verifyObservation(),
       providerRecovery: verifyProviderRecovery(),
     };
   } finally {

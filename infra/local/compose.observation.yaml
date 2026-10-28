@@ -1,0 +1,17 @@
+# Only the generated disposable SP07 project uses this profile.
+services:
+  postgres:
+    command:
+      [
+        postgres,
+        -c,
+        max_connections=75,
+        -c,
+        superuser_reserved_connections=3,
+        -c,
+        reserved_connections=2,
+      ]
+  test:
+    volumes: [observation-evidence:/observation]
+volumes:
+  observation-evidence:
