@@ -460,5 +460,27 @@
       "productionPolicyChanged": false,
       "implementationAuthorized": false
     }
+  ],
+  "localValidationProofs": [
+    {
+      "name": "phase-aware read-only lifecycle validation",
+      "status": "local technical proof in review; no hosted or production acceptance",
+      "baselineMerge": "d407a86c2f3763ef68a9c9295889d5b5a84b4b2a",
+      "evidence": [
+        "docs/implementation/P1-PR-027-lifecycle-validation-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-validation.md",
+        "tests/unit/lifecycle-validation.test.ts",
+        "tests/database/lifecycle-validation.test.ts",
+        "tests/fixtures/lifecycle-validation/reader.ts",
+        "tests/fixtures/lifecycle-validation/database.ts",
+        "tests/fixtures/lifecycle-validation/migrate.ts",
+        "tests/fixtures/lifecycle-validation/run.mjs"
+      ],
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

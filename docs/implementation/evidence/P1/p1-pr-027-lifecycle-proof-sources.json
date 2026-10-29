@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-29T19:19:21.443116Z",
+  "checkedLocalDate": "2026-10-29",
+  "timeZone": "America/Los_Angeles",
+  "method": "Official PostgreSQL public documentation reads only; no provider account/API or recipient contact",
+  "actualProviderTest": false,
+  "sources": [
+    {
+      "id": "V01",
+      "title": "PostgreSQL 18 transaction access/isolation",
+      "url": "https://www.postgresql.org/docs/18/sql-set-transaction.html",
+      "observation": "Explicit read-only and repeatable-read transaction properties bound the inspection; they do not define a general SQL sandbox."
+    },
+    {
+      "id": "V02",
+      "title": "PostgreSQL 18 information/ACL functions",
+      "url": "https://www.postgresql.org/docs/18/functions-info.html",
+      "observation": "ACL inquiry/expansion exposes privileges, grantors/grantees and grantability; compare permissions instead of ACL display order."
+    },
+    {
+      "id": "V03",
+      "title": "PostgreSQL 18 role membership catalog",
+      "url": "https://www.postgresql.org/docs/18/catalog-pg-auth-members.html",
+      "observation": "Cluster-wide membership rows distinguish role, member, grantor and ADMIN/SET/INHERIT options."
+    },
+    {
+      "id": "V04",
+      "title": "PostgreSQL 18 role/database settings catalog",
+      "url": "https://www.postgresql.org/docs/18/catalog-pg-db-role-setting.html",
+      "observation": "Role/database defaults are shared cluster catalog state, including non-database-specific settings."
+    }
+  ]
+}
