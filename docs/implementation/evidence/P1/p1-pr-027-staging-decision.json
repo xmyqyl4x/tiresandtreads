@@ -482,5 +482,28 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localPairedValidationProofs": [
+    {
+      "name": "paired-database validation and receipt/handoff",
+      "status": "local technical proof in review; no hosted or production acceptance",
+      "baselineMerge": "25b063798ed9ec1c1b188d3121915953af76578a",
+      "evidence": [
+        "docs/implementation/P1-PR-027-paired-lifecycle-handoff-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-validation.md",
+        "tests/fixtures/lifecycle-pair/contract.ts",
+        "tests/fixtures/lifecycle-pair/pair.ts",
+        "tests/fixtures/lifecycle-pair/samples.ts",
+        "tests/fixtures/lifecycle-pair/run.mjs",
+        "tests/unit/lifecycle-pair.test.ts",
+        "tests/usecases/lifecycle-pair.test.ts",
+        "tests/database/lifecycle-pair.test.ts"
+      ],
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

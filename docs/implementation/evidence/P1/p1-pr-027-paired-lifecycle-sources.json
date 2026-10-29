@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-29T20:39:33.599249Z",
+  "scope": "Official documentation for the local proof only; no provider compatibility test",
+  "actualProviderTest": false,
+  "sources": [
+    {
+      "id": "P01",
+      "title": "PostgreSQL 18 advisory lock functions",
+      "url": "https://www.postgresql.org/docs/18/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS",
+      "supports": "Try transaction-level advisory lock acquisition is nonblocking; transaction completion releases the lock."
+    },
+    {
+      "id": "P02",
+      "title": "PostgreSQL 18 advisory locking semantics",
+      "url": "https://www.postgresql.org/docs/18/explicit-locking.html#ADVISORY-LOCKS",
+      "supports": "Advisory locking coordinates cooperating applications and does not enforce locking on unrelated SQL changes."
+    },
+    {
+      "id": "P03",
+      "title": "PostgreSQL 18 transaction isolation and read-only access",
+      "url": "https://www.postgresql.org/docs/18/sql-set-transaction.html",
+      "supports": "Repeatable-read/read-only properties apply within a transaction and do not create an atomic pair across databases or a general SQL sandbox."
+    }
+  ]
+}
