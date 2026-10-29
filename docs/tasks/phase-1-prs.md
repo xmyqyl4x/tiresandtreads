@@ -526,6 +526,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Phase-aware disposable lifecycle validation proof](../implementation/P1-PR-027-lifecycle-validation-proof.md) follows approved PR #44 (`d407a86c`) design analysis only; 62 new local cases and three profiles, all code in test support. Production bootstrap/CLI/preflight/policy unchanged; paired receipt/handoff is proposed next. All HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. No provisioning, purchases or notifications.
 
+[Disposable paired validation and receipt/handoff proof](../implementation/P1-PR-027-paired-lifecycle-handoff-proof.md) follows approved PR #45 (`25b06379`) local phase-aware proof only. 56 new local cases; seven new code files under tests; exact pairs, fresh reads, replay/partial/drift refusal and real one-sided migration commits. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
