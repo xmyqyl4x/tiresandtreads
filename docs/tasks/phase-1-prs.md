@@ -522,6 +522,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Restricted-admin local investigation](../implementation/P1-PR-027-restricted-admin-investigation.md) follows owner-approved PR #42 (`ad9c55a0`) analysis only; 13 local scenarios, unchanged production bootstrap policy. All HS/operator/rate/S3/specialist/licensed/API holds remain; no provisioning/purchases/notifications.
 
+[Bootstrap/provisioning lifecycle contract review](../implementation/P1-PR-027-bootstrap-lifecycle-contract.md) follows approved PR #43 (`f878e8fd`) local investigation only. Proposed separation of setup/validation/migrations/admission/rotation/recovery and 22 future test cases; no implementation or acceptance. All HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

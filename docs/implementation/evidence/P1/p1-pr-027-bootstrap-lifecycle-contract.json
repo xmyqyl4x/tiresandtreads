@@ -1,0 +1,590 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-29T15:04:43.575514Z",
+  "baselineMerge": "f878e8fd16c6f03796d80f330cde918eaf175d85",
+  "parent": "P1-PR-027",
+  "status": "proposed design; review requested, not implemented",
+  "scope": "local-only bootstrap/provisioning lifecycle contract design review",
+  "authority": {
+    "designReviewRequested": true,
+    "lifecycleImplementation": false,
+    "productionBootstrapChange": false,
+    "providerAdapterImplementation": false,
+    "provisioning": false,
+    "purchases": false,
+    "notifications": false,
+    "providerAuthentication": false,
+    "accountCreation": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "gateAcceptanceRequested": false,
+    "productApiImplementation": false,
+    "frontendImplementation": false
+  },
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualSelections": {
+    "provider": null,
+    "edition": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "primaryOperator": null,
+    "backupOperator": null,
+    "databaseOwner": null,
+    "keyCustodian": null,
+    "reviewer": null,
+    "coverageWindow": null,
+    "hourlyRateCents": null,
+    "budgetCents": null,
+    "custodyLocation": null,
+    "actualApprover": null
+  },
+  "actualAcceptanceRecords": [],
+  "actualProviderTests": [],
+  "actualRecipientNotifications": 0,
+  "proposedSeparation": [
+    "privileged provisioning",
+    "read-only validation",
+    "owner-scoped migrations",
+    "runtime admission",
+    "credential administration",
+    "quarantined recovery"
+  ],
+  "preservedPolicy": {
+    "projectRoles": [
+      "tt_app_migrator",
+      "tt_app_runtime",
+      "tt_staff_runtime",
+      "tt_asset_runtime",
+      "tt_catalog_runtime",
+      "tt_ingest_runtime",
+      "tt_publish_runtime",
+      "tt_private_runtime",
+      "tt_content_runtime",
+      "tt_public_runtime",
+      "tt_analytics_runtime",
+      "tt_limiter_runtime",
+      "tt_operations_runtime",
+      "tt_report_source_runtime",
+      "tt_privacy_runtime",
+      "tt_staff_service_runtime",
+      "tt_commercial_runtime",
+      "tt_cms_migrator",
+      "tt_cms_runtime"
+    ],
+    "appRoles": 17,
+    "cmsRoles": 2,
+    "projectMembershipsAtEveryHandoff": 0,
+    "login": true,
+    "inherit": false,
+    "superuser": false,
+    "createdb": false,
+    "createrole": false,
+    "replication": false,
+    "bypassrls": false,
+    "policyExceptionApproved": false,
+    "localVersion": "18.6",
+    "targetGuardsUnchanged": true,
+    "postgresqlOnly": true,
+    "outsideVercel": true,
+    "usableLivePhases": 4,
+    "buildOrder": [
+      "database",
+      "repositories",
+      "services",
+      "APIs",
+      "frontends"
+    ]
+  },
+  "responsibilities": [
+    {
+      "function": "provisioning",
+      "accountableRole": "D",
+      "executorRoleSlots": [
+        "D",
+        "P",
+        "K"
+      ],
+      "reviewRoleSlots": [
+        "B",
+        "R"
+      ],
+      "actualAssignee": null
+    },
+    {
+      "function": "validation",
+      "accountableRole": "D",
+      "executorRoleSlots": [
+        "D"
+      ],
+      "reviewRoleSlots": [
+        "R",
+        "B"
+      ],
+      "actualAssignee": null
+    },
+    {
+      "function": "owner-migrations",
+      "accountableRole": "D",
+      "executorRoleSlots": [
+        "D"
+      ],
+      "reviewRoleSlots": [
+        "R"
+      ],
+      "actualAssignee": null
+    },
+    {
+      "function": "runtime-admission",
+      "accountableRole": "P",
+      "executorRoleSlots": [
+        "P",
+        "D",
+        "K"
+      ],
+      "reviewRoleSlots": [
+        "R",
+        "B"
+      ],
+      "actualAssignee": null
+    },
+    {
+      "function": "rotation-offboarding",
+      "accountableRole": "K",
+      "executorRoleSlots": [
+        "D",
+        "K"
+      ],
+      "reviewRoleSlots": [
+        "B",
+        "R"
+      ],
+      "actualAssignee": null
+    },
+    {
+      "function": "restore-reconciliation",
+      "accountableRole": "D",
+      "executorRoleSlots": [
+        "D",
+        "P"
+      ],
+      "reviewRoleSlots": [
+        "K",
+        "V",
+        "B"
+      ],
+      "actualAssignee": null
+    }
+  ],
+  "currentGaps": [
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "finding": "local privileged path only; existing-role passwords unchanged; not managed setup or rotation"
+    },
+    {
+      "path": "scripts/database/cli.ts",
+      "finding": "local targets only; status can create migration metadata through withMigrationLock"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "finding": "per-DB serialization and owner DDL do not serialize shared cluster roles or guarantee paired DB release"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "finding": "local migrated profile only; proposed foundation/quarantine/full settings-and-object invariants not all implemented"
+    },
+    {
+      "path": "tests/database/restricted-admin.test.ts",
+      "finding": "13 accepted local cases, not a provider capability or new lifecycle implementation"
+    },
+    {
+      "path": "scripts/verify/recovery.mjs",
+      "finding": "synthetic independent restore, not hosted reconstruction/custody/RPO/RTO acceptance"
+    }
+  ],
+  "lifecycleStates": [
+    {
+      "id": "inspected",
+      "from": "unadmitted",
+      "requirement": "exact target/version/TLS, capabilities and inventory resolved before mutation",
+      "status": "proposed"
+    },
+    {
+      "id": "foundation-quarantined",
+      "from": "inspected",
+      "requirement": "separately authorized setup; exact roles/owners/settings/defaults and clean memberships; runtime inaccessible",
+      "status": "proposed"
+    },
+    {
+      "id": "foundation-validated",
+      "from": "foundation-quarantined",
+      "requirement": "read-only foundation checks; absent future application history expected only in this profile",
+      "status": "proposed"
+    },
+    {
+      "id": "schema-staged",
+      "from": "foundation-validated",
+      "requirement": "exact owner migrations; independent app/CMS commits recorded; no partial release",
+      "status": "proposed"
+    },
+    {
+      "id": "release-validated",
+      "from": "schema-staged",
+      "requirement": "read-only migrated inventory/ACL/RLS/history and release-pair compatibility",
+      "status": "proposed"
+    },
+    {
+      "id": "runtime-eligible",
+      "from": "release-validated",
+      "requirement": "fresh evidence under serialized change window; existing acceptance holds still required",
+      "status": "proposed"
+    },
+    {
+      "id": "routine-release-validation",
+      "from": "runtime-eligible",
+      "requirement": "inspect then owner-only pending migrations; no privileged bootstrap or automatic repair",
+      "status": "proposed"
+    },
+    {
+      "id": "quarantined",
+      "from": "any-failed-or-uncertain-step",
+      "requirement": "reconcile known commits/unknown effects before scoped re-entry; never blind replay",
+      "status": "proposed"
+    },
+    {
+      "id": "recovery-validated",
+      "from": "isolated-restored-target",
+      "requirement": "fresh roles/secrets, verified archives/histories and current signed journal replay; separate promotion review",
+      "status": "proposed"
+    }
+  ],
+  "validationProfiles": [
+    {
+      "id": "foundation",
+      "expects": "exact fresh role/owner/settings/ACL/default baseline; absent future history only here",
+      "implemented": false
+    },
+    {
+      "id": "migrated",
+      "expects": "full reviewed inventory/ACL/RLS/history, role settings and paired release compatibility",
+      "implemented": false,
+      "existingSubset": "local SP01-SP02 migrated inspector"
+    },
+    {
+      "id": "quarantined-recovery",
+      "expects": "separate target, restricted runtime CONNECT/effects, fresh secrets and archives/current journal reconciliation",
+      "implemented": false
+    }
+  ],
+  "providerCapabilities": [
+    {
+      "id": "exact-names-flags",
+      "requirement": "19 exact names without mappings and restrictive flags",
+      "status": "unestablished",
+      "actualEvidence": []
+    },
+    {
+      "id": "membership-cleanup",
+      "requirement": "supported grantor-level cleanup with zero scoped memberships and future administration",
+      "status": "unestablished",
+      "actualEvidence": []
+    },
+    {
+      "id": "ownership-settings-defaults",
+      "requirement": "exact DB/schema/object ownership, actual default-ACL actor and every role setting",
+      "status": "unestablished",
+      "actualEvidence": []
+    },
+    {
+      "id": "repeatable-administration",
+      "requirement": "additions, rotation, revocation, interruption and independent rebuild without persistent memberships",
+      "status": "unestablished",
+      "actualEvidence": []
+    },
+    {
+      "id": "inspection-migration-recovery",
+      "requirement": "catalog visibility, TLS, owner-only histories/locks and isolated quarantined restore",
+      "status": "unestablished",
+      "actualEvidence": []
+    }
+  ],
+  "failureContract": {
+    "automaticRepair": false,
+    "blindReplay": false,
+    "crossDatabaseAtomicityClaim": false,
+    "automaticPromotion": false,
+    "destructiveCompensation": false,
+    "unknownOutcomeDisposition": "quarantine and inspect actual state before separately scoped resume",
+    "sourceDatabaseOverwrite": false,
+    "rawGlobalsOrPasswordImport": false
+  },
+  "proposedTestCases": [
+    {
+      "id": "BLC-T01",
+      "layer": "unit",
+      "requiredOutcome": "Exact target/profile admission rejects unknown fields and unsupported authority before connect",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T02",
+      "layer": "unit",
+      "requiredOutcome": "State and receipt bindings reject stale/foreign/out-of-order handoffs",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T03",
+      "layer": "unit",
+      "requiredOutcome": "Findings/receipts never serialize credentials or private data",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T04",
+      "layer": "functional-db",
+      "requiredOutcome": "Phase-aware inspector distinguishes fresh/migrated/quarantined state without metadata creation",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T05",
+      "layer": "functional-db",
+      "requiredOutcome": "Read-only bounded allowlisted inspection leaves complete catalog/GUC/history snapshots unchanged on every branch",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T06",
+      "layer": "functional-db",
+      "requiredOutcome": "TLS/version/identity/catalog visibility refusal has no admin/repair fallback",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T07",
+      "layer": "functional-db",
+      "requiredOutcome": "All 19 restrictive roles and zero incoming/outgoing memberships enforced",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T08",
+      "layer": "functional-db",
+      "requiredOutcome": "Canonical ACL/default and role-setting drift detection with real change control",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T09",
+      "layer": "functional-db",
+      "requiredOutcome": "Owners, definer/search path, RLS, constraints/indexes and object inventory validated",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T10",
+      "layer": "functional-db",
+      "requiredOutcome": "Actual runtime assumption/DDL/cross-DB/RLS/default-access denials",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T11",
+      "layer": "functional-db",
+      "requiredOutcome": "Ordinary creator and privileged local control are not labeled provider acceptance",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T12",
+      "layer": "usecase-db",
+      "requiredOutcome": "Interrupted/unknown provisioning quarantines and reconciles exact created resources",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T13",
+      "layer": "usecase-db",
+      "requiredOutcome": "Cluster-wide lifecycle serialization plus bounded per-DB migration locking",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T14",
+      "layer": "functional-db",
+      "requiredOutcome": "Exact owner-only immutable migration replay and CMS ledger reconciliation",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T15",
+      "layer": "usecase-db",
+      "requiredOutcome": "Both directions of partial app/CMS success remain unreleased with truthful commits",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T16",
+      "layer": "usecase",
+      "requiredOutcome": "Drift after validation invalidates handoff; fresh serialized inspection required",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T17",
+      "layer": "usecase-db",
+      "requiredOutcome": "Credential rotation handles new/old authentication, existing sessions and unknown outcomes",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T18",
+      "layer": "usecase-db",
+      "requiredOutcome": "Independent restore rebuilds fresh credentials and rejects corrupt/wrong archives without globals import",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T19",
+      "layer": "usecase-db",
+      "requiredOutcome": "Continuous quarantine, current journal replay and CMS reconciliation precede promotion recommendation",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T20",
+      "layer": "usecase",
+      "requiredOutcome": "Missing custody/staffing/funding/provider/actual gates cannot become acceptance through local success",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T21",
+      "layer": "functional-harness",
+      "requiredOutcome": "Disposable-only exact target admission, pre-existing-resource refusal and mandatory cleanup",
+      "status": "proposed; not newly executed"
+    },
+    {
+      "id": "BLC-T22",
+      "layer": "unit-usecase",
+      "requiredOutcome": "Known/refused/unavailable/unknown outcomes never trigger blind/destructive retry or notifications",
+      "status": "proposed; not newly executed"
+    }
+  ],
+  "sourceReferences": [
+    "L01",
+    "L02",
+    "L03",
+    "L04",
+    "L05",
+    "L06",
+    "L07",
+    "L08",
+    "L09",
+    "L10",
+    "L11",
+    "L12",
+    "L13"
+  ],
+  "unchangedSourcePins": [
+    {
+      "path": "infra/local/01-databases.sql",
+      "sha256": "4eafe9596a7d0eecf397023fc8c260535d4326ee3e7710f59d22d0eaf4dcead2"
+    },
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "sha256": "1c14f0efcf9848b1a8f6dc804391e3d9a77b263daf6b9b26e1511fb161b604e4"
+    },
+    {
+      "path": "scripts/database/cli.ts",
+      "sha256": "f2d03455b647c1afcae952b7e62695ad532a1464c5ced997e3e618528c5ccc9b"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "sha256": "547606c2ff107469174fd671b3a64f18101051313068d7a1887f4e00c90b7af4"
+    },
+    {
+      "path": "scripts/database/cms.ts",
+      "sha256": "61b932275bac009e5e0a9abfce2d4a88e64ca05d69c68e28250b7ef7a9eb084a"
+    },
+    {
+      "path": "scripts/database/manifest.ts",
+      "sha256": "be29c23701e96d8c2708e63ba8ca9c4b0a51ebbea0d395c9590e1ff8652f337d"
+    },
+    {
+      "path": "scripts/database/inventory.ts",
+      "sha256": "a9ec8e1929c2fdfed581ce27a8c6c72e2dc6b9d88723b6aa22fd56c27b780d07"
+    },
+    {
+      "path": "scripts/database/recovery-artifact.ts",
+      "sha256": "78dd91626d165c28985fa4264863274ede64d41a871d6ae8ac75cb461e788f4f"
+    },
+    {
+      "path": "scripts/database/custody.ts",
+      "sha256": "83a17498c6f2bbb4da7a7f3edef404b911cd9b9fdf9b478131a10c9755d205ba"
+    },
+    {
+      "path": "packages/config/src/database-roles.ts",
+      "sha256": "c84931f45224590fc54ef1433cbdb39df178ef442aa79cd6d3365130c9030b06"
+    },
+    {
+      "path": "packages/config/src/database-preflight.ts",
+      "sha256": "3b9f59eddbea528252b6d0f348ca365cbe08dc9e4937f6f156dc3159ee35e1db"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "sha256": "973f5e26b84ef86196f4d463690a056227a0cfe197115d2addb1a3ae9ba93ecb"
+    },
+    {
+      "path": "scripts/verify/recovery.mjs",
+      "sha256": "90cc3e18c1097f92d5f4246c87ebcada49fa76196caf380f95c7e6cc1b1924d2"
+    },
+    {
+      "path": "tests/database/restricted-admin.test.ts",
+      "sha256": "132c007bec29b5bb099d71859cb6336613599de3ee03bc0fbcb37277a9356297"
+    },
+    {
+      "path": "tests/fixtures/restricted-admin/database.ts",
+      "sha256": "ce0d86667bef6eacf0647ce89b4361a1b090850ff80df6fc82d80fe82bea9dc4"
+    },
+    {
+      "path": "tests/recovery/recovery.test.ts",
+      "sha256": "04da183cc261e993e14b9fd11e6b6aced98f9441459e5258989b96713b0e5248"
+    },
+    {
+      "path": "tests/fixtures/recovery/prepare.ts",
+      "sha256": "bdb53425d75b9dee26cc6311a67f9be7363299cfa58e9e0cc21fd41c08592af1"
+    },
+    {
+      "path": "infra/local/versions.json",
+      "sha256": "8b741caeb475872268f64117944c9585c7c86ca6525306828f24914f1ba0281e"
+    },
+    {
+      "path": "infra/database/app/manifest.json",
+      "sha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+    },
+    {
+      "path": "infra/database/cms/manifest.json",
+      "sha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+    },
+    {
+      "path": "package.json",
+      "sha256": "17de3c4f8829c6aeabcf82ce3d74aaf232787edf8a5633def4a50e24c426fd3a"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "1383ff6c1dff614074a7d062046e3ec37a5eab099b91c01e9d6412f7b0cf143c"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "f3229da909acacdafb435c2f0b8b39e34fc732c009a8f5f066ac5e270b165621"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f"
+    }
+  ],
+  "evidenceLimits": [
+    "Documentation review only; no new SQL/lifecycle/provider tests executed for this proposal",
+    "Existing 13-case local investigation and full suite remain historical until exact-commit verification",
+    "No supported managed provisioning/cleanup/rotation mechanism established",
+    "No staffing/rates/coverage/budget/custody assignment or actual S3 acceptance",
+    "No production bootstrap/CLI/preflight/migration/runtime/guard/dependency change"
+  ],
+  "nextProposal": {
+    "name": "local-only phase-aware read-only lifecycle validation proof",
+    "status": "proposed only; not implemented",
+    "scope": "Prototype profiles in disposable test support; mutation-free snapshot checks and adverse drift/refusal cases; keep existing production bootstrap/CLI/preflight/roles/guards/migrations unchanged",
+    "automaticAuthorization": false
+  }
+}

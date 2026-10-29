@@ -64,3 +64,7 @@ Routine staffing allowance is **12 combined person-hours/month** for managed-DB 
 4. Resolve only with fresh end-to-end evidence, residual-risk review and the required human disposition. Reconcile spend and retained resources; document actual detection-to-recovery timing and missed coverage.
 
 Handover must include actual assignments/accepted availability, independent MFA access, approved resource inventory and billing ledger, private runbook/key references, immutable release/rollback identities, backup/restore/journal evidence, unresolved incidents, supplier escalation paths and review dates. Access revocation must leave a tested accepted custodian. Until those records exist, HS05 remains proposed and no staffed-service acceptance is claimed.
+
+## Lifecycle responsibility supplement
+
+The [October 29 bootstrap/provisioning lifecycle contract review](../implementation/P1-PR-027-bootstrap-lifecycle-contract.md#authorities-and-credential-boundaries) maps these same unassigned O/P/B/D/K/V/R slots to provisioning, read-only validation, owner migrations, runtime admission, rotation and quarantined recovery. It proposes no new actual appointment, coverage, rate, spending or operational authority; all existing independent-review, custody and S3 conditions remain unchanged. No provisioning, purchases or notifications.
