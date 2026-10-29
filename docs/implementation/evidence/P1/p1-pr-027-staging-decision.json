@@ -443,5 +443,22 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "lifecycleContractReviews": [
+    {
+      "name": "bootstrap/provisioning lifecycle contract design",
+      "status": "proposed design; no implementation or hosted acceptance",
+      "baselineMerge": "f878e8fd16c6f03796d80f330cde918eaf175d85",
+      "evidence": [
+        "docs/implementation/P1-PR-027-bootstrap-lifecycle-contract.md",
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-validation.md"
+      ],
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false,
+      "implementationAuthorized": false
+    }
   ]
 }

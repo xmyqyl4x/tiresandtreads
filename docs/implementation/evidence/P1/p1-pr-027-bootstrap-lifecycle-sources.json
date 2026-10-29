@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-29T15:04:43.575514Z",
+  "checkedLocalDate": "2026-10-29",
+  "timeZone": "America/Los_Angeles",
+  "method": "Public official documentation reads only; no account/API authentication, supplier contact or notification",
+  "actualProviderTest": false,
+  "sources": [
+    {
+      "id": "L01",
+      "title": "PostgreSQL 18 role attributes",
+      "url": "https://www.postgresql.org/docs/18/role-attributes.html",
+      "observation": "Ordinary creator receives automatic ADMIN membership with SET/INHERIT false; administration differs from assumption.",
+      "designInference": "Provider cleanup authority must be established, not inferred from CREATEROLE."
+    },
+    {
+      "id": "L02",
+      "title": "PostgreSQL 18 CREATE ROLE",
+      "url": "https://www.postgresql.org/docs/18/sql-createrole.html",
+      "observation": "Roles are cluster-wide; attributes and memberships are separate capabilities.",
+      "designInference": "Serialize shared-role lifecycle across app/CMS operations."
+    },
+    {
+      "id": "L03",
+      "title": "PostgreSQL 18 REVOKE",
+      "url": "https://www.postgresql.org/docs/18/sql-revoke.html",
+      "observation": "Membership/privilege revocation depends on existing grants and authority.",
+      "designInference": "Inspect both membership directions and grantors, not command success alone."
+    },
+    {
+      "id": "L04",
+      "title": "PostgreSQL 18 ALTER DATABASE",
+      "url": "https://www.postgresql.org/docs/18/sql-alterdatabase.html",
+      "observation": "Ordinary ownership transfer requires CREATEDB and ability to assume the new owner.",
+      "designInference": "Exact provider ownership handoff is an unresolved capability."
+    },
+    {
+      "id": "L05",
+      "title": "PostgreSQL 18 SET ROLE",
+      "url": "https://www.postgresql.org/docs/18/sql-set-role.html",
+      "observation": "Actual current role controls permission checks; SET membership options govern assumption.",
+      "designInference": "Do not equate SET permission with executing default-ACL work as owner."
+    },
+    {
+      "id": "L06",
+      "title": "PostgreSQL 18 ALTER DEFAULT PRIVILEGES",
+      "url": "https://www.postgresql.org/docs/18/sql-alterdefaultprivileges.html",
+      "observation": "Defaults concern future objects and the creating role; existing objects need separate ACL review.",
+      "designInference": "Validate global/schema defaults and existing object controls independently."
+    },
+    {
+      "id": "L07",
+      "title": "PostgreSQL 18 CREATE DATABASE",
+      "url": "https://www.postgresql.org/docs/18/sql-createdatabase.html",
+      "observation": "Database creation cannot run in a transaction block.",
+      "designInference": "Journal partial/unknown setup; do not promise atomic cross-DB provisioning."
+    },
+    {
+      "id": "L08",
+      "title": "PostgreSQL 18 SET TRANSACTION",
+      "url": "https://www.postgresql.org/docs/18/sql-set-transaction.html",
+      "observation": "Read-only access mode and repeatable-read isolation are explicit transaction properties.",
+      "designInference": "Use catalog-query allowlists plus transaction bounds; not a substitute for target/credential controls."
+    },
+    {
+      "id": "L09",
+      "title": "PostgreSQL 18 ALTER ROLE",
+      "url": "https://www.postgresql.org/docs/18/sql-alterrole.html",
+      "observation": "Self-password changes and administration of other roles have different privilege conditions.",
+      "designInference": "Separate rotation authority and session handling from bootstrap replay."
+    },
+    {
+      "id": "L10",
+      "title": "PostgreSQL 18 SQL dump",
+      "url": "https://www.postgresql.org/docs/18/backup-dump.html",
+      "observation": "Per-database dumps omit cluster roles; different databases do not share one dump snapshot.",
+      "designInference": "Reconstruct restricted roles with fresh target secrets and reconcile app/CMS restore windows."
+    },
+    {
+      "id": "L11",
+      "title": "PostgreSQL 18 pg_restore",
+      "url": "https://www.postgresql.org/docs/18/app-pgrestore.html",
+      "observation": "Ownership restoration depends on options and session authority.",
+      "designInference": "Verify actual restored ownership/ACLs; restoration is not role provisioning."
+    },
+    {
+      "id": "L12",
+      "title": "DigitalOcean PostgreSQL user privileges",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/modify-user-privileges/",
+      "observation": "Advanced username alphabet omits underscores; new Advanced users have CREATEDB unless removed.",
+      "designInference": "Exact project names/flags need separate edition-specific proof; no mapping or waiver approved."
+    },
+    {
+      "id": "L13",
+      "title": "DigitalOcean PostgreSQL limits",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/limits/",
+      "observation": "Customer superuser access is not provided.",
+      "designInference": "Local fixture superuser success does not establish a provider-supported privileged setup mechanism."
+    }
+  ]
+}

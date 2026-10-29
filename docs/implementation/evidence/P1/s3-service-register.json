@@ -409,7 +409,11 @@
         "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-validation.md",
         "tests/database/restricted-admin.test.ts",
         "tests/fixtures/restricted-admin/database.ts",
-        "scripts/verify/restricted-admin.mjs"
+        "scripts/verify/restricted-admin.mjs",
+        "docs/implementation/P1-PR-027-bootstrap-lifecycle-contract.md",
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-validation.md"
       ]
     }
   ],
