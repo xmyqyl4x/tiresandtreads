@@ -54,3 +54,7 @@ Reproduce with `node tests/fixtures/lifecycle-pair/run.mjs`. It accepts no argum
 Recommend a **local-only interrupted-executor and cold-restart handoff proof** next: terminate a participating validation process, verify lock/client cleanup, refuse imported old records and require fresh both-DB evidence after restart. Keep it in disposable test support; no durable provisioning journal, release/rotation executor, production change or activation. This is a proposal only, not implemented or automatically authorized here.
 
 Four usable live phases, option C outside Vercel, PostgreSQL consolidation without Redis/ClickHouse and database → repositories → services → APIs → frontends remain unchanged. HS01–HS08 proposed; operators/coverage/rates unconfirmed; six S3 gates open; specialist/licensed work pending; APIs/frontends held. No provisioning, purchases or notifications.
+
+## PR #46 local paired-proof approval record
+
+On October 29, 2026 (Pacific), the owner approved PR #46 and it merged at `b7e159075cc3159aea2dfb061a1add42e25ca101`, accepting this disposable paired proof only. The owner then authorized the [interrupted-executor and cold-restart proof](P1-PR-027-interrupted-executor-cold-restart-proof.md) in disposable test support. Original measured artifacts remain historical. Production bootstrap/CLI/preflight/policy unchanged; HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. No provisioning, purchases or notifications.

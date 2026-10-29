@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-29T21:23:56.564861Z",
+  "scope": "Official API references and local measured behavior; no hosted acceptance",
+  "actualProviderTest": false,
+  "runtimePinChanged": false,
+  "unavailableReference": "Exact Node 24.22.1 documentation URL was inaccessible to the browser tool; no patch compatibility or new runtime selection inferred",
+  "sources": [
+    {
+      "id": "I01",
+      "title": "Node.js 24 child process exit, streams and IPC reference",
+      "url": "https://nodejs.org/download/release/v24.21.0/docs/api/child_process.html",
+      "supports": "Process exit and stdio closure are distinct observations; fork/disconnect/kill operate on a child handle and IPC channel. Reference version is 24.21.0; actual test runtime stays pinned 24.22.1.",
+      "patchCompatibilityClaim": false
+    },
+    {
+      "id": "I02",
+      "title": "PostgreSQL 18 advisory locking functions",
+      "url": "https://www.postgresql.org/docs/18/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS",
+      "supports": "The existing pair uses a cooperative transaction-level advisory lock. The proof checks actual pg_locks/session disappearance after process termination, without a durable lock table."
+    }
+  ]
+}

@@ -505,5 +505,27 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localInterruptedExecutorProofs": [
+    {
+      "name": "interrupted validation executor and cold-restart handoff",
+      "status": "local technical proof in review; no hosted or production acceptance",
+      "baselineMerge": "b7e159075cc3159aea2dfb061a1add42e25ca101",
+      "evidence": [
+        "docs/implementation/P1-PR-027-interrupted-executor-cold-restart-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-validation.md",
+        "tests/fixtures/lifecycle-restart/protocol.ts",
+        "tests/fixtures/lifecycle-restart/parent.ts",
+        "tests/fixtures/lifecycle-restart/executor.ts",
+        "tests/fixtures/lifecycle-restart/run.mjs",
+        "tests/unit/lifecycle-restart.test.ts",
+        "tests/database/lifecycle-restart.test.ts"
+      ],
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
