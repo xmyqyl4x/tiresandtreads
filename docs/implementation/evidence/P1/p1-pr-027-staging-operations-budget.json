@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-29T00:25:23.466120Z",
+  "baselineMerge": "8965bd72f1a7746191511756b7df159ee2450a25",
+  "scope": "HS04 and HS05 proposal details only; synthetic private staging; no staffing, spending, provider selection or execution acceptance",
+  "status": "proposed; review requested",
+  "currency": "USD",
+  "moneyEncoding": "integer cents; round upward once for percentage reserves",
+  "authorization": {
+    "documentPreparation": true,
+    "provisioning": false,
+    "purchases": false,
+    "accountCreation": false,
+    "cloudAuthentication": false,
+    "notifications": false,
+    "remoteDeployment": false,
+    "productApiImplementation": false
+  },
+  "approved": {
+    "recurringInfrastructureCeilingCents": null,
+    "temporaryMonthlyCeilingCents": null,
+    "temporaryPerEventCeilingCents": null,
+    "setupHardwareCeilingCents": null,
+    "laborHourlyRateCents": null,
+    "monthlyLaborHours": null,
+    "monthlySupportRetainerCents": null,
+    "taxInvoiceCents": null,
+    "allInMonthlyBudgetCents": null
+  },
+  "candidate": {
+    "id": "S2",
+    "selected": false,
+    "provider": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "priceReference": "Conditional DigitalOcean Standard managed 4 GiB example; registry/access/workflow are pricing examples, not selected integrations"
+  },
+  "assignments": [
+    {
+      "role": "budgetOwner",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    },
+    {
+      "role": "primaryPlatformOperator",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    },
+    {
+      "role": "backupPlatformOperator",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    },
+    {
+      "role": "databaseRecoveryOwner",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    },
+    {
+      "role": "securityKeyCustodian",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    },
+    {
+      "role": "privacyReviewer",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    },
+    {
+      "role": "releaseReviewer",
+      "actualPerson": null,
+      "acceptedAt": null,
+      "coverageAccepted": false,
+      "candidatePerson": null
+    }
+  ],
+  "coverage": {
+    "timeZone": null,
+    "days": null,
+    "start": null,
+    "end": null,
+    "primaryContact": null,
+    "backupContact": null,
+    "alertDestination": null,
+    "businessHoursCommitted": false,
+    "onCall24x7": false,
+    "proposedCoveredWindowAckMinutes": 30,
+    "proposedBackupEscalationMinutes": 30,
+    "proposedOwnerEscalationMinutes": 60,
+    "scope": "Candidate drill targets inside an explicitly staffed future window; no actual SLA or notification authority"
+  },
+  "recurring": {
+    "basis": "One full staging month; no promotional credits/free tiers; no production users or real sends",
+    "lines": [
+      {
+        "id": "app",
+        "category": "Linux application VM",
+        "monthlyCents": 2400,
+        "basis": "listed monthly cap",
+        "quantityOrAssumption": "One candidate 4 GiB app VM; no HA",
+        "sourceId": "OB01",
+        "usageOrReplacementRule": "Includes app disk/transfer allocation; extras only in excess line",
+        "approved": false
+      },
+      {
+        "id": "database",
+        "category": "Managed PostgreSQL",
+        "monthlyCents": 6090,
+        "basis": "listed minimum monthly cap",
+        "quantityOrAssumption": "One candidate 4 GiB primary, two logical DBs, included minimum 60 GiB",
+        "sourceId": "OB02",
+        "usageOrReplacementRule": "Provider backup/PITR capability not independent custody; no separate charge for included minimum disk",
+        "approved": false
+      },
+      {
+        "id": "vmBackup",
+        "category": "Daily app VM backup",
+        "monthlyCents": 720,
+        "basis": "derived listed percentage",
+        "quantityOrAssumption": "30 percent of USD 24 app VM",
+        "sourceId": "OB03",
+        "usageOrReplacementRule": "Convenience OS recovery; do not count as independent DB/journal backup",
+        "approved": false
+      },
+      {
+        "id": "objects",
+        "category": "Active synthetic objects and requests",
+        "monthlyCents": 200,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "10 GiB effective stored bytes incl versions; up to 10000 writes/100000 reads monthly",
+        "sourceId": "OB08",
+        "usageOrReplacementRule": "Quote selected region/class and total stored versions; independent backups are a separate copy",
+        "approved": false
+      },
+      {
+        "id": "independentBackup",
+        "category": "Independent encrypted DB/journal/object backup",
+        "monthlyCents": 1000,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "100 GiB total retained effective bytes; daily 30-generation planning window, verification reads and requests",
+        "sourceId": "OB08",
+        "usageOrReplacementRule": "Separate account/authority or equivalent independence required; replace allowance with full region/copy/request quote",
+        "approved": false
+      },
+      {
+        "id": "keys",
+        "category": "KMS and secret custody",
+        "monthlyCents": 800,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "Four key identities plus two charged rotation increments total, plus USD 2 request/secret allowance; replicas or further charged versions require repricing",
+        "sourceId": "OB07",
+        "usageOrReplacementRule": "Includes small secrets allowance; no HSM, no free request credits; key topology/custodian unselected",
+        "approved": false
+      },
+      {
+        "id": "registry",
+        "category": "Private release registry",
+        "monthlyCents": 500,
+        "basis": "listed plan price",
+        "quantityOrAssumption": "One Basic plan, up to 5 GiB retained release images/metadata",
+        "sourceId": "OB04",
+        "usageOrReplacementRule": "Current/previous release digests; tooling/cache images excluded; upgrade if measured bytes exceed limit",
+        "approved": false
+      },
+      {
+        "id": "access",
+        "category": "Private operator connectivity",
+        "monthlyCents": 1600,
+        "basis": "derived listed seat price",
+        "quantityOrAssumption": "Two commercial Standard seats at USD 8 each",
+        "sourceId": "OB06",
+        "usageOrReplacementRule": "Identity provider/MFA costs separate; plan features/term unconfirmed",
+        "approved": false
+      },
+      {
+        "id": "identity",
+        "category": "Identity and credential vault",
+        "monthlyCents": 1000,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "Two operator accounts, MFA identity/recovery and vault service",
+        "sourceId": "OB06",
+        "usageOrReplacementRule": "Separate from VPN seat fee; replace with chosen IdP/vault quote",
+        "approved": false
+      },
+      {
+        "id": "observation",
+        "category": "Masked logs, metrics, alert handling",
+        "monthlyCents": 2000,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "Up to 1 GiB/day masked ingest, 14-day engineering retention, external health and incident routing",
+        "sourceId": null,
+        "usageOrReplacementRule": "Full collector/storage/egress/subscription quote needed; hosted workflow traces are not a substitute; no notification enabled",
+        "approved": false
+      },
+      {
+        "id": "domain",
+        "category": "Domain renewal and DNS allocation",
+        "monthlyCents": 200,
+        "basis": "annual cash amortized for planning",
+        "quantityOrAssumption": "USD 24 annual domain allocation divided by 12; DNS/TLS automation assumed included or open-source",
+        "sourceId": null,
+        "usageOrReplacementRule": "First renewal cash USD 24; allocate existing domain once; paid DNS/cert minimum invalidates allowance",
+        "approved": false
+      },
+      {
+        "id": "workflow",
+        "category": "Hosted workflow service",
+        "monthlyCents": 9900,
+        "basis": "listed starting plan price",
+        "quantityOrAssumption": "One Pro plan; 1 million billable executions, not assumed free",
+        "sourceId": "OB05",
+        "usageOrReplacementRule": "31-day two-cron minimum 178560 executions before recovery dispatch/retries/jobs; other plan dimensions/overages separately checked",
+        "approved": false
+      },
+      {
+        "id": "ci",
+        "category": "CI, artifacts and build-cache allocation",
+        "monthlyCents": 1500,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "100 standard Linux job runs at 10 minutes plus 5 GiB retained artifacts/cache",
+        "sourceId": "OB09",
+        "usageOrReplacementRule": "Account-specific included usage, public/private status and storage rates unconfirmed; replace with actual formula, not assumed zero",
+        "approved": false
+      },
+      {
+        "id": "transfer",
+        "category": "Excess network, disk and routine retrieval",
+        "monthlyCents": 500,
+        "basis": "unquoted allowance",
+        "quantityOrAssumption": "Up to 20 GiB/month external transfer and ordinary excess/retrieval charges",
+        "sourceId": "OB08",
+        "usageOrReplacementRule": "Account for cross-provider, cross-region, restores, registry pulls and billable IP/storage; avoid double-counting included transfer",
+        "approved": false
+      }
+    ],
+    "subtotalCents": 28410,
+    "contingencyPercent": 20,
+    "contingencyCents": 5682,
+    "modeledEnvelopeCents": 34092,
+    "suggestedInfrastructureEnvelopeCents": 35000,
+    "historicalProposalCents": 17500,
+    "historicalProposalSufficient": false,
+    "unquotedUnknownsPreventAllInApproval": true
+  },
+  "workflowSizing": {
+    "sourcePath": "packages/integrations/src/workflows.ts",
+    "planningMonthDays": 31,
+    "minutesPerDay": 1440,
+    "scheduledFunctions": 2,
+    "minimumStepsPerRun": 1,
+    "minimumScheduledRuns": 89280,
+    "minimumMeteredExecutions": 178560,
+    "freeIncludedExecutions": 50000,
+    "paidIncludedExecutions": 1000000,
+    "freeTierFitsUnchangedContinuousSchedule": false,
+    "overageAndOtherLimitsAccepted": false,
+    "caveat": "Projection of unchanged local workflow shape into a possible hosted adapter; no cloud adapter implemented/accepted; recovery job steps, events, retries and replays add usage"
+  },
+  "stress": {
+    "replacementMonthlyCents": {
+      "app": 4800,
+      "vmBackup": 1440,
+      "objects": 500,
+      "independentBackup": 3000,
+      "keys": 1200,
+      "registry": 2000,
+      "access": 2400,
+      "identity": 1500,
+      "observation": 5000,
+      "ci": 2000,
+      "transfer": 2000
+    },
+    "subtotalCents": 42030,
+    "contingencyCents": 8406,
+    "modeledEnvelopeCents": 50436,
+    "fitsSuggestedInfrastructureEnvelope": false,
+    "scope": "Scenario only; additional seats/VM/storage/registry/logs/CI/egress are not authorized"
+  },
+  "selfOperatedComparison": {
+    "selected": false,
+    "substitution": "Replace USD60.90 managed DB with separate USD24 DB VM and USD7.20 daily DB VM backup; preserve independent backups and other lines",
+    "subtotalCents": 25440,
+    "contingencyCents": 5088,
+    "modeledEnvelopeCents": 30528,
+    "additionalRoutineHours": 6,
+    "scope": "Cash-model comparison, not proof that DB ops or backup effort is sufficient; no automatic fallback"
+  },
+  "temporaryResources": {
+    "lines": [
+      {
+        "id": "restoreCompute",
+        "cents": 2400,
+        "basis": "conservative full candidate app VM month, not an assumed hourly discount",
+        "source": "OB01"
+      },
+      {
+        "id": "restoreDatabase",
+        "cents": 6090,
+        "basis": "conservative full candidate DB month, billing/backup cleanup rules unverified",
+        "source": "OB02"
+      },
+      {
+        "id": "restoreBytes",
+        "cents": 1000,
+        "basis": "unquoted extra storage/requests/transfer allowance; steady retained bytes excluded",
+        "source": "OB08"
+      }
+    ],
+    "perEventModeledCents": 9490,
+    "proposedPerEventCeilingCents": 10000,
+    "proposedMonthlyCeilingCents": 10000,
+    "proposedMaximumConcurrentEvents": 1,
+    "proposedResourceReviewAfterHours": 24,
+    "proposedMaximumTTLHours": 48,
+    "automaticCleanupConfigured": false,
+    "billingStopsWhenServiceStopped": false,
+    "scope": "Separate event ledger, maximum once per month in this model. Retained disks/backups/keys/addresses may bill until deliberately retired; evidence/retention review required before deletion. Additional events or longer overlap require a new proposal"
+  },
+  "labor": {
+    "routineActivities": [
+      {
+        "activity": "Health, schedules, capacity and private access review",
+        "monthlyHours": 3
+      },
+      {
+        "activity": "Backup verification, one scoped restore drill and DB housekeeping",
+        "monthlyHours": 3
+      },
+      {
+        "activity": "One release/rollback and patch verification window",
+        "monthlyHours": 2
+      },
+      {
+        "activity": "Key/access/security review",
+        "monthlyHours": 1
+      },
+      {
+        "activity": "Billing, inventory and decommission reconciliation",
+        "monthlyHours": 1
+      },
+      {
+        "activity": "Backup-operator rehearsal and runbook handoff",
+        "monthlyHours": 2
+      }
+    ],
+    "managedRoutineHours": 12,
+    "selfOperatedRoutineHours": 18,
+    "setupActivities": [
+      {
+        "activity": "Identity, recovery devices and access preparation",
+        "hours": 4
+      },
+      {
+        "activity": "Reviewed configuration/network/image preparation",
+        "hours": 6
+      },
+      {
+        "activity": "DB/provider administration compatibility and restore experiment",
+        "hours": 8
+      },
+      {
+        "activity": "Observation and response configuration/drill",
+        "hours": 4
+      },
+      {
+        "activity": "Evidence reconciliation and operator handoff",
+        "hours": 6
+      }
+    ],
+    "managedSetupHours": 28,
+    "selfOperatedSetupHours": 36,
+    "incidentHours": null,
+    "hourlyRateCents": null,
+    "backupCoverageRetainerCents": null,
+    "estimatesAreStaffingCommitments": false,
+    "scope": "Count each activity once even when one human has several roles; hands-on estimates exclude 24x7 standby, incident overruns and external specialist/privacy reviews"
+  },
+  "oneTime": {
+    "securityDevicesCount": 4,
+    "securityDeviceAllowanceEachCents": 5000,
+    "securityDeviceAllowanceCents": 20000,
+    "suggestedHardwareEnvelopeCents": 25000,
+    "domainAnnualCashCents": 2400,
+    "domainMonthlyAllocationCents": 200,
+    "domainFirstMonthAdjustmentCents": 2200,
+    "hardwareAndDomainAreUnquoted": true,
+    "externalReviewOrConsultancyQuoteCents": null
+  },
+  "sensitivity": [
+    {
+      "label": "Conditional owner-operated cash example",
+      "cashHourlyRateCents": 0,
+      "managedRoutineLaborCents": 0,
+      "managedRecurringBeforeTaxSupportLocalCents": 34092,
+      "assumesAcceptedUnpaidHours": true,
+      "actualAssignmentConfirmed": false
+    },
+    {
+      "label": "Paid effort illustration; not a market-rate quote",
+      "cashHourlyRateCents": 7500,
+      "managedRoutineLaborCents": 90000,
+      "managedRecurringBeforeTaxSupportLocalCents": 124092,
+      "managedSetupLaborCents": 210000,
+      "selfOperatedRoutineLaborCents": 135000,
+      "selfOperatedRecurringBeforeTaxSupportLocalCents": 165528
+    },
+    {
+      "label": "Higher paid-effort illustration; not a market-rate quote",
+      "cashHourlyRateCents": 15000,
+      "managedRoutineLaborCents": 180000,
+      "managedRecurringBeforeTaxSupportLocalCents": 214092
+    }
+  ],
+  "otherCostDimensions": [
+    {
+      "category": "tax and foreign exchange",
+      "monthlyCents": null,
+      "reason": "Actual billing entity, invoice jurisdiction/currency and card fees unconfirmed; do not assume zero"
+    },
+    {
+      "category": "support / on-call retainer",
+      "monthlyCents": null,
+      "reason": "Provider support tier and paid coverage quote unconfirmed; no 24x7 commitment"
+    },
+    {
+      "category": "local resource allocation",
+      "monthlyCents": null,
+      "reason": "Existing Windows/WSL/Docker machine, electricity, internet, licenses, disk wear and replacement remain owner-specific; new hardware/cloud dev clusters not assumed"
+    },
+    {
+      "category": "independent policy/security review",
+      "monthlyCents": null,
+      "reason": "Actual reviewer/contract/cost unconfirmed; not included in operator hours"
+    },
+    {
+      "category": "AWS alternative / Advanced DB / HA",
+      "monthlyCents": null,
+      "reason": "Different topology, minimum paid tier, network/NAT/IP/storage/standbys require a new quote; no equal-price inference"
+    }
+  ],
+  "inactiveScope": [
+    {
+      "category": "ESP subscription and actual sends",
+      "plannedQuantity": 0,
+      "incrementalCents": 0,
+      "reason": "Not provisioned or activated in this planning scope; later activation requires separate cost and acceptance review, not a free-service assertion"
+    },
+    {
+      "category": "AI inference/vision",
+      "plannedQuantity": 0,
+      "incrementalCents": 0,
+      "reason": "Not provisioned or activated in this planning scope; later activation requires separate cost and acceptance review, not a free-service assertion"
+    },
+    {
+      "category": "licensed fitment/catalog/price/climate feeds",
+      "plannedQuantity": 0,
+      "incrementalCents": 0,
+      "reason": "Not provisioned or activated in this planning scope; later activation requires separate cost and acceptance review, not a free-service assertion"
+    },
+    {
+      "category": "product advertising/CMP/analytics subscriptions",
+      "plannedQuantity": 0,
+      "incrementalCents": 0,
+      "reason": "Not provisioned or activated in this planning scope; later activation requires separate cost and acceptance review, not a free-service assertion"
+    },
+    {
+      "category": "mobile and AI-plugin distribution",
+      "plannedQuantity": 0,
+      "incrementalCents": 0,
+      "reason": "Not provisioned or activated in this planning scope; later activation requires separate cost and acceptance review, not a free-service assertion"
+    },
+    {
+      "category": "public frontend/CDN/load balancer/NAT gateways",
+      "plannedQuantity": 0,
+      "incrementalCents": 0,
+      "reason": "Not provisioned or activated in this planning scope; later activation requires separate cost and acceptance review, not a free-service assertion"
+    }
+  ],
+  "formulas": {
+    "allInCash": "service invoice including actual usage + actual invoice taxes/FX + paid operator hours*rate + support retainer + local incremental bills + actual temporary resources; no numeric final total while required inputs unknown",
+    "planningCashEnvelope": "34092 cents recurring modeled infrastructure + up to10000 cents temporary resources + quoted labor/support/tax/local increments; replace all unquoted allowances before approval",
+    "firstMonth": "recurring cash + actual temporary bills + setup hours*rate + security devices + domain annual cash timing adjustment + external reviews + taxes; do not add annual domain invoice and monthly amortization twice",
+    "economicCost": "cash cost + separately stated value of unpaid operator/local effort; do not double-count paid hours",
+    "reserveAccounting": "Contingency, rounded suggested ceilings and temporary reserves are funding allowances, not supplier invoices; do not add modeled envelope and suggested ceiling together"
+  },
+  "approvalBlockers": [
+    "Actual named primary/backup and DB/key/review responsibility with accepted coverage",
+    "HS01/HS02 candidate compatibility and account/region/billing-term eligibility",
+    "HS03 identity/private access feature and seat requirements",
+    "HS06 actual workflow/object/key/no-send contract and billing dimensions",
+    "HS07 independently recoverable custody/retention volume and policy review",
+    "Invoice taxes/FX, actual labor/standby/support/local costs and one-time reviewer costs",
+    "Separate owner-approved recurring, temporary-event/month and setup/labor envelopes; no approval inferred from this proposal"
+  ],
+  "state": {
+    "HS01toHS08": "proposed",
+    "actualS3GatesPending": 6,
+    "specialistReview": "pending",
+    "licensedWork": "pending",
+    "productApis": "held",
+    "actualAcceptanceRequested": false
+  }
+}
