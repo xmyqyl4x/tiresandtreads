@@ -398,7 +398,11 @@
         "docs/operations/staging-operator-responsibilities.md",
         "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
         "docs/implementation/evidence/P1/p1-pr-027-operations-budget-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md",
+        "docs/implementation/P1-PR-027-host-database-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-host-database-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-host-database-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md"
       ]
     }
   ],

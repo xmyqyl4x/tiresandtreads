@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-29T04:18:57.643627Z",
+  "checkedLocalDate": "2026-10-28",
+  "timeZone": "America/Los_Angeles",
+  "method": "Public official web documentation only; observations paraphrased, no provider login/API, account, quote request or notification",
+  "actualProviderTest": false,
+  "sources": [
+    {
+      "id": "H01",
+      "title": "DigitalOcean regional availability",
+      "url": "https://docs.digitalocean.com/platform/regional-availability/",
+      "observation": "App VMs and PostgreSQL listed in NYC3 and SFO3; account stock and actual latency unobserved."
+    },
+    {
+      "id": "H02",
+      "title": "DigitalOcean managed database creation",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/create/",
+      "observation": "Major 18 listed; latest supported minor provisioned; edition selection permanent. No exact 18.6 entitlement established."
+    },
+    {
+      "id": "H03",
+      "title": "DigitalOcean user privileges",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/modify-user-privileges/",
+      "observation": "Advanced user-name alphabet excludes underscores; new Advanced users have CREATEDB. SQL/API enforcement and scoped administration need proof."
+    },
+    {
+      "id": "H04",
+      "title": "DigitalOcean PostgreSQL limits",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/limits/",
+      "observation": "Published 1/2/4 GiB backends: 22/47/97; no customer superuser. Not a remote measurement."
+    },
+    {
+      "id": "H05",
+      "title": "DigitalOcean PostgreSQL features",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/features/",
+      "observation": "Managed maintenance updates engine/OS within configured weekly window; a fixed minor cannot be inferred."
+    },
+    {
+      "id": "H06",
+      "title": "DigitalOcean PostgreSQL restore",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/restore-from-backups/",
+      "observation": "Seven-day provider backups; restore creates new primary; deleting cluster deletes its provider backups. Independent custody unproved."
+    },
+    {
+      "id": "H07",
+      "title": "DigitalOcean PostgreSQL security",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/secure/",
+      "observation": "Trusted sources and full TLS identity verification are documented; private routing alone is insufficient."
+    },
+    {
+      "id": "H08",
+      "title": "DigitalOcean managed DB catalog",
+      "url": "https://www.digitalocean.com/pricing/managed-databases",
+      "observation": "Listed minimum 4 GiB/2 vCPU/60 GiB example USD 60.90 monthly; not regional checkout quote."
+    },
+    {
+      "id": "H09",
+      "title": "DigitalOcean app VM catalog",
+      "url": "https://www.digitalocean.com/pricing/droplets",
+      "observation": "Listed Regular 4 GiB/2 vCPU/80 GiB example USD 24 monthly; no account eligibility or purchase."
+    },
+    {
+      "id": "H10",
+      "title": "PostgreSQL 18 ownership transfer",
+      "url": "https://www.postgresql.org/docs/18/sql-alterdatabase.html",
+      "observation": "Ordinary owner transfer needs CREATEDB and ability to SET ROLE to new owner; administrative path needs full review."
+    },
+    {
+      "id": "H11",
+      "title": "PostgreSQL 18 role attributes",
+      "url": "https://www.postgresql.org/docs/18/role-attributes.html",
+      "observation": "Non-superuser role creator receives automatic ADMIN membership and cannot remove that automatic grant itself; conflicts with zero-membership replay check under ordinary semantics."
+    },
+    {
+      "id": "H12",
+      "title": "DigitalOcean Standard plan lifecycle notice",
+      "url": "https://docs.digitalocean.com/products/databases/",
+      "observation": "New Standard plans limited to 4 GiB/no standby or read-only nodes from October 15 for previously unused accounts and November 30 for all accounts in 2026. Account state not inspected."
+    },
+    {
+      "id": "H13",
+      "title": "DigitalOcean cluster notifications",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/notifications/",
+      "observation": "Automatic team emails cannot be disabled/customized. No cluster/account/recipient action; future authorization must address these effects."
+    },
+    {
+      "id": "H14",
+      "title": "DigitalOcean extension catalog",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/supported-extensions/",
+      "observation": "Edition-specific extension support; listing does not establish installed versions or permission."
+    },
+    {
+      "id": "H15",
+      "title": "AWS RDS PostgreSQL administration",
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.PostgreSQL.CommonDBATasks.Roles.rds_superuser.html",
+      "observation": "rds_superuser is not PostgreSQL superuser; do not assume managed-admin bootstrap equivalence."
+    },
+    {
+      "id": "H16",
+      "title": "AWS RDS PostgreSQL pricing",
+      "url": "https://aws.amazon.com/rds/postgresql/pricing/",
+      "observation": "Topology-specific costing required; no comparable AWS quote or provider selection obtained."
+    }
+  ]
+}
