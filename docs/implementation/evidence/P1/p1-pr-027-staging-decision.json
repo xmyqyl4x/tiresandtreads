@@ -41,22 +41,24 @@
     {
       "id": "HS01",
       "subject": "Host and US region",
-      "proposal": "Evaluate DigitalOcean NYC3; SFO3 fallback; AWS alternative needs quote",
+      "proposal": "Retain DigitalOcean NYC3 as evaluation reference; SFO3 alternative needs explicit review; actual provider/region, residency, account and compatibility remain unselected",
       "status": "proposed",
       "approvedValue": null,
       "trigger": "DD03",
       "accountableRole": "Owner and platform reviewer",
-      "actualApprover": null
+      "actualApprover": null,
+      "proposalDetail": "docs/implementation/P1-PR-027-host-database-review.md"
     },
     {
       "id": "HS02",
       "subject": "Database operating model",
-      "proposal": "Evaluate managed 4 GiB conditionally; self-operated alternative requires named DB operator",
+      "proposal": "Managed 4 GiB remains conditional research candidate; restricted-admin role replay, exact patch policy and edition growth unresolved; self-operated fallback requires explicit choice and actual DB operator",
       "status": "proposed",
       "approvedValue": null,
       "trigger": "DD03/DD05",
       "accountableRole": "Owner and DB/platform reviewer",
-      "actualApprover": null
+      "actualApprover": null,
+      "proposalDetail": "docs/implementation/P1-PR-027-host-database-review.md"
     },
     {
       "id": "HS03",
@@ -409,6 +411,18 @@
       "sources": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-sources.json",
       "validation": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md",
       "originalCostModel": "Historical October 27 model preserved; expanded proposal is current review detail, no approved values"
+    },
+    {
+      "ids": [
+        "HS01",
+        "HS02"
+      ],
+      "status": "proposed; review requested",
+      "review": "docs/implementation/P1-PR-027-host-database-review.md",
+      "model": "docs/implementation/evidence/P1/p1-pr-027-host-database-review.json",
+      "sources": "docs/implementation/evidence/P1/p1-pr-027-host-database-sources.json",
+      "validation": "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md",
+      "baseline": "Owner-approved PR #41 merged; HS04/HS05 definitions accepted only, all actual selections/assignments/rates remain unconfirmed"
     }
   ]
 }

@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-29T04:18:57.643627Z",
+  "baselineMerge": "e37617ca0a0211e719b01d6a5e5d02f6563663b8",
+  "scope": "HS01/HS02 review analysis only; no hosted selection, implementation or acceptance",
+  "status": "proposed; review requested",
+  "ownerInstruction": "Keep HS01-HS08 proposed, operators/rates unconfirmed, six S3 gates open, specialist/licensed work pending and APIs held; no provisioning, purchases or notifications",
+  "authorization": {
+    "documentPreparation": true,
+    "provisioning": false,
+    "purchases": false,
+    "accountCreation": false,
+    "cloudAuthentication": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "notifications": false,
+    "runtimeImplementation": false,
+    "productApiImplementation": false
+  },
+  "selection": {
+    "provider": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "databaseEdition": null,
+    "engineVersion": null,
+    "actualApprover": null,
+    "approvedAt": null
+  },
+  "operators": {
+    "primary": null,
+    "backup": null,
+    "databaseOwner": null,
+    "keyCustodian": null,
+    "coverage": null,
+    "hourlyRateCents": null
+  },
+  "pendingGates": [
+    "G1-specialist",
+    "G1-fitment-catalog",
+    "G1-prices",
+    "G2-provider-effects",
+    "G2-privacy-policy",
+    "S3-service-host"
+  ],
+  "actualProviderTests": [],
+  "actualAcceptanceRecords": [],
+  "gateAcceptanceRequested": false,
+  "productApisHeld": true,
+  "candidates": [
+    {
+      "id": "S2",
+      "providerExample": "DigitalOcean",
+      "databaseModel": "Standard managed PostgreSQL",
+      "regionReference": "nyc3",
+      "alternativeRegion": "sfo3",
+      "selected": false,
+      "reviewResult": "first candidate to investigate, not ready for unchanged-tooling selection",
+      "blockers": [
+        "exact patch lifecycle",
+        "19-role administration and zero-membership replay",
+        "unconfirmed operators and funding",
+        "real capacity, recovery, residency and access evidence"
+      ]
+    },
+    {
+      "id": "S1",
+      "providerExample": "DigitalOcean",
+      "databaseModel": "self-operated PostgreSQL on separate DB VM",
+      "selected": false,
+      "reviewResult": "alternative only with explicit choice and qualified staffing; no automatic fallback"
+    },
+    {
+      "id": "S3",
+      "providerExample": "AWS",
+      "databaseModel": "RDS PostgreSQL plus Linux app",
+      "selected": false,
+      "reviewResult": "unquoted alternative; restricted administration still requires investigation"
+    }
+  ],
+  "budgetReference": {
+    "path": "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
+    "sha256": "f5d989edf99db9e5bb23cae07cf4caae9d8e91f1d04694cf5b0261dcd1ccf7b4",
+    "allValuesUnapproved": true,
+    "managedSubtotalCents": 28410,
+    "selfOperatedSubtotalCents": 25440,
+    "serviceDifferenceCents": 2970,
+    "managedEnvelopeCents": 34092,
+    "selfOperatedEnvelopeCents": 30528,
+    "envelopeDifferenceCents": 3564,
+    "suggestedRecurringCents": 35000,
+    "separateTemporaryEventAndMonthCents": 10000,
+    "managedRoutineHours": 12,
+    "selfOperatedRoutineHours": 18,
+    "additionalSelfOperatedRoutineHours": 6,
+    "additionalSelfOperatedSetupHours": 8,
+    "serviceCrossoverHourlyCents": 495,
+    "fundingCrossoverHourlyCents": 594,
+    "actualAllInCents": null,
+    "actualRateCents": null
+  },
+  "capacityScreen": {
+    "catalogNotMeasured": true,
+    "publishedAvailableBackends": {
+      "1GiB": 22,
+      "2GiB": 47,
+      "4GiB": 97
+    },
+    "originalHostedSingleUsable": 45,
+    "originalHostedOverlapUsable": 62,
+    "SP06FixtureRequired": 68,
+    "SP07FixtureRequired": 69,
+    "SP07Raw": 75,
+    "SP07Reserved": 5,
+    "SP07Usable": 70,
+    "hostedRequiredUsable": null,
+    "hostedObservedUsable": null,
+    "accepted": false,
+    "originalConnectionBudgetUnchanged": true
+  },
+  "compatibility": [
+    {
+      "id": "enginePatch",
+      "status": "unresolved",
+      "sourceIds": [
+        "H02",
+        "H05"
+      ],
+      "localPaths": [
+        "infra/local/versions.json",
+        "scripts/verify/recovery.mjs"
+      ],
+      "required": "Confirm exact server/tools and maintenance behavior; no version change or downgrade in this review"
+    },
+    {
+      "id": "roleReplay",
+      "status": "ordinary non-superuser path conflicts with unchanged replay invariant; provider behavior untested",
+      "sourceIds": [
+        "H04",
+        "H10",
+        "H11"
+      ],
+      "localPaths": [
+        "scripts/database/bootstrap.ts",
+        "packages/config/src/database-roles.ts"
+      ],
+      "scopedRoles": 19,
+      "required": "Investigate exact ownership, default ACL, admin-membership, replay and restore contract; do not weaken checks"
+    },
+    {
+      "id": "advancedNamesAndGrowth",
+      "status": "documented name-alphabet mismatch and nonautomatic growth path",
+      "sourceIds": [
+        "H02",
+        "H03",
+        "H12"
+      ],
+      "localPaths": [
+        "packages/config/src/database-roles.ts"
+      ],
+      "required": "No implicit edition switch, renamed roles, added CREATEDB or assumed in-place migration"
+    },
+    {
+      "id": "capacityAndRecovery",
+      "status": "catalog screen only; actual evidence pending",
+      "sourceIds": [
+        "H04",
+        "H06",
+        "H14"
+      ],
+      "localPaths": [
+        "docs/implementation/P1-PR-027-local-observation-preflight.md"
+      ],
+      "required": "Full process/pool budget, separate restore, independent copies/journal/keys and actual recovery evidence"
+    },
+    {
+      "id": "privateAccessAndEffects",
+      "status": "unresolved",
+      "sourceIds": [
+        "H01",
+        "H07",
+        "H13"
+      ],
+      "localPaths": [
+        "docs/operations/staging-operator-responsibilities.md"
+      ],
+      "required": "Private network plus verified TLS, denied public paths, residency map and explicit future notification authority"
+    },
+    {
+      "id": "awsAlternative",
+      "status": "unquoted; no compatibility accepted",
+      "sourceIds": [
+        "H15",
+        "H16"
+      ],
+      "localPaths": [],
+      "required": "Own topology, administration/restore contract and full quote"
+    }
+  ],
+  "recommendedNextWork": {
+    "name": "local restricted-admin bootstrap and replay contract investigation",
+    "status": "proposed only; not implemented",
+    "disposableLocalOnly": true,
+    "providerAccessAuthorized": false,
+    "runtimeChangesAuthorized": false,
+    "requiredEvidence": [
+      "ordinary role-creator membership reproduction",
+      "exact app/CMS ownership and role replay contract",
+      "restricted privilege refusals",
+      "separate proposal before any implementation or guard change"
+    ]
+  }
+}
