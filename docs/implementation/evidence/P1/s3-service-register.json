@@ -402,7 +402,14 @@
         "docs/implementation/P1-PR-027-host-database-review.md",
         "docs/implementation/evidence/P1/p1-pr-027-host-database-review.json",
         "docs/implementation/evidence/P1/p1-pr-027-host-database-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md",
+        "docs/implementation/P1-PR-027-restricted-admin-investigation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-validation.md",
+        "tests/database/restricted-admin.test.ts",
+        "tests/fixtures/restricted-admin/database.ts",
+        "scripts/verify/restricted-admin.mjs"
       ]
     }
   ],

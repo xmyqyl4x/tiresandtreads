@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-29T06:41:20.279483Z",
+  "checkedLocalDate": "2026-10-28",
+  "timeZone": "America/Los_Angeles",
+  "scope": "Official PostgreSQL 18 documentation only; public reads, no provider account/API or supplier contact",
+  "sources": [
+    {
+      "id": "R01",
+      "title": "Role attributes",
+      "url": "https://www.postgresql.org/docs/18/role-attributes.html",
+      "observation": "Distinguishes role creation, automatic creator ADMIN membership, SET and inheritance; only privileged grantor can remove automatic grant."
+    },
+    {
+      "id": "R02",
+      "title": "ALTER DATABASE",
+      "url": "https://www.postgresql.org/docs/18/sql-alterdatabase.html",
+      "observation": "Non-superuser ownership transfer requires CREATEDB and ability to SET ROLE to the target owner."
+    },
+    {
+      "id": "R03",
+      "title": "ALTER ROLE",
+      "url": "https://www.postgresql.org/docs/18/sql-alterrole.html",
+      "observation": "Role administration and role-specific session settings have distinct privilege conditions."
+    },
+    {
+      "id": "R04",
+      "title": "REVOKE",
+      "url": "https://www.postgresql.org/docs/18/sql-revoke.html",
+      "observation": "Grantor/ADMIN authority controls membership revocation; a revoke command alone is not evidence membership disappeared."
+    },
+    {
+      "id": "R05",
+      "title": "GRANT",
+      "url": "https://www.postgresql.org/docs/18/sql-grant.html",
+      "observation": "SET, INHERIT and ADMIN membership options represent separate capabilities."
+    },
+    {
+      "id": "R06",
+      "title": "ALTER DEFAULT PRIVILEGES",
+      "url": "https://www.postgresql.org/docs/18/sql-alterdefaultprivileges.html",
+      "observation": "Defaults apply to future objects under the creating role; actual session authority is material."
+    },
+    {
+      "id": "R07",
+      "title": "ACL information functions",
+      "url": "https://www.postgresql.org/docs/18/functions-info.html",
+      "observation": "aclexplode exposes individual privileges, grantee, grantor and grantability; acldefault handles null ACL semantics."
+    }
+  ]
+}

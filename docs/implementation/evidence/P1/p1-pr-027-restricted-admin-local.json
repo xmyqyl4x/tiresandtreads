@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-29T06:41:20.279483Z",
+  "baselineMerge": "ad9c55a007b945aee7bdca94b7da3ddc23502e62",
+  "scope": "Restricted-admin bootstrap/replay investigation in disposable local PostgreSQL only",
+  "parent": "P1-PR-027",
+  "status": "local technical investigation passed; review requested, no hosted acceptance",
+  "authority": {
+    "localInvestigationRequested": true,
+    "provisioning": false,
+    "purchases": false,
+    "notifications": false,
+    "providerAuthentication": false,
+    "accountCreation": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "productionBootstrapChange": false,
+    "productApiImplementation": false,
+    "gateAcceptanceRequested": false
+  },
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualSelections": {
+    "provider": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "operator": null,
+    "backupOperator": null,
+    "hourlyRateCents": null,
+    "budgetCents": null,
+    "actualApprover": null
+  },
+  "actualAcceptanceRecords": [],
+  "actualProviderTests": [],
+  "actualRecipientNotifications": 0,
+  "profile": {
+    "engine": "PostgreSQL 18.6",
+    "serverVersionNum": 180006,
+    "image": "postgres:18.6-bookworm@sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c",
+    "role": "restricted_probe_admin (synthetic, not a human operator)",
+    "superuser": false,
+    "createdb": true,
+    "createrole": true,
+    "inherit": false,
+    "replication": false,
+    "bypassrls": false,
+    "databaseTargets": "new tt_app_restricted_probe / tt_cms_restricted_probe inside random isolated project; never retained/native"
+  },
+  "diagnostic": {
+    "project": "tt-test-cb2cb5ff66ad9909",
+    "kind": "final focused working-tree diagnostic; final committed verification remains separate",
+    "testsPassed": 13,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "vitestDurationSeconds": 6.51,
+    "command": "pnpm verify:restricted-admin",
+    "cleanup": "generated project and volumes removed and checked; environment file removed",
+    "argumentRefusal": "stage/target arguments fail before environment creation"
+  },
+  "scenarioGroups": [
+    {
+      "id": "profileAndEscalation",
+      "cases": 1,
+      "result": "restricted identity/version verified; SET ROLE local_harness and elevated role creation denied with 42501"
+    },
+    {
+      "id": "automaticGrant",
+      "cases": 1,
+      "result": "ADMIN true, INHERIT false, SET false; grantor local_harness; creator revoke leaves grant; SET ROLE denied"
+    },
+    {
+      "id": "adminOwnedDatabases",
+      "cases": 2,
+      "result": "exact bootstrap owner refusal on app and CMS; no role or ACL changes"
+    },
+    {
+      "id": "freshBootstrapRollback",
+      "cases": 2,
+      "result": "42501 on app and CMS; created roles rolled back and snapshots unchanged"
+    },
+    {
+      "id": "precreatedMembershipReplay",
+      "cases": 2,
+      "result": "19 roles and automatic memberships; unchanged bootstrap rejects app/CMS membership state"
+    },
+    {
+      "id": "actualRoleForDefaultAcl",
+      "cases": 1,
+      "result": "SET grant enables owner transfer; defaults remain denied until actual SET ROLE; memberships persist"
+    },
+    {
+      "id": "privilegedControl",
+      "cases": 1,
+      "result": "local fixture superuser removes grants; 19 clean roles and repeat bootstrap succeed; CONNECT change detected; ordinary admin replay still denied after explicit CONNECT"
+    },
+    {
+      "id": "ownerIsNotRoleAdministrator",
+      "cases": 2,
+      "result": "restricted app/CMS owners cannot replay administration of other roles; 42501 without snapshot changes"
+    },
+    {
+      "id": "runtimeDenials",
+      "cases": 1,
+      "result": "function/type defaults, row policy, DDL/owner assumption and cross-DB denials preserved after privileged replay"
+    }
+  ],
+  "evidenceFlags": {
+    "ordinaryCreatorBootstrapAccepted": false,
+    "automaticMembershipReplayRefused": true,
+    "privilegedControlReplay": true,
+    "projectRoles": 19,
+    "projectMembershipsAfterPrivilegedControl": 0,
+    "runtimeElevated": false,
+    "hostedAccepted": false,
+    "productActivation": false
+  },
+  "comparison": "Canonical sorted database/schema/default ACL privileges preserve grantor/grantee/grantability and empty default rows; actual CONNECT difference detected; flags and both membership directions compared",
+  "unchangedSourcePins": [
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "sha256": "1c14f0efcf9848b1a8f6dc804391e3d9a77b263daf6b9b26e1511fb161b604e4"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "sha256": "547606c2ff107469174fd671b3a64f18101051313068d7a1887f4e00c90b7af4"
+    },
+    {
+      "path": "packages/config/src/database-roles.ts",
+      "sha256": "c84931f45224590fc54ef1433cbdb39df178ef442aa79cd6d3365130c9030b06"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "sha256": "973f5e26b84ef86196f4d463690a056227a0cfe197115d2addb1a3ae9ba93ecb"
+    },
+    {
+      "path": "infra/local/versions.json",
+      "sha256": "8b741caeb475872268f64117944c9585c7c86ca6525306828f24914f1ba0281e"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "1383ff6c1dff614074a7d062046e3ec37a5eab099b91c01e9d6412f7b0cf143c"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "f3229da909acacdafb435c2f0b8b39e34fc732c009a8f5f066ac5e270b165621"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f"
+    }
+  ],
+  "limitations": [
+    "Ordinary PostgreSQL profile only; no DigitalOcean/RDS role/API contract tested",
+    "Privileged local control is not a managed-service implementation or self-operated-host selection",
+    "No real provider, TLS/network/residency/custody acceptance or RPO/RTO measurement",
+    "No fixture superuser or generated secret is used by application runtime",
+    "No production bootstrap policy, migration, dependency, connection budget or hosted adapter change"
+  ],
+  "nextProposal": {
+    "name": "bootstrap/provisioning lifecycle contract design review",
+    "status": "proposed only; not implemented",
+    "focus": [
+      "authority for role/database creation and grant removal",
+      "read-only invariant validation and owner-scoped migration/recovery handoff",
+      "provider-supported capabilities versus ordinary SQL",
+      "credential custody and adverse tests before implementation"
+    ],
+    "automaticAuthorization": false
+  },
+  "initialFocusedDiagnostic": {
+    "project": "tt-test-034ab73cf41ce993",
+    "kind": "working-tree focused diagnostic, not final committed verification",
+    "testsPassed": 13,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "vitestDurationSeconds": 14.58,
+    "command": "pnpm verify:restricted-admin",
+    "cleanup": "generated project and volumes removed and checked; environment file removed",
+    "argumentRefusal": "stage/target arguments fail before environment creation"
+  },
+  "updatedAt": "2026-10-29T06:45:41.530539Z"
+}
