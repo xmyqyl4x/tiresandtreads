@@ -520,6 +520,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [HS01/HS02 review](../implementation/P1-PR-027-host-database-review.md) follows owner-approved PR #41 (`e37617ca`) definitions only; all HS decisions remain proposed, operators/rates unconfirmed and all six actual gates open. No provisioning/purchases/notifications; specialist/licensed work pending and APIs held.
 
+[Restricted-admin local investigation](../implementation/P1-PR-027-restricted-admin-investigation.md) follows owner-approved PR #42 (`ad9c55a0`) analysis only; 13 local scenarios, unchanged production bootstrap policy. All HS/operator/rate/S3/specialist/licensed/API holds remain; no provisioning/purchases/notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

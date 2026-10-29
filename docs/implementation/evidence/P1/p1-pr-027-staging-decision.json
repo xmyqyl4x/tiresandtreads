@@ -424,5 +424,24 @@
       "validation": "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md",
       "baseline": "Owner-approved PR #41 merged; HS04/HS05 definitions accepted only, all actual selections/assignments/rates remain unconfirmed"
     }
+  ],
+  "localInvestigations": [
+    {
+      "name": "restricted-admin bootstrap/replay",
+      "status": "local technical proof in review; no hosted acceptance",
+      "baselineMerge": "ad9c55a007b945aee7bdca94b7da3ddc23502e62",
+      "evidence": [
+        "docs/implementation/P1-PR-027-restricted-admin-investigation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-validation.md",
+        "tests/database/restricted-admin.test.ts",
+        "tests/fixtures/restricted-admin/database.ts",
+        "scripts/verify/restricted-admin.mjs"
+      ],
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
