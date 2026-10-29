@@ -434,7 +434,17 @@
         "tests/fixtures/lifecycle-pair/run.mjs",
         "tests/unit/lifecycle-pair.test.ts",
         "tests/usecases/lifecycle-pair.test.ts",
-        "tests/database/lifecycle-pair.test.ts"
+        "tests/database/lifecycle-pair.test.ts",
+        "docs/implementation/P1-PR-027-interrupted-executor-cold-restart-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-validation.md",
+        "tests/fixtures/lifecycle-restart/protocol.ts",
+        "tests/fixtures/lifecycle-restart/parent.ts",
+        "tests/fixtures/lifecycle-restart/executor.ts",
+        "tests/fixtures/lifecycle-restart/run.mjs",
+        "tests/unit/lifecycle-restart.test.ts",
+        "tests/database/lifecycle-restart.test.ts"
       ]
     }
   ],

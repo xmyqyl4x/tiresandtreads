@@ -528,6 +528,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Disposable paired validation and receipt/handoff proof](../implementation/P1-PR-027-paired-lifecycle-handoff-proof.md) follows approved PR #45 (`25b06379`) local phase-aware proof only. 56 new local cases; seven new code files under tests; exact pairs, fresh reads, replay/partial/drift refusal and real one-sided migration commits. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
 
+[Disposable interrupted-executor and cold-restart proof](../implementation/P1-PR-027-interrupted-executor-cold-restart-proof.md) follows approved PR #46 (`b7e15907`) local paired proof only: 50 new local cases, 15 real SIGKILL checkpoints, fresh both-DB evidence after restart, orphan/resume and drift controls. Six new code files under tests; production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
