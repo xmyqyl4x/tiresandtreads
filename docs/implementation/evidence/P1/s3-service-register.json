@@ -393,7 +393,12 @@
         "docs/implementation/P1-PR-027-local-evidence-handoff.md",
         "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
         "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
-        "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md",
+        "docs/implementation/P1-PR-027-staging-operations-budget.md",
+        "docs/operations/staging-operator-responsibilities.md",
+        "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
+        "docs/implementation/evidence/P1/p1-pr-027-operations-budget-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md"
       ]
     }
   ],

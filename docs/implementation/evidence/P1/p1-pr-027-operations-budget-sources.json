@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-29T00:25:23.466120Z",
+  "scope": "Public official pages only; no account access, supplier contact, quote request, signup, credentials or hosted test",
+  "recheck": "Before candidate/edition/region/quantity/usage changes and immediately before any authorized purchase; listed prices are not checkout quotes",
+  "sources": [
+    {
+      "id": "OB01",
+      "title": "DigitalOcean Basic Regular Droplets",
+      "url": "https://www.digitalocean.com/pricing/droplets",
+      "observation": "Listed 4 GiB / 2 vCPU / 80 GiB USD 24 monthly cap; 8 GiB USD 48; hourly USD 0.03571 / 0.07143. Regional/account eligibility unverified."
+    },
+    {
+      "id": "OB02",
+      "title": "DigitalOcean Standard PostgreSQL",
+      "url": "https://www.digitalocean.com/pricing/managed-databases",
+      "observation": "Listed minimum 4 GiB / 2 vCPU / 60 GiB USD 60.90/month, USD 0.09063/hour; extra storage/edition/nodes require separate quote."
+    },
+    {
+      "id": "OB03",
+      "title": "DigitalOcean backup pricing",
+      "url": "https://docs.digitalocean.com/products/backups/details/pricing/",
+      "observation": "Basic daily Droplet backups add 30 percent; distinct from independent DB/journal recovery."
+    },
+    {
+      "id": "OB04",
+      "title": "DigitalOcean registry pricing",
+      "url": "https://www.digitalocean.com/pricing/container-registry",
+      "observation": "Basic USD 5/month includes 5 GiB; Professional USD 20 includes 100 GiB; check retained release image size."
+    },
+    {
+      "id": "OB05",
+      "title": "Inngest pricing and execution metering",
+      "url": "https://www.inngest.com/pricing",
+      "observation": "Pro starts USD 99/month with 1 million executions; Free includes 50000. Function runs and their steps are metered; account eligibility/add-ons unverified."
+    },
+    {
+      "id": "OB06",
+      "title": "Tailscale commercial access pricing",
+      "url": "https://tailscale.com/pricing",
+      "observation": "Standard lists USD 8/user/month; Personal is noncommercial. Two seats are a sizing assumption; billing term/features need confirmation."
+    },
+    {
+      "id": "OB07",
+      "title": "AWS KMS pricing",
+      "url": "https://aws.amazon.com/kms/pricing/",
+      "observation": "Customer-managed key USD 1/month; first two rotations add storage charges; requests and additional services billed separately. Model takes no free-tier credits."
+    },
+    {
+      "id": "OB08",
+      "title": "AWS S3 pricing dimensions",
+      "url": "https://aws.amazon.com/s3/pricing/",
+      "observation": "Model uses unquoted allowances for bytes including versions, requests, storage classes, replication, retrieval and transfer; no selected-region per-unit quote."
+    },
+    {
+      "id": "OB09",
+      "title": "GitHub Actions billing",
+      "url": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "observation": "Runner, artifact/cache/image storage and account allowances must be reconciled; no account allowance or credit assumed."
+    },
+    {
+      "id": "OB10",
+      "title": "Resend pricing",
+      "url": "https://resend.com/pricing",
+      "observation": "No-send scope has no ESP subscription or external sends; later provider acceptance/sending requires separate tier/usage quote, domain review and authorization."
+    },
+    {
+      "id": "OB11",
+      "title": "DigitalOcean PostgreSQL limits",
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/limits/",
+      "observation": "Standard new-cluster growth/node restrictions and restricted administrator powers remain compatibility conditions, not accepted hosting."
+    }
+  ]
+}

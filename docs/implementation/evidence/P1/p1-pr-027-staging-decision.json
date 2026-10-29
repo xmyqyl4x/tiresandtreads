@@ -71,22 +71,24 @@
     {
       "id": "HS04",
       "subject": "Budget ceiling",
-      "proposal": "Proposed USD 175/month; actual quotes, tax/labor and temporary resource allowance unresolved",
+      "proposal": "Review expanded model: proposed USD 350/month recurring infrastructure plus separate USD 100/event and month temporary envelope; actual labor/tax/support/local/setup costs unresolved; historical USD 175 model insufficient; no budget approved",
       "status": "proposed",
       "approvedValue": null,
       "trigger": "DD04",
       "accountableRole": "Repository owner",
-      "actualApprover": null
+      "actualApprover": null,
+      "proposalDetail": "docs/implementation/P1-PR-027-staging-operations-budget.md"
     },
     {
       "id": "HS05",
       "subject": "Actual operations ownership",
-      "proposal": "Name primary/backup, DB/restore owner, alert destination and maintenance/escalation coverage",
+      "proposal": "Define primary/backup, DB/recovery, key/security, privacy/release and budget responsibilities; actual people, accepted coverage, rates and destinations remain unconfirmed",
       "status": "proposed",
       "approvedValue": null,
       "trigger": "DD05",
       "accountableRole": "Owner and actual operators",
-      "actualApprover": null
+      "actualApprover": null,
+      "proposalDetail": "docs/implementation/P1-PR-027-staging-operations-budget.md"
     },
     {
       "id": "HS06",
@@ -385,7 +387,7 @@
     },
     {
       "id": "SP08",
-      "status": "local-only evidence reconciliation in review; actual acceptance pending",
+      "status": "local-only evidence reconciliation accepted in merged PR #40; actual acceptance pending",
       "scope": "Scoped evidence handoff and acceptance",
       "localEvidence": [
         "docs/implementation/P1-PR-027-local-evidence-handoff.md",
@@ -393,6 +395,20 @@
         "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
         "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md"
       ]
+    }
+  ],
+  "supportingProposals": [
+    {
+      "ids": [
+        "HS04",
+        "HS05"
+      ],
+      "status": "proposed; review requested",
+      "model": "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
+      "operators": "docs/operations/staging-operator-responsibilities.md",
+      "sources": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-sources.json",
+      "validation": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md",
+      "originalCostModel": "Historical October 27 model preserved; expanded proposal is current review detail, no approved values"
     }
   ]
 }

@@ -10,6 +10,8 @@ overrides:
   # Temporary transitive security pins; re-evaluate with the next Payload update.
   'monaco-editor>dompurify': 3.4.17
   '@esbuild-kit/core-utils>esbuild': 0.25.12
+  # GHSA-x8rm-f576-gq67: use the reviewed fixed release without suppressing audit.
+  '@payloadcms/graphql>graphql-scalars': 2.0.1
 minimumReleaseAge: 1440
 # Reviewed framework patch published today; exact version is locked and tested.
 minimumReleaseAgeExclude:
