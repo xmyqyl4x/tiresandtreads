@@ -123,7 +123,7 @@ Payload 3.92.0 requires Node 24.22.1+ on the Node 24 line and permits Next 16.4.
 
 Payload 3.92's migration generator emits value imports for `MigrateUpArgs`/`MigrateDownArgs`; strict `verbatimModuleSyntax` requires `import type`. The proof normalizes the exact generated fixture header, then executes the actual migration runner. P1-PR-004 commits the reviewed initial migration with explicit type imports, its generated snapshot and narrow grants. No production migration should be generated at runtime.
 
-Scoped dependency overrides pin Vite's esbuild peer, the older Drizzle tooling's esbuild and Monaco's DOMPurify to tested compatible/patched versions. Their first unmodified resolution failed peer/audit checks; the resolved lockfile passes. Re-evaluate the overrides with the next Payload update. Test-only role/identity fixtures are blocked from application/package imports and are absent from exposed host routes. Keep versions pinned and update them through a tested PR.
+Scoped dependency overrides pin Vite's esbuild peer, the older Drizzle tooling's esbuild, Monaco's DOMPurify and Payload GraphQL's graphql-scalars (2.0.1 for GHSA-x8rm-f576-gq67) to tested compatible/patched versions. Their first unmodified resolution failed peer/audit checks; the resolved lockfile passes. Re-evaluate the overrides with the next Payload update. Test-only role/identity fixtures are blocked from application/package imports and are absent from exposed host routes. Keep versions pinned and update them through a tested PR.
 
 ## P1-PR-010 catalog repository upgrade
 
