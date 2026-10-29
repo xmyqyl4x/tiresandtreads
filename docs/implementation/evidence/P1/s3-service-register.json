@@ -413,7 +413,17 @@
         "docs/implementation/P1-PR-027-bootstrap-lifecycle-contract.md",
         "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
         "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-validation.md",
+        "docs/implementation/P1-PR-027-lifecycle-validation-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-validation.md",
+        "tests/unit/lifecycle-validation.test.ts",
+        "tests/database/lifecycle-validation.test.ts",
+        "tests/fixtures/lifecycle-validation/reader.ts",
+        "tests/fixtures/lifecycle-validation/database.ts",
+        "tests/fixtures/lifecycle-validation/migrate.ts",
+        "tests/fixtures/lifecycle-validation/run.mjs"
       ]
     }
   ],

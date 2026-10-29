@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-29T19:19:21.443116Z",
+  "baselineMerge": "d407a86c2f3763ef68a9c9295889d5b5a84b4b2a",
+  "parent": "P1-PR-027",
+  "scope": "Phase-aware read-only validation prototype in disposable test support only",
+  "status": "local technical proof in review; no production or hosted acceptance",
+  "authority": {
+    "disposableValidationProofRequested": true,
+    "productionBootstrapChange": false,
+    "productionCliChange": false,
+    "productionPreflightChange": false,
+    "productionPolicyChange": false,
+    "providerAdapterImplementation": false,
+    "provisioning": false,
+    "purchases": false,
+    "notifications": false,
+    "providerAuthentication": false,
+    "accountCreation": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "gateAcceptanceRequested": false,
+    "productApiImplementation": false,
+    "frontendImplementation": false
+  },
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualSelections": {
+    "provider": null,
+    "edition": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "primaryOperator": null,
+    "backupOperator": null,
+    "databaseOwner": null,
+    "keyCustodian": null,
+    "reviewer": null,
+    "coverageWindow": null,
+    "hourlyRateCents": null,
+    "budgetCents": null,
+    "custodyLocation": null,
+    "actualApprover": null
+  },
+  "actualAcceptanceRecords": [],
+  "actualProviderTests": [],
+  "actualRecipientNotifications": 0,
+  "implementedFiles": [
+    "tests/unit/lifecycle-validation.test.ts",
+    "tests/database/lifecycle-validation.test.ts",
+    "tests/fixtures/lifecycle-validation/reader.ts",
+    "tests/fixtures/lifecycle-validation/database.ts",
+    "tests/fixtures/lifecycle-validation/migrate.ts",
+    "tests/fixtures/lifecycle-validation/run.mjs"
+  ],
+  "profiles": [
+    {
+      "name": "foundation",
+      "fixture": "fresh privileged local bootstrap; future application/history objects absent",
+      "history": {
+        "app": 0,
+        "cms": 0
+      },
+      "runtimeConnect": "allowed in own DB; peer denied"
+    },
+    {
+      "name": "migrated",
+      "fixture": "33 real app and 3 real CMS repository migrations under matching owners",
+      "history": {
+        "app": 33,
+        "cms": 3
+      },
+      "runtimeConnect": "allowed in own DB; peer denied"
+    },
+    {
+      "name": "quarantined-recovery",
+      "fixture": "synthetically prepared migrated catalog plus runtime CONNECT revoked; not a new restore",
+      "history": {
+        "app": 33,
+        "cms": 3
+      },
+      "runtimeRolesDenied": 17,
+      "actualArchiveRestore": false,
+      "actualJournalReplay": false,
+      "promotionAllowed": false
+    }
+  ],
+  "diagnostic": {
+    "kind": "focused working-tree preparation diagnostic; not final committed evidence",
+    "project": "tt-test-657d57ed950adf4d",
+    "command": "node tests/fixtures/lifecycle-validation/run.mjs",
+    "testsPassed": 62,
+    "unitCases": 22,
+    "databaseCases": 40,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "vitestDurationSeconds": 21.32,
+    "cleanup": "generated project/volumes removed and exact-label removal asserted; generated env removed"
+  },
+  "initialDiagnostic": {
+    "testsPassed": 56,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "kind": "first implemented diagnostic, before additional controls"
+  },
+  "refinedControlDiagnostic": {
+    "testsPassed": 60,
+    "testsFailed": 1,
+    "total": 61,
+    "result": "Raw ACL ordering was unchanged because the chosen role had already moved; corrected control uses an untouched role and retains actual-difference assertion"
+  },
+  "evidenceFlags": {
+    "projectRoles": 19,
+    "projectMemberships": 0,
+    "profileCount": 3,
+    "readOnly": true,
+    "verifiedLocalTls": true,
+    "writesDeniedSqlstate": "25006",
+    "timeoutSqlstate": "57014",
+    "preexistingResourcesRefused": true,
+    "actualAclArrayDifference": true,
+    "semanticAclEquality": true,
+    "quarantinedRuntimeRolesDenied": 17,
+    "runtimeElevated": false,
+    "productionPolicyChanged": false,
+    "hostedAccepted": false,
+    "productActivation": false
+  },
+  "queryBoundary": {
+    "inputFields": [
+      "mode",
+      "phase",
+      "target",
+      "url",
+      "ca"
+    ],
+    "arbitrarySqlInput": false,
+    "callerExpectedStateInput": false,
+    "repairMode": false,
+    "statementTimeoutMs": 1000,
+    "lockTimeoutMs": 250,
+    "idleTransactionTimeoutMs": 1000,
+    "transactionTimeoutMs": 5000,
+    "isolation": "repeatable read",
+    "sessionClosedOnSuccessOrFailure": true
+  },
+  "snapshotCoverage": [
+    "role flags",
+    "both membership directions/options/grantors",
+    "role/database GUCs",
+    "DB ownership and canonical ACLs",
+    "user schemas/relations/sequences/columns/views/constraints/indexes/triggers",
+    "routines/definer definitions and type owners",
+    "RLS policy definitions",
+    "default ACLs including empty rows",
+    "checksum history including original timestamps and CMS native ledger"
+  ],
+  "designCaseCoverage": [
+    {
+      "id": "BLC-T01",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Strict five-field request, phase/target/owner/URI/disposable guards; no caller SQL/repair/baseline fields"
+    },
+    {
+      "id": "BLC-T02",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Project/source manifest binding only; operation/release/credential-generation receipts pending"
+    },
+    {
+      "id": "BLC-T03",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Masked fixed reports and real TLS/SQL failure output; custody/retention/signing not implemented"
+    },
+    {
+      "id": "BLC-T04",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Foundation/migrated/quarantined per-DB catalog profiles without metadata creation"
+    },
+    {
+      "id": "BLC-T05",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Real 25006 write refusal, timeout/SQL-error closure and durable-state comparisons; not exhaustive transport failures"
+    },
+    {
+      "id": "BLC-T06",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "CA/hostname and connection re-admission failures; exact local version enforced, no alternate engine/patch proof"
+    },
+    {
+      "id": "BLC-T07",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "All 19 role flags, missing role, both membership directions/options and durable GUC drift; provider-specific administration pending"
+    },
+    {
+      "id": "BLC-T08",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Real raw ACL reordering with semantic equality plus real grant/default defects; every grantor/option corruption not independently exercised"
+    },
+    {
+      "id": "BLC-T09",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Sampled table owner/ACL/RLS/constraint changes against full controlled-fixture catalog digests; not every object-kind defect"
+    },
+    {
+      "id": "BLC-T10",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Effective peer/admission privilege defects and 17 actual quarantined runtime login denials; new row-filter/owner-assumption probes outside scope"
+    },
+    {
+      "id": "BLC-T11",
+      "status": "no new implementation credited",
+      "evidenceOrGap": "Accepted 13-case restricted-admin investigation retained, no new provider compatibility credited"
+    },
+    {
+      "id": "BLC-T12",
+      "status": "no new implementation credited",
+      "evidenceOrGap": "Not implemented: provisioning journal and unknown external setup outcomes"
+    },
+    {
+      "id": "BLC-T13",
+      "status": "no new implementation credited",
+      "evidenceOrGap": "Not implemented: cluster-wide lifecycle operation serialization"
+    },
+    {
+      "id": "BLC-T14",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Actual 33 app/3 CMS setup migrations and adverse ordered checksum/native history inspection; no new release executor"
+    },
+    {
+      "id": "BLC-T15",
+      "status": "no new implementation credited",
+      "evidenceOrGap": "Not implemented: paired partial-release handoff"
+    },
+    {
+      "id": "BLC-T16",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Project/source/settings admission only; stale post-validation receipts and fresh serialized handoff pending"
+    },
+    {
+      "id": "BLC-T17",
+      "status": "no new implementation credited",
+      "evidenceOrGap": "Not implemented: credential rotation/offboarding"
+    },
+    {
+      "id": "BLC-T18",
+      "status": "no new implementation credited",
+      "evidenceOrGap": "Not implemented: new independent role reconstruction/archive restore"
+    },
+    {
+      "id": "BLC-T19",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Quarantined synthetic catalog shape and actual runtime denial only; new archive/current journal/promotion work pending"
+    },
+    {
+      "id": "BLC-T20",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "False hosted/activation flags and unchanged actual gates; no human/provider/staffing/funding acceptance"
+    },
+    {
+      "id": "BLC-T21",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "No-argument disposable runner, pre-existing-resource refusal, exact-label cleanup and env removal; not abrupt host-loss cleanup"
+    },
+    {
+      "id": "BLC-T22",
+      "status": "scoped local subset; no gate acceptance",
+      "evidenceOrGap": "Masked configuration/incompatible/unavailable results, no retry/repair/effect path; unknown real provider effects remain pending"
+    }
+  ],
+  "unchangedSourcePins": [
+    {
+      "path": "infra/local/01-databases.sql",
+      "sha256": "4eafe9596a7d0eecf397023fc8c260535d4326ee3e7710f59d22d0eaf4dcead2"
+    },
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "sha256": "1c14f0efcf9848b1a8f6dc804391e3d9a77b263daf6b9b26e1511fb161b604e4"
+    },
+    {
+      "path": "scripts/database/cli.ts",
+      "sha256": "f2d03455b647c1afcae952b7e62695ad532a1464c5ced997e3e618528c5ccc9b"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "sha256": "547606c2ff107469174fd671b3a64f18101051313068d7a1887f4e00c90b7af4"
+    },
+    {
+      "path": "scripts/database/cms.ts",
+      "sha256": "61b932275bac009e5e0a9abfce2d4a88e64ca05d69c68e28250b7ef7a9eb084a"
+    },
+    {
+      "path": "scripts/database/manifest.ts",
+      "sha256": "be29c23701e96d8c2708e63ba8ca9c4b0a51ebbea0d395c9590e1ff8652f337d"
+    },
+    {
+      "path": "scripts/database/inventory.ts",
+      "sha256": "a9ec8e1929c2fdfed581ce27a8c6c72e2dc6b9d88723b6aa22fd56c27b780d07"
+    },
+    {
+      "path": "scripts/database/recovery-artifact.ts",
+      "sha256": "78dd91626d165c28985fa4264863274ede64d41a871d6ae8ac75cb461e788f4f"
+    },
+    {
+      "path": "scripts/database/custody.ts",
+      "sha256": "83a17498c6f2bbb4da7a7f3edef404b911cd9b9fdf9b478131a10c9755d205ba"
+    },
+    {
+      "path": "packages/config/src/database-roles.ts",
+      "sha256": "c84931f45224590fc54ef1433cbdb39df178ef442aa79cd6d3365130c9030b06"
+    },
+    {
+      "path": "packages/config/src/database-preflight.ts",
+      "sha256": "3b9f59eddbea528252b6d0f348ca365cbe08dc9e4937f6f156dc3159ee35e1db"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "sha256": "973f5e26b84ef86196f4d463690a056227a0cfe197115d2addb1a3ae9ba93ecb"
+    },
+    {
+      "path": "scripts/verify/recovery.mjs",
+      "sha256": "90cc3e18c1097f92d5f4246c87ebcada49fa76196caf380f95c7e6cc1b1924d2"
+    },
+    {
+      "path": "tests/database/restricted-admin.test.ts",
+      "sha256": "132c007bec29b5bb099d71859cb6336613599de3ee03bc0fbcb37277a9356297"
+    },
+    {
+      "path": "tests/fixtures/restricted-admin/database.ts",
+      "sha256": "ce0d86667bef6eacf0647ce89b4361a1b090850ff80df6fc82d80fe82bea9dc4"
+    },
+    {
+      "path": "tests/recovery/recovery.test.ts",
+      "sha256": "04da183cc261e993e14b9fd11e6b6aced98f9441459e5258989b96713b0e5248"
+    },
+    {
+      "path": "tests/fixtures/recovery/prepare.ts",
+      "sha256": "bdb53425d75b9dee26cc6311a67f9be7363299cfa58e9e0cc21fd41c08592af1"
+    },
+    {
+      "path": "infra/local/versions.json",
+      "sha256": "8b741caeb475872268f64117944c9585c7c86ca6525306828f24914f1ba0281e"
+    },
+    {
+      "path": "infra/database/app/manifest.json",
+      "sha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+    },
+    {
+      "path": "infra/database/cms/manifest.json",
+      "sha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+    },
+    {
+      "path": "package.json",
+      "sha256": "17de3c4f8829c6aeabcf82ce3d74aaf232787edf8a5633def4a50e24c426fd3a"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "1383ff6c1dff614074a7d062046e3ec37a5eab099b91c01e9d6412f7b0cf143c"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "f3229da909acacdafb435c2f0b8b39e34fc732c009a8f5f066ac5e270b165621"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f"
+    },
+    {
+      "path": "tests/fixtures/foundation/target.ts",
+      "sha256": "4ed0eb6a9375af1979ecbf049cef8d6da673149b1502c7949563263dcc4a75cd"
+    },
+    {
+      "path": "scripts/verify/disposable-cleanup.mjs",
+      "sha256": "ae27534e8979ca62689a3c9903607188b987262effab2fbc927915b098e0e7fa"
+    },
+    {
+      "path": "scripts/verify/local.mjs",
+      "sha256": "a923cea5ed6a5500e445c3b5e3562464ab53e6e3cde6495dccf3ab3ccf3ffc79"
+    },
+    {
+      "path": "scripts/verify/push.mjs",
+      "sha256": "e3ef78a13f412c1d5ee83ec4e0b3d7e78aac74ff69a7abae3d4542302335fca9"
+    },
+    {
+      "path": "scripts/dev/plan.mjs",
+      "sha256": "fc933f425f0549b42d05976ed1db97f6eb5f7a3d0fc5ce33b48010eb25aa2780"
+    },
+    {
+      "path": "scripts/verify/restricted-admin.mjs",
+      "sha256": "eef310c0097ad6f7e230ab0b4338cfb2f8755fabaa05456aa09ce5bf2105e84f"
+    }
+  ],
+  "proofSourcePins": [
+    {
+      "path": "tests/unit/lifecycle-validation.test.ts",
+      "sha256": "673ea0784ed31d25963814af21ba7fc4d0e54acb4d625c083ffed7e56192caa8"
+    },
+    {
+      "path": "tests/database/lifecycle-validation.test.ts",
+      "sha256": "2a1455ee1ecd8d01c53d0440d86d284e8d4f253791add179feb6d505505404a2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/reader.ts",
+      "sha256": "21e1f79ae575588d76e981ef8d8d21fb56d0e5f00679ee2f5f84a20ffa5ef5e6"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/database.ts",
+      "sha256": "dd559a232c0f0e626bff4bc30e6daf2f922ef177c3d35644ed6965ad8b2fe06d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/migrate.ts",
+      "sha256": "89ba5cceb5a7589c4ab741295bb0cf371a8fef4d162958866df134f278038116"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/run.mjs",
+      "sha256": "76b50b4747fba73109706c951f6cd4c485011115a780544ec8e38e981eca1c57"
+    }
+  ],
+  "sourceReferences": [
+    "V01",
+    "V02",
+    "V03",
+    "V04"
+  ],
+  "limitations": [
+    "Owner credential remains privileged; fixed read-only catalog inspection is not a general SQL sandbox",
+    "Trusted controlled-fixture baselines are not independently signed or provider-approved production expectations",
+    "Per-DB inspection is not an atomic paired snapshot, serialized release or bearer receipt",
+    "Quarantine shape is synthetic; no new archive restore/current journal/provider effects/promotion",
+    "No provisioning/rotation/hosted adapter or existing production inspector change",
+    "No actual HS/operator/coverage/rate/funding/custody/provider/source/specialist/privacy acceptance"
+  ],
+  "nextProposal": {
+    "name": "local-only paired-database validation and receipt/handoff proof",
+    "scope": "Disposable support only: bind both independent inspections to fixture/source/phase identities; reject partial/unavailable/stale pairs and require fresh revalidation; no activation authority",
+    "status": "proposed only; not implemented",
+    "automaticAuthorization": false
+  },
+  "updatedAt": "2026-10-29T19:21:37.081690Z"
+}

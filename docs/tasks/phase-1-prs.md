@@ -524,6 +524,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Bootstrap/provisioning lifecycle contract review](../implementation/P1-PR-027-bootstrap-lifecycle-contract.md) follows approved PR #43 (`f878e8fd`) local investigation only. Proposed separation of setup/validation/migrations/admission/rotation/recovery and 22 future test cases; no implementation or acceptance. All HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. No provisioning, purchases or notifications.
 
+[Phase-aware disposable lifecycle validation proof](../implementation/P1-PR-027-lifecycle-validation-proof.md) follows approved PR #44 (`d407a86c`) design analysis only; 62 new local cases and three profiles, all code in test support. Production bootstrap/CLI/preflight/policy unchanged; paired receipt/handoff is proposed next. All HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
