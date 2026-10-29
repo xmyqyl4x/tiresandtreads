@@ -1,0 +1,585 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-29T23:03:04.269630Z",
+  "baselineMerge": "a4221e631ac75e37c473dfccba0868b0aed2f6f4",
+  "parent": "P1-PR-027",
+  "scope": "Local-only lifecycle evidence reconciliation and remaining-gap review against original 22-case design",
+  "status": "review in progress; documentation only; no acceptance",
+  "authority": {
+    "reviewRequested": true,
+    "productionBootstrapChange": false,
+    "productionCliChange": false,
+    "productionPreflightChange": false,
+    "productionPolicyChange": false,
+    "providerAdapterImplementation": false,
+    "provisioning": false,
+    "purchases": false,
+    "notifications": false,
+    "providerAuthentication": false,
+    "accountCreation": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "gateAcceptanceRequested": false,
+    "productApiImplementation": false,
+    "frontendImplementation": false
+  },
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualSelections": {
+    "provider": null,
+    "edition": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "primaryOperator": null,
+    "backupOperator": null,
+    "databaseOwner": null,
+    "keyCustodian": null,
+    "reviewer": null,
+    "coverageWindow": null,
+    "hourlyRateCents": null,
+    "budgetCents": null,
+    "custodyLocation": null,
+    "actualApprover": null
+  },
+  "actualAcceptanceRecords": [],
+  "actualProviderTests": [],
+  "actualRecipientNotifications": 0,
+  "newImplementationFiles": [],
+  "newTestCases": 0,
+  "newlyClosedCases": 0,
+  "newlyClosedGates": 0,
+  "historicalProofs": [
+    {
+      "pr": 45,
+      "mergeCommit": "25b063798ed9ec1c1b188d3121915953af76578a",
+      "preparationEvidence": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-local.json",
+      "preparationCaseExecutions": 62,
+      "unitCases": 22,
+      "stateUseCases": 0,
+      "databaseProcessCases": 40,
+      "historicalCiRun": 40940979531,
+      "historicalCiJob": 123683985084,
+      "newExecutionInThisReview": false
+    },
+    {
+      "pr": 46,
+      "mergeCommit": "b7e159075cc3159aea2dfb061a1add42e25ca101",
+      "preparationEvidence": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-local.json",
+      "preparationCaseExecutions": 56,
+      "unitCases": 24,
+      "stateUseCases": 1,
+      "databaseProcessCases": 31,
+      "historicalCiRun": 40953292862,
+      "historicalCiJob": 123726760799,
+      "newExecutionInThisReview": false
+    },
+    {
+      "pr": 47,
+      "mergeCommit": "a4221e631ac75e37c473dfccba0868b0aed2f6f4",
+      "preparationEvidence": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-local.json",
+      "preparationCaseExecutions": 50,
+      "unitCases": 26,
+      "stateUseCases": 0,
+      "databaseProcessCases": 24,
+      "historicalCiRun": 40959176818,
+      "historicalCiJob": 123747124300,
+      "newExecutionInThisReview": false
+    }
+  ],
+  "counts": {
+    "originalDesignCases": 22,
+    "mappedCases": 22,
+    "fullLifecycleCasesAccepted": 0,
+    "distinctHistoricalPreparationCaseExecutions": 168,
+    "historicalUnitCases": 72,
+    "historicalStateUseCases": 1,
+    "historicalDatabaseProcessCases": 95,
+    "unchangedSourcePins": 49,
+    "frozenHistoricalEvidenceFiles": 101,
+    "SP08ReceiptPins": 23
+  },
+  "cases": [
+    {
+      "id": "BLC-T01",
+      "layer": "unit",
+      "requiredOutcome": "Exact target/profile admission rejects unknown fields and unsupported authority before connect",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Exact target/profile/schema rejects unknown keys, remote/retained targets, missing authority and wrong phase before opening a connection",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Exact five-field local target/phase admission and copied IPC plans reject expanded, foreign, redirected and unsafe input before connection/spawn.",
+      "sourceReferences": [
+        "LVU",
+        "IXPLAN"
+      ],
+      "remainingGap": "There is no admitted production/provider authority or full provisioning state-machine request. Retained/hosted targets remain refused; these unit controls do not supply that contract.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T02",
+      "layer": "unit",
+      "requiredOutcome": "State and receipt bindings reject stale/foreign/out-of-order handoffs",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "State machine rejects missing/stale/out-of-order steps and receipts for another operation/release/credential generation",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Local receipts are exact-bound, time-bounded, single-use live objects. Copies, cross-instance/operation/release/generation and stale evidence refuse; a new process rejects old JSON before reading.",
+      "sourceReferences": [
+        "PJU",
+        "PJREPLAY",
+        "PJAGE",
+        "IXKILL"
+      ],
+      "remainingGap": "No durable provisioning step journal, trusted receipt import, signer, real image/config attestation or cross-process continuation authority exists. Synthetic identity labels are not secret-generation verification.",
+      "gapGroup": "L3",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T03",
+      "layer": "unit",
+      "requiredOutcome": "Findings/receipts never serialize credentials or private data",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Structured findings and receipts exclude secret values, URIs, hashes of passwords and private row/journal bodies",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Allowlisted receipts/events exclude extra private fields; actual permission failures are masked. Bounded private IPC carries fixture secrets without exposing raw child output.",
+      "sourceReferences": [
+        "PJREDACT",
+        "IXSAFE",
+        "LVPERM"
+      ],
+      "remainingGap": "This is evidence for the inspected paths and schemas, not proof over every exception, telemetry sink, future journal payload or hosted log system. No real customer data was used.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T04",
+      "layer": "functional-db",
+      "requiredOutcome": "Phase-aware inspector distinguishes fresh/migrated/quarantined state without metadata creation",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Foundation versus migrated versus recovery profiles distinguish expected absent metadata from corruption; inspector never creates metadata",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "All three fixture profiles distinguish foundation from migrated and synthetic quarantined state. Fresh inspection leaves metadata absent and wrong-phase/history state refuses without repair.",
+      "sourceReferences": [
+        "LV04",
+        "LVHIST",
+        "LVCMS"
+      ],
+      "remainingGap": "Quarantined profile is a constructed migrated catalog with CONNECT revoked, not an archive restore in this prototype. Production preflight still requires migrated metadata.",
+      "gapGroup": "L3",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T05",
+      "layer": "functional-db",
+      "requiredOutcome": "Read-only bounded allowlisted inspection leaves complete catalog/GUC/history snapshots unchanged on every branch",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "All inspection branches use read-only bounded transactions and allowlisted queries; injected failures leave complete role/GUC/ownership/ACL/history snapshots unchanged",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Real SQL write attempts fail read-only, stalled reads time out and sessions close. Before/after scoped role/GUC/membership/catalog/history snapshots agree on tested success and adverse branches.",
+      "sourceReferences": [
+        "LVRO",
+        "LVBOUND",
+        "LVPERM",
+        "LVFIXTURE"
+      ],
+      "remainingGap": "Sampled fault branches and scoped snapshots do not establish every possible branch, transient change or future query. Owner credentials are constrained for inspection, not intrinsically least-privileged read-only accounts.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T06",
+      "layer": "functional-db",
+      "requiredOutcome": "TLS/version/identity/catalog visibility refusal has no admin/repair fallback",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Wrong CA/hostname/version/identity or inaccessible catalogs fail closed; no bootstrap/admin or unverified-TLS fallback",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Verified TLS rejects wrong CA/hostname; target/source binding refuses. Earlier preflight compares version/history expectations; actual SQL permission loss produces unavailable rather than clean evidence.",
+      "sourceReferences": [
+        "LVTLS",
+        "PREFVER",
+        "LVPERM"
+      ],
+      "remainingGap": "The older version control supplies a mismatching expected version; it does not run another server patch. No complete real catalog-visibility outage, provider certificate/identity change or alternate-engine acceptance was demonstrated.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T07",
+      "layer": "functional-db",
+      "requiredOutcome": "All 19 restrictive roles and zero incoming/outgoing memberships enforced",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Exact 19 role flags and both membership directions enforced; automatic creator grant, ADMIN-only, SET-only and provider-system membership are refused",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "All 19 restrictive role states and both membership directions are checked. Actual ADMIN-only incoming and separate outgoing grants refuse. Earlier creator/SET experiments and privileged cleanup/replay are preserved.",
+      "sourceReferences": [
+        "LV07",
+        "RAAUTO",
+        "RASET",
+        "RAPRIV"
+      ],
+      "remainingGap": "Not every role flag, standalone SET-only direction or provider-system membership is independently injected into the new reader. The old SET experiment is not the new reader refusing all such variants, nor a provider-system test.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T08",
+      "layer": "functional-db",
+      "requiredOutcome": "Canonical ACL/default and role-setting drift detection with real change control",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Canonical ACL comparison ignores ordering but catches added privilege/grantability/grantor changes, empty default rows and role-setting drift",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Actual ACL array reorder remains compatible; PUBLIC/default/role-GUC defects are retained and refused. Catalog comparison includes semantic grantee, grantor, grantability and default-row state.",
+      "sourceReferences": [
+        "LV08",
+        "LVACL",
+        "LVREADER"
+      ],
+      "remainingGap": "Comparator inclusion is not adverse execution. Independent grantor/grantability-only changes, empty-default-row semantics and global versus per-DB GUC variants lack a complete explicit fault matrix.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T09",
+      "layer": "functional-db",
+      "requiredOutcome": "Owners, definer/search path, RLS, constraints/indexes and object inventory validated",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Wrong DB/schema/routine/type/sequence owners, unexpected objects, dangerous definer/search path, RLS changes and invalid constraints/indexes are refused",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Frozen catalog baseline detects actual table-owner, table ACL, RLS and unvalidated-constraint changes; inventory records routine/sequence/type/schema and validity information. Earlier restore verifies whole local inventory parity. Earlier preflight separately demonstrates DB/schema/relation-owner drift refusal.",
+      "sourceReferences": [
+        "LVOBJ",
+        "LVREADER",
+        "RECINV",
+        "PREFOWNER"
+      ],
+      "remainingGap": "Do not call this exhaustive adverse coverage: routine/type/sequence owner mutations, unexpected-object classes, definer/search-path faults and invalid-index controls need explicit cases. DB/schema owner faults in the earlier preflight do not prove all three new reader profiles refuse them.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T10",
+      "layer": "functional-db",
+      "requiredOutcome": "Actual runtime assumption/DDL/cross-DB/RLS/default-access denials",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Real runtime sessions cannot assume owners, create schema, cross app/CMS boundaries or read filtered rows; defaults deny future public function/type access",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Actual restricted runtime sessions fail owner assumption, DDL and cross-DB access, see filtered RLS rows and lack future public function/type access. Synthetic quarantine denies all 17 runtime connections.",
+      "sourceReferences": [
+        "RARUNTIME",
+        "MIGOWNER",
+        "LVQ"
+      ],
+      "remainingGap": "The new owner reader alone cannot prove runtime behavior. Continuous runtime/service/effect fencing across a hosted release and every operational identity remains unproved.",
+      "gapGroup": "L3",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T11",
+      "layer": "functional-db",
+      "requiredOutcome": "Ordinary creator and privileged local control are not labeled provider acceptance",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Ordinary restricted creator cannot masquerade as provider privileged setup; privileged local control remains labeled local only",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Ordinary restricted creator leaves automatic memberships and cannot satisfy unchanged bootstrap/replay. A privileged local control can establish 19 clean scoped roles.",
+      "sourceReferences": [
+        "RAAUTO",
+        "RAPRIV"
+      ],
+      "remainingGap": "Only ordinary PostgreSQL 18.6/local harness authority was tested. No candidate managed provider is accepted or proven impossible, and no naming/role exception or fallback is selected.",
+      "gapGroup": "L4",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T12",
+      "layer": "usecase-db",
+      "requiredOutcome": "Interrupted/unknown provisioning quarantines and reconciles exact created resources",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Interrupted role/DB setup and unknown provider-call outcome stay quarantined; exact inventory reconciliation precedes safe resume, with no foreign-resource cleanup",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Actual read-only executor death/orphan exit releases its sessions/lock; durable catalog state stays unchanged and a fresh process requires new evidence.",
+      "sourceReferences": [
+        "IXKILL",
+        "IXORPHAN"
+      ],
+      "remainingGap": "The core requirement is interrupted role/DB provisioning and unknown provider-call outcome. No mutating executor, independent durable operation journal, created-resource reconciliation or safe provisioning resume exists. Validation-process restart is only an adjacent control.",
+      "gapGroup": "L2",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T13",
+      "layer": "usecase-db",
+      "requiredOutcome": "Cluster-wide lifecycle serialization plus bounded per-DB migration locking",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Competing lifecycle operations serialize cluster-wide; per-DB lock contention and timeout preserve bounded failure without concurrent role changes",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Competing participating read batches contend on a real app-DB advisory lock; lock loss refuses. Earlier per-DB app migration contention refuses and releases the lock.",
+      "sourceReferences": [
+        "PJLOCK",
+        "PJLOST",
+        "MIGLOCK"
+      ],
+      "remainingGap": "The read-window lock does not serialize cluster-wide role/DB changes or cover validation-to-handoff continuously. No common provisioning/migration/rotation/recovery executor, fencing or external-admin operating window is implemented.",
+      "gapGroup": "L2",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T14",
+      "layer": "functional-db",
+      "requiredOutcome": "Exact owner-only immutable migration replay and CMS ledger reconciliation",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "App and CMS migration execution uses only exact owners; zero-pending replay is inert; changed/gapped/extra histories and mismatched CMS ledgers refuse",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Earlier exact-owner migration/no-op/rollback tests and CMS checksum/native-ledger refusals remain valid local evidence. Reader refuses missing/changed/gapped/extra histories without ledger repair.",
+      "sourceReferences": [
+        "MIGREPLAY",
+        "MIGOWNER",
+        "MIGCMS",
+        "LVHIST"
+      ],
+      "remainingGap": "Zero-pending replay is migration behavior, not proof that existing CLI status is read-only. Release image/schema compatibility and provider owner authority remain outside the prototypes.",
+      "gapGroup": "L3",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T15",
+      "layer": "usecase-db",
+      "requiredOutcome": "Both directions of partial app/CMS success remain unreleased with truthful commits",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "App succeeds/CMS fails and the reverse leave both unreleased; observed committed migrations remain recorded; no false cross-DB rollback claim",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Both one-sided real migration success directions preserve committed app/CMS state, refuse the pair and never assert global rollback. Earlier DDL rollback and CMS publication recovery cover distinct local failure paths.",
+      "sourceReferences": [
+        "PJPART",
+        "MIGFAULT",
+        "RECCMS"
+      ],
+      "remainingGap": "No durable lifecycle journal/release executor decides which partial release may safely resume, nor accepts a real compatible release. Pair refusal does not undo earlier commits or itself keep running hosted workers fenced.",
+      "gapGroup": "L2",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T16",
+      "layer": "usecase",
+      "requiredOutcome": "Drift after validation invalidates handoff; fresh serialized inspection required",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Role/ACL/secret drift between validation and handoff invalidates receipt; fresh inspection and serialization stop admission",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Fresh both-DB reads at handoff detect actual ACL/password-change faults and invalidate evidence. Pending invalidation/closure and post-crash drift refuse; repaired state requires fresh evidence.",
+      "sourceReferences": [
+        "PJREAD",
+        "PJROT",
+        "IXDRIFT"
+      ],
+      "remainingGap": "Cooperative per-batch reads leave separate DB snapshots and a gap between batches. Arbitrary administrator changes and changes after inspection are not fenced; synthetic labels do not prove real rotation or continuous admission safety.",
+      "gapGroup": "L2",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T17",
+      "layer": "usecase-db",
+      "requiredOutcome": "Credential rotation handles new/old authentication, existing sessions and unknown outcomes",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Rotation rejects old authentication, admits new scoped authentication, accounts for existing sessions and uncertain completion without persisting memberships or leaking secrets",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "An actual owner password change causes pair reauthentication failure; restored local targets use fresh credentials and reject source passwords.",
+      "sourceReferences": [
+        "PJROT",
+        "RECCRED"
+      ],
+      "remainingGap": "No credential rotation/offboarding executor verifies old-auth refusal plus new-auth admission, drains/revokes existing sessions, records uncertain rotation outcomes or safely resumes. Password fault injection and restore credential separation do not satisfy this requirement.",
+      "gapGroup": "L2",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T18",
+      "layer": "usecase-db",
+      "requiredOutcome": "Independent restore rebuilds fresh credentials and rejects corrupt/wrong archives without globals import",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Independent restore uses fresh roles/secrets, rejects corrupt/wrong archives/manifests and verifies full ownership/ACL/history without cluster-secret import",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Earlier real local app/CMS archives restore into a separate cluster with fresh credentials; wrong/corrupt artifacts refuse. Full local inventories/fingerprints and encrypted custody admission are exercised.",
+      "sourceReferences": [
+        "RECARCH",
+        "RECINV",
+        "RECFAIL",
+        "RECCRED",
+        "CUSTODY"
+      ],
+      "remainingGap": "New lifecycle profile/pair/restart prototypes have not consumed those admitted restores. Independent off-host key/journal custody, source/primary-operator loss, provider restore authority, actual inventory and measured RPO/RTO/PITR are unaccepted.",
+      "gapGroup": "L3",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T19",
+      "layer": "usecase-db",
+      "requiredOutcome": "Continuous quarantine, current journal replay and CMS reconciliation precede promotion recommendation",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Runtime access/effects denied throughout restore; current signed journal replay and CMS reconciliation complete before any promotion recommendation",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Earlier custody drill verifies a current signed nonempty journal, rejects an omitted later erasure, replays the real privacy worker with product roles closed and no remote effects. Separate S1 recovery reconciles CMS; restart preserves synthetic quarantine denial.",
+      "sourceReferences": [
+        "CUSTODY",
+        "RECCMS",
+        "LVQ",
+        "IXKILL"
+      ],
+      "remainingGap": "Those are separate local workflows, not a combined lifecycle handoff or concurrent hosted journal cutover. Temporary scoped privacy maintenance access is explicit. No actual off-host durability, continuous service/network fencing or promotion recommendation is accepted.",
+      "gapGroup": "L3",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T20",
+      "layer": "usecase",
+      "requiredOutcome": "Missing custody/staffing/funding/provider/actual gates cannot become acceptance through local success",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Missing custody/reviewer, staffing, budgets, version/provider capability or any S3 acceptance cannot be replaced by local test success; product activation remains false",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Proof outputs retain false runtime/hosted/product authority. Existing S3 register and strict refusal gate keep human/provider requirements pending independently of local tests.",
+      "sourceReferences": [
+        "IXSAFE",
+        "RAPRIV"
+      ],
+      "remainingGap": "Custodians, independent reviewer, operators/coverage/rates, complete approved budget, version/provider capabilities, specialist/rights/privacy/provider effects and actual S3 records are still required. No local test can substitute for them.",
+      "gapGroup": "L4",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T21",
+      "layer": "functional-harness",
+      "requiredOutcome": "Disposable-only exact target admission, pre-existing-resource refusal and mandatory cleanup",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Random disposable project only; refuse pre-existing proof resources; cleanup exact created resources/volumes/secret files on every success/failure path",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Fixed no-argument runners generate random isolated projects, refuse pre-existing scoped fixtures/foreign inputs and finally remove exact owned resources. Child handle/stream/session/lock cleanup is observed across tested interruption/refusal paths.",
+      "sourceReferences": [
+        "IXPLAN",
+        "IXRUN",
+        "LV04"
+      ],
+      "remainingGap": "Cleanup evidence covers executed paths, not every Docker daemon/host failure, power loss or unresponsive cleanup command. No retained/native/remote environment was an input; no universal failure-path completeness claim.",
+      "gapGroup": "L1",
+      "accepted": false,
+      "newExecution": false
+    },
+    {
+      "id": "BLC-T22",
+      "layer": "unit-usecase",
+      "requiredOutcome": "Known/refused/unavailable/unknown outcomes never trigger blind/destructive retry or notifications",
+      "status": "proposed; not newly executed",
+      "expandedRequiredOutcome": "Receipts distinguish known success, refusal, unavailable and unknown effects; no automatic destructive compensation, blind retry or real recipient notification",
+      "reviewDisposition": "local evidence mapped; full lifecycle requirement remains open",
+      "localEvidence": "Local compatible/incompatible/unavailable/refused observations and process exit are distinct. Imported old evidence is refused; no automatic repair/destructive compensation/real notification is supplied.",
+      "sourceReferences": [
+        "PJUNAV",
+        "IXSAFE",
+        "IXKILL"
+      ],
+      "remainingGap": "Process termination is known locally, but unknown provisioning/provider effects are not resolved by it. No durable intent/outcome/reconciliation state machine distinguishes and safely resumes those effects.",
+      "gapGroup": "L2",
+      "accepted": false,
+      "newExecution": false
+    }
+  ],
+  "gapGroups": [
+    {
+      "id": "L1",
+      "priority": "next bounded local evidence work",
+      "cases": [
+        "BLC-T01",
+        "BLC-T03",
+        "BLC-T05",
+        "BLC-T06",
+        "BLC-T07",
+        "BLC-T08",
+        "BLC-T09",
+        "BLC-T21"
+      ],
+      "gap": "Explicit adverse controls are narrower than the full design/comparator. No whole-case completion inferred.",
+      "next": "Propose a disposable catalog adverse-case proof for T07-T09 first, preserving production policy. Follow with separately bounded admission/version/visibility/cleanup controls if useful.",
+      "externalDependency": "None for synthetic local fault controls; no provider acceptance follows."
+    },
+    {
+      "id": "L2",
+      "priority": "high consequence; mutation authority/design needed before implementation",
+      "cases": [
+        "BLC-T12",
+        "BLC-T13",
+        "BLC-T15",
+        "BLC-T16",
+        "BLC-T17",
+        "BLC-T22"
+      ],
+      "gap": "No integrated mutation lifecycle, independent operation journal, cluster-wide serialization, uncertain-outcome recovery or credential/session lifecycle.",
+      "next": "Separately authorize a design contract for journal custody, observed-step reconciliation, cooperative executor/fencing and rotation/offboarding; only then scope disposable mutating proofs.",
+      "externalDependency": "Accepted provider authority and operating/custody decisions are needed for actual use; no generic provider adapter or privileged fallback is assumed."
+    },
+    {
+      "id": "L3",
+      "priority": "integration and provenance evidence after boundaries are agreed",
+      "cases": [
+        "BLC-T02",
+        "BLC-T04",
+        "BLC-T10",
+        "BLC-T14",
+        "BLC-T18",
+        "BLC-T19"
+      ],
+      "gap": "Local reader/pair/restart and actual local restore/custody are separate proof lines; receipt hashes are not attestations or custody acceptance.",
+      "next": "Plan a separate admitted-restore-to-read-only-evidence handoff, exact image/config/schema compatibility and quarantine/current-journal review without automatic runtime opening.",
+      "externalDependency": "Real custody, concurrent journal cutover, operator/source loss and provider restore/RPO/RTO/PITR remain later actual acceptance."
+    },
+    {
+      "id": "L4",
+      "priority": "actual decisions and acceptance remain held",
+      "cases": [
+        "BLC-T11",
+        "BLC-T20"
+      ],
+      "gap": "No accepted provider/engine operating model, funding, named operators, rights/specialist/privacy or hosted evidence.",
+      "next": "Retain null/proposed values and six open gates; revisit actual decisions when the owner chooses. More synthetic test counts cannot discharge these requirements.",
+      "externalDependency": "All HS01-HS08 plus the existing six actual S3 gates; no new gate invented."
+    }
+  ],
+  "nextProposal": {
+    "name": "local-only catalog adverse-case proof for BLC-T07-T09",
+    "scope": "Disposable test support only: explicit membership variants, semantic ACL/default/GUC faults and catalog ownership/definer/inventory/validity faults; keep existing policy and production entry points unchanged; report any unsupported controls honestly",
+    "status": "proposed only; no implementation in this review",
+    "automaticAuthorization": false
+  },
+  "limitations": [
+    "No completion percentage or acceptance inferred from mapped cases or historical execution counts",
+    "Three proof files have disjoint parameterized case executions but overlapping requirements; do not sum their full CI suite totals",
+    "Earlier actual local restore/signed custody and newer synthetic quarantine remain distinct evidence",
+    "Frozen models retain their original proposed/not-implemented fields as historical records; current view is additive",
+    "Existing production status still uses mutation-capable withMigrationLock and bootstrap does not rotate existing passwords",
+    "No refreshed provider eligibility/pricing/patch or external research claims"
+  ]
+}

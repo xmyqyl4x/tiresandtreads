@@ -530,6 +530,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Disposable interrupted-executor and cold-restart proof](../implementation/P1-PR-027-interrupted-executor-cold-restart-proof.md) follows approved PR #46 (`b7e15907`) local paired proof only: 50 new local cases, 15 real SIGKILL checkpoints, fresh both-DB evidence after restart, orphan/resume and drift controls. Six new code files under tests; production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
 
+[Lifecycle evidence reconciliation and remaining-gap review](../implementation/P1-PR-027-lifecycle-evidence-reconciliation.md) follows approved PR #47 (`a4221e63`) local proof only. All 22 original requirements mapped; no new implementation, case completion or gate closure. Earlier actual local restore/signed custody credited separately; lifecycle mutation/coordination/rotation and actual operating acceptance remain open. T07–T09 adverse-case proof proposed next only. All production/HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
