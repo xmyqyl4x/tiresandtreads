@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-30T01:04:32.828355Z",
+  "scope": "Primary PostgreSQL 18 semantics plus measured pinned PostgreSQL 18.6 local controls; no provider/price/patch selection",
+  "actualProviderTest": false,
+  "runtimePinChanged": false,
+  "sources": [
+    {
+      "id": "C01",
+      "url": "https://www.postgresql.org/docs/18/sql-grant.html",
+      "title": "PostgreSQL 18 GRANT",
+      "supports": "Distinct ADMIN/SET/INHERIT options; grant options and recorded grantors; measured grantor controls use separate roles, not a policy exception."
+    },
+    {
+      "id": "C02",
+      "url": "https://www.postgresql.org/docs/18/sql-alterdefaultprivileges.html",
+      "title": "PostgreSQL 18 ALTER DEFAULT PRIVILEGES",
+      "supports": "Global and schema-scoped future-object privileges; actual zero-cardinality rows are established by this local SQL experiment, not inferred from documentation."
+    },
+    {
+      "id": "C03",
+      "url": "https://www.postgresql.org/docs/18/sql-createindex.html",
+      "title": "PostgreSQL 18 CREATE INDEX",
+      "supports": "A failed concurrent unique-index build can leave an invalid index. The proof observes actual 23505 and pg_index state; no direct catalog writes."
+    }
+  ]
+}

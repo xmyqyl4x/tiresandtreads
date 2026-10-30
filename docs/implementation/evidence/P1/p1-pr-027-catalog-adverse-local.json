@@ -1,0 +1,1066 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-30T01:04:32.828355Z",
+  "baselineMerge": "5ef8d9f24e276067e74ec3db4c82dcfdb40420e3",
+  "parent": "P1-PR-027",
+  "scope": "BLC-T07-T09 local catalog adverse-case proof in disposable test support only",
+  "status": "local technical proof in review; no acceptance",
+  "authority": {
+    "disposableCatalogAdverseProofRequested": true,
+    "productionBootstrapChange": false,
+    "productionCliChange": false,
+    "productionPreflightChange": false,
+    "productionPolicyChange": false,
+    "providerAdapterImplementation": false,
+    "provisioning": false,
+    "purchases": false,
+    "notifications": false,
+    "providerAuthentication": false,
+    "accountCreation": false,
+    "dnsChanges": false,
+    "remoteDeployment": false,
+    "gateAcceptanceRequested": false,
+    "productApiImplementation": false,
+    "frontendImplementation": false
+  },
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualSelections": {
+    "provider": null,
+    "edition": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "primaryOperator": null,
+    "backupOperator": null,
+    "databaseOwner": null,
+    "keyCustodian": null,
+    "reviewer": null,
+    "coverageWindow": null,
+    "hourlyRateCents": null,
+    "budgetCents": null,
+    "custodyLocation": null,
+    "actualApprover": null
+  },
+  "actualAcceptanceRecords": [],
+  "actualProviderTests": [],
+  "actualRecipientNotifications": 0,
+  "implementedFiles": [
+    "tests/database/lifecycle-catalog.test.ts",
+    "tests/fixtures/lifecycle-catalog/database.ts",
+    "tests/fixtures/lifecycle-catalog/run.mjs"
+  ],
+  "newlyClosedCases": 0,
+  "newlyClosedGates": 0,
+  "diagnostic": {
+    "kind": "focused working-tree preparation diagnostic; final exact-commit/CI evidence in PR description",
+    "project": "tt-test-5519e38d5ca1d006",
+    "command": "node tests/fixtures/lifecycle-catalog/run.mjs",
+    "testsPassed": 231,
+    "unitCases": 0,
+    "databaseCases": 231,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "vitestDurationSeconds": 166.43,
+    "catalogFaultCases": 219,
+    "incompatibleReports": 213,
+    "unavailableReports": 6,
+    "aclOrderPositiveControls": 6,
+    "profileBaselineControls": 3,
+    "preExistingProbeRoleRefusals": 3,
+    "cleanup": "owned probe DBs/project roles, three owned unscoped NOLOGIN roles and exact generated project/volumes/network/env removed; foreign/pre-existing probe identity not adopted or deleted"
+  },
+  "testFirstHistory": {
+    "initial": "Assertions precede support; collection fails ERR_MODULE_NOT_FOUND for new fixture module",
+    "firstImplemented": {
+      "passed": 69,
+      "failed": 159,
+      "total": 228,
+      "afterAllFailures": 3,
+      "finding": "Reusing a seeded ACL grantor as new table owner merges grantor/owner ACLs; undo did not restore baseline, triggering strict equality and cascading failures"
+    },
+    "ownerSeparated": {
+      "passed": 228,
+      "failed": 0,
+      "total": 228,
+      "finding": "Separate unscoped owner sink fixes test isolation; reader and every restoration assertion unchanged"
+    },
+    "final": "Three new pre-existing probe-role refusal controls plus cleanup ordering/diagnostic refinement; final 231/231"
+  },
+  "environmentDiagnostics": {
+    "hostPnpm": "Unnecessary automatic host dependency refresh hit certificate validation; stopped. Direct installed formatter succeeded. No tracked dependency/config/TLS change. All SQL verification uses pinned Linux tooling.",
+    "typecheck": "Noncanonical diagnostic without heap flag exhausted default heap (exit 139); existing repository --max-old-space-size=1024 invocation passes. No production resource or threshold change."
+  },
+  "profiles": [
+    "foundation",
+    "migrated",
+    "quarantined-recovery"
+  ],
+  "perProfile": [
+    {
+      "scope": "disposable-local-catalog-faults",
+      "phase": "foundation",
+      "completedCases": 76,
+      "inspectorRefusals": {
+        "incompatible": 71,
+        "unavailable": 2
+      },
+      "databaseOwnerRefusals": {
+        "app": "unavailable",
+        "cms": "unavailable"
+      },
+      "scopedRoles": 19,
+      "scopedMemberships": 0,
+      "unscopedSyntheticGrantors": 2,
+      "unscopedSyntheticOwner": 1,
+      "frozenPreFaultBaseline": true,
+      "inspectionReadOnly": true,
+      "readerChanged": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "productionPolicyChanged": false,
+      "actualProviderTest": false,
+      "actualRecipientNotifications": 0
+    },
+    {
+      "scope": "disposable-local-catalog-faults",
+      "phase": "migrated",
+      "completedCases": 76,
+      "inspectorRefusals": {
+        "incompatible": 71,
+        "unavailable": 2
+      },
+      "databaseOwnerRefusals": {
+        "app": "unavailable",
+        "cms": "unavailable"
+      },
+      "scopedRoles": 19,
+      "scopedMemberships": 0,
+      "unscopedSyntheticGrantors": 2,
+      "unscopedSyntheticOwner": 1,
+      "frozenPreFaultBaseline": true,
+      "inspectionReadOnly": true,
+      "readerChanged": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "productionPolicyChanged": false,
+      "actualProviderTest": false,
+      "actualRecipientNotifications": 0
+    },
+    {
+      "scope": "disposable-local-catalog-faults",
+      "phase": "quarantined-recovery",
+      "completedCases": 76,
+      "inspectorRefusals": {
+        "incompatible": 71,
+        "unavailable": 2
+      },
+      "databaseOwnerRefusals": {
+        "app": "unavailable",
+        "cms": "unavailable"
+      },
+      "scopedRoles": 19,
+      "scopedMemberships": 0,
+      "unscopedSyntheticGrantors": 2,
+      "unscopedSyntheticOwner": 1,
+      "frozenPreFaultBaseline": true,
+      "inspectionReadOnly": true,
+      "readerChanged": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "productionPolicyChanged": false,
+      "actualProviderTest": false,
+      "actualRecipientNotifications": 0
+    }
+  ],
+  "controls": [
+    {
+      "id": "fixture-refusal",
+      "designCase": "support",
+      "caseExecutions": 3,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 23,
+      "anchorText": "refuses a pre-existing %s",
+      "observed": "Each of three pre-existing unscoped probe roles is refused/preserved; owned temporary DBs and project roles are removed.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "profile-baseline",
+      "designCase": "support",
+      "caseExecutions": 3,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 178,
+      "anchorText": "keeps fixed probe setup",
+      "observed": "Fixed synthetic objects, frozen active-profile baseline, two rows with duplicate v=7, exact history absence/presence and both clean readers.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "role-flags",
+      "designCase": "BLC-T07",
+      "caseExecutions": 21,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 203,
+      "anchorText": "T07 refuses actual %s",
+      "observed": "Seven restrictive flags independently inverted on the peer CMS runtime role in each profile; both readers observe 19 roles.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "memberships",
+      "designCase": "BLC-T07",
+      "caseExecutions": 24,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 250,
+      "anchorText": "T07 refuses %s membership",
+      "observed": "Both app/CMS runtime roles: incoming/outgoing SET-only grants to/from a synthetic role, and ADMIN-only grants to/from ordinary built-in pg_monitor.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "added-privilege",
+      "designCase": "BLC-T08",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 274,
+      "anchorText": "T08 refuses an added table privilege",
+      "observed": "Independent table UPDATE grant; precise privilege observed and preserved.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "grantability",
+      "designCase": "BLC-T08",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 288,
+      "anchorText": "T08 refuses grantability-only",
+      "observed": "Only is_grantable changes; normalized grantee/grantor/privilege lists remain equal.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "grantor",
+      "designCase": "BLC-T08",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 318,
+      "anchorText": "T08 refuses grantor-only",
+      "observed": "Only grantor changes between two synthetic NOLOGIN grantors; normalized other ACL fields remain equal.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "column-acl",
+      "designCase": "BLC-T08",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 356,
+      "anchorText": "T08 refuses a column-only",
+      "observed": "Column UPDATE is true while table UPDATE remains false.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "empty-defaults",
+      "designCase": "BLC-T08",
+      "caseExecutions": 12,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 377,
+      "anchorText": "T08 preserves and refuses an actual empty",
+      "observed": "Actual global function/type default ACL rows reach cardinality zero; reader preserves/refuses them, then explicit fixture cleanup restores defaults.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "role-settings",
+      "designCase": "BLC-T08",
+      "caseExecutions": 18,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 415,
+      "anchorText": "T08 refuses %s role setting",
+      "observed": "Global same-value, scoped changed-value and peer-DB extra-row settings are independently observed/refused.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "acl-order-control",
+      "designCase": "BLC-T08",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 652,
+      "anchorText": "T08 accepts a real ACL array reorder",
+      "observed": "Actual ACL text order changes; semantic grants/snapshot remain equal and both readers stay compatible.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "owners",
+      "designCase": "BLC-T09",
+      "caseExecutions": 36,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 474,
+      "anchorText": "T09 refuses an actual %s owner",
+      "observed": "Six object classes per DB/profile: database, isolated probe schema, table, sequence, routine and type; separate synthetic NOLOGIN owner sink. All six DB-owner cases are unavailable due to lost CONNECT, not database_owner finding coverage.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "unexpected-objects",
+      "designCase": "BLC-T09",
+      "caseExecutions": 54,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 543,
+      "anchorText": "T09 refuses an unexpected %s",
+      "observed": "Nine independently created classes per DB/profile: schema, table, sequence, routine, type, view, materialized view, index and trigger.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "security-definer",
+      "designCase": "BLC-T09",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 557,
+      "anchorText": "T09 refuses SECURITY DEFINER",
+      "observed": "Real function definer flag change; owner/identity retained and function not executed.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "function-search-path",
+      "designCase": "BLC-T09",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 573,
+      "anchorText": "T09 refuses function search_path",
+      "observed": "Real proconfig change to public before pg_catalog; function not executed.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "rls-predicate",
+      "designCase": "BLC-T09",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 589,
+      "anchorText": "T09 refuses an RLS predicate",
+      "observed": "Real policy predicate becomes false while table RLS stays enabled.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "constraint-validity",
+      "designCase": "BLC-T09",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 605,
+      "anchorText": "T09 refuses a NOT VALID replacement",
+      "observed": "Same named/check constraint is replaced NOT VALID; convalidated=false observed; fixture validates it afterward.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    },
+    {
+      "id": "invalid-index",
+      "designCase": "BLC-T09",
+      "caseExecutions": 6,
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 625,
+      "anchorText": "T09 refuses a real invalid index",
+      "observed": "Actual concurrent unique-index build fails 23505 on duplicate synthetic data and leaves indisvalid=false; source rows stay unchanged.",
+      "status": "local control demonstrated; no whole-case or gate acceptance"
+    }
+  ],
+  "fixtureBoundary": {
+    "projectRoles": 19,
+    "projectMembershipsAfterUndo": 0,
+    "extraUnscopedRoles": [
+      "catalog_probe_grantor_a",
+      "catalog_probe_grantor_b",
+      "catalog_probe_owner_sink"
+    ],
+    "extraRoleLogin": false,
+    "seed": "fixed probe schema/table/sequence/type/routines/RLS and two rows before active-profile catalog digest capture",
+    "baselineRecapturedAfterFault": false,
+    "historyOrDatabaseAclBaselineChanged": false,
+    "ownerSinkSeparateFromGrantors": true,
+    "scope": "additional fixture objects/ACLs only, not a hosted inventory or production permission exception"
+  },
+  "evidenceFlags": {
+    "readOnlyInspection": true,
+    "verifiedLocalTls": true,
+    "beforeAfterFaultSnapshotsEqual": true,
+    "freshCompatibleReadAfterUndo": true,
+    "readerChanged": false,
+    "runtimeAdmission": false,
+    "productionRuntimeElevated": false,
+    "unsafeFixtureStatesAreDeliberate": true,
+    "productionPolicyChanged": false,
+    "hostedAccepted": false,
+    "productActivation": false
+  },
+  "unchangedSourcePins": [
+    {
+      "path": "infra/local/01-databases.sql",
+      "sha256": "4eafe9596a7d0eecf397023fc8c260535d4326ee3e7710f59d22d0eaf4dcead2"
+    },
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "sha256": "1c14f0efcf9848b1a8f6dc804391e3d9a77b263daf6b9b26e1511fb161b604e4"
+    },
+    {
+      "path": "scripts/database/cli.ts",
+      "sha256": "f2d03455b647c1afcae952b7e62695ad532a1464c5ced997e3e618528c5ccc9b"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "sha256": "547606c2ff107469174fd671b3a64f18101051313068d7a1887f4e00c90b7af4"
+    },
+    {
+      "path": "scripts/database/cms.ts",
+      "sha256": "61b932275bac009e5e0a9abfce2d4a88e64ca05d69c68e28250b7ef7a9eb084a"
+    },
+    {
+      "path": "scripts/database/manifest.ts",
+      "sha256": "be29c23701e96d8c2708e63ba8ca9c4b0a51ebbea0d395c9590e1ff8652f337d"
+    },
+    {
+      "path": "scripts/database/inventory.ts",
+      "sha256": "a9ec8e1929c2fdfed581ce27a8c6c72e2dc6b9d88723b6aa22fd56c27b780d07"
+    },
+    {
+      "path": "scripts/database/recovery-artifact.ts",
+      "sha256": "78dd91626d165c28985fa4264863274ede64d41a871d6ae8ac75cb461e788f4f"
+    },
+    {
+      "path": "scripts/database/custody.ts",
+      "sha256": "83a17498c6f2bbb4da7a7f3edef404b911cd9b9fdf9b478131a10c9755d205ba"
+    },
+    {
+      "path": "packages/config/src/database-roles.ts",
+      "sha256": "c84931f45224590fc54ef1433cbdb39df178ef442aa79cd6d3365130c9030b06"
+    },
+    {
+      "path": "packages/config/src/database-preflight.ts",
+      "sha256": "3b9f59eddbea528252b6d0f348ca365cbe08dc9e4937f6f156dc3159ee35e1db"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "sha256": "973f5e26b84ef86196f4d463690a056227a0cfe197115d2addb1a3ae9ba93ecb"
+    },
+    {
+      "path": "scripts/verify/recovery.mjs",
+      "sha256": "90cc3e18c1097f92d5f4246c87ebcada49fa76196caf380f95c7e6cc1b1924d2"
+    },
+    {
+      "path": "tests/database/restricted-admin.test.ts",
+      "sha256": "132c007bec29b5bb099d71859cb6336613599de3ee03bc0fbcb37277a9356297"
+    },
+    {
+      "path": "tests/fixtures/restricted-admin/database.ts",
+      "sha256": "ce0d86667bef6eacf0647ce89b4361a1b090850ff80df6fc82d80fe82bea9dc4"
+    },
+    {
+      "path": "tests/recovery/recovery.test.ts",
+      "sha256": "04da183cc261e993e14b9fd11e6b6aced98f9441459e5258989b96713b0e5248"
+    },
+    {
+      "path": "tests/fixtures/recovery/prepare.ts",
+      "sha256": "bdb53425d75b9dee26cc6311a67f9be7363299cfa58e9e0cc21fd41c08592af1"
+    },
+    {
+      "path": "infra/local/versions.json",
+      "sha256": "8b741caeb475872268f64117944c9585c7c86ca6525306828f24914f1ba0281e"
+    },
+    {
+      "path": "infra/database/app/manifest.json",
+      "sha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+    },
+    {
+      "path": "infra/database/cms/manifest.json",
+      "sha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+    },
+    {
+      "path": "package.json",
+      "sha256": "17de3c4f8829c6aeabcf82ce3d74aaf232787edf8a5633def4a50e24c426fd3a"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "1383ff6c1dff614074a7d062046e3ec37a5eab099b91c01e9d6412f7b0cf143c"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "f3229da909acacdafb435c2f0b8b39e34fc732c009a8f5f066ac5e270b165621"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f"
+    },
+    {
+      "path": "tests/fixtures/foundation/target.ts",
+      "sha256": "4ed0eb6a9375af1979ecbf049cef8d6da673149b1502c7949563263dcc4a75cd"
+    },
+    {
+      "path": "scripts/verify/disposable-cleanup.mjs",
+      "sha256": "ae27534e8979ca62689a3c9903607188b987262effab2fbc927915b098e0e7fa"
+    },
+    {
+      "path": "scripts/verify/local.mjs",
+      "sha256": "a923cea5ed6a5500e445c3b5e3562464ab53e6e3cde6495dccf3ab3ccf3ffc79"
+    },
+    {
+      "path": "scripts/verify/push.mjs",
+      "sha256": "e3ef78a13f412c1d5ee83ec4e0b3d7e78aac74ff69a7abae3d4542302335fca9"
+    },
+    {
+      "path": "scripts/dev/plan.mjs",
+      "sha256": "fc933f425f0549b42d05976ed1db97f6eb5f7a3d0fc5ce33b48010eb25aa2780"
+    },
+    {
+      "path": "scripts/verify/restricted-admin.mjs",
+      "sha256": "eef310c0097ad6f7e230ab0b4338cfb2f8755fabaa05456aa09ce5bf2105e84f"
+    },
+    {
+      "path": "tests/unit/lifecycle-validation.test.ts",
+      "sha256": "673ea0784ed31d25963814af21ba7fc4d0e54acb4d625c083ffed7e56192caa8"
+    },
+    {
+      "path": "tests/database/lifecycle-validation.test.ts",
+      "sha256": "2a1455ee1ecd8d01c53d0440d86d284e8d4f253791add179feb6d505505404a2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/reader.ts",
+      "sha256": "21e1f79ae575588d76e981ef8d8d21fb56d0e5f00679ee2f5f84a20ffa5ef5e6"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/database.ts",
+      "sha256": "dd559a232c0f0e626bff4bc30e6daf2f922ef177c3d35644ed6965ad8b2fe06d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/migrate.ts",
+      "sha256": "89ba5cceb5a7589c4ab741295bb0cf371a8fef4d162958866df134f278038116"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/run.mjs",
+      "sha256": "76b50b4747fba73109706c951f6cd4c485011115a780544ec8e38e981eca1c57"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/contract.ts",
+      "sha256": "8e19c5d6c44af050d18c44969ec0a08762892bfe619ad35a3b11e839f3484d2d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/pair.ts",
+      "sha256": "5fc34197bf682d887752d00215d930bc431dc914b9b9d1505fe5b599d845cd07"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/samples.ts",
+      "sha256": "f2c35f527a10105484fc638e4487d4cb5aa02545c70c78ec8eccdd1e6e17df5c"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/run.mjs",
+      "sha256": "6a642ea42fa44c8b59dc0b26da01da62d194d3ff0062c78b74fc3359767aa183"
+    },
+    {
+      "path": "tests/unit/lifecycle-pair.test.ts",
+      "sha256": "b708b5371ba577f0306957e2e934c2ddfaddb856904dde4070c25ac992bf77af"
+    },
+    {
+      "path": "tests/usecases/lifecycle-pair.test.ts",
+      "sha256": "af5f8543df47468daabd93c25f1d503b4f1478bf68da7164e5f7f4a1091efc8b"
+    },
+    {
+      "path": "tests/database/lifecycle-pair.test.ts",
+      "sha256": "fcfaa8d79fe11bef19f045101d5ee843a1c04d97903b77061a746808f01daaf0"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/protocol.ts",
+      "sha256": "ccf61ebb70e1bf1aa0c0b527e1f3b372d4fd54b005879fe4c2931a1dba6a4e4a"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/parent.ts",
+      "sha256": "9c6c2d814415df69ec0c0315dfaf56fb27acec39aa48f4275bb64091715d539a"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/executor.ts",
+      "sha256": "d8d69af5a6f58e2b88b054158d4ce76b20d0186106d5375fcda417e6c2e87741"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/run.mjs",
+      "sha256": "f8c33f589b709844cd49e4b1bd0657f4dbab61f1b5befd7713a11d7847225c30"
+    },
+    {
+      "path": "tests/unit/lifecycle-restart.test.ts",
+      "sha256": "33a74e1a80fe9c17ca1b6f7cafcc64ac6aebdba004c93f5f518d702802f61953"
+    },
+    {
+      "path": "tests/database/lifecycle-restart.test.ts",
+      "sha256": "13c4795ab4e7093f3eccf3542ee646f983e784bf7effaa9e9e261b934dfb5411"
+    }
+  ],
+  "proofSourcePins": [
+    {
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "sha256": "b0a3b3ff36631dd0d9445baa5f205bc45940b1aae035510f094ce6c24419c7c2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-catalog/database.ts",
+      "sha256": "dddd241f33871d9a9ba502590dfb3f2cf190a3b59335c5ef80a795c6a3f3e5e7"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-catalog/run.mjs",
+      "sha256": "676a2b81331fab9e9b88231164be50d7eb93217d49813f3999e0a5f3733f6b0b"
+    }
+  ],
+  "frozenHistoricalEvidence": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-001-source-probes.json",
+      "sha256": "df3f85460b85228c2d2e9d66c03b364aae201378c7f5ab4c38d83e0e35ecfdb6"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-001-validation.md",
+      "sha256": "33df0c6ef68bb62bff041328907adadcedaf5a0d331a4997e62cd27d9b0fb18d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-002-validation.md",
+      "sha256": "b25be83b3ae4e2b6fcb595ef5345787c8935d6c3ba17d126c94953ae9f442934"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-003-validation.md",
+      "sha256": "2dfb14d64a83bf009194287bd5fb911242067879c9ebc741d750117c4ff18eec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-004-validation.md",
+      "sha256": "e3af45c61a488c40c8a4566184be09eef497a69e1ba0259dc4058061ecd35068"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-005-validation.md",
+      "sha256": "64aeafdbc9331bec04ca7085a7fd31040730d6294e7c5561a195501fa898521c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-006-validation.md",
+      "sha256": "845b07a18e21f0b3f01c5462e5fb790f263ead8e97729360093829029318b640"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-007-validation.md",
+      "sha256": "93eab3beeb86ce988deaf42d3ae8d5ae9f6497c2f57e4904e317efe02222667e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-008-recovery.json",
+      "sha256": "131ff6522845c9abbff4e6758d124e0aaa545132de6729034310e42372cf574c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-008-validation.md",
+      "sha256": "eb417f8013e2827c01715a9586acb2e170a7df473cc2554c59f35665fd57157f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-009-validation.md",
+      "sha256": "602265bb2b657e933766ea438c9d7e6079bfc1dbd8d8af791d42437643997cb0"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-009-verification.json",
+      "sha256": "3c0119536c9e40eb1948a7c739369429b538f726f77e35729df496a1c0b92f7f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-010-query-plan.json",
+      "sha256": "a02d962c8bb59d2d9c0996fe172e3737d76d581b4257df7171aa3dbff9917a40"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-010-validation.md",
+      "sha256": "ab8167405f895275c889fdd1dbbb6d1d166bcb390d191714612f6ca136ceeecc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-010-verification.json",
+      "sha256": "0f1cb2d825b147732791bb4b438bffd6600b8f57a3791a6974b1fbac4b260728"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-011-validation.md",
+      "sha256": "e19d351a4b572fef57d5841fffcf2e477d33b627788105a8ce1adfc7c7809586"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-011-verification.json",
+      "sha256": "ca82f841c11630a4a74b0f436b32b0f376843d9cc1f0161a911cd7882e96167f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-012-validation.md",
+      "sha256": "72aaab4aeb2a829ed599ca39742aa519bc765246c209d3b6cf0753ab35055549"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-012-verification.json",
+      "sha256": "44b8be07e1df8479672ed2d646182faac3e8d07a4e03727239382928913d3716"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-forecast.json",
+      "sha256": "00d4abc23cce9e87fba6241e7322db2bc767b89ddb8551050d63abc0e6567d2e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-source-audit.json",
+      "sha256": "7c7ae0e5c0655aefe74a09043bd6266b1f71cea71c2af307712e22e0783ea4db"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-storage-audit.json",
+      "sha256": "d658005b7a91ef7150250dd15c5f70a970e19e44285aee8bd9c816236d701b85"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-validation.md",
+      "sha256": "4b6da3c51f46a604b5d64052daa0b507c3744091ce323aef1af60f1703d78b97"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-verification.json",
+      "sha256": "23eecb21efdbbd31674a2fd703536af8cb235964e928003c877787262c91f671"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-014-validation.md",
+      "sha256": "f3363721a92bdc1c8366bc3ec7069acef6df6eacf3fc345807307a1cc66f25ef"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-014-verification.json",
+      "sha256": "9e033970177307d1914d7b594d3149f2586a25c0c532019bd8c48aa3d6d301b9"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-015-validation.md",
+      "sha256": "f7f89fb2a3aceb0db3cf78d4fcdb46a509aa18d6a281fb95656c81208abcb3f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-015-verification.json",
+      "sha256": "0c497e747236ab5691e3046d0c1fcc36d0e07f73a26c23b782ded02cedc9ee47"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-016-source-probes.json",
+      "sha256": "86f6f6c9dcd2a0785e15d2728ac8682d969fb6dd6a25ac1a446c77df72966227"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-016-validation.md",
+      "sha256": "18e5bb886e723b915d84bfbdf2b2bd0e3fca368f0d683ccf25f9111e8e045165"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-016-verification.json",
+      "sha256": "8a2573e51d31a59fa7dca74087b522aaca7b6b1e0352b858e50c4437301b5c7a"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-golden-review.json",
+      "sha256": "e02f929148cda5831e0bed100289720dffbda5a35eff3104a86fb4773444ad3e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-validation.md",
+      "sha256": "668914021b74e1867ee29c9cb93c40a32ad29372af600775b4a5e730e0723a34"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-verification.json",
+      "sha256": "addbe2333700cd1b705967a12444120afcfb0293ae738bb77475f01315a69bac"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-018-validation.md",
+      "sha256": "cbc5a9e120fdf388b12069955bce1e4704eaf1b43076c27c255d5775e5ebb9f4"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-018-verification.json",
+      "sha256": "6c2747a55abc2d568846d9d97d3ca1192c1c12e06bf1a62765af65eec88a8bf5"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-019-validation.md",
+      "sha256": "5776397fa13913aa8837a74dd70ed6b73626861797117302c3698b87fb18f9eb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-019-verification.json",
+      "sha256": "a7fb25038ace0b2d88464f7651c06df463545e59b762de8427f0b8fba03f247a"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-020-validation.md",
+      "sha256": "0432d99d52bf316d2caf32e97e37127a9afe24d1763795d467471cb2975e2ded"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-020-verification.json",
+      "sha256": "1e5d22211170db686f00cf9334c711143915be48c7d65411c30ce35fd0a5f5cd"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-021-validation.md",
+      "sha256": "3cfb1204c8d7208bb06ccfe2bd3d94cd5ef8e0b18177f69bef5718f476d43d5f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-021-verification.json",
+      "sha256": "2f6121ad33e9e70da77d4191ed06f2c023edf9caa31d68044164ce2722825e03"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-022-validation.md",
+      "sha256": "74e8cc06cfe798a185dd62100b108338c8e9e30b5dad36f4d4108785d2eacc50"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-022-verification.json",
+      "sha256": "49ce436d04c20526e50078483413bd9d9bf63e9375363e7c607329e017610514"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-023-validation.md",
+      "sha256": "697279ad230b29e2fd19c16dcbd4b9fd274fd6c7e8517c82908ced3ac4ff288e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-023-verification.json",
+      "sha256": "47e49e01b61b9c0971c63cf309e5adbac4fff7a580eae9b3845d1b8453f018ca"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-024-validation.md",
+      "sha256": "7eb31a01e98a4c9a3199ecf9a747e90367c495151c80fedd12910dbf6535a20e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-024-verification.json",
+      "sha256": "273892a856786ea609ecd32e6747759b7c357f1c7711b0b029e0debdd58bc8f8"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-025-validation.md",
+      "sha256": "c52344f2d18e012ba9e93ae905a72ab0ce480fe55356283cd650d71f47beecfa"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-025-verification.json",
+      "sha256": "b14e5a46bf45d2872b5e0a0577397e8823685836ad0751eeec2b8ff530bfccfc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-026-validation.md",
+      "sha256": "02ec8656eb1258e5ace6f84ebb695f9a4ffe4fcbd396082f0de1c5894ee24fdc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-026-verification.json",
+      "sha256": "b9a862655c31d30e50b7bbc5f4bd9221cf8d026413b8a4735c8314f01393f80e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+      "sha256": "9f8e507aa6b372943dd475853ee34667c44e2f84e40949c69f93401ad78d1cc9"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-sources.json",
+      "sha256": "c8ede9c7f08500c7f58af2105d50c400916c56cb09be3e1da5e4e79c893ee8cb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-validation.md",
+      "sha256": "2a986e2d01c112937f61ae38da34029d9af2af3068c7e229b565f324d774013b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-capacity-preflight-validation.md",
+      "sha256": "db70aded25f6366ed9739c8b28842c12ee3c7aca6a4e28ef7d8917aedbe38caf"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-custody-preflight-validation.md",
+      "sha256": "b0c92399f24798fac37ad664508a10eb1f5b7b61f7e6441de6d4bbd29974c75b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-deployment-preflight-validation.md",
+      "sha256": "fa01df867724b54523caacdb607f023273eaad01791cc635acda629ae16e556c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md",
+      "sha256": "fb68bf723d67c7fb5d82474c52b0f13636a3bf8632100a901eb5cffd292963a2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-database-review.json",
+      "sha256": "39f67a4b196581c81dbdf8b5384570dde8012fbb1960198781ef0b47e6021a17"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-database-sources.json",
+      "sha256": "93fb238a28bdb75ff289b2d1ffab3514c11284f999039612f609fe4cb3bca9a5"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md",
+      "sha256": "5ac6fa9a2e974ece779b13623c9241539254caddfb924e1116fd0903e4efab94"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-validation.md",
+      "sha256": "e7cbf3ab5c3087823ccd02d74d6b041ccc3ff6d2810df9d1bad646da824bb88d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-verification.json",
+      "sha256": "188532309a1c3cf06613785085140d2474ef456bf0a1e00f3de6318d011199f7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-local.json",
+      "sha256": "2463517801bc7c76352a180ee82a75250296a0a52dd577e9dfe79f6a9c83bd1d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-sources.json",
+      "sha256": "db8e5e84802270720489cb85475a5989b8dd749888e79231963565879c805c81"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-validation.md",
+      "sha256": "5d04e49a8cc3686e96725520a3d5ab2ca19741fefa07ec4503852dca979e0c7f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-local.json",
+      "sha256": "9e40749ff869a33daad3a1b7e3a3c6458b7dff61847bffe6940bfb7dea419724"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-sources.json",
+      "sha256": "f3e2d37077ba18098fcf881b7467c6451f8934a347b62d7f794518a85ec031a6"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-validation.md",
+      "sha256": "648d8de1cdbddba1041fb7b771b226dcacbdc817d81460dffd448a01beb4057e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-review.json",
+      "sha256": "94bb13478bf33a1fc4b53f207102f47252bedbe8be2fe2bd42c1ae8741512435"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-sources.json",
+      "sha256": "c250ccbd9db020878cebb73e4e065915191924ac2a32f0b55f4445e922d9e473"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-validation.md",
+      "sha256": "1f96a28beed223510b28c330656cd212e24c9cd62050705c0af6a9bc1fc0bf90"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-local.json",
+      "sha256": "fefbbdd5952e508824980fe8c4581ad9c786d06c75b64d3fed69667a721b4f39"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-validation.md",
+      "sha256": "d4a60c25554c4f0beb4da546428440b465e893736ab296bd0e7676c1ca560af7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json",
+      "sha256": "c10fcfdca85ebb7d4abea93d8d529aa116eb46cc8b17788c96608e13621612f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observation-preflight-validation.md",
+      "sha256": "734643e4040a39af2645fb515bc64516f8cb9abf1b38c1ddf8453b51b0ba971b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-sources.json",
+      "sha256": "ce2354ab87b706bbe7ee065eb128227a519a3464b9551dfc128736baaad74b13"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md",
+      "sha256": "891fbd7d1e29ea5e63d8bb8d1abe17bc2914265425f401c78783ee69b3901663"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-local.json",
+      "sha256": "f8b675eceb7e7c04d733d0b706bf34e56953f22e51dbfd3a7672d06a1f5b092d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-sources.json",
+      "sha256": "b3c694abb47e5b39d55a0bf3cfa66b0fe04b4610ca2f1e5318b810b836f50191"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-validation.md",
+      "sha256": "8234c86ca7cbd70472a25f889852dd8ee4df146570954cd0c0db5b020720e14d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
+      "sha256": "fa76c4077edac39a1390d0c21cd82a0e7c01edda19656b2644ff3bfacd71cc43"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
+      "sha256": "00663476cce0330338405af39cae2a06bb38f9ad24bd4058afd84f90c456ffcb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json",
+      "sha256": "2b0e0819c9f9c9a26253d64d6140b5db643ce52407c43d2a32db6f85679f1ccc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-preflight-validation.md",
+      "sha256": "fcb92c4fb9907d8f826d366a0e04c34c162278097321e78aa0bc1edc70acc146"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-provider-preflight-validation.md",
+      "sha256": "1935d1b7f1fc582dc272ff06a695a6ddc42204728c131f97c33eaff7d6b2e5f1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-index.json",
+      "sha256": "5080dd43e3b8ef122d381cd2bd9cb3134d87d18647e1531fdf5a597a9b5c59b1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
+      "sha256": "25583193194f7bfdcc3ef39263d3d5ea7b96312f35923ba0f0b1e2e7ff75a8ef"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-validation.md",
+      "sha256": "bb1f2709bab1cded38caf00dc690511a4191ec9e4e475628e2b45aaf839c94d0"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json",
+      "sha256": "b0cfe8818910c6ce75d1acfaa4aca076ff1e12d97fd3ba733e6f7c2b2a66b89d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
+      "sha256": "f9e0060f174f2eeed43408802201450d1d888b501ee01ffbeecee71e0e98a1a3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-validation.md",
+      "sha256": "899523c97f42509e2996d36a324fd6bfd51e513a953e8ef65215169d2e1c2e53"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json",
+      "sha256": "832cd2090771dfcca672ce2c006607e4dcc70bfe74bb4681341c45372a1ade31"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-local.json",
+      "sha256": "831aa9a2bde459029615dd3a0033db6db21d37d87d6549a39a7cd7427cee7c63"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-sources.json",
+      "sha256": "a6773114812a3d5935774c1c00ab55f3f83b5700068068a214b3a89cd6cba1ec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-validation.md",
+      "sha256": "c83e5f7d5405c3c518906fde34356d78464b7cb5c1db028637b1bf7368da5fec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
+      "sha256": "3b6b911cdde6fe237a7b404ccdb35922c71d9b77eb8ebbadccf11b0351a24808"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
+      "sha256": "51ccbe7985a906d6032c3dca753ee1aa82365ecae2bd6a825e97cf566599288d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
+      "sha256": "f5d989edf99db9e5bb23cae07cf4caae9d8e91f1d04694cf5b0261dcd1ccf7b4"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-sources.json",
+      "sha256": "18ba3750d883d9b3998a37e947a2f55056f69bc537c6fc595b9e6228bc449221"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-validation.md",
+      "sha256": "07c08458a77bf6a9dc3f12544490120b07130dfb41ca085978178db615d58542"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-validation.md",
+      "sha256": "af9e5db85e33597f869350e8dfd96b2c3ccb96d935226e255611f4f477b63723"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-verification.json",
+      "sha256": "622f719948e1b795430dc7205fdc6e13c6e56b07be865e356937968dfb7e5e23"
+    }
+  ],
+  "designCaseCoverage": [
+    {
+      "id": "BLC-T07",
+      "status": "additional local adverse evidence only; full design case remains open",
+      "caseExecutions": 45,
+      "accepted": false
+    },
+    {
+      "id": "BLC-T08",
+      "status": "additional local adverse evidence only; full design case remains open",
+      "caseExecutions": 60,
+      "accepted": false
+    },
+    {
+      "id": "BLC-T09",
+      "status": "additional local adverse evidence only; full design case remains open",
+      "caseExecutions": 120,
+      "accepted": false
+    }
+  ],
+  "limitations": [
+    "All six DB-owner mutations lose original-owner CONNECT and report unavailable; do not claim new database_owner finding-branch coverage",
+    "Seven flags are independently inverted on one peer role, not every flag/role combination. pg_monitor is an ordinary built-in role, not a managed-provider system contract",
+    "Curated probe inventory is frozen before faults and extends the existing test catalog; it is not an externally trusted production manifest or new foundation metadata requirement",
+    "Fault setup intentionally creates unsafe isolated states, including SUPERUSER. Clean quarantine denial is checked afterward; no continuous runtime fencing during faults is claimed",
+    "No exhaustive object/operator/policy/index combination, role-setting combination, transient-change/administrator fencing or all daemon/host failure cleanup claim",
+    "No mutating provisioning journal, cluster-wide lifecycle serialization, rotation/offboarding, archive restore/current-journal integration, provider authority, host/custody/operator/funding/S3 acceptance or runtime activation"
+  ],
+  "sourceReferences": [
+    "C01",
+    "C02",
+    "C03"
+  ],
+  "nextProposal": {
+    "name": "local-only provisioning-journal and lifecycle serialization contract design review for BLC-T12/T13/T22",
+    "scope": "Review-only intent/outcome/unknown-effect records, independent custody requirements, exact created-resource reconciliation and cooperative whole-operation serialization/fencing boundaries; no implementation or selection/provisioning",
+    "status": "proposed only; not implemented",
+    "automaticAuthorization": false
+  }
+}
