@@ -1,0 +1,11 @@
+# Journal evidence reconciliation — review validation record
+
+Baseline: approved PR #52 merge `aaca91b0190245800745717f7164e7308ba6b83b`. October 30, 2026 (Pacific). Review only; no new implementation, test, scenario execution or case/gate closure.
+
+- All 18 original journal scenarios retain their original fields/status and receive evidence-kind/source/gap mappings. All 22 lifecycle cases retain original/expanded outcomes: 3 focus, 8 adjacent, 11 inherited context; every full requirement remains open.
+- Historical journal counts: 51 (35 unit/16 use-case) plus 52 (33 unit/19 use-case) = 103 assertions, 68 unit/35 use-case. PR #52 separately observes 7 kill points, parent counts 2/3/4/4/4/5/9, 36 owned Node children/exits/both stream closures and a 65,536-byte file bound. No new DB cases; no independent durability/authentication/fencing or actual effect claim.
+- Earlier SQL/read-only process/partial migration/catalog/actual archive/custody/privacy-journal evidence is credited separately; no integrated provisioning/recovery acceptance or summed CI-as-unique coverage.
+- Preservation audits cover 64 source pins, 116 prior evidence files, 23 SP08 pins/index/baseline blobs, frozen 18-scenario/22-case designs, source archives/approvals, 119 cards/dependencies, 137 FR rows, 75 checked/282 unchecked tasks and three open parent boxes. Two registers append four review references only.
+- Validate local paths/anchors, exact source lines, UTF-8 without BOM/LF/JSON/tables/whitespace and no production/code/test/guard/dependency changes. The unchanged required clean-commit Linux and independent CI regression results will be recorded in the PR description after execution, not written into historical receipts.
+
+[Review](../../P1-PR-027-journal-evidence-reconciliation.md), [structured mapping](p1-pr-027-journal-reconciliation-review.json), [source inventory](p1-pr-027-journal-reconciliation-sources.json). HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications. The next read-only coordination proof is proposed only.
