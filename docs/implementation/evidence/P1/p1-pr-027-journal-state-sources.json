@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "scope": "Local source/observations only; no new external provider research or capability claim",
+  "baselineMerge": "6e13bf9fb2b2c9115dba0216cc6403521f162c11",
+  "inheritedDesignSources": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-sources.json",
+  "newExternalResearch": false,
+  "actualProviderTest": false,
+  "runtimePinChanged": false,
+  "proofSourcePins": [
+    {
+      "path": "tests/fixtures/lifecycle-journal/model.ts",
+      "sha256": "ccfb13de40e3ac8f6c57679c8f2269ae612cd67a729f834cac51246bd385c4f7"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/samples.ts",
+      "sha256": "db73db2e533bf980fe45b27c448fa69115191321f436fa4411a86496adbe8451"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/run.mjs",
+      "sha256": "e96fc90c322ec8ef98871ff26365b1bc48a352a4cf206c7a4f6964d3fd354cae"
+    },
+    {
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "sha256": "d9c492a3198d95e372e6f7294a8e27b4a988996fcec7fd4652fa7fb5a20cf82e"
+    },
+    {
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "sha256": "72b3ead17b1ec5c123bb0147f1f3a6e15382461ecae5c68ed06fd15a0ab976e5"
+    }
+  ],
+  "controlAnchors": [
+    {
+      "id": "canonical",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 13,
+      "anchorText": "it('round-trips fixed canonical ASCII records without accepting alternate JSON spellings', () => {",
+      "observation": "Canonical ASCII model profile; alternate JSON/duplicate keys refused."
+    },
+    {
+      "id": "raw",
+      "layer": "unit",
+      "caseExecutions": 8,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 23,
+      "anchorText": "it.each([",
+      "observation": "Malformed/oversized/unstructured/private-body input has a fixed refusal diagnostic."
+    },
+    {
+      "id": "envelope",
+      "layer": "unit",
+      "caseExecutions": 8,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 37,
+      "anchorText": "['operationId', 'postgresql://secret@host'],",
+      "observation": "Unsafe or expanded envelope fields refused without echoing values."
+    },
+    {
+      "id": "digests",
+      "layer": "unit",
+      "caseExecutions": 8,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 53,
+      "anchorText": "'tree',",
+      "observation": "Exact digest-shaped synthetic source/config/identity bindings required."
+    },
+    {
+      "id": "bytes-limits",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 64,
+      "anchorText": "it('rejects invalid UTF-8, a BOM, duplicate resources and excessive steps', () => {",
+      "observation": "Fatal UTF-8/BOM, duplicate/excess resources and excessive planned steps refused."
+    },
+    {
+      "id": "changed-digest",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 78,
+      "anchorText": "it('refuses changed record digests and unknown fields before append, retaining the old head', () => {",
+      "observation": "Changed digest and unexpected token field refuse without advancing head."
+    },
+    {
+      "id": "CAS",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 88,
+      "anchorText": "it('conditionally appends atomically, recognizes exact duplicate evidence, and refuses a stale competing append', () => {",
+      "observation": "Stale expected head/competing append refuses; current exact duplicate changes nothing; failed semantic admission is inert."
+    },
+    {
+      "id": "immutability",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 103,
+      "anchorText": "it('freezes views and detaches caller-owned record objects', () => {",
+      "observation": "Caller mutation cannot change stored evidence; exported records/views frozen."
+    },
+    {
+      "id": "outcomes",
+      "layer": "unit",
+      "caseExecutions": 2,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 113,
+      "anchorText": "it.each(['observed_success', 'observed_no_effect'] as const)(",
+      "observation": "Known-effect results cannot be paired with unavailable observations or unrelated reasons."
+    },
+    {
+      "id": "reconstruction",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 129,
+      "anchorText": "it('requires a trusted simulated current checkpoint for reconstruction and refuses gaps, reorder and truncation', () => {",
+      "observation": "New memory instance rejects missing/reordered/truncated history and wrong supplied checkpoint."
+    },
+    {
+      "id": "receipts",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 142,
+      "anchorText": "it('rejects exported receipts as appendable authority and exposes no activation or claimed real effects', () => {",
+      "observation": "Exported receipt refuses as a record; evidence flags stay false and dispatch counters zero."
+    },
+    {
+      "id": "trust-limit",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 161,
+      "anchorText": "it('makes the lack of checkpoint authentication observable: a self-consistent replacement plus its own checkpoint is accepted as simulation only', () => {",
+      "observation": "A replacement history plus its own matching checkpoint is accepted as simulation, proving absence of authentication."
+    },
+    {
+      "id": "planned",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "line": 172,
+      "anchorText": "it('reports no dispatched effect for planned steps when admission fails before intent', () => {",
+      "observation": "Before-intent outage leaves both planned steps explicitly not_dispatched."
+    },
+    {
+      "id": "intent-only",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 21,
+      "anchorText": "it('retains intent-only uncertainty across reconstructed sessions and blocks blind retry or a new operation ID', () => {",
+      "observation": "Intent-only history stays unknown in reconstructed state and blocks another attempt/new operation ID."
+    },
+    {
+      "id": "unknown-unavailable",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 40,
+      "anchorText": "it('keeps unknown effect and unavailable observation distinct without automatic compensation', () => {",
+      "observation": "Unknown effect and unavailable observation coexist; later blind success overwrite refuses."
+    },
+    {
+      "id": "outage",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 62,
+      "anchorText": "it('stops on simulated journal outage before intent and preserves unknown state after an unacknowledged outcome', () => {",
+      "observation": "Unacknowledged intent/outcome append halts; acknowledged intent remains unknown after reconstruction."
+    },
+    {
+      "id": "lost-epoch",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 76,
+      "anchorText": "it('requires quiescence and fresh simulated inventory/review before re-entry, without calling it target fencing', () => {",
+      "observation": "Lost simulated authority blocks takeover/old result; quiescence plus fresh inventory/review permits a modeled new attempt, without target fencing."
+    },
+    {
+      "id": "provenance",
+      "layer": "usecase",
+      "caseExecutions": 3,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 99,
+      "anchorText": "it.each(['foreign', 'ambiguous', 'unavailable'] as const)(",
+      "observation": "Foreign/ambiguous/unavailable synthetic inventory refuses reconciliation without changing head."
+    },
+    {
+      "id": "partial-pair",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 119,
+      "anchorText": "it('retains a known app success when the CMS observation is unknown; paired labels cannot release a partial operation', () => {",
+      "observation": "Known app success and unknown CMS remain separate and quarantined; no false rollback/release."
+    },
+    {
+      "id": "reviewed-reentry",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 134,
+      "anchorText": "it('requires reviewed no-effect evidence for a new attempt and never erases the previous unknown event', () => {",
+      "observation": "Reviewed synthetic absence permits a new attempt; original unknown event remains immutable."
+    },
+    {
+      "id": "evidence-only",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 150,
+      "anchorText": "it('can only finish as evidence, even after all simulated steps succeed and the simulated domain is released', () => {",
+      "observation": "Completed synthetic steps and quiescence produce evidence only; modeled domain release never activates runtime."
+    },
+    {
+      "id": "old-operation",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 186,
+      "anchorText": "it('refuses an older operation reacquiring the domain after a newer operation is admitted', () => {",
+      "observation": "Old operation cannot reacquire the same simulated domain after a newer one is admitted."
+    },
+    {
+      "id": "contradiction",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 209,
+      "anchorText": "it('quarantines an observed disappearance after known success without rewriting that committed observation', () => {",
+      "observation": "Disappearance after known success retains success history and quarantine; no contradictory no-effect rewrite."
+    },
+    {
+      "id": "sticky-finding",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 219,
+      "anchorText": "it('requires fresh review to clear unavailable inventory after a known success', () => {",
+      "observation": "Later owned observation does not silently clear prior unavailability; fresh reviewed reconciliation required."
+    },
+    {
+      "id": "invalidation",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 235,
+      "anchorText": "it('invalidates an early receipt after further coordination and reports an unavailable journal as quarantined', () => {",
+      "observation": "Later coordination invalidates an early marker; offline journal view remains quarantined."
+    },
+    {
+      "id": "review-binding",
+      "layer": "usecase",
+      "caseExecutions": 2,
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "line": 249,
+      "anchorText": "it.each(['review', 'inventory'] as const)(",
+      "observation": "Wrong review/inventory references refuse atomically."
+    }
+  ]
+}

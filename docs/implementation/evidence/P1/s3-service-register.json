@@ -459,7 +459,16 @@
         "docs/implementation/P1-PR-027-provisioning-journal-serialization-contract.md",
         "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
         "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-validation.md",
+        "docs/implementation/P1-PR-027-journal-state-uncertainty-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-state-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-state-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-state-validation.md",
+        "tests/fixtures/lifecycle-journal/model.ts",
+        "tests/fixtures/lifecycle-journal/samples.ts",
+        "tests/fixtures/lifecycle-journal/run.mjs",
+        "tests/unit/lifecycle-journal.test.ts",
+        "tests/usecases/lifecycle-journal.test.ts"
       ]
     }
   ],
