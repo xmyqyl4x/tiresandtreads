@@ -719,5 +719,34 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localTargetPlanModelProofs": [
+    {
+      "name": "PJ13 target-plan admission and ordering synthetic model proof",
+      "status": "local model evidence in review; no case/gate acceptance",
+      "baselineMerge": "b9f23153c8175621dcebe35ee1cc47cdfb46da80",
+      "evidence": [
+        "docs/implementation/P1-PR-027-target-plan-ordering-model-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-validation.md",
+        "tests/fixtures/multitarget-plan/json.ts",
+        "tests/fixtures/multitarget-plan/model.ts",
+        "tests/fixtures/multitarget-plan/samples.ts",
+        "tests/fixtures/multitarget-plan/run.mjs",
+        "tests/unit/multitarget-plan.test.ts",
+        "tests/usecases/multitarget-plan.test.ts"
+      ],
+      "scenario": "PJ13",
+      "designCase": "BLC-T13",
+      "newTests": 119,
+      "focusedSqlConnections": 0,
+      "focusedFixtureServiceExecutions": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

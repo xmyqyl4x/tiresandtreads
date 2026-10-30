@@ -496,7 +496,17 @@
         "docs/implementation/P1-PR-027-multitarget-coordination-ordering-review.md",
         "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
         "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-validation.md",
+        "docs/implementation/P1-PR-027-target-plan-ordering-model-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-validation.md",
+        "tests/fixtures/multitarget-plan/json.ts",
+        "tests/fixtures/multitarget-plan/model.ts",
+        "tests/fixtures/multitarget-plan/samples.ts",
+        "tests/fixtures/multitarget-plan/run.mjs",
+        "tests/unit/multitarget-plan.test.ts",
+        "tests/usecases/multitarget-plan.test.ts"
       ]
     }
   ],
