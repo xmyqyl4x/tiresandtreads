@@ -542,6 +542,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Journal evidence reconciliation](../implementation/P1-PR-027-journal-evidence-reconciliation.md) follows approved PR #52 (`aaca91b0`) local process/file proof only: 18 original journal scenarios and 22-case context, 103 historical journal assertions with distinct evidence/limits; no new implementation/test/scenario execution or case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications.
 
+[Read-only shared-coordination/session proof](../implementation/P1-PR-027-readonly-coordination-session-proof.md) follows approved PR #53 (`596e6c8a`) reconciliation only: 45 tests, 30 unit/15 actual DB functional-use-case; 45 probe sessions ended, common/per-DB/inner boundaries and independent read completion after coordinator loss observed. Inherited setup/observer controls separate; no lifecycle mutation/provider dispatcher, production executor, trust/fencing claim or scenario/case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

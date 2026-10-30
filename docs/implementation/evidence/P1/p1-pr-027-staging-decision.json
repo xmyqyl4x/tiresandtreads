@@ -668,5 +668,33 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localReadonlyCoordinationProofs": [
+    {
+      "name": "Read-only shared coordination and lost-session proof",
+      "status": "local technical proof in review; no scenario/case/gate acceptance",
+      "baselineMerge": "596e6c8a4ee1911075de8a86150e03b28a179fb9",
+      "evidence": [
+        "docs/implementation/P1-PR-027-readonly-coordination-session-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-validation.md",
+        "tests/fixtures/readonly-coordination/contract.ts",
+        "tests/fixtures/readonly-coordination/proof.ts",
+        "tests/fixtures/readonly-coordination/run.mjs",
+        "tests/unit/readonly-coordination.test.ts",
+        "tests/database/readonly-coordination.test.ts"
+      ],
+      "testsPassed": 45,
+      "unitCases": 30,
+      "databaseFunctionalUsecases": 15,
+      "probeSessionsOpened": 45,
+      "probeSessionsEnded": 45,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
