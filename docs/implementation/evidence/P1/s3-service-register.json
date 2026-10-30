@@ -468,7 +468,18 @@
         "tests/fixtures/lifecycle-journal/samples.ts",
         "tests/fixtures/lifecycle-journal/run.mjs",
         "tests/unit/lifecycle-journal.test.ts",
-        "tests/usecases/lifecycle-journal.test.ts"
+        "tests/usecases/lifecycle-journal.test.ts",
+        "docs/implementation/P1-PR-027-journal-process-handoff-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-process-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-process-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-process-validation.md",
+        "tests/fixtures/journal-process/contract.ts",
+        "tests/fixtures/journal-process/storage.ts",
+        "tests/fixtures/journal-process/child.ts",
+        "tests/fixtures/journal-process/parent.ts",
+        "tests/fixtures/journal-process/run.mjs",
+        "tests/unit/journal-process.test.ts",
+        "tests/usecases/journal-process.test.ts"
       ]
     }
   ],

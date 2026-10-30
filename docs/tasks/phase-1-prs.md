@@ -538,6 +538,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Disposable journal record/state and uncertainty proof](../implementation/P1-PR-027-journal-state-uncertainty-proof.md) follows approved PR #50 (`6e13bf9f`) design analysis only: 51 synthetic tests, 35 unit/16 use-case, five new files under tests. No SQL/provider effect dispatch or production executor, no case/gate closure. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
 
+[Journal child-process handoff and cold-restart proof](../implementation/P1-PR-027-journal-process-handoff-proof.md) follows approved PR #51 (`a2d1a276`) local model only: 52 new tests, 33 unit/19 use-case, 36 observed Node children/exits/stream closures and seven kill points. Fixed synthetic records/parent checkpoint; no SQL/provider dispatch, production executor, durability/authentication/fencing claim or case/gate closure. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
