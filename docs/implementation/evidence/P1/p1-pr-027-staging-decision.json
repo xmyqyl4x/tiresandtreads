@@ -615,5 +615,36 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localJournalProcessProofs": [
+    {
+      "name": "Journal child-process handoff and cold-restart proof",
+      "status": "local technical proof in review; no case/gate acceptance",
+      "baselineMerge": "a2d1a2764f4d4428f68a9420b75b21b1ed63328b",
+      "evidence": [
+        "docs/implementation/P1-PR-027-journal-process-handoff-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-process-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-process-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-process-validation.md",
+        "tests/fixtures/journal-process/contract.ts",
+        "tests/fixtures/journal-process/storage.ts",
+        "tests/fixtures/journal-process/child.ts",
+        "tests/fixtures/journal-process/parent.ts",
+        "tests/fixtures/journal-process/run.mjs",
+        "tests/unit/journal-process.test.ts",
+        "tests/usecases/journal-process.test.ts"
+      ],
+      "testsPassed": 52,
+      "unitCases": 33,
+      "usecaseCases": 19,
+      "databaseCases": 0,
+      "observedNodeChildren": 36,
+      "forcedKillPoints": 7,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

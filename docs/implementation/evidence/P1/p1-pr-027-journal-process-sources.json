@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "scope": "Local source and observed private fixture processes/files; no new external provider research/capability claim",
+  "baselineMerge": "a2d1a2764f4d4428f68a9420b75b21b1ed63328b",
+  "inheritedModel": "docs/implementation/evidence/P1/p1-pr-027-journal-state-local.json",
+  "inheritedDesignSources": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-sources.json",
+  "newExternalResearch": false,
+  "actualProviderTest": false,
+  "runtimePinChanged": false,
+  "proofSourcePins": [
+    {
+      "path": "tests/fixtures/journal-process/contract.ts",
+      "sha256": "13f8b0f749196d5513edbe6a994a5b14c6ecaa13a22725e2c219bc4bc4888b93"
+    },
+    {
+      "path": "tests/fixtures/journal-process/storage.ts",
+      "sha256": "32d720516124f61e5c9749bec1cd3c8c605edb9ccf32bfb83356034b79f1c243"
+    },
+    {
+      "path": "tests/fixtures/journal-process/child.ts",
+      "sha256": "2cce9637bcdfaf02290ea931ef7ba51fb808e492c518fd3f88c76c764ee2dafd"
+    },
+    {
+      "path": "tests/fixtures/journal-process/parent.ts",
+      "sha256": "394218581d0fc15b6bfcd60e47c089636b2fdf790e91707df1a17978d30da716"
+    },
+    {
+      "path": "tests/fixtures/journal-process/run.mjs",
+      "sha256": "bb1d9ea5bb3b3f97aa0ba18d258b36eb50d99f23a8c6c4b9dacaf785bfd70d35"
+    },
+    {
+      "path": "tests/unit/journal-process.test.ts",
+      "sha256": "68015d69f6eba39fb7ea6c4f13825786e3eb459671f394e89e5e89eb42c7fa72"
+    },
+    {
+      "path": "tests/usecases/journal-process.test.ts",
+      "sha256": "527d2e4bb8da15475bc4457cee631d9d71e9e7c7b304af822d4ac163d6a294a6"
+    }
+  ],
+  "controlAnchors": [
+    {
+      "id": "plans",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 31,
+      "anchorText": "it('admits only fixed synthetic plans and parent-checkpoint-bound receipt exports', () => {",
+      "observation": "Fixed synthetic plan/checkpoint/receipt export admission."
+    },
+    {
+      "id": "bad-plans",
+      "layer": "unit",
+      "caseExecutions": 15,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 47,
+      "anchorText": "it.each([",
+      "observation": "Unknown/malformed/oversized/retained-target/SQL/path/receipt/checkpoint plans refused with a fixed diagnostic."
+    },
+    {
+      "id": "environment",
+      "layer": "unit",
+      "caseExecutions": 3,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 68,
+      "anchorText": "{ APP_ENV: 'stage-local' },",
+      "observation": "Actual environment/profile mismatch refused."
+    },
+    {
+      "id": "events",
+      "layer": "unit",
+      "caseExecutions": 8,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 76,
+      "anchorText": "{ processId: 124 },",
+      "observation": "Foreign PID/run ID, true authority flags, provider effects and extra SQL field refused from an otherwise valid event."
+    },
+    {
+      "id": "phase-binding",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 104,
+      "anchorText": "it('refuses a pause at another point and an acknowledgement with an impossible checkpoint', () => {",
+      "observation": "Wrong pause point/impossible ack checkpoint refused."
+    },
+    {
+      "id": "positive-event",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 115,
+      "anchorText": "it('admits a correctly bound child event before negative mutation checks', () => {",
+      "observation": "Correctly bound event accepted; negative event controls do not rely on a missing required base field."
+    },
+    {
+      "id": "file-bound",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 134,
+      "anchorText": "it('bounds temporary file reads and never repairs missing, oversized or partial bytes', () => {",
+      "observation": "Missing/partial/oversized files refused without creating, adopting or repairing bytes."
+    },
+    {
+      "id": "links",
+      "layer": "unit",
+      "caseExecutions": 2,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 150,
+      "anchorText": "it.each(['symlink', 'hardlink'] as const)(",
+      "observation": "Actual symlink/hardlink journals refused; owned sentinel content preserved."
+    },
+    {
+      "id": "marker",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/journal-process.test.ts",
+      "line": 167,
+      "anchorText": "it('refuses changed ownership markers for reading and cleanup until the fixture marker is restored', () => {",
+      "observation": "Wrong fixture marker refuses read and cleanup; test restores marker before exact fixture cleanup."
+    },
+    {
+      "id": "kill-restart",
+      "layer": "usecase",
+      "caseExecutions": 7,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 18,
+      "anchorText": "it.each(points)(",
+      "observation": "Actual SIGKILL at seven file/ack points, actual exit/stream closure, fresh PID read/refusal, unchanged bytes/checkpoint and exported receipt rejection."
+    },
+    {
+      "id": "normal",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 84,
+      "anchorText": "it('completes fixed synthetic handoff normally and validates unchanged bytes in a fresh child', async () => {",
+      "observation": "Normal fixed write completes and a fresh process validates the same bytes as evidence only."
+    },
+    {
+      "id": "continue",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 105,
+      "anchorText": "it('can continue the paused partial record cooperatively without treating the partial bytes as acknowledged', async () => {",
+      "observation": "Partial record stays unacknowledged at count four; explicit cooperative continuation completes all nine records."
+    },
+    {
+      "id": "disconnect",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 120,
+      "anchorText": "it('closes on actual IPC disconnect, preserves intent uncertainty and refuses a fresh write over existing bytes', async () => {",
+      "observation": "Actual IPC disconnect exits 72; fresh read retains unknown effect; another writer exits 64 without overwriting."
+    },
+    {
+      "id": "adverse-files",
+      "layer": "usecase",
+      "caseExecutions": 7,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 149,
+      "anchorText": "'missing',",
+      "observation": "Missing/truncated/reordered/changed/duplicate/oversized/FIFO input refuses in a fresh child; ordinary bytes or missing/FIFO state remain unchanged."
+    },
+    {
+      "id": "session-boundary",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 200,
+      "anchorText": "it('rejects cross-session plans and a concurrent second child before spawn', async () => {",
+      "observation": "Other session plan and concurrent child refused before spawn."
+    },
+    {
+      "id": "cleanup",
+      "layer": "usecase",
+      "caseExecutions": 1,
+      "path": "tests/usecases/journal-process.test.ts",
+      "line": 217,
+      "anchorText": "it('reports actual process/stream cleanup and evidence-only boundaries', async () => {",
+      "observation": "Cleanup kills the waiting owned child; all 36 Node children show exit and both output-stream closures, with every authority/effect/gate flag false."
+    }
+  ]
+}
