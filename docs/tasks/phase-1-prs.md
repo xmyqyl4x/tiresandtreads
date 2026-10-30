@@ -544,6 +544,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Read-only shared-coordination/session proof](../implementation/P1-PR-027-readonly-coordination-session-proof.md) follows approved PR #53 (`596e6c8a`) reconciliation only: 45 tests, 30 unit/15 actual DB functional-use-case; 45 probe sessions ended, common/per-DB/inner boundaries and independent read completion after coordinator loss observed. Inherited setup/observer controls separate; no lifecycle mutation/provider dispatcher, production executor, trust/fencing claim or scenario/case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications.
 
+[Multi-target coordination ordering review](../implementation/P1-PR-027-multitarget-coordination-ordering-review.md) follows approved PR #54 (`2a5e8fd8`) local proof only: PJ13 proposed fixed admission/common-before-inner order, bounded refusal/loss/cleanup and source preservation/quarantine; recovery TLS/parser gaps explicit. 16 proposed controls, no new implementation/test/fixture/SQL execution or case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
