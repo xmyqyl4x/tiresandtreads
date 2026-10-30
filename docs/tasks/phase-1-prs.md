@@ -536,6 +536,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Local-only provisioning-journal and serialization contract review](../implementation/P1-PR-027-provisioning-journal-serialization-contract.md) follows approved PR #49 (`d26d21f4`) local catalog proof only. BLC-T12/T13/T22 proposed records/outcomes/provenance/coordination limits and 18 future scenarios; documentation only, no implementation or case/gate closure. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
 
+[Disposable journal record/state and uncertainty proof](../implementation/P1-PR-027-journal-state-uncertainty-proof.md) follows approved PR #50 (`6e13bf9f`) design analysis only: 51 synthetic tests, 35 unit/16 use-case, five new files under tests. No SQL/provider effect dispatch or production executor, no case/gate closure. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

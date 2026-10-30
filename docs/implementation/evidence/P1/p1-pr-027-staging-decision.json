@@ -588,5 +588,32 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localJournalStateProofs": [
+    {
+      "name": "BLC-T12/T13/T22 journal record/state and uncertainty model",
+      "status": "local synthetic proof in review; no case/gate acceptance",
+      "baselineMerge": "6e13bf9fb2b2c9115dba0216cc6403521f162c11",
+      "evidence": [
+        "docs/implementation/P1-PR-027-journal-state-uncertainty-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-state-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-state-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-state-validation.md",
+        "tests/fixtures/lifecycle-journal/model.ts",
+        "tests/fixtures/lifecycle-journal/samples.ts",
+        "tests/fixtures/lifecycle-journal/run.mjs",
+        "tests/unit/lifecycle-journal.test.ts",
+        "tests/usecases/lifecycle-journal.test.ts"
+      ],
+      "testsPassed": 51,
+      "unitCases": 35,
+      "usecaseCases": 16,
+      "databaseCases": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
