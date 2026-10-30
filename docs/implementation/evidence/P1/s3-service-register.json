@@ -483,7 +483,16 @@
         "docs/implementation/P1-PR-027-journal-evidence-reconciliation.md",
         "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-review.json",
         "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-validation.md",
+        "docs/implementation/P1-PR-027-readonly-coordination-session-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-validation.md",
+        "tests/fixtures/readonly-coordination/contract.ts",
+        "tests/fixtures/readonly-coordination/proof.ts",
+        "tests/fixtures/readonly-coordination/run.mjs",
+        "tests/unit/readonly-coordination.test.ts",
+        "tests/database/readonly-coordination.test.ts"
       ]
     }
   ],

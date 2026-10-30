@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "596e6c8a4ee1911075de8a86150e03b28a179fb9",
+  "scope": "Repository sources and observed disposable PostgreSQL sessions only; no external source/provider fact refresh",
+  "newExternalResearch": false,
+  "actualProviderTest": false,
+  "runtimePinChanged": false,
+  "inheritedReview": "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-review.json",
+  "inheritedDesign": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+  "proofSourcePins": [
+    {
+      "path": "tests/fixtures/readonly-coordination/contract.ts",
+      "sha256": "ea2e1d2c60e5d0e177200fd1a0577707f63448730312b644f6552deec017da35"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "sha256": "3909b806e16c2483d76a19f293b29e40b2890bb880a465b5c3550cd6d52ac660"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/run.mjs",
+      "sha256": "45c793c27320c7bdf7e9248fdd9b859a019d1d1b64aa676c6582e427bb288033"
+    },
+    {
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "sha256": "13124b69f49410e56ca2bb91ff75740c554fac95e4777fcdd71cc16f4588142a"
+    },
+    {
+      "path": "tests/database/readonly-coordination.test.ts",
+      "sha256": "deb5e3ad0c5fc4944f9c0ec69b0f597a3989d78ead926c0e91620e86e95f1e95"
+    }
+  ],
+  "controlAnchors": [
+    {
+      "id": "admission",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "line": 25,
+      "anchorText": "it('admits fixed app/CMS origins and the explicitly labeled per-database control', () => {",
+      "observation": "Two origins/common versus labeled per-database control admitted; unit synthetic CA is never connected."
+    },
+    {
+      "id": "plans",
+      "layer": "unit",
+      "caseExecutions": 19,
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "line": 55,
+      "anchorText": "])('refuses expanded or unsupported plan %# with a fixed diagnostic', (patch) => {",
+      "observation": "Extra SQL/key/PID/timeouts/role/program/repair, swapped/mixed/expanded/oversized inputs refuse with a fixed diagnostic before connection."
+    },
+    {
+      "id": "environment",
+      "layer": "unit",
+      "caseExecutions": 3,
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "line": 65,
+      "anchorText": "])('refuses a retained or live environment %#', (patch) => {",
+      "observation": "Live/retained profile/project mismatches refuse."
+    },
+    {
+      "id": "bindings",
+      "layer": "unit",
+      "caseExecutions": 6,
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "line": 78,
+      "anchorText": "])('refuses an alternate connection binding %# before opening sessions', (url) => {",
+      "observation": "Wrong host/port/DB/owner/URI options refuse; no redirected target admitted."
+    },
+    {
+      "id": "immutable",
+      "layer": "unit",
+      "caseExecutions": 1,
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "line": 87,
+      "anchorText": "it('detaches and freezes admitted fixture inputs rather than retaining mutable caller authority', () => {",
+      "observation": "Caller mutation cannot change admitted connection inputs."
+    },
+    {
+      "id": "common",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 2,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 85,
+      "anchorText": "'PJ08 makes a competing %s work origin use the same app-DB coordination endpoint',",
+      "observation": "App/CMS work origins use the same app-DB endpoint; actual TLS/read-only identity facts match, loser is busy with zero work queries, and a fresh participant succeeds after release."
+    },
+    {
+      "id": "per-database-control",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 115,
+      "anchorText": "it('PJ08 separate-per-database control grants the same numeric key in both databases and proves no common exclusion', async () => {",
+      "observation": "Same numeric key is granted in both distinct DBs; this negative control does not provide common exclusion. Inner app migration-key probe refuses in control mode."
+    },
+    {
+      "id": "inner-busy",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 2,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 136,
+      "anchorText": "'PJ09 bounds an inner app migration-key wait after common allocation for %s without running migrations',",
+      "observation": "Common allocation precedes an actual busy app migration key; bounded lock timeout closes probe sessions with zero work queries; a fresh participant succeeds after release."
+    },
+    {
+      "id": "inner-clear",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 163,
+      "anchorText": "it('PJ09 observes uncontended common and inner locks with read-only identities and no schema/history creation', async () => {",
+      "observation": "Common/inner key observation and fixed read succeed under read-only TLS owners; full foundation snapshots and empty migration histories stay unchanged."
+    },
+    {
+      "id": "lost-session",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 2,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 176,
+      "anchorText": "'PJ10 loses the actual coordinator while an independent %s read completes, but refuses that result and new work',",
+      "observation": "Supervisor matches exact owned backend identity and conditionally terminates only that coordinator. Independent read remains in PgSleep after termination, completes, and its result/new work are refused; fresh participant later succeeds."
+    },
+    {
+      "id": "closed",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 231,
+      "anchorText": "it('refuses reuse after normal closure and closes actual sessions rather than retaining an admission receipt', async () => {",
+      "observation": "Closed participant refuses allocation/read reuse; no receipt authority persists."
+    },
+    {
+      "id": "pre-connect",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 242,
+      "anchorText": "it('refuses expanded or redirected input before creating any new PostgreSQL session', async () => {",
+      "observation": "Expanded input refuses before any probe PostgreSQL sessions appear; no catalog changes."
+    },
+    {
+      "id": "drain",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 258,
+      "anchorText": "it('cleanup waits for an owned in-flight read and discards its result without pretending to cancel it', async () => {",
+      "observation": "Cleanup waits for the fixed in-flight read and discards its completed result; it does not pretend to cancel target work."
+    },
+    {
+      "id": "environment-after-allocation",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 270,
+      "anchorText": "it('refuses an environment change after allocation before sending another fixed work query', async () => {",
+      "observation": "Profile change after allocation refuses another fixed work query; zero work-query dispatches on this path."
+    },
+    {
+      "id": "partial-TLS",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 286,
+      "anchorText": "it('closes the already connected coordinator when the second channel refuses its invalid TLS authority', async () => {",
+      "observation": "Invalid second-channel CA closes the already connected coordinator; no probe session remains."
+    },
+    {
+      "id": "environment-during-allocation",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 305,
+      "anchorText": "it('invalidates an allocation acknowledgement if the environment changes while its SQL request is pending', async () => {",
+      "observation": "Profile change while allocation SQL is pending invalidates its acknowledgement and releases owned channels instead of returning held."
+    },
+    {
+      "id": "busy-and-evidence",
+      "layer": "database-functional-usecase",
+      "caseExecutions": 1,
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 321,
+      "anchorText": "it('bounds competing reads locally and emits technical evidence without lifecycle or provider effects', async () => {",
+      "observation": "A competing read refuses locally without another SQL work query; all 45 probe sessions ended and evidence/admission/closure flags remain false."
+    }
+  ],
+  "implementationAnchors": [
+    {
+      "id": "fixed-sql",
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "line": 7,
+      "anchorText": "const sql = {"
+    },
+    {
+      "id": "channel",
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "line": 25,
+      "anchorText": "async function channel(input: unknown, application: string) {"
+    },
+    {
+      "id": "identity",
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "line": 53,
+      "anchorText": "\"SELECT pg_backend_pid() AS pid,current_database() AS database,current_user AS role,current_setting('transaction_read_only') AS read_only,(SELECT ssl FROM pg_stat_ssl WHERE pid=pg_backend_pid()) AS tls\","
+    },
+    {
+      "id": "re-admit",
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "line": 132,
+      "anchorText": "const inScope = () => {"
+    },
+    {
+      "id": "post-query-guard",
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "line": 180,
+      "anchorText": "if (!outcome.ok || !inScope() || !allocation.live() || phase !== 'acquiring') {"
+    },
+    {
+      "id": "lost-result",
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "line": 155,
+      "anchorText": "if (!allowed()) {"
+    },
+    {
+      "id": "root-control",
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 199,
+      "anchorText": "\"SELECT pg_terminate_backend(pid) AS stopped FROM pg_stat_activity WHERE pid=$1 AND datname=$2 AND usename=$3 AND application_name=$4 AND backend_type='client backend'\","
+    },
+    {
+      "id": "role-invariants",
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 33,
+      "anchorText": "expect(baseline.roleState).toHaveLength(19);"
+    },
+    {
+      "id": "session-cleanup",
+      "path": "tests/database/readonly-coordination.test.ts",
+      "line": 53,
+      "anchorText": "await f.root.query('SELECT count(*)::int AS n FROM pg_stat_activity WHERE pid=ANY($1)', ["
+    },
+    {
+      "id": "inherited-read-only",
+      "path": "tests/fixtures/lifecycle-validation/reader.ts",
+      "line": 118,
+      "anchorText": "\"BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; SET LOCAL statement_timeout='1s'; SET LOCAL lock_timeout='250ms'; SET LOCAL idle_in_transaction_session_timeout='1s'; SET LOCAL transaction_timeout='5s'\","
+    },
+    {
+      "id": "fixture-setup",
+      "path": "tests/fixtures/lifecycle-validation/database.ts",
+      "line": 29,
+      "anchorText": "export async function lifecycleFixture(phase: LifecyclePhase) {"
+    }
+  ]
+}
