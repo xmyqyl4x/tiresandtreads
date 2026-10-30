@@ -532,6 +532,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Lifecycle evidence reconciliation and remaining-gap review](../implementation/P1-PR-027-lifecycle-evidence-reconciliation.md) follows approved PR #47 (`a4221e63`) local proof only. All 22 original requirements mapped; no new implementation, case completion or gate closure. Earlier actual local restore/signed custody credited separately; lifecycle mutation/coordination/rotation and actual operating acceptance remain open. T07–T09 adverse-case proof proposed next only. All production/HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
 
+[Disposable BLC-T07–T09 catalog adverse-case proof](../implementation/P1-PR-027-catalog-adverse-case-proof.md) follows approved PR #48 (`5ef8d9f2`) reconciliation only: 231 local DB controls, strict observed defect/state/undo assertions and pre-existing probe-role refusal. Three new files under tests; prior reader/proofs and production bootstrap/CLI/preflight/policy unchanged. No full case or gate closure; all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

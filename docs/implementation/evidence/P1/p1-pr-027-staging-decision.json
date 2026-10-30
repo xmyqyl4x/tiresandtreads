@@ -546,5 +546,27 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localCatalogAdverseProofs": [
+    {
+      "name": "BLC-T07-T09 catalog adverse-case proof",
+      "status": "local technical proof in review; no case or gate acceptance",
+      "baselineMerge": "5ef8d9f24e276067e74ec3db4c82dcfdb40420e3",
+      "evidence": [
+        "docs/implementation/P1-PR-027-catalog-adverse-case-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-validation.md",
+        "tests/database/lifecycle-catalog.test.ts",
+        "tests/fixtures/lifecycle-catalog/database.ts",
+        "tests/fixtures/lifecycle-catalog/run.mjs"
+      ],
+      "testsPassed": 231,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

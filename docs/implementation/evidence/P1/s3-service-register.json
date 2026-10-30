@@ -448,7 +448,14 @@
         "docs/implementation/P1-PR-027-lifecycle-evidence-reconciliation.md",
         "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-review.json",
         "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-validation.md",
+        "docs/implementation/P1-PR-027-catalog-adverse-case-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-validation.md",
+        "tests/database/lifecycle-catalog.test.ts",
+        "tests/fixtures/lifecycle-catalog/database.ts",
+        "tests/fixtures/lifecycle-catalog/run.mjs"
       ]
     }
   ],
