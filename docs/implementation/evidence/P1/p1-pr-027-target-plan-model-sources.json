@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 1,
+  "baselineMerge": "b9f23153c8175621dcebe35ee1cc47cdfb46da80",
+  "scope": "Test-only source anchors and hashes; inherited design/source evidence remains frozen",
+  "proofSourcePins": [
+    {
+      "path": "tests/fixtures/multitarget-plan/json.ts",
+      "sha256": "7be0dbf2132c4efd6dcfeecd58f4e5b192090523783617a4b69578fb3c6d38ac"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/model.ts",
+      "sha256": "ff19eb605bca2260c54f7a8a70f3947bc5c2247b6bf03b1f0ef0a2d0d4ca309f"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/samples.ts",
+      "sha256": "a6711a95d9a333a06490e44d821c743ce89b7a84a4319229ae80165a85c50e83"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/run.mjs",
+      "sha256": "c0e918926dfb030658f63d73a56bebb7e6c25ecf39b89a9c2b41d03ef5f3d18e"
+    },
+    {
+      "path": "tests/unit/multitarget-plan.test.ts",
+      "sha256": "497d232f095cb46763e10bdd987c26c8de0d99e550a8f7cf85dc109dd84cead4"
+    },
+    {
+      "path": "tests/usecases/multitarget-plan.test.ts",
+      "sha256": "67ee7aa7aa46143658404b2dcc75a968b13437146e25780f0052978c69258298"
+    }
+  ],
+  "unchangedSourcePins": [
+    {
+      "path": "infra/local/01-databases.sql",
+      "sha256": "4eafe9596a7d0eecf397023fc8c260535d4326ee3e7710f59d22d0eaf4dcead2"
+    },
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "sha256": "1c14f0efcf9848b1a8f6dc804391e3d9a77b263daf6b9b26e1511fb161b604e4"
+    },
+    {
+      "path": "scripts/database/cli.ts",
+      "sha256": "f2d03455b647c1afcae952b7e62695ad532a1464c5ced997e3e618528c5ccc9b"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "sha256": "547606c2ff107469174fd671b3a64f18101051313068d7a1887f4e00c90b7af4"
+    },
+    {
+      "path": "scripts/database/cms.ts",
+      "sha256": "61b932275bac009e5e0a9abfce2d4a88e64ca05d69c68e28250b7ef7a9eb084a"
+    },
+    {
+      "path": "scripts/database/manifest.ts",
+      "sha256": "be29c23701e96d8c2708e63ba8ca9c4b0a51ebbea0d395c9590e1ff8652f337d"
+    },
+    {
+      "path": "scripts/database/inventory.ts",
+      "sha256": "a9ec8e1929c2fdfed581ce27a8c6c72e2dc6b9d88723b6aa22fd56c27b780d07"
+    },
+    {
+      "path": "scripts/database/recovery-artifact.ts",
+      "sha256": "78dd91626d165c28985fa4264863274ede64d41a871d6ae8ac75cb461e788f4f"
+    },
+    {
+      "path": "scripts/database/custody.ts",
+      "sha256": "83a17498c6f2bbb4da7a7f3edef404b911cd9b9fdf9b478131a10c9755d205ba"
+    },
+    {
+      "path": "packages/config/src/database-roles.ts",
+      "sha256": "c84931f45224590fc54ef1433cbdb39df178ef442aa79cd6d3365130c9030b06"
+    },
+    {
+      "path": "packages/config/src/database-preflight.ts",
+      "sha256": "3b9f59eddbea528252b6d0f348ca365cbe08dc9e4937f6f156dc3159ee35e1db"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "sha256": "973f5e26b84ef86196f4d463690a056227a0cfe197115d2addb1a3ae9ba93ecb"
+    },
+    {
+      "path": "scripts/verify/recovery.mjs",
+      "sha256": "90cc3e18c1097f92d5f4246c87ebcada49fa76196caf380f95c7e6cc1b1924d2"
+    },
+    {
+      "path": "tests/database/restricted-admin.test.ts",
+      "sha256": "132c007bec29b5bb099d71859cb6336613599de3ee03bc0fbcb37277a9356297"
+    },
+    {
+      "path": "tests/fixtures/restricted-admin/database.ts",
+      "sha256": "ce0d86667bef6eacf0647ce89b4361a1b090850ff80df6fc82d80fe82bea9dc4"
+    },
+    {
+      "path": "tests/recovery/recovery.test.ts",
+      "sha256": "04da183cc261e993e14b9fd11e6b6aced98f9441459e5258989b96713b0e5248"
+    },
+    {
+      "path": "tests/fixtures/recovery/prepare.ts",
+      "sha256": "bdb53425d75b9dee26cc6311a67f9be7363299cfa58e9e0cc21fd41c08592af1"
+    },
+    {
+      "path": "infra/local/versions.json",
+      "sha256": "8b741caeb475872268f64117944c9585c7c86ca6525306828f24914f1ba0281e"
+    },
+    {
+      "path": "infra/database/app/manifest.json",
+      "sha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+    },
+    {
+      "path": "infra/database/cms/manifest.json",
+      "sha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+    },
+    {
+      "path": "package.json",
+      "sha256": "17de3c4f8829c6aeabcf82ce3d74aaf232787edf8a5633def4a50e24c426fd3a"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "1383ff6c1dff614074a7d062046e3ec37a5eab099b91c01e9d6412f7b0cf143c"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "f3229da909acacdafb435c2f0b8b39e34fc732c009a8f5f066ac5e270b165621"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f"
+    },
+    {
+      "path": "tests/fixtures/foundation/target.ts",
+      "sha256": "4ed0eb6a9375af1979ecbf049cef8d6da673149b1502c7949563263dcc4a75cd"
+    },
+    {
+      "path": "scripts/verify/disposable-cleanup.mjs",
+      "sha256": "ae27534e8979ca62689a3c9903607188b987262effab2fbc927915b098e0e7fa"
+    },
+    {
+      "path": "scripts/verify/local.mjs",
+      "sha256": "a923cea5ed6a5500e445c3b5e3562464ab53e6e3cde6495dccf3ab3ccf3ffc79"
+    },
+    {
+      "path": "scripts/verify/push.mjs",
+      "sha256": "e3ef78a13f412c1d5ee83ec4e0b3d7e78aac74ff69a7abae3d4542302335fca9"
+    },
+    {
+      "path": "scripts/dev/plan.mjs",
+      "sha256": "fc933f425f0549b42d05976ed1db97f6eb5f7a3d0fc5ce33b48010eb25aa2780"
+    },
+    {
+      "path": "scripts/verify/restricted-admin.mjs",
+      "sha256": "eef310c0097ad6f7e230ab0b4338cfb2f8755fabaa05456aa09ce5bf2105e84f"
+    },
+    {
+      "path": "tests/unit/lifecycle-validation.test.ts",
+      "sha256": "673ea0784ed31d25963814af21ba7fc4d0e54acb4d625c083ffed7e56192caa8"
+    },
+    {
+      "path": "tests/database/lifecycle-validation.test.ts",
+      "sha256": "2a1455ee1ecd8d01c53d0440d86d284e8d4f253791add179feb6d505505404a2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/reader.ts",
+      "sha256": "21e1f79ae575588d76e981ef8d8d21fb56d0e5f00679ee2f5f84a20ffa5ef5e6"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/database.ts",
+      "sha256": "dd559a232c0f0e626bff4bc30e6daf2f922ef177c3d35644ed6965ad8b2fe06d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/migrate.ts",
+      "sha256": "89ba5cceb5a7589c4ab741295bb0cf371a8fef4d162958866df134f278038116"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/run.mjs",
+      "sha256": "76b50b4747fba73109706c951f6cd4c485011115a780544ec8e38e981eca1c57"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/contract.ts",
+      "sha256": "8e19c5d6c44af050d18c44969ec0a08762892bfe619ad35a3b11e839f3484d2d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/pair.ts",
+      "sha256": "5fc34197bf682d887752d00215d930bc431dc914b9b9d1505fe5b599d845cd07"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/samples.ts",
+      "sha256": "f2c35f527a10105484fc638e4487d4cb5aa02545c70c78ec8eccdd1e6e17df5c"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/run.mjs",
+      "sha256": "6a642ea42fa44c8b59dc0b26da01da62d194d3ff0062c78b74fc3359767aa183"
+    },
+    {
+      "path": "tests/unit/lifecycle-pair.test.ts",
+      "sha256": "b708b5371ba577f0306957e2e934c2ddfaddb856904dde4070c25ac992bf77af"
+    },
+    {
+      "path": "tests/usecases/lifecycle-pair.test.ts",
+      "sha256": "af5f8543df47468daabd93c25f1d503b4f1478bf68da7164e5f7f4a1091efc8b"
+    },
+    {
+      "path": "tests/database/lifecycle-pair.test.ts",
+      "sha256": "fcfaa8d79fe11bef19f045101d5ee843a1c04d97903b77061a746808f01daaf0"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/protocol.ts",
+      "sha256": "ccf61ebb70e1bf1aa0c0b527e1f3b372d4fd54b005879fe4c2931a1dba6a4e4a"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/parent.ts",
+      "sha256": "9c6c2d814415df69ec0c0315dfaf56fb27acec39aa48f4275bb64091715d539a"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/executor.ts",
+      "sha256": "d8d69af5a6f58e2b88b054158d4ce76b20d0186106d5375fcda417e6c2e87741"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/run.mjs",
+      "sha256": "f8c33f589b709844cd49e4b1bd0657f4dbab61f1b5befd7713a11d7847225c30"
+    },
+    {
+      "path": "tests/unit/lifecycle-restart.test.ts",
+      "sha256": "33a74e1a80fe9c17ca1b6f7cafcc64ac6aebdba004c93f5f518d702802f61953"
+    },
+    {
+      "path": "tests/database/lifecycle-restart.test.ts",
+      "sha256": "13c4795ab4e7093f3eccf3542ee646f983e784bf7effaa9e9e261b934dfb5411"
+    },
+    {
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "sha256": "b0a3b3ff36631dd0d9445baa5f205bc45940b1aae035510f094ce6c24419c7c2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-catalog/database.ts",
+      "sha256": "dddd241f33871d9a9ba502590dfb3f2cf190a3b59335c5ef80a795c6a3f3e5e7"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-catalog/run.mjs",
+      "sha256": "676a2b81331fab9e9b88231164be50d7eb93217d49813f3999e0a5f3733f6b0b"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/model.ts",
+      "sha256": "ccfb13de40e3ac8f6c57679c8f2269ae612cd67a729f834cac51246bd385c4f7"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/samples.ts",
+      "sha256": "db73db2e533bf980fe45b27c448fa69115191321f436fa4411a86496adbe8451"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/run.mjs",
+      "sha256": "e96fc90c322ec8ef98871ff26365b1bc48a352a4cf206c7a4f6964d3fd354cae"
+    },
+    {
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "sha256": "d9c492a3198d95e372e6f7294a8e27b4a988996fcec7fd4652fa7fb5a20cf82e"
+    },
+    {
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "sha256": "72b3ead17b1ec5c123bb0147f1f3a6e15382461ecae5c68ed06fd15a0ab976e5"
+    },
+    {
+      "path": "tests/fixtures/journal-process/contract.ts",
+      "sha256": "13f8b0f749196d5513edbe6a994a5b14c6ecaa13a22725e2c219bc4bc4888b93"
+    },
+    {
+      "path": "tests/fixtures/journal-process/storage.ts",
+      "sha256": "32d720516124f61e5c9749bec1cd3c8c605edb9ccf32bfb83356034b79f1c243"
+    },
+    {
+      "path": "tests/fixtures/journal-process/child.ts",
+      "sha256": "2cce9637bcdfaf02290ea931ef7ba51fb808e492c518fd3f88c76c764ee2dafd"
+    },
+    {
+      "path": "tests/fixtures/journal-process/parent.ts",
+      "sha256": "394218581d0fc15b6bfcd60e47c089636b2fdf790e91707df1a17978d30da716"
+    },
+    {
+      "path": "tests/fixtures/journal-process/run.mjs",
+      "sha256": "bb1d9ea5bb3b3f97aa0ba18d258b36eb50d99f23a8c6c4b9dacaf785bfd70d35"
+    },
+    {
+      "path": "tests/unit/journal-process.test.ts",
+      "sha256": "68015d69f6eba39fb7ea6c4f13825786e3eb459671f394e89e5e89eb42c7fa72"
+    },
+    {
+      "path": "tests/usecases/journal-process.test.ts",
+      "sha256": "527d2e4bb8da15475bc4457cee631d9d71e9e7c7b304af822d4ac163d6a294a6"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/contract.ts",
+      "sha256": "ea2e1d2c60e5d0e177200fd1a0577707f63448730312b644f6552deec017da35"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "sha256": "3909b806e16c2483d76a19f293b29e40b2890bb880a465b5c3550cd6d52ac660"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/run.mjs",
+      "sha256": "45c793c27320c7bdf7e9248fdd9b859a019d1d1b64aa676c6582e427bb288033"
+    },
+    {
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "sha256": "13124b69f49410e56ca2bb91ff75740c554fac95e4777fcdd71cc16f4588142a"
+    },
+    {
+      "path": "tests/database/readonly-coordination.test.ts",
+      "sha256": "deb5e3ad0c5fc4944f9c0ec69b0f597a3989d78ead926c0e91620e86e95f1e95"
+    },
+    {
+      "path": "tests/fixtures/recovery/context.ts",
+      "sha256": "4b667db2bcc45c074721e0d10c9ab10d663db40a28b60467ab98c1bc554f4b2f"
+    },
+    {
+      "path": "tests/fixtures/recovery/seal.ts",
+      "sha256": "79fdbfaa6399e6658561d5633afa60d0d34ee47110418844a1a44694e0bc596e"
+    },
+    {
+      "path": "tests/fixtures/recovery/replay.ts",
+      "sha256": "e11b34e47a277e34fa87738cca11cd066b44e6de4c4d6fcc1f9d0382b5d2d422"
+    },
+    {
+      "path": "tests/fixtures/recovery/fingerprints.ts",
+      "sha256": "fe7924940062a65b0a7ace62ad3299f414dafc7bf548a061f2a5fcaa482e3ac2"
+    },
+    {
+      "path": "tests/fixtures/recovery/custody-admit.ts",
+      "sha256": "0c68318765c116b455973e8e3bb9209d6916a415b14f254c14cca1618d7fec85"
+    },
+    {
+      "path": "tests/custody/custody.test.ts",
+      "sha256": "bfbcd7ee646dd6311c3f68c82e05f24e53a8dc46eb8b5dd0f9747e56925ad04c"
+    },
+    {
+      "path": "infra/local/compose.yaml",
+      "sha256": "823e811eedfc14c11fc2630bfd23f35edd9a4e66003c8539957ae5a8d4042844"
+    },
+    {
+      "path": "infra/local/compose.test.yaml",
+      "sha256": "de8bb285a6b133813a5e898cdb378e561c9d8fdaa56abd21183b697e382b67ee"
+    },
+    {
+      "path": "infra/local/compose.recovery.yaml",
+      "sha256": "8165c3f7c3d531675b2c1dc82c619777f0fbb07658885a9b04253e57281166a8"
+    },
+    {
+      "path": "infra/local/compose.custody.yaml",
+      "sha256": "0b65e9b5605e3e3910dff0863b1b1bee5f675ca085f0fdc28269775c3067d151"
+    },
+    {
+      "path": "infra/local/02-test-tls.sql",
+      "sha256": "a785b3b41e31aa3acdda420e072a523e80685c4fd65394d58cd88969420ae67e"
+    },
+    {
+      "path": "tests/fixtures/database-preflight/certificates.py",
+      "sha256": "11be979c5c2e205439a8ca4969718b46ba029fed4f81b29b3dabb73717ba5441"
+    },
+    {
+      "path": "scripts/verify/pre-push.mjs",
+      "sha256": "7394c511ef39959e2631ce1308a183b572ce97a73cd4de206836fb95f8ba4e8d"
+    },
+    {
+      "path": ".githooks/pre-push",
+      "sha256": "f22332dce4494bfce7aa2153c13a241368e35a2b69d8fa492f943104a05dbf70"
+    }
+  ],
+  "anchors": [
+    {
+      "id": "bounded-json",
+      "path": "tests/fixtures/multitarget-plan/json.ts",
+      "line": 18,
+      "anchorText": "export function readJson(raw: unknown, limit: number): unknown {"
+    },
+    {
+      "id": "flags",
+      "path": "tests/fixtures/multitarget-plan/model.ts",
+      "line": 46,
+      "anchorText": "export const evidenceFlags = frozen({"
+    },
+    {
+      "id": "admission",
+      "path": "tests/fixtures/multitarget-plan/model.ts",
+      "line": 64,
+      "anchorText": "export function admitPlan(raw: unknown, bindingRaw: unknown, env: Environment) {"
+    },
+    {
+      "id": "events",
+      "path": "tests/fixtures/multitarget-plan/model.ts",
+      "line": 181,
+      "anchorText": "function event(raw: unknown): Event {"
+    },
+    {
+      "id": "reducer",
+      "path": "tests/fixtures/multitarget-plan/model.ts",
+      "line": 212,
+      "anchorText": "export function createModel("
+    },
+    {
+      "id": "fixed-bindings",
+      "path": "tests/fixtures/multitarget-plan/samples.ts",
+      "line": 17,
+      "anchorText": "export const bindings = () => ({"
+    },
+    {
+      "id": "noarg-runner",
+      "path": "tests/fixtures/multitarget-plan/run.mjs",
+      "line": 8,
+      "anchorText": "if (process.argv.length !== 2)"
+    },
+    {
+      "id": "unit",
+      "path": "tests/unit/multitarget-plan.test.ts",
+      "line": 1,
+      "anchorText": "import { expect, it } from 'vitest';"
+    },
+    {
+      "id": "negative-control",
+      "path": "tests/usecases/multitarget-plan.test.ts",
+      "line": 248,
+      "anchorText": "it('keeps independent supplied contexts and concurrent model grants explicitly synthetic', () => {"
+    }
+  ],
+  "externalClaimsRefreshed": false,
+  "actualProviderTest": false,
+  "runtimePinChanged": false
+}

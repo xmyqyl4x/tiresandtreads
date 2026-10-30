@@ -546,6 +546,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Multi-target coordination ordering review](../implementation/P1-PR-027-multitarget-coordination-ordering-review.md) follows approved PR #54 (`2a5e8fd8`) local proof only: PJ13 proposed fixed admission/common-before-inner order, bounded refusal/loss/cleanup and source preservation/quarantine; recovery TLS/parser gaps explicit. 16 proposed controls, no new implementation/test/fixture/SQL execution or case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications.
 
+[Target-plan admission/ordering model](../implementation/P1-PR-027-target-plan-ordering-model-proof.md) follows PR #55 (`b9f23153`): 119 focused synthetic tests (79 unit/40 use-case); no focused SQL/fixture-service execution or actual locking/TLS/identity/cleanup acceptance. Full regression remains separate. All 18 original journal scenarios/22 lifecycle cases stay proposed; no case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
