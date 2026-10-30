@@ -527,5 +527,24 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localLifecycleReconciliations": [
+    {
+      "name": "22-case lifecycle evidence reconciliation and remaining-gap review",
+      "status": "documentation review only; no new implementation or acceptance",
+      "baselineMerge": "a4221e631ac75e37c473dfccba0868b0aed2f6f4",
+      "evidence": [
+        "docs/implementation/P1-PR-027-lifecycle-evidence-reconciliation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-validation.md"
+      ],
+      "mappedCases": 22,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

@@ -444,7 +444,11 @@
         "tests/fixtures/lifecycle-restart/executor.ts",
         "tests/fixtures/lifecycle-restart/run.mjs",
         "tests/unit/lifecycle-restart.test.ts",
-        "tests/database/lifecycle-restart.test.ts"
+        "tests/database/lifecycle-restart.test.ts",
+        "docs/implementation/P1-PR-027-lifecycle-evidence-reconciliation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-validation.md"
       ]
     }
   ],
