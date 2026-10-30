@@ -492,7 +492,11 @@
         "tests/fixtures/readonly-coordination/proof.ts",
         "tests/fixtures/readonly-coordination/run.mjs",
         "tests/unit/readonly-coordination.test.ts",
-        "tests/database/readonly-coordination.test.ts"
+        "tests/database/readonly-coordination.test.ts",
+        "docs/implementation/P1-PR-027-multitarget-coordination-ordering-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-validation.md"
       ]
     }
   ],

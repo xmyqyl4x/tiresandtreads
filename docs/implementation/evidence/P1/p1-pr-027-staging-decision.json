@@ -696,5 +696,28 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localMultitargetOrderingReviews": [
+    {
+      "name": "Read-only multi-target coordination ordering contract review",
+      "status": "proposed contract in review; no scenario/case/gate acceptance",
+      "baselineMerge": "2a5e8fd830870dc2fdcb98585b29d4a04c97db33",
+      "evidence": [
+        "docs/implementation/P1-PR-027-multitarget-coordination-ordering-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-validation.md"
+      ],
+      "scenario": "PJ13",
+      "designCase": "BLC-T13",
+      "newTests": 0,
+      "newScenarioExecutions": 0,
+      "sqlExecuted": false,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
