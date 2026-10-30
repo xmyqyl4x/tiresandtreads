@@ -534,6 +534,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Disposable BLC-T07–T09 catalog adverse-case proof](../implementation/P1-PR-027-catalog-adverse-case-proof.md) follows approved PR #48 (`5ef8d9f2`) reconciliation only: 231 local DB controls, strict observed defect/state/undo assertions and pre-existing probe-role refusal. Three new files under tests; prior reader/proofs and production bootstrap/CLI/preflight/policy unchanged. No full case or gate closure; all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. No provisioning, purchases or notifications.
 
+[Local-only provisioning-journal and serialization contract review](../implementation/P1-PR-027-provisioning-journal-serialization-contract.md) follows approved PR #49 (`d26d21f4`) local catalog proof only. BLC-T12/T13/T22 proposed records/outcomes/provenance/coordination limits and 18 future scenarios; documentation only, no implementation or case/gate closure. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
