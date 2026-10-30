@@ -646,5 +646,27 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localJournalReconciliationReviews": [
+    {
+      "name": "Journal evidence reconciliation and remaining gaps",
+      "status": "local review only; no scenario/case/gate acceptance",
+      "baselineMerge": "aaca91b0190245800745717f7164e7308ba6b83b",
+      "evidence": [
+        "docs/implementation/P1-PR-027-journal-evidence-reconciliation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-validation.md"
+      ],
+      "scenariosMapped": 18,
+      "casesContextualized": 22,
+      "newTests": 0,
+      "newScenarioExecutions": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

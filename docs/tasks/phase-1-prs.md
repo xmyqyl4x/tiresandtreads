@@ -540,6 +540,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Journal child-process handoff and cold-restart proof](../implementation/P1-PR-027-journal-process-handoff-proof.md) follows approved PR #51 (`a2d1a276`) local model only: 52 new tests, 33 unit/19 use-case, 36 observed Node children/exits/stream closures and seven kill points. Fixed synthetic records/parent checkpoint; no SQL/provider dispatch, production executor, durability/authentication/fencing claim or case/gate closure. Production bootstrap/CLI/preflight/policy and all HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds unchanged. No provisioning, purchases or notifications.
 
+[Journal evidence reconciliation](../implementation/P1-PR-027-journal-evidence-reconciliation.md) follows approved PR #52 (`aaca91b0`) local process/file proof only: 18 original journal scenarios and 22-case context, 103 historical journal assertions with distinct evidence/limits; no new implementation/test/scenario execution or case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
