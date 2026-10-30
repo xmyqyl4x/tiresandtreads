@@ -568,5 +568,25 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localProvisioningJournalDesignReviews": [
+    {
+      "name": "BLC-T12/T13/T22 provisioning-journal and serialization contract review",
+      "status": "proposed design in review; no implementation or acceptance",
+      "baselineMerge": "d26d21f42c107c1610de17aa393a7aa9ccc72d55",
+      "evidence": [
+        "docs/implementation/P1-PR-027-provisioning-journal-serialization-contract.md",
+        "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-validation.md"
+      ],
+      "proposedScenarios": 18,
+      "newScenarioExecutions": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-29 America/Los_Angeles",
+  "scope": "Official PostgreSQL 18 semantics for design only; runtime pins and candidate-provider decisions unchanged",
+  "sources": [
+    {
+      "id": "PG-J1",
+      "url": "https://www.postgresql.org/docs/18/explicit-locking.html",
+      "claim": "Advisory locks require cooperating participants; session and transaction lifetimes differ. Consistent acquisition order reduces deadlock risk."
+    },
+    {
+      "id": "PG-J2",
+      "url": "https://www.postgresql.org/docs/18/view-pg-locks.html",
+      "claim": "Advisory locks are local to each database. Identical numeric keys in different DBs do not define one cluster-wide coordinator."
+    },
+    {
+      "id": "PG-J3",
+      "url": "https://www.postgresql.org/docs/18/sql-createdatabase.html",
+      "claim": "CREATE DATABASE cannot execute inside a transaction block; its creation boundary cannot be folded into a journal/app/CMS transaction."
+    },
+    {
+      "id": "PG-J4",
+      "url": "https://www.postgresql.org/docs/18/tutorial-transactions.html",
+      "claim": "A transaction provides all-or-nothing changes within its boundary. This does not establish one transaction across independent DB connections and provider calls."
+    }
+  ],
+  "localSourceAnchors": [
+    {
+      "id": "J01",
+      "path": "scripts/database/bootstrap.ts",
+      "line": 77,
+      "anchorText": "`CREATE ROLE ${role} LOGIN PASSWORD '${passwords[role]}' NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS NOINHERIT`,",
+      "claim": "Production bootstrap creates roles and applies per-DB ownership/settings; it has no durable operation journal or common lifecycle coordinator."
+    },
+    {
+      "id": "J02",
+      "path": "scripts/database/cli.ts",
+      "line": 54,
+      "anchorText": "await withMigrationLock(target, async (client) => {",
+      "claim": "Current status path enters migration locking; it is not the proposed mutation-free reconciliation entry point."
+    },
+    {
+      "id": "J03",
+      "path": "tests/fixtures/lifecycle-pair/pair.ts",
+      "line": 118,
+      "anchorText": "const lock = await client.query('SELECT pg_try_advisory_xact_lock(7724046, 1) AS acquired');",
+      "claim": "Existing pair proof uses a transaction advisory lock on the app DB for each observation batch only."
+    },
+    {
+      "id": "J04",
+      "path": "tests/fixtures/lifecycle-pair/pair.ts",
+      "line": 135,
+      "anchorText": "// Any attempted handoff consumes the old evidence, including a failure.",
+      "claim": "In-memory receipt consumption precedes fresh inspection; exported JSON is not a durable provisioning journal."
+    },
+    {
+      "id": "J05",
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 318,
+      "anchorText": "it('T08 refuses grantor-only drift with unchanged grantability, grantees and privileges', async () => {",
+      "claim": "Actual catalog tests distinguish grantor-only drift rather than only privilege lists."
+    },
+    {
+      "id": "J06",
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "line": 477,
+      "anchorText": "() => root(`ALTER ${object} OWNER TO catalog_probe_owner_sink`),",
+      "claim": "Final owner-fault fixture uses a separate identity; historical preparation records explain why inverse ownership did not reconstruct the initial grant graph."
+    },
+    {
+      "id": "J07",
+      "path": "tests/recovery/recovery.test.ts",
+      "line": 187,
+      "anchorText": "it('DB13 refuses absent, stale or mismatched current journals and opening unreconciled restores', async () => {",
+      "claim": "Existing actual recovery evidence is separate from synthetic quarantine and does not establish this new provisioning journal."
+    }
+  ],
+  "actualProviderTest": false,
+  "runtimePinChanged": false
+}
