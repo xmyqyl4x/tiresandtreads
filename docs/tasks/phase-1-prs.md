@@ -562,6 +562,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [LR02 routing/resource review and bounded proof](../implementation/P1-PR-027-routing-resource-collision-proof.md) completes the authorized next local slice after merged PR62: 13 live executions over seven service projects, two pre-setup namespace controls and separately observed surrogate preservation. Both actual cross-route directions refuse TLS hostname verification; owned replacement/shared TLS-mount controls refuse before owner SQL. Original cases/gates, existing fixture/readers/production policy and all holds remain unchanged. LR03 I/O/end/inspection review is next; no hosted provisioning, purchases or actual notifications.
 
+[LR03 bounded I/O/end/inspection contract and proof](../implementation/P1-PR-027-io-inspection-proof.md) implements 20 native PostgreSQL/transport/service-loss cases, two synthetic native Unix-peer controls and six unit controls (28 dedicated executions) across five owned projects. Pending-pipeline end and inspector-loss receipts remain unknown after later cleanup; no original case/gate closes or prior fixture/reader/production policy changes. All existing holds remain. Next local priority: LR04 populated source/target preservation design review; no hosted provisioning, purchases or actual notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

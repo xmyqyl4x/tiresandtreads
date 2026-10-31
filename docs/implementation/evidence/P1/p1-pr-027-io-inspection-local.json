@@ -1,0 +1,2605 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-31 America/Los_Angeles",
+  "baselineMerge": "a6a408948c73eba9ba5a1628bfafa0237f9d34e0",
+  "parent": "P1-PR-027 / S3-service-host / LR03",
+  "scope": "Reviewed contract and implemented fixed local I/O/end/inspection-loss controls; no production changes or original acceptance",
+  "status": "Scoped local implementation/validation complete; original cases and gates remain open",
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualSelections": {
+    "provider": null,
+    "edition": null,
+    "region": null,
+    "databaseOperatingModel": null,
+    "primaryOperator": null,
+    "backupOperator": null,
+    "databaseOwner": null,
+    "keyCustodian": null,
+    "reviewer": null,
+    "coverageWindow": null,
+    "hourlyRateCents": null,
+    "budgetCents": null,
+    "custodyLocation": null,
+    "actualApprover": null
+  },
+  "actualAcceptanceRecords": [],
+  "counts": {
+    "dedicatedExecutions": 28,
+    "nativePostgreSQLCases": 20,
+    "nativeSyntheticUnixCases": 2,
+    "unitControls": 6,
+    "serviceProjects": 5,
+    "positivePostgreSQLCases": 2,
+    "refusedPostgreSQLCases": 18,
+    "ownerConnectCalls": 19,
+    "ownerQueryCalls": 31,
+    "registeredBackendIdentities": 15,
+    "intentionallyUnknownCleanupReceipts": 2,
+    "checkedProjectRemovals": 5,
+    "fourEndpointPreservationAudits": 5,
+    "casesClosed": 0,
+    "gatesClosed": 0,
+    "S3GatesOpen": 6
+  },
+  "admissionReceipts": [
+    {
+      "scenario": "positive-source",
+      "nativePipelineEndControl": false,
+      "status": "observed",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": true,
+      "readAccepted": true,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "none",
+      "admissionMs": 287.3,
+      "cleanupMsBeforeRelayDisposal": 11.03,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3408,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "positive-target",
+      "nativePipelineEndControl": false,
+      "status": "observed",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": true,
+      "readAccepted": true,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "none",
+      "admissionMs": 208.97,
+      "cleanupMsBeforeRelayDisposal": 6.46,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3417,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-stall-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 0,
+      "registered": false,
+      "readDispatched": false,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": false,
+      "backendAbsent": false,
+      "locksAbsent": false,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 1545.48,
+      "cleanupMsBeforeRelayDisposal": 0.42,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 0,
+        "clientBytes": 8,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-stall-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 0,
+      "registered": false,
+      "readDispatched": false,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": false,
+      "backendAbsent": false,
+      "locksAbsent": false,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 1550.34,
+      "cleanupMsBeforeRelayDisposal": 0.21,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 0,
+        "clientBytes": 8,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-drop-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 0,
+      "registered": false,
+      "readDispatched": false,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": false,
+      "backendAbsent": false,
+      "locksAbsent": false,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 61.79,
+      "cleanupMsBeforeRelayDisposal": 0.04,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 0,
+        "clientBytes": 8,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-drop-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 0,
+      "registered": false,
+      "readDispatched": false,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": false,
+      "backendAbsent": false,
+      "locksAbsent": false,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 59.25,
+      "cleanupMsBeforeRelayDisposal": 0.04,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 0,
+        "clientBytes": 8,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-hold-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 531.54,
+      "cleanupMsBeforeRelayDisposal": 6.82,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3357,
+        "withheldBytes": 172,
+        "upstreamEnded": true
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-hold-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 559.39,
+      "cleanupMsBeforeRelayDisposal": 5.24,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3366,
+        "withheldBytes": 172,
+        "upstreamEnded": true
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-drop-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 203.32,
+      "cleanupMsBeforeRelayDisposal": 4.65,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3357,
+        "withheldBytes": 148,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-drop-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 403.77,
+      "cleanupMsBeforeRelayDisposal": 5.76,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3366,
+        "withheldBytes": 148,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "statement-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "57014",
+      "admissionMs": 1237.13,
+      "cleanupMsBeforeRelayDisposal": 4.54,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3405,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "statement-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "57014",
+      "admissionMs": 1151.36,
+      "cleanupMsBeforeRelayDisposal": 3.31,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3414,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "late-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": true,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 4006.79,
+      "cleanupMsBeforeRelayDisposal": 4.5,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3408,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "late-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": true,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 4006.24,
+      "cleanupMsBeforeRelayDisposal": 3.72,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3417,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "context-drift-source",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": true,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 206.81,
+      "cleanupMsBeforeRelayDisposal": 5.19,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3408,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "context-drift-target",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": true,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 165.83,
+      "cleanupMsBeforeRelayDisposal": 3.66,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3417,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "end-hang",
+      "nativePipelineEndControl": true,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 3,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": false,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": true,
+      "freshAttemptBlocked": true,
+      "errorCode": "none",
+      "admissionMs": 240.98,
+      "cleanupMsBeforeRelayDisposal": 1445.42,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3647,
+        "withheldBytes": 172,
+        "upstreamEnded": true
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "inspection-loss",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": true,
+      "endObserved": true,
+      "inspectionObserved": false,
+      "backendAbsent": false,
+      "locksAbsent": false,
+      "cleanupUnknown": true,
+      "freshAttemptBlocked": true,
+      "errorCode": "io-refused",
+      "admissionMs": 2836.73,
+      "cleanupMsBeforeRelayDisposal": 1.8,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3408,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "map-loss",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 1,
+      "ownerQueryCalls": 2,
+      "registered": true,
+      "readDispatched": true,
+      "readCompleted": true,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": true,
+      "endObserved": true,
+      "inspectionObserved": true,
+      "backendAbsent": true,
+      "locksAbsent": true,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 2551.28,
+      "cleanupMsBeforeRelayDisposal": 8.55,
+      "relay": {
+        "accepted": 1,
+        "upstreamOpened": 1,
+        "clientBytes": 3408,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "preconnect-map-loss",
+      "nativePipelineEndControl": false,
+      "status": "refused",
+      "ownerConnectCalls": 0,
+      "ownerQueryCalls": 0,
+      "registered": false,
+      "readDispatched": false,
+      "readCompleted": false,
+      "admissionSucceeded": false,
+      "readAccepted": false,
+      "resultDiscarded": false,
+      "endObserved": true,
+      "inspectionObserved": false,
+      "backendAbsent": false,
+      "locksAbsent": false,
+      "cleanupUnknown": false,
+      "freshAttemptBlocked": false,
+      "errorCode": "io-refused",
+      "admissionMs": 2332.67,
+      "cleanupMsBeforeRelayDisposal": 0.07,
+      "relay": {
+        "accepted": 0,
+        "upstreamOpened": 0,
+        "clientBytes": 0,
+        "withheldBytes": 0,
+        "upstreamEnded": false
+      },
+      "cancellationClaim": false,
+      "backendAbsenceRequiresInspection": true,
+      "lifecycleMutationDispatches": 0,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionPolicyChanged": false,
+      "independentDurability": false,
+      "authenticated": false,
+      "targetFencing": false,
+      "runtimeAdmission": false,
+      "hostedAccepted": false,
+      "productActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "relayCleanupReceipts": [
+    {
+      "scenario": "positive-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "positive-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-stall-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-stall-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-drop-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "connect-drop-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-hold-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-hold-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-drop-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "read-drop-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "statement-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "statement-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "late-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "late-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "context-drift-source",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "context-drift-target",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "end-hang",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": true,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "inspection-loss",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": true,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "map-loss",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "scenario": "preconnect-map-loss",
+      "exactOwnedSocketsDisposed": true,
+      "laterNativeEndObserved": true,
+      "laterPendingReadSettled": true,
+      "originalCleanupUnknown": false,
+      "originalDispositionUnchanged": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "protocolReceipts": [
+    {
+      "mode": "stall",
+      "controlledPeer": true,
+      "absoluteDeadlineObserved": true,
+      "bytesReceived": false,
+      "sqlDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "mode": "dribble",
+      "controlledPeer": true,
+      "absoluteDeadlineObserved": true,
+      "bytesReceived": true,
+      "sqlDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "parentReceipts": [
+    {
+      "profile": "inspection-loss",
+      "service": "inspector",
+      "exactOwnedIdentityChecked": true,
+      "stopped": true,
+      "databaseStopCalls": 0,
+      "backendTerminationCalls": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "map-loss",
+      "service": "supervisor",
+      "exactOwnedIdentityChecked": true,
+      "stopped": true,
+      "databaseStopCalls": 0,
+      "backendTerminationCalls": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "preconnect-map-loss",
+      "service": "supervisor",
+      "exactOwnedIdentityChecked": true,
+      "stopped": true,
+      "databaseStopCalls": 0,
+      "backendTerminationCalls": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "profileReceipts": [
+    {
+      "profile": "standard",
+      "foundationOnly": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "end-hang",
+      "foundationOnly": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "inspection-loss",
+      "foundationOnly": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "map-loss",
+      "foundationOnly": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "preconnect-map-loss",
+      "foundationOnly": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "cleanupReceipts": [
+    {
+      "profile": "standard",
+      "ownedProjectRemoved": true,
+      "unknown": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "end-hang",
+      "ownedProjectRemoved": true,
+      "unknown": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "inspection-loss",
+      "ownedProjectRemoved": true,
+      "unknown": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "map-loss",
+      "ownedProjectRemoved": true,
+      "unknown": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "profile": "preconnect-map-loss",
+      "ownedProjectRemoved": true,
+      "unknown": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "preservationReceipts": [
+    {
+      "endpoints": 4,
+      "ended": 4,
+      "semanticBaselineParity": true,
+      "runtimeConnectQuarantined": true,
+      "participantAdmitted": false,
+      "unknownCleanupResolved": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "endpoints": 4,
+      "ended": 4,
+      "semanticBaselineParity": true,
+      "runtimeConnectQuarantined": true,
+      "participantAdmitted": false,
+      "unknownCleanupResolved": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "endpoints": 4,
+      "ended": 4,
+      "semanticBaselineParity": true,
+      "runtimeConnectQuarantined": true,
+      "participantAdmitted": false,
+      "unknownCleanupResolved": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "endpoints": 4,
+      "ended": 4,
+      "semanticBaselineParity": true,
+      "runtimeConnectQuarantined": true,
+      "participantAdmitted": false,
+      "unknownCleanupResolved": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "endpoints": 4,
+      "ended": 4,
+      "semanticBaselineParity": true,
+      "runtimeConnectQuarantined": true,
+      "participantAdmitted": false,
+      "unknownCleanupResolved": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "evidenceFlags": {
+    "productionChanged": false,
+    "productionPolicyChanged": false,
+    "productionExecutor": false,
+    "independentDurability": false,
+    "authenticated": false,
+    "targetFencing": false,
+    "runtimeAdmission": false,
+    "hostedAccepted": false,
+    "productActivation": false,
+    "actualProviderTest": false
+  },
+  "newlyClosedCases": 0,
+  "newlyClosedGates": 0,
+  "limits": [
+    "Twenty native PostgreSQL cases, two explicit synthetic Unix peers and six pure controls are overlapping scoped execution evidence, not original case/gate acceptance.",
+    "Loopback relay is test-only opaque transport, not production admission authority. Native pg/TLS still verifies canonical hostname/CA; partial-connect stalls do not complete TLS or open an upstream.",
+    "Read acknowledgement loss is encrypted wire withholding/drop. Late delivery separately withholds application acceptance after actual SQL completion. No replay or cancellation inference.",
+    "Native end, registered-identity backend/lock absence, read completion and unknown cleanup are distinct. Later driver events or project removal never clear frozen unknown receipts.",
+    "Known cleanup for partial-connect controls is exact local closure with zero upstream opens, not an independently inspected backend-absence claim.",
+    "Declared boundaries only; no every-await, external-administrator exclusion, authentication, independent durability, target-fencing, populated-data/history or hosted acceptance claim.",
+    "Linux host UID/mode portability is handled by a network-none metadata preparer with DAC_OVERRIDE and an owned UID-0/0400 route volume; the capability-free observer does not mount the host-owned binding file. No host permission widening or observer privilege addition."
+  ],
+  "covers": {
+    "TA12/MT12": "Shared bounded attempt, discarded late result and absolute IPC controls; original acceptance unchanged.",
+    "TA16/MC18": "Fixed context/map loss before connect and after read; no exhaustive await matrix.",
+    "TA17/MT14/MC16": "Native partial connect/read/end controls plus exact registered inspection and inspector outage; no production session authority.",
+    "TA19": "Checked exact owned socket/project disposal with immutable unknown disposition; teardown is not cancellation."
+  },
+  "unchangedSourcePins": [
+    {
+      "path": "infra/local/01-databases.sql",
+      "sha256": "4eafe9596a7d0eecf397023fc8c260535d4326ee3e7710f59d22d0eaf4dcead2"
+    },
+    {
+      "path": "scripts/database/bootstrap.ts",
+      "sha256": "1c14f0efcf9848b1a8f6dc804391e3d9a77b263daf6b9b26e1511fb161b604e4"
+    },
+    {
+      "path": "scripts/database/cli.ts",
+      "sha256": "f2d03455b647c1afcae952b7e62695ad532a1464c5ced997e3e618528c5ccc9b"
+    },
+    {
+      "path": "scripts/database/migrate.ts",
+      "sha256": "547606c2ff107469174fd671b3a64f18101051313068d7a1887f4e00c90b7af4"
+    },
+    {
+      "path": "scripts/database/cms.ts",
+      "sha256": "61b932275bac009e5e0a9abfce2d4a88e64ca05d69c68e28250b7ef7a9eb084a"
+    },
+    {
+      "path": "scripts/database/manifest.ts",
+      "sha256": "be29c23701e96d8c2708e63ba8ca9c4b0a51ebbea0d395c9590e1ff8652f337d"
+    },
+    {
+      "path": "scripts/database/inventory.ts",
+      "sha256": "a9ec8e1929c2fdfed581ce27a8c6c72e2dc6b9d88723b6aa22fd56c27b780d07"
+    },
+    {
+      "path": "scripts/database/recovery-artifact.ts",
+      "sha256": "78dd91626d165c28985fa4264863274ede64d41a871d6ae8ac75cb461e788f4f"
+    },
+    {
+      "path": "scripts/database/custody.ts",
+      "sha256": "83a17498c6f2bbb4da7a7f3edef404b911cd9b9fdf9b478131a10c9755d205ba"
+    },
+    {
+      "path": "packages/config/src/database-roles.ts",
+      "sha256": "c84931f45224590fc54ef1433cbdb39df178ef442aa79cd6d3365130c9030b06"
+    },
+    {
+      "path": "packages/config/src/database-preflight.ts",
+      "sha256": "3b9f59eddbea528252b6d0f348ca365cbe08dc9e4937f6f156dc3159ee35e1db"
+    },
+    {
+      "path": "packages/db/src/database-preflight.ts",
+      "sha256": "973f5e26b84ef86196f4d463690a056227a0cfe197115d2addb1a3ae9ba93ecb"
+    },
+    {
+      "path": "scripts/verify/recovery.mjs",
+      "sha256": "90cc3e18c1097f92d5f4246c87ebcada49fa76196caf380f95c7e6cc1b1924d2"
+    },
+    {
+      "path": "tests/database/restricted-admin.test.ts",
+      "sha256": "132c007bec29b5bb099d71859cb6336613599de3ee03bc0fbcb37277a9356297"
+    },
+    {
+      "path": "tests/fixtures/restricted-admin/database.ts",
+      "sha256": "ce0d86667bef6eacf0647ce89b4361a1b090850ff80df6fc82d80fe82bea9dc4"
+    },
+    {
+      "path": "tests/recovery/recovery.test.ts",
+      "sha256": "04da183cc261e993e14b9fd11e6b6aced98f9441459e5258989b96713b0e5248"
+    },
+    {
+      "path": "tests/fixtures/recovery/prepare.ts",
+      "sha256": "bdb53425d75b9dee26cc6311a67f9be7363299cfa58e9e0cc21fd41c08592af1"
+    },
+    {
+      "path": "infra/local/versions.json",
+      "sha256": "8b741caeb475872268f64117944c9585c7c86ca6525306828f24914f1ba0281e"
+    },
+    {
+      "path": "infra/database/app/manifest.json",
+      "sha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+    },
+    {
+      "path": "infra/database/cms/manifest.json",
+      "sha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+    },
+    {
+      "path": "package.json",
+      "sha256": "17de3c4f8829c6aeabcf82ce3d74aaf232787edf8a5633def4a50e24c426fd3a"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "1383ff6c1dff614074a7d062046e3ec37a5eab099b91c01e9d6412f7b0cf143c"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "f3229da909acacdafb435c2f0b8b39e34fc732c009a8f5f066ac5e270b165621"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f"
+    },
+    {
+      "path": "tests/fixtures/foundation/target.ts",
+      "sha256": "4ed0eb6a9375af1979ecbf049cef8d6da673149b1502c7949563263dcc4a75cd"
+    },
+    {
+      "path": "scripts/verify/disposable-cleanup.mjs",
+      "sha256": "ae27534e8979ca62689a3c9903607188b987262effab2fbc927915b098e0e7fa"
+    },
+    {
+      "path": "scripts/verify/local.mjs",
+      "sha256": "a923cea5ed6a5500e445c3b5e3562464ab53e6e3cde6495dccf3ab3ccf3ffc79"
+    },
+    {
+      "path": "scripts/verify/push.mjs",
+      "sha256": "e3ef78a13f412c1d5ee83ec4e0b3d7e78aac74ff69a7abae3d4542302335fca9"
+    },
+    {
+      "path": "scripts/dev/plan.mjs",
+      "sha256": "fc933f425f0549b42d05976ed1db97f6eb5f7a3d0fc5ce33b48010eb25aa2780"
+    },
+    {
+      "path": "scripts/verify/restricted-admin.mjs",
+      "sha256": "eef310c0097ad6f7e230ab0b4338cfb2f8755fabaa05456aa09ce5bf2105e84f"
+    },
+    {
+      "path": "tests/unit/lifecycle-validation.test.ts",
+      "sha256": "673ea0784ed31d25963814af21ba7fc4d0e54acb4d625c083ffed7e56192caa8"
+    },
+    {
+      "path": "tests/database/lifecycle-validation.test.ts",
+      "sha256": "2a1455ee1ecd8d01c53d0440d86d284e8d4f253791add179feb6d505505404a2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/reader.ts",
+      "sha256": "21e1f79ae575588d76e981ef8d8d21fb56d0e5f00679ee2f5f84a20ffa5ef5e6"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/database.ts",
+      "sha256": "dd559a232c0f0e626bff4bc30e6daf2f922ef177c3d35644ed6965ad8b2fe06d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/migrate.ts",
+      "sha256": "89ba5cceb5a7589c4ab741295bb0cf371a8fef4d162958866df134f278038116"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-validation/run.mjs",
+      "sha256": "76b50b4747fba73109706c951f6cd4c485011115a780544ec8e38e981eca1c57"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/contract.ts",
+      "sha256": "8e19c5d6c44af050d18c44969ec0a08762892bfe619ad35a3b11e839f3484d2d"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/pair.ts",
+      "sha256": "5fc34197bf682d887752d00215d930bc431dc914b9b9d1505fe5b599d845cd07"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/samples.ts",
+      "sha256": "f2c35f527a10105484fc638e4487d4cb5aa02545c70c78ec8eccdd1e6e17df5c"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-pair/run.mjs",
+      "sha256": "6a642ea42fa44c8b59dc0b26da01da62d194d3ff0062c78b74fc3359767aa183"
+    },
+    {
+      "path": "tests/unit/lifecycle-pair.test.ts",
+      "sha256": "b708b5371ba577f0306957e2e934c2ddfaddb856904dde4070c25ac992bf77af"
+    },
+    {
+      "path": "tests/usecases/lifecycle-pair.test.ts",
+      "sha256": "af5f8543df47468daabd93c25f1d503b4f1478bf68da7164e5f7f4a1091efc8b"
+    },
+    {
+      "path": "tests/database/lifecycle-pair.test.ts",
+      "sha256": "fcfaa8d79fe11bef19f045101d5ee843a1c04d97903b77061a746808f01daaf0"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/protocol.ts",
+      "sha256": "ccf61ebb70e1bf1aa0c0b527e1f3b372d4fd54b005879fe4c2931a1dba6a4e4a"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/parent.ts",
+      "sha256": "9c6c2d814415df69ec0c0315dfaf56fb27acec39aa48f4275bb64091715d539a"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/executor.ts",
+      "sha256": "d8d69af5a6f58e2b88b054158d4ce76b20d0186106d5375fcda417e6c2e87741"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-restart/run.mjs",
+      "sha256": "f8c33f589b709844cd49e4b1bd0657f4dbab61f1b5befd7713a11d7847225c30"
+    },
+    {
+      "path": "tests/unit/lifecycle-restart.test.ts",
+      "sha256": "33a74e1a80fe9c17ca1b6f7cafcc64ac6aebdba004c93f5f518d702802f61953"
+    },
+    {
+      "path": "tests/database/lifecycle-restart.test.ts",
+      "sha256": "13c4795ab4e7093f3eccf3542ee646f983e784bf7effaa9e9e261b934dfb5411"
+    },
+    {
+      "path": "tests/database/lifecycle-catalog.test.ts",
+      "sha256": "b0a3b3ff36631dd0d9445baa5f205bc45940b1aae035510f094ce6c24419c7c2"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-catalog/database.ts",
+      "sha256": "dddd241f33871d9a9ba502590dfb3f2cf190a3b59335c5ef80a795c6a3f3e5e7"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-catalog/run.mjs",
+      "sha256": "676a2b81331fab9e9b88231164be50d7eb93217d49813f3999e0a5f3733f6b0b"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/model.ts",
+      "sha256": "ccfb13de40e3ac8f6c57679c8f2269ae612cd67a729f834cac51246bd385c4f7"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/samples.ts",
+      "sha256": "db73db2e533bf980fe45b27c448fa69115191321f436fa4411a86496adbe8451"
+    },
+    {
+      "path": "tests/fixtures/lifecycle-journal/run.mjs",
+      "sha256": "e96fc90c322ec8ef98871ff26365b1bc48a352a4cf206c7a4f6964d3fd354cae"
+    },
+    {
+      "path": "tests/unit/lifecycle-journal.test.ts",
+      "sha256": "d9c492a3198d95e372e6f7294a8e27b4a988996fcec7fd4652fa7fb5a20cf82e"
+    },
+    {
+      "path": "tests/usecases/lifecycle-journal.test.ts",
+      "sha256": "72b3ead17b1ec5c123bb0147f1f3a6e15382461ecae5c68ed06fd15a0ab976e5"
+    },
+    {
+      "path": "tests/fixtures/journal-process/contract.ts",
+      "sha256": "13f8b0f749196d5513edbe6a994a5b14c6ecaa13a22725e2c219bc4bc4888b93"
+    },
+    {
+      "path": "tests/fixtures/journal-process/storage.ts",
+      "sha256": "32d720516124f61e5c9749bec1cd3c8c605edb9ccf32bfb83356034b79f1c243"
+    },
+    {
+      "path": "tests/fixtures/journal-process/child.ts",
+      "sha256": "2cce9637bcdfaf02290ea931ef7ba51fb808e492c518fd3f88c76c764ee2dafd"
+    },
+    {
+      "path": "tests/fixtures/journal-process/parent.ts",
+      "sha256": "394218581d0fc15b6bfcd60e47c089636b2fdf790e91707df1a17978d30da716"
+    },
+    {
+      "path": "tests/fixtures/journal-process/run.mjs",
+      "sha256": "bb1d9ea5bb3b3f97aa0ba18d258b36eb50d99f23a8c6c4b9dacaf785bfd70d35"
+    },
+    {
+      "path": "tests/unit/journal-process.test.ts",
+      "sha256": "68015d69f6eba39fb7ea6c4f13825786e3eb459671f394e89e5e89eb42c7fa72"
+    },
+    {
+      "path": "tests/usecases/journal-process.test.ts",
+      "sha256": "527d2e4bb8da15475bc4457cee631d9d71e9e7c7b304af822d4ac163d6a294a6"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/contract.ts",
+      "sha256": "ea2e1d2c60e5d0e177200fd1a0577707f63448730312b644f6552deec017da35"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/proof.ts",
+      "sha256": "3909b806e16c2483d76a19f293b29e40b2890bb880a465b5c3550cd6d52ac660"
+    },
+    {
+      "path": "tests/fixtures/readonly-coordination/run.mjs",
+      "sha256": "45c793c27320c7bdf7e9248fdd9b859a019d1d1b64aa676c6582e427bb288033"
+    },
+    {
+      "path": "tests/unit/readonly-coordination.test.ts",
+      "sha256": "13124b69f49410e56ca2bb91ff75740c554fac95e4777fcdd71cc16f4588142a"
+    },
+    {
+      "path": "tests/database/readonly-coordination.test.ts",
+      "sha256": "deb5e3ad0c5fc4944f9c0ec69b0f597a3989d78ead926c0e91620e86e95f1e95"
+    },
+    {
+      "path": "tests/fixtures/recovery/context.ts",
+      "sha256": "4b667db2bcc45c074721e0d10c9ab10d663db40a28b60467ab98c1bc554f4b2f"
+    },
+    {
+      "path": "tests/fixtures/recovery/seal.ts",
+      "sha256": "79fdbfaa6399e6658561d5633afa60d0d34ee47110418844a1a44694e0bc596e"
+    },
+    {
+      "path": "tests/fixtures/recovery/replay.ts",
+      "sha256": "e11b34e47a277e34fa87738cca11cd066b44e6de4c4d6fcc1f9d0382b5d2d422"
+    },
+    {
+      "path": "tests/fixtures/recovery/fingerprints.ts",
+      "sha256": "fe7924940062a65b0a7ace62ad3299f414dafc7bf548a061f2a5fcaa482e3ac2"
+    },
+    {
+      "path": "tests/fixtures/recovery/custody-admit.ts",
+      "sha256": "0c68318765c116b455973e8e3bb9209d6916a415b14f254c14cca1618d7fec85"
+    },
+    {
+      "path": "tests/custody/custody.test.ts",
+      "sha256": "bfbcd7ee646dd6311c3f68c82e05f24e53a8dc46eb8b5dd0f9747e56925ad04c"
+    },
+    {
+      "path": "infra/local/compose.yaml",
+      "sha256": "823e811eedfc14c11fc2630bfd23f35edd9a4e66003c8539957ae5a8d4042844"
+    },
+    {
+      "path": "infra/local/compose.test.yaml",
+      "sha256": "de8bb285a6b133813a5e898cdb378e561c9d8fdaa56abd21183b697e382b67ee"
+    },
+    {
+      "path": "infra/local/compose.recovery.yaml",
+      "sha256": "8165c3f7c3d531675b2c1dc82c619777f0fbb07658885a9b04253e57281166a8"
+    },
+    {
+      "path": "infra/local/compose.custody.yaml",
+      "sha256": "0b65e9b5605e3e3910dff0863b1b1bee5f675ca085f0fdc28269775c3067d151"
+    },
+    {
+      "path": "infra/local/02-test-tls.sql",
+      "sha256": "a785b3b41e31aa3acdda420e072a523e80685c4fd65394d58cd88969420ae67e"
+    },
+    {
+      "path": "tests/fixtures/database-preflight/certificates.py",
+      "sha256": "11be979c5c2e205439a8ca4969718b46ba029fed4f81b29b3dabb73717ba5441"
+    },
+    {
+      "path": "scripts/verify/pre-push.mjs",
+      "sha256": "7394c511ef39959e2631ce1308a183b572ce97a73cd4de206836fb95f8ba4e8d"
+    },
+    {
+      "path": ".githooks/pre-push",
+      "sha256": "f22332dce4494bfce7aa2153c13a241368e35a2b69d8fa492f943104a05dbf70"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/json.ts",
+      "sha256": "7be0dbf2132c4efd6dcfeecd58f4e5b192090523783617a4b69578fb3c6d38ac"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/model.ts",
+      "sha256": "ff19eb605bca2260c54f7a8a70f3947bc5c2247b6bf03b1f0ef0a2d0d4ca309f"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/samples.ts",
+      "sha256": "a6711a95d9a333a06490e44d821c743ce89b7a84a4319229ae80165a85c50e83"
+    },
+    {
+      "path": "tests/fixtures/multitarget-plan/run.mjs",
+      "sha256": "c0e918926dfb030658f63d73a56bebb7e6c25ecf39b89a9c2b41d03ef5f3d18e"
+    },
+    {
+      "path": "tests/unit/multitarget-plan.test.ts",
+      "sha256": "497d232f095cb46763e10bdd987c26c8de0d99e550a8f7cf85dc109dd84cead4"
+    },
+    {
+      "path": "tests/usecases/multitarget-plan.test.ts",
+      "sha256": "67ee7aa7aa46143658404b2dcc75a968b13437146e25780f0052978c69258298"
+    },
+    {
+      "path": "Dockerfile",
+      "sha256": "86417e2affdec0fc8784cfb977038a68eed832089dc4a6ef6ef3c379af9fa931"
+    },
+    {
+      "path": "scripts/dev/local.mjs",
+      "sha256": "da9cd49fe2922cf82d345d900f2a73a46d676a5e01679e0e66be906cfb08fb05"
+    },
+    {
+      "path": "scripts/lib/process.mjs",
+      "sha256": "cf6da4acc2bf2b66f3f02d94c0c4a5a3299d939132da48f333ddacb61f89eb9b"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/certificates.py",
+      "sha256": "74713926a33eb5e8f7d34d4fb20d001243a98f08fd79da6631be7ffdeaefff72"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/compose.yaml",
+      "sha256": "82640b0b78365659303cae6fc5cfd7ca9c0fa49346b336d922c2647cd64eec43"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/contract.ts",
+      "sha256": "56c1dc12d423bfbf08f9d446e468d24c28f6697fd63db41d8b6073e642383e58"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/material-fault.ts",
+      "sha256": "297bb31be37f32316f6132cf6de4018e7c3d1d58b5134a27a9e4b4b7d13f5a15"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/material.ts",
+      "sha256": "3a2f6c3839169156d52c11101837e20089f74db91f8db74e50110bf3f0fcbbf7"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/observer.ts",
+      "sha256": "de5086120d96d792ff052ffb6ea49c6a91dfcb2927f2226cbf0bfa931eaa86e7"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/resources.ts",
+      "sha256": "f2fad32802345b28570adce20c3f00e1feb2638c13adcb18bbf89830984bede0"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/run.mjs",
+      "sha256": "64db3438912604c5455a9fe21e8ab7d01ca45e8ca3c899fc35447cb26ed7b127"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/seal.ts",
+      "sha256": "6b6453724770915280729004ec8a73e0cf0bf7559c038a4f1730a98098587ad0"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/setup.ts",
+      "sha256": "866a730fcb5149799f49083f0558c8624eaf5bdda8dd34583bc36462c4ffeb29"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/snapshot.ts",
+      "sha256": "61037a7b28b406daa3ee5043b2039b7f7fc804f0064eb0d05a17c89265fe99e9"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/supervisor.ts",
+      "sha256": "7589fe74ff1ed24f4ae59282d0ed7780ab49821c4609a120b4ca80419ecd510f"
+    },
+    {
+      "path": "tests/fixtures/tls-admission/vitest.config.ts",
+      "sha256": "f6ee5c039eef01a408a15fb7a8a3c4ee4203009dac825b58389cddf9bc91ce64"
+    },
+    {
+      "path": "tests/tls-admission/admission.test.ts",
+      "sha256": "426496d25fffc667379f066643f679481efbeb6abd769ef26076a8c37b559b8b"
+    },
+    {
+      "path": "tests/tls-admission/liveness.test.ts",
+      "sha256": "7587f3ecf426f4b858e816ef307fafc84766595af7321060c9b7f5c0f4e3b176"
+    },
+    {
+      "path": "tests/tls-admission/transport.test.ts",
+      "sha256": "f86e69ee1d3f578bc50ebb2f8cbc7d2f313c728087dedec3684539e779358d53"
+    },
+    {
+      "path": "tests/unit/tls-admission.test.ts",
+      "sha256": "c7fcb9633091c4fbbc9efc024b9cdc2b407447cf13f7ede8de50191ae9cdf5bf"
+    },
+    {
+      "path": ".github/workflows/fixture-tls-admission.yml",
+      "sha256": "f7b9dd9b3a2b13b999a186e18a5541c8109f7ee0a5b4a1f186cf308a9626bb2f"
+    },
+    {
+      "path": ".github/workflows/multitarget-coordination.yml",
+      "sha256": "527c2e78f66313a0f5e01a344b9c3c510a9c0d39f1d94a15a3b398b322e4d77e"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/compose.yaml",
+      "sha256": "f0f55eacc1ea5aa1e04c860e94c20111b0d94837270cfdf726aef9d2154dd1eb"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/contract.ts",
+      "sha256": "19f38d6faf454520eef01ad210372de1ead0e430699f57e99d7703c0ae394e08"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/fault-controller.ts",
+      "sha256": "5934fade57dd599e945c71b98f081f07fd47f6defa05fb2da1b2f00a754c1a57"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/inspector.ts",
+      "sha256": "190afe2412e823238a9002e717cbc2f7e9f2e867cf2fcd3752ff9cc42d6943ed"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/preservation.ts",
+      "sha256": "bd712a2753f6ffdf3d00ec5845c337d4193d51e1a5ac8ffa72a1677e1c38400f"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/proof.ts",
+      "sha256": "4bab18ef118165c6ee9ceb54c40084ba0d7b89436b92755c186e18c9bd321a0d"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/resource-supervisor.ts",
+      "sha256": "efde22019c9223d2c36d8b44682450d74b3ec99e344b1ed0766a31ba068dcd22"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/run.mjs",
+      "sha256": "dd1547d5713e9c2e73347d264646f6ecb1bd38288b6be7a17dfd03e65777d822"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/setup.ts",
+      "sha256": "3a9b15b06df2a161e7ab75404f2ae8fff30d41f4f9067da0a083ea5736d17d96"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/transport.ts",
+      "sha256": "3a6700189ab7298e306fc78ca8d7b5bbf75020326e28110d8469246d345fb3cf"
+    },
+    {
+      "path": "tests/fixtures/multitarget-coordination/vitest.config.ts",
+      "sha256": "4f21ee905fdca980f62ae515bf5767f5132de9148f674f4101b398d3f1b04933"
+    },
+    {
+      "path": "tests/multitarget-coordination/adverse.test.ts",
+      "sha256": "6e45dcc4d51141376c8d6e6973b8a04a58367ecab4571bbbacfe07a9e2904a16"
+    },
+    {
+      "path": "tests/multitarget-coordination/standard.test.ts",
+      "sha256": "6ba725d00678aeb666f2ce01da1337fe749aa699e7cc00700b43103b765b0449"
+    },
+    {
+      "path": "tests/unit/multitarget-coordination.test.ts",
+      "sha256": "47579bff4ccc0deab1b73cd9f924932a4175bedccbf29c5a6b90637b366259c6"
+    },
+    {
+      "path": "tests/fixtures/trust-material/certificates.py",
+      "sha256": "d9878c6209797ddba4b3790c384413133149434c897907cd307f8e894d7c579b"
+    },
+    {
+      "path": "tests/fixtures/trust-material/compose.yaml",
+      "sha256": "7a683efbed88cccc25d9f00e4449f79d3d6d4f16a2dd5ebf298fa2016300cdde"
+    },
+    {
+      "path": "tests/fixtures/trust-material/fault.py",
+      "sha256": "92e2e4bb576b78b64bfa803298918e213643846f31f72c506290cf4492d1383f"
+    },
+    {
+      "path": "tests/fixtures/trust-material/run.mjs",
+      "sha256": "13d5c2056fc70f37d0ae6d0c7a20a27ec6c8903bf1bd9f46126b23dcdd4920e5"
+    },
+    {
+      "path": "tests/fixtures/trust-material/vitest.config.ts",
+      "sha256": "0d9ec6ec73bbec01fa060c0cacbc9abb12f9fa6ed0de05840d7c3cfb80c50018"
+    },
+    {
+      "path": "tests/trust-material/adverse.test.ts",
+      "sha256": "03d3e93dc19ac4063694e3d9a91fcaea17c8ed60602a0c56a85affb7f5169330"
+    },
+    {
+      "path": ".github/workflows/trust-material.yml",
+      "sha256": "6cc89a8c873d636fa788bdd42558ef599ecf82394304f7cab0662ee339cc9fe4"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/compose.yaml",
+      "sha256": "be744a79f32fc7cff2262fbd5fd5b1d779dbdd7e114ece7184134c646c299df8"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/copy.ts",
+      "sha256": "05e0ba6864717b35c3ad17f264056abd398849ee6ffa65b0ac1d759de8a90534"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/namespace-proof.mjs",
+      "sha256": "e78ca0cca4aacd5361a5641ca66d3f90fc78d8871ad232901f625e0bf77f8013"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/ownership.mjs",
+      "sha256": "3e77a797b88b5f846bb1f68c8db05c79718c1c843b83cc076d2559e011c3f56d"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/run.mjs",
+      "sha256": "0f7a7a78f8f4df1248df2beebf1c3383f8c09daf27f046bb8f39cd12ca8ef26d"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/sentinel.mjs",
+      "sha256": "171c16f2fc46345bcfd0c51c14db852b734d1cbfd3071c202a68e60a5c6c26bf"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/vitest.config.ts",
+      "sha256": "aa8e23c4f0f9c86ae4452fe23e80c14e284a17fa1576f28c5d84495fb0e21745"
+    },
+    {
+      "path": "tests/fixtures/routing-resource/witness.ts",
+      "sha256": "27e43f70d997ea60db81254a3e140169e3c881b0cd8053c049b0f0d01a4bf4d4"
+    },
+    {
+      "path": "tests/routing-resource/admission.test.ts",
+      "sha256": "059bad0c656f5dc140ba243d0c501d9f3013b0dc011e4821603af26d76d2dac0"
+    },
+    {
+      "path": ".github/workflows/routing-resource.yml",
+      "sha256": "b2e5d276284b078316e3fbfb455f7518da881e384d453ff69aa16a086419ac48"
+    }
+  ],
+  "frozenHistoricalEvidence": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-001-source-probes.json",
+      "sha256": "df3f85460b85228c2d2e9d66c03b364aae201378c7f5ab4c38d83e0e35ecfdb6"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-001-validation.md",
+      "sha256": "33df0c6ef68bb62bff041328907adadcedaf5a0d331a4997e62cd27d9b0fb18d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-002-validation.md",
+      "sha256": "b25be83b3ae4e2b6fcb595ef5345787c8935d6c3ba17d126c94953ae9f442934"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-003-validation.md",
+      "sha256": "2dfb14d64a83bf009194287bd5fb911242067879c9ebc741d750117c4ff18eec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-004-validation.md",
+      "sha256": "e3af45c61a488c40c8a4566184be09eef497a69e1ba0259dc4058061ecd35068"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-005-validation.md",
+      "sha256": "64aeafdbc9331bec04ca7085a7fd31040730d6294e7c5561a195501fa898521c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-006-validation.md",
+      "sha256": "845b07a18e21f0b3f01c5462e5fb790f263ead8e97729360093829029318b640"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-007-validation.md",
+      "sha256": "93eab3beeb86ce988deaf42d3ae8d5ae9f6497c2f57e4904e317efe02222667e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-008-recovery.json",
+      "sha256": "131ff6522845c9abbff4e6758d124e0aaa545132de6729034310e42372cf574c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-008-validation.md",
+      "sha256": "eb417f8013e2827c01715a9586acb2e170a7df473cc2554c59f35665fd57157f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-009-validation.md",
+      "sha256": "602265bb2b657e933766ea438c9d7e6079bfc1dbd8d8af791d42437643997cb0"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-009-verification.json",
+      "sha256": "3c0119536c9e40eb1948a7c739369429b538f726f77e35729df496a1c0b92f7f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-010-query-plan.json",
+      "sha256": "a02d962c8bb59d2d9c0996fe172e3737d76d581b4257df7171aa3dbff9917a40"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-010-validation.md",
+      "sha256": "ab8167405f895275c889fdd1dbbb6d1d166bcb390d191714612f6ca136ceeecc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-010-verification.json",
+      "sha256": "0f1cb2d825b147732791bb4b438bffd6600b8f57a3791a6974b1fbac4b260728"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-011-validation.md",
+      "sha256": "e19d351a4b572fef57d5841fffcf2e477d33b627788105a8ce1adfc7c7809586"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-011-verification.json",
+      "sha256": "ca82f841c11630a4a74b0f436b32b0f376843d9cc1f0161a911cd7882e96167f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-012-validation.md",
+      "sha256": "72aaab4aeb2a829ed599ca39742aa519bc765246c209d3b6cf0753ab35055549"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-012-verification.json",
+      "sha256": "44b8be07e1df8479672ed2d646182faac3e8d07a4e03727239382928913d3716"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-forecast.json",
+      "sha256": "00d4abc23cce9e87fba6241e7322db2bc767b89ddb8551050d63abc0e6567d2e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-source-audit.json",
+      "sha256": "7c7ae0e5c0655aefe74a09043bd6266b1f71cea71c2af307712e22e0783ea4db"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-storage-audit.json",
+      "sha256": "d658005b7a91ef7150250dd15c5f70a970e19e44285aee8bd9c816236d701b85"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-validation.md",
+      "sha256": "4b6da3c51f46a604b5d64052daa0b507c3744091ce323aef1af60f1703d78b97"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-013-verification.json",
+      "sha256": "23eecb21efdbbd31674a2fd703536af8cb235964e928003c877787262c91f671"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-014-validation.md",
+      "sha256": "f3363721a92bdc1c8366bc3ec7069acef6df6eacf3fc345807307a1cc66f25ef"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-014-verification.json",
+      "sha256": "9e033970177307d1914d7b594d3149f2586a25c0c532019bd8c48aa3d6d301b9"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-015-validation.md",
+      "sha256": "f7f89fb2a3aceb0db3cf78d4fcdb46a509aa18d6a281fb95656c81208abcb3f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-015-verification.json",
+      "sha256": "0c497e747236ab5691e3046d0c1fcc36d0e07f73a26c23b782ded02cedc9ee47"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-016-source-probes.json",
+      "sha256": "86f6f6c9dcd2a0785e15d2728ac8682d969fb6dd6a25ac1a446c77df72966227"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-016-validation.md",
+      "sha256": "18e5bb886e723b915d84bfbdf2b2bd0e3fca368f0d683ccf25f9111e8e045165"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-016-verification.json",
+      "sha256": "8a2573e51d31a59fa7dca74087b522aaca7b6b1e0352b858e50c4437301b5c7a"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-golden-review.json",
+      "sha256": "e02f929148cda5831e0bed100289720dffbda5a35eff3104a86fb4773444ad3e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-validation.md",
+      "sha256": "668914021b74e1867ee29c9cb93c40a32ad29372af600775b4a5e730e0723a34"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-verification.json",
+      "sha256": "addbe2333700cd1b705967a12444120afcfb0293ae738bb77475f01315a69bac"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-018-validation.md",
+      "sha256": "cbc5a9e120fdf388b12069955bce1e4704eaf1b43076c27c255d5775e5ebb9f4"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-018-verification.json",
+      "sha256": "6c2747a55abc2d568846d9d97d3ca1192c1c12e06bf1a62765af65eec88a8bf5"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-019-validation.md",
+      "sha256": "5776397fa13913aa8837a74dd70ed6b73626861797117302c3698b87fb18f9eb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-019-verification.json",
+      "sha256": "a7fb25038ace0b2d88464f7651c06df463545e59b762de8427f0b8fba03f247a"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-020-validation.md",
+      "sha256": "0432d99d52bf316d2caf32e97e37127a9afe24d1763795d467471cb2975e2ded"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-020-verification.json",
+      "sha256": "1e5d22211170db686f00cf9334c711143915be48c7d65411c30ce35fd0a5f5cd"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-021-validation.md",
+      "sha256": "3cfb1204c8d7208bb06ccfe2bd3d94cd5ef8e0b18177f69bef5718f476d43d5f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-021-verification.json",
+      "sha256": "2f6121ad33e9e70da77d4191ed06f2c023edf9caa31d68044164ce2722825e03"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-022-validation.md",
+      "sha256": "74e8cc06cfe798a185dd62100b108338c8e9e30b5dad36f4d4108785d2eacc50"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-022-verification.json",
+      "sha256": "49ce436d04c20526e50078483413bd9d9bf63e9375363e7c607329e017610514"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-023-validation.md",
+      "sha256": "697279ad230b29e2fd19c16dcbd4b9fd274fd6c7e8517c82908ced3ac4ff288e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-023-verification.json",
+      "sha256": "47e49e01b61b9c0971c63cf309e5adbac4fff7a580eae9b3845d1b8453f018ca"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-024-validation.md",
+      "sha256": "7eb31a01e98a4c9a3199ecf9a747e90367c495151c80fedd12910dbf6535a20e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-024-verification.json",
+      "sha256": "273892a856786ea609ecd32e6747759b7c357f1c7711b0b029e0debdd58bc8f8"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-025-validation.md",
+      "sha256": "c52344f2d18e012ba9e93ae905a72ab0ce480fe55356283cd650d71f47beecfa"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-025-verification.json",
+      "sha256": "b14e5a46bf45d2872b5e0a0577397e8823685836ad0751eeec2b8ff530bfccfc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-026-validation.md",
+      "sha256": "02ec8656eb1258e5ace6f84ebb695f9a4ffe4fcbd396082f0de1c5894ee24fdc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-026-verification.json",
+      "sha256": "b9a862655c31d30e50b7bbc5f4bd9221cf8d026413b8a4735c8314f01393f80e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+      "sha256": "9f8e507aa6b372943dd475853ee34667c44e2f84e40949c69f93401ad78d1cc9"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-sources.json",
+      "sha256": "c8ede9c7f08500c7f58af2105d50c400916c56cb09be3e1da5e4e79c893ee8cb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-validation.md",
+      "sha256": "2a986e2d01c112937f61ae38da34029d9af2af3068c7e229b565f324d774013b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-capacity-preflight-validation.md",
+      "sha256": "db70aded25f6366ed9739c8b28842c12ee3c7aca6a4e28ef7d8917aedbe38caf"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-local.json",
+      "sha256": "ded4dc77dfc4595623b8711d20f8dcada0cd7275b2803f99e56321f513fd5532"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-sources.json",
+      "sha256": "60ce0633415cbfa1c252950d81e547cf29bbba9d7b8aed5b5c9bbaee67df78b4"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-catalog-adverse-validation.md",
+      "sha256": "786e9ea0b30502c30442d22fa203743ebfd2c5f0e1a0f42854815fceb2b25411"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-custody-preflight-validation.md",
+      "sha256": "b0c92399f24798fac37ad664508a10eb1f5b7b61f7e6441de6d4bbd29974c75b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-deployment-preflight-validation.md",
+      "sha256": "fa01df867724b54523caacdb607f023273eaad01791cc635acda629ae16e556c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-handoff-validation.md",
+      "sha256": "fb68bf723d67c7fb5d82474c52b0f13636a3bf8632100a901eb5cffd292963a2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-database-review.json",
+      "sha256": "39f67a4b196581c81dbdf8b5384570dde8012fbb1960198781ef0b47e6021a17"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-database-sources.json",
+      "sha256": "93fb238a28bdb75ff289b2d1ffab3514c11284f999039612f609fe4cb3bca9a5"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-database-validation.md",
+      "sha256": "5ac6fa9a2e974ece779b13623c9241539254caddfb924e1116fd0903e4efab94"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-validation.md",
+      "sha256": "e7cbf3ab5c3087823ccd02d74d6b041ccc3ff6d2810df9d1bad646da824bb88d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-host-verification.json",
+      "sha256": "188532309a1c3cf06613785085140d2474ef456bf0a1e00f3de6318d011199f7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-local.json",
+      "sha256": "2463517801bc7c76352a180ee82a75250296a0a52dd577e9dfe79f6a9c83bd1d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-sources.json",
+      "sha256": "db8e5e84802270720489cb85475a5989b8dd749888e79231963565879c805c81"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-interrupted-executor-validation.md",
+      "sha256": "5d04e49a8cc3686e96725520a3d5ab2ca19741fefa07ec4503852dca979e0c7f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-state-local.json",
+      "sha256": "b2940357a36cbd1134c80a7a22be81e529f4c6ac480e98553a4bbe2af3438434"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-state-sources.json",
+      "sha256": "a3af2428df8c55211698983e98ed275ff5dd81f19d500ebfb932e7f78777ad79"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-state-validation.md",
+      "sha256": "3d1045794cfa3bae5c020ac8c38c3abb97a541b5bc7bc96f246f55f0d0b4339b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-local.json",
+      "sha256": "9e40749ff869a33daad3a1b7e3a3c6458b7dff61847bffe6940bfb7dea419724"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-sources.json",
+      "sha256": "f3e2d37077ba18098fcf881b7467c6451f8934a347b62d7f794518a85ec031a6"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-proof-validation.md",
+      "sha256": "648d8de1cdbddba1041fb7b771b226dcacbdc817d81460dffd448a01beb4057e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-review.json",
+      "sha256": "94bb13478bf33a1fc4b53f207102f47252bedbe8be2fe2bd42c1ae8741512435"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-sources.json",
+      "sha256": "c250ccbd9db020878cebb73e4e065915191924ac2a32f0b55f4445e922d9e473"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-lifecycle-reconciliation-validation.md",
+      "sha256": "1f96a28beed223510b28c330656cd212e24c9cd62050705c0af6a9bc1fc0bf90"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-local.json",
+      "sha256": "fefbbdd5952e508824980fe8c4581ad9c786d06c75b64d3fed69667a721b4f39"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-validation.md",
+      "sha256": "d4a60c25554c4f0beb4da546428440b465e893736ab296bd0e7676c1ca560af7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observability-verification.json",
+      "sha256": "c10fcfdca85ebb7d4abea93d8d529aa116eb46cc8b17788c96608e13621612f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-observation-preflight-validation.md",
+      "sha256": "734643e4040a39af2645fb515bc64516f8cb9abf1b38c1ddf8453b51b0ba971b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-sources.json",
+      "sha256": "ce2354ab87b706bbe7ee065eb128227a519a3464b9551dfc128736baaad74b13"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-operations-budget-validation.md",
+      "sha256": "891fbd7d1e29ea5e63d8bb8d1abe17bc2914265425f401c78783ee69b3901663"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-local.json",
+      "sha256": "f8b675eceb7e7c04d733d0b706bf34e56953f22e51dbfd3a7672d06a1f5b092d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-sources.json",
+      "sha256": "b3c694abb47e5b39d55a0bf3cfa66b0fe04b4610ca2f1e5318b810b836f50191"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-paired-lifecycle-validation.md",
+      "sha256": "8234c86ca7cbd70472a25f889852dd8ee4df146570954cd0c0db5b020720e14d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-local.json",
+      "sha256": "fa76c4077edac39a1390d0c21cd82a0e7c01edda19656b2644ff3bfacd71cc43"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-validation.md",
+      "sha256": "00663476cce0330338405af39cae2a06bb38f9ad24bd4058afd84f90c456ffcb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-persistent-verification.json",
+      "sha256": "2b0e0819c9f9c9a26253d64d6140b5db643ce52407c43d2a32db6f85679f1ccc"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-preflight-validation.md",
+      "sha256": "fcb92c4fb9907d8f826d366a0e04c34c162278097321e78aa0bc1edc70acc146"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-provider-preflight-validation.md",
+      "sha256": "1935d1b7f1fc582dc272ff06a695a6ddc42204728c131f97c33eaff7d6b2e5f1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+      "sha256": "d4f0d827466a5e93b4ea786634dfe0f88e5435c37668fd774409c2b595c0b6eb"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-sources.json",
+      "sha256": "628c2f9a7bfdb286644dc8295fc161fe62ce91ed42d5dc8482a5859e4139ef85"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-validation.md",
+      "sha256": "38782639fdb630f60624b968c41efea74064fe67fdf1d14808729820bcc74e74"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-index.json",
+      "sha256": "5080dd43e3b8ef122d381cd2bd9cb3134d87d18647e1531fdf5a597a9b5c59b1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-local.json",
+      "sha256": "25583193194f7bfdcc3ef39263d3d5ea7b96312f35923ba0f0b1e2e7ff75a8ef"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-validation.md",
+      "sha256": "bb1f2709bab1cded38caf00dc690511a4191ec9e4e475628e2b45aaf839c94d0"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readiness-verification.json",
+      "sha256": "b0cfe8818910c6ce75d1acfaa4aca076ff1e12d97fd3ba733e6f7c2b2a66b89d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-local.json",
+      "sha256": "f9e0060f174f2eeed43408802201450d1d888b501ee01ffbeecee71e0e98a1a3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-validation.md",
+      "sha256": "899523c97f42509e2996d36a324fd6bfd51e513a953e8ef65215169d2e1c2e53"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-recovery-verification.json",
+      "sha256": "832cd2090771dfcca672ce2c006607e4dcc70bfe74bb4681341c45372a1ade31"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-local.json",
+      "sha256": "831aa9a2bde459029615dd3a0033db6db21d37d87d6549a39a7cd7427cee7c63"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-sources.json",
+      "sha256": "a6773114812a3d5935774c1c00ab55f3f83b5700068068a214b3a89cd6cba1ec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restricted-admin-validation.md",
+      "sha256": "c83e5f7d5405c3c518906fde34356d78464b7cb5c1db028637b1bf7368da5fec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-baseline-verification.json",
+      "sha256": "3b6b911cdde6fe237a7b404ccdb35922c71d9b77eb8ebbadccf11b0351a24808"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
+      "sha256": "51ccbe7985a906d6032c3dca753ee1aa82365ecae2bd6a825e97cf566599288d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
+      "sha256": "f5d989edf99db9e5bb23cae07cf4caae9d8e91f1d04694cf5b0261dcd1ccf7b4"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-sources.json",
+      "sha256": "18ba3750d883d9b3998a37e947a2f55056f69bc537c6fc595b9e6228bc449221"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-validation.md",
+      "sha256": "07c08458a77bf6a9dc3f12544490120b07130dfb41ca085978178db615d58542"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-validation.md",
+      "sha256": "af9e5db85e33597f869350e8dfd96b2c3ccb96d935226e255611f4f477b63723"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-verification.json",
+      "sha256": "622f719948e1b795430dc7205fdc6e13c6e56b07be865e356937968dfb7e5e23"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-process-local.json",
+      "sha256": "d58e59ca2c92af2dfc311e970ceedc4cbc4543f6532eb007e90794563e754944"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-process-sources.json",
+      "sha256": "671da62a1e2ef04fbc8edbfb7fdfe021d3395c36385434771e7314f024e10312"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-process-validation.md",
+      "sha256": "900dc50d08008d8cc1ddf7a15e19b24a4c4a68e0371ae95aa7bec39f8691f3f2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-review.json",
+      "sha256": "14f14668cd0847d3f59d8a93802de8f96e6642aa3faac5ec74ce7b37767f61d3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-sources.json",
+      "sha256": "aba999140774d23426f42d7f97010cbfec1ee4f8e4a714102985df47c3c947c9"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-journal-reconciliation-validation.md",
+      "sha256": "ba748572f0e4109000ebd97c0d0ee1c69a60eab6e699af9ce436c49f78109da0"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-local.json",
+      "sha256": "47d538343ef633f09400b2b08e586cc79dbc7ac1e2dbd5b817bfeed31b00c393"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-sources.json",
+      "sha256": "79731399adb651d49732af6a33f06ed4a63f60a72fbb26c747e54f72b572db04"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-readonly-coordination-validation.md",
+      "sha256": "d77fcc045dd44eff154feb437491c36b78a63fd94fd7a08ead3f4d026b4dffc2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+      "sha256": "77de91bce96269dfbf5cdbf2a5e1d58d0803b7e8ee8b4b39f20e473c403002ec"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-sources.json",
+      "sha256": "3c7f456db265b1a18a794b36559dee470f17c883f235f4ff3c6bce84b9f3a4e2"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-validation.md",
+      "sha256": "4f20f6b3f44f8b14b8603f7189d8de72ef4e10fbd2b56a59d2437ed0d2c6baaa"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-local.json",
+      "sha256": "574545a6fffae4614b3786413958aa3660e83e8f51113f5c7b1bab78f81b597a"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-sources.json",
+      "sha256": "4aa0df39666455caa9ef4824368517fdcd2528b71a69b095d14aa69ef179543d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-target-plan-model-validation.md",
+      "sha256": "db7b2083d56695a470cd2d3a2522051f96b4d5dbe2a4585db6c986e5e70811ee"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+      "sha256": "44a3da87bdef1250f9754f3330883e34aef8523a3e19868f5c826f7bf9125f93"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-sources.json",
+      "sha256": "68453732902b4d4df5af4a0ecf7f0995543148f7be975b0c481d34425fbf2281"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-validation.md",
+      "sha256": "9471ef1085cf4065602bd4e223a856c1d586afda098b060b8a9e9fc7f9c68995"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-preflight-local.json",
+      "sha256": "7c49970c452f4cbf69a9a4258d16c0f712be90dd4467ae5cc6dabc503a65e3f3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-preflight-sources.json",
+      "sha256": "a8c726c853029df22eb77757ab5df55d304ccb6d13b1a7ba62c841cbb8903a05"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-preflight-validation.md",
+      "sha256": "d7222bc7e8771dc2794fa8897976da43340c9741cbf072d0fc0f9b82fa372e4e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+      "sha256": "f464f047eedef181549254b3a43ee56b5b10cd2c5f5354c99b8d9fa99cad7c5b"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-sources.json",
+      "sha256": "5a9844ad23dde0c038a7cc471181b71a5a89a8e3986345748262c5fe2f4134d1"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-validation.md",
+      "sha256": "654b582b77937a200ebc7c1a9ead3b652e0104ae1265916d98cab621df2c0d90"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+      "sha256": "aa4f87514d68f01dba0235bdb44309fabd15d7b6663c8df37cb50c96ce89cc31"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-sources.json",
+      "sha256": "936648f40ade86e3458cccd16202cafb9054d9f6f60d9fa03cb7ad49b39bfccf"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-validation.md",
+      "sha256": "48049b2dd6b6aabdaf44fc4cadba7b9e08cd205d7387b54eeb8dbfd0b89be41f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json",
+      "sha256": "9d5c3b01fc78e432b397fff9fc1bbff85152c9d57e387140f477b0c79de66092"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-sources.json",
+      "sha256": "73d87f0a0014ea1cdf1d8a2f28a26c36c5eb3076a91ffa0f94cd773436a0ea3c"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-validation.md",
+      "sha256": "e6d5b03aebe2ae383c9369d09100a307159ed9cbef44e91754c390723c265ed7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json",
+      "sha256": "f4e2d48dc42f3b9adf46d86c5b05d4d020b45a1addba05da5208fb4389d37bea"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-trust-material-sources.json",
+      "sha256": "1981622c736d9063c11ffe0a0c2c5382fff0e03414ecd6d2d7391826f79c1167"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-trust-material-validation.md",
+      "sha256": "62d01637e8370bbe48bec19cb3930e7e53c2bac404f2aa0c20baa70a5d583cc7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json",
+      "sha256": "e2f2e83ce426019ba0b5021bd42cc88b6992978ea27b81bce43667ec90fe0ba7"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-routing-resource-sources.json",
+      "sha256": "f659ecb0949faed027ef401f239ebc4d71aa073b0a62c6107d4a15607d179673"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-routing-resource-validation.md",
+      "sha256": "e26e2331a64156d22b12c1d6cc0212b2b6a77292728d705b71226dedad484be3"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "tests/fixtures/io-inspection/budget.ts",
+      "sha256": "a115788b8e9ebfeebcc69598d49bde0d62115244d291e5821250a2b86d874349"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/compose.yaml",
+      "sha256": "874567b41aaff33ba14daa890ea835021db988ef05ad4ec4fa37a1c6189a6bf6"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/exchange.ts",
+      "sha256": "99e7630ab45e73e5060e9fbb9c386b0ce8a620c5c3d9345a7da3e0f16f590986"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/proof.ts",
+      "sha256": "a61040ad6e46092f6b46eadd43b0e41405dbd4ed8367844c9813937e4138cd2b"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/relay.ts",
+      "sha256": "367b859d37ece86403cde9edf313f5d52364af286e2ea8c1be11a4235fd07f61"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/route-custody.ts",
+      "sha256": "bb97c779028343edf6f1011811b959157bc1965a36bcbc26d3b6fbae9aa769d8"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/run.mjs",
+      "sha256": "e27e4673eace88170ab69a1632b19a3606d885f0ce5a6b8a88bb0e4bbbddb1ed"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/vitest.config.ts",
+      "sha256": "68f0a31d2a16c839704a619080326c927fbae748f5afbd11ed6fc37e99bd8122"
+    },
+    {
+      "path": "tests/io-inspection/adverse.test.ts",
+      "sha256": "e31cf93df0e10278b8393cda721bfc0956d32f1c3623854e1f22302d0384b456"
+    },
+    {
+      "path": "tests/io-inspection/budget.test.ts",
+      "sha256": "bf6e4592bea1df60880776ac480061afb1a3d95691411b8ae45e696c546768d0"
+    },
+    {
+      "path": "tests/io-inspection/protocol.test.ts",
+      "sha256": "892b594c760fa50e2e3710ab958a0555220925191a558695c23f0ae62a2c8995"
+    },
+    {
+      "path": ".github/workflows/io-inspection.yml",
+      "sha256": "f647d5756a5a703c5a933f09d1482907a8fbad1b5036a192adf8e16f31a9048b"
+    }
+  ],
+  "routeCustodyReceipts": [
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "regressionMutationControl": {
+    "scope": "temporary-guard-removal-in-new-disposable-support",
+    "failedScenarios": [
+      "late-source",
+      "late-target",
+      "context-drift-source",
+      "context-drift-target"
+    ],
+    "expectedFailureObserved": true,
+    "exactSourceRestored": true,
+    "sourceSha256": "a61040ad6e46092f6b46eadd43b0e41405dbd4ed8367844c9813937e4138cd2b",
+    "checkedOwnedCleanup": true,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  }
+}
