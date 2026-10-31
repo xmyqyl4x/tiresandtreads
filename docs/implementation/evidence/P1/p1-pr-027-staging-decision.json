@@ -881,5 +881,23 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localTrustMaterialEvidence": [
+    {
+      "name": "LR01 trust-root and material adverse proof",
+      "baselineMerge": "cb22cad15074d0fe0852e909ee2cd4f67a88d5ec",
+      "status": "Local synthetic proof only; original cases and gates remain open",
+      "evidence": [
+        "docs/implementation/P1-PR-027-trust-root-material-adverse-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-trust-material-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-trust-material-validation.md"
+      ],
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
