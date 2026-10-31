@@ -506,7 +506,11 @@
         "tests/fixtures/multitarget-plan/samples.ts",
         "tests/fixtures/multitarget-plan/run.mjs",
         "tests/unit/multitarget-plan.test.ts",
-        "tests/usecases/multitarget-plan.test.ts"
+        "tests/usecases/multitarget-plan.test.ts",
+        "docs/implementation/P1-PR-027-fixture-tls-target-admission-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-validation.md"
       ]
     }
   ],
