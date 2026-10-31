@@ -953,5 +953,23 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localDependencyCompatibilityEvidence": [
+    {
+      "name": "Published dependency fixes and local prototype-key mitigation",
+      "baselineMerge": "e52c463febce8e16b84f31334b08f1df7085cc77",
+      "status": "Scoped dependency maintenance complete; actual decisions/acceptance held",
+      "evidence": [
+        "docs/implementation/P1-PR-027-dependency-compatibility.md",
+        "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-validation.md"
+      ],
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

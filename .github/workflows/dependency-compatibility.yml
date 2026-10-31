@@ -1,0 +1,21 @@
+name: Dedicated dependency compatibility proof
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: dependency-compatibility-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  dependency-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Fresh patched install, actual consumer contracts and visible audit
+        run: node tests/fixtures/dependency-compatibility/run.mjs
