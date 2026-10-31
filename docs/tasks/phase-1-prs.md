@@ -550,6 +550,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Fixture TLS / target-admission contract review](../implementation/P1-PR-027-fixture-tls-target-admission-review.md) follows PR #56 (`552828d0`) local model approval: separate four-endpoint foundation-only fixture preparation/TLS/identity/cleanup boundary, 20 proposed controls and zero new implementation/fixture/TLS/SQL execution. All original scenarios/cases/gates remain open. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
 
+[Dedicated fixture TLS/admission preflight](../implementation/P1-PR-027-fixture-tls-admission-preflight.md) follows approved PR57 (`8142cfbb`): separate bounded privileged setup/read-only observer/owned teardown, 80 focused executions and separate full regression; all original cases/gates remain open. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

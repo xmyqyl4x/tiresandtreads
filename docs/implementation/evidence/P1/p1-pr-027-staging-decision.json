@@ -772,5 +772,47 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localFixtureTlsAdmissionProofs": [
+    {
+      "name": "Dedicated local fixture TLS/admission preflight",
+      "status": "local evidence in review; no case/gate acceptance",
+      "baselineMerge": "8142cfbbefc2fbc955b0211bec8dbe68c7b5cc74",
+      "evidence": [
+        "docs/implementation/P1-PR-027-fixture-tls-admission-preflight.md",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-preflight-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-preflight-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-preflight-validation.md",
+        "tests/fixtures/tls-admission/certificates.py",
+        "tests/fixtures/tls-admission/compose.yaml",
+        "tests/fixtures/tls-admission/contract.ts",
+        "tests/fixtures/tls-admission/material-fault.ts",
+        "tests/fixtures/tls-admission/material.ts",
+        "tests/fixtures/tls-admission/observer.ts",
+        "tests/fixtures/tls-admission/resources.ts",
+        "tests/fixtures/tls-admission/run.mjs",
+        "tests/fixtures/tls-admission/seal.ts",
+        "tests/fixtures/tls-admission/setup.ts",
+        "tests/fixtures/tls-admission/snapshot.ts",
+        "tests/fixtures/tls-admission/supervisor.ts",
+        "tests/fixtures/tls-admission/vitest.config.ts",
+        "tests/tls-admission/admission.test.ts",
+        "tests/tls-admission/liveness.test.ts",
+        "tests/tls-admission/transport.test.ts",
+        "tests/unit/tls-admission.test.ts",
+        ".github/workflows/fixture-tls-admission.yml"
+      ],
+      "scenario": "PJ13",
+      "designCase": "BLC-T13",
+      "dedicatedTestExecutions": 80,
+      "ownedSyntheticProjects": 6,
+      "observerSqlReadOnly": true,
+      "privilegedSetupSeparate": true,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
