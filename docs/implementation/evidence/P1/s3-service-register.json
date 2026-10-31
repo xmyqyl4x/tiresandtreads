@@ -552,7 +552,11 @@
         "docs/implementation/P1-PR-027-routing-resource-collision-proof.md",
         "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json",
         "docs/implementation/evidence/P1/p1-pr-027-routing-resource-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-routing-resource-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-routing-resource-validation.md",
+        "docs/implementation/P1-PR-027-io-inspection-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-validation.md"
       ]
     }
   ],

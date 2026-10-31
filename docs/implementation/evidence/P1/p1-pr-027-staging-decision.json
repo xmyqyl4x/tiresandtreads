@@ -917,5 +917,23 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localIoInspectionEvidence": [
+    {
+      "name": "LR03 bounded I/O/end/inspection-loss contract and proof",
+      "baselineMerge": "a6a408948c73eba9ba5a1628bfafa0237f9d34e0",
+      "status": "Scoped local review/implementation complete; original acceptance remains open",
+      "evidence": [
+        "docs/implementation/P1-PR-027-io-inspection-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-validation.md"
+      ],
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
