@@ -838,5 +838,28 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localMultiTargetCoordinationProofs": [
+    {
+      "name": "Disposable multi-target coordination proof",
+      "status": "Local observations only; no original case/gate acceptance",
+      "baselineMerge": "d6d9b170ba242e5b33870e176fafad81994d9748",
+      "evidence": [
+        "docs/implementation/P1-PR-027-multitarget-coordination-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-validation.md"
+      ],
+      "dedicatedExecutions": 84,
+      "ownedSyntheticProjects": 8,
+      "observerSqlReadOnly": true,
+      "privilegedSetupSeparate": true,
+      "syntheticBackendTerminations": 3,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

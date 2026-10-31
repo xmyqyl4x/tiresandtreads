@@ -1,0 +1,21 @@
+name: Dedicated fixture multi-target coordination
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: fixture-multitarget-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  multitarget-coordination:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bounded synthetic coordination, owned faults and teardown
+        run: node tests/fixtures/multitarget-coordination/run.mjs

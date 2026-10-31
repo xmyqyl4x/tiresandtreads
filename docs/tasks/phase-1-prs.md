@@ -554,6 +554,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Multi-target coordination proof design review](../implementation/P1-PR-027-multitarget-coordination-proof-design-review.md) follows PR58 (`4c4311b5`) local TLS/admission approval: six proposed owned channels, canonical session try-locks, sampled ownership, bounded loss/late-work/cleanup evidence; MC01–MC20 proposed and zero new implementation/fixture/SQL execution. All original cases/gates remain open. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
 
+[Actual local multi-target coordination proof](../implementation/P1-PR-027-multitarget-coordination-proof.md): 57 pure/27 live cases, eight owned projects, canonical six sessions, exact-owned coordinator faults, late-result rejection and honest cleanup/preservation observations. No original case/gate closure; all existing holds remain. Next work stays local S3; APIs/frontends held.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
