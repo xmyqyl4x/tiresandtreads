@@ -899,5 +899,23 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localRoutingResourceEvidence": [
+    {
+      "name": "LR02 routing/resource collision review and proof",
+      "baselineMerge": "73e602db5ffdbc2cc417702b3d91c77fb3d75241",
+      "status": "Scoped local review/implementation complete; original acceptance remains open",
+      "evidence": [
+        "docs/implementation/P1-PR-027-routing-resource-collision-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-routing-resource-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-routing-resource-validation.md"
+      ],
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
