@@ -814,5 +814,29 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localMultiTargetCoordinationProofDesignReviews": [
+    {
+      "name": "Multi-target coordination proof design review",
+      "status": "proposed design in review; no execution/case/gate acceptance",
+      "baselineMerge": "4c4311b55fe94e0705393e62a158158e91f40758",
+      "evidence": [
+        "docs/implementation/P1-PR-027-multitarget-coordination-proof-design-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-validation.md"
+      ],
+      "scenario": "PJ13",
+      "designCase": "BLC-T13",
+      "newTests": 0,
+      "fixtureExecutions": 0,
+      "sqlExecuted": false,
+      "tlsHandshakesExecuted": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

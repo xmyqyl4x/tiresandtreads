@@ -532,7 +532,11 @@
         "tests/tls-admission/liveness.test.ts",
         "tests/tls-admission/transport.test.ts",
         "tests/unit/tls-admission.test.ts",
-        ".github/workflows/fixture-tls-admission.yml"
+        ".github/workflows/fixture-tls-admission.yml",
+        "docs/implementation/P1-PR-027-multitarget-coordination-proof-design-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-validation.md"
       ]
     }
   ],

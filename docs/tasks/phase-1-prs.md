@@ -552,6 +552,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Dedicated fixture TLS/admission preflight](../implementation/P1-PR-027-fixture-tls-admission-preflight.md) follows approved PR57 (`8142cfbb`): separate bounded privileged setup/read-only observer/owned teardown, 80 focused executions and separate full regression; all original cases/gates remain open. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
 
+[Multi-target coordination proof design review](../implementation/P1-PR-027-multitarget-coordination-proof-design-review.md) follows PR58 (`4c4311b5`) local TLS/admission approval: six proposed owned channels, canonical session try-locks, sampled ownership, bounded loss/late-work/cleanup evidence; MC01–MC20 proposed and zero new implementation/fixture/SQL execution. All original cases/gates remain open. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
