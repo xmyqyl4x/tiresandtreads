@@ -1,0 +1,21 @@
+name: Dedicated routing and resource collision refusals
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: routing-resource-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  routing-resource:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Fixed synthetic collisions, read-only observations and identity-checked owned teardown
+        run: node tests/fixtures/routing-resource/run.mjs
