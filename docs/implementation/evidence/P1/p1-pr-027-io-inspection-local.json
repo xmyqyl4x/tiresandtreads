@@ -61,6 +61,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": true,
       "readAccepted": true,
       "resultDiscarded": false,
       "endObserved": true,
@@ -70,8 +71,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "none",
-      "admissionMs": 262.16,
-      "cleanupMsBeforeRelayDisposal": 8.3,
+      "admissionMs": 287.3,
+      "cleanupMsBeforeRelayDisposal": 11.03,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -103,6 +104,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": true,
       "readAccepted": true,
       "resultDiscarded": false,
       "endObserved": true,
@@ -112,8 +114,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "none",
-      "admissionMs": 252.78,
-      "cleanupMsBeforeRelayDisposal": 5.33,
+      "admissionMs": 208.97,
+      "cleanupMsBeforeRelayDisposal": 6.46,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -145,6 +147,7 @@
       "registered": false,
       "readDispatched": false,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -154,8 +157,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 1550.59,
-      "cleanupMsBeforeRelayDisposal": 0.21,
+      "admissionMs": 1545.48,
+      "cleanupMsBeforeRelayDisposal": 0.42,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 0,
@@ -187,6 +190,7 @@
       "registered": false,
       "readDispatched": false,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -196,8 +200,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 1530.83,
-      "cleanupMsBeforeRelayDisposal": 0.15,
+      "admissionMs": 1550.34,
+      "cleanupMsBeforeRelayDisposal": 0.21,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 0,
@@ -229,6 +233,7 @@
       "registered": false,
       "readDispatched": false,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -238,8 +243,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 33.56,
-      "cleanupMsBeforeRelayDisposal": 0.03,
+      "admissionMs": 61.79,
+      "cleanupMsBeforeRelayDisposal": 0.04,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 0,
@@ -271,6 +276,7 @@
       "registered": false,
       "readDispatched": false,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -280,8 +286,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 46.9,
-      "cleanupMsBeforeRelayDisposal": 0.03,
+      "admissionMs": 59.25,
+      "cleanupMsBeforeRelayDisposal": 0.04,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 0,
@@ -313,6 +319,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -322,8 +329,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 458.53,
-      "cleanupMsBeforeRelayDisposal": 4.19,
+      "admissionMs": 531.54,
+      "cleanupMsBeforeRelayDisposal": 6.82,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -355,6 +362,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -364,8 +372,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 504.93,
-      "cleanupMsBeforeRelayDisposal": 4.6,
+      "admissionMs": 559.39,
+      "cleanupMsBeforeRelayDisposal": 5.24,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -397,6 +405,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -406,8 +415,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 163.41,
-      "cleanupMsBeforeRelayDisposal": 3.5,
+      "admissionMs": 203.32,
+      "cleanupMsBeforeRelayDisposal": 4.65,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -439,6 +448,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -448,8 +458,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 157.83,
-      "cleanupMsBeforeRelayDisposal": 3.53,
+      "admissionMs": 403.77,
+      "cleanupMsBeforeRelayDisposal": 5.76,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -481,6 +491,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -490,8 +501,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "57014",
-      "admissionMs": 1111.47,
-      "cleanupMsBeforeRelayDisposal": 4.89,
+      "admissionMs": 1237.13,
+      "cleanupMsBeforeRelayDisposal": 4.54,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -523,6 +534,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -532,8 +544,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "57014",
-      "admissionMs": 1110.39,
-      "cleanupMsBeforeRelayDisposal": 6.82,
+      "admissionMs": 1151.36,
+      "cleanupMsBeforeRelayDisposal": 3.31,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -565,6 +577,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": true,
       "endObserved": true,
@@ -574,8 +587,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 4007.88,
-      "cleanupMsBeforeRelayDisposal": 7.31,
+      "admissionMs": 4006.79,
+      "cleanupMsBeforeRelayDisposal": 4.5,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -607,6 +620,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": true,
       "endObserved": true,
@@ -616,8 +630,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 4004.79,
-      "cleanupMsBeforeRelayDisposal": 4.88,
+      "admissionMs": 4006.24,
+      "cleanupMsBeforeRelayDisposal": 3.72,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -649,6 +663,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": true,
       "endObserved": true,
@@ -658,8 +673,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 160.77,
-      "cleanupMsBeforeRelayDisposal": 4.32,
+      "admissionMs": 206.81,
+      "cleanupMsBeforeRelayDisposal": 5.19,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -691,6 +706,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": true,
       "endObserved": true,
@@ -700,8 +716,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 150.84,
-      "cleanupMsBeforeRelayDisposal": 3.94,
+      "admissionMs": 165.83,
+      "cleanupMsBeforeRelayDisposal": 3.66,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -733,6 +749,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": false,
@@ -742,8 +759,8 @@
       "cleanupUnknown": true,
       "freshAttemptBlocked": true,
       "errorCode": "none",
-      "admissionMs": 309.33,
-      "cleanupMsBeforeRelayDisposal": 1428.26,
+      "admissionMs": 240.98,
+      "cleanupMsBeforeRelayDisposal": 1445.42,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -775,6 +792,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": true,
       "endObserved": true,
@@ -784,8 +802,8 @@
       "cleanupUnknown": true,
       "freshAttemptBlocked": true,
       "errorCode": "io-refused",
-      "admissionMs": 2460.43,
-      "cleanupMsBeforeRelayDisposal": 2.22,
+      "admissionMs": 2836.73,
+      "cleanupMsBeforeRelayDisposal": 1.8,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -817,6 +835,7 @@
       "registered": true,
       "readDispatched": true,
       "readCompleted": true,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": true,
       "endObserved": true,
@@ -826,8 +845,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 3060.96,
-      "cleanupMsBeforeRelayDisposal": 10.3,
+      "admissionMs": 2551.28,
+      "cleanupMsBeforeRelayDisposal": 8.55,
       "relay": {
         "accepted": 1,
         "upstreamOpened": 1,
@@ -859,6 +878,7 @@
       "registered": false,
       "readDispatched": false,
       "readCompleted": false,
+      "admissionSucceeded": false,
       "readAccepted": false,
       "resultDiscarded": false,
       "endObserved": true,
@@ -868,8 +888,8 @@
       "cleanupUnknown": false,
       "freshAttemptBlocked": false,
       "errorCode": "io-refused",
-      "admissionMs": 3149.48,
-      "cleanupMsBeforeRelayDisposal": 0.1,
+      "admissionMs": 2332.67,
+      "cleanupMsBeforeRelayDisposal": 0.07,
       "relay": {
         "accepted": 0,
         "upstreamOpened": 0,
@@ -1288,7 +1308,8 @@
     "Read acknowledgement loss is encrypted wire withholding/drop. Late delivery separately withholds application acceptance after actual SQL completion. No replay or cancellation inference.",
     "Native end, registered-identity backend/lock absence, read completion and unknown cleanup are distinct. Later driver events or project removal never clear frozen unknown receipts.",
     "Known cleanup for partial-connect controls is exact local closure with zero upstream opens, not an independently inspected backend-absence claim.",
-    "Declared boundaries only; no every-await, external-administrator exclusion, authentication, independent durability, target-fencing, populated-data/history or hosted acceptance claim."
+    "Declared boundaries only; no every-await, external-administrator exclusion, authentication, independent durability, target-fencing, populated-data/history or hosted acceptance claim.",
+    "Linux host UID/mode portability is handled by a network-none metadata preparer with DAC_OVERRIDE and an owned UID-0/0400 route volume; the capability-free observer does not mount the host-owned binding file. No host permission widening or observer privilege addition."
   ],
   "covers": {
     "TA12/MT12": "Shared bounded attempt, discarded late result and absolute IPC controls; original acceptance unchanged.",
@@ -2471,7 +2492,7 @@
     },
     {
       "path": "tests/fixtures/io-inspection/compose.yaml",
-      "sha256": "c48475d84bdd8edc1ca5ec445bdd036e0f2c9053a22dba4d7be162f7e80e1afb"
+      "sha256": "874567b41aaff33ba14daa890ea835021db988ef05ad4ec4fa37a1c6189a6bf6"
     },
     {
       "path": "tests/fixtures/io-inspection/exchange.ts",
@@ -2479,15 +2500,19 @@
     },
     {
       "path": "tests/fixtures/io-inspection/proof.ts",
-      "sha256": "5f7815eb67d4151481e31515975d6bb55bfd7c2dfbbc2d84fe61226248c016de"
+      "sha256": "a61040ad6e46092f6b46eadd43b0e41405dbd4ed8367844c9813937e4138cd2b"
     },
     {
       "path": "tests/fixtures/io-inspection/relay.ts",
-      "sha256": "d2f53c1b3d822b2e0d660edad5df06e9e4472a67b1f2af22fbb4dbb90a586847"
+      "sha256": "367b859d37ece86403cde9edf313f5d52364af286e2ea8c1be11a4235fd07f61"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/route-custody.ts",
+      "sha256": "bb97c779028343edf6f1011811b959157bc1965a36bcbc26d3b6fbae9aa769d8"
     },
     {
       "path": "tests/fixtures/io-inspection/run.mjs",
-      "sha256": "9488485407173f249475249ed55e71e76561e9f5a8f79b60fccfdbcbb6d32c1a"
+      "sha256": "e27e4673eace88170ab69a1632b19a3606d885f0ce5a6b8a88bb0e4bbbddb1ed"
     },
     {
       "path": "tests/fixtures/io-inspection/vitest.config.ts",
@@ -2495,7 +2520,7 @@
     },
     {
       "path": "tests/io-inspection/adverse.test.ts",
-      "sha256": "a15684df9656032e380ec4bb6f3b836f9499a585f823f4b3ce64e21ad8215783"
+      "sha256": "e31cf93df0e10278b8393cda721bfc0956d32f1c3623854e1f22302d0384b456"
     },
     {
       "path": "tests/io-inspection/budget.test.ts",
@@ -2509,5 +2534,72 @@
       "path": ".github/workflows/io-inspection.yml",
       "sha256": "f647d5756a5a703c5a933f09d1482907a8fbad1b5036a192adf8e16f31a9048b"
     }
-  ]
+  ],
+  "routeCustodyReceipts": [
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "boundedMetadataOnly": true,
+      "ownerUid": 0,
+      "mode": "0400",
+      "hostFilePermissionsChanged": false,
+      "sqlDispatches": 0,
+      "providerDispatches": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "regressionMutationControl": {
+    "scope": "temporary-guard-removal-in-new-disposable-support",
+    "failedScenarios": [
+      "late-source",
+      "late-target",
+      "context-drift-source",
+      "context-drift-target"
+    ],
+    "expectedFailureObserved": true,
+    "exactSourceRestored": true,
+    "sourceSha256": "a61040ad6e46092f6b46eadd43b0e41405dbd4ed8367844c9813937e4138cd2b",
+    "checkedOwnedCleanup": true,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  }
 }

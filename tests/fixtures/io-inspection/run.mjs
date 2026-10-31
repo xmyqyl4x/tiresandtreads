@@ -126,7 +126,7 @@ try {
       const manifest = JSON.parse(call(['config', '--format', 'json'], { capture: true }));
       if (
         Object.keys(manifest.services).sort().join(',') !==
-          'certificates,inspector,observer,postgres,recovery-postgres,setup,supervisor' ||
+          'certificates,inspector,observer,postgres,recovery-postgres,route-custody,setup,supervisor' ||
         manifest.networks.local.internal !== true
       )
         throw Error('Manifest refused');
@@ -135,12 +135,13 @@ try {
         if (
           name === 'observer' &&
           (!s.read_only ||
+            !s.cap_drop?.includes('ALL') ||
+            s.cap_add?.length ||
             Object.keys(s.environment).sort().join(',') !==
               'APP_ENV,IO_PROFILE,ISOLATED_TEST_PROJECT,MC_PROFILE,PROVIDER_MODE' ||
             s.volumes.some(
               (v) =>
-                !v.read_only ||
-                !['/owners', '/trust', '/control', '/binding.json'].includes(v.target),
+                !v.read_only || !['/owners', '/trust', '/control', '/routes'].includes(v.target),
             ))
         )
           throw Error('Observer isolation refused');
@@ -156,6 +157,7 @@ try {
       );
       const original = seal(ids);
       writeFileSync(bindingFile, JSON.stringify(original));
+      call(['run', '--rm', '--no-deps', 'route-custody']);
       call(['up', '--detach', 'supervisor']);
       const ready = (service, path) =>
         call([

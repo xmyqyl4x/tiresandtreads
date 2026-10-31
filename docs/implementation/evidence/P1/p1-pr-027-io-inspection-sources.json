@@ -1176,7 +1176,7 @@
     },
     {
       "path": "tests/fixtures/io-inspection/compose.yaml",
-      "sha256": "c48475d84bdd8edc1ca5ec445bdd036e0f2c9053a22dba4d7be162f7e80e1afb"
+      "sha256": "874567b41aaff33ba14daa890ea835021db988ef05ad4ec4fa37a1c6189a6bf6"
     },
     {
       "path": "tests/fixtures/io-inspection/exchange.ts",
@@ -1184,15 +1184,19 @@
     },
     {
       "path": "tests/fixtures/io-inspection/proof.ts",
-      "sha256": "5f7815eb67d4151481e31515975d6bb55bfd7c2dfbbc2d84fe61226248c016de"
+      "sha256": "a61040ad6e46092f6b46eadd43b0e41405dbd4ed8367844c9813937e4138cd2b"
     },
     {
       "path": "tests/fixtures/io-inspection/relay.ts",
-      "sha256": "d2f53c1b3d822b2e0d660edad5df06e9e4472a67b1f2af22fbb4dbb90a586847"
+      "sha256": "367b859d37ece86403cde9edf313f5d52364af286e2ea8c1be11a4235fd07f61"
+    },
+    {
+      "path": "tests/fixtures/io-inspection/route-custody.ts",
+      "sha256": "bb97c779028343edf6f1011811b959157bc1965a36bcbc26d3b6fbae9aa769d8"
     },
     {
       "path": "tests/fixtures/io-inspection/run.mjs",
-      "sha256": "9488485407173f249475249ed55e71e76561e9f5a8f79b60fccfdbcbb6d32c1a"
+      "sha256": "e27e4673eace88170ab69a1632b19a3606d885f0ce5a6b8a88bb0e4bbbddb1ed"
     },
     {
       "path": "tests/fixtures/io-inspection/vitest.config.ts",
@@ -1200,7 +1204,7 @@
     },
     {
       "path": "tests/io-inspection/adverse.test.ts",
-      "sha256": "a15684df9656032e380ec4bb6f3b836f9499a585f823f4b3ce64e21ad8215783"
+      "sha256": "e31cf93df0e10278b8393cda721bfc0956d32f1c3623854e1f22302d0384b456"
     },
     {
       "path": "tests/io-inspection/budget.test.ts",

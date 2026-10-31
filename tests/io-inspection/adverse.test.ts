@@ -11,6 +11,8 @@ for (const scenario of selected) {
     const positive = scenario.startsWith('positive');
     expect(r.status).toBe(positive ? 'observed' : 'refused');
     expect(r.readAccepted).toBe(positive);
+    expect(r.admissionSucceeded).toBe(positive);
+    if (!positive && scenario !== 'end-hang') expect(r.errorCode).not.toBe('none');
     expect(r.casesClosed).toBe(0);
     expect(r.gatesClosed).toBe(0);
     expect(r.cleanupMsBeforeRelayDisposal).toBeLessThan(3000);

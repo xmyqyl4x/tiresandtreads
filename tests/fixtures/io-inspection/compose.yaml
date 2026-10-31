@@ -129,6 +129,20 @@ services:
     security_opt: [no-new-privileges:true]
     mem_limit: 256m
     cpus: 2
+  route-custody:
+    image: tiresandtreads-tooling:${TOOLING_TAG:?}
+    environment:
+      ISOLATED_TEST_PROJECT: ${COMPOSE_PROJECT_NAME:?}
+      FIXTURE_GENERATION: ${FIXTURE_GENERATION:?}
+    command: [node, tests/fixtures/io-inspection/route-custody.ts]
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    cap_add: [DAC_OVERRIDE]
+    security_opt: [no-new-privileges:true]
+    volumes: ['${BINDING_FILE:?}:/binding.json:ro', routes:/routes]
+    mem_limit: 128m
+    cpus: 1
   observer:
     image: tiresandtreads-tooling:${TOOLING_TAG:?}
     environment:
@@ -138,13 +152,7 @@ services:
       MC_PROFILE: standard
       IO_PROFILE: ${IO_PROFILE:?}
     command: [pnpm, exec, vitest, run, --config, tests/fixtures/io-inspection/vitest.config.ts]
-    volumes:
-      [
-        owners:/owners:ro,
-        trust:/trust:ro,
-        control:/control:ro,
-        '${BINDING_FILE:?}:/binding.json:ro',
-      ]
+    volumes: [owners:/owners:ro, trust:/trust:ro, control:/control:ro, routes:/routes:ro]
     extra_hosts: ['postgres.preflight.test=127.0.0.1', 'recovery-postgres.preflight.test=127.0.0.2']
     networks: [local]
     read_only: true
@@ -170,6 +178,7 @@ volumes:
   control:
   admin:
   fault:
+  routes:
 networks:
   local:
     internal: true

@@ -194,7 +194,7 @@ export async function runScenario(scenario: Scenario) {
         const observed = await exchange('sql', { op: 'sample', participant }, remaining(start));
         must(observed.ok === true);
       }
-      accepted = scenario.startsWith('positive');
+      accepted = true;
     }
   } catch (error) {
     const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : '';
@@ -247,6 +247,7 @@ export async function runScenario(scenario: Scenario) {
     registered,
     readDispatched,
     readCompleted,
+    admissionSucceeded: accepted,
     readAccepted: accepted && !cleanupUnknown,
     resultDiscarded: !(accepted && !cleanupUnknown) && readCompleted,
     endObserved,

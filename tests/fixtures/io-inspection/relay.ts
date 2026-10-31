@@ -1,5 +1,5 @@
 import net from 'node:net';
-import { readFileSync } from 'node:fs';
+import { readFileSync, lstatSync } from 'node:fs';
 import { binding } from '../tls-admission/resources.ts';
 import { digest } from '../tls-admission/contract.ts';
 import { context, publicPlan } from '../multitarget-coordination/transport.ts';
@@ -12,7 +12,16 @@ type Mode = 'pass' | 'stall-connect' | 'drop-connect' | 'hold-read' | 'drop-read
 // Upstream is the parent's original private binding, never a caller destination.
 export async function relays() {
   const c = context(publicPlan());
-  const b = binding(JSON.parse(readFileSync('/binding.json', 'utf8')));
+  const route = lstatSync('/routes/binding.json');
+  if (
+    !route.isFile() ||
+    route.isSymbolicLink() ||
+    route.uid !== 0 ||
+    (route.mode & 0o777) !== 0o400 ||
+    route.size > 32768
+  )
+    throw Error('Private I/O route custody unavailable');
+  const b = binding(JSON.parse(readFileSync('/routes/binding.json', 'utf8')));
   if (b.project !== c.project || b.fixtureGeneration !== c.generation || b.variant !== 'valid')
     throw Error('I/O private routing refused');
   const controls = [];
