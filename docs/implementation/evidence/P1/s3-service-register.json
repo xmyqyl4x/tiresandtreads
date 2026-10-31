@@ -536,7 +536,11 @@
         "docs/implementation/P1-PR-027-multitarget-coordination-proof-design-review.md",
         "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
         "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-validation.md",
+        "docs/implementation/P1-PR-027-multitarget-coordination-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-validation.md"
       ]
     }
   ],
