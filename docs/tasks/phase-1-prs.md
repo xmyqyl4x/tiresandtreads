@@ -556,6 +556,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Actual local multi-target coordination proof](../implementation/P1-PR-027-multitarget-coordination-proof.md): 57 pure/27 live cases, eight owned projects, canonical six sessions, exact-owned coordinator faults, late-result rejection and honest cleanup/preservation observations. No original case/gate closure; all existing holds remain. Next work stays local S3; APIs/frontends held.
 
+[Coordination evidence reconciliation](../implementation/P1-PR-027-coordination-evidence-reconciliation.md) maps all original journal/lifecycle/MT/TA requirements after PR60, keeps every original acceptance open and prioritizes LR01 trust-root/material adverse controls. APIs/frontends remain held.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**

@@ -540,7 +540,11 @@
         "docs/implementation/P1-PR-027-multitarget-coordination-proof.md",
         "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
         "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-validation.md",
+        "docs/implementation/P1-PR-027-coordination-evidence-reconciliation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-validation.md"
       ]
     }
   ],

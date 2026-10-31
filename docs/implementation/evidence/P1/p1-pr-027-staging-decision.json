@@ -861,5 +861,25 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localCoordinationEvidenceReconciliations": [
+    {
+      "name": "Coordination evidence reconciliation",
+      "status": "Additive local review complete; no new implementation/scenario definition or original acceptance",
+      "baselineMerge": "cee6e08376446e6e1d3f52528f3eff7fac0ea647",
+      "evidence": [
+        "docs/implementation/P1-PR-027-coordination-evidence-reconciliation.md",
+        "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-validation.md"
+      ],
+      "newTests": 0,
+      "newScenarioDefinitions": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }
