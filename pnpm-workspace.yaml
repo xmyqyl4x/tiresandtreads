@@ -12,6 +12,9 @@ overrides:
   '@esbuild-kit/core-utils>esbuild': 0.25.12
   # GHSA-x8rm-f576-gq67: use the reviewed fixed release without suppressing audit.
   '@payloadcms/graphql>graphql-scalars': 2.0.1
+  # GHSA-g3hv-75wg-m249 / GHSA-3g3m-2fjr-6pw4; actual consumer compatibility is tested.
+  minimatch: 11.0.1
+  'rimraf>glob': 14.0.2
 minimumReleaseAge: 1440
 # Reviewed framework patch published today; exact version is locked and tested.
 minimumReleaseAgeExclude:
@@ -30,3 +33,5 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
   protobufjs: false
+patchedDependencies:
+  deepmerge@4.3.1: patches/deepmerge@4.3.1.patch

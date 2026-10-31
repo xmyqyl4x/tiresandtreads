@@ -7,6 +7,7 @@ WORKDIR /workspace
 
 FROM base AS dependencies
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY patches ./patches
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/application/package.json ./packages/application/package.json
 COPY packages/config/package.json ./packages/config/package.json
