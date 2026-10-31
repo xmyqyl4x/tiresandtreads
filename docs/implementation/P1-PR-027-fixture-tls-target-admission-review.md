@@ -10,6 +10,8 @@ The target service has a separate data volume but no TLS init/mount/alias. The c
 
 The smallest next executable slice would prove **TLS and session/target admission only** over four foundation endpoints. It would not allocate common/inner locks or establish PJ13 ordering/exclusion, a protected source/target snapshot, restore integration or lifecycle serialization. Broader migrated/synthetic-data preservation and the real multi-target coordination proof remain later work. The original 18 journal scenarios/22 lifecycle cases, PJ13/BLC-T13 and all six S3 gates remain open. TA01–TA20 below are local planning references, not new core task cards or accepted tests.
 
+The future dedicated profile must use only its generated project's **internal network and zero published host ports**. Validate the effective Compose manifest before startup so inherited base ports, old TLS mounts/sidecars or remote/retained attachments cannot silently enter this profile. Keep the observer root filesystem read-only with bounded temporary cache mounts and the existing resource caps; server data/key mounts have separately declared ownership. Launch Node with an explicit environment allowlist, excluding ambient PG/TLS overrides and `NODE_OPTIONS`; clearing variables after process startup cannot undo a preload. No app/worker/provider services or external network are part of this preflight. These are proposed requirements; no manifest resolution or container launch occurs in this review.
+
 ## Proposed fixed targets and private binding
 
 | Slot / purpose | Service / data volume | Verified TLS hostname | Owner endpoints |

@@ -1230,5 +1230,16 @@
     "timeOfCheckGapAndNoFencing": true,
     "implemented": false,
     "restartWithSameIdAndVolumeMustRefuse": true
+  },
+  "proposedIsolation": {
+    "network": "generated-project internal only",
+    "publishedHostPorts": 0,
+    "effectiveManifestCheckedBeforeStartup": true,
+    "inheritedBasePortsOrOldTlsMountsAllowed": false,
+    "externalOrRetainedNetworkAllowed": false,
+    "observerReadOnlyRoot": true,
+    "observerTemporaryCaches": "bounded tmpfs, existing resource caps unchanged",
+    "observerEnvironment": "explicit allowlist before Node starts; no ambient PG/TLS/NODE_OPTIONS override",
+    "implemented": false
   }
 }
