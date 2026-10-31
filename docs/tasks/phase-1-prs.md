@@ -558,6 +558,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Coordination evidence reconciliation](../implementation/P1-PR-027-coordination-evidence-reconciliation.md) maps all original journal/lifecycle/MT/TA requirements after PR60, keeps every original acceptance open and prioritizes LR01 trust-root/material adverse controls. APIs/frontends remain held.
 
+[LR01 actual trust-root/material adverse proof](../implementation/P1-PR-027-trust-root-material-adverse-proof.md) adds 14 dedicated live executions across nine owned projects: three invalid-root pre-driver refusals, five material custody refusals and six same-project/standalone positive controls. Existing readers, fixtures and production policy remain unchanged; initial malformed-pair startup and all original acceptance stay open. All HS/operator/coverage/rate/S3/specialist/licensed/API/frontend holds remain. Next local priority is LR02 routing/resource collision contract review; no provisioning, purchases or actual notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
