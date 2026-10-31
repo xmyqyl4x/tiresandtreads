@@ -748,5 +748,29 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localFixtureTlsAdmissionReviews": [
+    {
+      "name": "Fixture TLS / target-admission preparation contract review",
+      "status": "proposed contract in review; no execution/case/gate acceptance",
+      "baselineMerge": "552828d091ebee1b2da8ecfc260257a19c5b0c14",
+      "evidence": [
+        "docs/implementation/P1-PR-027-fixture-tls-target-admission-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-validation.md"
+      ],
+      "scenario": "PJ13",
+      "designCase": "BLC-T13",
+      "newTests": 0,
+      "fixtureExecutions": 0,
+      "sqlExecuted": false,
+      "tlsHandshakesExecuted": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

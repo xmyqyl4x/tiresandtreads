@@ -548,6 +548,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 [Target-plan admission/ordering model](../implementation/P1-PR-027-target-plan-ordering-model-proof.md) follows PR #55 (`b9f23153`): 119 focused synthetic tests (79 unit/40 use-case); no focused SQL/fixture-service execution or actual locking/TLS/identity/cleanup acceptance. Full regression remains separate. All 18 original journal scenarios/22 lifecycle cases stay proposed; no case/gate closure. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
 
+[Fixture TLS / target-admission contract review](../implementation/P1-PR-027-fixture-tls-target-admission-review.md) follows PR #56 (`552828d0`) local model approval: separate four-endpoint foundation-only fixture preparation/TLS/identity/cleanup boundary, 20 proposed controls and zero new implementation/fixture/TLS/SQL execution. All original scenarios/cases/gates remain open. HS01–HS08 proposed; operators/coverage/rates unconfirmed; all six S3 gates open; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight/policy unchanged. No provisioning, purchases or actual recipient notifications.
+
 ### P1-PR-028
 
 **Expose public lookup and owner assessment APIs**
