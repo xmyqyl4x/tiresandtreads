@@ -556,7 +556,11 @@
         "docs/implementation/P1-PR-027-io-inspection-proof.md",
         "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
         "docs/implementation/evidence/P1/p1-pr-027-io-inspection-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-io-inspection-validation.md",
+        "docs/implementation/P1-PR-027-populated-preservation-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-validation.md"
       ]
     }
   ],

@@ -935,5 +935,23 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localPopulatedPreservationEvidence": [
+    {
+      "name": "LR04 populated source/target preservation contract and proof",
+      "baselineMerge": "86f6d98f1a398a87418ec123281536c0dda11a63",
+      "status": "Scoped local implementation complete; original acceptance open",
+      "evidence": [
+        "docs/implementation/P1-PR-027-populated-preservation-proof.md",
+        "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-sources.json",
+        "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-validation.md"
+      ],
+      "casesClosed": 0,
+      "gatesClosed": 0,
+      "allHSDecisionsRemainProposed": true,
+      "providerSelection": null,
+      "productionPolicyChanged": false
+    }
   ]
 }

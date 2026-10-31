@@ -825,3 +825,5 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Record production URL, release SHA, post-launch observations and separate pending ad approvals; keep phase open for failed committed scope.
 
 **Verification and acceptance:** A supported driver completes the live journey and operations can import/rollback/recover; release evidence links close P1, not merely PR merge.
+
+[LR04 populated preservation contract and implementation](../implementation/P1-PR-027-populated-preservation-proof.md) completes the authorized next slice after PR64. Nine native cases and twenty unit controls verify a distinct populated-quarantined phase, both domains/history sets, adverse-state preservation and unchanged foundation-reader refusal. Original parent boxes, cases/gates and all holds remain unchanged; actual restore/current-index/journal composition is separately scoped. LR05 actual decisions and acceptance inputs remain held. No hosted provisioning, purchases or actual notifications.
