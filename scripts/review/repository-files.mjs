@@ -30,6 +30,7 @@ export function readReviewFile(root, relative, limit = 524288) {
     current = path.join(current, part);
     if (lstatSync(current).isSymbolicLink()) throw Error('Repository review input refused');
   }
+  if (!lstatSync(current).isFile()) throw Error('Repository review input refused');
   const descriptor = openSync(current, 'r');
   try {
     const info = fstatSync(descriptor);

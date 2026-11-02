@@ -26,7 +26,7 @@
     },
     {
       "path": "scripts/review/repository-files.mjs",
-      "sha256": "4ef6383a92c5623943686ed5d8d3cbc113f4d5871d1b1e3942d162bc11d91527"
+      "sha256": "432c93fbceb1f902f079bedbfb37034b5fc4076eb35a7b8b73f44c8f0ae48c3e"
     },
     {
       "path": "tests/unit/acceptance-input-review.test.ts",
@@ -39,6 +39,14 @@
     {
       "path": "tests/usecases/acceptance-input-review.test.ts",
       "sha256": "9249336192a5c497d557f55fdaf1c4a607a8bcb69ac0ce4018f5f10e5095e1fd"
+    },
+    {
+      "path": "tests/unit/review-nonfile.test.ts",
+      "sha256": "562f0544415b02e32293680eb806e468c51cc8cb979fec6c1d6c78b4d2175eaa"
+    },
+    {
+      "path": "tests/fixtures/review-files/nonfile.mjs",
+      "sha256": "db459a9ce480a5270c8b68db1062aed4023b751f35d3e316b69fee08da40826b"
     }
   ],
   "inputPins": [
@@ -69,13 +77,13 @@
     "SP08ReceiptPinsUnchanged": 23
   },
   "focusedValidation": {
-    "focusedExecutions": 31,
-    "unit": 28,
+    "focusedExecutions": 32,
+    "unit": 29,
     "usecases": 3,
     "mutantKilled": true,
     "restoredSourceSha256": "2b094cbe5f432ef8503f4f967c7e05dd9bede41ce0234d72da6a4e6683973500",
     "missingInputs": 51,
-    "platform": "native Windows; Linux validation recorded separately"
+    "platform": "native Windows directory control; actual Linux FIFO validation recorded separately"
   },
   "report": {
     "schemaVersion": 1,
@@ -472,5 +480,46 @@
     "ownedActorAbsent": true,
     "ownedTagAbsent": true,
     "retainedResourcesChanged": false
+  },
+  "reviewFindingFix": {
+    "scope": "P2 native FIFO non-file refusal before open",
+    "reviewedSource": "09e368460c7543746e44881532cdac76ca2d081b",
+    "linuxNegative": {
+      "mode": "negative",
+      "expectedOutcomeObserved": true,
+      "nativeControl": "fifo",
+      "sourceHashes": {
+        "scripts/review/repository-files.mjs": "4ef6383a92c5623943686ed5d8d3cbc113f4d5871d1b1e3942d162bc11d91527",
+        "tests/unit/review-nonfile.test.ts": "562f0544415b02e32293680eb806e468c51cc8cb979fec6c1d6c78b4d2175eaa",
+        "tests/fixtures/review-files/nonfile.mjs": "db459a9ce480a5270c8b68db1062aed4023b751f35d3e316b69fee08da40826b"
+      },
+      "image": "sha256:ee9cbc70c590a7c87c17fd83dad66a63d14d6793cb0a3f441efc9b883ca6e245",
+      "network": "none",
+      "readOnlyRoot": true,
+      "ownedActorAbsent": true,
+      "cachedImagePreserved": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "linuxPositive": {
+      "mode": "positive",
+      "expectedOutcomeObserved": true,
+      "nativeControl": "fifo",
+      "sourceHashes": {
+        "scripts/review/repository-files.mjs": "432c93fbceb1f902f079bedbfb37034b5fc4076eb35a7b8b73f44c8f0ae48c3e",
+        "tests/unit/review-nonfile.test.ts": "562f0544415b02e32293680eb806e468c51cc8cb979fec6c1d6c78b4d2175eaa",
+        "tests/fixtures/review-files/nonfile.mjs": "db459a9ce480a5270c8b68db1062aed4023b751f35d3e316b69fee08da40826b"
+      },
+      "image": "sha256:ee9cbc70c590a7c87c17fd83dad66a63d14d6793cb0a3f441efc9b883ca6e245",
+      "network": "none",
+      "readOnlyRoot": true,
+      "ownedActorAbsent": true,
+      "cachedImagePreserved": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "windowsVariant": "native directory; not a Windows FIFO claim",
+    "fixtureAndTestBytesIdenticalAcrossLinuxControls": true,
+    "descriptorCheckRetained": true
   }
 }
