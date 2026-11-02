@@ -1,0 +1,21 @@
+name: Dedicated restore and journal handoff proof
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: restore-handoff-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  restore-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Restore, replay, maintenance closure and read-only handoff profiles
+        run: node tests/fixtures/restore-handoff/run.mjs
