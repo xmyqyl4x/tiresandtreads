@@ -110,3 +110,5 @@ Local S3 reconciliation is accepted in merged [PR #32](https://github.com/xmyqyl
 [Evidence/readiness review](docs/implementation/P1-PR-027-evidence-readiness-review.md) checks pinned repository bytes and explicit source exceptions while retaining missing actual inputs and historical uncertainty. Run `node scripts/review/evidence-readiness.mjs`; this never grants acceptance.
 
 [Local restore/journal handoff contract](docs/implementation/P1-PR-027-restore-handoff-contract.md) defines the owner-selected next disposable proof; APIs/frontends and all actual acceptance remain held.
+
+[Disposable restore/journal handoff proof](docs/implementation/P1-PR-027-restore-handoff-proof.md) implements the reviewed local matrix with actual restore/replay setup and separate read-only evidence. All actual acceptance/API/frontend holds remain.
