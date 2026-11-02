@@ -24,6 +24,10 @@ Test-driven implementation began with failing tests before the command/module ex
 
 The normal exact-commit Linux full build/regression includes the same 31 controls. The eight pre-existing CI jobs independently validate the resulting tree before merge. Actual commit/tree, complete counts, coverage and CI/review results are recorded in the PR after execution; focused Windows results do not imply that Linux or hosted checks ran. These controls overlap full regression totals.
 
+The first full run on `f2c4e12` refused existing deployment ingress startup: pnpm detected copied patch metadata as modified and attempted an install on the deliberately read-only root. Both owned ingress actors exited with `EROFS`, before the fixture server could start; checked teardown completed. A separate bounded no-network probe reproduced that failure, and the installed pnpm implementation identified patch modification as the dependency-status reason. This was not a passing full run.
+
+The necessary build fix adds the same `pnpm install --frozen-lockfile` validation after Docker's source copy. Read-only actors therefore start with validated patch metadata instead of attempting installation at startup. No audit, patch, release-age, peer, dependency-status, TLS or filesystem restriction is disabled. The corrected image passed normal pnpm execution with read-only root, no network and no policy override; its exact owned actor/tag were removed. Dockerfile is the one explicit prior-source exception: 169 other prior source pins, all 158 historical evidence files and 23 SP08 digests remain unchanged. This changes a production build input, while dependency versions, product runtime code and deployment/acceptance policy remain unchanged. Final exact-commit full validation is rerun after this fix.
+
 ## Completed scope and next PR
 
 - [x] Inventory existing acceptance inputs without selecting missing external values.

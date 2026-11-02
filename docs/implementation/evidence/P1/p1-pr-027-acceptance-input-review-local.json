@@ -5,6 +5,10 @@
   "scope": "Local held-planning input review; no intake/acceptance or production policy change",
   "sourcePins": [
     {
+      "path": "Dockerfile",
+      "sha256": "2d4f98facdf36118ffd2e94d0c553f238540fb524e96d7037287eeb7082d2a0e"
+    },
+    {
       "path": "scripts/review/acceptance-inputs.mjs",
       "sha256": "8d35f84e0f8fac10cfbb32935ba9630feb7b02b3f772c53199609aff9b866327"
     },
@@ -60,7 +64,7 @@
     "sha256": "b9c018d68f4105db6a6786d02ee066dbad50122c6e83a20261262b9d356705cd"
   },
   "preservation": {
-    "sourcePinsUnchanged": 170,
+    "sourcePinsUnchanged": 169,
     "historicalEvidenceUnchanged": 158,
     "SP08ReceiptPinsUnchanged": 23
   },
@@ -438,5 +442,35 @@
   "productionRuntimeChanged": false,
   "casesClosed": 0,
   "gatesClosed": 0,
-  "publication": "Exact-commit full local Linux, eight independent CI jobs, review and tree reconciliation recorded in PR only after completion"
+  "publication": "Exact-commit full local Linux, eight independent CI jobs, review and tree reconciliation recorded in PR only after completion",
+  "sourceExceptions": [
+    {
+      "path": "Dockerfile",
+      "baselineSha256": "1352939f7d7335f7c20219b66260b8a0c387ee1287f5140179b7334f1b97460f",
+      "currentSha256": "2d4f98facdf36118ffd2e94d0c553f238540fb524e96d7037287eeb7082d2a0e",
+      "reason": "Validate copied patch metadata with the same frozen install after source copy, before read-only tooling pnpm commands; no dependency or runtime policy changes."
+    }
+  ],
+  "productionBuildInputsChanged": true,
+  "initialFullGateRefusal": {
+    "source": "f2c4e128ab4a9112445185a6701a21442b8182d5",
+    "stage": "existing local deployment ingress startup",
+    "diagnosis": "pnpm treats recopied patch metadata as modified and tries to install on a read-only filesystem",
+    "code": "EROFS",
+    "ownedResourcesRemoved": true,
+    "noPassingClaim": true
+  },
+  "readOnlyBuildProof": {
+    "passed": true,
+    "readOnlyRoot": true,
+    "network": "none",
+    "policyOverride": false,
+    "frozenInstallAfterSourceCopy": true,
+    "image": "sha256:8148fcbc3710be3bdc2152b6f61abb7ac13f3a887eb0760b4c2541ce8c02e763",
+    "DockerfileSha256": "2d4f98facdf36118ffd2e94d0c553f238540fb524e96d7037287eeb7082d2a0e",
+    "nativeNodeVersion": "24.22.1",
+    "ownedActorAbsent": true,
+    "ownedTagAbsent": true,
+    "retainedResourcesChanged": false
+  }
 }
