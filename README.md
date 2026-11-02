@@ -108,3 +108,5 @@ Local S3 reconciliation is accepted in merged [PR #32](https://github.com/xmyqyl
 [Local acceptance-input review](docs/implementation/P1-PR-027-acceptance-input-review.md) reports missing decision/review inputs without accepting them. Run `node scripts/review/acceptance-inputs.mjs`; all existing holds remain.
 
 [Evidence/readiness review](docs/implementation/P1-PR-027-evidence-readiness-review.md) checks pinned repository bytes and explicit source exceptions while retaining missing actual inputs and historical uncertainty. Run `node scripts/review/evidence-readiness.mjs`; this never grants acceptance.
+
+[Local restore/journal handoff contract](docs/implementation/P1-PR-027-restore-handoff-contract.md) defines the owner-selected next disposable proof; APIs/frontends and all actual acceptance remain held.

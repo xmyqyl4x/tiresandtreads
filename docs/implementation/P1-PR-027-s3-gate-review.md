@@ -94,3 +94,5 @@ The owner authorized a [private hosted staging decision packet](P1-PR-027-privat
 **November 1 local acceptance-input review:** PR66 and all eight post-merge checks are complete. The [read-only planning report](P1-PR-027-acceptance-input-review.md) checks current held-input consistency and lists 51 missing field groups. No actual decision/review record, production gate change or original case/gate closure; every existing hold persists.
 
 **November 1 evidence/readiness tooling:** The [read-only reconciliation report](P1-PR-027-evidence-readiness-review.md) combines pinned-byte/exception checks with missing actual-input reporting. It preserves the original unknown I/O receipts and does not rerun or accept historical execution. Current gate/decision JSON stays byte-for-byte unchanged; six actual gates remain pending and every existing hold persists.
+
+[Local restore/journal handoff contract](P1-PR-027-restore-handoff-contract.md) supplies a static boundary for a separately authorized disposable proof. It does not fill an actual S3 record, select authority, release product access or close original cases/gates.

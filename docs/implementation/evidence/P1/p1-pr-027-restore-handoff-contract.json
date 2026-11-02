@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-restore-readonly-handoff-contract",
+  "baselineCommit": "ed4990e14d7003cda05714d5dbb35f5c617122b5",
+  "authorizedScope": "Owner selected local restore/journal contract and proof on November 2, 2026 (Pacific); merge authorization retained from the completion request.",
+  "status": "review design; proof not executed by this PR",
+  "productionExecutor": false,
+  "phases": [
+    "artifact-admitted",
+    "restored-quarantined",
+    "privacy-replayed-quarantined",
+    "maintenance-closed",
+    "readonly-observed"
+  ],
+  "limits": {
+    "nativeProfiles": 16,
+    "pureReceiptRows": 1,
+    "instances": 2,
+    "databases": 4,
+    "scopedRoles": 19,
+    "scopedMemberships": 0,
+    "checkpointBytes": 16384,
+    "metadataBytes": 65536,
+    "tablesPerEndpoint": 200,
+    "rowsPerTable": 1000,
+    "tableBytes": 1000000,
+    "aggregateRowsBytesPerEndpoint": 2000000,
+    "connectQueryMs": 1500,
+    "statementIdleMs": 1000,
+    "lockMs": 250,
+    "transactionMs": 5000,
+    "endpointElapsedMs": 6000,
+    "endObservationMs": 750,
+    "childProcessMs": 180000,
+    "ownedTeardownMs": 60000
+  },
+  "journalBoundary": {
+    "privacyJournal": "Reuse existing signed synthetic custody and actual local replay; fixed local setup only.",
+    "provisioningJournal": "No dispatch, current-head authority, rotation/offboarding executor or composition acceptance.",
+    "checkpointAuthority": "Trusted same-run fixture custodian outside both DBs; not independent production authority."
+  },
+  "cases": [
+    {
+      "id": "RH01",
+      "profile": "positive",
+      "evidenceKind": "native restore and observation",
+      "requiredObservation": "Complete admitted archive restore and actual synthetic privacy replay, close maintenance, inspect four endpoints twice and preserve each post-setup baseline; no runtime release.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH02",
+      "profile": "bundle-corrupt",
+      "evidenceKind": "native artifact admission",
+      "requiredObservation": "A changed encrypted tag refuses before restore files/target rows exist.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH03",
+      "profile": "bundle-project",
+      "evidenceKind": "native artifact admission",
+      "requiredObservation": "Wrong project binding refuses before restore; target remains empty/quarantined.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH04",
+      "profile": "bundle-manifest",
+      "evidenceKind": "native artifact admission",
+      "requiredObservation": "A source migration-manifest mismatch refuses before restore; no automatic migration/repair.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH05",
+      "profile": "checkpoint-missing",
+      "evidenceKind": "native file/observer refusal",
+      "requiredObservation": "A missing separately mounted current-checkpoint view refuses handoff.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH06",
+      "profile": "checkpoint-stale",
+      "evidenceKind": "native file/observer refusal",
+      "requiredObservation": "A checkpoint predating the sealed post-replay phase, expired or with a stale generation refuses; no refreshed timestamp as a substitute.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH07",
+      "profile": "checkpoint-changed",
+      "evidenceKind": "native journal and observer refusal",
+      "requiredObservation": "A fixed additional signed synthetic journal entry after phase sealing changes the separately captured current digest; refuse the old handoff without replaying the new entry.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH08",
+      "profile": "image-binding",
+      "evidenceKind": "native metadata refusal; no alternate image execution",
+      "requiredObservation": "A changed expected tooling-image binding refuses against the trusted same-run parent binding; not arbitrary-image attestation.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH09",
+      "profile": "config-binding",
+      "evidenceKind": "native metadata refusal; no live reconfiguration",
+      "requiredObservation": "A changed sanitized configuration digest refuses; no credentials or raw config in receipts.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH10",
+      "profile": "app-history",
+      "evidenceKind": "native PostgreSQL fault/observation",
+      "requiredObservation": "A fixed target app checksum drift is detected and preserved as presented.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH11",
+      "profile": "cms-history",
+      "evidenceKind": "native PostgreSQL fault/observation",
+      "requiredObservation": "A fixed target native CMS migration-history drift is detected and preserved as presented.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH12",
+      "profile": "target-row",
+      "evidenceKind": "native PostgreSQL fault/observation",
+      "requiredObservation": "A fixed target populated row drift is detected without repair or pristine-state substitution.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH13",
+      "profile": "source-row",
+      "evidenceKind": "native PostgreSQL fault/observation",
+      "requiredObservation": "A fixed source row drift is detected; the source is not assumed unchanged because target inspection succeeded.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH14",
+      "profile": "quarantine",
+      "evidenceKind": "native PostgreSQL fault/observation",
+      "requiredObservation": "A deliberately granted target product-role CONNECT is detected without opening a product session; observer preserves the presented grant.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH15",
+      "profile": "observer-loss",
+      "evidenceKind": "native owned observer-process loss",
+      "requiredObservation": "Terminate only the exact owned observer actor after its bounded observation-start checkpoint; no success receipt, no cancellation/fencing claim; parent cleanup remains separate.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH16",
+      "profile": "inspection-loss",
+      "evidenceKind": "native current-view availability refusal",
+      "requiredObservation": "Withhold the separate current-checkpoint observation after the phase seal; unavailable inspection blocks handoff, not a claim of Docker/control-plane loss.",
+      "acceptance": "open; no original case/gate closure"
+    },
+    {
+      "id": "RH17",
+      "profile": "end-unobserved",
+      "evidenceKind": "pure receipt-state control only",
+      "requiredObservation": "Model an unavailable native-end acknowledgment and retain unknown cleanup/fresh-attempt refusal. Existing LR03 remains the separate actual end/transport proof; this row adds no native end-hang claim.",
+      "acceptance": "open; no original case/gate closure"
+    }
+  ],
+  "claimsNotMade": [
+    "production acceptance",
+    "provider effect dispatch",
+    "arbitrary archive/SQL/target support",
+    "runtime opening",
+    "exactly-once/global rollback",
+    "independent durability/authentication/fencing",
+    "atomic four-database snapshot",
+    "concurrent live-journal cutover",
+    "hosted RPO/RTO/PITR",
+    "exhaustive every-await coverage",
+    "off-host/source-loss custody"
+  ],
+  "holds": {
+    "HS01-HS08": "proposed",
+    "operatorsCoverageRates": "unconfirmed",
+    "S3Gates": "six pending; actual records empty",
+    "specialistLicensed": "pending",
+    "APIsFrontends": "held",
+    "hostedProvisioning": false,
+    "purchases": false,
+    "actualRecipientNotifications": false,
+    "productionPolicyChanged": false,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  },
+  "actualAcceptanceRecords": []
+}
