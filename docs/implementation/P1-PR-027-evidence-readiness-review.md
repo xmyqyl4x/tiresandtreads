@@ -2,6 +2,8 @@
 
 This is the second local continuation authorized after PR66. It builds on PR67's held acceptance-input review and its image/non-file fixes. The exact accepted parent source and merge are recorded in the baseline and publication record after verification. This command reviews a checked-out repository; it does not rerun historical fixtures, inspect live infrastructure, accept actual decisions or close a design case/gate.
 
+[PR67](https://github.com/xmyqyl4x/tiresandtreads/pull/67) merged at `6f138067af0e50691065a16db17a9a22fa271403`, with source `15e85ab6d9ef1aff8eca76f0ecfbbfea017f27b5` validated by 2,113 passing local and independent CI executions, all eight PR CI jobs and fresh review. That is technical publication evidence, not S3 acceptance.
+
 HS01–HS08 remain proposed; operators/coverage/rates unconfirmed; six actual S3 gates pending with empty records; specialist/licensed pending; APIs/frontends held. No hosted provisioning, purchases or actual recipient notifications. Four usable delivery phases, PostgreSQL consolidation, option C and database → repositories → services → APIs → frontends remain unchanged.
 
 [Parent input review](P1-PR-027-acceptance-input-review.md), [gate disposition](P1-PR-027-s3-gate-review.md), [reviewed baseline](evidence/P1/p1-pr-027-evidence-review-baseline.json), [local receipt](evidence/P1/p1-pr-027-evidence-readiness-local.json), [validation](evidence/P1/p1-pr-027-evidence-readiness-validation.md).

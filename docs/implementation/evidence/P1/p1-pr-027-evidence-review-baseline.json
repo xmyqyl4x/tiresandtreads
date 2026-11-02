@@ -62,5 +62,6 @@
       "currentSha256": "117974664edbc605caf4bf949417a9d5ce7846b86657f05e3abc90e51d3d09f9",
       "reason": "Expose bounded exact bytes for digest comparison, support the registered @ patch filename, and reuse the same path/fd guards for existing UTF-8 reads; local review tooling only."
     }
-  ]
+  ],
+  "baselineMerge": "6f138067af0e50691065a16db17a9a22fa271403"
 }

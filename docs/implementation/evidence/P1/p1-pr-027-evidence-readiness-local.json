@@ -47,7 +47,7 @@
     },
     {
       "path": "docs/implementation/evidence/P1/p1-pr-027-evidence-review-baseline.json",
-      "sha256": "d4e0608779a09ed29227e3493b16812ec38201e4ac66a2db7652035fca334515"
+      "sha256": "3158f7c7c649be2e1ad60c4228790e4d57732d9015d75ad890ce71b4684d3d0d"
     }
   ],
   "sourceExceptions": [
@@ -511,5 +511,6 @@
   "fixtureExecutions": 0,
   "casesClosed": 0,
   "gatesClosed": 0,
-  "publication": "Exact-commit full local Linux build/regression, all eight independent CI jobs, actual review and checkout-tree reconciliation required before merge; completed evidence recorded in PR"
+  "publication": "Exact-commit full local Linux build/regression, all eight independent CI jobs, actual review and checkout-tree reconciliation required before merge; completed evidence recorded in PR",
+  "baselineMerge": "6f138067af0e50691065a16db17a9a22fa271403"
 }
