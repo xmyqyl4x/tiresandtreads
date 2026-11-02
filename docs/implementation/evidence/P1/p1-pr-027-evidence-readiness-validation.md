@@ -1,0 +1,9 @@
+# Local evidence/readiness review validation
+
+This record separates current byte/held-input checks from immutable historical execution evidence and actual acceptance. The baseline anchors the reviewed parent manifests; exact exceptions are consumed before current bytes are compared. No historical receipt or current gate/decision JSON is rewritten by the command.
+
+Focused validation covers 35 new controls (32 unit and three functional use-case) plus the 32 parent review regressions. Actual counts and platform receipts are recorded only after the final source run. Windows and Linux have explicitly named native controls; the parent portable non-file test uses a Windows directory and a real Linux FIFO. A hash-guard-removal mutant is killed by actual content drift, then exact source is restored. Repeated normal/strict/refused commands leave the current input/baseline/history file digests unchanged.
+
+Byte-level verification retains UTF-8 BOM bytes, rejects misleading prefixes, caps individual/aggregate data and checks real junction refusal. Safe issue paths and codes replace raw values/content. Two original unknown I/O admission receipts remain unknown even though later physical project cleanup succeeded. No script execution, live provider/SQL observation, independent authenticity/durability/fencing or actual S3 acceptance is inferred from matching repository hashes.
+
+The complete exact-commit Linux build/regression and all eight independent CI jobs are separate publication requirements. Actual commit/tree/counts/review/CI checkout evidence is recorded in the PR after completion, without summing overlap as unique tests. All previous source/receipt pins are preserved except the two explicitly reviewed local reader extensions. All original cases/gates and HS/operator/specialist/licensed/API/frontend holds remain. No provisioning, purchases or actual recipient notifications.

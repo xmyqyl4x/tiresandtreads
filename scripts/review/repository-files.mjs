@@ -11,11 +11,11 @@ import path from 'node:path';
 import { TextDecoder } from 'node:util';
 
 // Local repository review only. These checks do not authenticate a mutable filesystem.
-export function readReviewFile(root, relative, limit = 524288) {
+export function readReviewBytes(root, relative, limit = 524288) {
   if (
     typeof relative !== 'string' ||
     relative.length > 240 ||
-    !/^[a-zA-Z0-9_.\-/]+$/.test(relative) ||
+    !/^[a-zA-Z0-9_.@\-/]+$/.test(relative) ||
     path.isAbsolute(relative) ||
     relative.split('/').some((part) => !part || part === '.' || part === '..') ||
     !Number.isSafeInteger(limit) ||
@@ -35,18 +35,21 @@ export function readReviewFile(root, relative, limit = 524288) {
   try {
     const info = fstatSync(descriptor);
     if (!info.isFile() || info.size > limit) throw Error('Repository review input refused');
-    const buffer = Buffer.alloc(limit + 1);
+    const buffer = Buffer.alloc(info.size + 1);
     let length = 0,
       count;
     do {
       count = readSync(descriptor, buffer, length, buffer.length - length, null);
       length += count;
     } while (count && length < buffer.length);
-    if (length > limit) throw Error('Repository review input refused');
-    return new TextDecoder('utf-8', { fatal: true }).decode(buffer.subarray(0, length));
+    if (length > info.size || length > limit) throw Error('Repository review input refused');
+    return buffer.subarray(0, length);
   } finally {
     closeSync(descriptor);
   }
+}
+export function readReviewFile(root, relative, limit = 524288) {
+  return new TextDecoder('utf-8', { fatal: true }).decode(readReviewBytes(root, relative, limit));
 }
 export function readReviewJson(root, relative) {
   return JSON.parse(readReviewFile(root, relative));
