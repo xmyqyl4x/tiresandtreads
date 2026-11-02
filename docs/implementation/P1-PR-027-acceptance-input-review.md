@@ -1,0 +1,36 @@
+# Local S3 acceptance-input review
+
+PR66 is merged at `cd0a71092366340e4b25a4bb6336d4743b1249f8`; all eight automatic post-merge checks passed. The owner requested completion of the current PR and two further fully validated PRs. The next numbered product PRs, P1-PR-028–030, remain held. This first local continuation implements a review report for missing acceptance inputs. The second continuation will reconcile historical evidence and source-pin exceptions. Neither continuation supplies actual LR05 decisions or changes acceptance policy.
+
+[Gate disposition](P1-PR-027-s3-gate-review.md), [existing gate verifier](../../scripts/verify/s3.mjs), [local receipt](evidence/P1/p1-pr-027-acceptance-input-review-local.json), [validation](evidence/P1/p1-pr-027-acceptance-input-review-validation.md).
+
+## Contract and use
+
+Run `node scripts/review/acceptance-inputs.mjs` from a checkout. This read-only command locates its own repository and reads four fixed files: the S3 service register, HS staging decision packet, operations/budget proposal and specialist golden-review packet. It accepts no target, SQL, provider URL, credentials, output destination, acceptance command or callbacks. It makes no external calls and writes no files. Output is deterministic JSON containing field names and counts, never submitted values, actual people, alert addresses, provider recommendations, prices, raw scenario content or local-proof paths.
+
+The current report lists **51 unconfirmed field groups**, six pending gates, eight proposed HS decisions, seven unassigned responsibilities, nine unapproved budget fields and seven unconfirmed coverage fields. The 98 scenarios remain drafts with zero actual reviews; the existing requirement for at least 50 actual specialist reviews is restated, not fulfilled. A field-group count is a planning inventory, not a count of all semantic acceptance obligations or an acceptance percentage. Required substantive evidence remains defined by the existing gate disposition and source contracts.
+
+`node scripts/review/acceptance-inputs.mjs --require-inputs` emits the same pending report and exits **2**. Normal reporting exits **0** for internally consistent held inputs. Malformed files, inconsistent hold state or unsupported arguments exit **1** with a generic error and no report. Successful reporting means that the held planning snapshot is consistent; it never means product readiness. The existing `pnpm s3:acceptance` command remains unchanged and continues refusing acceptance.
+
+The contract deliberately validates the current **held-planning** state. Gate records must remain empty, gate/activation flags false, actual selections null, HS values proposed and unapproved, operator/coverage/rate fields unconfirmed, and specialist reviews pending. A later genuine approval or actual evidence requires manual reconciliation of this planning contract. This tool neither rejects the authority of that future approval nor automatically accepts it. It is not an intake service for actual contracts or a second production gate implementation.
+
+Known hold fields are checked exactly, including zero-cost approvals, operator coverage acknowledgments, candidate selection and execution authorization. Duplicate, reordered, missing or relabelled gate/decision/role rows refuse rather than silently changing meaning. The bounded scenario inventory rejects duplicates, inconsistent counts and more than 1,000 entries. Historical/additive local-evidence fields and proposal text are not treated as actual evidence and are not copied into output. Reports contain fresh objects and do not mutate their inputs.
+
+## Local file custody and validation
+
+The file reader permits only bounded relative repository paths, checks exact path case and rejects traversal, alternate separators, absolute paths, symlinks/junctions and non-files. Reads are bounded to 512KiB for these JSON inputs, with strict UTF-8 decoding and JSON parsing. A descriptor closes on successful and failed reads. These are local review checks on a trusted checkout, not authentication of a hostile concurrently changing filesystem or an atomic snapshot of four files. There is no credential, retained environment, SQL connection, Docker socket or provider dispatch surface in the new command.
+
+Test-driven implementation began with failing tests before the command/module existed. The final Windows run passes **31 controls: 28 unit and three functional use-case tests**. They exercise inconsistent approvals and records, recommendation/local-proof non-substitution, zero costs, actual assignments/destinations, strict incomplete exit status, masked argument refusal, deterministic output, unchanged input bytes, UTF-8/size/path limits and an actual temporary Windows junction. The sandbox initially refused junction creation; the authorized native run executed the owned control and verified cleanup. A temporary activation-guard-removal mutant is detected by the targeted test; exact original source bytes were restored before the final passing run. No skipped or expected-failure controls are added to passing coverage.
+
+The normal exact-commit Linux full build/regression includes the same 31 controls. The eight pre-existing CI jobs independently validate the resulting tree before merge. Actual commit/tree, complete counts, coverage and CI/review results are recorded in the PR after execution; focused Windows results do not imply that Linux or hosted checks ran. These controls overlap full regression totals.
+
+## Completed scope and next PR
+
+- [x] Inventory existing acceptance inputs without selecting missing external values.
+- [x] Implement the bounded, masked, read-only held-input report and distinct exit statuses.
+- [x] Cover approval drift, malformed inputs, filesystem limits, process behavior and source restoration.
+- [x] Preserve production acceptance policy, historical receipts and all original cases/gates.
+
+The next local PR will check historical source pins and their explicit exceptions, verify registered evidence paths/digests, and combine that result with this pending-input report. It must distinguish preserved historical observations from current claims and must not erase deliberately unknown cleanup receipts or interpret local green CI as actual acceptance.
+
+HS01–HS08 remain proposed; operators/coverage/rates unconfirmed; all six S3 gates pending with empty actual records; specialist/licensed work pending; APIs/frontends held. Production bootstrap/CLI/preflight, application/database code, dependencies, runtime pins and deployment/permission policy remain unchanged. No original case/gate closes. No hosted provisioning, purchases, notifications, production authority/executor selection, restore/current-index/journal composition or held product activation.

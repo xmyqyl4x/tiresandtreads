@@ -971,5 +971,15 @@
       "providerSelection": null,
       "productionPolicyChanged": false
     }
+  ],
+  "localAcceptanceInputReviewEvidence": [
+    {
+      "scope": "Held local planning-input review only; no actual acceptance",
+      "evidence": [
+        "docs/implementation/P1-PR-027-acceptance-input-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-validation.md"
+      ]
+    }
   ]
 }
