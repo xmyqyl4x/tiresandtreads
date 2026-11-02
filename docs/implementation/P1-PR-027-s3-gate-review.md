@@ -96,3 +96,5 @@ The owner authorized a [private hosted staging decision packet](P1-PR-027-privat
 **November 1 evidence/readiness tooling:** The [read-only reconciliation report](P1-PR-027-evidence-readiness-review.md) combines pinned-byte/exception checks with missing actual-input reporting. It preserves the original unknown I/O receipts and does not rerun or accept historical execution. Current gate/decision JSON stays byte-for-byte unchanged; six actual gates remain pending and every existing hold persists.
 
 [Local restore/journal handoff contract](P1-PR-027-restore-handoff-contract.md) supplies a static boundary for a separately authorized disposable proof. It does not fill an actual S3 record, select authority, release product access or close original cases/gates.
+
+[Disposable restore/journal handoff proof](P1-PR-027-restore-handoff-proof.md) adds local technical evidence only. It does not fill actual acceptance records, establish independent journal authority or release APIs/frontends.
