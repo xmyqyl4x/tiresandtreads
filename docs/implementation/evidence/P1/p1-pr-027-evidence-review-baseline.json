@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-evidence-baseline",
+  "reviewedSource": "15e85ab6d9ef1aff8eca76f0ecfbbfea017f27b5",
+  "trust": "Reviewed local Git checkout only; no independent authentication, durability or acceptance",
+  "manifestPins": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+      "sha256": "68d756ab1127e540299596e73f95d4432618c5eddc75d31d463adf8b0e5a5ed3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-local.json",
+      "sha256": "b9c018d68f4105db6a6786d02ee066dbad50122c6e83a20261262b9d356705cd"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-local.json",
+      "sha256": "9e5afbb1882ecf483c75c88aea5742d4b6a62ca9fee64429599a651a8825be1f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
+      "sha256": "51ccbe7985a906d6032c3dca753ee1aa82365ecae2bd6a825e97cf566599288d"
+    }
+  ],
+  "supplementalPriorPins": [
+    {
+      "path": ".gitattributes",
+      "sha256": "582a0f01dc893d9031d539f6c01870e7d9d6e13842a541b963992b59be4905b7"
+    }
+  ],
+  "frozenSupplementalPins": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-local.json",
+      "sha256": "b9c018d68f4105db6a6786d02ee066dbad50122c6e83a20261262b9d356705cd"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-sources.json",
+      "sha256": "d366cf0d162db66b81b7d135fb5dd14531c34b01a631f6d32d022db7bcf65a28"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-validation.md",
+      "sha256": "93b6648f7ef3d7ab6cb730f5f6dc480ea879e85a5d1bf016e26e7798d0713947"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-local.json",
+      "sha256": "9e5afbb1882ecf483c75c88aea5742d4b6a62ca9fee64429599a651a8825be1f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-validation.md",
+      "sha256": "f4f1a56aee84268b1d2e8efa293a757f2262eca546ee08cbaeb6fa62f67b23db"
+    }
+  ],
+  "localSourceExceptions": [
+    {
+      "path": "scripts/review/repository-files.mjs",
+      "baselineSha256": "432c93fbceb1f902f079bedbfb37034b5fc4076eb35a7b8b73f44c8f0ae48c3e",
+      "currentSha256": "e6e462e8128af6f1bbc36bc9c6d61a4cb48a035b7ccd41d673d5b7df7cda3877",
+      "reason": "Expose bounded exact bytes for digest comparison, support the registered @ patch filename, and reuse the same path/fd guards for existing UTF-8 reads; local review tooling only."
+    },
+    {
+      "path": "scripts/review/repository-files.d.mts",
+      "baselineSha256": "cb09877ec3f561e586b5acc3c8e8e9bc1239cf18506721b7b3cb48009d29ca9d",
+      "currentSha256": "117974664edbc605caf4bf949417a9d5ce7846b86657f05e3abc90e51d3d09f9",
+      "reason": "Expose bounded exact bytes for digest comparison, support the registered @ patch filename, and reuse the same path/fd guards for existing UTF-8 reads; local review tooling only."
+    }
+  ],
+  "baselineMerge": "6f138067af0e50691065a16db17a9a22fa271403"
+}
