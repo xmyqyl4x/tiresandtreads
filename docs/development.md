@@ -274,3 +274,5 @@ After approved merged PR #34, use `pnpm verify:provider-preflight` for [SP03 loc
 The [local acceptance-input review](implementation/P1-PR-027-acceptance-input-review.md) provides a deterministic read-only planning report. `node scripts/review/acceptance-inputs.mjs --require-inputs` exits 2 while actual inputs remain pending; this is separate from unchanged S3 acceptance policy.
 
 Use the [read-only evidence/readiness report](implementation/P1-PR-027-evidence-readiness-review.md) to reconcile frozen pins and documented changes. `node scripts/review/evidence-readiness.mjs --require-inputs` exits 2 for a consistent checkout while actual inputs remain pending. Changed or unreadable evidence refuses; no accepted records or production policy are changed.
+
+[Restore/journal handoff contract](implementation/P1-PR-027-restore-handoff-contract.md) separates actual synthetic restore/replay setup from later read-only evidence, with a finite matrix and no production authority/runtime release. The next scoped implementation is disposable test support only.
