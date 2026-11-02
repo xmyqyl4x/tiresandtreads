@@ -1,0 +1,525 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-11-01 America/Los_Angeles",
+  "baselineMerge": "cd0a71092366340e4b25a4bb6336d4743b1249f8",
+  "scope": "Local held-planning input review; no intake/acceptance or production policy change",
+  "sourcePins": [
+    {
+      "path": "Dockerfile",
+      "sha256": "2d4f98facdf36118ffd2e94d0c553f238540fb524e96d7037287eeb7082d2a0e"
+    },
+    {
+      "path": "scripts/review/acceptance-inputs.mjs",
+      "sha256": "8d35f84e0f8fac10cfbb32935ba9630feb7b02b3f772c53199609aff9b866327"
+    },
+    {
+      "path": "scripts/review/input-contract.d.mts",
+      "sha256": "5e10df9382c6882f9966d9eb31112e6d8303f7be4d168c0faafc30bf17daef6a"
+    },
+    {
+      "path": "scripts/review/input-contract.mjs",
+      "sha256": "2b094cbe5f432ef8503f4f967c7e05dd9bede41ce0234d72da6a4e6683973500"
+    },
+    {
+      "path": "scripts/review/repository-files.d.mts",
+      "sha256": "cb09877ec3f561e586b5acc3c8e8e9bc1239cf18506721b7b3cb48009d29ca9d"
+    },
+    {
+      "path": "scripts/review/repository-files.mjs",
+      "sha256": "432c93fbceb1f902f079bedbfb37034b5fc4076eb35a7b8b73f44c8f0ae48c3e"
+    },
+    {
+      "path": "tests/unit/acceptance-input-review.test.ts",
+      "sha256": "13e37cda4c58e8ba2bd0e8787f175a391ef9ed3ccf09b7202b67760540649f68"
+    },
+    {
+      "path": "tests/unit/review-repository-files.test.ts",
+      "sha256": "9aeb6819fa8446c45a97d38294da3ce7af903d8f2bbb6f12639d3fcce8b74774"
+    },
+    {
+      "path": "tests/usecases/acceptance-input-review.test.ts",
+      "sha256": "9249336192a5c497d557f55fdaf1c4a607a8bcb69ac0ce4018f5f10e5095e1fd"
+    },
+    {
+      "path": "tests/unit/review-nonfile.test.ts",
+      "sha256": "562f0544415b02e32293680eb806e468c51cc8cb979fec6c1d6c78b4d2175eaa"
+    },
+    {
+      "path": "tests/fixtures/review-files/nonfile.mjs",
+      "sha256": "db459a9ce480a5270c8b68db1062aed4023b751f35d3e316b69fee08da40826b"
+    }
+  ],
+  "inputPins": [
+    {
+      "path": "docs/implementation/evidence/P1/s3-service-register.json",
+      "sha256": "570a0fac78a0faa28c475da82a71ba34157addad3f2ee9f36be6f771577452d0"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-decision.json",
+      "sha256": "633a36210c0a003aa50fe260aca303dc24e42d0cea81b52e53ba496995afc7fa"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-operations-budget.json",
+      "sha256": "f5d989edf99db9e5bb23cae07cf4caae9d8e91f1d04694cf5b0261dcd1ccf7b4"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-017-golden-review.json",
+      "sha256": "e02f929148cda5831e0bed100289720dffbda5a35eff3104a86fb4773444ad3e"
+    }
+  ],
+  "historicalManifest": {
+    "path": "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-local.json",
+    "sha256": "b9c018d68f4105db6a6786d02ee066dbad50122c6e83a20261262b9d356705cd"
+  },
+  "preservation": {
+    "sourcePinsUnchanged": 169,
+    "historicalEvidenceUnchanged": 158,
+    "SP08ReceiptPinsUnchanged": 23
+  },
+  "focusedValidation": {
+    "focusedExecutions": 32,
+    "unit": 29,
+    "usecases": 3,
+    "mutantKilled": true,
+    "restoredSourceSha256": "2b094cbe5f432ef8503f4f967c7e05dd9bede41ce0234d72da6a4e6683973500",
+    "missingInputs": 51,
+    "platform": "native Windows directory control; actual Linux FIFO validation recorded separately"
+  },
+  "report": {
+    "schemaVersion": 1,
+    "scope": "held-planning-input-review",
+    "status": "pending-external-inputs",
+    "counts": {
+      "gates": 6,
+      "decisions": 8,
+      "assignments": 7,
+      "budgetFields": 9,
+      "coverageFields": 7
+    },
+    "gates": [
+      {
+        "id": "G1-specialist",
+        "status": "pending",
+        "actualRecords": 0
+      },
+      {
+        "id": "G1-fitment-catalog",
+        "status": "pending",
+        "actualRecords": 0
+      },
+      {
+        "id": "G1-prices",
+        "status": "pending",
+        "actualRecords": 0
+      },
+      {
+        "id": "G2-provider-effects",
+        "status": "pending",
+        "actualRecords": 0
+      },
+      {
+        "id": "G2-privacy-policy",
+        "status": "pending",
+        "actualRecords": 0
+      },
+      {
+        "id": "S3-service-host",
+        "status": "pending",
+        "actualRecords": 0
+      }
+    ],
+    "decisions": [
+      {
+        "id": "HS01",
+        "status": "proposed"
+      },
+      {
+        "id": "HS02",
+        "status": "proposed"
+      },
+      {
+        "id": "HS03",
+        "status": "proposed"
+      },
+      {
+        "id": "HS04",
+        "status": "proposed"
+      },
+      {
+        "id": "HS05",
+        "status": "proposed"
+      },
+      {
+        "id": "HS06",
+        "status": "proposed"
+      },
+      {
+        "id": "HS07",
+        "status": "proposed"
+      },
+      {
+        "id": "HS08",
+        "status": "proposed"
+      }
+    ],
+    "specialist": {
+      "draftCases": 98,
+      "actualReviews": 0,
+      "minimumRequired": 50
+    },
+    "missingInputs": [
+      {
+        "source": "decisions",
+        "field": "selectedProvider",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "selectedRegion",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "selectedDatabaseModel",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "approvedMonthlyBudgetUsd",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "primaryOperator",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "backupOperator",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS01.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS01.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS02.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS02.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS03.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS03.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS04.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS04.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS05.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS05.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS06.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS06.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS07.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS07.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS08.approvedValue",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "decisions",
+        "field": "HS08.actualApprover",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.budgetOwner",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.primaryPlatformOperator",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.backupPlatformOperator",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.databaseRecoveryOwner",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.securityKeyCustodian",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.privacyReviewer",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "assignments.releaseReviewer",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.recurringInfrastructureCeilingCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.temporaryMonthlyCeilingCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.temporaryPerEventCeilingCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.setupHardwareCeilingCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.laborHourlyRateCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.monthlyLaborHours",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.monthlySupportRetainerCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.taxInvoiceCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "approved.allInMonthlyBudgetCents",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.timeZone",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.days",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.start",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.end",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.primaryContact",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.backupContact",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "operations",
+        "field": "coverage.alertDestination",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "register",
+        "field": "G1-specialist.actualAcceptanceRecords",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "register",
+        "field": "G1-fitment-catalog.actualAcceptanceRecords",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "register",
+        "field": "G1-prices.actualAcceptanceRecords",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "register",
+        "field": "G2-provider-effects.actualAcceptanceRecords",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "register",
+        "field": "G2-privacy-policy.actualAcceptanceRecords",
+        "reason": "unconfirmed"
+      },
+      {
+        "source": "register",
+        "field": "S3-service-host.actualAcceptanceRecords",
+        "reason": "unconfirmed"
+      }
+    ],
+    "accepted": false,
+    "endpointImplementationAllowed": false,
+    "publicActivation": false,
+    "specialistPending": true,
+    "licensedPending": true,
+    "frontendsHeld": true,
+    "externalCalls": 0,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  },
+  "holds": {
+    "HS01toHS08": "proposed",
+    "operators": "unconfirmed",
+    "coverage": "unconfirmed",
+    "rates": "unconfirmed",
+    "S3": "open",
+    "specialist": "pending",
+    "licensed": "pending",
+    "productApis": "held",
+    "frontends": "held"
+  },
+  "actualAcceptanceRecords": [],
+  "productionPolicyChanged": false,
+  "productionRuntimeChanged": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "publication": "Exact-commit full local Linux, eight independent CI jobs, review and tree reconciliation recorded in PR only after completion",
+  "sourceExceptions": [
+    {
+      "path": "Dockerfile",
+      "baselineSha256": "1352939f7d7335f7c20219b66260b8a0c387ee1287f5140179b7334f1b97460f",
+      "currentSha256": "2d4f98facdf36118ffd2e94d0c553f238540fb524e96d7037287eeb7082d2a0e",
+      "reason": "Validate copied patch metadata with the same frozen install after source copy, before read-only tooling pnpm commands; no dependency or runtime policy changes."
+    }
+  ],
+  "productionBuildInputsChanged": true,
+  "initialFullGateRefusal": {
+    "source": "f2c4e128ab4a9112445185a6701a21442b8182d5",
+    "stage": "existing local deployment ingress startup",
+    "diagnosis": "pnpm treats recopied patch metadata as modified and tries to install on a read-only filesystem",
+    "code": "EROFS",
+    "ownedResourcesRemoved": true,
+    "noPassingClaim": true
+  },
+  "readOnlyBuildProof": {
+    "passed": true,
+    "readOnlyRoot": true,
+    "network": "none",
+    "policyOverride": false,
+    "frozenInstallAfterSourceCopy": true,
+    "image": "sha256:8148fcbc3710be3bdc2152b6f61abb7ac13f3a887eb0760b4c2541ce8c02e763",
+    "DockerfileSha256": "2d4f98facdf36118ffd2e94d0c553f238540fb524e96d7037287eeb7082d2a0e",
+    "nativeNodeVersion": "24.22.1",
+    "ownedActorAbsent": true,
+    "ownedTagAbsent": true,
+    "retainedResourcesChanged": false
+  },
+  "reviewFindingFix": {
+    "scope": "P2 native FIFO non-file refusal before open",
+    "reviewedSource": "09e368460c7543746e44881532cdac76ca2d081b",
+    "linuxNegative": {
+      "mode": "negative",
+      "expectedOutcomeObserved": true,
+      "nativeControl": "fifo",
+      "sourceHashes": {
+        "scripts/review/repository-files.mjs": "4ef6383a92c5623943686ed5d8d3cbc113f4d5871d1b1e3942d162bc11d91527",
+        "tests/unit/review-nonfile.test.ts": "562f0544415b02e32293680eb806e468c51cc8cb979fec6c1d6c78b4d2175eaa",
+        "tests/fixtures/review-files/nonfile.mjs": "db459a9ce480a5270c8b68db1062aed4023b751f35d3e316b69fee08da40826b"
+      },
+      "image": "sha256:ee9cbc70c590a7c87c17fd83dad66a63d14d6793cb0a3f441efc9b883ca6e245",
+      "network": "none",
+      "readOnlyRoot": true,
+      "ownedActorAbsent": true,
+      "cachedImagePreserved": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "linuxPositive": {
+      "mode": "positive",
+      "expectedOutcomeObserved": true,
+      "nativeControl": "fifo",
+      "sourceHashes": {
+        "scripts/review/repository-files.mjs": "432c93fbceb1f902f079bedbfb37034b5fc4076eb35a7b8b73f44c8f0ae48c3e",
+        "tests/unit/review-nonfile.test.ts": "562f0544415b02e32293680eb806e468c51cc8cb979fec6c1d6c78b4d2175eaa",
+        "tests/fixtures/review-files/nonfile.mjs": "db459a9ce480a5270c8b68db1062aed4023b751f35d3e316b69fee08da40826b"
+      },
+      "image": "sha256:ee9cbc70c590a7c87c17fd83dad66a63d14d6793cb0a3f441efc9b883ca6e245",
+      "network": "none",
+      "readOnlyRoot": true,
+      "ownedActorAbsent": true,
+      "cachedImagePreserved": true,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "windowsVariant": "native directory; not a Windows FIFO claim",
+    "fixtureAndTestBytesIdenticalAcrossLinuxControls": true,
+    "descriptorCheckRetained": true
+  }
+}

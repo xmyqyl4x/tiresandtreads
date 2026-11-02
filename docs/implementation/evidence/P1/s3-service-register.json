@@ -564,7 +564,10 @@
         "docs/implementation/P1-PR-027-dependency-compatibility.md",
         "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-local.json",
         "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-sources.json",
-        "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-validation.md"
+        "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-validation.md",
+        "docs/implementation/P1-PR-027-acceptance-input-review.md",
+        "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-local.json",
+        "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-validation.md"
       ]
     }
   ],

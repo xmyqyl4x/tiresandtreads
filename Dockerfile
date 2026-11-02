@@ -20,6 +20,8 @@ RUN --mount=type=cache,id=tt-pnpm-store,target=/pnpm/store pnpm install --frozen
 
 FROM dependencies AS tooling
 COPY . .
+# Validate copied patch metadata before read-only tooling actors execute pnpm.
+RUN --mount=type=cache,id=tt-pnpm-store,target=/pnpm/store pnpm install --frozen-lockfile
 ENV APP_ENV=test-local
 ENV PROVIDER_MODE=fixtures
 
