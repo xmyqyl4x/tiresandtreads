@@ -31,7 +31,7 @@ try {
       requestId: uuid,
       data:
         options?.method === 'POST'
-          ? { saved: true }
+          ? { schema_version: 1, resource_id: uuid, status: 'accepted', result_revision: '2' }
           : String(url).endsWith('/policy')
             ? { version: 'synthetic', notices }
             : {
@@ -54,6 +54,35 @@ try {
       notices: { necessary: uuid, analytics: uuid, ads: uuid, targeted_ads: uuid },
     },
     { csrf: 'a'.repeat(64), key: 'csp_command_000001' },
+  );
+  const { createDeliveryPrivacyClient } =
+    await import('../../../packages/contracts/src/delivery-privacy-client.ts');
+  const delivery = createDeliveryPrivacyClient('http://127.0.0.1:8380', async () =>
+    Response.json({
+      requestId: uuid,
+      data: {
+        id: uuid,
+        revision: '1',
+        state: 'scheduled',
+        sendAfter: '2026-11-03T12:01:00.000Z',
+        cancelDeadline: '2026-11-03T12:01:00.000Z',
+      },
+    }),
+  );
+  assert.equal(
+    (
+      await delivery.deliver(
+        {
+          email: 'csp@example.invalid',
+          report: { id: uuid, version: 1 },
+          offers: false,
+          notices: { report: uuid },
+        },
+        'a'.repeat(64),
+        'csp_delivery_000001',
+      )
+    ).state,
+    'scheduled',
   );
 } finally {
   globalThis.Function = original;
