@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { createApiClient } from './http.ts';
 import { consentInputSchemas } from './consent-inputs.ts';
 import { staffInputSchemas } from './staff-inputs.ts';
+import { browserConsentView, consentPolicyView } from './consent-views.ts';
+export type { BrowserConsentView } from './consent-views.ts';
 import type { CommandReceipt } from './report-client.ts';
 type ConsentInput<K extends keyof typeof consentInputSchemas> = z.input<
   (typeof consentInputSchemas)[K]
@@ -65,18 +67,17 @@ export function createConsentClient(base: string, transport: typeof fetch = fetc
   };
   return {
     policy: () =>
-      api.request<{
-        readonly version: string;
-        readonly notices: Readonly<
-          Record<'necessary' | 'report' | 'offers' | 'analytics' | 'ads' | 'targeted_ads', string>
-        >;
-      }>('/api/v1/consent/policy'),
+      api
+        .request<unknown>('/api/v1/consent/policy')
+        .then((reply) => ({ ...reply, data: consentPolicyView.parse(reply.data) })),
     contact: (input: ConsentInput<'requestContact'>, command: LocalCommand) =>
       post('requestContact', '/api/v1/contacts', input, command),
     browser: (cmpAvailable = false) =>
-      api.request('/api/v1/consent/browser' + (cmpAvailable ? '?cmpAvailable=true' : ''), {
-        credentials: 'same-origin',
-      }),
+      api
+        .request<unknown>('/api/v1/consent/browser' + (cmpAvailable ? '?cmpAvailable=true' : ''), {
+          credentials: 'same-origin',
+        })
+        .then((reply) => ({ ...reply, data: browserConsentView.parse(reply.data) })),
     choices: (input: ConsentInput<'setBrowserConsent'>, command: LocalCommand) =>
       post('setBrowserConsent', '/api/v1/consent/browser', input, command),
     deliver: (input: ConsentInput<'requestDelivery'>, command: LocalCommand) =>

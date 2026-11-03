@@ -297,3 +297,7 @@ The [consent/staff implementation](implementation/P1-PR-029-local-consent-staff-
 The [callback/event implementation](implementation/P1-PR-030-local-callbacks-events.md) adds signed mail/job entry points, consented collection and safe email/retailer actions. Configure `LOCAL_CALLBACK_KEYS_FILE` only with a private synthetic fixture file from `scripts/runtime/local-callback-keys.ts`. Separate mail/workflow keys and exact original callback bytes are required. `LOCAL_HTTP_OBSERVATIONS=enabled` prints only sanitized operation/status/request-ID/duration records. `createEventClient` keeps ordinary purpose proofs in headers and supports empty consent-refused responses. Actual workflow/provider, hosted monitoring and release acceptance remain held.
 
 [Local API validation](implementation/P1-PR-031-local-api-validation.md) provides the complete headless journey, actual paired-host CMS/source-failure proof, bounded admission,64-operation inventory and frontend re-estimate. Run `node scripts/contracts/api-readiness.mjs --check` for inventory drift. Actual S3/G0/S4 and deployment remain held.
+
+## Local product web preview
+
+Run `node scripts/dev/web-preview.mjs dev` or `node scripts/dev/web-preview.mjs stage` for disposable loopback previews at 8380/8480. See [the shell implementation](implementation/P1-PR-032-local-web-shell.md) for the standalone React/Next build, private API bridge, isolated provider network, fixed proxy, namespaced cookies and cleanup. Retained environments and actual acceptance/deployment holds remain unchanged.

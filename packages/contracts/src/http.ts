@@ -1,12 +1,9 @@
 import { z } from 'zod';
 
-export const apiErrorSchema = z.strictObject({
-  code: z.string(),
-  messageKey: z.string(),
-  fieldErrors: z.record(z.string(), z.string()),
-  retryable: z.boolean(),
-  requestId: z.string().uuid(),
-});
+import { apiErrorSchema } from './http-views.ts';
+export { apiErrorSchema } from './http-views.ts';
+export { createApiClient } from './transport.ts';
+export type { ApiReply } from './transport.ts';
 export const pageSchema = z.strictObject({
   after: z.string().min(1).max(2048).nullable().default(null),
   limit: z.coerce.number().int().min(1).max(100).default(25),
@@ -15,10 +12,6 @@ export const toolInputSchema = z.strictObject({ input: z.unknown() });
 export type ApiError = z.infer<typeof apiErrorSchema>;
 export type WireValue =
   null | boolean | number | string | WireValue[] | { [key: string]: WireValue };
-export interface ApiReply<T> {
-  readonly data: T;
-  readonly requestId: string;
-}
 export interface EndpointContract {
   readonly operationId: string;
   readonly method: 'GET' | 'POST' | 'DELETE';
@@ -38,48 +31,3 @@ export const sessionContracts = [
     access: 'owner',
   },
 ] as const satisfies readonly EndpointContract[];
-// Browser, native-app and AI clients share this transport; credentials stay in the caller's transport.
-export function createApiClient(base: string, transport: typeof fetch = fetch) {
-  async function perform<T>(
-    path: string,
-    options: RequestInit,
-    allowEmpty: boolean,
-  ): Promise<ApiReply<T>> {
-    if (!/^\/api\/v1\//.test(path) || path.includes('\\')) throw Error('Invalid API path');
-    let origin: URL;
-    try {
-      origin = new URL(base);
-    } catch {
-      throw Error('Invalid API origin');
-    }
-    if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password)
-      throw Error('Invalid API origin');
-    const url = new URL(path, origin);
-    if (url.origin !== origin.origin) throw Error('Invalid API origin');
-    if (!url.pathname.startsWith('/api/v1/') || url.hash) throw Error('Invalid API path');
-    const response = await transport(url, { ...options, redirect: 'error', cache: 'no-store' });
-    if (response.status === 204) {
-      const requestId = response.headers.get('x-request-id');
-      if (!allowEmpty || !z.string().uuid().safeParse(requestId).success)
-        throw Error('Invalid API reply');
-      return { data: null as T, requestId: requestId! };
-    }
-    let value: unknown;
-    try {
-      value = await response.json();
-    } catch {
-      throw Error('Invalid API reply');
-    }
-    if (!response.ok) throw apiErrorSchema.parse(value);
-    const parsed = z
-      .strictObject({ data: z.unknown(), requestId: z.string().uuid() })
-      .safeParse(value);
-    if (!parsed.success || !Object.hasOwn(parsed.data, 'data')) throw Error('Invalid API reply');
-    return parsed.data as ApiReply<T>;
-  }
-  return {
-    request: <T>(path: string, options: RequestInit = {}) => perform<T>(path, options, false),
-    requestOptional: <T>(path: string, options: RequestInit = {}) =>
-      perform<T | null>(path, options, true),
-  };
-}

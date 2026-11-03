@@ -1,3 +1,4 @@
+import { browserChoicesInput } from './browser-consent-input.ts';
 import { z } from 'zod';
 const uuid = z
     .string()
@@ -22,12 +23,7 @@ export const consentInputSchemas = {
     expectedRevision: revision,
     reason: z.enum(['cancel', 'correct_address']).default('cancel'),
   }),
-  setBrowserConsent: z.strictObject({
-    expectedRevision: revision,
-    allowed: z.array(z.enum(['analytics', 'ads', 'targeted_ads'])).max(3),
-    gpc: z.boolean(),
-    notices: z.strictObject({ necessary: uuid, analytics: uuid, ads: uuid, targeted_ads: uuid }),
-  }),
+  setBrowserConsent: browserChoicesInput,
   requestOwnerRights: z.strictObject({ kind: rights, jurisdiction }),
   requestEmailRights: z.strictObject({
     email: z.string().min(3).max(254),

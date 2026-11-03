@@ -1,3 +1,4 @@
+import { wireSchemaJson as toJSONSchema } from '../../packages/contracts/src/http-views.ts';
 import { consentRoutes } from '../../packages/integrations/src/http/consent.ts';
 import { staffRoutes } from '../../packages/integrations/src/http/staff.ts';
 import { consentInputSchemas } from '../../packages/contracts/src/consent-inputs.ts';
@@ -10,6 +11,12 @@ import { reportInputSchemas } from '../../packages/contracts/src/report-inputs.t
 import { referenceKinds } from '../../packages/application/src/queries/reference.ts';
 import { callbackRoutes } from '../../packages/integrations/src/http/callbacks.ts';
 import { callbackInputSchemas } from '../../packages/contracts/src/callback-inputs.ts';
+import {
+  browserConsentView,
+  consentPolicyView,
+} from '../../packages/contracts/src/consent-views.ts';
+
+const schemaJson = (schema) => (schema ? toJSONSchema(schema) : undefined);
 
 export function localApiDocument() {
   // Binding constructs closures only. No service, database, provider or fixture is executed.
@@ -64,7 +71,7 @@ export function localApiDocument() {
       });
     const query = (name, schema, required = false) =>
       parameters.push({ name, in: 'query', required, schema });
-    const queryShape = operationQuerySchemas[route.operationId]?.toJSONSchema();
+    const queryShape = schemaJson(operationQuerySchemas[route.operationId]);
     for (const [name, schema] of Object.entries(queryShape?.properties ?? {}))
       query(name, schema, queryShape.required?.includes(name) ?? false);
     if (route.operationId === 'lookupReference') {
@@ -154,13 +161,15 @@ export function localApiDocument() {
                   schema:
                     route.operationId === 'createOwnerSession'
                       ? { type: 'object', additionalProperties: false }
-                      : ({
-                          ...reportInputSchemas,
-                          ...consentInputSchemas,
-                          ...staffInputSchemas,
-                          ...callbackInputSchemas,
-                          recordEmailLinkFeedback: callbackInputSchemas.recordEmailFeedback,
-                        }[route.operationId]?.toJSONSchema() ?? {
+                      : (schemaJson(
+                          {
+                            ...reportInputSchemas,
+                            ...consentInputSchemas,
+                            ...staffInputSchemas,
+                            ...callbackInputSchemas,
+                            recordEmailLinkFeedback: callbackInputSchemas.recordEmailFeedback,
+                          }[route.operationId],
+                        ) ?? {
                           type: 'object',
                           required: ['input'],
                           properties: { input: {} },
@@ -212,7 +221,12 @@ export function localApiDocument() {
                                     type: 'object',
                                     required: ['data', 'requestId'],
                                     properties: {
-                                      data: {},
+                                      data:
+                                        route.operationId === 'getConsentPolicy'
+                                          ? toJSONSchema(consentPolicyView)
+                                          : route.operationId === 'getBrowserConsent'
+                                            ? toJSONSchema(browserConsentView)
+                                            : {},
                                       requestId: { type: 'string', format: 'uuid' },
                                     },
                                     additionalProperties: false,
@@ -259,7 +273,7 @@ export function localApiDocument() {
             'Synthetic local fixture only; recent server-held MFA time and current DB permission required',
         },
       },
-      schemas: { Error: apiErrorSchema.toJSONSchema() },
+      schemas: { Error: toJSONSchema(apiErrorSchema) },
     },
   };
 }

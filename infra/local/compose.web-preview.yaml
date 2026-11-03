@@ -1,0 +1,18 @@
+services:
+  preview-proxy:
+    image: tiresandtreads-tooling:${COMPOSE_PROJECT_NAME:?}
+    profiles: [web-preview]
+    command: [node, tests/fixtures/http/preview-proxy.mjs]
+    environment:
+      LOCAL_PREVIEW_MODE: ${LOCAL_PREVIEW_MODE:?}
+    ports: ['127.0.0.1:${LOCAL_WEB_PORT:?}:3000']
+    networks: [local, preview_ingress]
+    user: node
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    cpus: 0.25
+networks:
+  preview_ingress:
+    internal: false

@@ -654,11 +654,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** NFR-01, NFR-02. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement approved tokens, navigation, reusable controls, validation/error patterns and responsive shell.
-- [ ] Add locale/Intl scaffolding, focus management, reduced motion and consent integration boundaries.
-- [ ] Establish component accessibility/performance checks without business logic in components.
+- [x] Implement approved tokens, navigation, reusable controls, validation/error patterns and responsive shell.
+- [x] Add locale/Intl scaffolding, focus management, reduced motion and consent integration boundaries.
+- [x] Establish component accessibility/performance checks without business logic in components.
 
 **Verification and acceptance:** Keyboard/reflow/contrast tests at approved viewports and bundle budget checks; components consume accepted contracts.
+
+**Local implementation:** [Accessible local shell](../implementation/P1-PR-032-local-web-shell.md). Checked work records local technical implementation/testing; actual S3/G0/S4, G3 and deployment acceptance remain held.
 
 ### P1-PR-033
 
