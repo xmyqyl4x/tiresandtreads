@@ -98,3 +98,5 @@ The owner authorized a [private hosted staging decision packet](P1-PR-027-privat
 [Local restore/journal handoff contract](P1-PR-027-restore-handoff-contract.md) supplies a static boundary for a separately authorized disposable proof. It does not fill an actual S3 record, select authority, release product access or close original cases/gates.
 
 [Disposable restore/journal handoff proof](P1-PR-027-restore-handoff-proof.md) adds local technical evidence only. It does not fill actual acceptance records, establish independent journal authority or release APIs/frontends.
+
+[Restore/journal readiness integration](P1-PR-027-restore-readiness-integration.md) checks local repository consistency only. It leaves all six actual gates pending and does not release APIs/frontends or select operating authority.

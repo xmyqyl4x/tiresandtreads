@@ -112,3 +112,5 @@ Local S3 reconciliation is accepted in merged [PR #32](https://github.com/xmyqyl
 [Local restore/journal handoff contract](docs/implementation/P1-PR-027-restore-handoff-contract.md) defines the owner-selected next disposable proof; APIs/frontends and all actual acceptance remain held.
 
 [Disposable restore/journal handoff proof](docs/implementation/P1-PR-027-restore-handoff-proof.md) implements the reviewed local matrix with actual restore/replay setup and separate read-only evidence. All actual acceptance/API/frontend holds remain.
+
+[Restore/journal readiness integration](docs/implementation/P1-PR-027-restore-readiness-integration.md) checks accepted local proof evidence and held inputs without rerunning fixtures or accepting gates.
