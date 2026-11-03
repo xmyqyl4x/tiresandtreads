@@ -1,0 +1,1294 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-development-only",
+  "status": "local-contracts-available",
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "G0Accepted": false,
+  "publicActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualNotifications": false,
+  "clients": [
+    "packages/contracts/src/http.ts",
+    "packages/contracts/src/report-client.ts",
+    "packages/contracts/src/operation-client.ts",
+    "packages/contracts/src/event-client.ts"
+  ],
+  "fullJourneyProof": "tests/database/http-complete-journey.test.ts",
+  "actualHostProof": "tests/database/http-composed-host.test.ts",
+  "admissionProof": "tests/usecases/http-admission.test.ts",
+  "remainingAcceptance": [
+    "G1-specialist",
+    "G1-fitment-catalog",
+    "G1-prices",
+    "G2-provider-effects",
+    "G2-privacy-policy",
+    "S3-service-host",
+    "G0",
+    "S4-live-acceptance"
+  ],
+  "inventory": [
+    {
+      "operationId": "createOwnerSession",
+      "method": "POST",
+      "path": "/api/v1/sessions",
+      "actor": "public",
+      "category": "ownerSessions",
+      "service": "identity.session",
+      "useCases": [
+        "UC01"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "path": "/api/v1/sessions/current",
+      "actor": "owner",
+      "category": "ownerSessions",
+      "service": "identity.session",
+      "useCases": [
+        "UC01"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "receiveMailCallback",
+      "method": "POST",
+      "path": "/api/v1/webhooks/resend",
+      "actor": "callback",
+      "category": "callbacks",
+      "service": "mail.acceptVerified/workflows.dispatch",
+      "useCases": [
+        "UC07"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 262144,
+      "successStatuses": [
+        "202"
+      ]
+    },
+    {
+      "operationId": "wakeDurableJob",
+      "method": "POST",
+      "path": "/api/v1/workflows/wake",
+      "actor": "callback",
+      "category": "callbacks",
+      "service": "mail.acceptVerified/workflows.dispatch",
+      "useCases": [
+        "UC07"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 8192,
+      "successStatuses": [
+        "202"
+      ]
+    },
+    {
+      "operationId": "issueAnalyticsGrant",
+      "method": "POST",
+      "path": "/api/v1/analytics/grants",
+      "actor": "owner",
+      "category": "analytics",
+      "service": "analytics",
+      "useCases": [
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "collectEvents",
+      "method": "POST",
+      "path": "/api/v1/collect",
+      "actor": "capability",
+      "category": "analytics",
+      "service": "analytics",
+      "useCases": [
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "202",
+        "204"
+      ]
+    },
+    {
+      "operationId": "getEmailPreferences",
+      "method": "GET",
+      "path": "/api/v1/email/preferences",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "confirmEmail",
+      "method": "POST",
+      "path": "/api/v1/email/confirm",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "withdrawEmail",
+      "method": "POST",
+      "path": "/api/v1/email/withdraw",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "getEmailConfirmation",
+      "method": "GET",
+      "path": "/api/v1/email/confirmation",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readEmailConfirmation",
+      "method": "GET",
+      "path": "/email/confirm/{token}",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "confirmEmailLink",
+      "method": "POST",
+      "path": "/email/confirm/{token}",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readEmailUnsubscribe",
+      "method": "GET",
+      "path": "/email/unsubscribe/{token}",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "oneClickUnsubscribe",
+      "method": "POST",
+      "path": "/email/unsubscribe/{token}",
+      "actor": "callback",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 8192,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "oneClickUnsubscribeApi",
+      "method": "POST",
+      "path": "/api/v1/unsubscribe/{token}",
+      "actor": "callback",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 8192,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readPreferences",
+      "method": "GET",
+      "path": "/preferences/{token}",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "updatePreferences",
+      "method": "POST",
+      "path": "/preferences/{token}",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "visitEmailLink",
+      "method": "GET",
+      "path": "/e/c/{token}",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200",
+        "302"
+      ]
+    },
+    {
+      "operationId": "recordEmailFeedback",
+      "method": "POST",
+      "path": "/api/v1/email/feedback",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "recordEmailLinkFeedback",
+      "method": "POST",
+      "path": "/e/c/{token}/feedback",
+      "actor": "capability",
+      "category": "emailActions",
+      "service": "actions/contacts/confirmationQuery",
+      "useCases": [
+        "UC07",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "redirectAffiliate",
+      "method": "GET",
+      "path": "/go/{linkId}",
+      "actor": "public",
+      "category": "commercial",
+      "service": "commercial",
+      "useCases": [
+        "UC17"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "302"
+      ]
+    },
+    {
+      "operationId": "getConsentPolicy",
+      "method": "GET",
+      "path": "/api/v1/consent/policy",
+      "actor": "public",
+      "category": "consent",
+      "service": "contacts",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "requestContact",
+      "method": "POST",
+      "path": "/api/v1/contacts",
+      "actor": "owner",
+      "category": "consent",
+      "service": "contacts",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "getBrowserConsent",
+      "method": "GET",
+      "path": "/api/v1/consent/browser",
+      "actor": "owner",
+      "category": "consent",
+      "service": "contacts",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "setBrowserConsent",
+      "method": "POST",
+      "path": "/api/v1/consent/browser",
+      "actor": "owner",
+      "category": "consent",
+      "service": "contacts",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "requestDelivery",
+      "method": "POST",
+      "path": "/api/v1/deliveries",
+      "actor": "owner",
+      "category": "delivery",
+      "service": "delivery",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "getDelivery",
+      "method": "GET",
+      "path": "/api/v1/deliveries/{sendId}",
+      "actor": "owner",
+      "category": "delivery",
+      "service": "delivery",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "cancelDelivery",
+      "method": "POST",
+      "path": "/api/v1/deliveries/{sendId}/cancel",
+      "actor": "owner",
+      "category": "delivery",
+      "service": "delivery",
+      "useCases": [
+        "UC06",
+        "UC08"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "requestOwnerRights",
+      "method": "POST",
+      "path": "/api/v1/privacy/owner-requests",
+      "actor": "owner",
+      "category": "privacy",
+      "service": "privacy",
+      "useCases": [
+        "UC10"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "requestEmailRights",
+      "method": "POST",
+      "path": "/api/v1/privacy/email-requests",
+      "actor": "public",
+      "category": "privacy",
+      "service": "privacy",
+      "useCases": [
+        "UC10"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "privacyStatus",
+      "method": "GET",
+      "path": "/api/v1/privacy/status",
+      "actor": "capability",
+      "category": "privacy",
+      "service": "privacy",
+      "useCases": [
+        "UC10"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "confirmPrivacyProof",
+      "method": "POST",
+      "path": "/api/v1/privacy/confirm",
+      "actor": "capability",
+      "category": "privacy",
+      "service": "privacy",
+      "useCases": [
+        "UC10"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "staffQueue",
+      "method": "GET",
+      "path": "/api/v1/staff/queues/{kind}",
+      "actor": "staff",
+      "category": "staff",
+      "service": "staff",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "recoverOperation",
+      "method": "POST",
+      "path": "/api/v1/staff/recover",
+      "actor": "staff",
+      "category": "staff",
+      "service": "staff",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "prepareImport",
+      "method": "POST",
+      "path": "/api/v1/staff/imports/prepare",
+      "actor": "staff",
+      "category": "ingestion",
+      "service": "imports",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "importStatus",
+      "method": "GET",
+      "path": "/api/v1/staff/imports/{runId}",
+      "actor": "staff",
+      "category": "ingestion",
+      "service": "imports",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "importDiff",
+      "method": "GET",
+      "path": "/api/v1/staff/imports/{runId}/diff",
+      "actor": "staff",
+      "category": "ingestion",
+      "service": "imports",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "publishImport",
+      "method": "POST",
+      "path": "/api/v1/staff/imports/{runId}/publish",
+      "actor": "staff",
+      "category": "ingestion",
+      "service": "imports",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "rollbackImport",
+      "method": "POST",
+      "path": "/api/v1/staff/imports/rollback",
+      "actor": "staff",
+      "category": "ingestion",
+      "service": "imports",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "enqueueContent",
+      "method": "POST",
+      "path": "/api/v1/staff/content",
+      "actor": "staff",
+      "category": "cmsSeo",
+      "service": "content",
+      "useCases": [
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-composed-host.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "auditSeo",
+      "method": "POST",
+      "path": "/api/v1/staff/seo/audit",
+      "actor": "staff",
+      "category": "cmsSeo",
+      "service": "content",
+      "useCases": [
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-composed-host.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "seoMetrics",
+      "method": "GET",
+      "path": "/api/v1/staff/seo/metrics",
+      "actor": "staff",
+      "category": "cmsSeo",
+      "service": "content",
+      "useCases": [
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-composed-host.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "operationsMetrics",
+      "method": "GET",
+      "path": "/api/v1/staff/operations",
+      "actor": "staff",
+      "category": "operations",
+      "service": "operations.metrics",
+      "useCases": [
+        "UC09"
+      ],
+      "databaseProof": "tests/database/http-operations.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "adRevenue",
+      "method": "GET",
+      "path": "/api/v1/staff/advertising/revenue",
+      "actor": "staff",
+      "category": "commercial",
+      "service": "commercial",
+      "useCases": [
+        "UC17"
+      ],
+      "databaseProof": "tests/database/http-callbacks.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "downloadPdf",
+      "method": "GET",
+      "path": "/api/v1/download",
+      "actor": "capability",
+      "category": "privateAssets",
+      "service": "assets.download",
+      "useCases": [
+        "UC05",
+        "UC06"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "lookupReference",
+      "method": "GET",
+      "path": "/api/v1/reference",
+      "actor": "public",
+      "category": "references",
+      "service": "reference.query",
+      "useCases": [
+        "UC01",
+        "UC02"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "getContent",
+      "method": "GET",
+      "path": "/api/v1/content",
+      "actor": "public",
+      "category": "education",
+      "service": "content.readPage",
+      "useCases": [
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-composed-host.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "toolsize",
+      "method": "POST",
+      "path": "/api/v1/tools/size",
+      "actor": "public",
+      "category": "publicTools",
+      "service": "publicPolicy",
+      "useCases": [
+        "UC02",
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "toolchecklist",
+      "method": "POST",
+      "path": "/api/v1/tools/checklist",
+      "actor": "public",
+      "category": "publicTools",
+      "service": "publicPolicy",
+      "useCases": [
+        "UC02",
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "toolscorecard",
+      "method": "POST",
+      "path": "/api/v1/tools/scorecard",
+      "actor": "public",
+      "category": "publicTools",
+      "service": "publicPolicy",
+      "useCases": [
+        "UC02",
+        "UC13"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "createReport",
+      "method": "POST",
+      "path": "/api/v1/reports",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readReport",
+      "method": "GET",
+      "path": "/api/v1/reports/{reportId}",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "saveDraft",
+      "method": "POST",
+      "path": "/api/v1/reports/{reportId}/draft",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "refineReport",
+      "method": "POST",
+      "path": "/api/v1/reports/{reportId}/refine",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "compareReport",
+      "method": "POST",
+      "path": "/api/v1/reports/{reportId}/compare",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "saveQuote",
+      "method": "POST",
+      "path": "/api/v1/reports/{reportId}/quotes",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readQuote",
+      "method": "GET",
+      "path": "/api/v1/reports/{reportId}/quotes/{quoteId}",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readComparison",
+      "method": "GET",
+      "path": "/api/v1/reports/{reportId}/comparisons/{revision}",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "shareReport",
+      "method": "POST",
+      "path": "/api/v1/reports/{reportId}/shares",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "revokeShare",
+      "method": "DELETE",
+      "path": "/api/v1/reports/{reportId}/shares/{capabilityId}",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "readSharedReport",
+      "method": "GET",
+      "path": "/api/v1/shared",
+      "actor": "capability",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "forkReport",
+      "method": "POST",
+      "path": "/api/v1/shared/fork",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "ownerPdf",
+      "method": "POST",
+      "path": "/api/v1/reports/{reportId}/pdf",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
+      "operationId": "sharedPdf",
+      "method": "POST",
+      "path": "/api/v1/shared/pdf",
+      "actor": "capability",
+      "category": "reports",
+      "service": "reports",
+      "useCases": [
+        "UC01",
+        "UC03",
+        "UC04",
+        "UC05"
+      ],
+      "databaseProof": "tests/database/http-public-owner.test.ts",
+      "requestSchema": "OpenAPI requestBody",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": true,
+      "maxBodyBytes": 65536,
+      "successStatuses": [
+        "200"
+      ]
+    }
+  ]
+}

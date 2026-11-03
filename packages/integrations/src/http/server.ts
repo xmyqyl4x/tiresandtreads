@@ -1,7 +1,30 @@
-import { createServer } from 'node:http';
+import { createServer, type ServerResponse } from 'node:http';
+import { randomUUID } from 'node:crypto';
 import { Readable } from 'node:stream';
 import type { AddressInfo } from 'node:net';
 
+function transportFailure(outgoing: ServerResponse, status: 400 | 503) {
+  const requestId = randomUUID(),
+    code = status === 400 ? 'invalid_input' : 'unavailable';
+  outgoing.writeHead(status, {
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store',
+    'x-robots-tag': 'noindex, nofollow',
+    'referrer-policy': 'no-referrer',
+    'x-content-type-options': 'nosniff',
+    'x-request-id': requestId,
+    ...(status === 503 ? { 'retry-after': '1' } : {}),
+  });
+  outgoing.end(
+    JSON.stringify({
+      code,
+      messageKey: 'errors.' + code,
+      fieldErrors: {},
+      retryable: status === 503,
+      requestId,
+    }),
+  );
+}
 // Deliberately separate from the production web and worker hosts. No environment flag can bind it publicly.
 export async function listenLocalApi(
   factory: (origin: string) => (request: Request, peer: string) => Promise<Response>,
@@ -10,15 +33,13 @@ export async function listenLocalApi(
     stopping = false;
   const server = createServer(async (incoming, outgoing) => {
     if (stopping || active >= 32) {
-      outgoing.writeHead(503, { 'retry-after': '1' });
-      outgoing.end();
+      transportFailure(outgoing, 503);
       return;
     }
     active++;
     try {
       if (!incoming.url?.startsWith('/') || incoming.url.startsWith('//')) {
-        outgoing.writeHead(400);
-        outgoing.end();
+        transportFailure(outgoing, 400);
         return;
       }
       const headers = new Headers();
@@ -26,8 +47,7 @@ export async function listenLocalApi(
         const name = incoming.rawHeaders[i]!,
           value = incoming.rawHeaders[i + 1]!;
         if (headers.has(name) && !['accept', 'accept-encoding'].includes(name.toLowerCase())) {
-          outgoing.writeHead(400);
-          outgoing.end();
+          transportFailure(outgoing, 400);
           return;
         }
         headers.append(name, value);
@@ -45,8 +65,8 @@ export async function listenLocalApi(
       outgoing.writeHead(result.status, Object.fromEntries(result.headers));
       outgoing.end(Buffer.from(await result.arrayBuffer()));
     } catch {
-      if (!outgoing.headersSent) outgoing.writeHead(503);
-      outgoing.end();
+      if (!outgoing.headersSent) transportFailure(outgoing, 503);
+      else outgoing.end();
     } finally {
       active--;
     }
@@ -67,14 +87,17 @@ export async function listenLocalApi(
       throw error;
     }
   })();
+  let closing: Promise<void> | undefined;
   return {
     origin,
-    async close() {
+    close() {
       stopping = true;
-      server.closeIdleConnections();
-      await new Promise<void>((resolve, reject) =>
-        server.close((e) => (e ? reject(e) : resolve())),
-      );
+      return (closing ??= (async () => {
+        server.closeIdleConnections();
+        await new Promise<void>((resolve, reject) =>
+          server.close((e) => (e ? reject(e) : resolve())),
+        );
+      })());
     },
   };
 }

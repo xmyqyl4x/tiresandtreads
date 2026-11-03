@@ -56,7 +56,13 @@ it('preserves the actual gate records and records only the owner-authorized loca
 it('uses one transport client for UI/app/AI callers, refusing cross-origin paths and parsing masked errors', async () => {
   const client = createApiClient(
     'http://127.0.0.1:3210',
-    async () => new Response(JSON.stringify({ data: { status: 'local' }, requestId: 'id' })),
+    async () =>
+      new Response(
+        JSON.stringify({
+          data: { status: 'local' },
+          requestId: '11111111-1111-4111-8111-111111111111',
+        }),
+      ),
   );
   expect(await client.request('/api/v1/reference')).toMatchObject({ data: { status: 'local' } });
   for (const path of ['https://evil.invalid', '//evil.invalid', '/api/v1/\\evil'])

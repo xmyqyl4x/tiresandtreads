@@ -46,8 +46,17 @@ export function createApiClient(base: string, transport: typeof fetch = fetch) {
     allowEmpty: boolean,
   ): Promise<ApiReply<T>> {
     if (!/^\/api\/v1\//.test(path) || path.includes('\\')) throw Error('Invalid API path');
-    const url = new URL(path, base);
-    if (url.origin !== new URL(base).origin) throw Error('Invalid API origin');
+    let origin: URL;
+    try {
+      origin = new URL(base);
+    } catch {
+      throw Error('Invalid API origin');
+    }
+    if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password)
+      throw Error('Invalid API origin');
+    const url = new URL(path, origin);
+    if (url.origin !== origin.origin) throw Error('Invalid API origin');
+    if (!url.pathname.startsWith('/api/v1/') || url.hash) throw Error('Invalid API path');
     const response = await transport(url, { ...options, redirect: 'error', cache: 'no-store' });
     if (response.status === 204) {
       const requestId = response.headers.get('x-request-id');
@@ -55,9 +64,18 @@ export function createApiClient(base: string, transport: typeof fetch = fetch) {
         throw Error('Invalid API reply');
       return { data: null as T, requestId: requestId! };
     }
-    const value: unknown = await response.json();
+    let value: unknown;
+    try {
+      value = await response.json();
+    } catch {
+      throw Error('Invalid API reply');
+    }
     if (!response.ok) throw apiErrorSchema.parse(value);
-    return value as ApiReply<T>;
+    const parsed = z
+      .strictObject({ data: z.unknown(), requestId: z.string().uuid() })
+      .safeParse(value);
+    if (!parsed.success || !Object.hasOwn(parsed.data, 'data')) throw Error('Invalid API reply');
+    return parsed.data as ApiReply<T>;
   }
   return {
     request: <T>(path: string, options: RequestInit = {}) => perform<T>(path, options, false),
