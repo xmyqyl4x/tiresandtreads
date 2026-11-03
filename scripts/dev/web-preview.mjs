@@ -4,6 +4,9 @@ import { initialize, compose } from './local.mjs';
 import { environmentPlan } from './plan.mjs';
 import { assertDisposableRemoved } from '../verify/disposable-cleanup.mjs';
 const mode = process.argv[2] ?? 'dev';
+const scenario = process.argv[3] ?? 'unsupported';
+if (!['unsupported', 'synthetic'].includes(scenario))
+  throw Error('Choose unsupported or synthetic local UI scenario');
 if (!['dev', 'stage'].includes(mode)) throw Error('Choose local dev or stage preview');
 const port = mode === 'dev' ? 8380 : 8480,
   plan = environmentPlan('test', randomBytes(8).toString('hex'));
@@ -59,6 +62,8 @@ try {
     '--use-aliases',
     '--env',
     'LOCAL_PREVIEW_MODE=' + mode,
+    '--env',
+    'LOCAL_UI_SCENARIO=' + scenario,
     'test',
     'node',
     '--import',

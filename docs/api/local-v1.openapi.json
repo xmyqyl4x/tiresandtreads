@@ -18050,6 +18050,18 @@
                         "type": "null"
                       }
                     ]
+                  },
+                  "annualMiles": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 200000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -18925,6 +18937,18 @@
                               "currency"
                             ],
                             "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "annualMiles": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 200000
                           },
                           {
                             "type": "null"
@@ -22573,6 +22597,18 @@
                           "currency"
                         ],
                         "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "annualMiles": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 200000
                       },
                       {
                         "type": "null"

@@ -672,11 +672,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC01, CAP-04, AT01, AT02, AT17. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement vehicle/size/wheel-package, conditions, priorities, mileage, quantity and budget flows.
-- [ ] Consume published lookup APIs with loading/unknown/unsupported/manual-recovery states.
-- [ ] Submit through accepted report APIs with accessible errors, duplicate-submit handling and no email/ad gate.
+- [x] Implement vehicle/size/wheel-package, conditions, priorities, mileage, quantity and budget flows.
+- [x] Consume published lookup APIs with loading/unknown/unsupported/manual-recovery states.
+- [x] Submit through accepted report APIs with accessible errors, duplicate-submit handling and no email/ad gate.
 
 **Verification and acceptance:** Browser feature tests cover ambiguous fitment, unsupported inputs, stale safety data, slow network and keyboard completion.
+
+**Local implementation:** [Assessment form and lookup record](../implementation/P1-PR-033-local-assessment-form.md). These boxes record local implementation/testing only under the owner continuation; actual acceptance and deployment remain held.
 
 ### P1-PR-034
 

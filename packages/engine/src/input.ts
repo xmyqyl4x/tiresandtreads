@@ -18,11 +18,19 @@ export function normalizeAssessment(raw: unknown) {
   if (
     !x ||
     !keys(
-      x,
+      Object.fromEntries(Object.entries(x).filter(([key]) => key !== 'annualMiles')),
       'budget,configurationId,market,priorities,regionKey,replace,sizes,strategy,wheelPackage,winterUse',
     )
   )
     return invalid('assessment');
+  if (
+    x.annualMiles !== undefined &&
+    x.annualMiles !== null &&
+    (!Number.isInteger(x.annualMiles) ||
+      Number(x.annualMiles) < 0 ||
+      Number(x.annualMiles) > 200000)
+  )
+    return invalid('annualMiles');
   const configuration =
     x.configurationId === null ? null : id('fitment_configuration', x.configurationId);
   if (
@@ -92,6 +100,7 @@ export function normalizeAssessment(raw: unknown) {
       replace: Object.freeze(positions.filter((p) => replace.includes(p))),
       priorities: Object.freeze(metrics.filter((m) => priorities.includes(m))),
       budget,
+      ...(Object.hasOwn(x, 'annualMiles') ? { annualMiles: x.annualMiles as number | null } : {}),
     } satisfies AssessmentInput),
   );
 }

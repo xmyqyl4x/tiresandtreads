@@ -4,6 +4,7 @@ import { resolve, sep } from 'node:path';
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { composedApiFixture } from './composed-host.ts';
 import { createLocalPublicApi } from '../../../packages/integrations/src/http/local-runtime.ts';
+import { assessmentApiFixture } from './assessment-api.ts';
 async function stop(child: ChildProcess) {
   if (child.exitCode !== null || child.signalCode !== null) return;
   await new Promise<void>((resolve) => {
@@ -19,6 +20,7 @@ async function stop(child: ChildProcess) {
 export async function startWebPreview(
   webOrigin = 'http://127.0.0.1:3000',
   mode: 'dev' | 'stage' = 'dev',
+  scenario: 'unsupported' | 'synthetic' = 'unsupported',
 ) {
   const url = new URL(webOrigin);
   if (
@@ -32,11 +34,16 @@ export async function startWebPreview(
     url.hash
   )
     throw Error('Local preview origin refused');
-  const fixture = await composedApiFixture();
-  let api: Awaited<ReturnType<typeof createLocalPublicApi>> | undefined,
+  if (!['unsupported', 'synthetic'].includes(scenario)) throw Error('Preview scenario refused');
+  const synthetic = scenario === 'synthetic' ? await assessmentApiFixture() : null;
+  const composed = synthetic ? null : await composedApiFixture();
+  const fixture = composed ?? { cleanup: () => synthetic!.cleanup() };
+  let api: { origin: string; shutdown(): Promise<void> } | undefined,
     child: ChildProcess | undefined;
   try {
-    api = await createLocalPublicApi(fixture.env);
+    api = synthetic
+      ? { origin: synthetic.server.origin, shutdown: async () => undefined }
+      : await createLocalPublicApi(composed!.env);
     const env = {
       ...process.env,
       APP_ENV: mode + '-local',
@@ -62,7 +69,9 @@ export async function startWebPreview(
       maxBuffer: 1048576,
     });
     if (build.status !== 0)
-      throw Error('Local preview build failed: ' + (build.stderr || build.stdout).slice(-3000));
+      throw Error(
+        'Local preview build failed: ' + (build.stdout + '\n' + build.stderr).slice(-5000),
+      );
     const source = resolve('apps/web/.next/static'),
       destination = resolve('apps/web/.next/standalone/apps/web/.next/static');
     if (
@@ -113,6 +122,7 @@ export async function startWebPreview(
       host = api;
     return {
       fixture,
+      synthetic,
       api: host,
       origin,
       webOrigin: url.origin,
