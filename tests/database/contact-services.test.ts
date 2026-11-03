@@ -193,10 +193,24 @@ it('independent report/offers proofs survive unrelated purpose revisions and wit
 it('DB01 concurrent duplicate commands deduplicate contact/grant/outbox and reject changed-body reuse', async () => {
   const s = await setup(),
     cmd = uid('command'),
-    r = await Promise.all([
-      s.service.request([s.owner.token], cmd, s.request),
-      s.service.request([s.owner.token], cmd, s.request),
-    ]);
+    encrypt = s.encryption.encrypt.getMockImplementation()!;
+  let prepared = 0,
+    release!: () => void,
+    fail!: (error: Error) => void;
+  const bothPrepared = new Promise<void>((resolve, reject) => {
+    release = resolve;
+    fail = reject;
+  });
+  const deadline = setTimeout(() => fail(Error('Both duplicate preparations must enter')), 5000);
+  s.encryption.encrypt.mockImplementation(async (...args) => {
+    if (++prepared === 2) release();
+    await bothPrepared;
+    return encrypt(...args);
+  });
+  const r = await Promise.all([
+    s.service.request([s.owner.token], cmd, s.request),
+    s.service.request([s.owner.token], cmd, s.request),
+  ]).finally(() => clearTimeout(deadline));
   expect(r[0]).toEqual(r[1]);
   value(r[0]!);
   expect(await s.intents()).toHaveLength(1);
