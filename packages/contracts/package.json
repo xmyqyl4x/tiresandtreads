@@ -5,7 +5,11 @@
   "type": "module",
   "exports": {
     "./health": "./src/health.ts",
-    "./primitives": "./src/primitives.ts"
+    "./primitives": "./src/primitives.ts",
+    "./http": "./src/http.ts",
+    "./operations": "./src/operation-client.ts",
+    "./transport": "./src/transport.ts",
+    "./browser-consent": "./src/browser-consent-client.ts"
   },
   "dependencies": {
     "zod": "4.6.7"

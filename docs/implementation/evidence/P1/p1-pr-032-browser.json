@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-web-shell-browser-qa",
+  "browser": "Codex in-app browser",
+  "date": "2026-11-03",
+  "origins": [
+    "http://127.0.0.1:8380",
+    "http://127.0.0.1:8480"
+  ],
+  "actualStandalonePreview": true,
+  "viewportObservations": [
+    {
+      "width": 320,
+      "height": 900,
+      "horizontalOverflow": false,
+      "mobileDisclosureVisible": true
+    },
+    {
+      "width": 640,
+      "height": 900,
+      "horizontalOverflow": false,
+      "mobileDisclosureVisible": true
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "horizontalOverflow": false,
+      "mobileDisclosureVisible": false
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "horizontalOverflow": false,
+      "mobileDisclosureVisible": false
+    }
+  ],
+  "observations": {
+    "skipLinkFocusesMain": true,
+    "nativeMenuEscapeReturnsFocus": true,
+    "dialogCloseReturnsTriggerFocus": true,
+    "dialogShiftTabWraps": true,
+    "savedStatusReceivesFocus": true,
+    "optionalInitiallyOff": true,
+    "explicitSaveReadback": true,
+    "optionalRejectReadback": true,
+    "devAndStageCookiesIsolated": true,
+    "formSummaryFocusAndFieldLink": true,
+    "formRecoveryRetainsInput": true,
+    "titlePopulated": true,
+    "browserConsoleWarnings": 0,
+    "browserConsoleErrors": 0
+  },
+  "screenshots": {
+    "desktop": {
+      "path": "p1-pr-032-desktop.png",
+      "sha256": "d584db5b176693b25dfe5043386711ebe18f3751a5fab988cc535334df164d63"
+    },
+    "mobile": {
+      "path": "p1-pr-032-mobile.png",
+      "sha256": "b8fa6d4b18dd3974e0167276338d20a20c799ffa6ed55cb97411fef35466591f"
+    }
+  },
+  "limits": {
+    "motionSystemEmulation": false,
+    "actualScreenReaderAcceptance": false,
+    "fieldWebVitalsAcceptance": false,
+    "fullProductExperienceAcceptance": false
+  },
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "G0Accepted": false,
+  "publicActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "actualNotifications": 0
+}

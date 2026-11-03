@@ -1,4 +1,4 @@
-import { createApiClient } from './http.ts';
+import { createApiClient } from './transport.ts';
 import type { AssessmentRequest, ReportInput } from './report-inputs.ts';
 export interface CommandReceipt {
   readonly schema_version: 1;

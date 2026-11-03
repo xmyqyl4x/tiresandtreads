@@ -344,3 +344,7 @@ Keep 7+ days PITR when the selected plan supports it, plus encrypted daily backu
 [P1-PR-027](implementation/P1-PR-027-s3-validation-gate.md) adds executable privacy selections, disabled-by-default bounded maintenance and identity-free operational alarms. The [S3 register](implementation/evidence/P1/s3-service-register.json) inventories every service module and preserves actual source/provider/human/host proof gaps. Current standalone worker product handlers remain empty; local bindings do not establish a complete production host.
 
 **October 26 local service-host continuation:** The owner-approved [local service-host continuation](implementation/P1-PR-027-local-service-host.md) composes actual factories over 17 explicitly owned pools. Application and CMS maxima share one PostgreSQL cluster budget with declared external pools/replicas/reserve; local startup, readiness and shutdown are validated separately from selected-provider/hosted acceptance. APIs stay on hold.
+
+## Local frontend performance profile
+
+[P1-PR-032](implementation/P1-PR-032-local-web-shell.md) keeps Next App Router as the HTTP/API host and renders the local shell through HTML response adapters with shared React SSR/client views. A small client bundle and canonical portable consent contracts preserve the 120KB gzip target without shipping the client router for these pages. Shared services remain authoritative. This local implementation profile does not accept live S3/S4/G0 or deployment.

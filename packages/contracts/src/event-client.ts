@@ -1,4 +1,4 @@
-import { createApiClient } from './http.ts';
+import { createApiClient } from './transport.ts';
 import { callbackInputSchemas, collectionBatchSchema } from './callback-inputs.ts';
 import type { z } from 'zod';
 type Batch = z.input<typeof collectionBatchSchema>;
