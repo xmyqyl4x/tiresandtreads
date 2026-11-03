@@ -1,6 +1,7 @@
 import { Link } from './link.tsx';
 import { Shell } from './shell.tsx';
 import { ComponentDemo } from './component-demo.tsx';
+import { AssessmentForm } from './assessment-form.tsx';
 const pages: Record<string, { title: string; text: string }> = {
   'find-tires': {
     title: 'Find your next set.',
@@ -44,8 +45,8 @@ function Home() {
               compare your options and decide with confidence.
             </p>
             <div className="actions">
-              <Link className="button primary" href="/design-system">
-                Explore the design system <span aria-hidden="true">→</span>
+              <Link className="button primary" href="/preview/find-tires">
+                Find tires <span aria-hidden="true">→</span>
               </Link>
               <Link className="plain-link" href="/preview/how-we-choose">
                 How we choose
@@ -159,6 +160,19 @@ export function pageTitle(page: string) {
 export function PageView({ page }: { page: string }) {
   if (page === 'home') return <Home />;
   if (page === 'design-system') return <DesignSystem />;
+  if (page === 'find-tires')
+    return (
+      <Shell path="/preview/find-tires">
+        <section className="container page-heading">
+          <p className="eyebrow">YOUR NEXT SET</p>
+          <h1>Start with the details.</h1>
+          <p>Tell us about your vehicle, tires and driving. Unknown information stays unknown.</p>
+        </section>
+        <div className="container narrow">
+          <AssessmentForm />
+        </div>
+      </Shell>
+    );
   const selected = Object.hasOwn(pages, page) ? pages[page] : null;
   if (!selected) return null;
   return (

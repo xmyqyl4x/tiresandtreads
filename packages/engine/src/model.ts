@@ -17,6 +17,8 @@ export type Strategy = 'year_round' | 'summer_set' | 'winter_set';
 export type WinterUse = 'none' | 'snow' | 'ice' | 'unknown';
 export type Season = 'all_season' | 'all_weather' | 'summer' | 'winter';
 export interface AssessmentInput {
+  // Optional owner context; not a fitment/ranking rule or an assumed life model.
+  readonly annualMiles?: number | null;
   readonly regionKey: string;
   readonly market: 'US';
   readonly configurationId: string | null;

@@ -1,41 +1,9 @@
 import { z } from 'zod';
+import { assessmentInputSchema } from './assessment-input.ts';
+export { assessmentInputSchema } from './assessment-input.ts';
 const uuid = z.string().uuid(),
   revision = z.string().regex(/^[1-9][0-9]{0,18}$/),
   version = z.number().int().min(1).max(2147483647);
-const metric = z.enum([
-  'wet',
-  'longevity',
-  'comfort',
-  'dry',
-  'value',
-  'noise',
-  'efficiency',
-  'snow',
-  'ice',
-]);
-export const assessmentInputSchema = z.strictObject({
-  market: z.literal('US'),
-  regionKey: z.string().min(1).max(80),
-  configurationId: uuid.nullable(),
-  wheelPackage: z.string().min(1).max(200).nullable(),
-  sizes: z
-    .strictObject({ front: z.string().min(1).max(80), rear: z.string().min(1).max(80) })
-    .nullable(),
-  strategy: z.enum(['year_round', 'summer_set', 'winter_set']),
-  winterUse: z.enum(['none', 'snow', 'ice', 'unknown']),
-  replace: z
-    .array(z.enum(['front_left', 'front_right', 'rear_left', 'rear_right']))
-    .min(1)
-    .max(4),
-  priorities: z.array(metric).max(3),
-  budget: z
-    .strictObject({
-      basis: z.enum(['installed', 'merchandise']),
-      ceilingMinor: z.string().regex(/^(0|[1-9][0-9]{0,18})$/),
-      currency: z.literal('USD'),
-    })
-    .nullable(),
-});
 export const reportInputSchemas = {
   createReport: assessmentInputSchema,
   forkReport: assessmentInputSchema,

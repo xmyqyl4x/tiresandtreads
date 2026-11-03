@@ -301,3 +301,5 @@ The [callback/event implementation](implementation/P1-PR-030-local-callbacks-eve
 ## Local product web preview
 
 Run `node scripts/dev/web-preview.mjs dev` or `node scripts/dev/web-preview.mjs stage` for disposable loopback previews at 8380/8480. See [the shell implementation](implementation/P1-PR-032-local-web-shell.md) for the standalone React/Next build, private API bridge, isolated provider network, fixed proxy, namespaced cookies and cleanup. Retained environments and actual acceptance/deployment holds remain unchanged.
+
+The owner-authorized 033–035 local continuation adds the assessment form. For explicit synthetic example data, run `node scripts/dev/web-preview.mjs dev synthetic` (or `stage synthetic`). This disposable test profile uses no licensed feeds or actual commercial providers; the default unsupported-data profile remains unchanged. See the [assessment form record](implementation/P1-PR-033-local-assessment-form.md).

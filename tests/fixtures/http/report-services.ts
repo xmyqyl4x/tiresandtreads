@@ -7,7 +7,10 @@ import { engineFixture } from '../engine/base.ts';
 import { ok } from '../../../packages/domain/src/values/core.ts';
 
 // Fixed synthetic evidence/encryption ports; engine, business services and SQL remain real.
-export function fixtureReportServices(db: Awaited<ReturnType<typeof privateFixture>>) {
+export function fixtureReportServices(
+  db: Awaited<ReturnType<typeof privateFixture>>,
+  options: { current?: boolean } = {},
+) {
   const crypto = createReportCrypto(
     'http-v1',
     { 'http-v1': new Uint8Array(32).fill(41) },
@@ -30,6 +33,28 @@ export function fixtureReportServices(db: Awaited<ReturnType<typeof privateFixtu
         e.snapshot.policy.id = db.ruleId;
         e.snapshot.asOf = asOf;
         e.snapshot.recall.checkedAt = asOf;
+        if (options.current) {
+          const past = new Date(Date.parse(asOf) - 86400000).toISOString(),
+            future = new Date(Date.parse(asOf) + 86400000).toISOString();
+          for (const s of e.snapshot.sources) {
+            s.fetchedAt = past;
+            s.validUntil = future;
+          }
+          e.snapshot.policy.reviewedAt = past;
+          e.snapshot.policy.reviewDueAt = future;
+          for (const p of e.snapshot.plans) {
+            if (p.cost) p.cost.validUntil = future;
+            for (const s of [p.front, p.rear]) {
+              s.availabilityUntil = future;
+              for (const m of s.measurements) {
+                m.reviewedAt = past;
+                m.validUntil = future;
+              }
+            }
+          }
+          if (_input.regionKey === 'SYNTHETIC_STALE')
+            e.snapshot.recall.checkedAt = new Date(Date.parse(asOf) - 30 * 86400000).toISOString();
+        }
         return ok({ snapshot: e.snapshot, prices: [], products: [] });
       },
       current: async () => ok(true),

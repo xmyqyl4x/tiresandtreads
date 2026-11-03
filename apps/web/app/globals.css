@@ -737,3 +737,36 @@ h2 {
     font-size: 32px;
   }
 }
+select {
+  font: inherit;
+  color: var(--color-text, #1c2023);
+  background: white;
+  min-height: 48px;
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #52606d;
+  border-radius: 4px;
+}
+.assessment-form fieldset {
+  margin: 0 0 2rem;
+  padding: 1.5rem;
+  border: 1px solid #d8dee3;
+  border-radius: 8px;
+  min-width: 0;
+}
+.assessment-form legend {
+  font-weight: 750;
+  padding: 0 0.5rem;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1rem;
+}
+.lookup-status {
+  min-height: 3rem;
+  padding-block: 0.75rem;
+}
+.assessment-form {
+  padding-bottom: 3rem;
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-03",
+  "scope": "local-assessment-browser-qa",
+  "browser": "Codex in-app browser",
+  "origin": "http://127.0.0.1:8380",
+  "profile": "explicit synthetic disposable",
+  "actualStandalonePreview": true,
+  "observations": {
+    "ambiguousPackageNotAutomaticallySelected": true,
+    "explicitPackageLoadsBothAxles": true,
+    "keyboardSubmitCommitsReceipt": true,
+    "successStatusFocused": true,
+    "errorSummaryFocused": true,
+    "errorLinkFocusesDescribedField": true,
+    "unrelatedInputsRetained": true,
+    "manualRecoverySubmitsTechnicalReport": true,
+    "slowLookupLoadingObserved": true,
+    "manualRecoveryRetainedAfterSlowLookup": true,
+    "unsupportedYearExplicit": true,
+    "browserWarnings": 0,
+    "browserErrors": 0,
+    "staleSafetySubmissionTechnicalOnly": true,
+    "savedReceiptNoOverflow320": true
+  },
+  "viewportObservations": [
+    {
+      "width": 320,
+      "height": 900,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 640,
+      "height": 900,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "horizontalOverflow": false
+    }
+  ],
+  "screenshots": {
+    "desktop": {
+      "path": "p1-pr-033-desktop.jpg",
+      "sha256": "f957359ad4e16cde510228162f1ce9426c14c8fe53048be6f96efc2849ec5ea5",
+      "width": 1280,
+      "height": 900,
+      "format": "JPEG; original browser capture"
+    },
+    "mobile": {
+      "path": "p1-pr-033-mobile.jpg",
+      "sha256": "bfbf75856a9294db6a7b3815c2353b81565917d6bb9b38269a33c932a03eb66f",
+      "width": 320,
+      "height": 900,
+      "format": "JPEG; original browser capture"
+    },
+    "saved": {
+      "path": "p1-pr-033-saved.jpg",
+      "sha256": "83ff00077ca1241221b996bcf6e5f262ae61684a9a4a4d6add24d0efac2706e3",
+      "width": 320,
+      "height": 900,
+      "format": "JPEG; original browser capture"
+    }
+  },
+  "limits": {
+    "staleSafetyEvidence": "Browser technical-only submission plus separate HTTP/SQL stale-reason and empty-picks test; no safety clearance",
+    "actualScreenReaderAcceptance": false,
+    "fieldWebVitalsAcceptance": false,
+    "liveSourceAcceptance": false
+  },
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "publicActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "actualNotifications": 0
+}
