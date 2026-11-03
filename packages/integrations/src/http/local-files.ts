@@ -5,7 +5,7 @@ import { id } from '../../../domain/src/values/core.ts';
 import { openImportSnapshot } from '../import-files.ts';
 import { decodeLocalStaffGrants } from './staff-security.ts';
 const unavailable = () => Error('Local HTTP files unavailable');
-async function privateJson(file: string) {
+export async function readPrivateLocalJson(file: string) {
   if (!isAbsolute(file)) throw unavailable();
   const before = await lstat(file);
   if (
@@ -52,7 +52,7 @@ async function privateJson(file: string) {
 export async function readLocalStaffGrants(file: string | undefined) {
   if (file === undefined) return [];
   try {
-    const raw = await privateJson(file);
+    const raw = await readPrivateLocalJson(file);
     if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw unavailable();
     const value = raw as Record<string, unknown>;
     if (
@@ -79,7 +79,7 @@ export async function registeredImportArtifact(directory: string, artifact: stri
       throw unavailable();
     const manifest = join(directory, identifier.value + '.manifest.json'),
       data = join(directory, identifier.value + '.ndjson');
-    const value = await privateJson(manifest),
+    const value = await readPrivateLocalJson(manifest),
       file = await lstat(data);
     if (
       !file.isFile() ||

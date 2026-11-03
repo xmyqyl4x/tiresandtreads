@@ -55,6 +55,8 @@ function settings() {
     keys: {
       report: { current: 'test-v1', values: { 'test-v1': '99'.repeat(32) } },
       lookup: { synthetic: '77'.repeat(32) },
+      token: { current: 'test-v1', values: { 'test-v1': '99'.repeat(32) } },
+      contactIdentity: '66'.repeat(32),
       reportIdentity: '88'.repeat(32),
     },
   };
@@ -113,4 +115,21 @@ it('drains composed resources if cryptographic configuration fails before listen
   mocked.settings.mockReturnValue(value);
   await expect(createLocalPublicApi(env)).rejects.toThrow('Local API unavailable');
   expect(mocked.drain).toHaveBeenCalledTimes(5);
+});
+it.each([
+  { LOCAL_HTTP_OBSERVATIONS: 'verbose' },
+  { LOCAL_CALLBACK_KEYS_FILE: 'C:/missing-local-fixture-callback-keys.json' },
+])('refuses malformed local callback/log settings before composing any services', async (extra) => {
+  let admitted: Awaited<ReturnType<typeof createLocalPublicApi>> | undefined;
+  try {
+    await expect(
+      createLocalPublicApi({ ...env, ...extra }).then((value) => {
+        admitted = value;
+        return value;
+      }),
+    ).rejects.toThrow();
+  } finally {
+    await admitted?.shutdown();
+  }
+  expect(mocked.host).not.toHaveBeenCalled();
 });

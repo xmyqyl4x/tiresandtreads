@@ -39,7 +39,33 @@ export class PrivateDownload {
     this.mime = mime;
   }
 }
-class HttpFailure extends Error {
+export class HttpSuccess {
+  readonly status: 201 | 202 | 204;
+  readonly data: unknown;
+  constructor(status: 201 | 202 | 204, data: unknown = null) {
+    if (![201, 202, 204].includes(status) || (status === 204 && data !== null))
+      throw Error('Invalid HTTP success');
+    this.status = status;
+    this.data = data;
+  }
+}
+export class HttpRedirect {
+  readonly location: string;
+  constructor(location: string) {
+    const url = new URL(location);
+    if (url.protocol !== 'https:' || url.username || url.password)
+      throw Error('Invalid HTTP redirect');
+    this.location = url.toString();
+  }
+}
+export interface HttpObservation {
+  readonly operationId: string;
+  readonly method: string;
+  readonly status: number;
+  readonly requestId: string;
+  readonly durationMs: number;
+}
+export class HttpFailure extends Error {
   readonly status: number;
   readonly code: string;
   constructor(status: number, code: string) {
@@ -62,6 +88,7 @@ export function createHttpApi(d: {
   readonly routes: readonly HttpRoute[];
   readonly security: HttpSecurity;
   readonly now?: () => number;
+  readonly observe?: (record: HttpObservation) => void;
 }) {
   const origin = new URL(d.origin);
   if (
@@ -74,9 +101,24 @@ export function createHttpApi(d: {
     throw Error('Local HTTP requires a loopback origin');
   if (new Set(d.routes.map((r) => r.method + ' ' + r.path)).size !== d.routes.length)
     throw Error('Duplicate HTTP route');
+  for (const route of d.routes) {
+    const mode = route.bodyMode ?? 'json',
+      limit = route.maxBodyBytes ?? (mode === 'form' ? 8192 : 65536);
+    if (
+      !['json', 'bytes', 'form'].includes(mode) ||
+      !Number.isInteger(limit) ||
+      limit < 1 ||
+      limit > (mode === 'form' ? 8192 : mode === 'bytes' ? 262144 : 65536)
+    )
+      throw Error('Invalid HTTP body declaration');
+  }
   const routes = d.routes.map((route) => ({ route, parts: route.path.split('/') }));
   return async function handle(request: Request, peer = '127.0.0.1'): Promise<Response> {
     const requestId = randomUUID();
+    const started = performance.now();
+    let observedOperation = 'unmatched',
+      observedMethod = 'OTHER',
+      observedStatus = 503;
     const headers = new Headers({
       'content-type': 'application/json',
       'cache-control': 'no-store',
@@ -86,13 +128,15 @@ export function createHttpApi(d: {
       'x-request-id': requestId,
       'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
     });
-    const reply = (status: number, value: unknown) =>
-      new Response(
+    const reply = (status: number, value: unknown) => {
+      observedStatus = status;
+      return new Response(
         JSON.stringify(value, (_key, item: unknown) =>
           typeof item === 'bigint' ? item.toString() : item,
         ),
         { status, headers },
       );
+    };
     const error = (status: number, code: string, retryable = false) =>
       reply(status, {
         code,
@@ -122,6 +166,8 @@ export function createHttpApi(d: {
         throw new HttpFailure(405, 'method_not_allowed');
       }
       const { route } = matched;
+      observedOperation = route.operationId;
+      observedMethod = route.method;
       if (new Set(url.searchParams.keys()).size !== [...url.searchParams.keys()].length)
         throw new HttpFailure(400, 'invalid_input');
       if ([...url.searchParams.keys()].some((k) => /^(token|email|owner|session)$/i.test(k)))
@@ -176,10 +222,15 @@ export function createHttpApi(d: {
       }
       let body: unknown = null;
       if (mutation) {
-        if (request.headers.get('content-type')?.split(';')[0]?.trim() !== 'application/json')
+        const mode = route.bodyMode ?? 'json',
+          limit = route.maxBodyBytes ?? (mode === 'form' ? 8192 : 65536);
+        if (
+          request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() !==
+          (mode === 'form' ? 'application/x-www-form-urlencoded' : 'application/json')
+        )
           throw new HttpFailure(415, 'unsupported_media_type');
         const length = request.headers.get('content-length');
-        if (length && (!/^\d+$/.test(length) || Number(length) > 65536))
+        if (length && (!/^\d+$/.test(length) || Number(length) > limit))
           throw new HttpFailure(413, 'body_too_large');
         const reader = request.body?.getReader();
         if (reader) {
@@ -190,7 +241,7 @@ export function createHttpApi(d: {
               const next = await reader.read();
               if (next.done) break;
               total += next.value.byteLength;
-              if (total > 65536) {
+              if (total > limit) {
                 await reader.cancel();
                 throw new HttpFailure(413, 'body_too_large');
               }
@@ -201,7 +252,26 @@ export function createHttpApi(d: {
           }
           const raw = Buffer.concat(chunks);
           try {
-            body = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(raw));
+            if (mode === 'bytes') body = new Uint8Array(raw);
+            else {
+              const text = new TextDecoder('utf-8', { fatal: true }).decode(raw);
+              if (mode === 'json') body = JSON.parse(text);
+              else {
+                const pairs = text
+                  .split('&')
+                  .filter(Boolean)
+                  .map((entry) => {
+                    const index = entry.indexOf('=');
+                    if (index < 0) throw Error('Invalid form');
+                    return [entry.slice(0, index), entry.slice(index + 1)].map((value) =>
+                      decodeURIComponent(value.replaceAll('+', ' ')),
+                    ) as [string, string];
+                  });
+                if (pairs.length > 8 || new Set(pairs.map(([key]) => key)).size !== pairs.length)
+                  throw Error('Invalid form');
+                body = Object.fromEntries(pairs);
+              }
+            }
           } catch {
             throw new HttpFailure(400, 'invalid_input');
           }
@@ -231,7 +301,20 @@ export function createHttpApi(d: {
           throw new HttpFailure(503, 'unavailable');
         headers.set('content-type', 'application/pdf');
         headers.set('content-disposition', 'attachment; filename="tire-report.pdf"');
+        observedStatus = 200;
         return new Response(Buffer.from(result.value.bytes), { status: 200, headers });
+      }
+      if (result.value instanceof HttpRedirect) {
+        observedStatus = 302;
+        headers.set('location', result.value.location);
+        return new Response(null, { status: 302, headers });
+      }
+      if (result.value instanceof HttpSuccess) {
+        if (result.value.status === 204) {
+          observedStatus = 204;
+          return new Response(null, { status: 204, headers });
+        }
+        return reply(result.value.status, { data: result.value.data, requestId });
       }
       return reply(200, { data: result.value, requestId });
     } catch (cause) {
@@ -240,6 +323,20 @@ export function createHttpApi(d: {
       if (cause instanceof URIError) return error(400, 'invalid_input');
       // Never expose raw SQL, tokens, provider exceptions or supplied request identifiers.
       return error(503, 'unavailable', true);
+    } finally {
+      try {
+        void Promise.resolve(
+          d.observe?.({
+            operationId: observedOperation,
+            method: observedMethod,
+            status: observedStatus,
+            requestId,
+            durationMs: Math.min(60000, Math.max(0, Math.round(performance.now() - started))),
+          }),
+        ).catch(() => {});
+      } catch {
+        /* Observation cannot change a committed HTTP outcome. */
+      }
     }
   };
 }

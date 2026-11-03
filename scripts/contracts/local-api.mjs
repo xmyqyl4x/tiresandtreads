@@ -8,11 +8,20 @@ import { publicOwnerRoutes } from '../../packages/integrations/src/http/public-o
 import { apiErrorSchema, sessionContracts } from '../../packages/contracts/src/http.ts';
 import { reportInputSchemas } from '../../packages/contracts/src/report-inputs.ts';
 import { referenceKinds } from '../../packages/application/src/queries/reference.ts';
+import { callbackRoutes } from '../../packages/integrations/src/http/callbacks.ts';
+import { callbackInputSchemas } from '../../packages/contracts/src/callback-inputs.ts';
 
 export function localApiDocument() {
   // Binding constructs closures only. No service, database, provider or fixture is executed.
   const routes = [
     ...sessionContracts,
+    ...callbackRoutes({
+      services: {},
+      keys: { mail: [], workflow: [] },
+      wake: async () => null,
+      confirmation: async () => null,
+      now: () => '',
+    }),
     ...consentRoutes({ contacts: {}, delivery: {}, privacy: {}, policy: async () => null }),
     ...staffRoutes({
       services: {},
@@ -35,7 +44,7 @@ export function localApiDocument() {
       name: m[1],
       in: 'path',
       required: true,
-      schema: { type: 'string', maxLength: 128 },
+      schema: { type: 'string', maxLength: m[1] === 'token' ? 512 : 128 },
     }));
     if (route.command)
       parameters.push({
@@ -44,7 +53,7 @@ export function localApiDocument() {
         required: true,
         schema: { type: 'string', pattern: '^[A-Za-z0-9_-]{16,100}$' },
       });
-    if (route.method !== 'GET')
+    if (route.method !== 'GET' && route.access !== 'callback')
       parameters.push({ name: 'Origin', in: 'header', required: true, schema: { type: 'string' } });
     if (route.method !== 'GET' && ['owner', 'staff'].includes(route.access))
       parameters.push({
@@ -88,31 +97,70 @@ export function localApiDocument() {
         required: true,
         schema: { type: 'string', maxLength: 512 },
       });
+    const signedCallback = ['receiveMailCallback', 'wakeDurableJob'].includes(route.operationId);
+    if (signedCallback)
+      for (const name of ['svix-id', 'svix-timestamp', 'svix-signature'])
+        parameters.push({
+          name,
+          in: 'header',
+          required: true,
+          schema: { type: 'string', maxLength: name === 'svix-signature' ? 2048 : 200 },
+        });
+    if (route.operationId === 'collectEvents')
+      parameters.push({
+        name: 'X-TT-CMP-Available',
+        in: 'header',
+        required: true,
+        schema: { type: 'string', enum: ['true', 'false'] },
+      });
+    const pathProof = route.path.includes(':token');
     (paths[path] ??= {})[route.method.toLowerCase()] = {
       operationId: route.operationId,
       parameters,
       'x-local-only': true,
       'x-access': route.access,
+      ...(pathProof ? { 'x-capability-transport': 'path' } : {}),
+      ...(route.method !== 'GET'
+        ? {
+            'x-max-body-bytes': route.maxBodyBytes ?? 65536,
+            'x-preserve-raw-bytes': route.bodyMode === 'bytes',
+          }
+        : {}),
       ...(route.access === 'owner'
         ? { security: [{ ownerCookie: [] }, { ownerBearer: [] }] }
-        : route.access === 'capability'
+        : route.access === 'capability' && !pathProof
           ? { security: [{ capability: [] }] }
           : route.access === 'staff'
             ? { security: [{ staffBearer: [] }] }
-            : {}),
+            : signedCallback
+              ? {
+                  security: [
+                    {
+                      [route.operationId === 'receiveMailCallback' ? 'mailSvix' : 'workflowSvix']:
+                        [],
+                    },
+                  ],
+                }
+              : {}),
       ...(route.method === 'GET'
         ? {}
         : {
             requestBody: {
               required: true,
               content: {
-                'application/json': {
+                [route.bodyMode === 'form'
+                  ? 'application/x-www-form-urlencoded'
+                  : 'application/json']: {
                   schema:
                     route.operationId === 'createOwnerSession'
                       ? { type: 'object', additionalProperties: false }
-                      : ({ ...reportInputSchemas, ...consentInputSchemas, ...staffInputSchemas }[
-                          route.operationId
-                        ]?.toJSONSchema() ?? {
+                      : ({
+                          ...reportInputSchemas,
+                          ...consentInputSchemas,
+                          ...staffInputSchemas,
+                          ...callbackInputSchemas,
+                          recordEmailLinkFeedback: callbackInputSchemas.recordEmailFeedback,
+                        }[route.operationId]?.toJSONSchema() ?? {
                           type: 'object',
                           required: ['input'],
                           properties: { input: {} },
@@ -123,32 +171,56 @@ export function localApiDocument() {
             },
           }),
       responses: Object.fromEntries(
-        [200, 400, 401, 403, 404, 405, 409, 413, 415, 429, 500, 503].map((status) => [
+        [
+          ...(route.successStatuses ?? [200]),
+          400,
+          401,
+          403,
+          404,
+          405,
+          409,
+          413,
+          415,
+          429,
+          500,
+          503,
+        ].map((status) => [
           status,
           {
+            headers: {
+              'X-Request-Id': { schema: { type: 'string', format: 'uuid' } },
+              'Cache-Control': { schema: { type: 'string', const: 'no-store' } },
+              ...(status === 302
+                ? { Location: { schema: { type: 'string', format: 'uri', pattern: '^https://' } } }
+                : {}),
+            },
             description:
-              status === 200
+              status < 400
                 ? 'Versioned local service result; never live acceptance'
                 : 'Masked error',
-            content:
-              status === 200 && route.operationId === 'downloadPdf'
-                ? { 'application/pdf': { schema: { type: 'string', format: 'binary' } } }
-                : {
-                    'application/json': {
-                      schema:
-                        status === 200
-                          ? {
-                              type: 'object',
-                              required: ['data', 'requestId'],
-                              properties: {
-                                data: {},
-                                requestId: { type: 'string', format: 'uuid' },
-                              },
-                              additionalProperties: false,
-                            }
-                          : { $ref: '#/components/schemas/Error' },
-                    },
-                  },
+            ...(status === 204 || status === 302
+              ? {}
+              : {
+                  content:
+                    status === 200 && route.operationId === 'downloadPdf'
+                      ? { 'application/pdf': { schema: { type: 'string', format: 'binary' } } }
+                      : {
+                          'application/json': {
+                            schema:
+                              status < 400
+                                ? {
+                                    type: 'object',
+                                    required: ['data', 'requestId'],
+                                    properties: {
+                                      data: {},
+                                      requestId: { type: 'string', format: 'uuid' },
+                                    },
+                                    additionalProperties: false,
+                                  }
+                                : { $ref: '#/components/schemas/Error' },
+                          },
+                        },
+                }),
           },
         ]),
       ),
@@ -167,6 +239,19 @@ export function localApiDocument() {
         ownerCookie: { type: 'apiKey', in: 'cookie', name: 'tt_owner' },
         ownerBearer: { type: 'http', scheme: 'bearer' },
         capability: { type: 'http', scheme: 'bearer' },
+        mailSvix: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'svix-signature',
+          description:
+            'Local mail fixture HMAC over message ID, timestamp and original bytes; real provider acceptance remains held.',
+        },
+        workflowSvix: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'svix-signature',
+          description: 'Separate local workflow fixture HMAC; fixed existing job reference only.',
+        },
         staffBearer: {
           type: 'http',
           scheme: 'bearer',

@@ -22,6 +22,7 @@ import { localStaffFixture } from '../../../packages/integrations/src/http/local
 import { createHttpApi } from '../../../packages/integrations/src/http/core.ts';
 import { listenLocalApi } from '../../../packages/integrations/src/http/server.ts';
 import { consentRoutes } from '../../../packages/integrations/src/http/consent.ts';
+import type { HttpRoute } from '../../../packages/integrations/src/http/core.ts';
 import { staffRoutes } from '../../../packages/integrations/src/http/staff.ts';
 import { registeredImportArtifact } from '../../../packages/integrations/src/http/local-files.ts';
 import { ok, fail } from '../../../packages/domain/src/values/core.ts';
@@ -33,7 +34,14 @@ import { createHash } from 'node:crypto';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { join, resolve, sep } from 'node:path';
 import { tmpdir } from 'node:os';
-export async function operationsApiFixture() {
+export async function operationsApiFixture(
+  extend?: (context: {
+    readonly db: Awaited<ReturnType<typeof privateFixture>>;
+    readonly services: Awaited<ReturnType<typeof createLocalServiceHost>>['services'];
+    readonly crypto: ReturnType<typeof createContactCrypto>;
+    readonly policy: ContactPolicy;
+  }) => Promise<readonly HttpRoute[]>,
+) {
   const db = await privateFixture();
   let server: Awaited<ReturnType<typeof listenLocalApi>> | undefined, directory: string | undefined;
   try {
@@ -197,12 +205,14 @@ export async function operationsApiFixture() {
     };
     const staffRepo = createStaffRepository(staffScope);
     directory = await mkdtemp(join(tmpdir(), 'tt-http-operations-'));
+    const extra = (await extend?.({ db, services, crypto, policy: contactPolicy })) ?? [];
     server = await listenLocalApi((origin) =>
       createHttpApi({
         origin,
         security,
         routes: [
           ...ownerSecurity.sessions,
+          ...extra,
           ...consentRoutes({
             contacts,
             delivery,
@@ -274,13 +284,17 @@ export async function operationsApiFixture() {
       grants.push(issued.grant);
       return { id, bearer: issued.bearer, csrf: issued.csrf };
     }
-    async function report(who: { cookie: string; csrf: string }) {
+    async function ownerIdentity(who: { cookie: string; csrf: string }) {
       const actor = await security.authenticate(
         new Request(listener.origin, { headers: { cookie: who.cookie } }),
       );
       if (!actor) throw Error('Missing owner');
       const owner = await success(db.scope.unitOfWork, (tx) => db.owners.resolve(tx, actor.keys));
       if (!owner) throw Error('Missing owner');
+      return owner;
+    }
+    async function report(who: { cookie: string; csrf: string }) {
+      const owner = await ownerIdentity(who);
       return db.report(owner, {
         purpose: 'technical_evaluation',
         issuanceAuthorized: false,
@@ -330,6 +344,7 @@ export async function operationsApiFixture() {
     return {
       db,
       server: listener,
+      ownerIdentity,
       services,
       notices,
       contacts,
