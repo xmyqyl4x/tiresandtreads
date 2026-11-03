@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-02",
+  "authority": "Explicit user instruction in the implementation conversation",
+  "instruction": "Allow local API/frontend implementation; keep S3 acceptance and deployment held",
+  "cards": ["P1-PR-028", "P1-PR-029", "P1-PR-030", "P1-PR-031", "P1-PR-032"],
+  "localImplementationAllowed": true,
+  "localTestingAllowed": true,
+  "mergeAfterValidationAllowed": true,
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "publicActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualNotifications": false,
+  "specialistLicensed": "pending",
+  "HS01-HS08": "proposed"
+}

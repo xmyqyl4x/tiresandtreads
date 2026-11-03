@@ -566,6 +566,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 ### P1-PR-028
 
+**Current local scope, November 2:** Owner-authorized local implementation/testing may proceed before actual S3 acceptance. [Scope and retained release holds](../implementation/P1-PR-028-local-api-implementation.md). The same explicit exception applies to P1-PR-029–032 below; their full S3/S4/S5 and live acceptance dependencies remain open. Historical API/frontend hold statements describe the earlier boundary.
+
 **Expose public lookup and owner assessment APIs**
 
 **Stage:** S4 · **Responsible role:** Backend · **Work packages:** E34

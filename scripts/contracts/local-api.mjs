@@ -1,0 +1,132 @@
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { publicOwnerRoutes } from '../../packages/integrations/src/http/public-owner.ts';
+import { apiErrorSchema, sessionContracts } from '../../packages/contracts/src/http.ts';
+import { reportInputSchemas } from '../../packages/contracts/src/report-inputs.ts';
+
+export function localApiDocument() {
+  // Binding constructs closures only. No service, database, provider or fixture is executed.
+  const routes = [
+    ...sessionContracts,
+    ...publicOwnerRoutes({
+      reports: {},
+      shareKeys: () => [],
+      lookup: async () => null,
+      content: async () => null,
+      download: async () => null,
+    }),
+  ];
+  const paths = {};
+  for (const route of routes) {
+    const path = route.path.replace(/:([A-Za-z]+)/g, '{$1}');
+    const parameters = [...path.matchAll(/\{(\w+)\}/g)].map((m) => ({
+      name: m[1],
+      in: 'path',
+      required: true,
+      schema: { type: 'string', maxLength: 128 },
+    }));
+    if (route.command)
+      parameters.push({
+        name: 'Idempotency-Key',
+        in: 'header',
+        required: true,
+        schema: { type: 'string', pattern: '^[A-Za-z0-9_-]{16,100}$' },
+      });
+    if (route.method !== 'GET')
+      parameters.push({ name: 'Origin', in: 'header', required: true, schema: { type: 'string' } });
+    if (route.method !== 'GET' && route.access === 'owner')
+      parameters.push({
+        name: 'X-CSRF-Token',
+        in: 'header',
+        required: true,
+        schema: { type: 'string' },
+      });
+    (paths[path] ??= {})[route.method.toLowerCase()] = {
+      operationId: route.operationId,
+      parameters,
+      'x-local-only': true,
+      'x-access': route.access,
+      ...(route.access === 'owner'
+        ? { security: [{ ownerCookie: [] }, { ownerBearer: [] }] }
+        : route.access === 'capability'
+          ? { security: [{ capability: [] }] }
+          : {}),
+      ...(route.method === 'GET'
+        ? {}
+        : {
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema:
+                    route.operationId === 'createOwnerSession'
+                      ? { type: 'object', additionalProperties: false }
+                      : (reportInputSchemas[route.operationId]?.toJSONSchema() ?? {
+                          type: 'object',
+                          required: ['input'],
+                          properties: { input: {} },
+                          additionalProperties: false,
+                        }),
+                },
+              },
+            },
+          }),
+      responses: Object.fromEntries(
+        [200, 400, 401, 403, 404, 405, 409, 413, 415, 429, 500, 503].map((status) => [
+          status,
+          {
+            description:
+              status === 200
+                ? 'Versioned local service result; never live acceptance'
+                : 'Masked error',
+            content:
+              status === 200 && route.operationId === 'downloadPdf'
+                ? { 'application/pdf': { schema: { type: 'string', format: 'binary' } } }
+                : {
+                    'application/json': {
+                      schema:
+                        status === 200
+                          ? {
+                              type: 'object',
+                              required: ['data', 'requestId'],
+                              properties: {
+                                data: {},
+                                requestId: { type: 'string', format: 'uuid' },
+                              },
+                              additionalProperties: false,
+                            }
+                          : { $ref: '#/components/schemas/Error' },
+                    },
+                  },
+          },
+        ]),
+      ),
+    };
+  }
+  return {
+    openapi: '3.1.0',
+    info: {
+      title: 'Tires & Tread local API',
+      version: '1.0.0',
+      description: 'Loopback development only. Actual S3/S4 acceptance and deployment remain held.',
+    },
+    paths,
+    components: {
+      securitySchemes: {
+        ownerCookie: { type: 'apiKey', in: 'cookie', name: 'tt_owner' },
+        ownerBearer: { type: 'http', scheme: 'bearer' },
+        capability: { type: 'http', scheme: 'bearer' },
+      },
+      schemas: { Error: apiErrorSchema.toJSONSchema() },
+    },
+  };
+}
+if (process.argv[1]?.replaceAll('\\', '/').endsWith('/scripts/contracts/local-api.mjs')) {
+  const target = 'docs/api/local-v1.openapi.json',
+    serialized = JSON.stringify(localApiDocument(), null, 2) + '\n';
+  if (process.argv.includes('--check')) {
+    if (readFileSync(target, 'utf8') !== serialized) throw Error('Local API contract differs');
+  } else {
+    mkdirSync('docs/api', { recursive: true });
+    writeFileSync(target, serialized);
+  }
+}

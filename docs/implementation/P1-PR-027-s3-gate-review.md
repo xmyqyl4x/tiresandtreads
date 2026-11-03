@@ -2,6 +2,8 @@
 
 **Updated October 27, 2026 · Full S3 is OPEN.** Local technical review and merged component PRs are separate from actual source, specialist, provider and privacy acceptance. Standing deferrals remain. [Contract](P1-PR-027-s3-validation-gate.md), [register](evidence/P1/s3-service-register.json).
 
+**Current implementation exception, November 2:** The owner explicitly released the local API/frontend implementation hold for P1-PR-028–032. [Boundary and sequencing](P1-PR-028-local-api-implementation.md). The six actual S3 gates, full S4 acceptance, public activation and deployment remain held. Earlier dated implementation-hold notes and pinned input reports retain their historical meanings; their empty actual acceptance records are not rewritten. No hosting/provider/operator decision or original case/gate closes.
+
 | Gate | Actual state | Required evidence / next action | Acceptance owner |
 | --- | --- | --- | --- |
 | G1 specialist / DD06 | 98 draft cases; zero actual named reviews | Review at least 50 cases, disputed rules, calibration and explanations; record actual reviewer/date/outcomes | Owner and tire specialist; specialist unassigned |
