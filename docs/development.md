@@ -278,3 +278,5 @@ Use the [read-only evidence/readiness report](implementation/P1-PR-027-evidence-
 [Restore/journal handoff contract](implementation/P1-PR-027-restore-handoff-contract.md) separates actual synthetic restore/replay setup from later read-only evidence, with a finite matrix and no production authority/runtime release. The next scoped implementation is disposable test support only.
 
 Run `node tests/fixtures/restore-handoff/run.mjs` for the [reviewed disposable restore/handoff proof](implementation/P1-PR-027-restore-handoff-proof.md). It uses generated local-only projects and fixed profiles; it is not a production recovery command or authority.
+
+Run `node scripts/review/restore-readiness.mjs` for the [restore/journal readiness report](implementation/P1-PR-027-restore-readiness-integration.md); `--require-inputs` returns pending exit 2. The prior report remains unchanged.

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-restore-readiness-baseline",
+  "baselineCommit": "df2be77ab24662ce3c7f0ae30696652c0686b8e2",
+  "trust": "Reviewed repository byte pins only; no independent authentication, Git-history attestation or current execution claim.",
+  "manifestPins": [
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+      "sha256": "68d756ab1127e540299596e73f95d4432618c5eddc75d31d463adf8b0e5a5ed3"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-dependency-compatibility-local.json",
+      "sha256": "b9c018d68f4105db6a6786d02ee066dbad50122c6e83a20261262b9d356705cd"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-acceptance-input-review-local.json",
+      "sha256": "9e5afbb1882ecf483c75c88aea5742d4b6a62ca9fee64429599a651a8825be1f"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-staging-handoff-index.json",
+      "sha256": "51ccbe7985a906d6032c3dca753ee1aa82365ecae2bd6a825e97cf566599288d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-evidence-review-baseline.json",
+      "sha256": "3158f7c7c649be2e1ad60c4228790e4d57732d9015d75ad890ce71b4684d3d0d"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+      "sha256": "305e9f281a2ede0ab510835b73b359108961319e8d63a1f046fa8634f2c95d39"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-baseline.json",
+      "sha256": "19e55bb87a9e604eb65cb569bbfe8caa1691a61c5deb0e62f66e449869d6a690"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+      "sha256": "913fbb4c33ab0d3ab9e4cb88d2518b92898d04d283fcc323fdc75f9657fd939e"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-sources.json",
+      "sha256": "b7be6bcf582e062dca2997d2892928b757fd73804373614f8650372de03849fa"
+    }
+  ],
+  "supplementalPins": [
+    {
+      "path": "docs/implementation/P1-PR-027-restore-handoff-proof.md",
+      "sha256": "050aac7bcbb02126d7864e96fc189654e10fb46f2b425d211e9c67091824d4a8"
+    },
+    {
+      "path": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-proof-validation.md",
+      "sha256": "c584519351c7fd9a8072e8adf65af26a8bdf2a9dde987e11043cbf5c7a6c440f"
+    }
+  ],
+  "provenance": {
+    "contractSource": "26377e3821af4cef68f53d656b078f4bd02fed35",
+    "contractMerge": "942cb852f7f9dc22bb28b6db811292fd4ca11b0c",
+    "nativeSource": "4d13139e21881affd7780127d04573856debbf54",
+    "nativeTree": "39a349dcb934f1bbbc8efe359ef393fd68399301",
+    "publicationSource": "a79025c0988dd6721f23ee053e85c01c1daf33a9",
+    "publicationTree": "9a821447c9ed13659fcb935c3f6d34927d932b8a",
+    "proofMerge": "df2be77ab24662ce3c7f0ae30696652c0686b8e2"
+  },
+  "sourceExceptions": [],
+  "evidenceExceptions": []
+}
