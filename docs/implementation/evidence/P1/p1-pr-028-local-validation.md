@@ -1,0 +1,23 @@
+# P1-PR-028 local implementation evidence
+
+Scope: owner-authorized local development only. Actual S3/S4 acceptance and deployment remain held. The transport exposes 22 operations, including two session operations, published reference/content/tools, report commands and owner/capability PDF access. The production health host and all actual acceptance records are unchanged.
+
+Initial focused native Node verification: 58 tests pass across six unit/use-case files. They cover trusted service binding, strict wire inputs, generated OpenAPI, origin/CSRF/host/credential refusal, bounded JSON, PostgreSQL admission failure projection, masked errors and commit uncertainty, bounded binary PDF replies, the actual loopback listener and composition/drain behavior. Composition unit tests supply mocked service/SQL ports; they are not provider or database evidence.
+
+Initial seven separate functional journeys pass on pinned Linux against real HTTP and disposable PostgreSQL: committed report plus duplicate replay; other-owner/unauthenticated refusal; tampered/expired session and CSRF refusal; draft/refine with stale-version conflict; persisted private quote and comparison; capability read and owner revocation; PostgreSQL overload and bounded/missing-data lookup behavior. Synthetic ranking/evidence/encryption ports are explicitly injected. No specialist judgment, real licensed source, provider delivery or supported production recommendation is inferred. The owned test database/container/network/volumes were removed after the run.
+
+Native contract generation initially exposed a strip-only TypeScript incompatibility in the new transport's class constructors; explicit properties fix it. Native HTTP testing uses a raw loopback request for Host checks because the fetch test interceptor normalizes that header. The size decoder's explicit unknown result for missing input is preserved. Final focused tests and TypeScript/lint checks pass. Public report services, DB bootstrap/preflight and earlier proof sources are unchanged.
+
+Publication requires the complete exact-commit Linux build/quality/coverage/database/foundation/schema/HTTP/recovery/deployment/capacity/observability/provider regression, independent CI and review before merge. Completed source SHA and results are recorded in the implementation PR. This file does not preclaim those later executions or close any actual gate. Full S4 and live acceptance remain separate.
+
+## Review continuation
+
+Four independent review findings are addressed before merge. Quote wire inputs now match the existing business service: per-tire/set/installed bases, supported charge kinds/bases, optional size, nullable shop/tax details and valid quantities. OpenAPI includes operation-specific lookup/pagination/filter inputs, comparison version and fork capability headers. Tests derive actual HTTP lookup/fork requests from those declared inputs.
+
+Owner authentication now resolves all retained key versions, issues current-key sessions, accepts retained session-bound CSRF values and retains PostgreSQL quota aliases during key transitions. A real HTTP/PostgreSQL journey proves unchanged owner access, current-key issuance and retired-key refusal. A failed authentication transaction produces a masked retryable 503; only a successful absent-session lookup produces 401. These are local credential-continuity controls, not production rotation, identity-provider, lifecycle or S3 acceptance.
+
+Three review regression controls first failed against the prior implementation. Final focused verification passes 61 unit/use-case tests across seven files and eleven real HTTP/PostgreSQL journeys. The real rotation test also exposed and fixed missing quota aliases. The complete exact-commit Linux and independent CI gates must run again against the revised source before merge; earlier results remain historical. All actual acceptance and deployment holds remain.
+
+## Browser credential continuation
+
+Review also identified a normal browser interaction: a signed-in owner opening a capability-protected report sent both its owner cookie and the independent capability header. Public/capability routes now use their declared authority; only owner routes reject a competing owner cookie and bearer credential. Unrelated preference cookies do not conflict with owner bearer authentication. Three additional unit controls failed before these changes. Final focused verification covers 64 unit/use-case tests and eleven real HTTP/PostgreSQL journeys, including a shared report accessed from a signed-in browser. Complete source-bound regression and CI are required before merge.

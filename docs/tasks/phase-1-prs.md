@@ -566,6 +566,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 ### P1-PR-028
 
+**Current local scope, November 2:** Owner-authorized local implementation/testing may proceed before actual S3 acceptance. [Scope and retained release holds](../implementation/P1-PR-028-local-api-implementation.md). The same explicit exception applies to P1-PR-029–032 below; their full S3/S4/S5 and live acceptance dependencies remain open. Historical API/frontend hold statements describe the earlier boundary.
+
 **Expose public lookup and owner assessment APIs**
 
 **Stage:** S4 · **Responsible role:** Backend · **Work packages:** E34
@@ -574,11 +576,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC01, UC03, UC04, UC05, AT01, AT04, AT06. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Expose typed reference/fitment/content-tool and report/refine/compare/quote/share/PDF endpoints.
-- [ ] Apply actor/ownership validation, CSRF/Origin, body limits, quotas, idempotency and consistent errors.
-- [ ] Publish OpenAPI/client contracts, pagination and source/coverage/freshness fields.
+- [x] Expose typed reference/fitment/content-tool and report/refine/compare/quote/share/PDF endpoints.
+- [x] Apply actor/ownership validation, CSRF/Origin, body limits, quotas, idempotency and consistent errors.
+- [x] Publish OpenAPI/client contracts, pagination and source/coverage/freshness fields.
 
 **Verification and acceptance:** Running HTTP tests against real DB cover normal, unknown, denied, duplicate, stale-version and overload paths.
+
+**Local implementation:** Implemented in [PR #73](https://github.com/xmyqyl4x/tiresandtreads/pull/73); the checked tasks describe local code and validation only.
 
 **Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
 
