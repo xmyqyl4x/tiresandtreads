@@ -69,7 +69,7 @@ export function createReportAccessRepository(scope: WriteScope): ReportAccessRep
           share.version !== version ||
           share.comparisonRevision !== comparison
         )
-          return stop('forbidden');
+          return stop('not_found');
         view = 'shared';
       }
       const rows = (
