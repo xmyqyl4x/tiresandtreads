@@ -289,3 +289,23 @@ it('permits corrected quote values after a definitive validation refusal with a 
   expect(keys).toHaveLength(2);
   expect(keys[0]).not.toBe(keys[1]);
 });
+
+it('bounds anonymous shared reads and PDF grants without relying on an owner controller', async () => {
+  const paths: string[] = [];
+  const signals: (AbortSignal | null | undefined)[] = [];
+  const credentials: (RequestCredentials | undefined)[] = [];
+  const send: typeof fetch = async (url, options) => {
+    paths.push(new URL(String(url)).pathname);
+    signals.push(options?.signal);
+    credentials.push(options?.credentials);
+    return reply({});
+  };
+  const client = createComparisonClient('http://127.0.0.1:8380', send);
+  await expect(client.shared('share.synthetic')).rejects.toThrow();
+  await expect(
+    client.sharedPdf('share.synthetic', asset, 'synthetic_command_002'),
+  ).rejects.toThrow();
+  expect(paths).toEqual(['/api/v1/shared', '/api/v1/shared/pdf']);
+  expect(credentials).toEqual(['omit', 'omit']);
+  for (const signal of signals) expect(signal).toBeInstanceOf(AbortSignal);
+});

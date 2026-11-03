@@ -20,6 +20,8 @@ Controllers snapshot request values before asynchronous identity work. Duplicate
 
 The owner explicitly creates and copies a link, chooses a fixed version/comparison or latest-version binding, and can revoke the current link or load an existing same-site link for revocation. The UI shows the binding used for the issued link; changing the next-link choice does not change an existing capability. Copy failure leaves a selectable link. No message or email is sent.
 
+Anonymous shared reads and grant requests also carry the shared SDK’s 15-second timeout, independently of owner controllers. A regression test exposed the missing anonymous timeout before the fix.
+
 The capability appears only in the fragment of the shared-view URL and travels to the API in an authorization header with cookies omitted. It is never a server query parameter or browser-storage value. Keyboard skip navigation focuses the main region without replacing the capability fragment; this prevents navigation from invalidating the shared view. The shared page uses the existing deliberate redaction projection: owner inputs, contact data and private shop/product notes are omitted. Expired, revoked, invalid or unavailable capabilities produce a generic refusal. Already viewed or downloaded content cannot be retracted by revocation.
 
 ## Existing private PDFs

@@ -10,7 +10,9 @@ import {
 import { quoteInputSchema, type QuoteInput } from './quote-input.ts';
 export type Selection = { kind: 'catalog' | 'quote'; key: string };
 export function createComparisonClient(origin: string, send: typeof fetch = fetch) {
-  const api = createApiClient(origin, send),
+  const bounded: typeof fetch = (url, options) =>
+    send(url, { ...options, signal: options?.signal ?? AbortSignal.timeout(15000) });
+  const api = createApiClient(origin, bounded),
     id = (v: string) => {
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v))
         throw Error('Invalid identifier');
