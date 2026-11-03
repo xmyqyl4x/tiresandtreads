@@ -1030,6 +1030,24 @@
       ]
     },
     {
+      "operationId": "readDraft",
+      "method": "GET",
+      "path": "/api/v1/reports/{reportId}/draft",
+      "actor": "owner",
+      "category": "reports",
+      "service": "reports.readDraft",
+      "useCases": [
+        "UC03"
+      ],
+      "databaseProof": "tests/database/web-results.test.ts",
+      "requestSchema": "OpenAPI path/query/header parameters",
+      "responseSchema": "OpenAPI responses; shared ApiReply or declared empty/redirect/binary response",
+      "idempotencyRequired": false,
+      "successStatuses": [
+        "200"
+      ]
+    },
+    {
       "operationId": "saveDraft",
       "method": "POST",
       "path": "/api/v1/reports/{reportId}/draft",

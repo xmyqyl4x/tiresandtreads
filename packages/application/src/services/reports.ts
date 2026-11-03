@@ -38,6 +38,7 @@ import {
   json,
   reportDiff,
   publicReport,
+  ownerReport,
   publicComparison,
   serviceFailure,
   ReportFault,
@@ -340,6 +341,27 @@ export function createReportServices(deps: {
         );
       });
     },
+    readDraft(keys: readonly KeyDigest[], report: unknown) {
+      return safely(async () => {
+        const reportId = uuid('report', report);
+        return run(async (tx) => {
+          const who = await owner(tx, keys, reportId),
+            d = await reports.draft(tx, who, reportId);
+          return ok({
+            reportId,
+            draft: d
+              ? {
+                  baseVersion: d.baseVersion,
+                  schemaVersion: d.schemaVersion,
+                  revision: d.revision.toString(),
+                  input: d.input,
+                  expiresAt: d.expiresAt,
+                }
+              : null,
+          });
+        });
+      });
+    },
     saveDraft(keys: readonly KeyDigest[], report: unknown, key: string, raw: unknown) {
       return safely(async () => {
         const reportId = uuid('report', report),
@@ -441,7 +463,7 @@ export function createReportServices(deps: {
           version: r.value.v.version,
           revision: r.value.head.revision.toString(),
           input: r.value.v.input,
-          output: publicReport(r.value.v.output),
+          output: ownerReport(r.value.v.output),
           diff: r.value.v.output.diff ?? null,
           safety: overlay,
         });

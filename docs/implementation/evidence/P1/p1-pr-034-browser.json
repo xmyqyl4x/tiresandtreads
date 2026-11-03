@@ -1,0 +1,33 @@
+{
+  "scope": "actual disposable browser journeys; synthetic evidence; local implementation only",
+  "observed": [
+    "five stored synthetic choices; exact front/rear sizes; confidence and unknown price states",
+    "draft autosave and recovery after reload; mileage 15000 and budget 800.09 retained",
+    "refinement creates version 2; original version 1 read-only; return to current",
+    "server diff and focused committed-version status",
+    "two tabs: stale revision refused, answers retained, explicit reload then use saved current answers",
+    "320px screenshot with wrapped reference and accessible stacked controls; desktop screenshot",
+    "no captured browser console errors or warnings",
+    "Final source rechecked: five choices, canonical budget/mileage autosave, version-2 refinement and return-to-current",
+    "Final source: version 1 remains read-only with blank original mileage while a version-2 draft contains mileage 19000; final follow-up wording checked"
+  ],
+  "screenshots": [
+    {
+      "path": "p1-pr-034-report-mobile.jpg",
+      "sha256": "55a18f15aaf63ffb08ab6404b3ba456b3cf2f0c8cb4c41d6d4ddc75563589c96"
+    },
+    {
+      "path": "p1-pr-034-report-desktop.jpg",
+      "sha256": "7221f654a5d183f387bb8763b41ecf3e1c6e3b8ba4ba4aef06cac7b7fcd9204b"
+    }
+  ],
+  "limits": [
+    "Programmatic viewport metrics did not reflect the browser override consistently and are not claimed.",
+    "No screen-reader, field-vitals, actual source/specialist/provider/hosted acceptance."
+  ],
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "publicActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

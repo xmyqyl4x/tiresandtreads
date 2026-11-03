@@ -83,6 +83,9 @@ export function publicOwnerRoutes(d: {
         c.query.has('version') ? Number(c.query.get('version')) : null,
       ),
     ),
+    route('readDraft', '/reports/:reportId/draft', 'GET', 'owner', (c) =>
+      reports.readDraft(c.actor!.keys, c.params.reportId),
+    ),
     route(
       'saveDraft',
       '/reports/:reportId/draft',

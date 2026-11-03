@@ -3,7 +3,7 @@ import { createReportAccessRepository } from '../../../packages/db/src/repositor
 import { createCommandRepository } from '../../../packages/db/src/repositories/jobs.ts';
 import { createReportCrypto } from '../../../packages/integrations/src/report-crypto.ts';
 import { privateFixture, time } from '../private/database.ts';
-import { engineFixture } from '../engine/base.ts';
+import { engineFixture, uuid } from '../engine/base.ts';
 import { ok } from '../../../packages/domain/src/values/core.ts';
 
 // Fixed synthetic evidence/encryption ports; engine, business services and SQL remain real.
@@ -33,7 +33,22 @@ export function fixtureReportServices(
         e.snapshot.policy.id = db.ruleId;
         e.snapshot.asOf = asOf;
         e.snapshot.recall.checkedAt = asOf;
+        if (options.current && _input.regionKey === 'SYNTHETIC_FIVE')
+          e.snapshot.policy.regionKey = 'SYNTHETIC_FIVE';
         if (options.current) {
+          // Fixed five-choice scenario for responsive comparison/results tests only.
+          if (_input.regionKey === 'SYNTHETIC_FIVE')
+            for (let i = 1; i < 5; i++) {
+              const p = structuredClone(e.snapshot.plans[0]!);
+              p.id = uuid(101 + i);
+              for (const [j, axle] of (['front', 'rear'] as const).entries()) {
+                p[axle].id = uuid(201 + i * 2 + j);
+                p[axle].modelId = uuid(301 + i);
+                for (const m of p[axle].measurements) m.skuId = p[axle].id;
+              }
+              e.snapshot.plans.push(p);
+            }
+
           const past = new Date(Date.parse(asOf) - 86400000).toISOString(),
             future = new Date(Date.parse(asOf) + 86400000).toISOString();
           for (const s of e.snapshot.sources) {
@@ -55,7 +70,18 @@ export function fixtureReportServices(
           if (_input.regionKey === 'SYNTHETIC_STALE')
             e.snapshot.recall.checkedAt = new Date(Date.parse(asOf) - 30 * 86400000).toISOString();
         }
-        return ok({ snapshot: e.snapshot, prices: [], products: [] });
+        return ok({
+          snapshot: e.snapshot,
+          prices: [],
+          products: options.current
+            ? e.snapshot.plans.map((p, i) => ({
+                id: p.front.id,
+                modelId: p.front.modelId,
+                brand: 'Synthetic',
+                model: 'Example ' + (i + 1),
+              }))
+            : [],
+        });
       },
       current: async () => ok(true),
       overlay: async (_version, asOf) =>

@@ -770,3 +770,43 @@ select {
 .assessment-form {
   padding-bottom: 3rem;
 }
+
+.report-view {
+  padding-bottom: 3rem;
+}
+.report-view code {
+  overflow-wrap: anywhere;
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+}
+.report-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #d8dee3;
+}
+.report-toolbar {
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+.report-toolbar form {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.report-view dt {
+  font-weight: 700;
+  margin-top: 0.75rem;
+}
+.report-view dd {
+  margin: 0;
+}
+.report-view fieldset {
+  min-width: 0;
+  border: 1px solid #d8dee3;
+  padding: 1rem;
+}
