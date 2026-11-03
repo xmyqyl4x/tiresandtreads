@@ -25,3 +25,5 @@ The synthetic local preview command remains `node scripts/dev/web-preview.mjs de
 ## Review corrections
 
 Source model names may be null; the shared DTO accepts those legitimate records and the existing fallback labels remain usable. Non-selected eligible decisions stay labeled as eligible alternatives, with above-budget/unknown-budget distinctions, rather than being classified as unverified. Failed session initialization is released for a fresh lookup while the original command body and idempotency key remain pinned. Failed explicit conflict reloads retain preservation mode through retry so tab answers remain behind the explicit rebase choice. Targeted unit/use-case regressions and a disposable browser failure/recovery journey verify these corrections; no actual acceptance gate changes.
+
+The shared duplicate-contact regression uses a bounded preparation barrier to force the concurrent interleaving it asserts, preserving its two-encryption and one-durable-effect checks. This fixes a scheduling-dependent test assumption; production contacts, deadlines and policy remain unchanged. All 23 contact database tests passed with this exact fixture.
