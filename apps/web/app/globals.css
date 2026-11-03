@@ -839,3 +839,30 @@ textarea {
 .report-view .card {
   min-width: 0;
 }
+
+.break-text {
+  overflow-wrap: anywhere;
+}
+.private-link input {
+  width: 100%;
+  min-width: 0;
+}
+fieldset {
+  min-width: 0;
+}
+.narrow dd {
+  margin: 0 0 1rem;
+  overflow-wrap: anywhere;
+}
+.narrow dt {
+  font-weight: 700;
+}
+
+.page-heading.choice-heading {
+  min-height: 0;
+  padding-block: 48px 32px;
+}
+.choice-content {
+  max-width: 800px;
+  padding-bottom: 48px;
+}

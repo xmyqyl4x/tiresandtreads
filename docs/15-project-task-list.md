@@ -97,7 +97,7 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | [P1-PR-033 — Build assessment form and reference lookups](tasks/phase-1-prs.md#p1-pr-033) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-033-local-assessment-form.md); actual acceptance/deployment held |
 | [P1-PR-034 — Build results, explanation and refinement views](tasks/phase-1-prs.md#p1-pr-034) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-034-local-results-refinement.md); actual acceptance/deployment held |
 | [P1-PR-035 — Build comparison, shop-quote and sharing views](tasks/phase-1-prs.md#p1-pr-035) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-035-local-comparison-sharing.md); actual acceptance/deployment held |
-| [P1-PR-036 — Build delivery, cancellation, preferences and privacy controls](tasks/phase-1-prs.md#p1-pr-036) | S5 | Not started | Unassigned | — |
+| [P1-PR-036 — Build delivery, cancellation, preferences and privacy controls](tasks/phase-1-prs.md#p1-pr-036) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-036-local-delivery-privacy.md); actual acceptance/deployment held |
 | [P1-PR-037 — Implement production email and PDF templates](tasks/phase-1-prs.md#p1-pr-037) | S5 | Not started | Unassigned | — |
 | [P1-PR-038 — Build editorial CMS and reviewed education website](tasks/phase-1-prs.md#p1-pr-038) | S5 | Not started | Unassigned | — |
 | [P1-PR-039 — Build staff operations, SEO and ad-revenue screens](tasks/phase-1-prs.md#p1-pr-039) | S5 | Not started | Unassigned | — |

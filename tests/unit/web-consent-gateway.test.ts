@@ -37,7 +37,12 @@ function transport(options: { existing?: boolean; badView?: boolean; stale?: boo
     if (init.method === 'POST') {
       if (options.stale) return error('conflict', 409);
       saved = true;
-      return reply({ status: 'saved' });
+      return reply({
+        schema_version: 1,
+        resource_id: uuid,
+        status: 'accepted',
+        result_revision: '2',
+      });
     }
     return reply(
       options.badView

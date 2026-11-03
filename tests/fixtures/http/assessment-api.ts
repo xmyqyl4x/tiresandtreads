@@ -1,3 +1,4 @@
+import { emailControlRoutes } from './email-control-routes.ts';
 import type { Id } from '../../../packages/domain/src/values/core.ts';
 import { createAssetService } from '../../../packages/application/src/services/assets.ts';
 import { createAssetRepository } from '../../../packages/db/src/repositories/assets.ts';
@@ -15,7 +16,8 @@ import { success } from '../catalog/database.ts';
 // This fixture does not select a licensed adapter, approve a source, or activate product advice.
 export async function assessmentApiFixture() {
   let tokens: ReturnType<typeof fixtureReportServices>['crypto'] | undefined;
-  const api = await operationsApiFixture(async ({ db, services }) => {
+  const api = await operationsApiFixture(async (context) => {
+    const { db, services } = context;
     const r = await db.run();
     await db.admin.query(
       "UPDATE app.data_licenses SET expires_at=now()+interval '1 day' WHERE id=$1",
@@ -169,24 +171,27 @@ export async function assessmentApiFixture() {
       return result;
     };
     services.reports = reports;
-    return publicOwnerRoutes({
-      reports,
-      shareKeys: (t) => crypto.lookup('share', t),
-      lookup: async (query) => {
-        // Fixed slow-response scenario for browser cancellation/recovery checks only.
-        if (query.get('modelYear') === '2027')
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-        return createReferenceQuery(db.readScope.unitOfWork, db.catalog)(query);
-      },
-      content: async () => ok({ coverage: 'unavailable' }),
-      download: async (token) => {
-        try {
-          return ok(await files.download(crypto.lookup('download', token)));
-        } catch {
-          return fail(failure('not_found'));
-        }
-      },
-    });
+    return [
+      ...(await emailControlRoutes(context)),
+      ...publicOwnerRoutes({
+        reports,
+        shareKeys: (t) => crypto.lookup('share', t),
+        lookup: async (query) => {
+          // Fixed slow-response scenario for browser cancellation/recovery checks only.
+          if (query.get('modelYear') === '2027')
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+          return createReferenceQuery(db.readScope.unitOfWork, db.catalog)(query);
+        },
+        content: async () => ok({ coverage: 'unavailable' }),
+        download: async (token) => {
+          try {
+            return ok(await files.download(crypto.lookup('download', token)));
+          } catch {
+            return fail(failure('not_found'));
+          }
+        },
+      }),
+    ];
   });
   return {
     ...api,

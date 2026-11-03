@@ -1,33 +1,40 @@
 'use client';
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { Button } from './controls.tsx';
+import { definiteRefusal } from '../command-attempts.ts';
 import type { BrowserChoices, loadChoices } from '../consent-gateway.ts';
 const empty: BrowserChoices = { analytics: false, ads: false, targeted_ads: false };
 type Gateway = Awaited<ReturnType<typeof loadChoices>>;
 export function PrivacyChoices() {
-  const dialog = useRef<HTMLDialogElement>(null),
+  const id = useId(),
+    dialog = useRef<HTMLDialogElement>(null),
     sequence = useRef(0),
     saving = useRef(false),
     saved = useRef<HTMLParagraphElement>(null),
-    error = useRef<HTMLDivElement>(null);
+    error = useRef<HTMLDivElement>(null),
+    retry = useRef<BrowserChoices | null>(null);
   const [gateway, setGateway] = useState<Gateway | null>(null),
     [choices, setChoices] = useState(empty),
     [status, setStatus] = useState<'loading' | 'ready' | 'saving' | 'saved' | 'error'>('loading'),
-    [gpc, setGpc] = useState(false);
+    [gpc, setGpc] = useState(false),
+    [uncertain, setUncertain] = useState(false);
   async function open() {
-    const generation = ++sequence.current;
+    if (saving.current) return;
+    const generation = ++sequence.current,
+      detected =
+        (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl === true;
     if (!dialog.current?.open) dialog.current?.showModal();
     setStatus('loading');
     setGateway(null);
-    setGpc(
-      (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl === true,
-    );
+    setGpc(detected);
+    setUncertain(false);
+    retry.current = null;
     try {
       const api = await import('../consent-gateway.ts'),
         loaded = await api.loadChoices(location.origin);
       if (generation !== sequence.current) return;
       setGateway(loaded);
-      setChoices(loaded.current);
+      setChoices({ ...loaded.current, targeted_ads: loaded.current.targeted_ads && !detected });
       setStatus('ready');
     } catch {
       if (generation === sequence.current) {
@@ -37,6 +44,7 @@ export function PrivacyChoices() {
     }
   }
   function close() {
+    if (saving.current) return;
     sequence.current++;
     dialog.current?.close();
   }
@@ -44,16 +52,22 @@ export function PrivacyChoices() {
     if (!gateway || saving.current) return;
     saving.current = true;
     setStatus('saving');
-    const generation = sequence.current;
+    const generation = sequence.current,
+      snapshot = { ...next, targeted_ads: next.targeted_ads && !gpc };
+    retry.current = snapshot;
     try {
-      const result = await gateway.save(next, gpc);
+      const result = await gateway.save(snapshot, gpc);
       if (generation === sequence.current) {
-        setChoices(result);
+        retry.current = null;
+        setUncertain(false);
+        setChoices({ ...result, targeted_ads: result.targeted_ads && !gpc });
         setStatus('saved');
         requestAnimationFrame(() => saved.current?.focus());
       }
-    } catch {
+    } catch (e) {
       if (generation === sequence.current) {
+        setUncertain(!definiteRefusal(e));
+        if (definiteRefusal(e)) retry.current = null;
         setStatus('error');
         requestAnimationFrame(() => error.current?.focus());
       }
@@ -64,11 +78,11 @@ export function PrivacyChoices() {
   function cycleFocus(event: KeyboardEvent<HTMLDialogElement>) {
     if (event.key !== 'Tab') return;
     const controls = Array.from(
-      event.currentTarget.querySelectorAll<HTMLElement>(
-        'button:not([disabled]),input:not([disabled]),select:not([disabled]),a[href],[tabindex="0"]',
-      ),
-    ).filter((element) => element.getClientRects().length > 0);
-    const first = controls[0],
+        event.currentTarget.querySelectorAll<HTMLElement>(
+          'button:not([disabled]),input:not([disabled]),select:not([disabled]),a[href],[tabindex="0"]',
+        ),
+      ).filter((e) => e.getClientRects().length > 0),
+      first = controls[0],
       last = controls.at(-1),
       active = document.activeElement;
     if (!first || !last) return;
@@ -89,35 +103,45 @@ export function PrivacyChoices() {
         ref={dialog}
         className="privacy-dialog"
         onKeyDown={cycleFocus}
-        aria-labelledby="privacy-title"
-        aria-describedby="privacy-description"
-        onCancel={() => {
-          sequence.current++;
+        aria-labelledby={id + '-title'}
+        aria-describedby={id + '-description'}
+        onCancel={(event) => {
+          if (saving.current) event.preventDefault();
+          else sequence.current++;
         }}
       >
         <div className="dialog-heading">
-          <h2 id="privacy-title">Your privacy choices</h2>
-          <Button tone="secondary" onClick={close}>
+          <h2 id={id + '-title'}>Your privacy choices</h2>
+          <Button tone="secondary" disabled={status === 'saving'} onClick={close}>
             Close
           </Button>
         </div>
-        <p id="privacy-description">
+        <p id={id + '-description'}>
           Essential storage keeps your session and choices working. Optional permissions stay off
           until you choose. This preview loads no advertising or analytics services.
         </p>
-        <p className="hint">Essential storage: always on. Identity sharing: off.</p>
+        <p className="hint">
+          Essential storage: always on. Identity sharing: off. Email report and offers choices are
+          separate.
+        </p>
         {gpc ? (
           <p className="callout warning">
-            Global Privacy Control is on. Targeted advertising stays off.
+            Global Privacy Control is on. Targeted advertising stays off. Saving acknowledges this
+            signal; it does not change email permissions.
           </p>
         ) : null}
         {status === 'loading' ? <p role="status">Loading your current choices…</p> : null}
         {status === 'error' ? (
           <div role="alert" ref={error} tabIndex={-1}>
             <p>
-              We could not confirm your current choices. Reload them before trying again. Optional
-              services remain off in this preview.
+              We could not confirm your current choices. Optional services remain off in this
+              preview.
             </p>
+            {uncertain && retry.current ? (
+              <Button tone="secondary" onClick={() => void save(retry.current!)}>
+                Retry unchanged choices
+              </Button>
+            ) : null}
             <Button tone="secondary" onClick={() => void open()}>
               Reload choices
             </Button>
@@ -133,7 +157,7 @@ export function PrivacyChoices() {
                     type="checkbox"
                     checked={choices[p]}
                     disabled={p === 'targeted_ads' && gpc}
-                    onChange={(event) => setChoices((v) => ({ ...v, [p]: event.target.checked }))}
+                    onChange={(e) => setChoices((v) => ({ ...v, [p]: e.target.checked }))}
                   />
                   <span>
                     {p === 'analytics'

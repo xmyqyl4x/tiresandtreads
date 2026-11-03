@@ -421,6 +421,20 @@ export function ComparisonScreen() {
           </div>
         ) : null}
       </section>
+      <p>
+        <a
+          className="button secondary"
+          href={
+            '/preview/delivery?report=' +
+            report.reportId +
+            '&version=' +
+            report.version +
+            (saved ? '&comparison=' + saved.comparison.revision : '')
+          }
+        >
+          Choose email delivery for this saved version{saved ? ' and comparison' : ''}
+        </a>
+      </p>
       <SharePanel
         key={'share:' + report.reportId + ':' + report.version}
         controller={controller}

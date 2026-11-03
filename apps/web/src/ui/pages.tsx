@@ -1,3 +1,6 @@
+import { DeliveryScreen } from './delivery-screen.tsx';
+import { PrivacyScreen } from './privacy-screen.tsx';
+import { PrivatePreferencesScreen } from './private-preferences-screen.tsx';
 import { ComparisonScreen } from './comparison-screen.tsx';
 import { SharedScreen } from './shared-screen.tsx';
 import { Link } from './link.tsx';
@@ -6,6 +9,10 @@ import { ComponentDemo } from './component-demo.tsx';
 import { AssessmentForm } from './assessment-form.tsx';
 import { ReportScreen } from './report-screen.tsx';
 const pages: Record<string, { title: string; text: string }> = {
+  delivery: { title: 'Choose your email purposes', text: 'Optional delivery and separate offers' },
+  'email-confirmation': { title: 'Confirm one purpose', text: 'Private email confirmation' },
+  'email-preferences': { title: 'Control an email purpose', text: 'Private purpose preferences' },
+  'privacy-request': { title: 'Check a private request', text: 'Private rights request status' },
   compare: { title: 'Compare your options', text: 'Private comparison, shop quotes and sharing' },
   shared: { title: 'Shared technical report', text: 'Read-only redacted view' },
   report: { title: 'Your technical report', text: 'Private saved results and refinement' },
@@ -166,6 +173,37 @@ export function pageTitle(page: string) {
 export function PageView({ page }: { page: string }) {
   if (page === 'home') return <Home />;
   if (page === 'design-system') return <DesignSystem />;
+  if (
+    ['delivery', 'privacy', 'email-confirmation', 'email-preferences', 'privacy-request'].includes(
+      page,
+    )
+  )
+    return (
+      <Shell path={'/preview/' + page}>
+        <section className="container page-heading narrow choice-heading">
+          <p className="eyebrow">YOUR CHOICES</p>
+          <h1>{pages[page]!.title}</h1>
+          <p>{pages[page]!.text}</p>
+        </section>
+        <div className="container choice-content">
+          {page === 'delivery' ? (
+            <DeliveryScreen />
+          ) : page === 'privacy' ? (
+            <PrivacyScreen />
+          ) : (
+            <PrivatePreferencesScreen
+              kind={
+                page === 'email-confirmation'
+                  ? 'verify'
+                  : page === 'email-preferences'
+                    ? 'unsubscribe'
+                    : 'privacy'
+              }
+            />
+          )}
+        </div>
+      </Shell>
+    );
   if (page === 'compare')
     return (
       <Shell path="/preview/compare">
