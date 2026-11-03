@@ -68,6 +68,12 @@ export interface ReportRepository {
     scenario: JsonObject,
     items: readonly CompareItem[],
   ): Promise<Comparison>;
+  latestComparisonRevision(
+    tx: Tx,
+    owner: Owner,
+    reportId: Id<'report'>,
+    version: number,
+  ): Promise<Revision | null>;
   comparison(
     tx: Tx,
     owner: Owner,
@@ -81,6 +87,12 @@ export interface ReportRepository {
     expectedRevision: Revision | null,
     quote: Quote,
   ): Promise<Revision>;
+  quote(
+    tx: Tx,
+    owner: Owner,
+    reportId: Id<'report'>,
+    quoteId: Id<'quote'>,
+  ): Promise<(Quote & { readonly revision: Revision }) | null>;
   quotes(
     tx: Tx,
     owner: Owner,

@@ -1,3 +1,4 @@
+import { operationQuerySchemas } from '../../../contracts/src/operation-queries.ts';
 import { toolInputSchema } from '../../../contracts/src/http.ts';
 import { reportInputSchemas, type ReportOperation } from '../../../contracts/src/report-inputs.ts';
 import { ok, fail } from '../../../domain/src/values/core.ts';
@@ -118,6 +119,12 @@ export function publicOwnerRoutes(d: {
       (c) => reports.saveQuote(c.actor!.keys, c.params.reportId, c.key, c.body),
       true,
     ),
+    route('readQuotes', '/reports/:reportId/quotes', 'GET', 'owner', (c) => {
+      const q = operationQuerySchemas.readQuotes.safeParse(Object.fromEntries(c.query));
+      return q.success && c.query.getAll('after').length <= 1
+        ? reports.readQuotes(c.actor!.keys, c.params.reportId, q.data.after ?? null)
+        : Promise.resolve(fail(failure('invalid_input')));
+    }),
     route('readQuote', '/reports/:reportId/quotes/:quoteId', 'GET', 'owner', (c) =>
       reports.readQuote(c.actor!.keys, c.params.reportId, c.params.quoteId),
     ),

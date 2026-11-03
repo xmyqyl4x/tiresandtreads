@@ -236,6 +236,14 @@ export function ReportScreen() {
           </p>
         ) : null}
       </div>
+      <p>
+        <a
+          className="button secondary"
+          href={'/preview/compare?report=' + report.reportId + '&version=' + report.version}
+        >
+          Compare options and shop quotes
+        </a>
+      </p>
       <ReportBody output={report.output} safety={report.safety} version={report.version} />
       {report.diff ? (
         <section className="callout info">

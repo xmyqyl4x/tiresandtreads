@@ -8,6 +8,7 @@ const uuid = z
   market = z.literal('US').default('US'),
   locale = z.literal('en-US').default('en-US');
 export const operationQuerySchemas = {
+  readQuotes: z.strictObject({ after: z.string().min(1).max(512).optional() }),
   getBrowserConsent: z.strictObject({ cmpAvailable: z.enum(['true', 'false']).default('false') }),
   staffQueue: z.strictObject({
     after: uuid.optional(),

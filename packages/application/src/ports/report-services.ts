@@ -39,6 +39,14 @@ export interface ReportRecallRepository {
   checkedAt(tx: Tx, dataset: Id<'dataset'>): Promise<Instant | null>;
 }
 export interface ReportAccessRepository {
+  readyPdfs(
+    tx: Tx,
+    actor: { owner: Owner } | { shareKeys: readonly KeyDigest[] },
+    reportId: Id<'report'>,
+    version: number,
+    comparison: Comparison['revision'] | null,
+  ): Promise<readonly { assetId: Id<'asset'> }[]>;
+
   quoteNotes(
     tx: Tx,
     owner: Owner,

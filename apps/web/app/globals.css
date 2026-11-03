@@ -810,3 +810,32 @@ select {
   border: 1px solid #d8dee3;
   padding: 1rem;
 }
+
+.quote-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+.quote-list > li {
+  padding: var(--space-4);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-card);
+}
+textarea {
+  max-width: 100%;
+  width: 100%;
+  font: inherit;
+  padding: var(--space-3);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-card);
+  overflow-wrap: anywhere;
+  resize: vertical;
+}
+
+.report-view {
+  overflow-wrap: anywhere;
+}
+.report-view .card {
+  min-width: 0;
+}

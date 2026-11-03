@@ -12,6 +12,7 @@ const names = [
   'compare',
   'saveQuote',
   'readQuote',
+  'readQuotes',
   'readComparison',
   'share',
   'revoke',
@@ -50,6 +51,7 @@ it.each(names)(
             compare: 'compareReport',
             saveQuote: 'saveQuote',
             readQuote: 'readQuote',
+            readQuotes: 'readQuotes',
             readComparison: 'readComparison',
             share: 'shareReport',
             revoke: 'revokeShare',
@@ -96,7 +98,7 @@ it.each(names)(
           } as Partial<Record<(typeof names)[number], unknown>>
         )[name] ?? null,
       params: { reportId: 'report', quoteId: 'quote', revision: '1', capabilityId: 'cap' },
-      query: new URLSearchParams('version=1'),
+      query: new URLSearchParams(name === 'readQuotes' ? '' : 'version=1'),
       request: new Request('http://127.0.0.1/api/v1/shared', {
         headers: { authorization: 'Bearer token', 'x-share-token': 'share' },
       }),
@@ -157,5 +159,5 @@ it('delegates published lookup/content reads without owner identity or arbitrary
       });
   expect(s.lookup).toHaveBeenCalledOnce();
   expect(s.content).toHaveBeenCalledOnce();
-  expect(s.routes).toHaveLength(21);
+  expect(s.routes).toHaveLength(22);
 });

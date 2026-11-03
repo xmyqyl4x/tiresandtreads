@@ -249,17 +249,39 @@ export function createReportServices(deps: {
     return ok({ ...receipt, token: token.token });
   }
   const service = {
+    readQuotes(keys: readonly KeyDigest[], report: unknown, after: unknown = null) {
+      return safely(async () => {
+        const reportId = uuid('report', report),
+          page = pageRequest(50, after);
+        demand(page.ok);
+        return run(async (tx) => {
+          const who = await owner(tx, keys, reportId),
+            found = await reports.quotes(tx, who, reportId, page.value);
+          return ok(
+            json({
+              reportId,
+              items: found.items.map((q) => ({
+                id: q.id,
+                currency: q.currency,
+                totalMinor: q.totalMinor,
+                quantity: q.quantity,
+                basis: q.basis,
+                observedOn: q.observedOn,
+                expiresAt: q.expiresAt,
+              })),
+              next: found.next,
+            }),
+          );
+        });
+      });
+    },
     readQuote(keys: readonly KeyDigest[], report: unknown, quote: unknown) {
       return safely(async () => {
         const reportId = uuid('report', report),
           quoteId = uuid('quote', quote);
         const r = await run(async (tx) => {
           const who = await owner(tx, keys, reportId),
-            page = pageRequest(100, null);
-          demand(page.ok);
-          const q = (await reports.quotes(tx, who, reportId, page.value)).items.find(
-            (q) => q.id === quoteId,
-          );
+            q = await reports.quote(tx, who, reportId, quoteId);
           demand(q, 'not_found');
           return ok({ q, notes: await access.quoteNotes(tx, who, reportId, quoteId) });
         });
@@ -449,7 +471,19 @@ export function createReportServices(deps: {
         const reportId = uuid('report', report),
           number = n === null ? null : integer(n),
           at = clock();
-        const r = await run(async (tx) => ok(await read(tx, keys, reportId, number)));
+        const r = await run(async (tx) => {
+          const value = await read(tx, keys, reportId, number);
+          return ok({
+            ...value,
+            pdfs: await access.readyPdfs(tx, { owner: value.who }, reportId, value.v.version, null),
+            comparisonRevision: await reports.latestComparisonRevision(
+              tx,
+              value.who,
+              reportId,
+              value.v.version,
+            ),
+          });
+        });
         if (!r.ok) return r;
         const overlay = unwrap(await evidence.overlay(r.value.v, at));
         // Recheck authority after the separate source query and project only the intended fields.
@@ -464,6 +498,8 @@ export function createReportServices(deps: {
           revision: r.value.head.revision.toString(),
           input: r.value.v.input,
           output: ownerReport(r.value.v.output),
+          pdfs: r.value.pdfs,
+          comparisonRevision: r.value.comparisonRevision?.toString() ?? null,
           diff: r.value.v.output.diff ?? null,
           safety: overlay,
         });
@@ -475,20 +511,33 @@ export function createReportServices(deps: {
           r = await run(async (tx) => ok(await access.shared(tx, keys)));
         if (!r.ok) return r;
         demand(r.value, 'not_found');
-        const overlay = unwrap(await evidence.overlay(r.value.version, at));
-        const check = await run(async (tx) => ok(await caps.resolveShare(tx, keys)));
+        const shared = r.value;
+        const overlay = unwrap(await evidence.overlay(shared.version, at));
+        const check = await run(async (tx) =>
+          ok({
+            share: await caps.resolveShare(tx, keys),
+            pdfs: await access.readyPdfs(
+              tx,
+              { shareKeys: keys },
+              shared.version.reportId,
+              shared.version.version,
+              shared.comparison?.revision ?? null,
+            ),
+          }),
+        );
         if (!check.ok) return check;
         demand(
-          check.value?.reportId === r.value.version.reportId &&
-            check.value.version === r.value.version.version,
+          check.value.share?.reportId === shared.version.reportId &&
+            check.value.share.version === shared.version.version,
           'not_found',
         );
         return ok({
-          version: r.value.version.version,
-          output: publicReport(r.value.version.output),
+          version: shared.version.version,
+          output: publicReport(shared.version.output),
           safety: overlay,
-          comparison: r.value.comparison ? publicComparison(r.value.comparison) : null,
+          comparison: shared.comparison ? publicComparison(shared.comparison) : null,
           access: 'read_only' as const,
+          pdfs: check.value.pdfs,
         });
       });
     },

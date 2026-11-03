@@ -6,9 +6,9 @@ type Operation = {
   requestBody?: { content: Record<string, unknown> };
   responses: Record<string, { content?: unknown; headers?: unknown }>;
 };
-it('documents the actual 65 operations with signed raw callbacks and the RFC8058 media type', () => {
+it('documents the actual 66 operations with signed raw callbacks and the RFC8058 media type', () => {
   const doc = localApiDocument();
-  expect(Object.values(doc.paths).flatMap(Object.values)).toHaveLength(65);
+  expect(Object.values(doc.paths).flatMap(Object.values)).toHaveLength(66);
   const mail = doc.paths['/api/v1/webhooks/resend']!.post as Operation;
   expect(mail.parameters).toEqual(
     expect.arrayContaining(

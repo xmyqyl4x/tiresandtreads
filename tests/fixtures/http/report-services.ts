@@ -33,11 +33,11 @@ export function fixtureReportServices(
         e.snapshot.policy.id = db.ruleId;
         e.snapshot.asOf = asOf;
         e.snapshot.recall.checkedAt = asOf;
-        if (options.current && _input.regionKey === 'SYNTHETIC_FIVE')
-          e.snapshot.policy.regionKey = 'SYNTHETIC_FIVE';
+        if (options.current && ['SYNTHETIC_FIVE', 'SYNTHETIC_PDF'].includes(_input.regionKey))
+          e.snapshot.policy.regionKey = _input.regionKey;
         if (options.current) {
           // Fixed five-choice scenario for responsive comparison/results tests only.
-          if (_input.regionKey === 'SYNTHETIC_FIVE')
+          if (['SYNTHETIC_FIVE', 'SYNTHETIC_PDF'].includes(_input.regionKey))
             for (let i = 1; i < 5; i++) {
               const p = structuredClone(e.snapshot.plans[0]!);
               p.id = uuid(101 + i);

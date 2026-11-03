@@ -1,3 +1,8 @@
+import type { Id } from '../../../packages/domain/src/values/core.ts';
+import { createAssetService } from '../../../packages/application/src/services/assets.ts';
+import { createAssetRepository } from '../../../packages/db/src/repositories/assets.ts';
+import { createFixtureReportRenderer } from '../../../packages/integrations/src/delivery-renderer.ts';
+import { createHash } from 'node:crypto';
 import { operationsApiFixture } from './operations-api.ts';
 import { fixtureReportServices } from './report-services.ts';
 import { publicOwnerRoutes } from '../../../packages/integrations/src/http/public-owner.ts';
@@ -9,7 +14,8 @@ import { success } from '../catalog/database.ts';
 // Disposable synthetic domain facts and evidence, with actual HTTP/business services/PostgreSQL.
 // This fixture does not select a licensed adapter, approve a source, or activate product advice.
 export async function assessmentApiFixture() {
-  return operationsApiFixture(async ({ db, services }) => {
+  let tokens: ReturnType<typeof fixtureReportServices>['crypto'] | undefined;
+  const api = await operationsApiFixture(async ({ db, services }) => {
     const r = await db.run();
     await db.admin.query(
       "UPDATE app.data_licenses SET expires_at=now()+interval '1 day' WHERE id=$1",
@@ -69,6 +75,99 @@ export async function assessmentApiFixture() {
     const publication = await db.candidate(r, 7n);
     await success(db.publishScope.unitOfWork, (tx) => db.publish.publish(tx, publication));
     const { reports, crypto } = fixtureReportServices(db, { current: true });
+    tokens = crypto;
+
+    const store = new Map<string, Uint8Array>(),
+      assetScope = db.adapter('tt_asset_runtime'),
+      files = createAssetService({
+        uow: assetScope.unitOfWork,
+        assets: createAssetRepository(assetScope, 'synthetic-private', 'fixture-kms'),
+        authority: db.scope.unitOfWork,
+        capabilities: db.caps,
+        objects: {
+          put: async (a, b) => {
+            store.set(a.id, b);
+            return 'fixture-v1';
+          },
+          get: async (a) => {
+            const b = store.get(a.id);
+            if (
+              !b ||
+              createHash('sha256').update(b).digest('hex') !== a.sha256 ||
+              b.length !== a.size
+            )
+              throw Error('Fixture asset unavailable');
+            return b;
+          },
+          erase: async (a) => {
+            store.delete(a.id);
+          },
+        },
+      });
+    // Existing fixed technical renderer only. No delivery, recipient or provider is activated.
+    const originalCreate = reports.create,
+      seeded = new Map<string, Promise<void>>();
+    reports.create = async (keys, key, input) => {
+      const result = await originalCreate(keys, key, input);
+      if (
+        result.ok &&
+        typeof input === 'object' &&
+        input !== null &&
+        'regionKey' in input &&
+        input.regionKey === 'SYNTHETIC_PDF'
+      ) {
+        const reportId = result.value.report_id!;
+        let seed = seeded.get(reportId);
+        if (!seed) {
+          seed = (async () => {
+            const owner = await success(db.scope.unitOfWork, (tx) => db.owners.resolve(tx, keys));
+            if (!owner) throw Error('Missing fixture owner');
+            const hash = 'b'.repeat(64),
+              rendered = await createFixtureReportRenderer(hash).render({
+                schemaVersion: 1,
+                fixture: true,
+                locale: 'en-US',
+                market: 'US',
+                sender: 'fixture@example.invalid',
+                policyVersion: 'synthetic',
+                report: {},
+                comparison: null,
+                template: { id: crypto.id('template'), version: 'fixture', rendererHash: hash },
+                learning: [],
+              }),
+              bytes = new Uint8Array(Buffer.from(rendered.pdf, 'base64'));
+            for (const scope of ['owner', 'shared'] as const) {
+              const assetId = crypto.id('asset', reportId + ':' + scope);
+              await files.upload(
+                {
+                  id: assetId,
+                  purpose: 'report_pdf',
+                  mime: 'application/pdf',
+                  size: bytes.length,
+                  sha256: createHash('sha256').update(bytes).digest('hex'),
+                },
+                bytes,
+              );
+              await success(db.scope.unitOfWork, (tx) =>
+                db.caps.asset(tx, owner, {
+                  assetId,
+                  reportId,
+                  version: 1,
+                  comparisonRevision: null,
+                  rendererVersion: 'existing-technical-fixture',
+                  locale: 'en-US',
+                  scope,
+                  renderKey: 'synthetic-pdf:' + reportId + ':' + scope,
+                }),
+              );
+            }
+          })();
+          seeded.set(reportId, seed);
+        }
+        await seed;
+      }
+      return result;
+    };
     services.reports = reports;
     return publicOwnerRoutes({
       reports,
@@ -80,7 +179,30 @@ export async function assessmentApiFixture() {
         return createReferenceQuery(db.readScope.unitOfWork, db.catalog)(query);
       },
       content: async () => ok({ coverage: 'unavailable' }),
-      download: async () => fail(failure('not_found')),
+      download: async (token) => {
+        try {
+          return ok(await files.download(crypto.lookup('download', token)));
+        } catch {
+          return fail(failure('not_found'));
+        }
+      },
     });
   });
+  return {
+    ...api,
+    async expiredShare(who: Parameters<typeof api.ownerIdentity>[0], reportId: Id<'report'>) {
+      const owner = await api.ownerIdentity(who),
+        version = await success(api.db.scope.unitOfWork, (tx) =>
+          api.db.reports.version(tx, owner, reportId, 1),
+        );
+      if (!version || !tokens) throw Error('Invalid synthetic expired-share setup');
+      const capId = tokens.id('report_capability'),
+        minted = tokens.token('share', capId, tokens.keyVersion);
+      await api.db.admin.query(
+        "INSERT INTO app.report_capabilities(id,report_id,report_version,scope,version_scope,token_hash,key_version,expires_at,created_at,updated_at) VALUES($1,$2,1,'view','fixed',decode($3,'hex'),$4,clock_timestamp()-interval '1 day',clock_timestamp()-interval '3 days',clock_timestamp()-interval '2 days')",
+        [capId, reportId, minted.key.digest, minted.key.keyVersion],
+      );
+      return minted.token;
+    },
+  };
 }
