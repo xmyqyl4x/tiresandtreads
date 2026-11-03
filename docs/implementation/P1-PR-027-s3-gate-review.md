@@ -100,3 +100,5 @@ The owner authorized a [private hosted staging decision packet](P1-PR-027-privat
 [Disposable restore/journal handoff proof](P1-PR-027-restore-handoff-proof.md) adds local technical evidence only. It does not fill actual acceptance records, establish independent journal authority or release APIs/frontends.
 
 [Restore/journal readiness integration](P1-PR-027-restore-readiness-integration.md) checks local repository consistency only. It leaves all six actual gates pending and does not release APIs/frontends or select operating authority.
+
+[Restore/readiness remaining-gap review](P1-PR-027-restore-gap-review.md) credits the later local evidence without composing separate lock/restore/provisioning authority claims. All actual S3 records remain empty and all existing holds persist.

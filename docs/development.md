@@ -280,3 +280,5 @@ Use the [read-only evidence/readiness report](implementation/P1-PR-027-evidence-
 Run `node tests/fixtures/restore-handoff/run.mjs` for the [reviewed disposable restore/handoff proof](implementation/P1-PR-027-restore-handoff-proof.md). It uses generated local-only projects and fixed profiles; it is not a production recovery command or authority.
 
 Run `node scripts/review/restore-readiness.mjs` for the [restore/journal readiness report](implementation/P1-PR-027-restore-readiness-integration.md); `--require-inputs` returns pending exit 2. The prior report remains unchanged.
+
+The [restore/readiness gap review](implementation/P1-PR-027-restore-gap-review.md) distinguishes historical native/model/report evidence and remaining actual-input or technical scopes. It changes no tool or acceptance policy.
