@@ -8,6 +8,41 @@ import { ok, fail } from '../../packages/domain/src/values/core.ts';
 import { failure } from '../../packages/application/src/ports/transactions.ts';
 import { PrivateDownload } from '../../packages/integrations/src/http/core.ts';
 const origin = 'http://127.0.0.1:3210';
+it('does not treat unrelated browser cookies as a competing owner credential', async () => {
+  const s = setup();
+  const response = await s.api(
+    new Request(origin + '/api/v1/reports/example', {
+      headers: { authorization: 'Bearer owner-token', cookie: 'unrelated_preference=1' },
+    }),
+  );
+  expect(response.status).toBe(200);
+  expect(s.effect).toHaveBeenCalledOnce();
+});
+it.each(['public', 'capability'] as const)(
+  'ignores unrelated owner cookies on a %s route with an independent capability header',
+  async (access) => {
+    const authenticate = vi.fn(async () => null),
+      effect = vi.fn(async () => ok(null));
+    const api = createHttpApi({
+      origin,
+      routes: [
+        { operationId: 'read', path: '/api/v1/mixed', method: 'GET', access, handle: effect },
+      ],
+      security: { authenticate, quota: async () => ({ allowed: true }) },
+    });
+    const response = await api(
+      new Request(origin + '/api/v1/mixed', {
+        headers: {
+          cookie: 'tt_owner=existing-session',
+          authorization: 'Bearer independent-capability',
+        },
+      }),
+    );
+    expect(response.status).toBe(200);
+    expect(authenticate).not.toHaveBeenCalled();
+    expect(effect).toHaveBeenCalledOnce();
+  },
+);
 it('serves only bounded PDF bytes with private headers and refuses unsupported file output', async () => {
   const s = setup();
   s.effect.mockResolvedValue(

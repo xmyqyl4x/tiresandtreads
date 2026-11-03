@@ -127,7 +127,11 @@ export function createHttpApi(d: {
       if ([...url.searchParams.keys()].some((k) => /^(token|email|owner|session)$/i.test(k)))
         throw new HttpFailure(400, 'invalid_input');
       const mutation = request.method !== 'GET';
-      if (request.headers.has('authorization') && request.headers.has('cookie'))
+      const ownerCookie = request.headers
+        .get('cookie')
+        ?.split(';')
+        .some((value) => value.trim().startsWith('tt_owner='));
+      if (route.access === 'owner' && request.headers.has('authorization') && ownerCookie)
         throw new HttpFailure(400, 'ambiguous_credentials');
       if (
         mutation &&

@@ -204,7 +204,7 @@ it('UC05 reads a capability through a header and denies it after owner revocatio
   const value = (await share.json()).data;
   const read = () =>
     fetch(f.server.origin + '/api/v1/shared', {
-      headers: { authorization: 'Bearer ' + value.token },
+      headers: { authorization: 'Bearer ' + value.token, cookie: who.cookie },
     });
   expect((await read()).status).toBe(200);
   const revoked = await fetch(
