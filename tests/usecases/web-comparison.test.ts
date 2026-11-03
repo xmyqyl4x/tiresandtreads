@@ -1,4 +1,5 @@
 import { it, expect } from 'vitest';
+import { createResultsClient } from '../../packages/contracts/src/results-client.ts';
 import { comparisonController } from '../../apps/web/src/comparison/controller.ts';
 import { createComparisonClient } from '../../packages/contracts/src/comparison-client.ts';
 import { blankQuote, quoteBody } from '../../apps/web/src/comparison/model.ts';
@@ -290,7 +291,7 @@ it('permits corrected quote values after a definitive validation refusal with a 
   expect(keys[0]).not.toBe(keys[1]);
 });
 
-it('bounds anonymous shared reads and PDF grants without relying on an owner controller', async () => {
+it('bounds initial owner reads and anonymous shared reads and grants without relying on controllers', async () => {
   const paths: string[] = [];
   const signals: (AbortSignal | null | undefined)[] = [];
   const credentials: (RequestCredentials | undefined)[] = [];
@@ -301,11 +302,12 @@ it('bounds anonymous shared reads and PDF grants without relying on an owner con
     return reply({});
   };
   const client = createComparisonClient('http://127.0.0.1:8380', send);
+  await expect(createResultsClient('http://127.0.0.1:8380', send).read(report)).rejects.toThrow();
   await expect(client.shared('share.synthetic')).rejects.toThrow();
   await expect(
     client.sharedPdf('share.synthetic', asset, 'synthetic_command_002'),
   ).rejects.toThrow();
-  expect(paths).toEqual(['/api/v1/shared', '/api/v1/shared/pdf']);
-  expect(credentials).toEqual(['omit', 'omit']);
+  expect(paths).toEqual(['/api/v1/reports/' + report, '/api/v1/shared', '/api/v1/shared/pdf']);
+  expect(credentials).toEqual(['same-origin', 'omit', 'omit']);
   for (const signal of signals) expect(signal).toBeInstanceOf(AbortSignal);
 });
