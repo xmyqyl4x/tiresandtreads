@@ -1,4 +1,9 @@
 import { localOperationRoutes } from './local-services.ts';
+import { callbackRoutes } from './callbacks.ts';
+import { readLocalCallbackKeys } from './callback-keys.ts';
+import { createConfirmationQuery } from '../../../application/src/queries/confirmation.ts';
+import { createPrivacyRepository } from '../../../db/src/repositories/privacy.ts';
+import { createContactCrypto } from '../contact-crypto.ts';
 import { createConsentPolicyQuery } from '../../../application/src/queries/consent-policy.ts';
 import { createContactServiceRepository } from '../../../db/src/repositories/contact-services.ts';
 import { loadServiceHostSettings } from '../service-host-config.ts';
@@ -28,6 +33,9 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
     env.PROVIDER_MODE !== 'fixtures'
   )
     throw Error('Local API activation refused');
+  if (![undefined, 'enabled', 'disabled'].includes(env.LOCAL_HTTP_OBSERVATIONS))
+    throw Error('Local API observation setting refused');
+  const callbackKeys = await readLocalCallbackKeys(env.LOCAL_CALLBACK_KEYS_FILE);
   const settings = loadServiceHostSettings(env);
   const lanes = ['report', 'catalog', 'limiter', 'asset', 'staff'] as const;
   // The existing host reserves these extra HTTP connections before opening any lane.
@@ -124,13 +132,43 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
       crypto,
       env,
     });
+    const decodeRing = (values: Readonly<Record<string, string>>) =>
+      Object.fromEntries(
+        Object.entries(values).map(([key, value]) => [
+          key,
+          new Uint8Array(Buffer.from(value, 'hex')),
+        ]),
+      );
+    const contactsCrypto = createContactCrypto(
+      settings.keys.token.current,
+      decodeRing(settings.keys.token.values),
+      decodeRing(settings.keys.lookup),
+      new Uint8Array(Buffer.from(settings.keys.contactIdentity, 'hex')),
+    );
+    const confirmation = createConfirmationQuery({
+      uow: report.unitOfWork,
+      contacts: createContactServiceRepository(report, contactsCrypto.lookupVersions),
+      privacy: createPrivacyRepository(report, contactsCrypto.lookupVersions),
+      crypto: contactsCrypto,
+      now: () => new Date().toISOString(),
+    });
     server = await listenLocalApi((origin) =>
       createHttpApi({
         origin,
         security: extra.security,
+        ...(env.LOCAL_HTTP_OBSERVATIONS === 'enabled'
+          ? { observe: (record) => console.log(JSON.stringify({ type: 'local_http', ...record })) }
+          : {}),
         routes: [
           ...security.sessions,
           ...extra.routes,
+          ...callbackRoutes({
+            services: host.services,
+            keys: callbackKeys,
+            confirmation,
+            wake: (id) => host.workflows.dispatch(id),
+            now: () => new Date().toISOString(),
+          }),
           ...publicOwnerRoutes({
             reports: host.services.reports,
             shareKeys: (token) => crypto.lookup('share', token),

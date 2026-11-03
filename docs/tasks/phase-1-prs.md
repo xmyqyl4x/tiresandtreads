@@ -616,11 +616,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC07, UC08, AT12, AT13, DB06, DB08, DB17. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Wire signature-verified callbacks, durable job entry points, analytics intake and unsubscribe routes.
-- [ ] Enforce commit-before-ack, replay/digest conflict rules and bounded public request behavior.
-- [ ] Verify environment secrets, safe log redaction, provider retries and endpoint observability.
+- [x] Wire signature-verified callbacks, durable job entry points, analytics intake and unsubscribe routes.
+- [x] Enforce commit-before-ack, replay/digest conflict rules and bounded public request behavior.
+- [x] Verify environment secrets, safe log redaction, provider retries and endpoint observability.
 
 **Verification and acceptance:** Running HTTP/provider sandbox tests cover forged/replayed events, committed receipt and uncertain delivery recovery.
+
+**Local implementation:** [Callback/event implementation](../implementation/P1-PR-030-local-callbacks-events.md). Checked tasks describe local implementation and synthetic verification, with actual provider/host/S3/S4 acceptance held.
 
 **Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
 
