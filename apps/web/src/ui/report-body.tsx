@@ -1,5 +1,5 @@
 import type { ReportOutputView, SafetyView } from '@tt/contracts/report-views';
-import { confidence, range, reason, when } from '../results/presentation.ts';
+import { confidence, decisionLabel, range, reason, when } from '../results/presentation.ts';
 export function ReportBody({
   output,
   safety,
@@ -123,13 +123,13 @@ export function ReportBody({
         </div>
       )}
       <section className="report-section">
-        <h2>Exclusions and missing evidence</h2>
+        <h2>Alternatives, exclusions and missing evidence</h2>
         {excluded.length ? (
           <ul>
             {excluded.slice(0, 20).map((d) => (
               <li key={d.id}>
-                <strong>{d.status === 'blocked' ? 'Blocked' : 'Unverified'} option</strong>:{' '}
-                {d.reasons.map(reason).join(' ')} <code>{d.id}</code>
+                <strong>{decisionLabel(d)}</strong>: {d.reasons.map(reason).join(' ')}{' '}
+                <code>{d.id}</code>
               </li>
             ))}
           </ul>

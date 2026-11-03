@@ -1,3 +1,4 @@
+import { reportOutputView } from '../../packages/contracts/src/report-views.ts';
 import { it, expect } from 'vitest';
 import {
   ownerReport,
@@ -7,6 +8,7 @@ import { normalizeAssessment } from '../../packages/engine/src/input.ts';
 import { evaluate } from '../../packages/engine/src/evaluate.ts';
 import { engineFixture } from '../fixtures/engine/base.ts';
 import {
+  decisionLabel,
   money,
   range,
   when,
@@ -160,3 +162,23 @@ it('recognizes identical draft values regardless of nested currency property ord
   expect(assessmentSignature(input)).toBe(assessmentSignature(reordered));
   expect(assessmentSignature({ ...input, annualMiles: -1 })).not.toBe(assessmentSignature(input));
 });
+
+it('accepts absent source model names without rejecting the saved report DTO', () => {
+  const r = raw();
+  r.products = [{ id: '11111111-1111-4111-8111-111111111111', brand: null, model: null }];
+  const parsed = reportOutputView.parse(ownerReport(r));
+  expect(parsed.products[0]).toMatchObject({ brand: null, model: null });
+});
+it.each([
+  ['blocked', 'above', 'Blocked option'],
+  ['unverified', 'unknown', 'Unverified option'],
+  ['eligible', 'above', 'Eligible option · above stated budget'],
+  ['eligible', 'unknown', 'Eligible option · budget unknown'],
+  ['eligible', 'within', 'Eligible alternative · within stated budget'],
+  ['eligible', null, 'Eligible alternative'],
+] as const)(
+  'labels %s / %s decisions without changing their eligibility',
+  (status, budget, expected) => {
+    expect(decisionLabel({ status, budget })).toBe(expected);
+  },
+);

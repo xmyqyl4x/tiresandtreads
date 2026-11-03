@@ -72,8 +72,8 @@ export const reportOutputView = object({
     object({
       id: optional(uuid()),
       modelId: optional(uuid()),
-      brand: optional(string()),
-      model: optional(string()),
+      brand: optional(nullable(string())),
+      model: optional(nullable(string())),
       sizeCode: optional(string()),
     }),
   ).check(maxLength(1000)),

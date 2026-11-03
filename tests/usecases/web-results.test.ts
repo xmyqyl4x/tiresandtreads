@@ -7,20 +7,29 @@ import { ownerReport } from '../../packages/application/src/services/report-reco
 const id = uuid(700),
   requestId = uuid(1);
 function fixture(
-  options: { lostSave?: boolean; lostRefine?: boolean; conflict?: boolean; draft?: boolean } = {},
+  options: {
+    lostSave?: boolean;
+    lostRefine?: boolean;
+    conflict?: boolean;
+    draft?: boolean;
+    unnamed?: boolean;
+  } = {},
 ) {
   const f = engineFixture(),
     n = normalizeAssessment(f.request);
   if (!n.ok) throw Error('fixture');
   const e = evaluate(n.value, f.snapshot);
   if (!e.ok) throw Error('fixture');
-  const output = ownerReport(
+  const baseOutput = ownerReport(
     JSON.parse(
       JSON.stringify({ result: e.value, evidence: f.snapshot, prices: [], products: [] }, (_, v) =>
         typeof v === 'bigint' ? v.toString() : v,
       ),
     ),
   );
+  const output = options.unnamed
+    ? { ...baseOutput, products: [{ id: uuid(99), brand: null, model: null }] }
+    : baseOutput;
   let version = 1,
     draft = options.draft
       ? {
@@ -151,3 +160,34 @@ it('surfaces a conflict without issuing a blind overwrite or refinement', async 
   expect(f.counts()).toEqual({ saves: 0, refinements: 0 });
   expect(f.keys).toHaveLength(1);
 });
+
+it('loads a legitimate owner response with unknown product names', async () => {
+  const f = fixture({ unnamed: true });
+  const c = resultsController('http://127.0.0.1:8380', id, f.send);
+  expect((await c.load()).report.output.products[0]).toMatchObject({ brand: null, model: null });
+});
+it.each(['save', 'refine'] as const)(
+  'recovers %s after a failed session lookup without replacing the command key',
+  async (operation) => {
+    const f = fixture({ draft: true });
+    let lookups = 0,
+      issued = 0;
+    const send: typeof fetch = async (url, init) => {
+      if (new URL(String(url)).pathname.endsWith('/sessions/current') && ++lookups === 1)
+        throw Error('temporary session failure');
+      return f.send(url, init);
+    };
+    const c = resultsController('http://127.0.0.1:8380', id, send, () => uuid(900 + issued++));
+    await c.load();
+    const answers = { ...f.request, annualMiles: 17000 };
+    await expect(operation === 'save' ? c.save(answers) : c.refine()).rejects.toThrow(
+      'temporary session failure',
+    );
+    if (operation === 'save') await c.retrySave();
+    else await c.refine();
+    expect(lookups).toBe(2);
+    expect(issued).toBe(1);
+    expect(f.keys).toHaveLength(1);
+    if (operation === 'save') expect(f.keys[0]!.body).toMatchObject({ input: answers });
+  },
+);
