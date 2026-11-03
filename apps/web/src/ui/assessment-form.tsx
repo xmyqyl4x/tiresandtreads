@@ -28,6 +28,7 @@ export function AssessmentForm() {
     [vehicles, setVehicles] = useState<Rows>([]),
     [packages, setPackages] = useState<Rows>([]),
     [phase, setPhase] = useState('idle'),
+    [submitting, setSubmitting] = useState(false),
     [lookupMessage, setLookupMessage] = useState(''),
     [next, setNext] = useState<string | null>(null),
     [bundle, setBundle] = useState<string | null>(null),
@@ -195,11 +196,10 @@ export function AssessmentForm() {
     }
     setErrors({});
     busy.current = true;
-    setPhase('submitting');
+    setSubmitting(true);
     try {
       const receipt = await api().submit(checked.input);
       setCreated(receipt.report_id);
-      setPhase('created');
       requestAnimationFrame(() => status.current?.focus());
     } catch (error) {
       const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : '';
@@ -210,10 +210,10 @@ export function AssessmentForm() {
             ? 'These answers conflict with current information. Reload reference options before trying again.'
             : 'We could not confirm a saved report. Your answers are retained. Retry with the same answers to safely check the same request; current source data may be unavailable.',
       );
-      setPhase(fields.mode === 'manual' ? 'idle' : 'ready');
       requestAnimationFrame(() => status.current?.focus());
     } finally {
       busy.current = false;
+      setSubmitting(false);
     }
   }
   return (
@@ -243,7 +243,7 @@ export function AssessmentForm() {
           </ul>
         </div>
       ) : null}
-      <fieldset disabled={phase === 'submitting'}>
+      <fieldset disabled={submitting}>
         <legend>1. Vehicle and tire sizes</legend>
         <div className="actions">
           {(['vehicle', 'manual'] as const).map((mode) => (
@@ -294,6 +294,9 @@ export function AssessmentForm() {
                   id="vehicle"
                   value={fields.vehicle}
                   onChange={(e) => {
+                    sequence.current++;
+                    abort.current?.abort();
+                    setPhase('idle');
                     change('vehicle', e.target.value);
                     setFields((v) => ({
                       ...v,
@@ -340,6 +343,9 @@ export function AssessmentForm() {
                 aria-describedby={errors.configuration ? 'configuration-error' : undefined}
                 value={fields.configuration}
                 onChange={(e) => {
+                  sequence.current++;
+                  abort.current?.abort();
+                  setPhase('idle');
                   const row = packages.find((x) => x.fact.id === e.target.value);
                   setFields((v) => ({
                     ...v,
@@ -433,7 +439,7 @@ export function AssessmentForm() {
             'This records your check. Manual sizes are not verified fitment or a safety clearance.'}
         </p>
       </fieldset>
-      <fieldset disabled={phase === 'submitting'}>
+      <fieldset disabled={submitting}>
         <legend>2. Driving and replacement</legend>
         <div className="form-grid">
           <Field
@@ -519,7 +525,7 @@ export function AssessmentForm() {
           </p>
         </div>
       </fieldset>
-      <fieldset disabled={phase === 'submitting'}>
+      <fieldset disabled={submitting}>
         <legend>3. Priorities and budget</legend>
         <div
           id="priorities"
@@ -583,11 +589,11 @@ export function AssessmentForm() {
         No email or advertising permission is required. Local technical results are not approved
         live tire advice.
       </p>
-      <Button type="submit" busy={phase === 'submitting'}>
+      <Button type="submit" busy={submitting}>
         Create assessment
       </Button>
       <div ref={status} tabIndex={-1} role={failure ? 'alert' : 'status'}>
-        {phase === 'submitting' ? (
+        {submitting ? (
           <p>
             Checking current information and saving your report. Please wait; a second submission is
             not needed.
