@@ -6,6 +6,7 @@ import { engineFixture } from '../fixtures/engine/base.ts';
 const names = [
   'create',
   'readOwner',
+  'readDraft',
   'saveDraft',
   'refine',
   'compare',
@@ -43,6 +44,7 @@ it.each(names)(
           {
             create: 'createReport',
             readOwner: 'readReport',
+            readDraft: 'readDraft',
             saveDraft: 'saveDraft',
             refine: 'refineReport',
             compare: 'compareReport',
@@ -155,5 +157,5 @@ it('delegates published lookup/content reads without owner identity or arbitrary
       });
   expect(s.lookup).toHaveBeenCalledOnce();
   expect(s.content).toHaveBeenCalledOnce();
-  expect(s.routes).toHaveLength(20);
+  expect(s.routes).toHaveLength(21);
 });
