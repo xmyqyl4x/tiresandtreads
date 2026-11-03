@@ -31,10 +31,12 @@ export function ReportScreen() {
     ack = useRef(''),
     generation = useRef(0),
     notice = useRef<HTMLDivElement>(null),
-    pendingSave = useRef<AssessmentRequest | null>(null);
+    pendingSave = useRef<AssessmentRequest | null>(null),
+    preservingReload = useRef(false);
   const inputValid = !!input && assessmentInputSchema.safeParse(input).success;
   const dirty = !!budgetError || (!!input && assessmentSignature(input) !== ack.current);
-  async function load(preserve = false) {
+  async function load(preserve = preservingReload.current) {
+    preservingReload.current = preserve;
     const route = reportRoute(location.search),
       stamp = ++generation.current;
     setLoading(true);

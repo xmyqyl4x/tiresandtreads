@@ -29,5 +29,25 @@
   "S4Accepted": false,
   "publicActivation": false,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "reviewCorrections": {
+    "unitAndUseCaseRegressions": 29,
+    "newRegressionExecutions": 10,
+    "nullableNames": "Source DTO and owner client accept nullable model/brand names without losing the report.",
+    "eligibleAlternatives": "Presentation tests preserve blocked, unverified, above-budget, budget-unknown and eligible-alternative distinctions.",
+    "sessionRecovery": "Both draft save and refinement recover after one failed session lookup, with two lookups but one original command key and one write.",
+    "browserRecovery": [
+      "A second tab saved mileage 16000. The first tab retained mileage 18000 after a real stale-draft conflict.",
+      "Paused only the identified disposable stage PostgreSQL container for at most 45 seconds; a finally handler resumed it automatically.",
+      "Reload current information failed while the database was paused, displaying the recoverable private-report error.",
+      "Retry current link after recovery retained 18000 and displayed both explicit rebase choices.",
+      "Keep my answers on current version saved the retained draft; refreshing the other tab loaded 18000. The report remained version 1.",
+      "The tested browser console had no warnings or errors."
+    ],
+    "screenshot": "p1-pr-034-reload-recovery.jpg",
+    "actualRecipients": 0,
+    "hostedProvisioning": false,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  }
 }

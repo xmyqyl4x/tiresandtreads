@@ -23,7 +23,16 @@ export function resultsController(
     draftRevision: string | null = null,
     draftBase: number | null = null;
   let session: Promise<{ csrf: string }> | undefined;
-  const csrf = () => (session ??= ownerSession(origin, bounded));
+  const csrf = () => {
+    if (!session) {
+      const pending = ownerSession(origin, bounded);
+      session = pending;
+      void pending.catch(() => {
+        if (session === pending) session = undefined;
+      });
+    }
+    return session;
+  };
   type SaveBody = Parameters<typeof client.save>[1];
   type RefineBody = Parameters<typeof client.refine>[1];
   let saveAttempt: { body: SaveBody; key: string } | null = null,
