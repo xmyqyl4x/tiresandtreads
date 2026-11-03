@@ -1,0 +1,2451 @@
+{
+  "schemaVersion": 1,
+  "scope": "review-only restore/readiness reconciliation and remaining gaps",
+  "baselineCommit": "8ac291f211cb08c94083ebe1631041e2b36a6d80",
+  "acceptedReadinessSource": "9a9d12d9fb4201f77f0a91ffd89240a86e787e66",
+  "acceptedReadinessTree": "499b9d1e39894e4a3eb1e3187b4d82ebed4c60fb",
+  "parent": "P1-PR-027 / six S3 gates remain open",
+  "status": "evidence review only; no original case/gate closure",
+  "holds": {
+    "HS01-HS08": "proposed",
+    "operatorsCoverageRates": "unconfirmed",
+    "S3Gates": "six pending; actual records empty",
+    "specialistLicensed": "pending",
+    "APIsFrontends": "held",
+    "hostedProvisioning": false,
+    "purchases": false,
+    "actualRecipientNotifications": false,
+    "productionPolicyChanged": false,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  },
+  "actualAcceptanceRecords": [],
+  "newImplementationFiles": [],
+  "newScenarioDefinitions": 0,
+  "newScenarioExecutions": 0,
+  "newlyClosedCases": 0,
+  "newlyClosedGates": 0,
+  "counts": {
+    "journal": 18,
+    "lifecycle": 22,
+    "ordering": 16,
+    "tlsAdmission": 20,
+    "coordination": 20,
+    "restoreHandoff": 17
+  },
+  "originalMatrixRows": 96,
+  "restoreHandoffRows": 17,
+  "totalReviewRows": 113,
+  "reviewRows": {
+    "journal": [
+      {
+        "id": "PJ01",
+        "requirement": "No dispatch; refuse or stop unavailable; no invented successful intent.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: No production durable intent backend or effect dispatcher is exercised. A parent file acknowledgement is not independent durable admission; absence of dispatch evidence cannot establish no prior effect.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ02",
+        "requirement": "Treat possible dispatch as unknown; fresh authoritative inventory, not automatic re-execution.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: The intent is synthetic, no SQL/provider action was possible, and the parent survives. Durable intent across parent/host loss and authoritative resource reconciliation remain unproved.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ03",
+        "requirement": "Quarantine; retain known commits, reconcile exact inventory; no rollback claim or password reset.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: No SQL commit or commit-response loss occurred in these journal proofs. The complete tail is a synthetic label, not an observed database commit; no automatic adoption, truncation or reconciliation follows.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ04",
+        "requirement": "Unknown effect; no blind retry, delete, adoption or assertion of provider idempotency.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: No CREATE DATABASE, provider timeout, supported idempotency key or request lookup was tested. Real response loss and resource provenance require separately authorized effect/provider evidence.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ05",
+        "requirement": "Foreign or ambiguous resource preserved; quarantine; name/OID/hash alone cannot authorize cleanup.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: Existing-file refusal is not ownership-of-creation proof for an existing same-name role/DB/provider resource. Synthetic inventory and matching names/digests cannot authorize adoption or cleanup.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ06",
+        "requirement": "Both unreleased; per-step commits retained; fresh paired inspection and reviewed forward re-entry only.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: The real partial-commit tests are separate from both journal proofs. No integrated durable intent/outcome journal, lifecycle release admission, reviewed forward continuation or continuous worker fencing is established.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ07",
+        "requirement": "Remain incompatible; no inverse-command compensation or learning the defect as a new baseline.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: The original grantor-collision finding is documented preparation evidence, not a newly executed or final-suite reproduction of that exact sequence. No compensating repair/provisioning journal exists.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ08",
+        "requirement": "One common coordination domain; loser times out bounded before any role mutation; distinct per-DB keys insufficient.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "The common app-database channel is used for both fixed app/CMS entry labels; a second actual candidate refuses the holder before inner dispatch.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "This is disposable cooperative read-only coordination. No shared production lifecycle authority spans every provisioning, migration, rotation, recovery or journal writer path.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ09",
+        "requirement": "Bounded stop, record no dispatched mutation or specific observed/unknown effects; close owned handles.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Both common grants precede four canonical session try-locks; each actual busy inner position refuses and closes its exact opened prefix.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "The new inner keys are session-level nonblocking fixture locks. They are not an integrated production migration lock plus durable intent/outcome protocol.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ10",
+        "requirement": "Stop new dispatch; quarantine and reconcile old in-flight work; new epoch cannot claim target fencing.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Both common coordinator backends are independently identity-checked and terminated. The inspector observes the opposite read still pending after backend absence; completion is discarded and new work refused.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No mutating SQL commit or accepted provider request is fenced, cancelled or reconciled. Independent durability, production authority and target fencing remain unproved.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ11",
+        "requirement": "No timeout-only takeover, reusable receipt or inferred process termination; fresh admission/reconciliation required.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Reused/invalid participants refuse; a fresh participant follows known cleanup. Unknown inspection abandons the fixture and prevents new admission in that process.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No independent epoch/lease authority, parent-loss takeover, current-head custody or old-effect quiescence is established.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ12",
+        "requirement": "Invalidate observation; operating change paths and fresh inspection required; advisory lock cannot exclude it.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Actual resource-supervisor loss and fixed post-await environment drift invalidate provisional observations; no cached-map adoption occurs.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Fixed local faults do not exclude a real external administrator/control plane or demonstrate every drift boundary or operating change path.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ13",
+        "requirement": "Canonical multi-target order; source preserved; contention/identity mismatch refuses without effects.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Actual source/target common allocation and all four inner channels follow canonical order for both raw permutations; contention/loss/refusal and all-four foundation preservation are observed.",
+        "latestLocalEvidence": "Actual synthetic archive restore/privacy replay and populated four-endpoint preservation now exist in RH, alongside the separate earlier canonical lock proof.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "They are not one execution under common source/target allocation. Do not add separate proofs as integrated lifecycle serialization, current provisioning-journal continuity or acceptance.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ14",
+        "requirement": "Only authoritative rollback proves no effect; unavailable observation and unknown effect may coexist.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: Modeled no-effect is supplied evidence. The separate known-rollback test does not establish a journaled rollback under connection loss, uncertain commit response or surrounding provider/other-DB effects.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ15",
+        "requirement": "Verify trusted checkpoint/current head; refuse inconsistent evidence; do not trust a self-consistent hash chain alone.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "RH05–RH07 exercise missing/stale/changed trusted current privacy-checkpoint views, including an actual added signed synthetic privacy entry.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "This is not a general authenticated provisioning-journal importer, independently trusted anti-fork witness, durable CAS, host-loss recovery or continuous live cutover.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ16",
+        "requirement": "No new effects; best-effort sanitized local diagnostic is not durable success; preserve quarantine and uncertainty.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Lost acknowledgement remains uncertain; SQL inspection loss leaves cleanup unknown despite later parent audit/teardown, and no fresh candidate is admitted.",
+        "latestLocalEvidence": "RH15/RH16 refuse incomplete observation; current-report byte drift suppresses recorded handoff/input results; old unknown end/inspection receipts remain unchanged.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json"
+        ],
+        "remainingGap": "No actual provisioning effect is dispatched or durably reconciled. An unavailable observation and later known physical cleanup do not prove no prior effect or authorize retry.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ17",
+        "requirement": "Reject or redact by allowlist before persistence; receipt grants no authority; no bearer token/URI/password hash.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Strict raw envelopes and bounded immutable public receipts omit credentials, PIDs, row data and PEM; unknown fields and identity changes refuse.",
+        "latestLocalEvidence": "Pinned raw manifests precede interpretation; recorded profiles/flags/source paths are validated; CLI values are masked and no arbitrary root/output/acceptance interface is exposed.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "This reviewed local developer report is not a general untrusted receipt importer, bearer capability or independently authenticated custody/authority.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "PJ18",
+        "requirement": "Evidence only; no runtime admission, APIs/frontends, provisioning, purchases or real notifications.",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-provisioning-journal-design.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "All eight HS decisions remain proposed, actual selections null, all six S3 gates pending and endpoint/public/acceptance flags false.",
+        "latestLocalEvidence": "The new report remains accepted=false with all six gates pending, all HS choices proposed and 51 input groups unconfirmed.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Operating and product acceptance are external held work; consistent byte checks do not authorize deployment, effects, APIs/frontends or notifications.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      }
+    ],
+    "lifecycle": [
+      {
+        "id": "BLC-T01",
+        "requirement": "Exact target/profile admission rejects unknown fields and unsupported authority before connect",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Strict five-field raw plans and private fixed resolution refuse caller transport/effect inputs; generated local resources are checked before owned setup/teardown scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No production target/profile admission or lifecycle executor is added; retained and hosted operating authority stays undecided.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T02",
+        "requirement": "State and receipt bindings reject stale/foreign/out-of-order handoffs",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Canonical fresh participants and current context/resource samples prevent raw-plan permutation or stale reuse from supplying authority.",
+        "latestLocalEvidence": "RH05–RH09 bind a separate trusted current view and refuse missing/stale/changed checkpoint or image/config metadata; the readiness integration checks recorded source chronology and raw bytes.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "The fixture view is not independently authenticated current-head authority, a production lifecycle state machine or a serialized release handoff.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T03",
+        "requirement": "Findings/receipts never serialize credentials or private data",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "New pure/live receipts expose only fixed bounded facts and omit raw identities/secrets; arrays and receipts are frozen.",
+        "latestLocalEvidence": "New restore/readiness receipts expose fixed counts/codes/booleans; arbitrary CLI values are masked and raw row/key/journal contents are not reported.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "No general production provisioning receipt importer, independent authority or broad exported-input security acceptance follows.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T04",
+        "requirement": "Phase-aware inspector distinguishes fresh/migrated/quarantined state without metadata creation",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "The new coordination profile validates foundation-only catalogs; earlier phase-aware fresh/migrated/constructed-quarantined reader evidence remains separately credited.",
+        "latestLocalEvidence": "RH01 actually restores both archives, replays privacy deletion, closes maintenance and observes the populated four-endpoint phase.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Production phase-aware bootstrap/CLI/preflight and lifecycle transitions are unchanged; original foundation/migrated/recovery contracts are not closed.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T05",
+        "requirement": "Read-only bounded allowlisted inspection leaves complete catalog/GUC/history snapshots unchanged on every branch",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "All four foundation endpoint role/member/ACL/GUC/catalog baselines and runtime quarantine match after every profile.",
+        "latestLocalEvidence": "LR04 and RH01/RH10–RH14 preserve separate populated source/target post-fault snapshots with real ledgers and read-only observations.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "The snapshots are per endpoint, bounded and non-atomic across databases; this is not every branch, continuous administrator exclusion or a production release handoff.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T06",
+        "requirement": "TLS/version/identity/catalog visibility refusal has no admin/repair fallback",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Four fixed endpoints use verified TLS/exact role, DB, owner, pinned version and read-only repeatable-read facts; wrong CA/SAN/password actually refuse.",
+        "latestLocalEvidence": "LR01 adds actual trust-root/material faults, LR02 actual cross-routing/resource refusals, LR03 actual bounded I/O/end observations; RH uses strict native four-endpoint TLS/session/owner/version checks.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "The full live wrong-database/role/session-owner/version and every drift combination are not all executed; fixture refusal does not select hosted/provider authority.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T07",
+        "requirement": "All 19 restrictive roles and zero incoming/outgoing memberships enforced",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "All 19 restrictive roles, zero memberships and nonowner runtime CONNECT quarantine are rechecked in both app/CMS DBs on both domains.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Existing catalog adverse evidence remains separately credited. Original case acceptance is unchanged; this new proof adds foundation observations, not a production lifecycle release.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T08",
+        "requirement": "Canonical ACL/default and role-setting drift detection with real change control",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Scoped ACL/default/role-setting digests remain equal to frozen setup baselines after contention, failures and cleanup controls.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No new real operating change-control or owner/grantor compensation mechanism is implemented.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T09",
+        "requirement": "Owners, definer/search path, RLS, constraints/indexes and object inventory validated",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Foundation catalog absence and public-schema ownership remain unchanged.",
+        "latestLocalEvidence": "LR04 and RH10/RH11/RH12/RH13/RH14 extend row/history/security preservation after setup faults; older catalog adverse controls retain their broader object-level scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "RH row/ledger/grant faults do not rerun or close every definer/RLS/constraint/index/ownership case or implement actual change-control repair.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T10",
+        "requirement": "Actual runtime assumption/DDL/cross-DB/RLS/default-access denials",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Every nonowner runtime role remains CONNECT-denied in the new foundation catalogs.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Catalog privilege observations are not new execution of every runtime assumption/DDL/cross-DB/RLS/default-access denial; earlier actual tests retain their separate scope.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T11",
+        "requirement": "Ordinary creator and privileged local control are not labeled provider acceptance",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Separate trusted synthetic setup and read-only observation are explicitly distinguished from provider/hosted acceptance.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No real provider behavior, operating model or hosted account is selected or tested.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T12",
+        "requirement": "Interrupted/unknown provisioning quarantines and reconciles exact created resources",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Actual lost grant acknowledgement is treated as potentially held; unknown cleanup stays unknown and refuses automatic retry.",
+        "latestLocalEvidence": "Artifact refusals and unavailable observer/current-view outcomes remain bounded and refuse handoff; historical unknown I/O receipts stay unknown.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json"
+        ],
+        "remainingGap": "Privacy replay is not a provisioning intent/outcome journal. No uncertain CREATE/role/provider effect provenance, authoritative resource adoption or lifecycle reconciliation executor is implemented.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T13",
+        "requirement": "Cluster-wide lifecycle serialization plus bounded per-DB migration locking",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Six physical sessions follow common0/common1 then four inner session try-locks, with real contention and both coordinator losses and exact cleanup.",
+        "latestLocalEvidence": "The earlier real six-channel allocation proof and the later actual restore/read-only proof are separately credited.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Restore/privacy replay is not executed under that multi-target common-allocation protocol. No durable lifecycle authority, all-path serialization, administrator exclusion or target fencing is established.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T14",
+        "requirement": "Exact owner-only immutable migration replay and CMS ledger reconciliation",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "RH restores actual app/CMS histories; ledger drift refuses; actual existing privacy replay is exercised after restoration.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Restore/history observation is not production migration replay/release compatibility acceptance or a durable provisioning-journal continuation.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T15",
+        "requirement": "Both directions of partial app/CMS success remain unreleased with truthful commits",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Unchanged boundary of the prior journal/lifecycle prototype: No durable journal-to-release continuation or global rollback/continuous hosted worker fence.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T16",
+        "requirement": "Drift after validation invalidates handoff; fresh serialized inspection required",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Fresh context/resource/backend/lock samples reject fixed post-await drift or unavailable custody; no stored digest is adopted as current evidence.",
+        "latestLocalEvidence": "RH phase/head checks occur before and after the observation batch; LR01–LR03 retain their explicit fault boundaries.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "No every-await fence, atomic multi-DB validation, continuous live-current-head check or validation-to-runtime admission is implemented.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T17",
+        "requirement": "Credential rotation handles new/old authentication, existing sessions and unknown outcomes",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "Thirteen RH restore/replay profiles reject source owner passwords on both target owner endpoints; maintenance closure is checked before observation.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Fresh restore credential separation does not implement production rotation/offboarding, old-session drain/revocation, uncertain outcome reconciliation or retained worker restart.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T18",
+        "requirement": "Independent restore rebuilds fresh credentials and rejects corrupt/wrong archives without globals import",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No additional effect/provisioning or phase-specific lifecycle observations from the new read-only coordination proof; inherited evidence retains its separate declared scope.",
+        "latestLocalEvidence": "RH02–RH04 refuse corrupt/wrong-project/manifest archives before target restoration. Thirteen other profiles actually restore both archives with fresh target credentials, real fixture cryptography and privacy replay.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Custody/key/current-checkpoint trust remains same-run and local; no parent/host/source loss independence, off-host durability, accepted hosted RPO/RTO/PITR or production restore authority is established.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T19",
+        "requirement": "Continuous quarantine, current journal replay and CMS reconciliation precede promotion recommendation",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "All four foundation DBs remain runtime-quarantined; unknown cleanup never produces a clean coordination receipt.",
+        "latestLocalEvidence": "RH captures a current signed privacy-journal-derived digest outside both databases after replay/maintenance closure; source/target CMS/app histories are observed separately.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "No production provisioning journal/current-head authority or promotion recommendation is implemented. RH14 deliberately grants target product CONNECT as a setup fault; the observer refuses and preserves it without opening a product session.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T20",
+        "requirement": "Missing custody/staffing/funding/provider/actual gates cannot become acceptance through local success",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Null actual choices, eight proposed HS decisions and six empty pending S3 acceptance records remain enforced.",
+        "latestLocalEvidence": "The integrated report retains six pending gates, eight proposed HS choices, 51 missing input groups and both historical unknown receipts.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Actual operator/coverage/rate/budget/provider/specialist/license/privacy acceptance remains absent. Technical consistency cannot create those records or release APIs/frontends.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T21",
+        "requirement": "Disposable-only exact target admission, pre-existing-resource refusal and mandatory cleanup",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "No-argument local Docker runner, pre-existing-resource refusal, internal network/no ports, exact owned setup/teardown and inspection are enforced.",
+        "latestLocalEvidence": "The RH runner removes sixteen identity-checked owned projects and its tooling tag; the readiness report never executes fixture cleanup.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "All targets are disposable. There is no authority over retained/native/foreign resources, and later physical cleanup never revises an earlier unknown admission receipt.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "BLC-T22",
+        "requirement": "Known/refused/unavailable/unknown outcomes never trigger blind/destructive retry or notifications",
+        "name": null,
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-bootstrap-lifecycle-contract.json",
+        "originalStatus": "proposed; not newly executed",
+        "inheritedReviewAtPR61": "Known busy, lost acknowledgement, late completion and unavailable cleanup remain distinct; no automatic mutation/provider retry or notification follows.",
+        "latestLocalEvidence": "RH15 reports owned observer loss only after the first completed read/end; RH16 current-view access loss is unavailable; recorded uncertainty is preserved by readiness checks.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "No pending SQL kill, general Docker inspection outage, authoritative uncertain provisioning outcome or permission to retry effects is demonstrated. RH17 is modeled only.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      }
+    ],
+    "ordering": [
+      {
+        "id": "MT01",
+        "requirement": "Reject live/retained/remote targets, unknown fields, caller SQL/URI/CA/key/timeout/program and oversize input before any handle is allocated.",
+        "name": "Exact fixture envelope",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Strict raw-envelope/unit refusal and fixed no-argument local harness.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No caller effects/transport accepted; original broader admission case remains unaccepted.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT02",
+        "requirement": "Require exactly two harness-bound domains with four fixed endpoints; reject duplicate slots, duplicate physical binding, wrong generation and source/target reversal.",
+        "name": "Distinct fixed domains",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Fresh owned distinct source/target container/incarnation/material seals and four private fixed owner endpoints.",
+        "latestLocalEvidence": "LR02 executes both cross-route directions, owned resource/material replacement and namespace/surrogate-preservation controls.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json"
+        ],
+        "remainingGap": "The fixed local collision set is not exhaustive alias/control-plane/hostile daemon coverage or production target admission.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT03",
+        "requirement": "Either input enumeration produces common[0], common[1] followed by the same ordered inner endpoints; source/target wording never sorts locks.",
+        "name": "Permutation invariant",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Both raw domain enumerations execute the same six-channel canonical order.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No production executor composition or original acceptance follows.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT04",
+        "requirement": "A participant holding an inner lock, unknown allocation, reused handle or incomplete prior cleanup cannot join or enlarge the domain set.",
+        "name": "No partial extension",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Early inner/read, reverse/reentrant/reused sequence and unknown-cleanup re-entry refuse.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No independently durable lifecycle authority or concurrent retained-process takeover is established.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT05",
+        "requirement": "One fixed nonblocking attempt refuses; no second common, inner or work command; close only owned handles.",
+        "name": "First common busy",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Common0 busy stops after its single try; no common1 allocation/inner/read. Both commons were already opened/admitted as reviewed.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Do not confuse opening common1 with attempting its allocation; original acceptance remains open.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT06",
+        "requirement": "Release/close first owned allocation and all opened work handles; zero inner/work dispatch; keep refusal and no automatic retry.",
+        "name": "Second common busy",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Common1 busy follows one common0 grant and closes both opened common sessions without inner work.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No integrated lifecycle effects/journal release follows.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT07",
+        "requirement": "A partial second connection, wrong DB/role/TLS/SAN/version or changed fixture binding invalidates all provisional allocations; never downgrade or fall back to harness root.",
+        "name": "Connection/TLS/identity failure",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Factory CA/SAN/password refusal; fixed positive TLS/role/DB/owner/version facts; actual unavailable custody controls.",
+        "latestLocalEvidence": "LR01/LR02/LR03 add actual trust/material/routing and bounded transport/end faults.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json"
+        ],
+        "remainingGap": "The entire live DB/role/session-owner/version matrix and all partial-target drift combinations remain incomplete.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT08",
+        "requirement": "Only after both common allocations: fixed inner try-lock in canonical domain then app/CMS order; refuse at any unavailable endpoint and close the complete owned prefix.",
+        "name": "Inner contention",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Each actual inner contention position refuses at its canonical acquired prefix and closes owned handles.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Session try-lock support is not the production migration/intent protocol.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT09",
+        "requirement": "Both common allocations remain held until all admitted fixed reads and post-read checks finish; no receipt retains allocation after closure.",
+        "name": "Success order/window",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Six grants remain sampled around four fixed baseline reads, across short rolled-back groups, until owned reverse close.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Sampled checks retain check/use races and are not atomic snapshots or fencing.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT10",
+        "requirement": "Either coordinator becoming unavailable invalidates the whole attempt; stop new work, discard affected evidence and close only owned channels.",
+        "name": "Lost first or second domain",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Both exact-owned common losses invalidate actual attempts and stop new read dispatch.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No external mutation/provider cancellation, quiescence or fencing.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT11",
+        "requirement": "A fixed independent read may finish after loss/timeout; completion is recorded separately and never admitted as protected evidence or described as cancelled.",
+        "name": "In-flight completion",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Opposite read remains observed pending after coordinator backend absence, then completes and is discarded; whole-deadline late application delivery also refuses.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Stop controls use a disclosed parent delivery latch; no claim SQL executes beyond command limits or is cancelled.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT12",
+        "requirement": "Re-admit before connection/command and after every awaited allocation/read; changed environment or binding refuses even when SQL returns success.",
+        "name": "Environment/acknowledgement drift",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Actual lost grant acknowledgement, fixed post-await context drift and unavailable supervisor/inspector refuse provisional evidence.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Not exhaustive every-await resource/material/credential/identity drift coverage.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT13",
+        "requirement": "Compare synthetic source/target data, catalog/ACL/GUC/history/role/membership snapshots at the declared proof boundary; every target runtime CONNECT remains closed, no grant/replay/restore.",
+        "name": "Source preservation/quarantine",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Before/after all-four foundation metadata/quarantine parity after every profile.",
+        "latestLocalEvidence": "LR04 and RH observe populated source/target histories and rows after deliberately preserved faults; actual restore/privacy replay is separately observed in RH.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "The common-allocation proof remains foundation-only. Restored populated observations are not composed with that common-lock protocol.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT14",
+        "requirement": "Observe all owned session ends and lock absence on each domain; if observation unavailable, mark cleanup unknown and withhold a clean receipt, never clean a foreign blocker.",
+        "name": "Exact cleanup",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Reverse owned close, driver end and fresh full-identity backend/advisory-lock absence; witness survives; inspection loss stays unknown.",
+        "latestLocalEvidence": "LR03 supplies actual end/inspection uncertainty and preserves two unknown admission receipts; RH adds exact owned cleanup and a distinct owned observer stop.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "No broad process/network loss matrix or foreign cleanup authority. Native end-hang evidence remains LR03; RH17 adds only a modeled receipt state.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT15",
+        "requirement": "Only a new bounded attempt after owned cleanup and fresh admission may be proposed; old receipt, epoch/count/hash or new holder supplies no authority over old effects.",
+        "name": "Fresh local attempt",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Fresh known-clean participant succeeds; unknown cleanup abandons its fixture and denies another candidate.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No old receipt/epoch/new-holder authority over real uncertain external effects.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MT16",
+        "requirement": "Reject archive restore, privacy/provisioning journal import, migration/CLI, role/password/ACL repair, provider request and runtime opening; no full PJ13/BLC-T13 acceptance.",
+        "name": "No recovery composition",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-ordering-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "New observer has no bootstrap/migration/restore/journal/provider/runtime dispatch surface; outer synthetic setup/faults/teardown are separate.",
+        "latestLocalEvidence": "A separately authorized finite restore/read-only proof now exists and is kept distinct from original coordinator observations.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "No production lifecycle or common-allocation/restore/provisioning-journal composition, PJ13/BLC-T13 acceptance, runtime release or independent fencing follows.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      }
+    ],
+    "tlsAdmission": [
+      {
+        "id": "TA01",
+        "requirement": "Reject malformed/duplicate/oversize/extra inputs, retained/live/remote targets, non-test project/provider mode before any build/setup/connection.",
+        "name": "Exact raw plan/environment",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Strict raw input and environment checks plus no-argument/local-Docker harness and pre-existing owned-resource refusal.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Do not reinterpret owner admission after synthetic preparation as a general production pre-build target admission service.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA02",
+        "requirement": "Admit 0/source and 1/target only, four fixed owner/DB endpoints; no caller URI/CA/SQL/role/callback/key/timeout and no model receipt as permission.",
+        "name": "Fixed slots and private resolver",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Both canonical slots and all four fixed private owner endpoints; public raw plan has no transport/effect knobs.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No production/private hosted resolver or authority is selected.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA03",
+        "requirement": "Require exact generated-project/service/container/nonexternal-volume/network-alias mapping and running process incarnation; aliasing or unavailable live supervisor refuses before owner connection.",
+        "name": "Owned distinct resources",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Actual owned mapping and fresh material/resource checks; supervisor unavailable refuses.",
+        "latestLocalEvidence": "LR02 exercises both routing directions, owned resource/material faults and separate namespace/surrogate preservation.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json"
+        ],
+        "remainingGap": "Fixed local tests do not exhaust host/control-plane replacements or create retained resource authority.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA04",
+        "requirement": "Wrong project/fixture/credential/TLS generation or replaced container/volume invalidates handoff and post-await observations; no automatic repair or stale receipt reuse.",
+        "name": "Generation/restart drift",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "PR58 actual same-container restart/generation and private credential/material drift remain credited; new post-await custody loss refuses.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Not every replaced container/volume or all-await drift scenario is executed.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA05",
+        "requirement": "Reject absent/extra/mixed-generation material, wrong key/leaf pair, non-CA/invalid root or unsafe source/target private-key mount; no retained or logged secrets.",
+        "name": "Bounded certificate custody",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Bounded private material sets/hashes/mounts and separate custodian; PR58 actual byte/credential drift refuses.",
+        "latestLocalEvidence": "LR01 exercises absent/extra/mixed/changed certificate/key material; LR02 covers shared/replaced TLS material custody.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json"
+        ],
+        "remainingGap": "Changed-file custody refusal is not malformed key-pair server startup/handshake proof, independent custody or every unsafe mount variant.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA06",
+        "requirement": "Separate valid unrelated root must refuse at client verification; no system-root fallback or rejectUnauthorized=false retry.",
+        "name": "Wrong trust root",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Actual unrelated valid root refuses in PR58 and the new retained-channel factory.",
+        "latestLocalEvidence": "LR01 adds actual expired, future and non-CA trust-root controls, beyond the earlier wrong-root case.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json"
+        ],
+        "remainingGap": "The fixed root set is not every chain/path/driver/clock-skew behavior or production authentication acceptance.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA07",
+        "requirement": "Expired and not-yet-valid root/leaf variants refuse; fixture clock skew is explicit, never an automatic guard relaxation.",
+        "name": "Certificate validity",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "PR58 actually exercises expired/future leaves; current valid roots/leaves admit.",
+        "latestLocalEvidence": "LR01 executes real certificate validity/root capability faults under fixed local timing.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-trust-material-local.json"
+        ],
+        "remainingGap": "No exhaustive clock skew, alternate chain/path or actual operating trust-management acceptance.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA08",
+        "requirement": "Both fixed mismatch aliases and cross-domain routing refuse; target leaf never borrows primary SAN/private key.",
+        "name": "Hostname/SAN mismatch",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Both mismatch aliases actually refuse in PR58; source factory mismatch repeats in new proof.",
+        "latestLocalEvidence": "LR02 actually cross-routes both domain directions and observes TLS hostname refusal; shared/replaced material custody is separate.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-routing-resource-local.json"
+        ],
+        "remainingGap": "No exhaustive hostile routing/private-key-sharing matrix or production resolver/identity authority.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA09",
+        "requirement": "Missing TLS, plaintext-only server, custom hostname callback, URI SSL options or unsanitized driver/TLS environment cannot produce admitted evidence.",
+        "name": "TLS downgrade/ambient options",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "PR58 plaintext-only source refuses; strict driver config and ambient option refusal remain unchanged.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No server-wide HBA/mTLS or exhaustive malicious transport/driver behavior claim.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA10",
+        "requirement": "Observe verified TLS connection plus exact current/session user, database, owner, pinned version and read-only repeatable-read state on all four fixed endpoints.",
+        "name": "Four positive endpoints",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "All four fixed positive endpoints and six retained physical channels verify TLS/identity/owner/version/read-only isolation.",
+        "latestLocalEvidence": "RH adds strict native TLS/session/owner/version/read-only facts after actual restore/replay across four endpoints.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Four fixed local endpoints do not establish hosted/provider acceptance or an atomic four-database snapshot.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA11",
+        "requirement": "Wrong DB/role/session role/owner/version/TLS/read-only/isolation or missing/ambiguous row refuses, never falls back to local_harness or changes membership.",
+        "name": "Wrong identity/version/state",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Exact positive facts plus pure fact-mismatch refusals from PR58; actual bad password refuses.",
+        "latestLocalEvidence": "RH validates actual restored populated/history/quarantine state; LR04 supplies separate populated ledger/row faults.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Actual wrong DB/role/session-owner/version and ambiguous-state variants remain only partly exercised.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA12",
+        "requirement": "Whole attempt is 4000ms for admission work, no step reset; each call capped by remaining time and inherited limits. Late completion is discarded, unknown work/cleanup remains unknown.",
+        "name": "One bounded attempt",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Actual single 4000ms attempt, lost acknowledgement and late application delivery refusal; separate bounded cleanup.",
+        "latestLocalEvidence": "LR03 supplies bounded actual connect/read/end and inspection controls; two deliberately unknown admissions remain unknown.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Not every I/O/process/network fault is executed; a timeout does not establish cancellation. RH end-unobserved is modeled only.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA13",
+        "requirement": "Administrative material stays in trusted outer-harness/initializer preparation custody; initializer exits before observation, outer supervisor supplies bounded live mapping only, observer has four owner configs/public CA and no Docker socket/admin env/server keys or callback dispatch.",
+        "name": "Setup privilege separation",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Setup/root custodian/SQL inspector/fault controller are separate; observer lacks root env, fault socket, server keys and Docker socket.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Trusted same-run custody and Docker GET code are not independent authentication or a daemon sandbox.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA14",
+        "requirement": "Both domains use explicitly prepared foundation-only recovery DBs; all nonowner runtime CONNECT remains revoked; role/membership/ACL/GUC/catalog baseline captured after setup, never repaired by observer.",
+        "name": "Foundation/quarantine baseline",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Foundation-only all-four metadata/quarantine baselines retain all 19 restrictive roles and zero memberships.",
+        "latestLocalEvidence": "A separate populated phase is proved in LR04; RH adds real restore/replay-to-read-only handoff and explicit maintenance closure.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "The original foundation-only reader remains unchanged; no production release/promotion or phase-aware CLI acceptance.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA15",
+        "requirement": "Observer invokes no migration/bootstrap/status/archive/journal/recovery/custody/Payload/provider path; starts no app/worker/provider runtime and never reopens CONNECT.",
+        "name": "No lifecycle/provider composition",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Observer has only fixed lock/read support; no production mutation/provider/lifecycle executor or runtime opening.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Outer synthetic setup and authorized fault effects are disclosed separately; this is not a production composition.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA16",
+        "requirement": "Recheck live supervisor-owned map/environment before each fixed connection/read and after awaited completion; if map unavailable, refuse rather than trust a stored digest.",
+        "name": "Re-admission boundaries",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Fresh sampled resource/context/ownership checks and fixed environment/actual supervisor/inspector-loss controls.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Not exhaustive every-await map/material/credential/routing drift; no fencing.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA17",
+        "requirement": "Close only exact owned clients after failed handshake/login/query; retain unknown disposition if connect/read/end cannot be observed; no foreign backend kill or root escalation.",
+        "name": "Partial/failed connection cleanup",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Owned failed transport and successful channels close; full identity/PID-based inspection distinguishes backend absence; inspector loss stays unknown.",
+        "latestLocalEvidence": "LR03 executes actual end/inspection faults and late native end behavior; RH15 adds a separate owned actor loss after a completed read/end.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-io-inspection-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "Unknown admission never becomes clean after later teardown; no pending-SQL kill or exhaustive process/network cancellation claim.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA18",
+        "requirement": "Compare declared post-setup role/membership/ACL/GUC/catalog/quarantine baseline; no probe data/DDL/password/role/grant effects. Session/statistics changes are disclosed, not bitwise file immutability.",
+        "name": "Observed before/after preservation",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "All-four independent foundation preservation audit after every profile between matching owned seals.",
+        "latestLocalEvidence": "LR04/RH add row, sequence, ledger and semantic catalog/security preservation across four populated endpoints with post-fault baselines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-populated-preservation-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json"
+        ],
+        "remainingGap": "This is not bitwise DB-file immutability, an atomic cross-database snapshot or independent authority.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA19",
+        "requirement": "Remove only generated owned project/material after observed process/session closure; failure/outage is cleanup unknown. Never prune/reset/repair retained dev/stage/native or foreign resources.",
+        "name": "Exact teardown boundary",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Exact generated-project teardown is inspected; cleanup uncertainty is not overwritten, and recovery files are retained if owned teardown cannot be confirmed.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "No retained dev/stage/native/foreign cleanup is permitted; unavailable process/backend observations remain unknown.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "TA20",
+        "requirement": "Only fixed IDs/counts/status and bounded diagnostics; no URLs/passwords/CA/key/row contents. Explicit no common-lock/order/fencing/authenticated-journal/durability/hosted/gate acceptance claim.",
+        "name": "Bounded redacted receipt",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-fixture-tls-admission-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": "Bounded frozen redacted receipts explicitly retain false authority/acceptance flags and zero case/gate closures.",
+        "latestLocalEvidence": "No additional scenario execution or expanded acceptance is claimed here; inherited local evidence retains its separate scope.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-coordination-reconciliation-review.json"
+        ],
+        "remainingGap": "Diagnostic counts/digests do not establish authenticated journal custody, durability, fencing, runtime admission or hosted acceptance.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      }
+    ],
+    "coordination": [
+      {
+        "id": "MC01",
+        "requirement": "Malformed/duplicate/oversize/extra or retained inputs refuse before handles; fixed source/target slots and no caller key/SQL/PID/URI.",
+        "name": "Exact raw admission",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Fixed local admission remains separate from production target/authority selection.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC02",
+        "requirement": "Every new channel verifies TLS/session/resource/material generation; representative factory-specific negatives refuse, remaining TA faults remain open.",
+        "name": "Verified current channels",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "RH reuses transport/settings and strict endpoint facts; reuse of those helpers is not common-allocation during restore.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC03",
+        "requirement": "Both public input enumerations produce common0/common1 then inner0app/0cms/1app/1cms; no inverted acquisition to provoke a deadlock.",
+        "name": "Permutation invariant",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Canonical ordering observations remain local; no production executor composition is added.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC04",
+        "requirement": "One bounded attempt observes six exact distinct channels, canonical grants and four catalog reads with pre/post ownership samples, then reverse cleanup.",
+        "name": "Actual six-lock journey",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "The actual earlier six-lock journey is foundation-only and not combined with RH restore/privacy replay.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC05",
+        "requirement": "Two opposite work origins share source-app common endpoint; loser makes one try, opens no inner channels and performs zero catalog work reads.",
+        "name": "First common busy",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Bounded common contention does not establish durable intent or mutation fencing.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC06",
+        "requirement": "Fixed target-common blocker leaves source common as owned prefix; refuse before all inner work, observe complete owned cleanup.",
+        "name": "Second common busy",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "No lifecycle effect/current-journal release follows successful cooperative allocation.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC07",
+        "requirement": "Block each of four inner keys in turn; both commons precede inner attempts, no later acquisition/work after first false/unknown outcome.",
+        "name": "Each inner busy",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Inner session try-lock controls are not a production migration/intent protocol.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC08",
+        "requirement": "Fixed negative mode gets equal numeric common key in source app and CMS DBs; both grants demonstrate absent shared exclusion, never an admitted main-path result.",
+        "name": "Separate-database negative",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Separate-DB lock observations do not select authority surviving DB rebuild.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC09",
+        "requirement": "Early work, partial extension, reentrant allocation, shared/upgrade mode, duplicate/out-of-order acknowledgement or terminal reuse refuses.",
+        "name": "Invalid order and reuse",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "No independent epoch/lease takeover or production participant lifecycle is implemented.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC10",
+        "requirement": "After all six grants, an opposite-domain fixed slow read is actually active; separate exact-owned fault signals common0, result completes but is discarded and new work stops.",
+        "name": "Lost source coordinator",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Actual coordinator loss does not cancel/fence independent SQL/provider effects; RH observer loss is a different event.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC11",
+        "requirement": "Repeat exact-owned fault for common1 with source-domain slow read; either common loss invalidates whole attempt, no fencing claim.",
+        "name": "Lost target coordinator",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Target coordinator loss remains cooperative read-only evidence, not effect quiescence or fencing.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC12",
+        "requirement": "Lost/late successful grant acknowledgement quarantines exact owned handle as potentially held; no automatic repeat/unlock of an unowned PID.",
+        "name": "Unknown grant acknowledgement",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Unknown grant acknowledgment is not authoritative inventory of an uncertain provisioning effect.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC13",
+        "requirement": "One real monotonic 4000ms attempt; forced late completion refused, in-flight disposition recorded, cleanup bounded separately and never assumed completed at timeout.",
+        "name": "Whole deadline and late result",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "The disclosed parent delivery latch can withhold a completed read; no claim that SQL runs beyond its command limit or is cancelled.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC14",
+        "requirement": "Fixed owned incarnation/material or supervisor-availability change at awaited boundary discards provisional observations; no rebind or automatic repair.",
+        "name": "Mapping drift in flight",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Sampled context/resource checks retain check/use races and do not exclude an administrator/control plane.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC15",
+        "requirement": "Reverse close exact inner prefix then common1/common0; driver end plus fresh exact backend/lock absence in both domains; unrelated owned witness survives.",
+        "name": "Observed owned cleanup",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "LR03/RH add other cleanup boundaries without granting retained/foreign resource cleanup authority.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC16",
+        "requirement": "Lost inspection or unobserved client end yields cleanup unknown; no clean receipt or fresh participant even if root teardown later removes resources.",
+        "name": "Unavailable cleanup inspection",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "The old unknown admission receipts remain unknown. RH16 is current-view permission loss, not Docker inspection loss; later teardown does not upgrade receipts.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC17",
+        "requirement": "Before/after scoped role/member/ACL/GUC/catalog baselines match and nonowner runtime CONNECT denied on both domains; no populated history/data preservation credit.",
+        "name": "Foundation preservation",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "LR04/RH populated preservation is separate from the original foundation coordinator fixture; no atomic integrated coordinator/restore proof.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC18",
+        "requirement": "Raw environment and private mapping re-admitted before dispatch and after every await; SQL success alone cannot admit stale evidence.",
+        "name": "Context after awaits",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Batch/phase checks and fixed faults do not establish every-await coverage or target fencing.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC19",
+        "requirement": "Only fresh nonce/channels after observed old-work completion and owned session/lock absence; no old receipt or new-holder authority over unknown prior work.",
+        "name": "Fresh after known cleanup",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Fresh after known cleanup is not timeout-only takeover authority over uncertain external effects.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "MC20",
+        "requirement": "Bounded redacted immutable facts distinguish lock effects, read completion, rejection and privileged test fault; no lifecycle/provider dispatch, case/gate closure or production acceptance.",
+        "name": "Receipt and effects boundary",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-multitarget-proof-design-review.json",
+        "originalStatus": "proposed; not executed",
+        "inheritedReviewAtPR61": null,
+        "latestLocalEvidence": "Earlier MC local observations retain their declared foundation/read-only scope; RH and readiness are separate evidence lines.",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-multitarget-coordination-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "The new report preserves effects/acceptance/authority flags false and missing inputs; it supplies no actual operating approval.",
+        "status": "open; unchanged original acceptance",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      }
+    ],
+    "restoreHandoff": [
+      {
+        "id": "RH01",
+        "profile": "positive",
+        "requirement": "Complete admitted archive restore and actual synthetic privacy replay, close maintenance, inspect four endpoints twice and preserve each post-setup baseline; no runtime release.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "success",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH02",
+        "profile": "bundle-corrupt",
+        "requirement": "A changed encrypted tag refuses before restore files/target rows exist.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH03",
+        "profile": "bundle-project",
+        "requirement": "Wrong project binding refuses before restore; target remains empty/quarantined.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH04",
+        "profile": "bundle-manifest",
+        "requirement": "A source migration-manifest mismatch refuses before restore; no automatic migration/repair.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH05",
+        "profile": "checkpoint-missing",
+        "requirement": "A missing separately mounted current-checkpoint view refuses handoff.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH06",
+        "profile": "checkpoint-stale",
+        "requirement": "A checkpoint predating the sealed post-replay phase, expired or with a stale generation refuses; no refreshed timestamp as a substitute.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH07",
+        "profile": "checkpoint-changed",
+        "requirement": "A fixed additional signed synthetic journal entry after phase sealing changes the separately captured current digest; refuse the old handoff without replaying the new entry.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH08",
+        "profile": "image-binding",
+        "requirement": "A changed expected tooling-image binding refuses against the trusted same-run parent binding; not arbitrary-image attestation.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH09",
+        "profile": "config-binding",
+        "requirement": "A changed sanitized configuration digest refuses; no credentials or raw config in receipts.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH10",
+        "profile": "app-history",
+        "requirement": "A fixed target app checksum drift is detected and preserved as presented.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH11",
+        "profile": "cms-history",
+        "requirement": "A fixed target native CMS migration-history drift is detected and preserved as presented.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH12",
+        "profile": "target-row",
+        "requirement": "A fixed target populated row drift is detected without repair or pristine-state substitution.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH13",
+        "profile": "source-row",
+        "requirement": "A fixed source row drift is detected; the source is not assumed unchanged because target inspection succeeded.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH14",
+        "profile": "quarantine",
+        "requirement": "A deliberately granted target product-role CONNECT is detected without opening a product session; observer preserves the presented grant.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "refused",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH15",
+        "profile": "observer-loss",
+        "requirement": "Terminate only the exact owned observer actor after its bounded observation-start checkpoint; no success receipt, no cancellation/fencing claim; parent cleanup remains separate.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "unavailable",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH16",
+        "profile": "inspection-loss",
+        "requirement": "Withhold the separate current-checkpoint observation after the phase seal; unavailable inspection blocks handoff, not a claim of Docker/control-plane loss.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "historical native execution",
+        "recordedOutcome": "unavailable",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Retain the scoped limits, post-fault preservation, trusted same-run metadata and no production/authority/gate closure; do not substitute this for common-allocation or provisioning-journal composition.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      },
+      {
+        "id": "RH17",
+        "profile": "end-unobserved",
+        "requirement": "Model an unavailable native-end acknowledgment and retain unknown cleanup/fresh-attempt refusal. Existing LR03 remains the separate actual end/transport proof; this row adds no native end-hang claim.",
+        "originalDefinitionSource": "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-contract.json",
+        "originalStatus": "open; no original case/gate closure",
+        "evidenceKind": "modeled receipt-state only",
+        "recordedOutcome": "modeled-only",
+        "evidenceReferences": [
+          "docs/implementation/evidence/P1/p1-pr-027-restore-handoff-local.json",
+          "docs/implementation/evidence/P1/p1-pr-027-restore-readiness-local.json"
+        ],
+        "remainingGap": "Finite local evidence only; no original lifecycle/journal/coordination acceptance, independent authority or runtime release. RH17 supplies no new native end-hang.",
+        "status": "historical local evidence; original acceptance unchanged",
+        "accepted": false,
+        "newScenarioExecutedByReview": false
+      }
+    ]
+  },
+  "readinessSnapshot": {
+    "status": "consistent-restore-evidence",
+    "pinScope": {
+      "sources": 206,
+      "historical": 163,
+      "inputs": 4,
+      "sp08": 23,
+      "proofSources": 17,
+      "localReferences": 264
+    },
+    "fileReview": {
+      "filesChecked": 464,
+      "bytesRead": 4922048,
+      "matchedPins": 378,
+      "issues": []
+    },
+    "recordedHandoff": {
+      "nativeProfiles": 16,
+      "artifactRefusals": 3,
+      "actualRestoreReplayProfiles": 13,
+      "repeatedExistingCustodyExecutions": 26,
+      "newUniqueCustodyTests": 0,
+      "focusedControls": 45,
+      "modeledOnly": [
+        "RH17"
+      ],
+      "normalObserverMutationStatements": 0,
+      "separateRejectedWriteProbes": 4,
+      "parentAssertionCountsAreDerived": true,
+      "historicalExecutionOnly": true,
+      "provenance": {
+        "contractSource": "26377e3821af4cef68f53d656b078f4bd02fed35",
+        "contractMerge": "942cb852f7f9dc22bb28b6db811292fd4ca11b0c",
+        "nativeSource": "4d13139e21881affd7780127d04573856debbf54",
+        "nativeTree": "39a349dcb934f1bbbc8efe359ef393fd68399301",
+        "publicationSource": "a79025c0988dd6721f23ee053e85c01c1daf33a9",
+        "publicationTree": "9a821447c9ed13659fcb935c3f6d34927d932b8a",
+        "proofMerge": "df2be77ab24662ce3c7f0ae30696652c0686b8e2"
+      }
+    },
+    "historicalUnknownAdmissionReceipts": 2,
+    "fixtureExecutions": 0,
+    "gitHistoryVerifiedNow": false,
+    "ciReexecutedNow": false,
+    "accepted": false,
+    "endpointImplementationAllowed": false,
+    "publicActivation": false,
+    "runtimeAdmission": false,
+    "independentDurability": false,
+    "authenticated": false,
+    "targetFencing": false,
+    "hostedAccepted": false,
+    "providerDispatches": 0,
+    "actualRecipientNotifications": 0,
+    "casesClosed": 0,
+    "gatesClosed": 0,
+    "acceptanceInputReview": {
+      "status": "pending-external-inputs",
+      "counts": {
+        "gates": 6,
+        "decisions": 8,
+        "assignments": 7,
+        "budgetFields": 9,
+        "coverageFields": 7
+      },
+      "gates": [
+        {
+          "id": "G1-specialist",
+          "status": "pending",
+          "actualRecords": 0
+        },
+        {
+          "id": "G1-fitment-catalog",
+          "status": "pending",
+          "actualRecords": 0
+        },
+        {
+          "id": "G1-prices",
+          "status": "pending",
+          "actualRecords": 0
+        },
+        {
+          "id": "G2-provider-effects",
+          "status": "pending",
+          "actualRecords": 0
+        },
+        {
+          "id": "G2-privacy-policy",
+          "status": "pending",
+          "actualRecords": 0
+        },
+        {
+          "id": "S3-service-host",
+          "status": "pending",
+          "actualRecords": 0
+        }
+      ],
+      "decisions": [
+        {
+          "id": "HS01",
+          "status": "proposed"
+        },
+        {
+          "id": "HS02",
+          "status": "proposed"
+        },
+        {
+          "id": "HS03",
+          "status": "proposed"
+        },
+        {
+          "id": "HS04",
+          "status": "proposed"
+        },
+        {
+          "id": "HS05",
+          "status": "proposed"
+        },
+        {
+          "id": "HS06",
+          "status": "proposed"
+        },
+        {
+          "id": "HS07",
+          "status": "proposed"
+        },
+        {
+          "id": "HS08",
+          "status": "proposed"
+        }
+      ],
+      "missingInputs": [
+        {
+          "source": "decisions",
+          "field": "selectedProvider",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "selectedRegion",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "selectedDatabaseModel",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "approvedMonthlyBudgetUsd",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "primaryOperator",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "backupOperator",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS01.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS01.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS02.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS02.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS03.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS03.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS04.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS04.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS05.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS05.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS06.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS06.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS07.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS07.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS08.approvedValue",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "decisions",
+          "field": "HS08.actualApprover",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.budgetOwner",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.primaryPlatformOperator",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.backupPlatformOperator",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.databaseRecoveryOwner",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.securityKeyCustodian",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.privacyReviewer",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "assignments.releaseReviewer",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.recurringInfrastructureCeilingCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.temporaryMonthlyCeilingCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.temporaryPerEventCeilingCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.setupHardwareCeilingCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.laborHourlyRateCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.monthlyLaborHours",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.monthlySupportRetainerCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.taxInvoiceCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "approved.allInMonthlyBudgetCents",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.timeZone",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.days",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.start",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.end",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.primaryContact",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.backupContact",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "operations",
+          "field": "coverage.alertDestination",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "register",
+          "field": "G1-specialist.actualAcceptanceRecords",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "register",
+          "field": "G1-fitment-catalog.actualAcceptanceRecords",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "register",
+          "field": "G1-prices.actualAcceptanceRecords",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "register",
+          "field": "G2-provider-effects.actualAcceptanceRecords",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "register",
+          "field": "G2-privacy-policy.actualAcceptanceRecords",
+          "reason": "unconfirmed"
+        },
+        {
+          "source": "register",
+          "field": "S3-service-host.actualAcceptanceRecords",
+          "reason": "unconfirmed"
+        }
+      ],
+      "accepted": false,
+      "endpointImplementationAllowed": false,
+      "frontendsHeld": true
+    }
+  },
+  "remainingGapGroups": [
+    {
+      "id": "RG01",
+      "priority": 1,
+      "kind": "actual-inputs-held",
+      "subject": "Operating and product acceptance",
+      "remaining": "51 missing input groups; eight proposed HS choices; six pending S3 gates. Operators/coverage/rates, funding/hosting/provider, specialist/license and privacy selections remain unconfirmed.",
+      "nextAction": "When the owner elects to revisit them, gather actual named assignments, supported source/provider contracts, policy selections and measured hosted evidence against the existing decision packet. This review requests no approval or provisioning.",
+      "cases": [
+        "PJ18",
+        "BLC-T20"
+      ]
+    },
+    {
+      "id": "RG02",
+      "priority": 2,
+      "kind": "separate-authority-design-and-implementation",
+      "subject": "Provisioning intent/outcome authority and lifecycle executor",
+      "remaining": "No independently durable/current provisioning journal, effect reconciliation/adoption, epoch takeover or all-path lifecycle executor exists. Privacy deletion replay is a different subsystem.",
+      "nextAction": "Define a separately authorized authority/custody/effect contract before any executor implementation or provider effects. Do not infer permission from this review.",
+      "cases": [
+        "PJ01",
+        "PJ02",
+        "PJ03",
+        "PJ04",
+        "PJ05",
+        "PJ06",
+        "PJ14",
+        "PJ15",
+        "PJ16",
+        "BLC-T12",
+        "BLC-T22"
+      ]
+    },
+    {
+      "id": "RG03",
+      "priority": 3,
+      "kind": "separately-scoped-technical-composition",
+      "subject": "Common coordination composed with restore and current journal",
+      "remaining": "The foundation common-allocation proof and populated restore/read-only proof are separate runs. Current checkpoint views are trusted same-run metadata.",
+      "nextAction": "Only if a specific engineering question warrants it, separately review common-allocation, maintenance/replay ordering, current-head authority and uncertainty boundaries before another local composition. No automatic next proof or case closure.",
+      "cases": [
+        "PJ13",
+        "MT13",
+        "MT16",
+        "MC04",
+        "MC17",
+        "BLC-T13",
+        "BLC-T19"
+      ]
+    },
+    {
+      "id": "RG04",
+      "priority": 4,
+      "kind": "actual-custody-and-hosted-recovery-held",
+      "subject": "Independent recovery and live current-head trust",
+      "remaining": "No independent parent/host/source-loss custody, hosted RPO/RTO/PITR, anti-fork authority or concurrent live-journal cutover is established. Existing fixture cryptography remains real under trusted synthetic keys.",
+      "nextAction": "Use actual hosting/custody decisions and separately approved recovery evidence when those inputs are ready; no purchases/provisioning now.",
+      "cases": [
+        "PJ15",
+        "BLC-T18",
+        "BLC-T19"
+      ]
+    },
+    {
+      "id": "RG05",
+      "priority": 5,
+      "kind": "bounded-technical-coverage-limit",
+      "subject": "Identity/version/drift and loss variants",
+      "remaining": "Live wrong DB/role/session-owner/version variants, malformed-pair startup/handshake behavior and exhaustive every-await/process/network combinations are not complete. Fixed positive/end/permission controls retain their narrower meanings.",
+      "nextAction": "Keep these limits explicit. Scope a further fixed local control only for a concrete question; no completeness percentage, pending-SQL cancellation or universal fencing claim.",
+      "cases": [
+        "TA05",
+        "TA11",
+        "TA12",
+        "TA17",
+        "MT07",
+        "MT12",
+        "BLC-T06",
+        "BLC-T16"
+      ]
+    },
+    {
+      "id": "RG06",
+      "priority": 6,
+      "kind": "production-lifecycle-held",
+      "subject": "Rotation/offboarding, runtime promotion and existing sessions",
+      "remaining": "Fresh restore target credentials are not production rotation/offboarding, drain/revocation of old sessions, unknown rotation reconciliation or a release/promotion executor.",
+      "nextAction": "Retain current bootstrap/CLI/preflight/policy and product holds until separately authorized lifecycle design, implementation and actual acceptance exist.",
+      "cases": [
+        "BLC-T14",
+        "BLC-T15",
+        "BLC-T17",
+        "BLC-T19"
+      ]
+    }
+  ],
+  "overlapAccounting": {
+    "earlierRestoreFocusedControls": 45,
+    "readinessFocusedControls": 43,
+    "readinessFullRegressionExecutions": 2236,
+    "recordedNativeRestoreProfiles": 16,
+    "recordedRealRestoreReplayProfiles": 13,
+    "recordedPreRestoreRefusals": 3,
+    "recordedRepeatedExistingCustodyExecutions": 26,
+    "newUniqueCustodyTests": 0,
+    "modeledOnlyRows": [
+      "RH17"
+    ],
+    "countsAreNotAdditiveUniqueCoverage": true,
+    "parentAssertionCountsAreDerived": true
+  },
+  "publication": "Normal exact-commit full regression and all nine independent jobs rerun existing checks separately. They are publication validation, not new scenario definitions or original acceptance. Completed final source/CI/review/tree results belong in the PR.",
+  "nextAction": "When the owner elects to revisit held decisions, work through actual S3 inputs. No additional local proof is required merely to keep current evidence consistent, and this review authorizes no automatic next implementation or gate closure."
+}

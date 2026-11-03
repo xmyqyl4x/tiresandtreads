@@ -1,0 +1,5 @@
+# Restore/readiness gap review: validation
+
+November 2, 2026 (Pacific). Baseline `8ac291f211cb08c94083ebe1631041e2b36a6d80`. This review adds only four new documents/structured records and four append-only notes. Source/test/fixture/dependency/runtime/policy inputs are unchanged. Existing publication regression is rerun separately; no new scenario execution or acceptance is attributed to the review.
+
+The required audit checks exact original 18/22/16/20/20 IDs, requirements and original statuses plus seventeen RH rows; total 113, no duplicates or accepted/closed rows. It verifies every evidence reference, six gap groups, all 475 inspected file hashes/14 direct anchors, four actual input snapshots and unchanged readiness output (464 files/378 pins, 51 missing groups, two historical unknowns). All six actual gates remain pending with empty records. It also verifies original cards/dependencies/FR/tasks/parent boxes/approvals/archives and append-only notes. Actual audit output and completed final-source full/CI/review/tree results belong in the PR after completion; no future result is predeclared here.
