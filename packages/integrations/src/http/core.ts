@@ -153,7 +153,12 @@ export function createHttpApi(d: {
         throw new HttpFailure(403, 'forbidden');
       if (url.search.length > 4096 || /%2f|%5c|\\/i.test(url.pathname))
         throw new HttpFailure(400, 'invalid_input');
-      const parts = url.pathname.split('/').map((p) => decodeURIComponent(p));
+      let parts: string[];
+      try {
+        parts = url.pathname.split('/').map((p) => decodeURIComponent(p));
+      } catch {
+        throw new HttpFailure(400, 'invalid_input');
+      }
       const matching = routes.filter(
         (r) =>
           r.parts.length === parts.length &&

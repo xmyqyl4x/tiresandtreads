@@ -636,11 +636,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-01, ENG-07, AT01, AT06, AT07, AT11, AT14, AT17, AT21, AT22, AT27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Run assessment → stored report → refine/compare → schedule/cancel → deletion headlessly through real APIs.
-- [ ] Audit every P1 endpoint against service/actor/schema/UC inventory and prove load, source and permission failure behavior.
-- [ ] Publish S4 evidence, client artifacts and remaining S5 render evidence; re-estimate frontend work.
+- [x] Run assessment → stored report → refine/compare → schedule/cancel → deletion headlessly through real APIs.
+- [x] Audit every P1 endpoint against service/actor/schema/UC inventory and prove load, source and permission failure behavior.
+- [x] Publish S4 evidence, client artifacts and remaining S5 render evidence; re-estimate frontend work.
 
 **Verification and acceptance:** All P1 API categories, full G0 and outstanding chosen-host/provider proofs are accepted under the [decision register](../implementation/P1-PR-001-launch-baseline.md#deferred-decision-register). This PR is the mandatory dependency for every P1 product UI/template PR.
+
+**Local technical implementation:** [The API validation record](../implementation/P1-PR-031-local-api-validation.md) and generated64-operation inventory complete local implementation/testing only. Actual S3/G0/S4 and deployment acceptance remain held; the owner separately authorized local032 frontend implementation.
 
 ### P1-PR-032
 

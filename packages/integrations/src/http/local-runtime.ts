@@ -194,6 +194,8 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
       }),
     );
     return {
+      // Trusted in-process worker/service composition; these objects are never serialized by a route.
+      services: host.services,
       origin: server.origin,
       metadata: { mode: 'local-only', publicActivation: false, S3Accepted: false },
       shutdown,
