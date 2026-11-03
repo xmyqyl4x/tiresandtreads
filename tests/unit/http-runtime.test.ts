@@ -38,7 +38,7 @@ const env = {
   PRIVATE_BUCKET: 'synthetic',
   KMS_KEY_ID: 'synthetic',
 };
-const lanes = ['report', 'catalog', 'limiter', 'asset'];
+const lanes = ['report', 'catalog', 'limiter', 'asset', 'staff'];
 function settings() {
   return {
     plan: {
@@ -54,6 +54,7 @@ function settings() {
     },
     keys: {
       report: { current: 'test-v1', values: { 'test-v1': '99'.repeat(32) } },
+      lookup: { synthetic: '77'.repeat(32) },
       reportIdentity: '88'.repeat(32),
     },
   };
@@ -81,7 +82,7 @@ it('refuses omitted HTTP connection reservations before composing the service ho
   await expect(createLocalPublicApi(env)).rejects.toThrow('budget');
   expect(mocked.host).not.toHaveBeenCalled();
 });
-it('composes the real loopback transport over supplied local services and drains all four HTTP pools', async () => {
+it('composes the real loopback transport over supplied local services and drains all five HTTP pools', async () => {
   const api = await createLocalPublicApi(env);
   fixtureServer.use(http.all(api.origin + '/*', () => passthrough()));
   try {
@@ -104,12 +105,12 @@ it('composes the real loopback transport over supplied local services and drains
   } finally {
     await api.shutdown();
   }
-  expect(mocked.drain).toHaveBeenCalledTimes(4);
+  expect(mocked.drain).toHaveBeenCalledTimes(5);
 });
 it('drains composed resources if cryptographic configuration fails before listener admission', async () => {
   const value = settings();
   value.keys.report.values['test-v1'] = '';
   mocked.settings.mockReturnValue(value);
   await expect(createLocalPublicApi(env)).rejects.toThrow('Local API unavailable');
-  expect(mocked.drain).toHaveBeenCalledTimes(4);
+  expect(mocked.drain).toHaveBeenCalledTimes(5);
 });

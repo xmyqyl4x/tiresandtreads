@@ -1,3 +1,8 @@
+import { consentRoutes } from '../../packages/integrations/src/http/consent.ts';
+import { staffRoutes } from '../../packages/integrations/src/http/staff.ts';
+import { consentInputSchemas } from '../../packages/contracts/src/consent-inputs.ts';
+import { staffInputSchemas } from '../../packages/contracts/src/staff-inputs.ts';
+import { operationQuerySchemas } from '../../packages/contracts/src/operation-queries.ts';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { publicOwnerRoutes } from '../../packages/integrations/src/http/public-owner.ts';
 import { apiErrorSchema, sessionContracts } from '../../packages/contracts/src/http.ts';
@@ -8,6 +13,13 @@ export function localApiDocument() {
   // Binding constructs closures only. No service, database, provider or fixture is executed.
   const routes = [
     ...sessionContracts,
+    ...consentRoutes({ contacts: {}, delivery: {}, privacy: {}, policy: async () => null }),
+    ...staffRoutes({
+      services: {},
+      authorize: async () => null,
+      artifact: async () => null,
+      commandId: () => '',
+    }),
     ...publicOwnerRoutes({
       reports: {},
       shareKeys: () => [],
@@ -34,7 +46,7 @@ export function localApiDocument() {
       });
     if (route.method !== 'GET')
       parameters.push({ name: 'Origin', in: 'header', required: true, schema: { type: 'string' } });
-    if (route.method !== 'GET' && route.access === 'owner')
+    if (route.method !== 'GET' && ['owner', 'staff'].includes(route.access))
       parameters.push({
         name: 'X-CSRF-Token',
         in: 'header',
@@ -43,6 +55,9 @@ export function localApiDocument() {
       });
     const query = (name, schema, required = false) =>
       parameters.push({ name, in: 'query', required, schema });
+    const queryShape = operationQuerySchemas[route.operationId]?.toJSONSchema();
+    for (const [name, schema] of Object.entries(queryShape?.properties ?? {}))
+      query(name, schema, queryShape.required?.includes(name) ?? false);
     if (route.operationId === 'lookupReference') {
       query('kind', { type: 'string', enum: referenceKinds }, true);
       query('market', { type: 'string', enum: ['US'], default: 'US' });
@@ -82,7 +97,9 @@ export function localApiDocument() {
         ? { security: [{ ownerCookie: [] }, { ownerBearer: [] }] }
         : route.access === 'capability'
           ? { security: [{ capability: [] }] }
-          : {}),
+          : route.access === 'staff'
+            ? { security: [{ staffBearer: [] }] }
+            : {}),
       ...(route.method === 'GET'
         ? {}
         : {
@@ -93,7 +110,9 @@ export function localApiDocument() {
                   schema:
                     route.operationId === 'createOwnerSession'
                       ? { type: 'object', additionalProperties: false }
-                      : (reportInputSchemas[route.operationId]?.toJSONSchema() ?? {
+                      : ({ ...reportInputSchemas, ...consentInputSchemas, ...staffInputSchemas }[
+                          route.operationId
+                        ]?.toJSONSchema() ?? {
                           type: 'object',
                           required: ['input'],
                           properties: { input: {} },
@@ -148,6 +167,12 @@ export function localApiDocument() {
         ownerCookie: { type: 'apiKey', in: 'cookie', name: 'tt_owner' },
         ownerBearer: { type: 'http', scheme: 'bearer' },
         capability: { type: 'http', scheme: 'bearer' },
+        staffBearer: {
+          type: 'http',
+          scheme: 'bearer',
+          description:
+            'Synthetic local fixture only; recent server-held MFA time and current DB permission required',
+        },
       },
       schemas: { Error: apiErrorSchema.toJSONSchema() },
     },
