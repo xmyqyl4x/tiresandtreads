@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { publicOwnerRoutes } from '../../packages/integrations/src/http/public-owner.ts';
 import { apiErrorSchema, sessionContracts } from '../../packages/contracts/src/http.ts';
 import { reportInputSchemas } from '../../packages/contracts/src/report-inputs.ts';
+import { referenceKinds } from '../../packages/application/src/queries/reference.ts';
 
 export function localApiDocument() {
   // Binding constructs closures only. No service, database, provider or fixture is executed.
@@ -39,6 +40,38 @@ export function localApiDocument() {
         in: 'header',
         required: true,
         schema: { type: 'string' },
+      });
+    const query = (name, schema, required = false) =>
+      parameters.push({ name, in: 'query', required, schema });
+    if (route.operationId === 'lookupReference') {
+      query('kind', { type: 'string', enum: referenceKinds }, true);
+      query('market', { type: 'string', enum: ['US'], default: 'US' });
+      query('bundle', { type: 'string', format: 'uuid' });
+      query('after', { type: 'string', minLength: 1, maxLength: 512 });
+      query('limit', { type: 'integer', minimum: 1, maximum: 100, default: 25 });
+      for (const name of ['id', 'makeEntityId', 'vehicleId', 'configurationId', 'modelId', 'skuId'])
+        query(name, { type: 'string', format: 'uuid' });
+      query('modelYear', { type: 'integer', minimum: 1900, maximum: 2200 });
+      for (const name of ['sizeCode', 'locale'])
+        query(name, { type: 'string', minLength: 1, maxLength: 100 });
+    }
+    if (route.operationId === 'getContent') {
+      query('path', { type: 'string', default: '/' });
+      query('locale', { type: 'string', default: 'en-US' });
+      query('market', { type: 'string', default: 'US' });
+    }
+    if (['readReport', 'readComparison'].includes(route.operationId))
+      query(
+        'version',
+        { type: 'integer', minimum: 1, maximum: 2147483647 },
+        route.operationId === 'readComparison',
+      );
+    if (route.operationId === 'forkReport')
+      parameters.push({
+        name: 'X-Share-Token',
+        in: 'header',
+        required: true,
+        schema: { type: 'string', maxLength: 512 },
       });
     (paths[path] ??= {})[route.method.toLowerCase()] = {
       operationId: route.operationId,

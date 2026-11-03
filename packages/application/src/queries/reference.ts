@@ -5,7 +5,7 @@ import { failure } from '../ports/transactions.ts';
 import { pageRequest } from '../ports/pagination.ts';
 import { id, ok, fail } from '../../../domain/src/values/core.ts';
 
-const kinds = [
+export const referenceKinds = [
   'domainEntityVersions',
   'domainAliases',
   'vehicles',
@@ -37,7 +37,7 @@ export function createReferenceQuery(uow: UnitOfWork, catalog: CatalogRepository
     ];
     if (
       [...query.keys()].some((k) => !allowed.includes(k)) ||
-      !kinds.includes(query.get('kind') as (typeof kinds)[number])
+      !referenceKinds.includes(query.get('kind') as (typeof referenceKinds)[number])
     )
       return fail(failure('invalid_input'));
     const kind = query.get('kind') as FactKind,

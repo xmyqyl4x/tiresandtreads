@@ -1,6 +1,8 @@
 import { beforeAll, afterAll, it, expect } from 'vitest';
 import { publicApiFixture } from '../fixtures/http/public-api.ts';
 import { engineFixture } from '../fixtures/engine/base.ts';
+import { localApiDocument } from '../../scripts/contracts/local-api.mjs';
+import { createHmac } from 'node:crypto';
 let f: Awaited<ReturnType<typeof publicApiFixture>>;
 beforeAll(async () => {
   f = await publicApiFixture();
@@ -8,6 +10,71 @@ beforeAll(async () => {
 afterAll(async () => {
   await f?.cleanup();
 });
+it('executes generated-contract lookup and fork inputs against the real HTTP handlers', async () => {
+  const doc = localApiDocument(),
+    operation = doc.paths['/api/v1/reference']!.get as {
+      parameters: { name: string; required: boolean; schema: { enum?: string[] } }[];
+    };
+  const kind = operation.parameters.find((p) => p.name === 'kind' && p.required)!.schema.enum![0]!;
+  expect((await f.call('/reference?kind=' + encodeURIComponent(kind))).status).toBe(200);
+  const original = await f.session(),
+    created = await (await f.call('/reports', original, engineFixture().request)).json(),
+    report = created.data.report_id;
+  const shared = await (
+      await f.call(
+        '/reports/' + report + '/shares',
+        original,
+        { version: 1, comparisonRevision: null },
+        'synthetic_spec_share',
+      )
+    ).json(),
+    who = await f.session();
+  const fork = doc.paths['/api/v1/shared/fork']!.post as {
+      parameters: { name: string; required: boolean }[];
+    },
+    header = fork.parameters.find((p) => p.name === 'X-Share-Token' && p.required)!.name;
+  const response = await fetch(f.server.origin + '/api/v1/shared/fork', {
+    method: 'POST',
+    headers: {
+      origin: f.server.origin,
+      cookie: who.cookie,
+      'x-csrf-token': who.csrf,
+      'content-type': 'application/json',
+      'idempotency-key': 'synthetic_spec_fork',
+      [header]: shared.data.token,
+    },
+    body: JSON.stringify(engineFixture().request),
+  });
+  expect(response.status).toBe(200);
+  expect((await response.json()).data.report_id).not.toBe(report);
+});
+it.each(['per_tire', 'set'] as const)(
+  'stores a merchandise quote with the supported %s basis over HTTP',
+  async (basis) => {
+    const who = await f.session(),
+      created = await (await f.call('/reports', who, engineFixture().request)).json(),
+      report = created.data.report_id;
+    const body = {
+      id: null,
+      expectedRevision: null,
+      skuId: null,
+      productText: 'Synthetic merchandise quote',
+      shopName: null,
+      currency: 'USD',
+      totalMinor: '10000',
+      quantity: 2,
+      basis,
+      observedOn: new Date().toISOString().slice(0, 10),
+      taxContextConfirmed: false,
+      taxIncluded: null,
+      sizeCode: '225/65R17',
+      components: [{ kind: 'alignment', included: false, basis: 'per_axle', minor: null }],
+    };
+    expect(
+      (await f.call('/reports/' + report + '/quotes', who, body, 'synthetic_merch_001')).status,
+    ).toBe(200);
+  },
+);
 it('UC01/UC03 commits and reads a report through real HTTP and PostgreSQL with duplicate/conflicting command handling', async () => {
   const who = await f.session(),
     body = engineFixture().request;
@@ -181,4 +248,43 @@ it('returns explicit missing-data evidence and refuses unsupported or unbounded 
   expect(await reference.json()).toHaveProperty('data.coverage');
   expect((await f.call('/reference?kind=vehicles&limit=101')).status).toBe(400);
   expect((await f.call('/reference?kind=vehicles&bundle=bad')).status).toBe(400);
+});
+it('retains the same owner and prior CSRF through key rotation, issues only current-version sessions and refuses a retired key', async () => {
+  const oldKey = new Uint8Array(32).fill(99),
+    newKey = new Uint8Array(32).fill(100),
+    who = await f.session();
+  const first = await (await f.call('/reports', who, engineFixture().request)).json(),
+    report = first.data.report_id;
+  const owner = (
+    await f.db.admin.query('SELECT owner_subject_id FROM app.reports WHERE id=$1', [report])
+  ).rows[0].owner_subject_id;
+  try {
+    f.rotateSecurity('http-v2', { 'http-v1': oldKey, 'http-v2': newKey });
+    expect((await f.call('/reports/' + report, who)).status).toBe(200);
+    const second = await f.call('/reports', who, engineFixture().request, 'synthetic_retained_new');
+    expect(second.status).toBe(200);
+    const id = (await second.json()).data.report_id;
+    expect(
+      (await f.db.admin.query('SELECT owner_subject_id FROM app.reports WHERE id=$1', [id])).rows[0]
+        .owner_subject_id,
+    ).toBe(owner);
+    const current = await f.session(),
+      raw = current.cookie.slice('tt_owner='.length),
+      digest = createHmac('sha256', newKey)
+        .update('local-http:v1\0owner\0' + raw)
+        .digest('hex');
+    expect(
+      (
+        await f.db.admin.query(
+          "SELECT key_version FROM app.owner_sessions WHERE token_hash=decode($1,'hex')",
+          [digest],
+        )
+      ).rows[0].key_version,
+    ).toBe('http-v2');
+    f.rotateSecurity('http-v2', { 'http-v2': newKey });
+    expect((await f.call('/reports/' + report, who)).status).toBe(401);
+    expect((await f.call('/sessions/current', current)).status).toBe(200);
+  } finally {
+    f.rotateSecurity('http-v1', { 'http-v1': oldKey });
+  }
 });

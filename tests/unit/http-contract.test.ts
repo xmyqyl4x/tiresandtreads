@@ -2,6 +2,29 @@ import { it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { localApiDocument } from '../../scripts/contracts/local-api.mjs';
 import { createApiClient } from '../../packages/contracts/src/http.ts';
+it('documents every operation-specific input needed by a generated lookup/comparison/fork client', () => {
+  const paths = localApiDocument().paths;
+  const parameters = (path: string, method: string) =>
+    (paths[path]![method] as { parameters: { name: string; in: string; required: boolean }[] })
+      .parameters;
+  expect(parameters('/api/v1/reference', 'get')).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ name: 'kind', in: 'query', required: true }),
+      expect.objectContaining({ name: 'limit', in: 'query' }),
+      expect.objectContaining({ name: 'after', in: 'query' }),
+    ]),
+  );
+  expect(parameters('/api/v1/reports/{reportId}/comparisons/{revision}', 'get')).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ name: 'version', in: 'query', required: true }),
+    ]),
+  );
+  expect(parameters('/api/v1/shared/fork', 'post')).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ name: 'X-Share-Token', in: 'header', required: true }),
+    ]),
+  );
+});
 it('keeps the local OpenAPI operation inventory generated from actual route bindings', () => {
   expect(JSON.parse(readFileSync('docs/api/local-v1.openapi.json', 'utf8'))).toEqual(
     localApiDocument(),

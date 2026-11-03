@@ -1,4 +1,4 @@
-import { createHmac, randomBytes, randomUUID } from 'node:crypto';
+import { createHmac, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createOwnerRepository } from '../../../db/src/repositories/owners.ts';
 import { createLimiterRepository } from '../../../db/src/repositories/limiter.ts';
 import type { createTransactions } from '../../../db/src/transactions.ts';
@@ -12,18 +12,32 @@ export function createLocalHttpSecurity(d: {
   readonly limiter: Scope;
   readonly secret: Uint8Array;
   readonly keyVersion: string;
+  readonly retainedKeys?: Readonly<Record<string, Uint8Array>>;
   readonly now?: () => number;
 }) {
   if (d.secret.length < 32 || !/^[a-zA-Z0-9_-]{1,80}$/.test(d.keyVersion))
     throw Error('Invalid local HTTP security');
+  const supplied = d.retainedKeys ?? { [d.keyVersion]: d.secret };
+  const names = Object.keys(supplied);
+  if (
+    !names.includes(d.keyVersion) ||
+    names.length > 4 ||
+    names.some((v) => !/^[A-Za-z0-9_-]{1,80}$/.test(v) || supplied[v]!.length < 32) ||
+    supplied[d.keyVersion]!.length !== d.secret.length ||
+    !timingSafeEqual(supplied[d.keyVersion]!, d.secret)
+  )
+    throw Error('Invalid retained HTTP keys');
+  const versions = [d.keyVersion, ...names.filter((v) => v !== d.keyVersion)];
+  const keyring = Object.fromEntries(versions.map((v) => [v, Buffer.from(supplied[v]!)]));
   const owners = createOwnerRepository(d.owners),
-    limiter = createLimiterRepository(d.limiter, [d.keyVersion]);
+    limiter = createLimiterRepository(d.limiter, versions);
   const now = d.now ?? Date.now;
-  const hash = (purpose: string, token: string) =>
-    createHmac('sha256', d.secret)
+  const hash = (purpose: string, token: string, version = d.keyVersion) =>
+    createHmac('sha256', keyring[version]!)
       .update('local-http:v1\0' + purpose + '\0' + token)
       .digest('hex');
-  const keys = (token: string) => [{ keyVersion: d.keyVersion, digest: hash('owner', token) }];
+  const keys = (token: string) =>
+    versions.map((keyVersion) => ({ keyVersion, digest: hash('owner', token, keyVersion) }));
   function bearer(request: Request) {
     const authorization = request.headers.get('authorization');
     if (authorization)
@@ -45,8 +59,13 @@ export function createLocalHttpSecurity(d: {
       const result = await d.owners.unitOfWork.run(async (tx) =>
         ok(await owners.resolve(tx, keys(token))),
       );
-      if (!result.ok || !result.value) return null;
-      return { keys: keys(token), csrf: hash('csrf', token) };
+      if (!result.ok) throw Error('Local authentication unavailable');
+      if (!result.value) return null;
+      return {
+        keys: keys(token),
+        csrf: hash('csrf', token),
+        csrfAliases: versions.map((v) => hash('csrf', token, v)),
+      };
     },
     async quota(peer) {
       const result = await d.limiter.unitOfWork.run(async (tx) =>
@@ -55,7 +74,10 @@ export function createLocalHttpSecurity(d: {
             {
               policy: 'local_http',
               version: '1',
-              keys: [{ keyVersion: d.keyVersion, digest: hash('peer', peer) }],
+              keys: versions.map((keyVersion) => ({
+                keyVersion,
+                digest: hash('peer', peer, keyVersion),
+              })),
             },
           ]),
         ),

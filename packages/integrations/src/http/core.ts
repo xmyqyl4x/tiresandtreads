@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID, timingSafeEqual } from 'node:crypto';
 import type { EndpointContract } from '../../../contracts/src/http.ts';
 import type { KeyDigest } from '../../../application/src/ports/private-records.ts';
 import type { Id, Result } from '../../../domain/src/values/core.ts';
@@ -7,6 +7,7 @@ import type { ApplicationFailure } from '../../../application/src/ports/transact
 export interface HttpActor {
   readonly keys: readonly KeyDigest[];
   readonly csrf: string;
+  readonly csrfAliases?: readonly string[];
   readonly staff?: Id<'staff'>;
   readonly mfaAt?: number;
 }
@@ -148,8 +149,16 @@ export function createHttpApi(d: {
           actor.mfaAt > (d.now?.() ?? Date.now()))
       )
         throw new HttpFailure(403, 'forbidden');
-      if (mutation && actor && request.headers.get('x-csrf-token') !== actor.csrf)
-        throw new HttpFailure(403, 'forbidden');
+      const suppliedCsrf = request.headers.get('x-csrf-token');
+      const csrfAllowed =
+        actor &&
+        suppliedCsrf !== null &&
+        (actor.csrfAliases ?? [actor.csrf]).some(
+          (value) =>
+            Buffer.byteLength(value) === Buffer.byteLength(suppliedCsrf) &&
+            timingSafeEqual(Buffer.from(value), Buffer.from(suppliedCsrf)),
+        );
+      if (mutation && actor && !csrfAllowed) throw new HttpFailure(403, 'forbidden');
       const key = request.headers.get('idempotency-key') ?? '';
       if (route.command && !/^[A-Za-z0-9_-]{16,100}$/.test(key))
         throw new HttpFailure(400, 'invalid_input');

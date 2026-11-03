@@ -457,7 +457,154 @@
     "/api/v1/reference": {
       "get": {
         "operationId": "lookupReference",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "domainEntityVersions",
+                "domainAliases",
+                "vehicles",
+                "vehicleLookupOptions",
+                "fitmentConfigurations",
+                "fitmentAxles",
+                "tireModels",
+                "tireSkus",
+                "recalls",
+                "adviceFacts"
+              ]
+            }
+          },
+          {
+            "name": "market",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "US"
+              ],
+              "default": "US"
+            }
+          },
+          {
+            "name": "bundle",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "makeEntityId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "configurationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "modelId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "skuId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "modelYear",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1900,
+              "maximum": 2200
+            }
+          },
+          {
+            "name": "sizeCode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          }
+        ],
         "x-local-only": true,
         "x-access": "public",
         "responses": {
@@ -599,7 +746,35 @@
     "/api/v1/content": {
       "get": {
         "operationId": "getContent",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "/"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "market",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "US"
+            }
+          }
+        ],
         "x-local-only": true,
         "x-access": "public",
         "responses": {
@@ -1597,6 +1772,16 @@
             "schema": {
               "type": "string",
               "maxLength": 128
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
             }
           }
         ],
@@ -2684,13 +2869,18 @@
                   },
                   "productText": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 200
                   },
                   "shopName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 200
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
                   },
                   "currency": {
                     "type": "string",
@@ -2701,15 +2891,39 @@
                     "pattern": "^(0|[1-9][0-9]{0,18})$"
                   },
                   "quantity": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 4
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "const": 1
+                      },
+                      {
+                        "type": "number",
+                        "const": 2
+                      },
+                      {
+                        "type": "number",
+                        "const": 4
+                      }
+                    ]
                   },
                   "basis": {
                     "type": "string",
                     "enum": [
-                      "installed_set",
-                      "merchandise_set"
+                      "per_tire",
+                      "set",
+                      "installed_set"
+                    ]
+                  },
+                  "sizeCode": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      {
+                        "type": "null"
+                      }
                     ]
                   },
                   "observedOn": {
@@ -2720,10 +2934,13 @@
                     "type": "boolean"
                   },
                   "taxIncluded": {
-                    "type": "boolean"
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
                   },
                   "components": {
-                    "maxItems": 10,
+                    "maxItems": 7,
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -2735,7 +2952,9 @@
                             "balancing",
                             "tpms_valve",
                             "disposal",
-                            "tax"
+                            "tax",
+                            "alignment",
+                            "required_other"
                           ]
                         },
                         "included": {
@@ -2745,6 +2964,7 @@
                           "type": "string",
                           "enum": [
                             "per_tire",
+                            "per_axle",
                             "per_order"
                           ]
                         },
@@ -3115,6 +3335,16 @@
             "schema": {
               "type": "string",
               "maxLength": 128
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
             }
           }
         ],
@@ -3871,6 +4101,15 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "X-Share-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 512
             }
           }
         ],

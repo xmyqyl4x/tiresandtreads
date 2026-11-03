@@ -53,9 +53,10 @@ export async function publicApiFixture() {
         decrypt: async (_value, purpose, id) => encrypted.get(purpose + id)!,
       },
     });
-    const security = createLocalHttpSecurity({
+    const limiterScope = db.adapter('tt_limiter_runtime');
+    let security = createLocalHttpSecurity({
       owners: db.scope,
-      limiter: db.adapter('tt_limiter_runtime'),
+      limiter: limiterScope,
       secret: new Uint8Array(32).fill(99),
       keyVersion: 'http-v1',
     });
@@ -63,9 +64,18 @@ export async function publicApiFixture() {
     const server = await listenLocalApi((origin) =>
       createHttpApi({
         origin,
-        security: security.security,
+        security: {
+          authenticate: (request) => security.security.authenticate(request),
+          quota: (peer, operation) => security.security.quota(peer, operation),
+        },
         routes: [
-          ...security.sessions,
+          ...security.sessions.map((route) => ({
+            ...route,
+            handle: (c: Parameters<typeof route.handle>[0]) =>
+              security.sessions
+                .find((current) => current.operationId === route.operationId)!
+                .handle(c),
+          })),
           ...publicOwnerRoutes({
             reports,
             shareKeys: (token) => crypto.lookup('share', token),
@@ -111,6 +121,15 @@ export async function publicApiFixture() {
       server,
       session,
       call,
+      rotateSecurity(keyVersion: string, retainedKeys: Readonly<Record<string, Uint8Array>>) {
+        security = createLocalHttpSecurity({
+          owners: db.scope,
+          limiter: limiterScope,
+          secret: retainedKeys[keyVersion]!,
+          keyVersion,
+          retainedKeys,
+        });
+      },
       async cleanup() {
         try {
           await server.close();

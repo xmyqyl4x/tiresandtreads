@@ -91,6 +91,7 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
       limiter,
       secret: keyring[settings.keys.report.current]!,
       keyVersion: settings.keys.report.current,
+      retainedKeys: keyring,
     });
     const lookup = createReferenceQuery(catalog.unitOfWork, createCatalogRepository(catalog.query));
     storage = new S3Client({
