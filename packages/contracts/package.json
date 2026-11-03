@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./results": "./src/results-client.ts",
+    "./report-views": "./src/report-views.ts",
     "./assessment": "./src/assessment-client.ts",
     "./health": "./src/health.ts",
     "./primitives": "./src/primitives.ts",

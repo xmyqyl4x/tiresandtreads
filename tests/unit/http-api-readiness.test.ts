@@ -7,8 +7,8 @@ it('classifies every bound endpoint exactly once with explicit service, actor, s
     ops = Object.values(localApiDocument().paths)
       .flatMap((x) => Object.values(x))
       .map((x) => (x as { operationId: string }).operationId);
-  expect(r.inventory).toHaveLength(64);
-  expect(new Set(r.inventory.map((x) => x.operationId)).size).toBe(64);
+  expect(r.inventory).toHaveLength(65);
+  expect(new Set(r.inventory.map((x) => x.operationId)).size).toBe(65);
   expect(r.inventory.map((x) => x.operationId).sort()).toEqual(ops.sort());
   for (const row of r.inventory) {
     expect(row.service).toBeTruthy();

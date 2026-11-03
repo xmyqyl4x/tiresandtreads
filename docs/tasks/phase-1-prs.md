@@ -690,11 +690,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC02, UC03, AT03, AT20. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Render up to five supported picks, reasons/exclusions, confidence, units/prices and provenance/as-of details.
-- [ ] Render maintenance/questions/current safety overlay and unavailable evidence without false precision.
-- [ ] Implement draft autosave, refine controls, version conflict/diff and return-to-report behavior.
+- [x] Render up to five supported picks, reasons/exclusions, confidence, units/prices and provenance/as-of details.
+- [x] Render maintenance/questions/current safety overlay and unavailable evidence without false precision.
+- [x] Implement draft autosave, refine controls, version conflict/diff and return-to-report behavior.
 
 **Verification and acceptance:** Results/refine browser tests match authoritative DTOs, preserve versions and remain usable at narrow widths.
+
+**Local implementation:** [Results and refinement record](../implementation/P1-PR-034-local-results-refinement.md). These boxes record local implementation/testing only; actual acceptance/deployment remain held.
 
 ### P1-PR-035
 

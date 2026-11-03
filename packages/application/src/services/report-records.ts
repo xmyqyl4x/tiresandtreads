@@ -101,6 +101,66 @@ export function reportDiff(
   });
 }
 // Deliberately select fields; never clone a private snapshot and delete a list of secrets.
+// Owner-only metadata is kept separate from the deliberately redacted share projection.
+export function ownerReport(output: JsonObject): JsonObject {
+  const safe = publicReport(output),
+    r = object(output.result),
+    e = output.evidence ? object(output.evidence) : {};
+  const list = (v: unknown) => (Array.isArray(v) ? v : null);
+  const decisions = (r.decisions as unknown[]).map((v) => {
+    const d = object(v);
+    return {
+      ...pick(d, ['id', 'status', 'reasons', 'scoreBp']),
+      confidence:
+        typeof d.confidence === 'number' && [0, 1, 2, 3].includes(d.confidence)
+          ? d.confidence
+          : null,
+      suitability: ['comparable', 'evidence_limited'].includes(String(d.suitability))
+        ? d.suitability
+        : null,
+      budget: ['within', 'above', 'unknown', 'not_requested'].includes(String(d.budget))
+        ? d.budget
+        : null,
+    };
+  });
+  return json({
+    ...safe,
+    result: {
+      ...object(safe.result),
+      decisions,
+      exclusions: list(r.exclusions),
+      aboveBudget: list(r.aboveBudget),
+      budgetUnknown: list(r.budgetUnknown),
+    },
+    prices: Array.isArray(output.prices)
+      ? output.prices.map((p) => ({
+          ...object(price(p)),
+          ...pick(p, ['planId', 'reasons', 'assumptionVersion']),
+        }))
+      : [],
+    sources: Array.isArray(e.sources)
+      ? e.sources.map((s) => pick(s, ['datasetId', 'kind', 'fetchedAt', 'validUntil']))
+      : [],
+    followUp: {
+      maintenance: 'not_assessed',
+      questions: [
+        ...new Set(
+          decisions.flatMap((d) => {
+            const reasons = object(d).reasons;
+            return Array.isArray(reasons)
+              ? reasons.filter(
+                  (x: unknown) =>
+                    typeof x === 'string' &&
+                    /^[A-Z_]{1,80}$/.test(x) &&
+                    !['FITMENT_VERIFIED', 'PREFERENCE_SCORE'].includes(x),
+                )
+              : [];
+          }),
+        ),
+      ],
+    },
+  });
+}
 export function publicReport(output: JsonObject): JsonObject {
   const r = object(output.result);
   const evidence =

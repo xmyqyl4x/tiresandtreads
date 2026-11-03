@@ -297,6 +297,7 @@ export function AssessmentForm() {
                     sequence.current++;
                     abort.current?.abort();
                     setPhase('idle');
+                    setLookupMessage('Choose a vehicle and wheel package.');
                     change('vehicle', e.target.value);
                     setFields((v) => ({
                       ...v,
@@ -346,6 +347,7 @@ export function AssessmentForm() {
                   sequence.current++;
                   abort.current?.abort();
                   setPhase('idle');
+                  setLookupMessage('Choose a wheel package.');
                   const row = packages.find((x) => x.fact.id === e.target.value);
                   setFields((v) => ({
                     ...v,
@@ -607,6 +609,9 @@ export function AssessmentForm() {
             <p>
               Report reference: <code>{created}</code>
             </p>
+            <a className="button secondary" href={'/preview/report?report=' + created}>
+              Open saved report
+            </a>
           </div>
         ) : null}
       </div>

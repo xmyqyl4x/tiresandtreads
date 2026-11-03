@@ -2,7 +2,9 @@ import { Link } from './link.tsx';
 import { Shell } from './shell.tsx';
 import { ComponentDemo } from './component-demo.tsx';
 import { AssessmentForm } from './assessment-form.tsx';
+import { ReportScreen } from './report-screen.tsx';
 const pages: Record<string, { title: string; text: string }> = {
+  report: { title: 'Your technical report', text: 'Private saved results and refinement' },
   'find-tires': {
     title: 'Find your next set.',
     text: 'The assessment form is the next part of the experience. This preview lets you review the shared navigation and controls.',
@@ -160,6 +162,19 @@ export function pageTitle(page: string) {
 export function PageView({ page }: { page: string }) {
   if (page === 'home') return <Home />;
   if (page === 'design-system') return <DesignSystem />;
+  if (page === 'report')
+    return (
+      <Shell path="/preview/report">
+        <section className="container page-heading">
+          <p className="eyebrow">YOUR SAVED ASSESSMENT</p>
+          <h1>Understand the evidence.</h1>
+          <p>Your private technical results, current safety overlay and versioned refinements.</p>
+        </section>
+        <div className="container report-view">
+          <ReportScreen />
+        </div>
+      </Shell>
+    );
   if (page === 'find-tires')
     return (
       <Shell path="/preview/find-tires">

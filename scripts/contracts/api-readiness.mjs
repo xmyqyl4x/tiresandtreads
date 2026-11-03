@@ -26,6 +26,12 @@ const classification = {
     useCases: ['UC01', 'UC03', 'UC04', 'UC05'],
     databaseProof: 'tests/database/http-public-owner.test.ts',
   },
+  readDraft: {
+    category: 'reports',
+    service: 'reports.readDraft',
+    useCases: ['UC03'],
+    databaseProof: 'tests/database/web-results.test.ts',
+  },
   saveDraft: {
     category: 'reports',
     service: 'reports',
