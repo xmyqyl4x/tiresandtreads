@@ -1,9 +1,13 @@
+import { ComparisonScreen } from './comparison-screen.tsx';
+import { SharedScreen } from './shared-screen.tsx';
 import { Link } from './link.tsx';
 import { Shell } from './shell.tsx';
 import { ComponentDemo } from './component-demo.tsx';
 import { AssessmentForm } from './assessment-form.tsx';
 import { ReportScreen } from './report-screen.tsx';
 const pages: Record<string, { title: string; text: string }> = {
+  compare: { title: 'Compare your options', text: 'Private comparison, shop quotes and sharing' },
+  shared: { title: 'Shared technical report', text: 'Read-only redacted view' },
   report: { title: 'Your technical report', text: 'Private saved results and refinement' },
   'find-tires': {
     title: 'Find your next set.',
@@ -162,6 +166,32 @@ export function pageTitle(page: string) {
 export function PageView({ page }: { page: string }) {
   if (page === 'home') return <Home />;
   if (page === 'design-system') return <DesignSystem />;
+  if (page === 'compare')
+    return (
+      <Shell path="/preview/compare">
+        <section className="container page-heading">
+          <p className="eyebrow">YOUR COMPARISON</p>
+          <h1>Compare the details.</h1>
+          <p>Your saved options, shop quotes and explicit assumptions.</p>
+        </section>
+        <div className="container report-view">
+          <ComparisonScreen />
+        </div>
+      </Shell>
+    );
+  if (page === 'shared')
+    return (
+      <Shell path="/preview/shared">
+        <section className="container page-heading">
+          <p className="eyebrow">SHARED REPORT</p>
+          <h1>A view you can review.</h1>
+          <p>A redacted, read-only technical report shared with you.</p>
+        </section>
+        <div className="container report-view">
+          <SharedScreen />
+        </div>
+      </Shell>
+    );
   if (page === 'report')
     return (
       <Shell path="/preview/report">

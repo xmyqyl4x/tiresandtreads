@@ -1,3 +1,4 @@
+import { quoteInputSchema } from './quote-input.ts';
 import { z } from 'zod';
 import { assessmentInputSchema } from './assessment-input.ts';
 export { assessmentInputSchema } from './assessment-input.ts';
@@ -25,42 +26,7 @@ export const reportInputSchemas = {
       .min(1)
       .max(4),
   }),
-  saveQuote: z.strictObject({
-    id: uuid.nullable(),
-    expectedRevision: revision.nullable(),
-    skuId: uuid.nullable(),
-    productText: z.string().max(200),
-    shopName: z.string().max(200).nullable(),
-    currency: z.literal('USD'),
-    totalMinor: z.string().regex(/^(0|[1-9][0-9]{0,18})$/),
-    quantity: z.union([z.literal(1), z.literal(2), z.literal(4)]),
-    basis: z.enum(['per_tire', 'set', 'installed_set']),
-    sizeCode: z.string().min(1).max(80).nullable().optional(),
-    observedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    taxContextConfirmed: z.boolean(),
-    taxIncluded: z.boolean().nullable(),
-    components: z
-      .array(
-        z.strictObject({
-          kind: z.enum([
-            'mounting',
-            'balancing',
-            'tpms_valve',
-            'disposal',
-            'tax',
-            'alignment',
-            'required_other',
-          ]),
-          included: z.boolean(),
-          basis: z.enum(['per_tire', 'per_axle', 'per_order']),
-          minor: z
-            .string()
-            .regex(/^(0|[1-9][0-9]{0,18})$/)
-            .nullable(),
-        }),
-      )
-      .max(7),
-  }),
+  saveQuote: quoteInputSchema,
   shareReport: z.strictObject({
     version: version.nullable(),
     comparisonRevision: revision.nullable(),

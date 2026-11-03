@@ -3,7 +3,9 @@ import { ownerReportView, draftView, reportCommandView } from './report-views.ts
 import { assessmentInputSchema } from './assessment-input.ts';
 import type { AssessmentRequest, ReportInput } from './report-inputs.ts';
 export function createResultsClient(origin: string, send: typeof fetch = fetch) {
-  const api = createApiClient(origin, send);
+  const bounded: typeof fetch = (url, options) =>
+    send(url, { ...options, signal: options?.signal ?? AbortSignal.timeout(15000) });
+  const api = createApiClient(origin, bounded);
   const path = (id: string) => {
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
       throw Error('Invalid report identifier');

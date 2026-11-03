@@ -252,9 +252,10 @@ export async function operationsApiFixture(
       who?: { cookie?: string; csrf: string; bearer?: string },
       body?: unknown,
       key = 'synthetic_command_001',
+      method?: 'POST' | 'DELETE',
     ) {
       return fetch(listener.origin + '/api/v1' + path, {
-        method: body === undefined ? 'GET' : 'POST',
+        method: method ?? (body === undefined ? 'GET' : 'POST'),
         headers: {
           origin: listener.origin,
           'content-type': 'application/json',

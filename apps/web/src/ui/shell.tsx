@@ -5,7 +5,14 @@ import { PrivacyChoices } from './privacy-choices.tsx';
 export function Shell({ children, path = '/' }: { children: ReactNode; path?: string }) {
   return (
     <>
-      <a className="skip-link" href="#main">
+      <a
+        className="skip-link"
+        href="#main"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('main')?.focus();
+        }}
+      >
         Skip to main content
       </a>
       <Navigation path={path} />

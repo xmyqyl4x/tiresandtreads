@@ -1,0 +1,53 @@
+{
+  "card": "P1-PR-035",
+  "scope": "Disposable local synthetic browser/HTTP/PostgreSQL implementation verification only",
+  "browser": "ChatGPT in-app browser",
+  "date": "2026-11-03",
+  "scenario": "Explicit SYNTHETIC_PDF region; five fixed synthetic picks, no licensed price feed, fixed technical fixture PDFs and in-memory object adapter",
+  "observed": [
+    "Created an assessment through explicit vehicle and wheel-package lookup, opened the owner report and comparison page.",
+    "Four choices remained unchanged when a fifth became pending; explicit cancellation/replacement and remove-then-add behavior passed.",
+    "Replacement region received focus; keyboard navigation reached replacement buttons; final rerenders kept one sharing panel.",
+    "Empty quote submission focused a linked error summary. Native date entry, product, quantity, USD 800.09 and installed-set basis were submitted.",
+    "A server refusal for invalid size characters retained all fields and allowed correction and resubmission. Typed product remained unverified.",
+    "Included, extra-per-tire, confirmed-zero, unknown and optional alignment assumptions were exercised. Missing extra amount linked to its focused field.",
+    "Stored comparison showed service totals/verdicts and unavailable installed evidence rather than invented savings or lifetime forecasts.",
+    "Two tabs exercised a stale comparison conflict. Explicit reload retained quote text and selections, loaded the latest revision and allowed an explicit new revision.",
+    "Created and copied a fixed comparison share; shared view omitted private product/shop text and comparison edit controls. Owner revocation made subsequent reads unavailable.",
+    "Latest-report share retrieved a scope-matched PDF. Comparison-bound share did not expose the report-only PDF.",
+    "Owner PDF was retrieved and saved as a 610-byte fixed technical PDF. No actual recipient, mail service or production object provider was used.",
+    "Final UTF-8 build repeated assessment/comparison save, fifth-item keyboard replacement, latest sharing, private PDF retrieval and revoked-share refusal.",
+    "Final shared-page keyboard Skip to main preserved the access fragment and focused the main element.",
+    "Owner/shared console warnings and errors were empty in tested journeys."
+  ],
+  "visualEvidence": {
+    "widthRequest": 320,
+    "capture": "Viewport override plus explicit 320px capture rectangles at page offsets 0, 1800 and 2700; desktop capture separately.",
+    "review": "Stacked cards, replacement/removal buttons, wrapping labels and quote fields were visually inspected; visible focus retained.",
+    "limits": "Browser DOM viewport measurements did not consistently follow the capture override, so no numeric DOM reflow measurement or full screen-reader/field-vitals acceptance is claimed.",
+    "files": [
+      "p1-pr-035-comparison-mobile.jpg",
+      "p1-pr-035-comparison-controls-mobile.jpg",
+      "p1-pr-035-comparison-quote-mobile.jpg",
+      "p1-pr-035-comparison-desktop.jpg"
+    ]
+  },
+  "expiredShare": "Actual HTTP/PostgreSQL expiry refusal is in web-comparison.test.ts. Browser directly verified revoked/generic refusal; no separate expired-browser execution is claimed.",
+  "download": {
+    "bytes": 610,
+    "pdfSignature": true,
+    "sha256": "70685be176647912012338a749472bfaa0c8f027f30eff989e00d62f129347fe",
+    "fixtureOnly": true
+  },
+  "actualProviderDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "G3Accepted": false,
+  "publicActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "pending": "All six S3 gates; proposed HS01–HS08; unconfirmed operators/coverage/rates; specialist/licensed work and live release/deployment acceptance."
+}

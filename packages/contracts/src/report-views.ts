@@ -106,7 +106,10 @@ export const reportOutputView = object({
     }),
   ),
 });
+export const pdfAssetsView = array(object({ assetId: uuid() })).check(maxLength(20));
 export const ownerReportView = object({
+  pdfs: optional(pdfAssetsView),
+  comparisonRevision: optional(nullable(revision)),
   reportId: uuid(),
   version,
   revision,

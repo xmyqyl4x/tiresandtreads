@@ -29,7 +29,7 @@ it('keeps the local OpenAPI operation inventory generated from actual route bind
   expect(JSON.parse(readFileSync('docs/api/local-v1.openapi.json', 'utf8'))).toEqual(
     localApiDocument(),
   );
-  expect(Object.values(localApiDocument().paths).flatMap((v) => Object.values(v))).toHaveLength(65);
+  expect(Object.values(localApiDocument().paths).flatMap((v) => Object.values(v))).toHaveLength(66);
 });
 it('preserves the actual gate records and records only the owner-authorized local implementation exception', () => {
   const read = (path: string) =>

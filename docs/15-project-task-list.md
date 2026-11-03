@@ -96,7 +96,7 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | [P1-PR-032 — Build accessible web shell and design system](tasks/phase-1-prs.md#p1-pr-032) | S5 | Locally implemented | Codex; local exception | [PR #77](https://github.com/xmyqyl4x/tiresandtreads/pull/77); [local implementation](implementation/P1-PR-032-local-web-shell.md); actual S3/S4 and live release remain held |
 | [P1-PR-033 — Build assessment form and reference lookups](tasks/phase-1-prs.md#p1-pr-033) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-033-local-assessment-form.md); actual acceptance/deployment held |
 | [P1-PR-034 — Build results, explanation and refinement views](tasks/phase-1-prs.md#p1-pr-034) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-034-local-results-refinement.md); actual acceptance/deployment held |
-| [P1-PR-035 — Build comparison, shop-quote and sharing views](tasks/phase-1-prs.md#p1-pr-035) | S5 | Not started | Unassigned | — |
+| [P1-PR-035 — Build comparison, shop-quote and sharing views](tasks/phase-1-prs.md#p1-pr-035) | S5 | Locally implemented | Frontend; owner local continuation | [Local implementation](implementation/P1-PR-035-local-comparison-sharing.md); actual acceptance/deployment held |
 | [P1-PR-036 — Build delivery, cancellation, preferences and privacy controls](tasks/phase-1-prs.md#p1-pr-036) | S5 | Not started | Unassigned | — |
 | [P1-PR-037 — Implement production email and PDF templates](tasks/phase-1-prs.md#p1-pr-037) | S5 | Not started | Unassigned | — |
 | [P1-PR-038 — Build editorial CMS and reviewed education website](tasks/phase-1-prs.md#p1-pr-038) | S5 | Not started | Unassigned | — |

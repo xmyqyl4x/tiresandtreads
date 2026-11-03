@@ -708,11 +708,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC04, UC05, AT04, AT05, AT06, AT18. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Build four-item comparison and explicit replacement/removal interaction.
-- [ ] Build quote checks and cost assumption controls with unverified-product/basis warnings.
-- [ ] Build copy/revoke share, redacted view and private PDF access with accessible responsive controls.
+- [x] Build four-item comparison and explicit replacement/removal interaction.
+- [x] Build quote checks and cost assumption controls with unverified-product/basis warnings.
+- [x] Build copy/revoke share, redacted view and private PDF access with accessible responsive controls.
 
 **Verification and acceptance:** Fifth-item, unknown quote, expired/revoked share, 320px and keyboard/focus journeys pass.
+
+**Local implementation:** [Comparison, quote and sharing record](../implementation/P1-PR-035-local-comparison-sharing.md). These boxes record local implementation/testing only; actual acceptance/deployment remain held.
 
 ### P1-PR-036
 

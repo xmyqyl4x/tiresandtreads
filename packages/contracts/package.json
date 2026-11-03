@@ -12,7 +12,10 @@
     "./http": "./src/http.ts",
     "./operations": "./src/operation-client.ts",
     "./transport": "./src/transport.ts",
-    "./browser-consent": "./src/browser-consent-client.ts"
+    "./browser-consent": "./src/browser-consent-client.ts",
+    "./comparison": "./src/comparison-client.ts",
+    "./comparison-views": "./src/comparison-views.ts",
+    "./quote-input": "./src/quote-input.ts"
   },
   "dependencies": {
     "zod": "4.6.7"

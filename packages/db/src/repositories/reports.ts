@@ -285,6 +285,17 @@ export function createReportRepository(scope: WriteScope): ReportRepository {
       );
       return { revision: next, scenario, items };
     },
+    async latestComparisonRevision(tx, owner, reportId, version) {
+      await reportGuard(scope, tx, owner, reportId);
+      const row = (
+        await q(
+          tx,
+          'SELECT revision FROM app.comparisons WHERE report_id=$1 AND report_version=$2 ORDER BY revision DESC LIMIT 1',
+          [reportId, version],
+        )
+      ).rows[0];
+      return row ? rev(row.revision) : null;
+    },
     async comparison(tx, owner, id, n, r) {
       await reportGuard(scope, tx, owner, id);
       const rows = (
@@ -337,6 +348,17 @@ export function createReportRepository(scope: WriteScope): ReportRepository {
               [...values, expected.toString()],
             );
       return rev(one(r.rows).revision);
+    },
+    async quote(tx, owner, reportId, quoteId) {
+      await reportGuard(scope, tx, owner, reportId);
+      const row = (
+        await q(
+          tx,
+          'SELECT id,report_id,source_key,sku_id,currency,total_minor,quantity,basis,observed_on::text,components,expires_at,revision FROM app.shop_quotes WHERE report_id=$1 AND id=$2 AND expires_at>clock_timestamp() LIMIT 1',
+          [reportId, quoteId],
+        )
+      ).rows[0];
+      return row ? quote(row) : null;
     },
     async quotes(tx, owner, id, page) {
       await reportGuard(scope, tx, owner, id);

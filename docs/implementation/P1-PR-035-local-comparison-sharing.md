@@ -1,0 +1,40 @@
+# P1-PR-035 — local comparison, quote checks, sharing and private PDFs
+
+This is the third card in the owner-authorized [033–035 local continuation](evidence/P1/local-frontend-development-authorization.json). All six actual S3 gates remain pending with empty records. S3/G0/S4/G3 and live release/deployment acceptance remain held. HS01–HS08 stay proposed, operators/coverage/rates unconfirmed and specialist/licensed work pending. No provisioning, purchase, actual notification, production bootstrap/CLI/preflight/policy change or original lifecycle case/gate closure occurs.
+
+## Four explicit selections
+
+The comparison page loads the saved owner report version and offers its supported picks alongside current private shop quotes. Selection is independent of the committed comparison. A fifth item stays pending until the user explicitly replaces a chosen slot or removes a slot and explicitly adds the pending item. Removal alone never substitutes an item. Replacement, cancellation and removal announce the result and restore keyboard focus. Browser testing exposed duplicate sibling React keys; distinct sharing/PDF keys keep one instance of each panel through selection changes.
+
+The existing comparison service validates at most four unique selections, rechecks current evidence and stores an immutable comparison revision under compare-and-swap. The view renders service-provided fitment, climate, scores, price ranges, quantity/basis warnings and quote verdicts. Signed differences are formatted directly from the authoritative stored delta; the browser does not calculate ranking, installed costs, tax, savings or suitability. Lifetime forecasts remain unavailable because this API requests no ownership scenario; no default forecast is invented. A shop quote’s recorded base can already include installation or tax and is labeled separately from a catalog tires-only estimate; no fees are subtracted in the browser.
+
+## Private quote entry and recovery
+
+The form requires an explicit product description, quoted amount, quantity, price basis and date. A typed product remains unverified. Shop notes are private. Tax and required fees default to unknown; included, extra and confirmed-zero charges are distinct. Extra charges retain their stated per-tire/per-axle/per-order basis. Alignment is omitted unless explicitly requested. A confirmed shop tax basis does not supply missing source/tax evidence. Only the service produces cost estimates and comparison outcomes.
+
+The portable quote schema is shared by the API and browser. A new owner-only GET `/api/v1/reports/{reportId}/quotes` returns 50 current summaries with a scoped cursor; cursor length, duplicates and unsupported query fields are refused. This brings the generated local API inventory to 66 operations. Detail reads use a direct owner/report/quote lookup, including quotes beyond the first hundred, instead of searching a bounded list. Private product/shop notes remain behind a separate owner detail read.
+
+Controllers snapshot request values before asynchronous identity work. Duplicate in-flight calls coalesce; an uncertain acknowledgment retains the exact body and idempotency key. Changed requests cannot replace that attempt silently. A definitive, nonretryable validation refusal releases the attempted command so the user can correct retained fields and submit with a new key. Conflicts retain selections and quote fields through an explicit reload. An owner-only current-comparison revision pointer uses a bounded indexed read; reload fetches that observed revision before an explicit save. Historical comparison links cannot silently overwrite a newer revision. The page pins its report version in the URL once loaded. Unit tests first exposed the missing quote-list contract, mutable-body race, incomplete receipt binding and blocked correction after validation refusal.
+
+## Read-only links
+
+The owner explicitly creates and copies a link, chooses a fixed version/comparison or latest-version binding, and can revoke the current link or load an existing same-site link for revocation. The UI shows the binding used for the issued link; changing the next-link choice does not change an existing capability. Copy failure leaves a selectable link. No message or email is sent.
+
+Initial owner-report reads, anonymous shared reads and grant requests carry the feature SDKs’ 15-second timeout independently of controller wrappers. Regression tests exposed missing bounds on these direct SDK calls before the fixes.
+
+The capability appears only in the fragment of the shared-view URL and travels to the API in an authorization header with cookies omitted. It is never a server query parameter or browser-storage value. Keyboard skip navigation focuses the main region without replacing the capability fragment; this prevents navigation from invalidating the shared view. The shared page uses the existing deliberate redaction projection: owner inputs, contact data and private shop/product notes are omitted. Expired, revoked, invalid or unavailable capabilities produce a generic refusal. Revocation during source I/O or PDF discovery preserves the existing masked not-found response; the full report-service regression caught and verified this boundary. Already viewed or downloaded content cannot be retracted by revocation.
+
+## Existing private PDFs
+
+The service/repository layer discovers at most 20 ready, unexpired PDF assets for the authorized owner or exact shared version/comparison/scope. It exposes asset references, never storage keys or public object URLs. No schema, privilege or storage-provider change is required. Download grants and the private asset service recheck current authority and scope; shared access cannot request an owner-only or differently bound asset.
+
+The browser requests an existing asset, validates its grant and receives bounded PDF bytes using an authorization header. It rejects wrong types, malformed grants, invalid PDF signatures and responses over 10 MiB while streaming. A local blob download is revoked on replacement/unmount and cannot carry over to another shared view. An absent/expired/quarantined or mismatched asset remains unavailable. This card does not generate production PDF/email templates or activate delivery; those remain separately scheduled.
+
+The disposable `SYNTHETIC_PDF` scenario uses the existing fixed technical fixture renderer, actual asset repositories/SQL/grants and an in-memory object adapter with checksum checks. It creates owner/shared fixture files only for that explicit local scenario. No recipient, mail provider, real object service or production renderer is activated. The default unsupported preview remains conservative.
+
+## Validation boundaries
+
+Focused tests cover selection limits, exact quote values, unknown assumptions, field/receipt refusal, signed-delta formatting, immutable request snapshots, safe retry/correction and fragment/header capability transport. Real HTTP/PostgreSQL tests cover scoped pagination/direct lookup, idempotent comparison and conflicts, redaction, expiry/revocation and owner/shared private PDF access. Browser evidence separately records fifth-item, quote correction, redacted/revoked sharing, private PDF and narrow-width/focus journeys. Full source/format/lint/types/contracts, build, coverage, database/recovery/operational regression and nine independent PR/main CI profiles remain required before merge. None of this accepts actual S3/S4/G3, live tire advice, hosted staging, screen-reader or field-vitals gates.
+
+
+The full regression also exposed an existing scheduling assumption in the duplicate-contact test: a valid early idempotent replay can need only one encryption preparation. Its controlled concurrent scenario now waits for both preparations before either completes, retaining the original two-encryption and one-contact/grant/outbox assertions. A bounded five-second test barrier forces the intended interleaving; production contact code, deadlines and policy are unchanged. All 23 contact database tests passed with that fixture correction.
