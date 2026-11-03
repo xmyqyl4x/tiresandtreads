@@ -1,3 +1,6 @@
+import { localOperationRoutes } from './local-services.ts';
+import { createConsentPolicyQuery } from '../../../application/src/queries/consent-policy.ts';
+import { createContactServiceRepository } from '../../../db/src/repositories/contact-services.ts';
 import { loadServiceHostSettings } from '../service-host-config.ts';
 import { createLocalServiceHost } from '../service-host.ts';
 import { createRuntimePool } from '../../../db/src/runtime-pool.ts';
@@ -26,7 +29,7 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
   )
     throw Error('Local API activation refused');
   const settings = loadServiceHostSettings(env);
-  const lanes = ['report', 'catalog', 'limiter', 'asset'] as const;
+  const lanes = ['report', 'catalog', 'limiter', 'asset', 'staff'] as const;
   // The existing host reserves these extra HTTP connections before opening any lane.
   if (
     !lanes.every((lane) =>
@@ -108,12 +111,26 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
       capabilities: createCapabilityRepository(report),
       objects: createPrivateObjects(storage, env.PRIVATE_BUCKET!, env.KMS_KEY_ID!),
     });
+    const extra = await localOperationRoutes({
+      policy: createConsentPolicyQuery(
+        report.unitOfWork,
+        createContactServiceRepository(report, Object.keys(settings.keys.lookup)),
+        settings.policy,
+      ),
+      services: host.services,
+      staffScope: scopes[4]!,
+      ownerSecurity: security.security,
+      secret: keyring[settings.keys.report.current]!,
+      crypto,
+      env,
+    });
     server = await listenLocalApi((origin) =>
       createHttpApi({
         origin,
-        security: security.security,
+        security: extra.security,
         routes: [
           ...security.sessions,
+          ...extra.routes,
           ...publicOwnerRoutes({
             reports: host.services.reports,
             shareKeys: (token) => crypto.lookup('share', token),

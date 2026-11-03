@@ -596,11 +596,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC06, UC08, UC09, UC10, UC13, UC17. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Expose consent/preferences, delivery/cancel/status and privacy-rights APIs through accepted services.
-- [ ] Expose operator import/diff/publish/rollback/status, content publication and staff/SEO/ad metric APIs.
-- [ ] Enforce role/MFA/masking, expected revision and audit; keep P2 CSV UI out of P1 scope.
+- [x] Expose consent/preferences, delivery/cancel/status and privacy-rights APIs through accepted services.
+- [x] Expose operator import/diff/publish/rollback/status, content publication and staff/SEO/ad metric APIs.
+- [x] Enforce role/MFA/masking, expected revision and audit; keep P2 CSV UI out of P1 scope.
 
 **Verification and acceptance:** Role matrix, no-enumeration, withdrawal, unsafe import command and private-metadata API tests pass.
+
+**Local implementation:** [Consent/staff API implementation](../implementation/P1-PR-029-local-consent-staff-apis.md). Checked tasks record local implementation and technical verification only; actual S3/S4 acceptance remains open.
 
 **Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
 
