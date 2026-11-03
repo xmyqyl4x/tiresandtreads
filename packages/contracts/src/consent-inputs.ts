@@ -1,35 +1,20 @@
+import * as z from 'zod/mini';
 import { browserChoicesInput } from './browser-consent-input.ts';
-import { z } from 'zod';
-const uuid = z
-    .string()
-    .uuid()
-    .refine((value) => value !== '00000000-0000-0000-0000-000000000000'),
-  revision = z.string().regex(/^[1-9][0-9]{0,18}$/);
-const rights = z.enum(['access', 'delete', 'correct', 'restrict', 'opt_out', 'export']);
-const jurisdiction = z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
-const notices = z.strictObject({ report: uuid.optional(), offers: uuid.optional() });
-export const contactRequestSchema = z.strictObject({
-  email: z.string().min(3).max(254),
-  report: z.strictObject({ id: uuid, version: z.number().int().min(1).max(2147483647) }).nullable(),
-  offers: z.boolean(),
-  notices,
-});
+import {
+  contactRequestSchema,
+  deliveryRequestSchema,
+  cancelDeliverySchema,
+  ownerRightsSchema,
+  emailRightsSchema,
+} from './delivery-privacy-inputs.ts';
+export { contactRequestSchema } from './delivery-privacy-inputs.ts';
 export const consentInputSchemas = {
   requestContact: contactRequestSchema,
-  requestDelivery: contactRequestSchema.extend({
-    comparisonRevision: revision.nullable().optional(),
-  }),
-  cancelDelivery: z.strictObject({
-    expectedRevision: revision,
-    reason: z.enum(['cancel', 'correct_address']).default('cancel'),
-  }),
+  requestDelivery: deliveryRequestSchema,
+  cancelDelivery: cancelDeliverySchema,
   setBrowserConsent: browserChoicesInput,
-  requestOwnerRights: z.strictObject({ kind: rights, jurisdiction }),
-  requestEmailRights: z.strictObject({
-    email: z.string().min(3).max(254),
-    kind: rights,
-    jurisdiction,
-  }),
+  requestOwnerRights: ownerRightsSchema,
+  requestEmailRights: emailRightsSchema,
   confirmPrivacyProof: z.strictObject({}),
 };
 export type ConsentOperation = keyof typeof consentInputSchemas;

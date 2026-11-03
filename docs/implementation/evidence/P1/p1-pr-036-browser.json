@@ -1,0 +1,205 @@
+{
+  "scope": "P1-PR-036 local synthetic browser development proof",
+  "baseMain": "9bf0cc3ab99c5ec4905f5aac75b7b5eff0885304",
+  "browser": "Codex in-app browser",
+  "origin": "http://127.0.0.1:8380",
+  "actualBrowserActions": [
+    "Offers-only submission without a saved report or account; masked acknowledgement",
+    "Report-only and both-purpose requests for an explicitly selected saved report version",
+    "Cancellation before server deadline, status restoration and hidden request form",
+    "Cancel-and-correct clears the address and purpose choices; explicit replacement submission",
+    "Invalidated pending wrong-address proof refuses without a confirm button",
+    "Purpose confirmation GET/refresh stays pending; explicit confirmation and purpose withdrawal",
+    "Privacy dialog starts denied; keyboard focus wraps; reject/save status and trigger focus return",
+    "Owner access request, private status-link copy, server verified status and due date",
+    "Email rights masked receipt; in-memory inbox delivery; GET stays pending; explicit proof verifies without fulfillment",
+    "Blank delivery validation focuses email and reports address/purpose errors without false notice errors",
+    "Final corrected narrow page layout and offers-only acknowledgement rechecked"
+  ],
+  "boundedDependencyRecovery": {
+    "ownedProject": "tt-test-f9c675c3eacef088",
+    "databasePausedSeconds": 30,
+    "identityChecked": true,
+    "unpauseInFinally": true,
+    "ownerSessionReadStatus": 503,
+    "unconfirmedRequestRetained": true,
+    "explicitUnchangedRetry": true,
+    "recordedSendsForKnownSyntheticReport": 1,
+    "cancelledAfterRecovery": true,
+    "lostCommittedAcknowledgementClaimed": false,
+    "countReadDatabase": "tt_app_catalog",
+    "cleanupChecked": true
+  },
+  "safeOperationObservations": [
+    {
+      "operationId": "getConsentPolicy",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "operationId": "createOwnerSession",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "requestContact",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "getConsentPolicy",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "getBrowserConsent",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "setBrowserConsent",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "getBrowserConsent",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "requestEmailRights",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "privacyStatus",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "confirmPrivacyProof",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "privacyStatus",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "lookupReference",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "lookupReference",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "lookupReference",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "createReport",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "readReport",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "readDraft",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "getConsentPolicy",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "status": 503
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "requestDelivery",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "operationId": "getOwnerSession",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "operationId": "cancelDelivery",
+      "method": "POST",
+      "status": 200
+    }
+  ],
+  "optionalCollectionOrGrantRequests": 0,
+  "observationsTruncated": false,
+  "syntheticInboxMessages": 1,
+  "providerCalls": 0,
+  "actualRecipientNotifications": 0,
+  "screenshots": [
+    {
+      "file": "p1-pr-036-browser/privacy-choices-mobile.jpg",
+      "viewportWidth": 320,
+      "viewportHeight": 900,
+      "description": "Unchecked optional choices and saved denial status"
+    },
+    {
+      "file": "p1-pr-036-browser/rights-status-mobile.jpg",
+      "viewportWidth": 320,
+      "viewportHeight": 900,
+      "description": "Verified private rights status; fulfillment remains separate"
+    },
+    {
+      "file": "p1-pr-036-browser/delivery-layout-desktop.jpg",
+      "description": "Corrected final desktop layout with offers-only acknowledgement"
+    }
+  ],
+  "screenshotsUnedited": true,
+  "unexpectedBrowserConsoleErrors": 0,
+  "boundaries": [
+    "Disposable local fixture only; all owned preview resources removed",
+    "In-memory inbox invocation is synthetic; it does not prove actual recipient delivery",
+    "No production provider, independent custody/authentication/fencing or live acceptance claim",
+    "Full HTTP/unit tests separately cover ambiguous acknowledgements, late cancellation and malformed/expired proofs",
+    "The recovery observation preceded a CSS/class-only spacing correction; final layout was rebuilt and rechecked"
+  ],
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "publicActivation": false,
+  "provisioning": false,
+  "purchases": false,
+  "productionPolicyChanged": false
+}

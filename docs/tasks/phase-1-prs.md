@@ -726,11 +726,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC06, UC08, UC09, AT07, AT10, AT11, AT19. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Build independent report/offer submission, notice and confirmation states.
-- [ ] Show server cancellation deadline, send/pending/unknown/cancelled status and safe retry controls.
-- [ ] Build purpose preferences/GPC acknowledgement and rights request/status interfaces.
+- [x] Build independent report/offer submission, notice and confirmation states.
+- [x] Show server cancellation deadline, send/pending/unknown/cancelled status and safe retry controls.
+- [x] Build purpose preferences/GPC acknowledgement and rights request/status interfaces.
 
 **Verification and acceptance:** Browser network tests show denied processing stays off; cancel/withdraw/report-only journeys work without an account.
+
+**Local implementation:** [Delivery, cancellation, purpose and rights record](../implementation/P1-PR-036-local-delivery-privacy.md). These boxes record local implementation/testing under the owner continuation only; actual acceptance/deployment remain held.
 
 ### P1-PR-037
 

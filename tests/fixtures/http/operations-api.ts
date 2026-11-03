@@ -43,6 +43,8 @@ export async function operationsApiFixture(
   }) => Promise<readonly HttpRoute[]>,
 ) {
   const db = await privateFixture();
+  const observations: { operationId: string; method: string; status: number }[] = [];
+  let observationsTruncated = false;
   let server: Awaited<ReturnType<typeof listenLocalApi>> | undefined, directory: string | undefined;
   try {
     await db.admin.query(
@@ -210,6 +212,17 @@ export async function operationsApiFixture(
       createHttpApi({
         origin,
         security,
+        observe: (record) => {
+          if (observations.length >= 1000) {
+            observationsTruncated = true;
+            return;
+          }
+          observations.push({
+            operationId: record.operationId,
+            method: record.method,
+            status: record.status,
+          });
+        },
         routes: [
           ...ownerSecurity.sessions,
           ...extra,
@@ -344,6 +357,10 @@ export async function operationsApiFixture(
     }
     return {
       db,
+      observations,
+      get observationsTruncated() {
+        return observationsTruncated;
+      },
       server: listener,
       ownerIdentity,
       services,

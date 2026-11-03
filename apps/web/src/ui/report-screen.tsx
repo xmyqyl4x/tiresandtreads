@@ -246,6 +246,14 @@ export function ReportScreen() {
           Compare options and shop quotes
         </a>
       </p>
+      <p>
+        <a
+          className="button secondary"
+          href={'/preview/delivery?report=' + report.reportId + '&version=' + report.version}
+        >
+          Choose email delivery for this version
+        </a>
+      </p>
       <ReportBody output={report.output} safety={report.safety} version={report.version} />
       {report.diff ? (
         <section className="callout info">
