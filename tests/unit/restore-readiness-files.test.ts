@@ -84,3 +84,35 @@ it(
     }),
   30000,
 );
+
+it(
+  'detects unreviewed lockfile drift after the exact product-source overlay without changing bytes',
+  () =>
+    owned((root) => {
+      const path = join(root, 'pnpm-lock.yaml');
+      writeFileSync(path, readFileSync(path, 'utf8') + '# unexpected current change\n');
+      const before = readFileSync(path),
+        report = reviewRestoreEvidence(root);
+      expect(report.newExceptions).toBe(3);
+      expect(report.fileReview.issues).toContainEqual({
+        path: 'pnpm-lock.yaml',
+        code: 'digest-mismatch',
+      });
+      expect(report.accepted).toBe(false);
+      expect(report.recordedHandoff).toBeNull();
+      expect(readFileSync(path)).toEqual(before);
+    }),
+  30000,
+);
+it(
+  'refuses tampering with the exact current-source exception manifest',
+  () =>
+    owned((root) => {
+      const path = join(root, prefix + 'p1-pr-037-current-source-exceptions.json');
+      const value = JSON.parse(readFileSync(path, 'utf8'));
+      value.exceptions[0].currentSha256 = 'f'.repeat(64);
+      writeFileSync(path, JSON.stringify(value));
+      expect(() => reviewRestoreEvidence(root)).toThrow('Restore readiness refused');
+    }),
+  30000,
+);

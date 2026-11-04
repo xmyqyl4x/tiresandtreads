@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-template-current-source-exceptions",
+  "baseMerge": "40758d7dbbd396a49cff8c30e8862f4ad491d4c6",
+  "exceptions": [
+    {
+      "path": "package.json",
+      "baselineSha256": "17de3c4f8829c6aeabcf82ce3d74aaf232787edf8a5633def4a50e24c426fd3a",
+      "currentSha256": "f228e483563136e976105b44a26e59e245a192d4419aacdf3ac920f37a27e0e2",
+      "reason": "Approved local P1-PR-037 renderer/PDF-reader dependencies; historical baseline retained."
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "baselineSha256": "869b76d9707e7bb61d1ca6fbba4c99b3c697401bdc9d89be0bf8fecb829ca010",
+      "currentSha256": "a610bb5d7e49ff7415fc0238691db54d549c41f1afa0b5b5109ec1dec007894e",
+      "reason": "Approved local P1-PR-037 renderer/PDF-reader dependencies; historical baseline retained."
+    },
+    {
+      "path": "scripts/review/evidence-readiness.mjs",
+      "baselineSha256": "007ef9d0ec2e78448ebd6ad7d7210949df7cfa6e16d668abbfc876b76aea0c83",
+      "currentSha256": "455675e2ceea32935610e022f706eca740b1edb88b2f8823c83c7b42ce9a33b0",
+      "reason": "Read-only current product-source overlay for those dependency inputs; no production policy or historical manifest changes."
+    }
+  ],
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
