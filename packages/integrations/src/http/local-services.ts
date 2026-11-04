@@ -10,6 +10,7 @@ import { staffRoutes } from './staff.ts';
 import { withLocalStaffSessions } from './staff-security.ts';
 import { readLocalStaffGrants, registeredImportArtifact } from './local-files.ts';
 import { publicCommerceRoutes } from './public-commerce.ts';
+import { readEducation } from '../education-public.ts';
 import { staffConsoleRoutes } from './staff-console.ts';
 export async function localOperationRoutes(d: {
   readonly policy: ReturnType<typeof createConsentPolicyQuery>;
@@ -30,8 +31,10 @@ export async function localOperationRoutes(d: {
         ? publicCommerceRoutes({
             commercial: d.services.commercial,
             content: async (path) => {
-              const r = await d.services.content.services.readPage(path, 'en-US', 'US');
-              return r.ok ? r.value.content.paragraphs.reduce((n, p) => n + p.length, 0) : null;
+              const r = await readEducation(d.services.content, new URLSearchParams({ path }));
+              return r.ok && 'content' in r.value
+                ? r.value.content.paragraphs.reduce((n, p) => n + p.length, 0)
+                : null;
             },
           })
         : []),

@@ -93,6 +93,40 @@ it('exposes no invented publisher ID and honours verified-account and global kil
   );
   expect((await (await read('ads-txt')).json()).data.status).toBe('not_connected');
 });
+it('withholds redirected sources and removed house targets through the shared publication boundary', async () => {
+  const content = f.api.services.content.services;
+  expect(
+    (
+      await content.publishRedirects(f.db.staff, f.db.staff, {
+        revision: 1,
+        issuedAt: new Date(Date.now() - 1000).toISOString(),
+        expiresAt: new Date(Date.now() + 3600000).toISOString(),
+        rules: [
+          { source: '/guides/trust', target: null, code: 410 },
+          { source: '/guides/how-we-choose', target: '/learn/tire-basics', code: 301 },
+        ],
+      })
+    ).ok,
+  ).toBe(true);
+  // Exercise the existing explicit invalidation; normal readers also have a bounded 30-second TTL.
+  f.api.services.content.routing.invalidate();
+  expect((await (await read('inventory?path=/learn/tire-basics')).json()).data.slots).toEqual([]);
+  expect((await (await read('inventory?path=/guides/trust')).json()).data.affiliates).toEqual([]);
+  expect(
+    (
+      await content.publishRedirects(f.db.staff, f.db.staff, {
+        revision: 2,
+        issuedAt: new Date(Date.now() - 1000).toISOString(),
+        expiresAt: new Date(Date.now() + 3600000).toISOString(),
+        rules: [],
+      })
+    ).ok,
+  ).toBe(true);
+  f.api.services.content.routing.invalidate();
+  expect((await (await read('inventory?path=/learn/tire-basics')).json()).data.slots).toHaveLength(
+    2,
+  );
+});
 it('removes inventory when its source page is withdrawn without changing ranking inputs', async () => {
   const before = (await f.db.owner.query('SELECT document_hash FROM app.rule_versions ORDER BY id'))
     .rows;
