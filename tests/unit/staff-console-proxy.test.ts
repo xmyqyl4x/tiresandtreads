@@ -1,5 +1,5 @@
 import { it, expect, vi } from 'vitest';
-import { forwardStaff, staffResponse, staffProxyPath } from '../../apps/web/src/staff/response.ts';
+import { forwardStaff, staffProxyPath } from '../../apps/web/src/staff/proxy.ts';
 const web = 'http://127.0.0.1:8380',
   api = 'http://127.0.0.1:9411',
   env = {
@@ -20,23 +20,13 @@ const request = (path = '/api/v1/staff-console/reports', options: RequestInit = 
       ...options.headers,
     },
   });
-it('renders only the opted-in loopback console with a separate bundle and no private record', async () => {
-  expect(
-    staffResponse(new Request(web + '/staff', { headers: { host: '127.0.0.1:8380' } }), {
-      ...env,
-      LOCAL_STAFF_CONSOLE: 'disabled',
-    }).status,
-  ).toBe(404);
-  const response = staffResponse(
-    new Request(web + '/staff', { headers: { host: '127.0.0.1:8380' } }),
-    env,
-  );
-  expect(response.status).toBe(200);
-  const html = await response.text();
-  expect(html).toContain('staff-client.js');
-  expect(html).toContain('Connect locally');
-  expect(html).not.toMatch(/<script[^>]+preview-client/);
+it('refuses a disabled local console before forwarding any private read', async () => {
+  const send = vi.fn<typeof fetch>();
+  const response = await forwardStaff(request(), { ...env, LOCAL_STAFF_CONSOLE: 'disabled' }, send);
+  expect(response.status).toBe(404);
   expect(response.headers.get('cache-control')).toBe('no-store');
+  expect(await response.json()).toEqual({ error: 'not_found' });
+  expect(send).not.toHaveBeenCalled();
 });
 it.each([
   '/api/v1/staff/imports/prepare',
