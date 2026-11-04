@@ -1,0 +1,84 @@
+{
+  "records": [
+    {
+      "name": "long-comparison",
+      "pages": 3,
+      "textCharacters": 3177,
+      "pageTextBounds": [
+        [
+          42.0,
+          23.620000000000005,
+          555.3900000000003,
+          767.000004
+        ],
+        [
+          42.0,
+          23.620000000000005,
+          416.70000000000016,
+          767.000004
+        ],
+        [
+          42.0,
+          23.620000000000005,
+          562.6900000000003,
+          767.000004
+        ]
+      ],
+      "sectionReadingOrder": true,
+      "completeProvenanceOnOnePage": true,
+      "untagged": true,
+      "pdfUaAccepted": false
+    },
+    {
+      "name": "missing",
+      "pages": 2,
+      "textCharacters": 1625,
+      "pageTextBounds": [
+        [
+          42.0,
+          23.620000000000005,
+          555.3900000000003,
+          767.000004
+        ],
+        [
+          42.0,
+          23.620000000000005,
+          562.6900000000003,
+          767.000004
+        ]
+      ],
+      "sectionReadingOrder": true,
+      "completeProvenanceOnOnePage": true,
+      "untagged": true,
+      "pdfUaAccepted": false
+    },
+    {
+      "name": "normal",
+      "pages": 2,
+      "textCharacters": 1608,
+      "pageTextBounds": [
+        [
+          42.0,
+          23.620000000000005,
+          555.3900000000003,
+          767.000004
+        ],
+        [
+          42.0,
+          23.620000000000005,
+          562.6900000000003,
+          767.000004
+        ]
+      ],
+      "sectionReadingOrder": true,
+      "completeProvenanceOnOnePage": true,
+      "untagged": true,
+      "pdfUaAccepted": false
+    }
+  ],
+  "textExtraction": "pypdf and pdfplumber",
+  "rasterizer": "Poppler",
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

@@ -51,11 +51,8 @@ it('replays exactly the same fixed body and key after an accepted-but-ambiguous 
   expect(effects).toBe(1);
   expect(bodies[0]).toBe(bodies[1]);
   expect(keys).toEqual([key, key]);
-  expect(JSON.parse(bodies[0]!).attachments[0]).toEqual({
-    filename: 'report.pdf',
-    content: payload.mail.pdf,
-    content_type: 'application/pdf',
-  });
+  expect(JSON.parse(bodies[0]!)).not.toHaveProperty('attachments');
+  expect(bodies[0]).not.toContain(payload.mail.pdf);
 });
 it.each([400, 401, 403, 404, 422])(
   'classifies definite HTTP %i refusal without exposing the error body',

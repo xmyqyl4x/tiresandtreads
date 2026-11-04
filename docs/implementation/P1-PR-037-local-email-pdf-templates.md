@@ -1,0 +1,41 @@
+# P1-PR-037 - Local email and PDF templates
+
+## Authority and acceptance boundary
+
+The owner continuation authorizes completing PR81/P1-PR-036 (already merged) and implementing, testing and merging the next card, P1-PR-037. This implements templates locally under the existing product-development exception. All six actual S3 gates retain pending status and empty records. S3/G0/S4/G3, hosted/live release and deployment acceptance remain held; HS01-HS08 remain proposed, operator/coverage/rates unconfirmed and specialist/licensed work pending. No provisioning, purchases or actual recipient notifications occur. Production bootstrap/CLI/preflight/admission policy, schema and privileges are unchanged; no original design case or gate closes.
+
+## Frozen presentation and common layers
+
+`createReportTemplateRenderer` implements the existing application renderer port with the approved React Email HTML/text utility and React PDF renderer. The S3/S4 technical fixture remains unchanged and remains selected by existing composition. This factory does not activate a mail provider or choose production composition. The caller injects the reviewed installed-template artifact hash, profile, licensed embedded font bytes and already-frozen authorized link context. It must capture that context durably with the request and must not mint/extend grants or query current/latest report data during rendering. Context shape, report/version/revision binding and expiry checks are not independent authentication or custody proofs; actual capture/handoff remains an acceptance input.
+
+The renderer clones inputs, coalesces duplicate concurrent work, bounds distinct in-flight requests and releases failed work. PDF shared font-store rendering is serialized; registered font families and artifact sizes are bounded. It uses the assessment timestamp for metadata and no wall clock or remote image/font lookup. Fresh child-process runs establish identical output hashes with zero external fetches; embedded data/WASM decoding is local. A real ESM bundle with installed package dependencies proves Linux Node packaging. React PDF's dynamic internal standard-font imports require preserving its package dependency tree; a single dependency-free bundle is not claimed. Activation must package dependencies and the accompanying font license.
+
+Display money/reason/confidence helpers now live in the portable contracts layer and are reused by the web and server templates. Reviewed en-US template copy is shared between email and PDF. Other locales and writing systems require separate content/font review. Exact SKU selection takes precedence over a model fallback. Price rows bind by plan ID, never array position. The delivery snapshot previously omitted this ID; its allowlisted capture now retains it only for internal delivery presentation. Existing public/shared projections and the 66-operation HTTP inventory are unchanged.
+
+## Content, privacy and links
+
+One immutable saved report/version and optional saved comparison revision supply ranked options, explicit missing information, exact USD merchandise/installed estimates and quantities, source/calculation versions, maintenance limitations and reviewed education links. No vehicle/physical-condition details are invented when absent from the captured projection. Scores describe stored preferences, not safety. Prices are historical and no sponsor/affiliate content is inserted. Untrusted labels are escaped, length bounded and wrapped; Latin-accented expanded and unbroken labels, four comparisons and extreme integer amounts are covered. Unknown costs/quantities remain unavailable instead of zero or an assumed quantity. Arbitrary private shop notes and contact fields are not projected.
+
+The caller supplies an HTTPS first-party report-share link and a distinct report-purpose preference proof in fragments on fixed routes; optional offers confirmation requires its separate verify-purpose proof. The template never infers marketing consent. The report link opens the existing private report/PDF-options page, where current authorization governs on-demand PDF actions. No signed download URL is invented or attached. The provider adapter now submits HTML/text only, correcting its prior attachment behavior to the approved linked-PDF rule. PDF bytes remain in the private internal payload/asset workflow. Existing private-asset access, cancellation, suppression, uncertainty, encryption and idempotency remain authoritative.
+
+The PDF contains only safe public education/privacy links, never a recipient or capability proof. Email provides readable purpose, expiry, privacy and sender-help copy and a required caller-supplied postal address. Synthetic examples visibly identify their non-live address. Actual sender identity/address, notice classification, link-context custody and provider/client acceptance remain production inputs.
+
+## Validation and actual limitations
+
+Failing regressions first exposed lost price association, attachment serialization and the need for explicit retry scheduling in disposable support. Passing unit/use-case tests cover immutable projection, malformed/stale/wrong-purpose inputs, private-field exclusion, missing data, comparison, concurrent refusal/recovery, deterministic real PDF bytes, public-only annotations, cold processes and dependency-preserving bundles. A real PostgreSQL delivery test captures populated safe report data, exercises an uncertain fixture-provider handoff and verifies the same key and encrypted frozen content replay without rerendering. No actual recipient/provider notification is involved.
+
+[Samples and byte counts](evidence/P1/p1-pr-037-renderer/samples.json), [PDF observations](evidence/P1/p1-pr-037-renderer/pdf-observations.json) and [browser/client matrix](evidence/P1/p1-pr-037-renderer/browser-client-matrix.json) separate measured local results from actual acceptance. Three real PDFs (normal, missing and long comparison) were extracted with pypdf/pdfplumber, rasterized with Poppler and all seven final pages visually inspected. Page geometry, reading order, bounded text, stable metadata, complete provenance groups and comparison heading placement were checked; clipped text and overlapping content were not observed. The generated PDF is **untagged**: this is not PDF/UA or screen-reader acceptance. Accessible semantic HTML/text alternatives remain available; assistive-technology acceptance and any required tagging/remediation remain pending before PDF activation.
+
+Browser checks at 1024px and 320px confirm the 600px shell, wrapping, heading order, no horizontal overflow, first-link keyboard focus and zero images. A local derivative forces the same dark stylesheet to inspect colors; it is not a real mail-client dark-mode test. All specimens are below 100,000 UTF-8 HTML bytes. Gmail, Apple Mail, Outlook and Yahoo actual rendering remains pending under the no-notification restriction; no external screenshot service, inbox delivery or actual client acceptance is claimed. The parent client-acceptance task stays open.
+
+Full quality, strict type checks, production build, unit/use-case/database coverage, schema/recovery and operational regression, exact-source review and all nine PR/main CI profiles are required before merge completion. Existing low dependency advisory remains disclosed; no security override or verification threshold is weakened. All historical evidence pins and actual gates are preserved.
+
+## Upstream references
+
+- [React Email render and plain text](https://react.email/docs/utilities/render)
+- [React PDF renderer release source](https://github.com/diegomura/react-pdf/releases)
+- [Noto fonts and license](https://github.com/notofonts/noto-fonts)
+
+## Next card
+
+P1-PR-038: editorial CMS and reviewed education website. Keep actual deployment, S3/S4/G3 acceptance, operator/hosting decisions and specialist/licensed work held.

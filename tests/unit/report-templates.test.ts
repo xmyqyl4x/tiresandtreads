@@ -1,0 +1,152 @@
+import { it, expect } from 'vitest';
+import { presentReport } from '../../packages/integrations/src/report-templates/presentation.ts';
+import { renderReportEmail } from '../../packages/integrations/src/report-templates/email.ts';
+import {
+  templateContext,
+  templateProfile,
+  templateDocument,
+  ref,
+  pick,
+} from '../fixtures/templates/report.ts';
+it('projects exact frozen report/version, historical USD estimates and independent purpose links', async () => {
+  const view = presentReport(templateDocument(), templateProfile, templateContext());
+  expect(view.reference).toEqual({ reportId: ref, version: 1, comparisonRevision: null });
+  expect(view.options[0]).toMatchObject({
+    id: pick,
+    label: 'Synthetic Example Touring',
+    quantity: '4 tires',
+    installed: '$700.00-$950.00 USD',
+    merchandise: '$600.00-$800.00 USD',
+    score: '73.12 / 100',
+  });
+  const out = await renderReportEmail(view);
+  expect(out.html).toContain('width="600"');
+  expect(out.html).toContain('Not a physical inspection or safety clearance');
+  expect(out.text).toContain('$700.00-$950.00 USD');
+  expect(out.html).toContain('SYNTHETIC ADDRESS');
+  expect(out.html).toContain('Manage this report email purpose');
+  expect(out.html).not.toMatch(/<script|<img|utm_|tracking|mailto:/i);
+});
+it('does not invent quantity, zero cost, rankings, a vehicle identity or an offer confirmation', async () => {
+  const d = templateDocument();
+  d.report.prices = [];
+  d.report.products = [];
+  const view = presentReport(d, templateProfile, templateContext());
+  expect(view.options[0]).toMatchObject({
+    label: 'Option 1',
+    quantity: 'Quantity unavailable',
+    installed: 'Unavailable',
+    merchandise: 'Unavailable',
+  });
+  const out = await renderReportEmail(view);
+  expect(out.text).toContain('Vehicle and condition details are unavailable in this frozen copy');
+  expect(out.text).not.toContain('$0.00');
+  expect(out.html).not.toContain('Confirm offers');
+});
+it('keeps private fields out of HTML/text and escapes long untrusted labels', async () => {
+  const d = templateDocument();
+  d.report.privateNotes = 'SECRET PRIVATE NOTE';
+  d.report.email = 'private@example.invalid';
+  (d.report.products as Record<string, unknown>[])[0]!.model =
+    '<script>unsafe()</script>' + 'VeryLongLabel'.repeat(20);
+  const out = await renderReportEmail(presentReport(d, templateProfile, templateContext()));
+  expect(out.html).toContain('&lt;script&gt;');
+  expect(out.html + out.text).not.toContain('SECRET PRIVATE NOTE');
+  expect(out.html + out.text).not.toContain('private@example.invalid');
+  expect(out.html).not.toContain('<script>unsafe');
+  expect(Buffer.byteLength(out.html)).toBeLessThan(100000);
+});
+it.each([
+  'https://evil.example/preview/shared#share.a.b.c',
+  'https://preview.example.invalid/preview/shared?token=private',
+  'javascript:alert(1)',
+])('refuses invalid private link %s', (viewUrl) => {
+  expect(() =>
+    presentReport(templateDocument(), templateProfile, { ...templateContext(), viewUrl }),
+  ).toThrow();
+});
+it('refuses stale or mismatched context, locale, template and malformed money rather than guessing', () => {
+  const d = templateDocument();
+  expect(() => presentReport(d, templateProfile, { ...templateContext(), version: 2 })).toThrow();
+  expect(() =>
+    presentReport(d, templateProfile, {
+      ...templateContext(),
+      expiresAt: '2026-01-01T00:00:00.000Z',
+    }),
+  ).toThrow();
+  expect(() =>
+    presentReport({ ...d, locale: 'unreviewed' }, templateProfile, templateContext()),
+  ).toThrow();
+  (d.report.prices as Record<string, unknown>[])[0]!.installed = {
+    low: '95000',
+    high: '70000',
+    currency: 'USD',
+  };
+  expect(() => presentReport(d, templateProfile, templateContext())).toThrow();
+});
+it('renders comparison snapshots without private shop notes or invented totals', async () => {
+  const d = templateDocument();
+  d.comparison = {
+    revision: '3',
+    items: [
+      {
+        slot: 1,
+        kind: 'private_quote',
+        snapshot: {
+          notes: 'PRIVATE SHOP',
+          price: { quantity: null, installed: null, merchandise: null },
+          verdict: {
+            fit: 'unknown',
+            climate: 'unknown',
+            relation: 'not_comparable',
+            score: null,
+            evidenceMissing: true,
+          },
+        },
+      },
+    ],
+  };
+  const view = presentReport(d, templateProfile, { ...templateContext(), comparisonRevision: '3' });
+  expect(view.comparison[0]).toMatchObject({
+    label: 'Private quote 1',
+    quantity: 'Quantity unavailable',
+    installed: 'Unavailable',
+  });
+  const out = await renderReportEmail(view);
+  expect(out.text).toContain('Comparison revision 3');
+  expect(out.html + out.text).not.toContain('PRIVATE SHOP');
+});
+it('takes an immutable snapshot and never reads the clock, chooses links or changes the source', () => {
+  const d = templateDocument(),
+    before = structuredClone(d),
+    context = templateContext();
+  const a = presentReport(d, templateProfile, context);
+  context.viewUrl = 'bad';
+  expect(d).toEqual(before);
+  expect(Object.isFrozen(a)).toBe(true);
+  expect(Object.isFrozen(a.options[0])).toBe(true);
+  expect(a.links.view).toContain('/preview/shared#share.');
+});
+
+it('prefers an exact SKU match when multiple products share a model and never aligns prices by position', () => {
+  const d = templateDocument();
+  const products = d.report.products as Record<string, unknown>[];
+  products.push({ ...products[0], id: ref, model: 'Different SKU' });
+  const row = (d.report.prices as Record<string, unknown>[])[0]!;
+  row.planId = ref;
+  const view = presentReport(d, templateProfile, templateContext());
+  expect(view.options[0]!.label).toBe('Synthetic Example Touring');
+  expect(view.options[0]!.installed).toBe('Unavailable');
+});
+it('shows offers confirmation only with its distinct frozen purpose proof', async () => {
+  const c = templateContext();
+  c.offersConfirmationUrl = c.preferencesUrl
+    .replace('email-preferences', 'email-confirmation')
+    .replace('#unsubscribe.', '#verify.');
+  const out = await renderReportEmail(presentReport(templateDocument(), templateProfile, c));
+  expect(out.html).toContain(c.offersConfirmationUrl);
+  expect(out.html).toContain(c.preferencesUrl);
+  expect(() =>
+    presentReport(templateDocument(), templateProfile, { ...c, offersConfirmationUrl: c.viewUrl }),
+  ).toThrow();
+});

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "scope": "local generated HTML browser preview; not inbox rendering",
+  "browser": "ChatGPT in-app browser",
+  "desktop": {
+    "viewport": [
+      1024,
+      900
+    ],
+    "shellWidth": 600,
+    "documentScrollWidth": 1009
+  },
+  "mobile": {
+    "viewport": [
+      320,
+      800
+    ],
+    "shellWidth": 304.66668701171875,
+    "documentScrollWidth": 305,
+    "horizontalOverflow": false,
+    "keyboardFirstLink": "Open private report and PDF options"
+  },
+  "images": 0,
+  "dark": {
+    "method": "same template stylesheet with the dark media wrapper forced in a local derivative; no browser/media/client acceptance claim",
+    "background": "#1c2023",
+    "foreground": "#f3f4f4",
+    "links": "#9ec5ff"
+  },
+  "actualEmailClients": {
+    "Gmail": "pending; no recipient notification or external client-testing service used",
+    "Apple Mail": "pending; no recipient notification or external client-testing service used",
+    "Outlook": "pending; no recipient notification or external client-testing service used",
+    "Yahoo": "pending; no recipient notification or external client-testing service used"
+  },
+  "manualPdfVisualReview": {
+    "pagesInspected": 7,
+    "clippingObserved": false,
+    "overlapObserved": false,
+    "orphanComparisonHeadingFixed": true,
+    "splitProvenanceFixed": true,
+    "screenReaderOrPdfUaAccepted": false
+  },
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

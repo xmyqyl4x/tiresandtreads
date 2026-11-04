@@ -161,7 +161,7 @@ export function ownerReport(output: JsonObject): JsonObject {
     },
   });
 }
-export function publicReport(output: JsonObject): JsonObject {
+export function publicReport(output: JsonObject, includePricePlanIds = false): JsonObject {
   const r = object(output.result);
   const evidence =
     output.evidence && typeof output.evidence === 'object' ? object(output.evidence) : null;
@@ -199,7 +199,11 @@ export function publicReport(output: JsonObject): JsonObject {
         return { id: d.id, status: d.status, reasons: d.reasons, scoreBp: d.scoreBp };
       }),
     },
-    prices: Array.isArray(output.prices) ? output.prices.map(price) : [],
+    prices: Array.isArray(output.prices)
+      ? output.prices.map((p) =>
+          includePricePlanIds && p ? { ...object(price(p)), ...pick(p, ['planId']) } : price(p),
+        )
+      : [],
     options,
     products: Array.isArray(output.products)
       ? output.products.map((p) => pick(p, ['id', 'modelId', 'brand', 'model', 'sizeCode']))
