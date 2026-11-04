@@ -1,3 +1,4 @@
+import { comparisonCopy } from '../../../../packages/contracts/src/report-display.ts';
 import { quotedDifference } from '../comparison/model.ts';
 import type { ComparisonView } from '@tt/contracts/comparison-views';
 import { range, when } from '../results/presentation.ts';
@@ -31,7 +32,9 @@ export function ComparisonBody({
               <dd>{item.snapshot.fit}</dd>
               <dt>Climate</dt>
               <dd>{item.snapshot.climate}</dd>
-              <dt>{item.kind === 'quote' ? 'Recorded quote base' : 'Tires-only estimate'}</dt>
+              <dt>
+                {item.kind === 'quote' ? comparisonCopy.quoteBase : comparisonCopy.catalogBase}
+              </dt>
               <dd>{range(item.snapshot.price?.merchandise)}</dd>
               <dt>Installed estimate</dt>
               <dd>{range(item.snapshot.price?.installed)}</dd>
@@ -50,12 +53,7 @@ export function ComparisonBody({
                   : (item.snapshot.scoreBp / 100).toFixed(1) + ' / 100'}
               </dd>
             </dl>
-            {item.kind === 'quote' ? (
-              <p className="hint">
-                The quote base may already include installation or tax; it is not a tires-only
-                breakdown. No fees are subtracted here. Review the entered quantity and basis.
-              </p>
-            ) : null}
+            {item.kind === 'quote' ? <p className="hint">{comparisonCopy.quoteInclusion}</p> : null}
             {item.snapshot.verdict ? (
               <p>
                 Service verdict: {item.snapshot.verdict.relation.replaceAll('_', ' ')}.{' '}
@@ -67,10 +65,7 @@ export function ComparisonBody({
           </article>
         ))}
       </div>
-      <p className="hint">
-        Lifetime cost, savings and replacement forecasts are unavailable for this comparison: no
-        ownership scenario has been calculated. No price is a safety rating or live purchase offer.
-      </p>
+      <p className="hint">{comparisonCopy.noScenario}</p>
     </section>
   );
 }

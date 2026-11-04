@@ -1,3 +1,14 @@
+import { presentReport } from '../../packages/integrations/src/report-templates/presentation.ts';
+import { renderReportEmail } from '../../packages/integrations/src/report-templates/email.ts';
+import {
+  templateDocument,
+  templateContext,
+  templateProfile,
+} from '../fixtures/templates/report.ts';
+import {
+  publicComparison,
+  publicReport,
+} from '../../packages/application/src/services/report-records.ts';
 import { it, expect } from 'vitest';
 import { evidenceFixture } from '../fixtures/reports/evidence.ts';
 import {
@@ -83,6 +94,37 @@ it('keeps known-but-wrong-size quotes separate from unverified products and miss
     verdict: { relation: 'not_comparable' },
   });
   expect(r.items[1]!.snapshot.reasons).toContain('SIZE_MISMATCH');
+  const report = {
+    ...publicReport(
+      {
+        result: json(f.result),
+        evidence: json(f.p.snapshot),
+        prices: json(f.p.prices),
+        products: json(f.p.products),
+      },
+      true,
+    ),
+    reportId: f.v.reportId,
+    version: 1,
+  };
+  const doc = {
+    ...templateDocument(),
+    report,
+    comparison: publicComparison({ revision: '1', items: r.items }),
+  };
+  const view = presentReport(doc, templateProfile, {
+    ...templateContext(),
+    reportId: f.v.reportId,
+    comparisonRevision: '1',
+  });
+  expect(view.comparison[1]!.fitment).toBe('blocked');
+  expect(view.comparison[1]!.status).toContain('Blocked');
+  const mail = await renderReportEmail(view);
+  const section = mail.text.slice(mail.text.indexOf('Private quote 2'));
+  expect(section).toContain('Fitment: blocked');
+  expect(section).toContain('Recorded quote base');
+  expect(section).toContain('not a tires-only breakdown');
+
   const unknown = buildComparison(
     f.v,
     f.p,

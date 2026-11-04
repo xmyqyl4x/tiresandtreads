@@ -1,3 +1,12 @@
+import type { JsonObject } from '../../packages/application/src/ports/catalog-records.ts';
+import { createReportTemplateRenderer } from '../../packages/integrations/src/report-templates/renderer.ts';
+import {
+  templateContext,
+  templateDocument,
+  templateProfile,
+} from '../fixtures/templates/report.ts';
+import { fonts } from '../fixtures/templates/fonts.ts';
+import { publicReport } from '../../packages/application/src/services/report-records.ts';
 import { beforeAll, afterAll, it, expect, vi } from 'vitest';
 import { privateFixture, uid, time, key, success } from '../fixtures/private/database.ts';
 import { engineFixture } from '../fixtures/engine/base.ts';
@@ -309,7 +318,7 @@ it('UC05 shares a redacted fixed view, rechecks recalls and revokes reads, forks
     }),
   ).toMatchObject({ error: { code: 'forbidden' } });
 });
-it('UC04 persists bounded comparisons and encrypted unknown quotes without fabricated scores or public notes', async () => {
+it('P1-PR-037 UC04 persists bounded comparisons and encrypted unknown quotes without fabricated scores or public notes', async () => {
   const s = await created(),
     qkey = command(),
     q = value(await s.service.saveQuote([s.owner.token], s.reportId, qkey, quote()));
@@ -352,6 +361,41 @@ it('UC04 persists bounded comparisons and encrypted unknown quotes without fabri
     scoreBp: null,
   });
   expect(canonical(saved)).not.toMatch(/Unknown tire|Private Shop/);
+  const frozenVersion = await success(f.scope.unitOfWork, (tx) =>
+    f.reports.version(tx, s.owner.identity, s.reportId, 1),
+  );
+  if (!frozenVersion) throw Error('Missing saved version');
+  const projected = value(
+    await s.service.readComparison([s.owner.token], s.reportId, 1, c.result_revision),
+  );
+  expect((projected.comparison.items as JsonObject[])[1]!.kind).toBe('quote');
+  const doc = {
+    ...templateDocument(),
+    report: { ...publicReport(frozenVersion.output, true), reportId: s.reportId, version: 1 },
+    comparison: projected.comparison,
+  };
+  const context = {
+    ...templateContext(),
+    reportId: s.reportId,
+    comparisonRevision: c.result_revision!,
+    expiresAt: new Date(
+      Date.parse((frozenVersion.output.result as JsonObject).asOf as string) + 86400000,
+    ).toISOString(),
+  };
+  const renderer = createReportTemplateRenderer({
+    hash: doc.template.rendererHash,
+    fixture: true,
+    profile: templateProfile,
+    fonts,
+    context: () => context,
+  });
+  const mail = await renderer.render(doc);
+  expect(mail.text).toContain('Private quote 2');
+  expect(mail.text).toContain('Recorded quote base: $749.00 USD');
+  expect(mail.text).toContain('not a tires-only breakdown');
+  expect(mail.text).toContain('Comparison revision ' + c.result_revision);
+  expect(mail.html + mail.text).not.toMatch(/Unknown tire from private quote|Private Shop Name/);
+
   expect(
     await s.service.readComparison([s.owner.token], s.reportId, 1, c.result_revision),
   ).toMatchObject({ ok: true, value: { comparison: { revision: c.result_revision } } });

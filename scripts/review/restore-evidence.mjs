@@ -1,3 +1,4 @@
+import { reconcileProductPins, productPinsPath } from './product-source-pins.mjs';
 import { createHash } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import { readReviewBytes, readReviewJson } from './repository-files.mjs';
@@ -37,9 +38,19 @@ export function reviewRestoreEvidence(root) {
     const register = readReviewJson(root, prefix + 's3-service-register.json');
     const references = register.gates.flatMap((g) => g.localEvidence ?? []);
     if (references.length !== 264) throw Error('Changed local references');
-    const fileReview = verifyReviewFiles(root, catalog.all, [...references, baselinePath]);
+    const current = reconcileProductPins(root, catalog.all);
+    const fileReview = verifyReviewFiles(root, current.pins, [
+      ...references,
+      baselinePath,
+      productPinsPath,
+    ]);
     const reviewedPaths = [
-      ...new Set([...catalog.all.map((p) => p.path), ...references.map(reviewPath), baselinePath]),
+      ...new Set([
+        ...catalog.all.map((p) => p.path),
+        ...references.map(reviewPath),
+        baselinePath,
+        productPinsPath,
+      ]),
     ].sort();
     const report = {
       schemaVersion: 1,
@@ -56,7 +67,7 @@ export function reviewRestoreEvidence(root) {
       },
       priorExceptions: prior.priorExceptions,
       localToolExceptions: prior.localToolExceptions,
-      newExceptions: 0,
+      newExceptions: current.exceptions,
       fileReview,
       reviewedPaths,
       recordedHandoff: null,

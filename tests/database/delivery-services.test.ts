@@ -1,3 +1,11 @@
+import { createReportTemplateRenderer } from '../../packages/integrations/src/report-templates/renderer.ts';
+import {
+  templateContext,
+  templateDocument,
+  templateProfile,
+  pick,
+} from '../fixtures/templates/report.ts';
+import { fonts } from '../fixtures/templates/fonts.ts';
 import { beforeAll, afterAll, it, expect, vi } from 'vitest';
 import { privateFixture, uid, time, success } from '../fixtures/private/database.ts';
 import { createContactCrypto } from '../../packages/integrations/src/contact-crypto.ts';
@@ -52,7 +60,7 @@ function output(): JsonObject {
     products: [],
   };
 }
-async function setup() {
+async function setup(reportOutput: JsonObject = output()) {
   const crypto = createContactCrypto(
     'v1',
     { v1: new Uint8Array(32).fill(4) },
@@ -150,7 +158,7 @@ async function setup() {
     };
   const service = createDeliveryServices(deps),
     owner = await f.owner(),
-    report = await f.report(owner.identity, output()),
+    report = await f.report(owner.identity, reportOutput),
     email = uid('email') + '@example.invalid';
   const input: ContactRequest = {
     email,
@@ -864,4 +872,56 @@ it('keeps orchestration snapshots and private storage locations outside public r
       )
     ).rows[0],
   ).toEqual({ snapshot: false, location: false });
+});
+
+it('P1-PR-037 freezes real HTML/text/PDF from safe captured data and replays identical bytes without rerendering', async () => {
+  const base = output(),
+    sample = templateDocument().report;
+  const input = {
+    ...base,
+    ...sample,
+    result: { ...(sample.result as JsonObject), versions: (base.result as JsonObject).versions },
+    evidence: { plans: sample.options },
+    privateNotes: 'NEVER EMAIL THIS PRIVATE NOTE',
+  } as JsonObject;
+  const s = await setup(input);
+  const real = createReportTemplateRenderer({
+    hash: s.renderer.hash,
+    fixture: true,
+    profile: templateProfile,
+    fonts,
+    context: (doc) => ({
+      ...templateContext(),
+      reportId: String(doc.report.reportId),
+      version: Number(doc.report.version),
+      expiresAt: new Date(
+        Date.parse((doc.report.result as JsonObject).asOf as string) + 86400000,
+      ).toISOString(),
+    }),
+  });
+  s.renderer.render.mockImplementation(real.render);
+  const r = await s.request();
+  await s.due(r.id);
+  s.provider.send.mockRejectedValueOnce(Error('simulated accepted then disconnected'));
+  expect(value(await s.service.dispatch(r.id))).toHaveProperty('state', 'uncertain');
+  const first = s.provider.send.mock.calls[0]![1];
+  expect(first.mail.html).toContain('$700.00-$950.00 USD');
+  expect(first.mail.text).toContain('4 tires');
+  expect(first.mail.text).toContain('evidence confidence: Medium');
+  expect(first.mail.text).not.toContain('NEVER EMAIL THIS PRIVATE NOTE');
+  expect(first.mail.pdf.startsWith('JVBERi0')).toBe(true);
+  await f.admin.query(
+    "UPDATE email.delivery_work SET next_attempt_at=now()-interval '1 second' WHERE send_id=$1",
+    [r.id],
+  );
+  expect(value(await s.service.dispatch(r.id))).toHaveProperty('state', 'accepted');
+  expect(s.provider.send.mock.calls[1]![0]).toBe(s.provider.send.mock.calls[0]![0]);
+  expect(s.provider.send.mock.calls[1]![1]).toEqual(first);
+  expect(s.renderer.render).toHaveBeenCalledOnce();
+  const row = await s.row(r.id);
+  expect(row.document.report.prices[0].planId).toBe(pick);
+  expect(row.document.report.result.decisions[0].confidence).toBe(2);
+  expect(JSON.stringify(row.document)).not.toContain(s.email);
+  expect(JSON.stringify(row.document)).not.toContain('#share.');
+  expect(s.provider.send).toHaveBeenCalledTimes(2);
 });

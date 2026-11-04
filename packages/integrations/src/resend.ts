@@ -73,9 +73,6 @@ export function createResendProvider(o: {
       html: p.mail.html,
       text: p.mail.text,
       tags: [{ name: 'tt_delivery_key', value: key }],
-      attachments: [
-        { filename: 'report.pdf', content: p.mail.pdf, content_type: 'application/pdf' },
-      ],
     });
   }
   return {

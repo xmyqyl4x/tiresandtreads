@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "scope": "synthetic local renderer evidence",
+  "records": [
+    {
+      "name": "normal",
+      "pdfBytes": 24441,
+      "pdfSha256": "10bfc589a7d81b7c1f099e0c85c3a76da6fb92cb5724f8b19a7e5235f20d1818",
+      "htmlBytes": 5172,
+      "textBytes": 2378,
+      "fixture": true,
+      "images": 0
+    },
+    {
+      "name": "missing",
+      "pdfBytes": 23487,
+      "pdfSha256": "2bc5db787735621e3223061214e04c4ec6936a2d669d9e8352a0178d8b865f95",
+      "htmlBytes": 4996,
+      "textBytes": 2338,
+      "fixture": true,
+      "images": 0
+    },
+    {
+      "name": "long-comparison",
+      "pdfBytes": 30890,
+      "pdfSha256": "cdadeda81e5a79f2da7b7e62eafc37f2514beb17201d8cbf3ec689d2cbbc5e1c",
+      "htmlBytes": 10399,
+      "textBytes": 5432,
+      "fixture": true,
+      "images": 0
+    }
+  ],
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

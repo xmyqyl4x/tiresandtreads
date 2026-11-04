@@ -136,7 +136,11 @@ export function createDeliveryServices(d: {
               policyVersion: d.policy.version,
               locale: presentation.locale,
               market: presentation.market,
-              report: json({ ...publicReport(v.output), reportId: v.reportId, version: v.version }),
+              report: json({
+                ...publicReport(v.output, true),
+                reportId: v.reportId,
+                version: v.version,
+              }),
               comparison: c ? publicComparison(json(c)) : null,
               template: t,
               learning: await d.work.learning(tx, v, presentation.locale, presentation.market),
