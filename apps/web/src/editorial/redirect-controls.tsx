@@ -40,7 +40,7 @@ export function RedirectControls({ client }: { client: ReturnType<typeof createE
         command = {
           action: 'redirects',
           reviewerCredential: String(values.get('reviewer')),
-          revision: (current.current?.revision ?? 0) + 1,
+          revision: current.latestRevision + 1,
           issuedAt,
           expiresAt: new Date(Date.parse(issuedAt) + 3600000).toISOString(),
           csv,
@@ -99,8 +99,8 @@ export function RedirectControls({ client }: { client: ReturnType<typeof createE
       </button>
       {current ? (
         <p>
-          Current revision: {current.current?.revision ?? 0}. Next revision:{' '}
-          {(current.current?.revision ?? 0) + 1}.
+          Latest allocated revision: {current.latestRevision}. Next revision:{' '}
+          {current.latestRevision + 1}. Live rules: {current.current ? 'available' : 'none'}.
         </p>
       ) : null}
       {current?.current ? (

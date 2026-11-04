@@ -184,6 +184,28 @@ export function createContentServiceRepository(s: WriteScope): ContentServiceRep
         ],
       );
     },
+    async redirectAdministration(tx) {
+      const row = (
+        await q(
+          tx,
+          'SELECT revision,issued_at,expires_at,rules,issued_at<=clock_timestamp() AND expires_at>clock_timestamp() AS live FROM app.redirect_publications ORDER BY revision DESC LIMIT 1',
+        )
+      ).rows[0];
+      if (!row) return { latestRevision: 0, current: null };
+      const latestRevision = integer(row.revision, 1);
+      if (latestRevision > 2147483647) return stop('integrity');
+      return {
+        latestRevision,
+        current: row.live
+          ? {
+              revision: latestRevision,
+              issuedAt: stamp(row.issued_at),
+              expiresAt: stamp(row.expires_at),
+              rules: row.rules as RedirectSnapshot['rules'],
+            }
+          : null,
+      };
+    },
     async currentRedirects(tx) {
       const x = (
         await q(

@@ -222,7 +222,7 @@ export async function editorialFixture(
           const repository = createContentServiceRepository(f.appScope);
           const result = await f.appScope.unitOfWork.run(async (tx) => {
             await repository.authorize(tx, a.value, 'seo.publish');
-            return ok((await repository.currentRedirects(tx))?.value ?? null);
+            return ok(await repository.redirectAdministration(tx));
           });
           if (!result.ok) throw Error(result.error.code);
           return result.value;

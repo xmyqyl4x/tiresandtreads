@@ -117,6 +117,7 @@ export const redirectEditorCommandSchema = z.strictObject({
 });
 export type RedirectEditorCommand = z.infer<typeof redirectEditorCommandSchema>;
 export interface RedirectEditorState {
+  latestRevision: number;
   current: {
     revision: number;
     issuedAt: string;
