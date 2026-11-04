@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { editorialFixture } from './runtime.ts';
+import { id } from '../../../packages/domain/src/values/core.ts';
 process.env.TT_EDITORIAL_TRACE = '1';
 const raceId = randomUUID(),
-  expiredId = randomUUID();
+  expiredId = randomUUID(),
+  exhaustedId = randomUUID();
 let clockOffset = 0,
-  failDelayedWithdrawal = true;
+  failDelayedWithdrawal = true,
+  failExhaustedOnce = true;
 let paused = false,
   release!: () => void,
   entered!: () => void;
@@ -19,6 +22,10 @@ const f = await editorialFixture(undefined, {
     now: () => new Date(Date.now() + clockOffset).toISOString(),
     beforeDelivery: async (_actor, ref, action) => {
       if (ref.id === expiredId && action === 'publish') throw Error('unavailable');
+      if (ref.id === exhaustedId && action === 'withdraw' && failExhaustedOnce) {
+        failExhaustedOnce = false;
+        throw Error('unavailable');
+      }
       if (ref.id === documentId && action === 'withdraw' && failDelayedWithdrawal) {
         failDelayedWithdrawal = false;
         throw Error('unavailable');
@@ -217,6 +224,122 @@ try {
       }),
     /unavailable/,
   );
+  // Fixed adverse state in this owned fixture: prove the real lease refuses attempts=8,
+  // then recover through a separately authorized higher removal revision, without resetting it.
+  const exhaustedDraft = {
+    ...f.draft,
+    key: 'exhausted-removal',
+    path: '/glossary/exhausted-removal',
+  };
+  await f.service.execute(author, {
+    id: exhaustedId,
+    expectedRevision: 0,
+    key: randomUUID(),
+    action: 'save',
+    draft: exhaustedDraft,
+  });
+  await f.service.execute(author, {
+    id: exhaustedId,
+    expectedRevision: 1,
+    key: randomUUID(),
+    action: 'submit',
+  });
+  await f.service.execute(reviewer, {
+    id: exhaustedId,
+    expectedRevision: 2,
+    key: randomUUID(),
+    action: 'approve',
+    expiresAt: new Date(Date.now() + 86400000).toISOString(),
+  });
+  await f.service.execute(publisher, {
+    id: exhaustedId,
+    expectedRevision: 3,
+    key: randomUUID(),
+    action: 'publish',
+  });
+  const exhaustedCommand = {
+    id: exhaustedId,
+    expectedRevision: 4,
+    key: randomUUID(),
+    action: 'withdraw',
+  };
+  await assert.rejects(() => f.service.execute(publisher, exhaustedCommand), /unavailable/);
+  const staff = id('staff', f.actors.publisher.id),
+    cms = id('cms_document', exhaustedId);
+  assert(staff.ok && cms.ok);
+  const queued = await f.content.services.enqueue(
+    staff.value,
+    { id: cms.value, collection: 'glossary-terms', revision: 5 },
+    'withdraw',
+  );
+  assert(queued.ok);
+  await f.f.cmsAdmin.query(
+    "UPDATE public.publication_work SET state='failed',attempts=8,last_error_code='retry_exhausted' WHERE id=$1",
+    [queued.value.id],
+  );
+  await assert.rejects(() => f.service.execute(publisher, exhaustedCommand), /unavailable/);
+  await assert.rejects(
+    () =>
+      f.service.execute(author, {
+        id: exhaustedId,
+        expectedRevision: 5,
+        key: randomUUID(),
+        action: 'save',
+        draft: exhaustedDraft,
+      }),
+    /unavailable/,
+  );
+  assert.equal((await f.content.services.readPage(exhaustedDraft.path, 'en-US', 'US')).ok, true);
+  await f.service.execute(publisher, {
+    id: exhaustedId,
+    expectedRevision: 5,
+    key: randomUUID(),
+    action: 'withdraw',
+  });
+  assert.equal((await f.content.services.readPage(exhaustedDraft.path, 'en-US', 'US')).ok, false);
+  assert.deepEqual(
+    (
+      await f.f.cmsAdmin.query(
+        'SELECT attempts::int AS attempts,state FROM public.publication_work WHERE id=$1',
+        [queued.value.id],
+      )
+    ).rows[0],
+    { attempts: 8, state: 'failed' },
+  );
+  await f.service.execute(author, {
+    id: exhaustedId,
+    expectedRevision: 6,
+    key: randomUUID(),
+    action: 'save',
+    draft: exhaustedDraft,
+  });
+  // Natural bounded expiry, rather than mutating immutable redirect history.
+  const redirectIssued = Date.now(),
+    rules = [
+      {
+        source: '/learn/expiry-proof',
+        target: f.draft.path,
+        code: 301 as const,
+        mode: 'exact' as const,
+      },
+    ];
+  await f.service.publishRedirects(publisher, reviewer, {
+    revision: 1,
+    issuedAt: new Date(redirectIssued).toISOString(),
+    expiresAt: new Date(redirectIssued + 5000).toISOString(),
+    rules,
+  });
+  await new Promise((resolve) => setTimeout(resolve, 5200));
+  const expiredRedirects = await f.service.redirects(publisher);
+  assert.equal(expiredRedirects.latestRevision, 1);
+  assert.equal(expiredRedirects.current, null);
+  await f.service.publishRedirects(publisher, reviewer, {
+    revision: expiredRedirects.latestRevision + 1,
+    issuedAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 3600000).toISOString(),
+    rules,
+  });
+  assert.equal((await f.service.redirects(publisher)).current?.revision, 2);
   clockOffset = 2 * 86400000;
   // Delayed tombstones retain their removal authority after the packet's freshness timestamp.
   await f.service.execute(author, {
@@ -288,6 +411,8 @@ try {
         expiredPublicationEditable: true,
         delayedWithdrawalRecoverable: true,
         neverPublishedWithdrawalConfirmed: true,
+        exhaustedWithdrawalReplacedWithoutReset: true,
+        expiredRedirectRevisionRetained: true,
         rollbackRequiresFreshReview: true,
         roleRevocationRefused: true,
         actualEditorialAcceptance: false,

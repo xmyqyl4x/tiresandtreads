@@ -209,7 +209,7 @@ export function transitionEditorial(
       next.state = 'published';
     } else {
       // Draft workflow state does not establish whether an older public projection still exists.
-      demand(current.state !== 'withdrawn', 'conflict');
+      // Reissuing removal creates a higher fenced revision, including after exhausted delivery.
       next.review = null;
       next.state = 'withdrawn';
     }

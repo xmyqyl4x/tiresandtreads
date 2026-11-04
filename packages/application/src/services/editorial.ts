@@ -12,7 +12,9 @@ export function createEditorialService(d: {
   readonly digest: (input: unknown) => string;
   readonly now: () => string;
   readonly redirects?: {
-    readonly read: (actor: string) => Promise<RedirectSnapshot | null>;
+    readonly read: (
+      actor: string,
+    ) => Promise<{ readonly latestRevision: number; readonly current: RedirectSnapshot | null }>;
     readonly publish: (
       actor: string,
       reviewer: string,
@@ -36,7 +38,7 @@ export function createEditorialService(d: {
     async redirects(credential: string) {
       const actor = await d.authorization.require(credential, 'publisher');
       if (!d.redirects) throw Error('unavailable');
-      return { current: await d.redirects.read(actor.id), serverTime: d.now() };
+      return { ...(await d.redirects.read(actor.id)), serverTime: d.now() };
     },
     async publishRedirects(
       credential: string,
@@ -97,14 +99,13 @@ export function createEditorialService(d: {
           current?.command.action === 'publish' &&
           current.review !== null &&
           current.review.expiresAt <= d.now();
-        const withdrawalSupersedesPublication =
-          current?.command.action === 'publish' && command.action === 'withdraw';
+        // An explicit publisher removal may supersede exhausted removal work as a higher
+        // native revision; stale work then fails its current-source check. Never auto-reset leases.
+        const replacementWithdrawal = command.action === 'withdraw';
         if (
           current &&
-          (current.command.action === 'withdraw' ||
-            (current.command.action === 'publish' &&
-              !expiredPublication &&
-              !withdrawalSupersedesPublication))
+          ((current.command.action === 'withdraw' && !replacementWithdrawal) ||
+            (current.command.action === 'publish' && !expiredPublication && !replacementWithdrawal))
         ) {
           const delivered = await d.deliver(
             current.command.actor.id,

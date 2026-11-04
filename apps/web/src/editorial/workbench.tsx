@@ -159,6 +159,39 @@ export function EditorialWorkbench() {
       setBusy(false);
     }
   }
+  async function loadForReplacementRemoval() {
+    if (
+      !client ||
+      working.current ||
+      !pending.current ||
+      !identity?.roles.includes('publisher') ||
+      !['publish', 'withdraw'].includes(pending.current.action)
+    )
+      return;
+    working.current = true;
+    setBusy(true);
+    try {
+      const current = await client.read(pending.current.id);
+      if (!current.document) throw Error('not_found');
+      const items = await client.list();
+      setSelected(current);
+      setDocuments(items);
+      setDirty(false);
+      setVersion('');
+      pending.current = null;
+      setUnknown(false);
+      setMessage(
+        'Current revision loaded. The earlier outcome is not assumed failed. Use Withdraw or Reissue withdrawal to supersede it with a higher removal revision.',
+      );
+    } catch {
+      setMessage(
+        'Current revision is unavailable. Keep the unchanged command pending until it can be read.',
+      );
+    } finally {
+      working.current = false;
+      setBusy(false);
+    }
+  }
   const doc = selected?.document,
     canAuthor = identity?.roles.includes('author') ?? false,
     canReview = identity?.roles.includes('reviewer') ?? false,
@@ -399,9 +432,7 @@ export function EditorialWorkbench() {
                                     doc.author.id !== identity?.id &&
                                     doc.state === 'review'
                                   : canPublish &&
-                                    (action === 'publish'
-                                      ? doc.state === 'approved'
-                                      : doc.state !== 'withdrawn'),
+                                    (action === 'withdraw' || doc.state === 'approved'),
                             )
                             .map((action) => (
                               <button
@@ -420,7 +451,10 @@ export function EditorialWorkbench() {
                                       approve: 'Approve review',
                                       reject: 'Reject review',
                                       publish: 'Queue publication',
-                                      withdraw: 'Withdraw',
+                                      withdraw:
+                                        doc.state === 'withdrawn'
+                                          ? 'Reissue withdrawal'
+                                          : 'Withdraw',
                                     } as const
                                   )[action]
                                 }
@@ -472,15 +506,29 @@ export function EditorialWorkbench() {
           </div>
           {canPublish ? <RedirectControls client={client} /> : null}
           {unknown ? (
-            <button
-              className="button primary"
-              disabled={busy}
-              onClick={() => {
-                if (pending.current) void command(pending.current.action);
-              }}
-            >
-              Retry unchanged operation
-            </button>
+            <>
+              <button
+                className="button primary"
+                disabled={busy}
+                onClick={() => {
+                  if (pending.current) void command(pending.current.action);
+                }}
+              >
+                Retry unchanged operation
+              </button>
+              {canPublish &&
+                pending.current &&
+                ['publish', 'withdraw'].includes(pending.current.action) && (
+                  <button
+                    type="button"
+                    className="button secondary"
+                    disabled={busy}
+                    onClick={() => void loadForReplacementRemoval()}
+                  >
+                    Load current revision for replacement withdrawal
+                  </button>
+                )}
+            </>
           ) : null}
         </>
       )}

@@ -173,10 +173,14 @@ it('keeps optional redirects unavailable and authorizes before reading them', as
 });
 it('reads the current redirect authority and publishes a detached snapshot with independent reauthorization', async () => {
   const value = redirectValue(),
-    read = vi.fn(async () => value),
+    read = vi.fn(async () => ({ latestRevision: 1, current: value })),
     publish = vi.fn(async () => null),
     f = setup({ read, publish });
-  expect(await f.service.redirects(tokens.publisher)).toEqual({ current: value, serverTime: at });
+  expect(await f.service.redirects(tokens.publisher)).toEqual({
+    latestRevision: 1,
+    current: value,
+    serverTime: at,
+  });
   expect(read).toHaveBeenCalledWith('publisher');
   const pending = f.service.publishRedirects(tokens.publisher, tokens.reviewer, value);
   value.rules[0]!.target = '/learn/changed';
@@ -187,7 +191,7 @@ it.each(['same', 'publisher', 'reviewer'])(
   'refuses redirect authority changes: %s',
   async (which) => {
     const publish = vi.fn(async () => null),
-      f = setup({ read: async () => null, publish });
+      f = setup({ read: async () => ({ latestRevision: 0, current: null }), publish });
     if (which === 'same') f.actors.reviewer = { ...f.actors.reviewer, id: f.actors.publisher.id };
     else {
       const normal = f.require.getMockImplementation()!;
@@ -372,6 +376,33 @@ it('strict wire parsing rejects forged actor claims and extra command fields', (
       draft: { ...f.draft, reviewer: 'forged' },
     }).success,
   ).toBe(false);
+});
+it('allows an explicit publisher replacement withdrawal while ordinary edits remain blocked on unresolved removal', async () => {
+  const f = setup();
+  await f.approve();
+  await f.service.execute(tokens.publisher, f.command('publish'));
+  f.enqueue.mockImplementation(async (_actor, ref) => ref.revision !== 5);
+  await expect(f.service.execute(tokens.publisher, f.command('withdraw'))).rejects.toThrow(
+    'unavailable',
+  );
+  await expect(f.save()).rejects.toThrow('unavailable');
+  expect(f.documents.get(f.id)?.revision).toBe(5);
+  expect(await f.service.execute(tokens.publisher, f.command('withdraw'))).toMatchObject({
+    revision: 6,
+    state: 'withdrawn',
+  });
+  expect(await f.save()).toMatchObject({ revision: 7, state: 'draft' });
+});
+it('retains the latest allocated redirect revision even when no rules remain live', async () => {
+  const f = setup({
+    read: async () => ({ latestRevision: 7, current: null }),
+    publish: async () => null,
+  });
+  expect(await f.service.redirects(tokens.publisher)).toEqual({
+    latestRevision: 7,
+    current: null,
+    serverTime: at,
+  });
 });
 it.each(['save', 'rollback', 'withdraw'] as const)(
   'recovers an expired undelivered publication through %s',

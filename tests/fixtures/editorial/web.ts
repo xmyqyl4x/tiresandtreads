@@ -5,8 +5,12 @@ import { editorialHttp } from '../../../packages/integrations/src/editorial-http
 import { readEducation } from '../../../packages/integrations/src/education-public.ts';
 import { publicToolRoutes } from '../../../packages/integrations/src/http/public-tools.ts';
 import { createHttpApi } from '../../../packages/integrations/src/http/core.ts';
-export async function startEditorialPreview(webOrigin = 'http://127.0.0.1:8380', publish = true) {
-  const fixture = await editorialFixture(webOrigin);
+export async function startEditorialPreview(
+  webOrigin = 'http://127.0.0.1:8380',
+  publish = true,
+  options: Parameters<typeof editorialFixture>[1] = {},
+) {
+  const fixture = await editorialFixture(webOrigin, options);
   let server: Awaited<ReturnType<typeof listenLocalApi>> | undefined;
   try {
     const records = await fixture.seed(publish);

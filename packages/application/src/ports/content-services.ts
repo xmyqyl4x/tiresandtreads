@@ -84,6 +84,9 @@ export interface ContentServiceRepository {
     reviewer: Id<'staff'>,
   ): Promise<void>;
   currentRedirects(tx: Tx): Promise<Readonly<{ value: RedirectSnapshot; checksum: string }> | null>;
+  redirectAdministration(
+    tx: Tx,
+  ): Promise<{ readonly latestRevision: number; readonly current: RedirectSnapshot | null }>;
   page(tx: Tx, path: string, locale: string, market: string): Promise<RegisteredPage | null>;
   pages(
     tx: Tx,
