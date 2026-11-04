@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-04",
+  "authority": "Explicit owner continuation: finish the current PR and implement, test, validate and merge the next PR",
+  "cards": [
+    "P1-PR-039"
+  ],
+  "scope": "local staff console implementation and disposable validation",
+  "localImplementationAllowed": true,
+  "localTestingAllowed": true,
+  "mergeAfterValidationAllowed": true,
+  "actualEditorialAcceptance": false,
+  "actualSearchVerification": false,
+  "S3Accepted": false,
+  "S4Accepted": false,
+  "publicActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualNotifications": false,
+  "specialistLicensed": "pending",
+  "inboxClientAcceptance": "pending",
+  "HS01-HS08": "proposed",
+  "operatorCoverageRates": "unconfirmed",
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "baseEditorialHead": "58320479b78d71f8428c3daae127c87f973526b6",
+  "productionAuthoritySelected": false
+}

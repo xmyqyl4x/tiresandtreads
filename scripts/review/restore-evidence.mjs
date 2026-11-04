@@ -2,6 +2,7 @@ import {
   reconcileProductPins,
   productPinsPath,
   editorialPinsPath,
+  staffPinsPath,
 } from './product-source-pins.mjs';
 import { createHash } from 'node:crypto';
 import { TextDecoder } from 'node:util';
@@ -48,6 +49,7 @@ export function reviewRestoreEvidence(root) {
       baselinePath,
       productPinsPath,
       editorialPinsPath,
+      staffPinsPath,
     ]);
     const reviewedPaths = [
       ...new Set([
@@ -56,6 +58,7 @@ export function reviewRestoreEvidence(root) {
         baselinePath,
         productPinsPath,
         editorialPinsPath,
+        staffPinsPath,
       ]),
     ].sort();
     const report = {

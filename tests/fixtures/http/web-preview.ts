@@ -24,11 +24,13 @@ export async function startWebPreview(
   extension?: {
     fixture: { cleanup(): Promise<void> };
     api: { origin: string; shutdown(): Promise<void> };
-    env: {
-      LOCAL_EDITORIAL_PREVIEW: 'enabled';
-      LOCAL_EDITORIAL_API_ORIGIN: string;
-      SEARCH_CONSOLE_VERIFICATION?: string;
-    };
+    env:
+      | {
+          LOCAL_EDITORIAL_PREVIEW: 'enabled';
+          LOCAL_EDITORIAL_API_ORIGIN: string;
+          SEARCH_CONSOLE_VERIFICATION?: string;
+        }
+      | { LOCAL_STAFF_CONSOLE: 'enabled'; LOCAL_STAFF_API_ORIGIN: string };
   },
 ) {
   const url = new URL(webOrigin);

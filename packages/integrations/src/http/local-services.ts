@@ -9,6 +9,7 @@ import { consentRoutes } from './consent.ts';
 import { staffRoutes } from './staff.ts';
 import { withLocalStaffSessions } from './staff-security.ts';
 import { readLocalStaffGrants, registeredImportArtifact } from './local-files.ts';
+import { staffConsoleRoutes } from './staff-console.ts';
 export async function localOperationRoutes(d: {
   readonly policy: ReturnType<typeof createConsentPolicyQuery>;
   readonly services: Awaited<ReturnType<typeof createLocalServiceHost>>['services'];
@@ -24,6 +25,13 @@ export async function localOperationRoutes(d: {
   return {
     security,
     routes: [
+      ...(d.env.LOCAL_STAFF_CONSOLE === 'enabled'
+        ? staffConsoleRoutes({
+            queries: d.services.staffConsole,
+            commercial: d.services.commercial,
+            security,
+          })
+        : []),
       ...consentRoutes({
         policy: d.policy,
         contacts: d.services.contacts,

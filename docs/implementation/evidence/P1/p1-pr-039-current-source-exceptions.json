@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-staff-console-current-source-exceptions",
+  "previousManifestSha256": "5fc39ba5b8919504eabeeb66a5872e22d09cf0f2d05632227f4fcd659665f733",
+  "exceptions": [
+    {
+      "path": "package.json",
+      "baselineSha256": "f228e483563136e976105b44a26e59e245a192d4419aacdf3ac920f37a27e0e2",
+      "currentSha256": "6c73ff4729672ee2a60221b905d54c0b6b7ced30ab3c9f19b5be7aee0a5bf3f6",
+      "reason": "Web assets/types precede root consumers of generated renderer declarations; compiler-only allowance is 1536 MiB after measured 1.1 GiB checking. Runtime/test thresholds and dependency versions are unchanged."
+    },
+    {
+      "path": "scripts/review/evidence-readiness.mjs",
+      "baselineSha256": "498605ffc9fb6d968248c3149c9267c7991be5dfe81193d085a2fcd2f27e73c0",
+      "currentSha256": "2bb061c6f35e3a2c5113ebadb589a95c57e6a8d5153df94c7fff01500a56afd1",
+      "reason": "Read-only reporting verifies and lists the exact additional staff-console source transition. No acceptance, lifecycle or provider effects."
+    },
+    {
+      "path": "scripts/review/restore-evidence.mjs",
+      "baselineSha256": "31cbe7ffb5dec8cf1be0332c40562c9b01ab01ed52cd63adb4f2f5256312382c",
+      "currentSha256": "653bea82c1834e3132b4f013af1e41cc308a564f3c8570d8097a5fac06e8369a",
+      "reason": "Read-only reporting verifies and lists the exact additional staff-console source transition. No acceptance, lifecycle or provider effects."
+    }
+  ],
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

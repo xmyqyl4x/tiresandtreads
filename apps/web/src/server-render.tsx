@@ -3,6 +3,7 @@ import { PageView, pageTitle } from './ui/pages.tsx';
 import { locale } from './locale.ts';
 import manifest from '../node_modules/.cache/tt-preview/assets.json';
 import { EditorialWorkbench } from './editorial/workbench.tsx';
+import { StaffConsole } from './staff/console.tsx';
 import { EducationView } from './education/view.tsx';
 import {
   jsonForHtml,
@@ -155,4 +156,21 @@ export function getAsset(name: string) {
   return Object.hasOwn(manifest.files, name)
     ? (manifest.files as Readonly<Record<string, { body: string; type: string }>>)[name]!
     : null;
+}
+export function staffDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang={locale}>
+        <SiteHead title="Local staff workspace" description="Private local staff operations">
+          <script type="module" src={'/local-preview-assets/' + manifest.staff} />
+        </SiteHead>
+        <body>
+          <div id="staff-root">
+            <StaffConsole />
+          </div>
+        </body>
+      </html>,
+    )
+  );
 }

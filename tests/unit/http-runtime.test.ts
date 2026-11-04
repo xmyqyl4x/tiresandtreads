@@ -6,6 +6,9 @@ const mocked = vi.hoisted(() => ({
   drain: vi.fn(async () => {}),
   read: vi.fn(async () => ({ ok: true, value: { title: 'Synthetic' } })),
   settings: vi.fn(),
+  redirect: vi.fn<
+    (path: string) => Promise<{ code: 301 | 302 | 410; target: string | null } | null>
+  >(async () => null),
 }));
 vi.mock('../../packages/integrations/src/service-host-config.ts', () => ({
   loadServiceHostSettings: mocked.settings,
@@ -63,11 +66,12 @@ function settings() {
 }
 beforeEach(() => {
   vi.clearAllMocks();
+  mocked.redirect.mockResolvedValue(null);
   mocked.settings.mockReturnValue(settings());
   mocked.host.mockResolvedValue({
     services: {
       reports: {},
-      content: { services: { readPage: mocked.read }, routing: { redirect: async () => null } },
+      content: { services: { readPage: mocked.read }, routing: { redirect: mocked.redirect } },
     },
     shutdown: vi.fn(async () => {}),
   });
@@ -100,6 +104,12 @@ it('composes the real loopback transport over supplied local services and drains
     expect(r.status).toBe(200);
     expect(mocked.read).toHaveBeenCalledWith('/learn/tire-basics', 'en-US', 'US');
     expect((await fetch(api.origin + '/api/v1/content?unknown=true')).status).toBe(400);
+    expect((await fetch(api.origin + '/api/v1/content?path=/learn/a&path=/learn/b')).status).toBe(
+      400,
+    );
+    expect((await fetch(api.origin + '/api/v1/content?path=/learn/a&locale=fr-FR')).status).toBe(
+      400,
+    );
     expect(
       (
         await fetch(api.origin + '/api/v1/download', {
@@ -136,3 +146,25 @@ it.each([
   }
   expect(mocked.host).not.toHaveBeenCalled();
 });
+
+it.each([
+  { code: 301 as const, target: '/guides/new' },
+  { code: 302 as const, target: '/learn/tire-basics' },
+  { code: 410 as const, target: null },
+])(
+  'resolves published $code routing before a page read through the actual local HTTP composition',
+  async (redirect) => {
+    mocked.redirect.mockResolvedValue(redirect);
+    const api = await createLocalPublicApi(env);
+    fixtureServer.use(http.all(api.origin + '/*', () => passthrough()));
+    try {
+      const response = await fetch(api.origin + '/api/v1/content?path=/learn/old');
+      expect(response.status).toBe(200);
+      expect((await response.json()).data).toEqual({ redirect });
+      expect(mocked.redirect).toHaveBeenCalledWith('/learn/old');
+      expect(mocked.read).not.toHaveBeenCalled();
+    } finally {
+      await api.shutdown();
+    }
+  },
+);

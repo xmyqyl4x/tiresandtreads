@@ -36,6 +36,8 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
     throw Error('Local API activation refused');
   if (![undefined, 'enabled', 'disabled'].includes(env.LOCAL_HTTP_OBSERVATIONS))
     throw Error('Local API observation setting refused');
+  if (![undefined, 'enabled', 'disabled'].includes(env.LOCAL_STAFF_CONSOLE))
+    throw Error('Local staff console setting refused');
   const callbackKeys = await readLocalCallbackKeys(env.LOCAL_CALLBACK_KEYS_FILE);
   const settings = loadServiceHostSettings(env);
   const lanes = ['report', 'catalog', 'limiter', 'asset', 'staff'] as const;

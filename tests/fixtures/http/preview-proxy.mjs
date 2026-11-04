@@ -1,5 +1,6 @@
 import { createServer, request as upstream } from 'node:http';
 import { randomUUID } from 'node:crypto';
+import { previewForwardHeaders } from './preview-headers.mjs';
 const mode = process.env.LOCAL_PREVIEW_MODE;
 if (!['dev', 'stage'].includes(mode) || process.env.PROVIDER_MODE !== 'fixtures')
   throw Error('Local preview proxy refused');
@@ -66,20 +67,7 @@ const server = createServer(async (incoming, outgoing) => {
   active++;
   try {
     const bytes = await body(incoming),
-      headers = { host: authority };
-    for (const name of [
-      'accept',
-      'accept-encoding',
-      'content-type',
-      'cookie',
-      'authorization',
-      'origin',
-      'x-csrf-token',
-      'idempotency-key',
-      'sec-gpc',
-      'x-share-token',
-    ])
-      if (incoming.headers[name]) headers[name] = incoming.headers[name];
+      headers = previewForwardHeaders(incoming.headers, authority, incoming.url, incoming.method);
     if (!['GET', 'HEAD'].includes(incoming.method))
       headers['content-length'] = String(bytes.length);
     await new Promise((resolve, reject) => {
