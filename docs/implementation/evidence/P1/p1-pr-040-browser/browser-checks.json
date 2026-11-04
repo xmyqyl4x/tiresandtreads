@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-04",
+  "scope": "disposable-local-commercial-browser",
+  "actualBrowser": true,
+  "actualOuterPreviewProxy": true,
+  "viewportObservations": [
+    {
+      "externalResourceElements": [],
+      "iframeCount": 0,
+      "inventoryHeight": 323.63543701171875,
+      "mainHeight": 2783.291748046875,
+      "scriptSources": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ],
+      "scrollWidth": 1265,
+      "slots": 2,
+      "visibility": "visible",
+      "width": 1280
+    },
+    {
+      "externalResourceElements": [],
+      "iframeCount": 0,
+      "inventoryHeight": 477.34375,
+      "mainHeight": 5843.52099609375,
+      "scriptSources": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ],
+      "scrollWidth": 375,
+      "slots": 2,
+      "visibility": "visible",
+      "width": 390
+    },
+    {
+      "externalResourceElements": [],
+      "iframeCount": 0,
+      "inventoryHeight": 534.9271240234375,
+      "mainHeight": 6716.2607421875,
+      "scriptSources": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ],
+      "scrollWidth": 305,
+      "slots": 2,
+      "visibility": "visible",
+      "width": 320
+    }
+  ],
+  "adsOnlyChoiceSaved": true,
+  "rejectOptionalSaved": true,
+  "crossTabReservedSpace": {
+    "before": {
+      "delivery": "house",
+      "height": 323.63543701171875,
+      "scripts": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ]
+    },
+    "after": {
+      "delivery": "house",
+      "height": 323.63543701171875,
+      "scripts": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ]
+    }
+  },
+  "scriptFreeDisclosure": true,
+  "keyboardFocusVisible": true,
+  "consoleErrors": 0,
+  "resourceVerification": "DOM resource declarations plus native response CSP assertions; browser network instrumentation unavailable",
+  "cumulativeLayoutShiftMeasured": false,
+  "layoutBudget": "CLS <=0.1 remains a full-web/live-provider measurement; this proof records reserved space and zero withdrawal height delta",
+  "actualCmpProviderAcceptance": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "rebuiltPreviewRechecked": true,
+  "keyboardSkipFocus": "education-main"
+}

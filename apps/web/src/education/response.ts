@@ -1,3 +1,4 @@
+import { readCommercialPage } from '../commercial/read.ts';
 import { localPreview, type PreviewEnvironment } from '../local-preview.ts';
 import {
   educationPageSchema,
@@ -136,9 +137,11 @@ export async function educationResponse(
     const verification = env.SEARCH_CONSOLE_VERIFICATION;
     if (verification !== undefined && !/^[A-Za-z0-9_-]{10,200}$/.test(verification))
       throw Error('Invalid verification configuration');
+    const commerce = await readCommercialPage(url.pathname, env, send);
     return reply(
       200,
       educationDocument(page, {
+        ...(commerce ? { commerce } : {}),
         ...(tool ? { tool } : {}),
         ...(checklist ? { checklist } : {}),
         ...(verification ? { verification } : {}),

@@ -73,6 +73,21 @@ const staff = await build({
 });
 for (const file of staff.outputFiles)
   files[basename(file.path)] = { body: file.text, type: 'text/javascript; charset=utf-8' };
+const commercial = await build({
+  absWorkingDir: root,
+  entryPoints: ['apps/web/src/commercial/client.ts'],
+  bundle: true,
+  format: 'esm',
+  platform: 'browser',
+  target: 'es2022',
+  minify: true,
+  legalComments: 'eof',
+  outfile: join(cache, 'browser/commercial-client.js'),
+  write: false,
+  logLevel: 'error',
+});
+for (const file of commercial.outputFiles)
+  files[basename(file.path)] = { body: file.text, type: 'text/javascript; charset=utf-8' };
 const checklist = await build({
   absWorkingDir: root,
   entryPoints: ['apps/web/src/education/checklist-client.ts'],
@@ -96,11 +111,13 @@ writeFileSync(
     entry: basename(entry[0]),
     editorial: 'editorial-client.js',
     staff: 'staff-client.js',
+    commercial: 'commercial-client.js',
     checklist: 'checklist-client.js',
     groups: {
       visitor: browser.outputFiles.map((file) => basename(file.path)),
       editorial: editorial.outputFiles.map((file) => basename(file.path)),
       staff: staff.outputFiles.map((file) => basename(file.path)),
+      commercial: commercial.outputFiles.map((file) => basename(file.path)),
       checklist: checklist.outputFiles.map((file) => basename(file.path)),
     },
     css: basename(css),
@@ -126,6 +143,6 @@ await build({
 });
 writeFileSync(
   join(cache, 'renderer.d.mts'),
-  'export function htmlDocument(page:string):string|null;\nexport function getAsset(name:string):{readonly body:string;readonly type:string}|null;\nexport function editorialDocument():string;\nexport function staffDocument():string;\nexport function educationDocument(page:unknown,options?:{tool?:{input:string;result:unknown};checklist?:{answers:unknown;result:unknown};verification?:string}):string;\n',
+  'export function htmlDocument(page:string):string|null;\nexport function getAsset(name:string):{readonly body:string;readonly type:string}|null;\nexport function editorialDocument():string;\nexport function staffDocument():string;\nexport function affiliateDisclosureDocument():string;\nexport function educationDocument(page:unknown,options?:{tool?:{input:string;result:unknown};checklist?:{answers:unknown;result:unknown};verification?:string;commerce?:import("../../../../../packages/contracts/src/public-commerce.ts").PublicCommerceView}):string;\n',
 );
 console.log('Local React shell assets built; Next remains the HTTP/API host');

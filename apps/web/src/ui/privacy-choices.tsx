@@ -1,4 +1,5 @@
 'use client';
+import { invalidateCommercialConsent } from '../consent-notification.ts';
 import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { Button } from './controls.tsx';
 import { definiteRefusal } from '../command-attempts.ts';
@@ -50,6 +51,7 @@ export function PrivacyChoices() {
   }
   async function save(next: BrowserChoices) {
     if (!gateway || saving.current) return;
+    invalidateCommercialConsent();
     saving.current = true;
     setStatus('saving');
     const generation = sequence.current,

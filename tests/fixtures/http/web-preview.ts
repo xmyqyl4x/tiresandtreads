@@ -30,7 +30,8 @@ export async function startWebPreview(
           LOCAL_EDITORIAL_API_ORIGIN: string;
           SEARCH_CONSOLE_VERIFICATION?: string;
         }
-      | { LOCAL_STAFF_CONSOLE: 'enabled'; LOCAL_STAFF_API_ORIGIN: string };
+      | { LOCAL_STAFF_CONSOLE: 'enabled'; LOCAL_STAFF_API_ORIGIN: string }
+      | { LOCAL_COMMERCIAL_UI: 'enabled' };
   },
 ) {
   const url = new URL(webOrigin);
