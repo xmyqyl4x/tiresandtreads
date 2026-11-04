@@ -35,6 +35,12 @@ export interface CmsLease {
   readonly packet: ContentPacket;
 }
 export interface EditorialRepository {
+  delivered(
+    tx: Tx,
+    ref: CmsRef,
+    publisher: Id<'staff'>,
+    action: 'publish' | 'withdraw',
+  ): Promise<boolean>;
   source(tx: Tx, ref: CmsRef): Promise<CmsSource | null>;
   enqueue(tx: Tx, packet: ContentPacket): Promise<Id<'cms_work'>>;
   lease(tx: Tx, id: Id<'cms_work'>): Promise<CmsLease | null>;
@@ -78,6 +84,9 @@ export interface ContentServiceRepository {
     reviewer: Id<'staff'>,
   ): Promise<void>;
   currentRedirects(tx: Tx): Promise<Readonly<{ value: RedirectSnapshot; checksum: string }> | null>;
+  redirectAdministration(
+    tx: Tx,
+  ): Promise<{ readonly latestRevision: number; readonly current: RedirectSnapshot | null }>;
   page(tx: Tx, path: string, locale: string, market: string): Promise<RegisteredPage | null>;
   pages(
     tx: Tx,

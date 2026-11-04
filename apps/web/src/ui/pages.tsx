@@ -61,7 +61,7 @@ function Home() {
               <Link className="button primary" href="/preview/find-tires">
                 Find tires <span aria-hidden="true">→</span>
               </Link>
-              <Link className="plain-link" href="/preview/how-we-choose">
+              <Link className="plain-link" href="/guides/how-we-choose">
                 How we choose
               </Link>
             </div>

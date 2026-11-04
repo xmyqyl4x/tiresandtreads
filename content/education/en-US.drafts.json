@@ -1,0 +1,746 @@
+{
+  "schemaVersion": 1,
+  "locale": "en-US",
+  "market": "US",
+  "recordedOn": "2026-11-03",
+  "reviewStatus": "draft",
+  "reviewer": null,
+  "reviewedAt": null,
+  "expiresAt": null,
+  "actualEditorialAcceptance": false,
+  "records": [
+    {
+      "key": "glossary-tire-size",
+      "kind": "glossary",
+      "path": "/glossary/tire-size",
+      "title": "Tire size",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "A metric size combines nominal width, aspect ratio, construction and wheel diameter.",
+        "Copy the complete marking and vehicle specification before comparing options.",
+        "A decoded size alone does not establish suitability."
+      ],
+      "topics": ["size"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: tire markings explained",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/tire-markings-explained"
+        }
+      ]
+    },
+    {
+      "key": "glossary-aspect-ratio",
+      "kind": "glossary",
+      "path": "/glossary/aspect-ratio",
+      "title": "Aspect ratio",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Aspect ratio is sidewall height expressed as a percentage of nominal width.",
+        "Compare the ratio together with the complete size.",
+        "The number is not a height in millimeters."
+      ],
+      "topics": ["size"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: tire markings explained",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/tire-markings-explained"
+        }
+      ]
+    },
+    {
+      "key": "glossary-wheel-diameter-radial",
+      "kind": "glossary",
+      "path": "/glossary/wheel-diameter-radial",
+      "title": "Wheel diameter and radial construction",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "R identifies radial construction; the following number specifies wheel diameter in inches.",
+        "Record both fields when requesting a quote.",
+        "Wheel diameter and overall tire diameter are different measurements."
+      ],
+      "topics": ["size"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: tire markings explained",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/tire-markings-explained"
+        }
+      ]
+    },
+    {
+      "key": "glossary-load-index",
+      "kind": "glossary",
+      "path": "/glossary/load-index",
+      "title": "Load index",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Load index is a code referring to load capacity under specified conditions.",
+        "Ask which verified load specification supports a proposed replacement.",
+        "This page does not convert the code into a vehicle-specific load approval."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: tire markings explained",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/tire-markings-explained"
+        }
+      ]
+    },
+    {
+      "key": "glossary-speed-rating",
+      "kind": "glossary",
+      "path": "/glossary/speed-rating",
+      "title": "Speed rating",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "A speed symbol identifies a standardized speed capability under test conditions.",
+        "Ask the installer to document the required specification.",
+        "It is not a recommended driving speed."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: tire markings explained",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/tire-markings-explained"
+        }
+      ]
+    },
+    {
+      "key": "glossary-xl-load-range",
+      "kind": "glossary",
+      "path": "/glossary/xl-load-range",
+      "title": "XL and load range",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "XL and load range describe load-related tire specifications.",
+        "Ask for the complete load and inflation requirements for the proposed tire.",
+        "A label alone does not validate a replacement."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "USTMA: tire care and safety guide",
+          "url": "https://www.ustires.org/system/files/files/2024-05/Tire%20Care%20and%20Safety%20Guide%2002%2022%2019%20HR.pdf"
+        }
+      ]
+    },
+    {
+      "key": "glossary-p-metric-lt",
+      "kind": "glossary",
+      "path": "/glossary/p-metric-lt",
+      "title": "P-metric versus LT",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "P and LT identify different passenger and light-truck tire designations.",
+        "Include the designation in the information you give an installer.",
+        "These designations are not automatically interchangeable."
+      ],
+      "topics": ["size"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: tire markings explained",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/tire-markings-explained"
+        }
+      ]
+    },
+    {
+      "key": "glossary-utqg-treadwear",
+      "kind": "glossary",
+      "path": "/glossary/utqg-treadwear",
+      "title": "UTQG treadwear",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "UTQG treadwear is a standardized comparative wear grade, not a mileage guarantee.",
+        "Keep the grade separate from a written mileage warranty.",
+        "A higher number does not promise a particular service life."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-utqg-traction",
+      "kind": "glossary",
+      "path": "/glossary/utqg-traction",
+      "title": "UTQG traction",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "UTQG traction grades describe straight-line wet braking under controlled test conditions.",
+        "Ask what additional evidence supports the driving conditions you care about.",
+        "The grade does not summarize every kind of grip."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-temperature-grade",
+      "kind": "glossary",
+      "path": "/glossary/temperature-grade",
+      "title": "Temperature grade",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "UTQG temperature grades concern heat resistance under controlled test conditions.",
+        "Read the grade with the rest of the specification.",
+        "It is not a weather forecast or an operating-temperature guarantee."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-m-plus-s",
+      "kind": "glossary",
+      "path": "/glossary/m-plus-s",
+      "title": "M+S",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "M+S is a mud-and-snow marking; it does not establish the same tested snow performance as 3PMSF.",
+        "Check the actual sidewall symbols when discussing winter use.",
+        "The letters alone are not a severe-snow performance certification."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Nokian Tyres: 3PMSF and M+S",
+          "url": "https://na.nokiantyres.com/tips/choosing-your-tires/3pmsf-and-ms-tires/"
+        }
+      ]
+    },
+    {
+      "key": "glossary-three-peak-mountain-snowflake",
+      "kind": "glossary",
+      "path": "/glossary/three-peak-mountain-snowflake",
+      "title": "3PMSF",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "The three-peak mountain snowflake identifies tires meeting specified snow traction tests.",
+        "Ask which marking is present on the exact tire being offered.",
+        "The symbol does not certify every winter condition or every vehicle."
+      ],
+      "topics": ["ratings"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Nokian Tyres: 3PMSF and M+S",
+          "url": "https://na.nokiantyres.com/tips/choosing-your-tires/3pmsf-and-ms-tires/"
+        }
+      ]
+    },
+    {
+      "key": "glossary-all-season",
+      "kind": "glossary",
+      "path": "/glossary/all-season",
+      "title": "All-season tires",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "All-season tires balance use across varied conditions, with limitations in severe winter weather.",
+        "Describe the seasons and routes you actually drive.",
+        "The category name alone does not answer a winter suitability question."
+      ],
+      "topics": ["types"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: seasonal tire types",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tire-buying-guide/differences-in-types-of-seasonal-tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-all-weather",
+      "kind": "glossary",
+      "path": "/glossary/all-weather",
+      "title": "All-weather tires",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Check the actual snow-performance marking rather than relying only on an all-weather category name.",
+        "Ask the seller to show the exact tire specification and symbols.",
+        "A product category is not a substitute for documented evidence."
+      ],
+      "topics": ["types"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Nokian Tyres: 3PMSF and M+S",
+          "url": "https://na.nokiantyres.com/tips/choosing-your-tires/3pmsf-and-ms-tires/"
+        }
+      ]
+    },
+    {
+      "key": "glossary-winter-tires",
+      "kind": "glossary",
+      "path": "/glossary/winter-tires",
+      "title": "Winter tires",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Winter tires are designed for cold-weather and winter-road conditions.",
+        "Discuss a seasonal plan with a qualified installer.",
+        "A general category description does not approve a particular fitment."
+      ],
+      "topics": ["types"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: seasonal tire types",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tire-buying-guide/differences-in-types-of-seasonal-tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-summer-tires",
+      "kind": "glossary",
+      "path": "/glossary/summer-tires",
+      "title": "Summer tires",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Summer tires target warmer conditions and are not intended for freezing winter use.",
+        "Include cold-weather exposure in the conversation before choosing a tire type.",
+        "Dry-road performance does not establish winter suitability."
+      ],
+      "topics": ["types"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: seasonal tire types",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tire-buying-guide/differences-in-types-of-seasonal-tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-dot-date",
+      "kind": "glossary",
+      "path": "/glossary/dot-date",
+      "title": "DOT date",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "The final date digits of the tire identification number identify production week and year.",
+        "Record the code when asking about age, storage and manufacturer guidance.",
+        "A date code alone does not determine a tire condition assessment."
+      ],
+      "topics": ["maintenance"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-tread-depth",
+      "kind": "glossary",
+      "path": "/glossary/tread-depth",
+      "title": "Tread depth",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Tread depth describes the remaining groove depth; wear indicators help identify worn tread.",
+        "Ask for measured readings across each tire and an explanation of unusual wear.",
+        "A visual impression is not a complete tire inspection."
+      ],
+      "topics": ["maintenance"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-cold-pressure-tpms",
+      "kind": "glossary",
+      "path": "/glossary/cold-pressure-tpms",
+      "title": "Cold pressure and TPMS",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Use the vehicle tire-information label and manufacturer instructions for cold inflation pressure; TPMS warns of pressure issues.",
+        "Ask which vehicle-specific source is being used.",
+        "A warning system does not replace regular pressure checks."
+      ],
+      "topics": ["maintenance"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "glossary-rotation",
+      "kind": "glossary",
+      "path": "/glossary/rotation",
+      "title": "Rotation",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Rotation changes tire positions according to an appropriate vehicle and tire service schedule.",
+        "Ask for the applicable pattern, interval and service record.",
+        "One pattern does not apply to every configuration."
+      ],
+      "topics": ["maintenance"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Bridgestone: tire rotation",
+          "url": "https://www.bridgestoneamericas.com/en/company/safety/maintaining-tires/tire-rotation"
+        }
+      ]
+    },
+    {
+      "key": "glossary-alignment",
+      "kind": "glossary",
+      "path": "/glossary/alignment",
+      "title": "Alignment",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Alignment concerns wheel geometry; balancing concerns uneven rotating mass.",
+        "Ask for measurements and the reason a service is proposed.",
+        "These are different services, so request separate explanations."
+      ],
+      "topics": ["maintenance"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "USTMA: tire care and safety guide",
+          "url": "https://www.ustires.org/system/files/files/2024-05/Tire%20Care%20and%20Safety%20Guide%2002%2022%2019%20HR.pdf"
+        }
+      ]
+    },
+    {
+      "key": "glossary-awd-matching",
+      "kind": "glossary",
+      "path": "/glossary/awd-matching",
+      "title": "AWD and matching tires",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Matching requirements depend on the vehicle manufacturer and its drivetrain specifications.",
+        "Ask which documented rule applies before replacing fewer than a full set.",
+        "A generic percentage or rule of thumb is not vehicle-specific approval."
+      ],
+      "topics": ["buying"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: changing tire specifications",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tire-buying-guide/change-size-spec"
+        }
+      ]
+    },
+    {
+      "key": "glossary-run-flat",
+      "kind": "glossary",
+      "path": "/glossary/run-flat",
+      "title": "Run-flat tires",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Run-flat designs provide limited mobility after pressure loss within manufacturer-defined limits.",
+        "Ask about the exact tire, vehicle requirements and post-event inspection.",
+        "This term does not authorize continued driving without checking the applicable instructions."
+      ],
+      "topics": ["types"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: run-flat tires",
+          "url": "https://www.michelinman.com/auto/auto-tips-and-advice/tires-101/run-flat-tires/"
+        }
+      ]
+    },
+    {
+      "key": "glossary-ev-considerations",
+      "kind": "glossary",
+      "path": "/glossary/ev-considerations",
+      "title": "EV considerations",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "EV tire selection involves load requirements, rolling resistance, noise and vehicle-specific specifications.",
+        "Discuss the tradeoffs for your exact vehicle and driving priorities.",
+        "An EV marketing label alone does not prove compatibility."
+      ],
+      "topics": ["buying"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Michelin: electric vehicle FAQ",
+          "url": "https://www.michelinman.com/auto/electric-vehicles-faq"
+        }
+      ]
+    },
+    {
+      "key": "glossary-installed-cost-warranties",
+      "kind": "glossary",
+      "path": "/glossary/installed-cost-warranties",
+      "title": "Installed cost and warranties",
+      "summary": "Read the definition, check the source and bring a better question to your installer.",
+      "paragraphs": [
+        "Compare a written installed total and separately documented warranty terms, exclusions and service obligations.",
+        "Ask what is included, conditional, optional or still unknown.",
+        "The lowest advertised tire price is not necessarily the lowest installed total."
+      ],
+      "topics": ["buying"],
+      "related": ["/guides/before-you-buy", "/guides/size-decoder"],
+      "references": [
+        {
+          "title": "Tires & Tread: approved product design",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/blob/main/docs/01-final-product-design.md"
+        }
+      ]
+    },
+    {
+      "key": "guide-tire-basics",
+      "kind": "article",
+      "path": "/learn/tire-basics",
+      "title": "Understand the details.",
+      "summary": "Start with tire markings, maintenance terms and questions to take to a qualified professional.",
+      "paragraphs": [
+        "Use the glossary to understand a term. The size decoder explains a supported metric marking; it does not verify fitment.",
+        "A saved assessment separates recorded evidence, preferences, prices and gaps. Tire condition still needs an appropriate physical inspection."
+      ],
+      "topics": ["buying"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "Tires & Tread: reviewed content and publication design",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/blob/main/docs/implementation/P1-PR-021-content-seo.md"
+        }
+      ]
+    },
+    {
+      "key": "guide-glossary",
+      "kind": "article",
+      "path": "/learn/glossary",
+      "title": "A practical tire glossary.",
+      "summary": "Twenty-five starting points for understanding tire terminology.",
+      "paragraphs": [
+        "Choose a term to read its definition and source. Definitions describe terminology and do not establish that a specific tire is suitable for a vehicle."
+      ],
+      "topics": ["buying"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "Tires & Tread: reviewed content and publication design",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/blob/main/docs/implementation/P1-PR-021-content-seo.md"
+        }
+      ]
+    },
+    {
+      "key": "guide-size-decoder",
+      "kind": "article",
+      "path": "/guides/size-decoder",
+      "title": "Read the marking.",
+      "summary": "Decode a metric tire-size marking without guessing vehicle compatibility.",
+      "paragraphs": [
+        "Enter a marking such as 235/60R18 103H. Unknown formats remain unsupported. Load and speed codes remain codes; the tool does not invent capacity tables."
+      ],
+      "topics": ["size"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    },
+    {
+      "key": "guide-before-you-buy",
+      "kind": "article",
+      "path": "/guides/before-you-buy",
+      "title": "Bring the right questions.",
+      "summary": "A checklist for recording what a seller can document.",
+      "paragraphs": [
+        "Keep unknown answers visible. A completed checklist records a conversation; it is not a mechanical inspection, fitment approval or safety certificate."
+      ],
+      "topics": ["buying"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "Tires & Tread: reviewed content and publication design",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/blob/main/docs/implementation/P1-PR-021-content-seo.md"
+        }
+      ],
+      "questions": [
+        {
+          "key": 1,
+          "question": "What is the complete out-the-door price?",
+          "goodAnswer": "An itemized total identifies required charges, taxes and optional services.",
+          "redFlags": ["Unexplained fees or an incomplete total."],
+          "glossaryPath": "/glossary/installed-cost-warranties"
+        },
+        {
+          "key": 2,
+          "question": "What is the tire age and DOT date code?",
+          "goodAnswer": "The installer records the offered tires’ codes and explains applicable manufacturer age guidance.",
+          "redFlags": ["A date or condition question left unanswered."],
+          "glossaryPath": "/glossary/dot-date"
+        },
+        {
+          "key": 3,
+          "question": "Do the load and speed ratings meet the vehicle requirements?",
+          "goodAnswer": "The exact tire specification is checked against the applicable vehicle documentation.",
+          "redFlags": ["Suitability asserted from size alone."],
+          "glossaryPath": "/glossary/load-index"
+        },
+        {
+          "key": 4,
+          "question": "Why is this tire being recommended?",
+          "goodAnswer": "The explanation connects documented features and limitations to your stated needs.",
+          "redFlags": ["A recommendation without reasons or evidence."],
+          "glossaryPath": "/glossary/all-season"
+        },
+        {
+          "key": 5,
+          "question": "What are the warranty terms?",
+          "goodAnswer": "Written terms identify eligibility, exclusions, obligations and the claim process.",
+          "redFlags": ["A mileage promise without its conditions."],
+          "glossaryPath": "/glossary/installed-cost-warranties"
+        },
+        {
+          "key": 6,
+          "question": "What rotation and balancing services are included?",
+          "goodAnswer": "The quote and schedule distinguish included services from later charges.",
+          "redFlags": ["Rotation and balancing treated as the same service."],
+          "glossaryPath": "/glossary/rotation"
+        },
+        {
+          "key": 7,
+          "question": "What evidence supports an alignment recommendation?",
+          "goodAnswer": "The shop explains measurements, symptoms and the proposed work.",
+          "redFlags": ["A service recommendation without an explanation."],
+          "glossaryPath": "/glossary/alignment"
+        },
+        {
+          "key": 8,
+          "question": "Where should two new tires go on this vehicle?",
+          "goodAnswer": "The shop explains the applicable vehicle and tire manufacturer guidance.",
+          "redFlags": ["A universal placement rule offered without checking the configuration."],
+          "glossaryPath": "/glossary/awd-matching"
+        },
+        {
+          "key": 9,
+          "question": "What matching rules apply to this AWD system?",
+          "goodAnswer": "The shop identifies the vehicle-specific requirements and records the measurements.",
+          "redFlags": ["A generic tolerance offered as vehicle approval."],
+          "glossaryPath": "/glossary/awd-matching"
+        },
+        {
+          "key": 10,
+          "question": "Will the set meet all matching requirements?",
+          "goodAnswer": "The shop checks the complete specifications and any approved staggered arrangement.",
+          "redFlags": ["Only the marketing model name is compared."],
+          "glossaryPath": "/glossary/tire-size"
+        },
+        {
+          "key": 11,
+          "question": "Which source sets the inflation pressure?",
+          "goodAnswer": "The shop identifies the vehicle label or applicable manufacturer instructions.",
+          "redFlags": ["The sidewall maximum used as a universal target."],
+          "glossaryPath": "/glossary/cold-pressure-tpms"
+        },
+        {
+          "key": 12,
+          "question": "How will lug-nut torque be set and documented?",
+          "goodAnswer": "The shop identifies and follows the vehicle or wheel manufacturer specification and procedure.",
+          "redFlags": ["A value asserted without an applicable specification."],
+          "glossaryPath": "/glossary/installed-cost-warranties"
+        },
+        {
+          "key": 13,
+          "question": "What does road-hazard coverage include?",
+          "goodAnswer": "Written coverage, exclusions, charges and claim conditions are explained separately.",
+          "redFlags": ["Optional coverage represented as an unconditional guarantee."],
+          "glossaryPath": "/glossary/installed-cost-warranties"
+        },
+        {
+          "key": 14,
+          "question": "What is the return or trial policy?",
+          "goodAnswer": "Written deadlines, condition requirements, fees and exclusions are available before purchase.",
+          "redFlags": ["A verbal assurance without the policy."],
+          "glossaryPath": "/glossary/installed-cost-warranties"
+        }
+      ]
+    },
+    {
+      "key": "guide-how-we-choose",
+      "kind": "article",
+      "path": "/guides/how-we-choose",
+      "title": "Clear reasons. Visible gaps.",
+      "summary": "How evidence and preferences inform a saved assessment.",
+      "paragraphs": [
+        "Fitment restrictions and known exclusions come before preference scoring. Preference scores describe an ordering, not a promise of safety.",
+        "Recorded prices and installed-cost assumptions remain historical. A private quote may include installation or tax in its base amount; it is not automatically a tires-only breakdown.",
+        "Advertising and affiliate arrangements do not change recommendation order. Unsupported or missing evidence remains explicit."
+      ],
+      "topics": ["buying"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "Tires & Tread: reviewed content and publication design",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/blob/main/docs/implementation/P1-PR-021-content-seo.md"
+        }
+      ]
+    },
+    {
+      "key": "guide-trust",
+      "kind": "article",
+      "path": "/guides/trust",
+      "title": "Know what supports the result.",
+      "summary": "Sources, dates, permissions and limits should be visible.",
+      "paragraphs": [
+        "Reports bind their saved input, evidence and calculation versions. Later changes do not silently rewrite a saved report.",
+        "Optional delivery and offers use separate choices. Private reports and capability links are excluded from public education pages and search listings.",
+        "Specialist review, licensed coverage and live release acceptance are separate decisions. Local examples do not satisfy those decisions."
+      ],
+      "topics": ["buying"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "Tires & Tread: reviewed content and publication design",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/blob/main/docs/implementation/P1-PR-021-content-seo.md"
+        }
+      ]
+    },
+    {
+      "key": "guide-support",
+      "kind": "article",
+      "path": "/guides/support",
+      "title": "Find the right next step.",
+      "summary": "Get help with a tire question or a recorded result.",
+      "paragraphs": [
+        "For vehicle-specific tire requirements or a physical tire concern, contact the vehicle manufacturer or a qualified tire professional.",
+        "For recall information, consult the official NHTSA tire resource. Keep the tire identification details available.",
+        "Use the feedback control on a saved report to describe a result issue. Avoid placing contact details, private report links or other sensitive information in general feedback."
+      ],
+      "topics": ["maintenance"],
+      "related": ["/glossary/tire-size", "/glossary/installed-cost-warranties"],
+      "references": [
+        {
+          "title": "NHTSA: tires",
+          "url": "https://www.nhtsa.gov/vehicle-safety/tires"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-editorial-current-source-exceptions",
+  "baseMerge": "e0511f6e943556911dbcac32277f4bf250a35bac",
+  "previousManifestSha256": "bc86d5a25339bd17c3ef0dd2d9cfebae8ea0db296c9d44068a8b18e32f132581",
+  "exceptions": [
+    {
+      "path": "pnpm-lock.yaml",
+      "baselineSha256": "a610bb5d7e49ff7415fc0238691db54d549c41f1afa0b5b5109ec1dec007894e",
+      "currentSha256": "8f784e4bcd1555139d363fdae9a339b8379cb1c80dc4118f863600cc02b2ea3c",
+      "reason": "Local P1-PR-038 native editorial adapter imports existing pinned Payload/PostgreSQL packages; only the integration workspace importer changes. Historical manifests and production configuration remain unchanged."
+    },
+    {
+      "path": "docs/implementation/evidence/P1/s3-service-register.json",
+      "baselineSha256": "570a0fac78a0faa28c475da82a71ba34157addad3f2ee9f36be6f771577452d0",
+      "currentSha256": "86faa356413a522cb76746b75e40d7b8a9c6722aabefbb3aefe584988f7642a1",
+      "reason": "Inventory only: register the local editorial service and its tests under the existing content component. Gate records, acceptance flags, decisions and local-evidence references are unchanged."
+    },
+    {
+      "path": "scripts/review/evidence-readiness.mjs",
+      "baselineSha256": "455675e2ceea32935610e022f706eca740b1edb88b2f8823c83c7b42ce9a33b0",
+      "currentSha256": "498605ffc9fb6d968248c3149c9267c7991be5dfe81193d085a2fcd2f27e73c0",
+      "reason": "Read-only source review includes both immutable exception manifests in the verified/reportable path set. No acceptance or production policy changes."
+    },
+    {
+      "path": "scripts/review/restore-evidence.mjs",
+      "baselineSha256": "e9202f733e4dbc430a856879bf742aaf1492221256cd70be0c5faedc74608708",
+      "currentSha256": "31cbe7ffb5dec8cf1be0332c40562c9b01ab01ed52cd63adb4f2f5256312382c",
+      "reason": "Read-only source review includes both immutable exception manifests in the verified/reportable path set. No acceptance or production policy changes."
+    }
+  ],
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

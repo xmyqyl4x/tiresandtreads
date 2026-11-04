@@ -1,22 +1,18 @@
 import { Link } from './link.tsx';
 import { useRef, type KeyboardEvent } from 'react';
 const links = [
-  ['Find tires', 'find-tires'],
-  ['Tire basics', 'tire-basics'],
-  ['Size decoder', 'size-decoder'],
-  ['Before you buy', 'before-you-buy'],
-  ['How we choose', 'how-we-choose'],
+  ['Find tires', '/preview/find-tires'],
+  ['Tire basics', '/learn/tire-basics'],
+  ['Size decoder', '/guides/size-decoder'],
+  ['Before you buy', '/guides/before-you-buy'],
+  ['How we choose', '/guides/how-we-choose'],
 ] as const;
 function NavigationLinks({ path, close }: { path: string; close?: () => void }) {
   return (
     <ul>
       {links.map(([label, slug]) => (
         <li key={slug}>
-          <Link
-            href={'/preview/' + slug}
-            aria-current={path === '/preview/' + slug ? 'page' : undefined}
-            onClick={close}
-          >
+          <Link href={slug} aria-current={path === slug ? 'page' : undefined} onClick={close}>
             {label}
           </Link>
         </li>

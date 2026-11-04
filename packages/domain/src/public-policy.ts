@@ -46,6 +46,7 @@ export function plain(value: unknown, max: number): string {
   return value.trim();
 }
 export interface PublicPage {
+  readonly references?: readonly { readonly title: string; readonly url: string }[];
   readonly questions?: readonly ChecklistItem[];
   readonly kind: 'article' | 'glossary';
   readonly contentKey: string;
@@ -67,11 +68,34 @@ export interface PublicPage {
 export function validatePage(input: PublicPage): PublicPage {
   requireValue(
     Object.keys(input)
-      .filter((k) => k !== 'questions')
+      .filter((k) => k !== 'questions' && k !== 'references')
       .sort()
       .join(',') ===
       'author,canonical,contentKey,expiresAt,kind,locale,market,modifiedAt,paragraphs,path,related,reviewedAt,reviewer,summary,title,topics',
   );
+  if (input.references !== undefined) {
+    requireValue(
+      Array.isArray(input.references) &&
+        input.references.length > 0 &&
+        input.references.length <= 8,
+    );
+    input.references.forEach((r) => {
+      requireValue(Object.keys(r).sort().join(',') === 'title,url');
+      plain(r.title, 200);
+      const u = new URL(r.url);
+      requireValue(
+        r.url.length <= 2048 &&
+          u.protocol === 'https:' &&
+          !u.username &&
+          !u.password &&
+          !u.port &&
+          !u.search &&
+          !u.hash &&
+          !u.hostname.includes(':') &&
+          !/^([0-9.]+|localhost|.*\.localhost)$/.test(u.hostname),
+      );
+    });
+  }
   if (input.questions !== undefined) {
     requireValue(input.path === '/guides/before-you-buy');
     checklist(input.questions);

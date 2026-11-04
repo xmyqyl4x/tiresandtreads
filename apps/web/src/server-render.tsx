@@ -2,6 +2,129 @@ import { renderToString } from 'react-dom/server';
 import { PageView, pageTitle } from './ui/pages.tsx';
 import { locale } from './locale.ts';
 import manifest from '../node_modules/.cache/tt-preview/assets.json';
+import { EditorialWorkbench } from './editorial/workbench.tsx';
+import { EducationView } from './education/view.tsx';
+import {
+  jsonForHtml,
+  type EducationPage,
+  type EducationTool,
+  type ChecklistTool,
+} from '../../../packages/contracts/src/education.ts';
+
+function SiteHead({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children?: import('react').ReactNode;
+}) {
+  return (
+    <head>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="referrer" content="no-referrer" />
+      <meta name="description" content={description} />
+      <title>{title + ' | Tires & Tread'}</title>
+      <link rel="stylesheet" href={'/local-preview-assets/' + manifest.css} />
+      {children}
+    </head>
+  );
+}
+export function editorialDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang="en-US">
+        <SiteHead title="Editorial workspace" description="Local editorial authoring and review.">
+          <script type="module" src={'/local-preview-assets/' + manifest.editorial} />
+        </SiteHead>
+        <body>
+          <div id="editorial-root">
+            <EditorialWorkbench />
+          </div>
+        </body>
+      </html>,
+    )
+  );
+}
+export function educationDocument(
+  page: EducationPage,
+  options: { tool?: EducationTool; checklist?: ChecklistTool; verification?: string } = {},
+) {
+  const p = page.content,
+    origin = new URL(page.metadata.canonical).origin;
+  const primary =
+    p.kind === 'glossary'
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'DefinedTerm',
+          name: p.title,
+          description: p.summary,
+          url: origin + p.path,
+        }
+      : {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: p.title,
+          description: p.summary,
+          url: origin + p.path,
+          author: { '@type': 'Person', name: p.author },
+          reviewedBy: { '@type': 'Person', name: p.reviewer },
+          dateModified: p.modifiedAt,
+          lastReviewed: p.reviewedAt,
+        };
+  const structured = [
+    primary,
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Tires & Tread',
+      url: origin,
+    },
+    { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Tires & Tread', url: origin },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Tires & Tread', item: origin + '/' },
+        { '@type': 'ListItem', position: 2, name: p.title, item: origin + p.path },
+      ],
+    },
+  ];
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang={p.locale}>
+        <SiteHead title={p.title} description={p.summary}>
+          <link rel="canonical" href={page.metadata.canonical} />
+          {p.questions ? (
+            <script type="module" src={'/local-preview-assets/' + manifest.checklist} />
+          ) : null}
+          {page.hreflang.map((h) => (
+            <link key={h.locale} rel="alternate" hrefLang={h.locale} href={h.url} />
+          ))}
+          {options.verification ? (
+            <meta name="google-site-verification" content={options.verification} />
+          ) : null}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: jsonForHtml(structured) }}
+          />
+        </SiteHead>
+        <body>
+          <EducationView
+            page={page}
+            {...(options.tool ? { tool: options.tool } : {})}
+            {...(options.checklist ? { checklist: options.checklist } : {})}
+          />
+        </body>
+      </html>,
+    )
+  );
+}
 export function htmlDocument(page: string) {
   const title = pageTitle(page);
   if (title === null) return null;

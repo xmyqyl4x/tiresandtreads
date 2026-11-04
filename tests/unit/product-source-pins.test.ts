@@ -4,6 +4,9 @@ import { reconcileProductPins } from '../../scripts/review/product-source-pins.m
 const manifest = JSON.parse(
   readFileSync('docs/implementation/evidence/P1/p1-pr-037-current-source-exceptions.json', 'utf8'),
 ) as { exceptions: { path: string; baselineSha256: string; currentSha256: string }[] };
+const editorial = JSON.parse(
+  readFileSync('docs/implementation/evidence/P1/p1-pr-038-current-source-exceptions.json', 'utf8'),
+) as typeof manifest;
 it('retains every unrelated pin and explicitly replaces only reviewed current dependency/tool inputs', () => {
   const before = manifest.exceptions.map((x) => ({ path: x.path, sha256: x.baselineSha256 }));
   const extra = { path: 'tests/fixtures/restore-handoff/observe.ts', sha256: 'a'.repeat(64) };
@@ -11,7 +14,10 @@ it('retains every unrelated pin and explicitly replaces only reviewed current de
   expect(result.exceptions).toBe(3);
   expect(result.pins).toContainEqual(extra);
   for (const e of manifest.exceptions)
-    expect(result.pins).toContainEqual({ path: e.path, sha256: e.currentSha256 });
+    expect(result.pins).toContainEqual({
+      path: e.path,
+      sha256: editorial.exceptions.find((x) => x.path === e.path)?.currentSha256 ?? e.currentSha256,
+    });
   expect(before[0]!.sha256).toBe(manifest.exceptions[0]!.baselineSha256);
 });
 it('refuses a changed baseline instead of laundering arbitrary current bytes into history', () => {

@@ -4,6 +4,8 @@ import { readReviewBytes } from './repository-files.mjs';
 import { pinList, mergeReviewedPins } from './evidence-catalog.mjs';
 export const productPinsPath =
   'docs/implementation/evidence/P1/p1-pr-037-current-source-exceptions.json';
+export const editorialPinsPath =
+  'docs/implementation/evidence/P1/p1-pr-038-current-source-exceptions.json';
 // Exact reviewed manifest anchor; historical manifests and their original pins are not rewritten.
 const manifestHash = 'bc86d5a25339bd17c3ef0dd2d9cfebae8ea0db296c9d44068a8b18e32f132581';
 export function reconcileProductPins(root, rawPins) {
@@ -32,5 +34,38 @@ export function reconcileProductPins(root, rawPins) {
     path: p.path,
     sha256: replacements.get(p.path)?.currentSha256 ?? p.sha256,
   }));
-  return { pins: mergeReviewedPins(pins, next, entries), exceptions: entries.length };
+  const prior = mergeReviewedPins(pins, next, entries);
+  // A second exact transition advances the lockfile and service inventory, preserving old receipts.
+  const editorialBytes = readReviewBytes(root, editorialPinsPath);
+  if (
+    createHash('sha256').update(editorialBytes).digest('hex') !==
+    '5fc39ba5b8919504eabeeb66a5872e22d09cf0f2d05632227f4fcd659665f733'
+  )
+    throw Error('Editorial source review refused');
+  const editorial = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(editorialBytes));
+  if (
+    editorial.schemaVersion !== 1 ||
+    editorial.scope !== 'local-editorial-current-source-exceptions' ||
+    editorial.baseMerge !== 'e0511f6e943556911dbcac32277f4bf250a35bac' ||
+    editorial.previousManifestSha256 !== manifestHash ||
+    editorial.casesClosed !== 0 ||
+    editorial.gatesClosed !== 0 ||
+    JSON.stringify(editorial.exceptions.map((e) => e.path)) !==
+      JSON.stringify([
+        'pnpm-lock.yaml',
+        'docs/implementation/evidence/P1/s3-service-register.json',
+        'scripts/review/evidence-readiness.mjs',
+        'scripts/review/restore-evidence.mjs',
+      ])
+  )
+    throw Error('Editorial source review refused');
+  const overlay = editorial.exceptions.filter((e) => present.has(e.path));
+  const final = prior.map((p) => ({
+    path: p.path,
+    sha256: overlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+  }));
+  return {
+    pins: mergeReviewedPins(prior, final, overlay),
+    exceptions: new Set([...entries, ...overlay].map((e) => e.path)).size,
+  };
 }
