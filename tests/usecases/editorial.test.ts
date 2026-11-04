@@ -69,6 +69,7 @@ function setup(redirects?: Parameters<typeof createEditorialService>[0]['redirec
     if (role !== 'read' && !actor.roles.includes(role)) throw Error('forbidden');
     return actor;
   });
+  const now = vi.fn(() => at);
   const enqueue = vi.fn<
       (
         actor: string,
@@ -81,7 +82,7 @@ function setup(redirects?: Parameters<typeof createEditorialService>[0]['redirec
       authorization: { require },
       deliver: enqueue,
       digest: (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex'),
-      now: () => at,
+      now,
       ...(redirects ? { redirects } : {}),
     });
   const id = randomUUID(),
@@ -131,6 +132,7 @@ function setup(redirects?: Parameters<typeof createEditorialService>[0]['redirec
     actors,
     require,
     enqueue,
+    now,
     id,
     draft,
     command,
@@ -371,6 +373,51 @@ it('strict wire parsing rejects forged actor claims and extra command fields', (
     }).success,
   ).toBe(false);
 });
+it.each(['save', 'rollback', 'withdraw'] as const)(
+  'recovers an expired undelivered publication through %s',
+  async (action) => {
+    const f = setup();
+    await f.approve();
+    f.enqueue.mockRejectedValueOnce(Error('unavailable'));
+    await expect(f.service.execute(tokens.publisher, f.command('publish'))).rejects.toThrow(
+      'unavailable',
+    );
+    f.now.mockReturnValue('2027-01-02T12:00:00.000Z');
+    f.enqueue.mockClear();
+    const version = f.history.get(f.id)!.find((v) => v.document.revision === 1)!;
+    const input = f.command(
+      action,
+      action === 'save'
+        ? { draft: f.draft }
+        : action === 'rollback'
+          ? { versionId: version.id }
+          : {},
+    );
+    expect(
+      await f.service.execute(action === 'save' ? tokens.author : tokens.publisher, input),
+    ).toMatchObject({ revision: 5, state: action === 'withdraw' ? 'withdrawn' : 'draft' });
+    expect(f.enqueue).toHaveBeenCalledTimes(action === 'withdraw' ? 1 : 0);
+  },
+);
+it.each(['save', 'rollback'] as const)(
+  'withdraws an older live projection while its newer draft comes from %s',
+  async (action) => {
+    const f = setup();
+    await f.approve();
+    await f.service.execute(tokens.publisher, f.command('publish'));
+    const version = f.history.get(f.id)!.find((v) => v.document.revision === 1)!;
+    await f.service.execute(
+      action === 'save' ? tokens.author : tokens.publisher,
+      f.command(action, action === 'save' ? { draft: f.draft } : { versionId: version.id }),
+    );
+    expect(f.documents.get(f.id)?.state).toBe('draft');
+    expect(await f.service.execute(tokens.publisher, f.command('withdraw'))).toMatchObject({
+      revision: 6,
+      state: 'withdrawn',
+    });
+    expect(f.enqueue.mock.calls.at(-1)).toMatchObject(['publisher', { revision: 6 }, 'withdraw']);
+  },
+);
 it.each([
   ['forged host', { headers: { host: 'evil.invalid' } }, 403],
   [

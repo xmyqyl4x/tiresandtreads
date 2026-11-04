@@ -67,7 +67,14 @@ export function createContentServiceRepository(s: WriteScope): ContentServiceRep
       ).rows[0];
       if (head && BigInt(String(head.generation)) > BigInt(p.generation)) return 'stale';
       if (p.page) validatePage(p.page);
-      else if (!previous) return stop('not_found');
+      else if (!previous) {
+        // The CMS dispatcher holds the exact current source row FOR SHARE across this
+        // application transaction. A higher withdrawal can cancel a never-applied publish:
+        // older work cannot pass its current-source check after that CMS revision commits.
+        // No public content exists to remove; inconsistent pre-existing heads still fail closed.
+        if (head) return stop('integrity');
+        return 'published';
+      }
       const path = p.page?.path ?? text(previous!.public_path);
       const document = p.page ? canonical(p.page, 240000) : null;
       await publish.publish(tx, {

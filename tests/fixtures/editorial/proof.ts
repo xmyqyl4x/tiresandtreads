@@ -2,7 +2,10 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { editorialFixture } from './runtime.ts';
 process.env.TT_EDITORIAL_TRACE = '1';
-const raceId = randomUUID();
+const raceId = randomUUID(),
+  expiredId = randomUUID();
+let clockOffset = 0,
+  failDelayedWithdrawal = true;
 let paused = false,
   release!: () => void,
   entered!: () => void;
@@ -13,7 +16,13 @@ const reached = new Promise<void>((resolve) => {
     release = resolve;
   });
 const f = await editorialFixture(undefined, {
+    now: () => new Date(Date.now() + clockOffset).toISOString(),
     beforeDelivery: async (_actor, ref, action) => {
+      if (ref.id === expiredId && action === 'publish') throw Error('unavailable');
+      if (ref.id === documentId && action === 'withdraw' && failDelayedWithdrawal) {
+        failDelayedWithdrawal = false;
+        throw Error('unavailable');
+      }
       if (ref.id === raceId && action === 'withdraw' && !paused) {
         paused = true;
         entered();
@@ -161,6 +170,102 @@ try {
     ).rows[0].n,
     1,
   );
+  // A newer draft/rollback leaves the earlier projection independently withdrawable.
+  assert.equal((await f.content.services.readPage(f.draft.path, 'en-US', 'US')).ok, true);
+  await assert.rejects(
+    () =>
+      f.service.execute(publisher, {
+        id: documentId,
+        expectedRevision: 6,
+        key: randomUUID(),
+        action: 'withdraw',
+      }),
+    /unavailable/,
+  );
+  const expiredDraft = {
+    ...f.draft,
+    key: 'expired-publication',
+    path: '/glossary/expired-publication',
+  };
+  await f.service.execute(author, {
+    id: expiredId,
+    expectedRevision: 0,
+    key: randomUUID(),
+    action: 'save',
+    draft: expiredDraft,
+  });
+  await f.service.execute(author, {
+    id: expiredId,
+    expectedRevision: 1,
+    key: randomUUID(),
+    action: 'submit',
+  });
+  await f.service.execute(reviewer, {
+    id: expiredId,
+    expectedRevision: 2,
+    key: randomUUID(),
+    action: 'approve',
+    expiresAt: new Date(Date.now() + 3600000).toISOString(),
+  });
+  await assert.rejects(
+    () =>
+      f.service.execute(publisher, {
+        id: expiredId,
+        expectedRevision: 3,
+        key: randomUUID(),
+        action: 'publish',
+      }),
+    /unavailable/,
+  );
+  clockOffset = 2 * 86400000;
+  // Delayed tombstones retain their removal authority after the packet's freshness timestamp.
+  await f.service.execute(author, {
+    id: documentId,
+    expectedRevision: 7,
+    key: randomUUID(),
+    action: 'save',
+    draft: f.draft,
+  });
+  assert.equal(
+    (
+      await f.f.owner.query(
+        'SELECT document FROM app.public_page_details WHERE document_id=$1 AND generation=7',
+        [documentId],
+      )
+    ).rows[0].document,
+    null,
+  );
+  // An expired, never-delivered publication must not block editing or safe no-op withdrawal.
+  await f.service.execute(author, {
+    id: expiredId,
+    expectedRevision: 4,
+    key: randomUUID(),
+    action: 'save',
+    draft: expiredDraft,
+  });
+  await f.service.execute(publisher, {
+    id: expiredId,
+    expectedRevision: 5,
+    key: randomUUID(),
+    action: 'withdraw',
+  });
+  await f.service.execute(author, {
+    id: expiredId,
+    expectedRevision: 6,
+    key: randomUUID(),
+    action: 'save',
+    draft: expiredDraft,
+  });
+  assert.equal(
+    (
+      await f.f.cmsAdmin.query(
+        'SELECT state FROM public.publication_work WHERE document_id=$1 AND content_revision=6',
+        [expiredId],
+      )
+    ).rows[0].state,
+    'published',
+  );
+  assert.equal((await f.content.services.readPage(expiredDraft.path, 'en-US', 'US')).ok, false);
   f.revoked.add(author);
   await assert.rejects(() => f.service.list(author), /unauthenticated/);
   const denied = await f.handler(
@@ -179,6 +284,10 @@ try {
         privateStaffIdsExcluded: true,
         unchangedPublicationReplay: true,
         withdrawalSurvivesConcurrentDraft: true,
+        newerDraftWithdrawable: true,
+        expiredPublicationEditable: true,
+        delayedWithdrawalRecoverable: true,
+        neverPublishedWithdrawalConfirmed: true,
         rollbackRequiresFreshReview: true,
         roleRevocationRefused: true,
         actualEditorialAcceptance: false,

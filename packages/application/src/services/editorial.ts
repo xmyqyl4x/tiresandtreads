@@ -93,9 +93,18 @@ export function createEditorialService(d: {
         }
         // This lock covers every headless mutation. Drain the previous publication/withdrawal
         // before replacing its only current-source revision or unchanged-retry command receipt.
+        const expiredPublication =
+          current?.command.action === 'publish' &&
+          current.review !== null &&
+          current.review.expiresAt <= d.now();
+        const withdrawalSupersedesPublication =
+          current?.command.action === 'publish' && command.action === 'withdraw';
         if (
           current &&
-          (current.command.action === 'publish' || current.command.action === 'withdraw')
+          (current.command.action === 'withdraw' ||
+            (current.command.action === 'publish' &&
+              !expiredPublication &&
+              !withdrawalSupersedesPublication))
         ) {
           const delivered = await d.deliver(
             current.command.actor.id,

@@ -24,6 +24,7 @@ import seeds from '../../../content/education/en-US.drafts.json';
 export async function editorialFixture(
   origin = 'http://127.0.0.1:8380',
   options: {
+    now?: () => string;
     beforeDelivery?: (
       ...args: Parameters<ReturnType<typeof createEditorialDelivery>>
     ) => Promise<void>;
@@ -189,7 +190,7 @@ export async function editorialFixture(
       },
       origin: 'https://example.test',
       production: false,
-      now: () => time(),
+      now: options.now ?? (() => time()),
     });
     const authorization = {
       async require(credential: string, permission: EditorialRole | 'read') {
@@ -213,7 +214,7 @@ export async function editorialFixture(
       store: access.store(payload),
       authorization,
       digest: contentIdentity.checksum,
-      now: () => time(),
+      now: options.now ?? (() => time()),
       redirects: {
         read: async (actor) => {
           const a = id('staff', actor);

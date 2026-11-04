@@ -166,7 +166,7 @@ export function createContentServices(d: {
           p.schemaVersion === 1 &&
             p.generation === String(p.ref.revision) &&
             p.publishedAt <= now() &&
-            p.expiresAt > now(),
+            (p.page === null || p.expiresAt > now()),
           'conflict',
         );
         const applied = await run(d.appUow, (app) => d.write.apply(app, p));

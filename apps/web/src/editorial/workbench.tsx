@@ -399,7 +399,9 @@ export function EditorialWorkbench() {
                                     doc.author.id !== identity?.id &&
                                     doc.state === 'review'
                                   : canPublish &&
-                                    doc.state === (action === 'publish' ? 'approved' : 'published'),
+                                    (action === 'publish'
+                                      ? doc.state === 'approved'
+                                      : doc.state !== 'withdrawn'),
                             )
                             .map((action) => (
                               <button

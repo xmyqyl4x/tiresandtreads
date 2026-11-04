@@ -208,7 +208,8 @@ export function transitionEditorial(
       );
       next.state = 'published';
     } else {
-      demand(current.state === 'published', 'conflict');
+      // Draft workflow state does not establish whether an older public projection still exists.
+      demand(current.state !== 'withdrawn', 'conflict');
       next.review = null;
       next.state = 'withdrawn';
     }
