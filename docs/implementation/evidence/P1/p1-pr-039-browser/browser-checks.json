@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-04",
+  "scope": "disposable-local-staff-browser",
+  "actualBrowser": true,
+  "actualOuterPreviewProxy": true,
+  "maskedReportRead": true,
+  "limitedRoleRefused": true,
+  "limitedRoleAggregatesAllowed": true,
+  "sameIdentityRenewal": true,
+  "identitySwitchRefused": true,
+  "lostRecoveryAcknowledgement": true,
+  "frozenCommandRetainedDuringRenewal": true,
+  "unchangedRecoveryReceiptReconciled": true,
+  "invalidJsonBeforeDispatch": true,
+  "distinctReviewerConfigurationRecorded": true,
+  "externalAdvertisingHeld": true,
+  "responsiveNoHorizontalOverflow": [
+    1280,
+    390,
+    320
+  ],
+  "keyboardSkipFocus": "staff-main",
+  "consoleErrors": 0,
+  "credentialsPersisted": false,
+  "actualProviderAcceptance": false,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

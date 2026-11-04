@@ -1196,3 +1196,157 @@ fieldset {
 .editorial-grid {
   overflow-wrap: anywhere;
 }
+/* Private staff preview shares the site palette and keeps long masked references within the viewport. */
+.staff-shell {
+  min-height: 100vh;
+  background: #f3f5ef;
+  color: #18382e;
+}
+.staff-shell main {
+  max-width: 1140px;
+  margin: auto;
+  padding: 2rem 1rem;
+}
+.staff-top {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: #18382e;
+  color: #fff;
+  padding: 1.1rem 2rem;
+}
+.staff-top a {
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+}
+.staff-top strong {
+  border: 1px solid #c7db9c;
+  border-radius: 1rem;
+  padding: 0.2rem 0.75rem;
+  color: #d8eeb0;
+}
+.staff-card {
+  background: white;
+  border: 1px solid #d3ded4;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1.25rem 0;
+  box-shadow: 0 3px 12px #17362a08;
+}
+.staff-shell .notice {
+  border-left: 4px solid #92b64d;
+  padding: 0.8rem 1rem;
+  background: #e9efdd;
+  overflow-wrap: anywhere;
+}
+.staff-toolbar,
+.staff-tabs,
+.staff-fields {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.staff-toolbar {
+  justify-content: space-between;
+}
+.staff-tabs {
+  margin-top: 1.25rem;
+}
+.staff-shell button {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #9bae9a;
+  border-radius: 0.45rem;
+  background: #fff;
+  color: #18382e;
+  cursor: pointer;
+  font: inherit;
+}
+.staff-shell button[aria-current='page'] {
+  background: #18382e;
+  color: white;
+}
+.staff-shell button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.staff-shell label {
+  display: block;
+  margin: 0.8rem 0;
+}
+.staff-shell input:not([type='checkbox']),
+.staff-shell textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  border: 1px solid #9bae9a;
+  border-radius: 0.35rem;
+  padding: 0.6rem;
+  font: inherit;
+  background: white;
+  color: #18382e;
+}
+.staff-shell textarea {
+  font-family: monospace;
+}
+.staff-shell fieldset {
+  min-width: 0;
+  border: 0;
+  padding: 0;
+}
+.staff-shell dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.6rem 1rem;
+}
+.staff-shell dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.staff-scroll {
+  overflow: auto;
+  max-width: 100%;
+  margin-top: 1rem;
+}
+.staff-shell table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.staff-shell th,
+.staff-shell td {
+  padding: 0.8rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #d3ded4;
+  overflow-wrap: anywhere;
+}
+.staff-shell caption {
+  text-align: left;
+  padding: 0.75rem 0;
+}
+.staff-shell code {
+  font-size: 0.8rem;
+}
+.staff-shell :focus-visible {
+  outline: 3px solid #85620d;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .staff-top {
+    padding: 1rem;
+  }
+  .staff-card {
+    padding: 1rem;
+  }
+  .staff-shell dl {
+    grid-template-columns: 1fr;
+  }
+  .staff-shell h1 {
+    font-size: 1.8rem;
+  }
+}

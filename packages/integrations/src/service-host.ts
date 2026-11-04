@@ -29,6 +29,7 @@ import { createServiceHealthRepository } from '../../db/src/repositories/service
 import { createOperationsRepository } from '../../db/src/repositories/operations.ts';
 import { id, ok, fail } from '../../domain/src/values/core.ts';
 import { failure } from '../../application/src/ports/transactions.ts';
+import { createStaffConsoleRuntime } from './staff-console-runtime.ts';
 
 // Local composition only. Provider activation and product HTTP routes require later gates.
 export async function createLocalServiceHost(env: Readonly<Record<string, string | undefined>>) {
@@ -331,6 +332,18 @@ export async function createLocalServiceHost(env: Readonly<Record<string, string
       imports,
       health,
       maintenance,
+      staffConsole: createStaffConsoleRuntime(
+        {
+          report: s.report,
+          content: s.content,
+          ingest: s.ingest,
+          catalog: s.catalog,
+          operations: s.operations,
+          commercial: s.commercial,
+          staff: s.staff,
+        },
+        now,
+      ),
     });
     const durable = core;
     return {

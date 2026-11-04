@@ -4,6 +4,8 @@ import { readReviewBytes } from './repository-files.mjs';
 import { pinList, mergeReviewedPins } from './evidence-catalog.mjs';
 export const productPinsPath =
   'docs/implementation/evidence/P1/p1-pr-037-current-source-exceptions.json';
+export const staffPinsPath =
+  'docs/implementation/evidence/P1/p1-pr-039-current-source-exceptions.json';
 export const editorialPinsPath =
   'docs/implementation/evidence/P1/p1-pr-038-current-source-exceptions.json';
 // Exact reviewed manifest anchor; historical manifests and their original pins are not rewritten.
@@ -64,8 +66,36 @@ export function reconcileProductPins(root, rawPins) {
     path: p.path,
     sha256: overlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
   }));
+  const editorialResult = mergeReviewedPins(prior, final, overlay);
+  const staffBytes = readReviewBytes(root, staffPinsPath);
+  if (
+    createHash('sha256').update(staffBytes).digest('hex') !==
+    '32639ab99980340c39c625a51c4aef5fb9b28408b92827d9ab4a9069f13a3c37'
+  )
+    throw Error('Staff source review refused');
+  const staff = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(staffBytes));
+  if (
+    staff.schemaVersion !== 1 ||
+    staff.scope !== 'local-staff-console-current-source-exceptions' ||
+    staff.previousManifestSha256 !==
+      '5fc39ba5b8919504eabeeb66a5872e22d09cf0f2d05632227f4fcd659665f733' ||
+    staff.casesClosed !== 0 ||
+    staff.gatesClosed !== 0 ||
+    JSON.stringify(staff.exceptions.map((e) => e.path)) !==
+      JSON.stringify([
+        'package.json',
+        'scripts/review/evidence-readiness.mjs',
+        'scripts/review/restore-evidence.mjs',
+      ])
+  )
+    throw Error('Staff source review refused');
+  const staffOverlay = staff.exceptions.filter((e) => present.has(e.path));
+  const result = editorialResult.map((p) => ({
+    path: p.path,
+    sha256: staffOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+  }));
   return {
-    pins: mergeReviewedPins(prior, final, overlay),
-    exceptions: new Set([...entries, ...overlay].map((e) => e.path)).size,
+    pins: mergeReviewedPins(editorialResult, result, staffOverlay),
+    exceptions: new Set([...entries, ...overlay, ...staffOverlay].map((e) => e.path)).size,
   };
 }

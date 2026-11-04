@@ -23,6 +23,7 @@ import { createHttpApi } from '../../../packages/integrations/src/http/core.ts';
 import { listenLocalApi } from '../../../packages/integrations/src/http/server.ts';
 import { consentRoutes } from '../../../packages/integrations/src/http/consent.ts';
 import type { HttpRoute } from '../../../packages/integrations/src/http/core.ts';
+import type { HttpSecurity } from '../../../packages/integrations/src/http/core.ts';
 import { staffRoutes } from '../../../packages/integrations/src/http/staff.ts';
 import { registeredImportArtifact } from '../../../packages/integrations/src/http/local-files.ts';
 import { ok, fail } from '../../../packages/domain/src/values/core.ts';
@@ -40,6 +41,7 @@ export async function operationsApiFixture(
     readonly services: Awaited<ReturnType<typeof createLocalServiceHost>>['services'];
     readonly crypto: ReturnType<typeof createContactCrypto>;
     readonly policy: ContactPolicy;
+    readonly security: HttpSecurity;
   }) => Promise<readonly HttpRoute[]>,
 ) {
   const db = await privateFixture();
@@ -207,7 +209,7 @@ export async function operationsApiFixture(
     };
     const staffRepo = createStaffRepository(staffScope);
     directory = await mkdtemp(join(tmpdir(), 'tt-http-operations-'));
-    const extra = (await extend?.({ db, services, crypto, policy: contactPolicy })) ?? [];
+    const extra = (await extend?.({ db, services, crypto, policy: contactPolicy, security })) ?? [];
     server = await listenLocalApi((origin) =>
       createHttpApi({
         origin,

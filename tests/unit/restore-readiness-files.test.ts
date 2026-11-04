@@ -13,6 +13,14 @@ import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { reviewRestoreEvidence } from '../../scripts/review/restore-evidence.mjs';
 const prefix = 'docs/implementation/evidence/P1/';
+it('refuses tampering with the staff source transition without changing its bytes', () =>
+  owned((root) => {
+    const path = join(root, prefix + 'p1-pr-039-current-source-exceptions.json'),
+      adverse = readFileSync(path, 'utf8') + ' ';
+    writeFileSync(path, adverse);
+    expect(() => reviewRestoreEvidence(root)).toThrow('Restore readiness refused');
+    expect(readFileSync(path, 'utf8')).toBe(adverse);
+  }));
 it('refuses tampering with the second exact editorial transition and preserves the changed bytes', () =>
   owned((root) => {
     const path = join(root, prefix + 'p1-pr-038-current-source-exceptions.json');

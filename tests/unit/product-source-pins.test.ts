@@ -7,6 +7,9 @@ const manifest = JSON.parse(
 const editorial = JSON.parse(
   readFileSync('docs/implementation/evidence/P1/p1-pr-038-current-source-exceptions.json', 'utf8'),
 ) as typeof manifest;
+const staff = JSON.parse(
+  readFileSync('docs/implementation/evidence/P1/p1-pr-039-current-source-exceptions.json', 'utf8'),
+) as typeof manifest;
 it('retains every unrelated pin and explicitly replaces only reviewed current dependency/tool inputs', () => {
   const before = manifest.exceptions.map((x) => ({ path: x.path, sha256: x.baselineSha256 }));
   const extra = { path: 'tests/fixtures/restore-handoff/observe.ts', sha256: 'a'.repeat(64) };
@@ -16,7 +19,10 @@ it('retains every unrelated pin and explicitly replaces only reviewed current de
   for (const e of manifest.exceptions)
     expect(result.pins).toContainEqual({
       path: e.path,
-      sha256: editorial.exceptions.find((x) => x.path === e.path)?.currentSha256 ?? e.currentSha256,
+      sha256:
+        staff.exceptions.find((x) => x.path === e.path)?.currentSha256 ??
+        editorial.exceptions.find((x) => x.path === e.path)?.currentSha256 ??
+        e.currentSha256,
     });
   expect(before[0]!.sha256).toBe(manifest.exceptions[0]!.baselineSha256);
 });

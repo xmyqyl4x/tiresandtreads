@@ -782,11 +782,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-02, CAP-03, UC09, UC13, UC17. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Build masked report/send/privacy/import-health queues and audited recovery/config actions.
-- [ ] Build source coverage/freshness, SEO findings/strategic register, aggregate analytics and ad revenue status.
-- [ ] Show missing integrations explicitly; keep partner/mobile/audience and P2 CSV modules inactive.
+- [x] Build masked report/send/privacy/import-health queues and audited recovery/config actions.
+- [x] Build source coverage/freshness, SEO findings/strategic register, aggregate analytics and ad revenue status.
+- [x] Show missing integrations explicitly; keep partner/mobile/audience and P2 CSV modules inactive.
 
 **Verification and acceptance:** Role/masking/browser tests and failed/retry states pass; staff cannot bypass ingestion or permission services.
+
+**Local implementation:** [P1-PR-039 staff console](../implementation/P1-PR-039-local-staff-console.md), with disposable PostgreSQL/Next/browser proofs. Actual acceptance, hosting/operator, specialist/licensed, inbox-client and deployment holds remain. Full validation and PR/main CI are required before merge completion.
 
 ### P1-PR-040
 

@@ -2,6 +2,7 @@ import {
   reconcileProductPins,
   productPinsPath,
   editorialPinsPath,
+  staffPinsPath,
 } from './product-source-pins.mjs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -43,6 +44,7 @@ try {
     ...references,
     productPinsPath,
     editorialPinsPath,
+    staffPinsPath,
   ]);
   const report = {
     schemaVersion: 1,
