@@ -97,7 +97,7 @@ it('renders comparison snapshots without private shop notes or invented totals',
           notes: 'PRIVATE SHOP',
           price: { quantity: null, installed: null, merchandise: null },
           verdict: {
-            fit: 'unknown',
+            fit: 'unverified',
             climate: 'unknown',
             relation: 'not_comparable',
             score: null,
@@ -195,4 +195,107 @@ it('keeps absent and null confidence unknown without coercing corrupt values', (
     ];
     expect(() => publicReport(d.report, true)).toThrow();
   }
+});
+
+it('distinguishes an inclusive quote base from a catalog merchandise estimate', async () => {
+  const d = templateDocument();
+  d.comparison = {
+    revision: '1',
+    items: [
+      {
+        slot: 1,
+        kind: 'quote',
+        snapshot: {
+          productKnown: true,
+          fit: 'eligible',
+          climate: 'suitable',
+          scoreBp: null,
+          price: {
+            quantity: 4,
+            merchandise: { low: '74900', high: '74900', currency: 'USD' },
+            installed: { low: '74900', high: '74900', currency: 'USD' },
+          },
+          verdict: {
+            fit: 'eligible',
+            climate: 'suitable',
+            relation: 'not_comparable',
+            evidenceMissing: true,
+            delta: null,
+          },
+        },
+      },
+    ],
+  };
+  const view = presentReport(d, templateProfile, { ...templateContext(), comparisonRevision: '1' });
+  expect(view.comparison[0]!.kind).toBe('quote');
+  const out = await renderReportEmail(view);
+  const quote = out.text.slice(out.text.indexOf('Private quote 1'));
+  expect(quote).toContain('Recorded quote base: $749.00 USD');
+  expect(quote).toContain('not a tires-only breakdown');
+  expect(quote).not.toContain('Tires-only estimate: $749.00');
+});
+it.each(
+  ['eligible', 'blocked', 'unverified'].flatMap((fit) =>
+    ['suitable', 'unsuitable', 'unknown'].map((climate) => ({ fit, climate })),
+  ),
+)(
+  'retains recorded fitment $fit and climate $climate independently of missing price evidence',
+  async ({ fit, climate }) => {
+    const d = templateDocument();
+    d.comparison = {
+      revision: '1',
+      items: [
+        {
+          slot: 1,
+          kind: 'quote',
+          snapshot: {
+            productKnown: true,
+            fit,
+            climate,
+            scoreBp: null,
+            price: null,
+            verdict: { fit, climate, relation: 'not_comparable', evidenceMissing: true },
+          },
+        },
+      ],
+    };
+    const v = presentReport(d, templateProfile, { ...templateContext(), comparisonRevision: '1' });
+    expect(v.comparison[0]!.fitment).toBe(fit);
+    expect(v.comparison[0]!.climate).toBe(climate);
+    if (fit === 'blocked') expect(v.comparison[0]!.status).toContain('Blocked');
+    const out = await renderReportEmail(v);
+    expect(out.text).toContain('Fitment: ' + fit);
+    expect(out.text).toContain('Climate: ' + climate);
+    expect(out.text).toContain('Required comparison evidence is missing');
+  },
+);
+
+it('preserves signed service deltas, leaves missing outcomes unavailable and refuses malformed comparison evidence', () => {
+  const d = templateDocument();
+  const snapshot: Record<string, unknown> = {
+    price: null,
+    verdict: { delta: { lowMinor: '-10000', highMinor: '5000', currency: 'USD' } },
+  };
+  d.comparison = {
+    revision: '1',
+    items: [{ slot: 1, kind: 'quote', snapshot: snapshot as never }],
+  };
+  const context = { ...templateContext(), comparisonRevision: '1' };
+  const view = presentReport(d, templateProfile, context);
+  expect(view.comparison[0]).toMatchObject({
+    fitment: 'Unavailable',
+    climate: 'Unavailable',
+    score: 'Unavailable',
+    difference: '-$100.00 to $50.00 USD',
+  });
+  snapshot.scoreBp = 100;
+  expect(() => presentReport(d, templateProfile, context)).toThrow();
+  delete snapshot.scoreBp;
+  snapshot.fit = 'approved';
+  expect(() => presentReport(d, templateProfile, context)).toThrow();
+  delete snapshot.fit;
+  snapshot.verdict = { delta: { lowMinor: '100', highMinor: '-100', currency: 'USD' } };
+  expect(() => presentReport(d, templateProfile, context)).toThrow();
+  snapshot.verdict = { delta: { lowMinor: '0', highMinor: '100', currency: 'EUR' } };
+  expect(() => presentReport(d, templateProfile, context)).toThrow();
 });

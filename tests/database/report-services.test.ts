@@ -391,6 +391,8 @@ it('P1-PR-037 UC04 persists bounded comparisons and encrypted unknown quotes wit
   });
   const mail = await renderer.render(doc);
   expect(mail.text).toContain('Private quote 2');
+  expect(mail.text).toContain('Recorded quote base: $749.00 USD');
+  expect(mail.text).toContain('not a tires-only breakdown');
   expect(mail.text).toContain('Comparison revision ' + c.result_revision);
   expect(mail.html + mail.text).not.toMatch(/Unknown tire from private quote|Private Shop Name/);
 

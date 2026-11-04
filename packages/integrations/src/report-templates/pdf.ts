@@ -1,3 +1,4 @@
+import { comparisonCopy } from '../../../contracts/src/report-display.ts';
 import { messages } from './messages.ts';
 import { createElement as h, type ReactNode } from 'react';
 import { Document, Page, Text, View, Link, Font, renderToBuffer } from '@react-pdf/renderer';
@@ -40,9 +41,18 @@ function option(o: PresentedOption): ReactNode {
     h(Text, { style: { fontWeight: 700, fontSize: 13, marginBottom: 7 } }, o.label),
     p(o.status),
     p(o.size),
-    p('Preference score: ' + o.score + '; evidence confidence: ' + o.evidence),
+    o.product ? p(o.product) : null,
+    o.fitment ? p('Fitment: ' + o.fitment) : null,
+    o.climate ? p('Climate: ' + o.climate) : null,
+    p('Preference score: ' + o.score + '; ' + o.evidenceLabel + ': ' + o.evidence),
     p('Installed estimate (' + o.quantity + '): ' + o.installed),
-    p('Tires-only estimate: ' + o.merchandise),
+    p(
+      (o.kind === 'quote' ? comparisonCopy.quoteBase : comparisonCopy.catalogBase) +
+        ': ' +
+        o.merchandise,
+    ),
+    o.kind === 'quote' ? p(comparisonCopy.quoteInclusion) : null,
+    o.difference ? p('Quote minus observed installed range: ' + o.difference) : null,
     ...o.reasons.map((r, i) =>
       h(Text, { key: i, style: { fontSize: 10, lineHeight: 1.4, marginBottom: 5 } }, '- ' + r),
     ),
@@ -120,6 +130,7 @@ export async function renderReportPdf(
         ? [
             heading('Comparison revision ' + v.reference.comparisonRevision),
             ...v.comparison.map(option),
+            p(comparisonCopy.noScenario),
           ]
         : null,
       v.decisions.length

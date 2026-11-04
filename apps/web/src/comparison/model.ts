@@ -1,4 +1,3 @@
-import { money } from '../results/presentation.ts';
 import type { Selection } from '@tt/contracts/comparison';
 import { quoteInputSchema, type QuoteInput } from '@tt/contracts/quote-input';
 import { parseDollarInput } from '../results/presentation.ts';
@@ -148,19 +147,4 @@ export function existingShare(origin: string, raw: string) {
   }
 }
 
-export function quotedDifference(
-  value: { lowMinor: string; highMinor: string; currency: 'USD' } | null,
-) {
-  if (!value) return 'Unavailable';
-  const signed = (n: string) =>
-    /^-?\d{1,19}$/.test(n)
-      ? n.startsWith('-')
-        ? '-' + money(n.slice(1))
-        : money(n)
-      : 'Unavailable';
-  return (
-    signed(value.lowMinor) +
-    (value.lowMinor === value.highMinor ? '' : ' to ' + signed(value.highMinor)) +
-    ' USD'
-  );
-}
+export { quotedDifference } from '../../../../packages/contracts/src/report-display.ts';

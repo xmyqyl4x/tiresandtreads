@@ -37,7 +37,18 @@ for (const name of ['normal', 'missing', 'long-comparison']) {
         slot: i + 1,
         kind: 'quote',
         snapshot: {
-          price: { installed: null, merchandise: null, quantity: null },
+          productKnown: i === 0,
+          fit: i === 0 ? 'blocked' : 'unverified',
+          climate: i === 1 ? 'unsuitable' : 'unknown',
+          scoreBp: null,
+          price:
+            i === 0
+              ? {
+                  quantity: 4,
+                  merchandise: { low: '74900', high: '74900', currency: 'USD' },
+                  installed: { low: '74900', high: '74900', currency: 'USD' },
+                }
+              : { installed: null, merchandise: null, quantity: null },
           verdict: { relation: 'not_comparable', evidenceMissing: true },
         },
       })),

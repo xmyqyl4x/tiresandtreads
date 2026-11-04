@@ -34,7 +34,7 @@
     "Yahoo": "pending; no recipient notification or external client-testing service used"
   },
   "manualPdfVisualReview": {
-    "pagesInspected": 7,
+    "pagesInspected": 9,
     "clippingObserved": false,
     "overlapObserved": false,
     "orphanComparisonHeadingFixed": true,
@@ -43,5 +43,13 @@
   },
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "comparisonReview": {
+    "storedBlockedFitmentVisible": true,
+    "storedClimateOutcomesVisible": true,
+    "inclusiveQuoteBaseLabeledSeparately": true,
+    "sharedWebCopy": true,
+    "mobileNoHorizontalOverflow": true,
+    "actualInboxClientAccepted": false
+  }
 }

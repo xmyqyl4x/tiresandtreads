@@ -67,3 +67,29 @@ export function reason(code: string) {
 export function confidence(value: number | null | undefined) {
   return value === 3 ? 'High' : value === 2 ? 'Medium' : value === 1 ? 'Low' : 'Unknown';
 }
+
+export function quotedDifference(
+  value: { lowMinor: string; highMinor: string; currency: 'USD' } | null,
+) {
+  if (!value) return 'Unavailable';
+  const signed = (n: string) =>
+    /^-?\d{1,19}$/.test(n)
+      ? n.startsWith('-')
+        ? '-' + money(n.slice(1))
+        : money(n)
+      : 'Unavailable';
+  return (
+    signed(value.lowMinor) +
+    (value.lowMinor === value.highMinor ? '' : ' to ' + signed(value.highMinor)) +
+    ' USD'
+  );
+}
+
+export const comparisonCopy = Object.freeze({
+  quoteBase: 'Recorded quote base',
+  catalogBase: 'Tires-only estimate',
+  quoteInclusion:
+    'The quote base may already include installation or tax; it is not a tires-only breakdown. No fees are subtracted here. Review the entered quantity and basis.',
+  noScenario:
+    'Lifetime cost, savings and replacement forecasts are unavailable for this comparison: no ownership scenario has been calculated. No price is a safety rating or live purchase offer.',
+});

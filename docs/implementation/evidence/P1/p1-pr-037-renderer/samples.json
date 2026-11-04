@@ -22,10 +22,10 @@
     },
     {
       "name": "long-comparison",
-      "pdfBytes": 27796,
-      "pdfSha256": "749165e496363f1a92860234d844b9136f6f3f36a373f2967797b273c2d633b2",
-      "htmlBytes": 8285,
-      "textBytes": 3927,
+      "pdfBytes": 30890,
+      "pdfSha256": "cdadeda81e5a79f2da7b7e62eafc37f2514beb17201d8cbf3ec689d2cbbc5e1c",
+      "htmlBytes": 10399,
+      "textBytes": 5432,
       "fixture": true,
       "images": 0
     }

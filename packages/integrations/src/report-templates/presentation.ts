@@ -1,5 +1,10 @@
 import type { DeliveryDocument } from '../../../application/src/ports/delivery-services.ts';
-import { money, reason, confidence } from '../../../contracts/src/report-display.ts';
+import {
+  money,
+  reason,
+  confidence,
+  quotedDifference,
+} from '../../../contracts/src/report-display.ts';
 import type {
   ReportPresentation,
   TemplateProfile,
@@ -73,6 +78,31 @@ function prices(v: unknown) {
     installed: amount(p.installed),
     merchandise: amount(p.merchandise),
   };
+}
+function preferenceScore(value: unknown) {
+  requireValue(
+    value == null ||
+      (typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 10000),
+  );
+  return value == null ? 'Unavailable' : (Number(value) / 100).toFixed(2) + ' / 100';
+}
+function outcome(value: unknown, allowed: readonly string[]) {
+  if (value == null) return 'Unavailable';
+  requireValue(typeof value === 'string' && allowed.includes(value));
+  return value;
+}
+function difference(value: unknown) {
+  if (value == null) return 'Unavailable';
+  const d = object(value);
+  requireValue(
+    d.currency === 'USD' &&
+      typeof d.lowMinor === 'string' &&
+      /^-?\d{1,19}$/.test(d.lowMinor) &&
+      typeof d.highMinor === 'string' &&
+      /^-?\d{1,19}$/.test(d.highMinor),
+  );
+  requireValue(BigInt(d.lowMinor) <= BigInt(d.highMinor));
+  return quotedDifference({ lowMinor: d.lowMinor, highMinor: d.highMinor, currency: 'USD' });
 }
 function privateUrl(
   raw: string,
@@ -208,6 +238,12 @@ export function presentReport(
     );
     requireValue(['eligible', 'blocked', 'unverified'].includes(String(dec.status)));
     return {
+      kind: 'catalog',
+      fitment: null,
+      climate: null,
+      product: null,
+      difference: null,
+      evidenceLabel: 'evidence confidence',
       id: String(id),
       label: p
         ? [optionalText(p.brand, '', 160), optionalText(p.model, '', 340)]
@@ -225,7 +261,7 @@ export function presentReport(
           : dec.status === 'blocked'
             ? 'Blocked option'
             : 'Unverified option',
-      score: score == null ? 'Unavailable' : (Number(score) / 100).toFixed(2) + ' / 100',
+      score: preferenceScore(score),
       ...prices(selectedPrices[0]),
       evidence: confidence(typeof dec.confidence === 'number' ? dec.confidence : null),
       reasons: list(dec.reasons ?? [], 100)
@@ -244,16 +280,47 @@ export function presentReport(
             s = object(item.snapshot),
             verdict = s.verdict == null ? {} : object(s.verdict);
           requireValue(item.kind === 'catalog' || item.kind === 'quote');
+          requireValue(item.kind !== 'quote' || s.scoreBp == null);
+          const fitment = outcome(s.fit ?? verdict.fit, ['eligible', 'blocked', 'unverified']);
+          const climate = outcome(s.climate ?? verdict.climate, [
+            'suitable',
+            'unsuitable',
+            'unknown',
+          ]);
+          requireValue(s.productKnown == null || typeof s.productKnown === 'boolean');
+          requireValue(
+            verdict.evidenceMissing == null || typeof verdict.evidenceMissing === 'boolean',
+          );
           return {
+            kind: item.kind,
+            fitment,
+            climate,
+            product:
+              s.productKnown === true
+                ? 'Product recognized in the evaluated evidence.'
+                : s.productKnown === false
+                  ? 'Unverified product; no fitment or suitability approval.'
+                  : 'Product recognition unavailable.',
+            difference: difference(verdict.delta),
+            evidenceLabel: 'comparison evidence',
             id: String(index + 1),
             label: (item.kind === 'quote' ? 'Private quote ' : 'Catalog selection ') + (index + 1),
             size: 'See the recorded private comparison for fitment details',
             status:
-              verdict.evidenceMissing === false
-                ? 'Recorded comparison evidence'
-                : 'Evidence is incomplete',
-            score: 'Not a safety score',
-            evidence: 'Stored service verdict',
+              fitment === 'blocked'
+                ? 'Blocked option - recorded fitment is incompatible'
+                : climate === 'unsuitable'
+                  ? 'Climate unsuitable in the recorded evidence'
+                  : fitment === 'eligible'
+                    ? 'Eligible in recorded fitment evidence'
+                    : 'Unverified option - no fitment approval',
+            score: preferenceScore(s.scoreBp),
+            evidence:
+              verdict.evidenceMissing === true
+                ? 'Required comparison evidence is missing'
+                : verdict.evidenceMissing === false
+                  ? 'Recorded comparison evidence'
+                  : 'Comparison evidence status unavailable',
             ...prices(s.price),
             reasons: [
               verdict.relation === undefined

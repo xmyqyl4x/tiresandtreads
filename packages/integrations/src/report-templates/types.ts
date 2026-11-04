@@ -20,6 +20,12 @@ export interface TemplateContext {
   readonly offersConfirmationUrl: string | null;
 }
 export interface PresentedOption {
+  readonly kind: 'catalog' | 'quote';
+  readonly fitment: string | null;
+  readonly climate: string | null;
+  readonly product: string | null;
+  readonly difference: string | null;
+  readonly evidenceLabel: string;
   readonly id: string;
   readonly label: string;
   readonly size: string;

@@ -1,3 +1,4 @@
+import { comparisonCopy } from '../../../contracts/src/report-display.ts';
 import { messages } from './messages.ts';
 import { createElement as h, type ReactNode } from 'react';
 import { render, toPlainText } from '@react-email/render';
@@ -63,9 +64,22 @@ function Option({ option, v }: { option: PresentedOption; v: ReportPresentation 
     ),
     paragraph(option.status),
     paragraph(option.size),
-    paragraph('Preference score: ' + option.score + '; evidence confidence: ' + option.evidence),
+    option.product ? paragraph(option.product) : null,
+    option.fitment ? paragraph('Fitment: ' + option.fitment) : null,
+    option.climate ? paragraph('Climate: ' + option.climate) : null,
+    paragraph(
+      'Preference score: ' + option.score + '; ' + option.evidenceLabel + ': ' + option.evidence,
+    ),
     paragraph('Installed estimate (' + option.quantity + '): ' + option.installed),
-    paragraph('Tires-only estimate: ' + option.merchandise),
+    paragraph(
+      (option.kind === 'quote' ? comparisonCopy.quoteBase : comparisonCopy.catalogBase) +
+        ': ' +
+        option.merchandise,
+    ),
+    option.kind === 'quote' ? paragraph(comparisonCopy.quoteInclusion) : null,
+    option.difference
+      ? paragraph('Quote minus observed installed range: ' + option.difference)
+      : null,
     h(
       'ul',
       { style: { paddingLeft: '22px' } },
@@ -158,6 +172,7 @@ export async function renderReportEmail(v: ReportPresentation) {
                                 'Comparison revision ' + v.reference.comparisonRevision,
                               ),
                               ...v.comparison.map((o) => h(Option, { key: o.id, option: o, v })),
+                              paragraph(comparisonCopy.noScenario),
                             )
                           : null,
                         v.decisions.length
