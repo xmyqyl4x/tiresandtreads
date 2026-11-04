@@ -126,13 +126,35 @@ it('measures the initial shell JavaScript against the 120KB gzip budget without 
   expect(total).toBeLessThanOrEqual(120000);
   const manifest = JSON.parse(
     readFileSync('apps/web/node_modules/.cache/tt-preview/assets.json', 'utf8'),
-  ) as { files: Record<string, { body: string }> };
-  const withConsent = Object.entries(manifest.files)
-    .filter(([path]) => path.endsWith('.js'))
-    .reduce((sum, [, file]) => sum + gzipSync(file.body).byteLength, 0);
+  ) as {
+    files: Record<string, { body: string }>;
+    groups: Record<'visitor' | 'editorial' | 'checklist', string[]>;
+  };
+  const all = Object.values(manifest.groups).flat();
+  expect(new Set(all).size).toBe(all.length);
+  expect([...all].sort()).toEqual(Object.keys(manifest.files).sort());
+  for (const tag of tags) expect(manifest.groups.visitor).toContain(tag[1]!.split('/').at(-1));
+  const size = (group: string[]) =>
+    group
+      .filter((path) => path.endsWith('.js'))
+      .reduce((sum, path) => sum + gzipSync(manifest.files[path]!.body).byteLength, 0);
+  const withConsent = size(manifest.groups.visitor);
   console.log(
     'LOCAL_WEB_COMPLETE_CLIENT ' +
       JSON.stringify({ gzipBytes: withConsent, budgetBytes: 120000, includesConsent: true }),
   );
   expect(withConsent).toBeLessThanOrEqual(120000);
+  const checklist = size(manifest.groups.checklist);
+  expect(checklist).toBeLessThanOrEqual(120000);
+  console.log(
+    'LOCAL_WEB_ENTRY_GROUPS ' +
+      JSON.stringify({
+        visitorWithConsentGzipBytes: withConsent,
+        checklistGzipBytes: checklist,
+        editorialGzipBytes: size(manifest.groups.editorial),
+        publicBudgetBytes: 120000,
+        disjoint: true,
+        exhaustive: true,
+      }),
+  );
 }, 30000);

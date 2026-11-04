@@ -9,9 +9,9 @@ import { EditorialDiagram } from './diagram.tsx';
 const groups = [
   { title: 'Reading the sidewall', topics: ['size'] },
   { title: 'Ratings and labels', topics: ['ratings'] },
-  { title: 'Tire types', topics: ['types'] },
+  { title: 'Tire types', topics: ['types', 'winter', 'wet', 'heat', 'off_road', 'run_flat'] },
   { title: 'Maintenance', topics: ['maintenance'] },
-  { title: 'Buying', topics: ['buying'] },
+  { title: 'Buying', topics: ['buying', 'warranty', 'noise', 'efficiency', 'ev'] },
 ];
 function markingRows(result: EducationTool['result']) {
   if (result.status !== 'decoded') return [];

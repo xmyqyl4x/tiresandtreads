@@ -79,6 +79,11 @@ writeFileSync(
     entry: basename(entry[0]),
     editorial: 'editorial-client.js',
     checklist: 'checklist-client.js',
+    groups: {
+      visitor: browser.outputFiles.map((file) => basename(file.path)),
+      editorial: editorial.outputFiles.map((file) => basename(file.path)),
+      checklist: checklist.outputFiles.map((file) => basename(file.path)),
+    },
     css: basename(css),
     files,
   }),
