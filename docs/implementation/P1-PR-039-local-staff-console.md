@@ -22,6 +22,8 @@ Configuration requires a validated preview, optimistic version and a distinct cu
 
 Credentials stay in page memory and headers. The console stores no staff credential in browser storage, cookies, URLs or serialized HTML. Disconnect clears page credentials and explicitly leaves any unknown command subject to audit reconciliation. Public visitor JavaScript retains its existing 120,000-byte gzip budget; the independent private console has a 250,000-byte gzip ceiling. TypeScript diagnostics measured about 1.1 GiB, so the compiler-only allowance is now bounded at 1.5 GiB; runtime, connection, browser and test thresholds are unchanged.
 
+Workspace type checking runs the web asset/type step before root consumers of its generated renderer declaration. This order supports fresh checkouts without depending on a previously populated build cache.
+
 ## Explicitly unavailable integrations
 
 Licensed catalog/fitment/pricing, specialist approval, real Search Console/crawler, live advertising/provider reports and real inbox-client acceptance are not fabricated. Partner/mobile administration, audience segmentation and Phase 2 revenue CSV uploads remain inactive. Imports stay script-first through the existing validation/approval/publication/rollback services; this console accepts no upload and grants no override. Actual operator assignment, identity issuance/MFA, hosting and production access decisions remain separate held work.

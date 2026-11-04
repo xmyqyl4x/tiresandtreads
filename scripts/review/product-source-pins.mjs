@@ -70,7 +70,7 @@ export function reconcileProductPins(root, rawPins) {
   const staffBytes = readReviewBytes(root, staffPinsPath);
   if (
     createHash('sha256').update(staffBytes).digest('hex') !==
-    '32639ab99980340c39c625a51c4aef5fb9b28408b92827d9ab4a9069f13a3c37'
+    'f1d325c4027ae57ad0f29e79085bf7c85445cc21f05282b232b27b15be11c5af'
   )
     throw Error('Staff source review refused');
   const staff = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(staffBytes));

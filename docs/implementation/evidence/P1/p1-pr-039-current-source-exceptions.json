@@ -6,8 +6,8 @@
     {
       "path": "package.json",
       "baselineSha256": "f228e483563136e976105b44a26e59e245a192d4419aacdf3ac920f37a27e0e2",
-      "currentSha256": "60931dca9f955d18b1693355d516960c99dccc1c99f8c3aa739980f6bce16aef",
-      "reason": "Compiler-only TypeScript allowance changes from 1024 to 1536 MiB after measured 1.1 GiB checking; runtime/test thresholds and dependency versions are unchanged."
+      "currentSha256": "6c73ff4729672ee2a60221b905d54c0b6b7ced30ab3c9f19b5be7aee0a5bf3f6",
+      "reason": "Web assets/types precede root consumers of generated renderer declarations; compiler-only allowance is 1536 MiB after measured 1.1 GiB checking. Runtime/test thresholds and dependency versions are unchanged."
     },
     {
       "path": "scripts/review/evidence-readiness.mjs",

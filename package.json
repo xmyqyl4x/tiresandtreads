@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "typecheck": "node --max-old-space-size=1536 ./node_modules/typescript/bin/tsc --noEmit && pnpm --filter @tt/web typecheck",
+    "typecheck": "pnpm --filter @tt/web typecheck && node --max-old-space-size=1536 ./node_modules/typescript/bin/tsc --noEmit",
     "boundaries": "node scripts/verify/boundaries.mjs",
     "contracts:generate": "node scripts/contracts/openapi.mjs",
     "contracts:check": "node scripts/contracts/openapi.mjs --check",
