@@ -13,6 +13,14 @@ import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { reviewRestoreEvidence } from '../../scripts/review/restore-evidence.mjs';
 const prefix = 'docs/implementation/evidence/P1/';
+it('refuses tampering with the second exact editorial transition and preserves the changed bytes', () =>
+  owned((root) => {
+    const path = join(root, prefix + 'p1-pr-038-current-source-exceptions.json');
+    const before = readFileSync(path, 'utf8') + ' ';
+    writeFileSync(path, before);
+    expect(() => reviewRestoreEvidence(root)).toThrow('Restore readiness refused');
+    expect(readFileSync(path, 'utf8')).toBe(before);
+  }));
 function cleanup(root: string, parent: string) {
   if (dirname(root) !== parent || realpathSync(root) !== root || lstatSync(root).isSymbolicLink())
     throw Error('Owned review directory changed');
@@ -93,7 +101,7 @@ it(
       writeFileSync(path, readFileSync(path, 'utf8') + '# unexpected current change\n');
       const before = readFileSync(path),
         report = reviewRestoreEvidence(root);
-      expect(report.newExceptions).toBe(3);
+      expect(report.newExceptions).toBe(4);
       expect(report.fileReview.issues).toContainEqual({
         path: 'pnpm-lock.yaml',
         code: 'digest-mismatch',

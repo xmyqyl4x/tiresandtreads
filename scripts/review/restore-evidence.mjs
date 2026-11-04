@@ -1,4 +1,8 @@
-import { reconcileProductPins, productPinsPath } from './product-source-pins.mjs';
+import {
+  reconcileProductPins,
+  productPinsPath,
+  editorialPinsPath,
+} from './product-source-pins.mjs';
 import { createHash } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import { readReviewBytes, readReviewJson } from './repository-files.mjs';
@@ -43,6 +47,7 @@ export function reviewRestoreEvidence(root) {
       ...references,
       baselinePath,
       productPinsPath,
+      editorialPinsPath,
     ]);
     const reviewedPaths = [
       ...new Set([
@@ -50,6 +55,7 @@ export function reviewRestoreEvidence(root) {
         ...references.map(reviewPath),
         baselinePath,
         productPinsPath,
+        editorialPinsPath,
       ]),
     ].sort();
     const report = {

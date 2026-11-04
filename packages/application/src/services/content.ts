@@ -103,13 +103,15 @@ export function createContentServices(d: {
             const body = object(source.body);
             demand(
               Object.keys(body)
-                .filter((k) => k !== 'questions')
+                .filter((k) => !['questions', 'references', 'editorial'].includes(k))
                 .sort()
                 .join(',') === 'author,canonical,paragraphs,path,related,reviewer,summary,topics',
             );
+            const { editorial: privateEditorial, ...publicBody } = body;
+            void privateEditorial;
             try {
               publicPage = validatePage({
-                ...body,
+                ...publicBody,
                 kind: ref.collection === 'articles' ? 'article' : 'glossary',
                 contentKey: source.key,
                 title: source.title,
@@ -238,12 +240,39 @@ export function createContentServices(d: {
           d.read.translations(tx, r.page.contentKey),
         );
         if (!translations.ok) return translations;
+        const hub = ['/learn/tire-basics', '/learn/glossary'].includes(path);
+        const navigation = hub
+          ? await run(d.publicUow, (tx) => d.read.pages(tx, locale, market, null, 100))
+          : null;
+        if (navigation && !navigation.ok) return navigation;
+        const at = now();
         return ok({
           content: r.page,
           metadata: m,
           hreflang: translations.value
             .filter((p) => p.canonical === p.path)
             .map((p) => ({ locale: p.locale, url: origin + p.path })),
+          ...(navigation?.ok
+            ? {
+                navigation: {
+                  items: navigation.value
+                    .filter(
+                      (p) =>
+                        p.page.canonical === p.page.path &&
+                        p.page.modifiedAt <= at &&
+                        p.page.expiresAt > at,
+                    )
+                    .map((p) => ({
+                      path: p.page.path,
+                      kind: p.page.kind,
+                      title: p.page.title,
+                      summary: p.page.summary,
+                      topics: p.page.topics,
+                    })),
+                  hasMore: navigation.value.length === 100,
+                },
+              }
+            : {}),
         });
       } catch (e) {
         return fail(serviceFailure(e));

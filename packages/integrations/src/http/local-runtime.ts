@@ -1,3 +1,4 @@
+import { readEducation } from '../education-public.ts';
 import { localOperationRoutes } from './local-services.ts';
 import { callbackRoutes } from './callbacks.ts';
 import { readLocalCallbackKeys } from './callback-keys.ts';
@@ -180,15 +181,7 @@ export async function createLocalPublicApi(env: Readonly<Record<string, string |
                 return fail(failure('not_found'));
               }
             },
-            content: (query) => {
-              if ([...query.keys()].some((k) => !['path', 'locale', 'market'].includes(k)))
-                return Promise.resolve(fail(failure('invalid_input')));
-              return host.services.content.services.readPage(
-                query.get('path') ?? '/',
-                query.get('locale') ?? 'en-US',
-                query.get('market') ?? 'US',
-              );
-            },
+            content: (query) => readEducation(host.services.content, query),
           }),
         ],
       }),

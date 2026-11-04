@@ -1,4 +1,232 @@
 /* Approved design-tokens.json; system fonts until the heading font is licensed. */
+.education-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-weight: 650;
+}
+.education-hero {
+  padding: 64px 0 48px;
+  background: #e9edf1;
+  border-bottom: 1px solid #d8dee3;
+}
+.education-hero h1 {
+  max-width: 850px;
+  font-size: clamp(36px, 5vw, 64px);
+}
+.education-summary {
+  max-width: 720px;
+  font-size: 22px;
+  color: #52606d;
+}
+.education-local {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #52606d;
+}
+.education-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 48px;
+  padding-top: 40px;
+}
+.education-article {
+  min-width: 0;
+}
+.education-article h2 {
+  margin-top: 40px;
+  font-size: 28px;
+}
+.education-article nav {
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+.education-prose {
+  font-size: 19px;
+  line-height: 1.8;
+  max-width: 780px;
+}
+.education-tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.education-tools .card {
+  text-decoration: none;
+  color: #1c2023;
+}
+.education-tools .card h3 {
+  margin: 12px 0;
+}
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 24px;
+  padding: 0;
+  list-style: none;
+}
+.glossary-grid li {
+  border-bottom: 1px solid #d8dee3;
+}
+.glossary-grid a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  padding: 12px 0;
+  text-decoration: none;
+  font-weight: 650;
+}
+.education-aside .card h2 {
+  font-size: 24px;
+}
+.education-aside dt {
+  font-size: 14px;
+  color: #52606d;
+  margin-top: 16px;
+}
+.education-aside dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+.education-note {
+  padding: 28px 20px;
+  border-left: 4px solid #f5c928;
+  margin-top: 24px;
+  background: #fff;
+}
+.education-sources {
+  border-top: 1px solid #d8dee3;
+  margin-top: 40px;
+  padding-top: 4px;
+  overflow-wrap: anywhere;
+}
+.education-footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  padding-bottom: 32px;
+  border-top: 1px solid #d8dee3;
+  color: #52606d;
+}
+.education-article form {
+  display: grid;
+  gap: 12px;
+}
+.education-article input,
+.editorial-workbench input,
+.editorial-workbench select,
+.editorial-workbench textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #7b8794;
+  border-radius: 6px;
+  background: white;
+  font: inherit;
+}
+.education-article form button {
+  justify-self: start;
+}
+.education-tool-result {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #d8dee3;
+}
+.education-tool-result dl div {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+.education-tool-result dd {
+  margin: 0;
+}
+.checklist-question {
+  padding: 16px 0;
+  border-bottom: 1px solid #d8dee3;
+}
+.checklist-question summary {
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 650;
+}
+.checklist-question p {
+  margin: 12px 0;
+}
+.editorial-workbench {
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+.editorial-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+.editorial-grid aside ul {
+  list-style: none;
+  padding: 0;
+}
+.editorial-grid aside button {
+  text-align: left;
+  background: white;
+  border: 1px solid #d8dee3;
+  padding: 12px;
+  min-height: 44px;
+  width: 100%;
+  margin: 4px 0;
+  border-radius: 6px;
+}
+.editorial-grid aside button[aria-current] {
+  border-color: #1d4e9e;
+  background: #e9edf1;
+}
+.editorial-workbench label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 650;
+}
+.editorial-workbench fieldset {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.editorial-workbench .actions {
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.editorial-workbench .callout {
+  padding: 16px;
+  border-left: 4px solid #f5c928;
+  background: white;
+}
+@media (max-width: 760px) {
+  .education-grid,
+  .editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .education-tools,
+  .glossary-grid {
+    grid-template-columns: 1fr;
+  }
+  .education-hero {
+    padding: 40px 0 32px;
+  }
+  .education-nav {
+    gap: 10px;
+    font-size: 14px;
+  }
+  .education-nav a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .education-aside {
+    max-width: 100%;
+  }
+}
 :root {
   --ink: #1c2023;
   --page: #f3f4f4;
@@ -865,4 +1093,106 @@ fieldset {
 .choice-content {
   max-width: 800px;
   padding-bottom: 48px;
+}
+
+.editorial-redirects {
+  margin-top: 32px;
+}
+
+.education-header .header-inner {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.editorial-diagram {
+  margin: 24px 0;
+  padding: 12px;
+  background: var(--surface-alt, #f0f3ef);
+  border-radius: var(--radius-card);
+}
+.editorial-diagram svg {
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+}
+.editorial-diagram text {
+  font:
+    14px system-ui,
+    sans-serif;
+  fill: currentColor;
+}
+.editorial-diagram figcaption {
+  font-size: 0.875rem;
+}
+.checklist-question {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid var(--divider);
+  break-inside: avoid;
+}
+.checklist-question legend {
+  font-weight: 700;
+  padding-inline: 8px;
+}
+.checklist-question label {
+  display: block;
+  margin-top: 12px;
+}
+.checklist-question select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  font: inherit;
+}
+.print-checkbox {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+.checklist-storage {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--divider);
+}
+.checklist-storage label {
+  display: block;
+  margin-block: 16px;
+}
+@media print {
+  .site-header,
+  .education-footer,
+  .education-aside,
+  .checklist-storage,
+  .education-local,
+  .education-article .button,
+  .education-article nav,
+  .skip-link {
+    display: none !important;
+  }
+  .education-grid {
+    display: block !important;
+  }
+  .education-hero {
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+  .checklist-question {
+    padding: 10px;
+    margin: 12px 0;
+  }
+  .checklist-question select {
+    appearance: none;
+    border: 1px solid #555;
+    color: #000;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+.education-hero h1,
+.education-prose,
+.glossary-grid a,
+.editorial-grid {
+  overflow-wrap: anywhere;
 }

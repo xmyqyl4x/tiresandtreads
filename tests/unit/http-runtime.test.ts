@@ -65,7 +65,10 @@ beforeEach(() => {
   vi.clearAllMocks();
   mocked.settings.mockReturnValue(settings());
   mocked.host.mockResolvedValue({
-    services: { reports: {}, content: { services: { readPage: mocked.read } } },
+    services: {
+      reports: {},
+      content: { services: { readPage: mocked.read }, routing: { redirect: async () => null } },
+    },
     shutdown: vi.fn(async () => {}),
   });
 });
@@ -93,9 +96,9 @@ it('composes the real loopback transport over supplied local services and drains
       publicActivation: false,
       S3Accepted: false,
     });
-    const r = await fetch(api.origin + '/api/v1/content?path=/learn');
+    const r = await fetch(api.origin + '/api/v1/content?path=/learn/tire-basics');
     expect(r.status).toBe(200);
-    expect(mocked.read).toHaveBeenCalledWith('/learn', 'en-US', 'US');
+    expect(mocked.read).toHaveBeenCalledWith('/learn/tire-basics', 'en-US', 'US');
     expect((await fetch(api.origin + '/api/v1/content?unknown=true')).status).toBe(400);
     expect(
       (

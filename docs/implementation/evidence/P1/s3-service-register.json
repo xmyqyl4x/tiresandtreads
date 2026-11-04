@@ -139,10 +139,14 @@
       "card": "P1-PR-021",
       "modules": [
         "packages/application/src/services/content.ts",
-        "packages/application/src/services/service-records.ts"
+        "packages/application/src/services/service-records.ts",
+        "packages/application/src/services/editorial.ts"
       ],
       "tests": [
-        "tests/database/content-services.test.ts"
+        "tests/database/content-services.test.ts",
+        "tests/usecases/editorial.test.ts",
+        "tests/database/editorial.test.ts",
+        "tests/database/web-education.test.ts"
       ],
       "trace": [
         "UC10",

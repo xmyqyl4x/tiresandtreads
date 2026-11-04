@@ -35,7 +35,7 @@ export function Shell({ children, path = '/' }: { children: ReactNode; path?: st
             </p>
           </div>
           <nav aria-label="Footer">
-            <Link href="/preview/how-we-choose">How we choose</Link>
+            <Link href="/guides/how-we-choose">How we choose</Link>
             <Link href="/preview/privacy">Privacy</Link>
             <Link href="/design-system">Design system</Link>
             <PrivacyChoices />

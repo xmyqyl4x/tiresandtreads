@@ -21,6 +21,15 @@ export async function startWebPreview(
   webOrigin = 'http://127.0.0.1:3000',
   mode: 'dev' | 'stage' = 'dev',
   scenario: 'unsupported' | 'synthetic' = 'unsupported',
+  extension?: {
+    fixture: { cleanup(): Promise<void> };
+    api: { origin: string; shutdown(): Promise<void> };
+    env: {
+      LOCAL_EDITORIAL_PREVIEW: 'enabled';
+      LOCAL_EDITORIAL_API_ORIGIN: string;
+      SEARCH_CONSOLE_VERIFICATION?: string;
+    };
+  },
 ) {
   const url = new URL(webOrigin);
   if (
@@ -35,15 +44,17 @@ export async function startWebPreview(
   )
     throw Error('Local preview origin refused');
   if (!['unsupported', 'synthetic'].includes(scenario)) throw Error('Preview scenario refused');
-  const synthetic = scenario === 'synthetic' ? await assessmentApiFixture() : null;
-  const composed = synthetic ? null : await composedApiFixture();
-  const fixture = composed ?? { cleanup: () => synthetic!.cleanup() };
+  const synthetic = !extension && scenario === 'synthetic' ? await assessmentApiFixture() : null;
+  const composed = extension || synthetic ? null : await composedApiFixture();
+  const fixture = extension?.fixture ?? composed ?? { cleanup: () => synthetic!.cleanup() };
   let api: { origin: string; shutdown(): Promise<void> } | undefined,
     child: ChildProcess | undefined;
   try {
-    api = synthetic
-      ? { origin: synthetic.server.origin, shutdown: async () => undefined }
-      : await createLocalPublicApi(composed!.env);
+    api =
+      extension?.api ??
+      (synthetic
+        ? { origin: synthetic.server.origin, shutdown: async () => undefined }
+        : await createLocalPublicApi(composed!.env));
     const env = {
       ...process.env,
       APP_ENV: mode + '-local',
@@ -51,6 +62,7 @@ export async function startWebPreview(
       LOCAL_WEB_PREVIEW: 'enabled',
       LOCAL_WEB_ORIGIN: url.origin,
       LOCAL_API_ORIGIN: api.origin,
+      ...extension?.env,
       NEXT_TELEMETRY_DISABLED: '1',
       NODE_OPTIONS: '--max-old-space-size=1024',
     };

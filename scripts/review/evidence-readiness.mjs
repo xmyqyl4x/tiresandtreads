@@ -1,4 +1,8 @@
-import { reconcileProductPins, productPinsPath } from './product-source-pins.mjs';
+import {
+  reconcileProductPins,
+  productPinsPath,
+  editorialPinsPath,
+} from './product-source-pins.mjs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { TextDecoder } from 'node:util';
@@ -35,7 +39,11 @@ try {
   const register = read('s3-service-register.json');
   const references = register.gates.flatMap((gate) => gate.localEvidence ?? []);
   const current = reconcileProductPins(root, catalog.all);
-  const fileReview = verifyReviewFiles(root, current.pins, [...references, productPinsPath]);
+  const fileReview = verifyReviewFiles(root, current.pins, [
+    ...references,
+    productPinsPath,
+    editorialPinsPath,
+  ]);
   const report = {
     schemaVersion: 1,
     scope: 'local-historical-evidence-review',

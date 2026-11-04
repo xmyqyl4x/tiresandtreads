@@ -762,9 +762,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-02, UC10, UC17, AT16, AT27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Build role-scoped draft/review/publish/rollback screens and safe redirect controls.
+- [x] Implement local role-scoped draft/review/publish/rollback screens, native Payload history and safe redirect controls; actual production identity/grant selection remains pending.
 - [ ] Publish 25 reviewed glossary articles plus hub/decoder/checklist/methodology/trust/support pages with sources and review dates.
-- [ ] Render metadata, canonical/hreflang where applicable, JSON-LD, sitemaps and Search Console verification; exclude private pages.
+- [x] Implement and locally verify metadata, canonical/public hreflang, visible-content JSON-LD, private-path exclusion and sitemap/verification contracts. Local routes remain noindex with an empty sitemap; actual Search Console ownership/indexing and public activation remain pending.
+
+- [x] Prepare the exact 25 approved glossary topics and seven guide/hub pages as unreviewed drafts; prove publication of synthetic copies, original SVGs, script-free decoder/checklist summaries and permissioned device storage locally.
+
+[Local implementation and boundaries](../implementation/P1-PR-038-local-editorial-education.md). Actual approval/publication of the 25 articles stays pending; no card-level live acceptance or original gate closure is claimed.
 
 **Verification and acceptance:** Editorial roles, publish propagation, public crawl/index contracts, accessibility and useful script-free content pass.
 
