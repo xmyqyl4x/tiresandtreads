@@ -91,7 +91,7 @@ it('keeps long labels, extreme exact USD ranges, missing data and a four-item co
     revision: '2',
     items: Array.from({ length: 4 }, (_, i) => ({
       slot: i + 1,
-      kind: 'private_quote',
+      kind: 'quote',
       snapshot: {
         price: { installed: null, merchandise: null, quantity: null },
         verdict: { relation: 'not_comparable', evidenceMissing: true },

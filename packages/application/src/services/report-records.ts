@@ -161,7 +161,7 @@ export function ownerReport(output: JsonObject): JsonObject {
     },
   });
 }
-export function publicReport(output: JsonObject, includePricePlanIds = false): JsonObject {
+export function publicReport(output: JsonObject, deliveryPresentation = false): JsonObject {
   const r = object(output.result);
   const evidence =
     output.evidence && typeof output.evidence === 'object' ? object(output.evidence) : null;
@@ -196,12 +196,24 @@ export function publicReport(output: JsonObject, includePricePlanIds = false): J
       picks: r.picks,
       decisions: r.decisions.map((v) => {
         const d = object(v);
-        return { id: d.id, status: d.status, reasons: d.reasons, scoreBp: d.scoreBp };
+        if (deliveryPresentation)
+          demand(
+            d.confidence == null ||
+              ([0, 1, 2, 3].includes(Number(d.confidence)) && typeof d.confidence === 'number'),
+            'integrity',
+          );
+        return {
+          id: d.id,
+          status: d.status,
+          reasons: d.reasons,
+          scoreBp: d.scoreBp,
+          ...(deliveryPresentation && d.confidence != null ? { confidence: d.confidence } : {}),
+        };
       }),
     },
     prices: Array.isArray(output.prices)
       ? output.prices.map((p) =>
-          includePricePlanIds && p ? { ...object(price(p)), ...pick(p, ['planId']) } : price(p),
+          deliveryPresentation && p ? { ...object(price(p)), ...pick(p, ['planId']) } : price(p),
         )
       : [],
     options,

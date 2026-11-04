@@ -907,6 +907,7 @@ it('P1-PR-037 freezes real HTML/text/PDF from safe captured data and replays ide
   const first = s.provider.send.mock.calls[0]![1];
   expect(first.mail.html).toContain('$700.00-$950.00 USD');
   expect(first.mail.text).toContain('4 tires');
+  expect(first.mail.text).toContain('evidence confidence: Medium');
   expect(first.mail.text).not.toContain('NEVER EMAIL THIS PRIVATE NOTE');
   expect(first.mail.pdf.startsWith('JVBERi0')).toBe(true);
   await f.admin.query(
@@ -919,6 +920,7 @@ it('P1-PR-037 freezes real HTML/text/PDF from safe captured data and replays ide
   expect(s.renderer.render).toHaveBeenCalledOnce();
   const row = await s.row(r.id);
   expect(row.document.report.prices[0].planId).toBe(pick);
+  expect(row.document.report.result.decisions[0].confidence).toBe(2);
   expect(JSON.stringify(row.document)).not.toContain(s.email);
   expect(JSON.stringify(row.document)).not.toContain('#share.');
   expect(s.provider.send).toHaveBeenCalledTimes(2);

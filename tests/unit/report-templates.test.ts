@@ -1,3 +1,4 @@
+import { publicReport } from '../../packages/application/src/services/report-records.ts';
 import { it, expect } from 'vitest';
 import { presentReport } from '../../packages/integrations/src/report-templates/presentation.ts';
 import { renderReportEmail } from '../../packages/integrations/src/report-templates/email.ts';
@@ -91,7 +92,7 @@ it('renders comparison snapshots without private shop notes or invented totals',
     items: [
       {
         slot: 1,
-        kind: 'private_quote',
+        kind: 'quote',
         snapshot: {
           notes: 'PRIVATE SHOP',
           price: { quantity: null, installed: null, merchandise: null },
@@ -149,4 +150,49 @@ it('shows offers confirmation only with its distinct frozen purpose proof', asyn
   expect(() =>
     presentReport(templateDocument(), templateProfile, { ...c, offersConfirmationUrl: c.viewUrl }),
   ).toThrow();
+});
+
+it.each([0, 1, 2, 3])(
+  'preserves validated confidence %s only in internal delivery capture',
+  (confidenceValue) => {
+    const d = templateDocument();
+    (d.report.result as Record<string, unknown>).decisions = [
+      { id: pick, status: 'eligible', reasons: [], scoreBp: 0, confidence: confidenceValue },
+    ];
+    const internal = publicReport(d.report, true),
+      external = publicReport(d.report);
+    expect(
+      ((internal.result as Record<string, unknown>).decisions as Record<string, unknown>[])[0]!
+        .confidence,
+    ).toBe(confidenceValue);
+    expect(
+      ((external.result as Record<string, unknown>).decisions as Record<string, unknown>[])[0]!,
+    ).not.toHaveProperty('confidence');
+  },
+);
+it('refuses corrupt stored confidence in internal delivery presentation', () => {
+  const d = templateDocument();
+  (d.report.result as Record<string, unknown>).decisions = [
+    { id: pick, status: 'eligible', reasons: [], scoreBp: 0, confidence: 4 },
+  ];
+  expect(() => publicReport(d.report, true)).toThrow();
+});
+
+it('keeps absent and null confidence unknown without coercing corrupt values', () => {
+  const d = templateDocument();
+  for (const confidenceValue of [undefined, null]) {
+    (d.report.result as Record<string, unknown>).decisions = [
+      { id: pick, status: 'eligible', reasons: [], scoreBp: 0, confidence: confidenceValue },
+    ];
+    const internal = publicReport(d.report, true);
+    expect(
+      ((internal.result as Record<string, unknown>).decisions as Record<string, unknown>[])[0]!,
+    ).not.toHaveProperty('confidence');
+  }
+  for (const confidenceValue of ['2', -1, 1.5]) {
+    (d.report.result as Record<string, unknown>).decisions = [
+      { id: pick, status: 'eligible', reasons: [], scoreBp: 0, confidence: confidenceValue },
+    ];
+    expect(() => publicReport(d.report, true)).toThrow();
+  }
 });

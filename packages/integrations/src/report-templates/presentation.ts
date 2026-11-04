@@ -243,12 +243,10 @@ export function presentReport(
           const item = object(v),
             s = object(item.snapshot),
             verdict = s.verdict == null ? {} : object(s.verdict);
-          requireValue(item.kind === 'catalog' || item.kind === 'private_quote');
+          requireValue(item.kind === 'catalog' || item.kind === 'quote');
           return {
             id: String(index + 1),
-            label:
-              (item.kind === 'private_quote' ? 'Private quote ' : 'Catalog selection ') +
-              (index + 1),
+            label: (item.kind === 'quote' ? 'Private quote ' : 'Catalog selection ') + (index + 1),
             size: 'See the recorded private comparison for fitment details',
             status:
               verdict.evidenceMissing === false
