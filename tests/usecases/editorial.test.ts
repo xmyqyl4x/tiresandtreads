@@ -69,13 +69,13 @@ function setup(redirects?: Parameters<typeof createEditorialService>[0]['redirec
     if (role !== 'read' && !actor.roles.includes(role)) throw Error('forbidden');
     return actor;
   });
-  const enqueue = vi.fn(
-      async (
-        _actor: string,
-        _ref: { id: string; collection: 'articles' | 'glossary-terms'; revision: number },
-        _action: 'publish' | 'withdraw',
-      ) => true,
-    ),
+  const enqueue = vi.fn<
+      (
+        actor: string,
+        ref: { id: string; collection: 'articles' | 'glossary-terms'; revision: number },
+        action: 'publish' | 'withdraw',
+      ) => Promise<boolean>
+    >(async () => true),
     service = createEditorialService({
       store,
       authorization: { require },
