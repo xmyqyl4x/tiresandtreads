@@ -2,7 +2,25 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { editorialFixture } from './runtime.ts';
 process.env.TT_EDITORIAL_TRACE = '1';
-const f = await editorialFixture(),
+const raceId = randomUUID();
+let paused = false,
+  release!: () => void,
+  entered!: () => void;
+const reached = new Promise<void>((resolve) => {
+    entered = resolve;
+  }),
+  resume = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+const f = await editorialFixture(undefined, {
+    beforeDelivery: async (_actor, ref, action) => {
+      if (ref.id === raceId && action === 'withdraw' && !paused) {
+        paused = true;
+        entered();
+        await resume;
+      }
+    },
+  }),
   documentId = randomUUID(),
   key = randomUUID();
 try {
@@ -86,6 +104,63 @@ try {
   );
   assert.equal(attempts.filter((x) => x.status === 'fulfilled').length, 1);
   assert.equal(attempts.filter((x) => x.status === 'rejected').length, 1);
+  // Hold the first executor after withdrawal commits. A later author save must first
+  // reconcile the exact durable withdrawal, before replacing its native command receipt.
+  const raceDraft = { ...f.draft, key: 'withdrawal-race', path: '/glossary/withdrawal-race' };
+  for (const [credential, input] of [
+    [author, { action: 'save', draft: raceDraft }],
+    [author, { action: 'submit' }],
+    [reviewer, { action: 'approve', expiresAt: new Date(Date.now() + 86400000).toISOString() }],
+    [publisher, { action: 'publish' }],
+  ] as const) {
+    const revision =
+      input.action === 'save'
+        ? 0
+        : input.action === 'submit'
+          ? 1
+          : input.action === 'approve'
+            ? 2
+            : 3;
+    await f.service.execute(credential, {
+      id: raceId,
+      expectedRevision: revision,
+      key: randomUUID(),
+      ...input,
+    });
+  }
+  const withdrawal = f.service.execute(publisher, {
+    id: raceId,
+    expectedRevision: 4,
+    key: randomUUID(),
+    action: 'withdraw',
+  });
+  await reached;
+  try {
+    const saved = await f.service.execute(author, {
+      id: raceId,
+      expectedRevision: 5,
+      key: randomUUID(),
+      action: 'save',
+      draft: raceDraft,
+    });
+    assert.equal(saved.revision, 6);
+    const withdrawn = await f.content.services.readPage(raceDraft.path, 'en-US', 'US');
+    assert.equal(withdrawn.ok, false);
+    if (!withdrawn.ok) assert.equal(withdrawn.error.code, 'not_found');
+  } finally {
+    release();
+  }
+  await withdrawal;
+  assert.equal((await f.service.read(author, raceId)).document!.state, 'draft');
+  assert.equal(
+    (
+      await f.f.cmsAdmin.query(
+        "SELECT count(*)::int n FROM public.publication_work WHERE document_id=$1 AND content_revision=5 AND state='published'",
+        [raceId],
+      )
+    ).rows[0].n,
+    1,
+  );
   f.revoked.add(author);
   await assert.rejects(() => f.service.list(author), /unauthenticated/);
   const denied = await f.handler(
@@ -103,6 +178,7 @@ try {
         publishedPublicProjection: true,
         privateStaffIdsExcluded: true,
         unchangedPublicationReplay: true,
+        withdrawalSurvivesConcurrentDraft: true,
         rollbackRequiresFreshReview: true,
         roleRevocationRefused: true,
         actualEditorialAcceptance: false,

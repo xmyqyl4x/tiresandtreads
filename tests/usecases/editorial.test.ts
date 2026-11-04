@@ -69,11 +69,17 @@ function setup(redirects?: Parameters<typeof createEditorialService>[0]['redirec
     if (role !== 'read' && !actor.roles.includes(role)) throw Error('forbidden');
     return actor;
   });
-  const enqueue = vi.fn(async () => null),
+  const enqueue = vi.fn(
+      async (
+        _actor: string,
+        _ref: { id: string; collection: 'articles' | 'glossary-terms'; revision: number },
+        _action: 'publish' | 'withdraw',
+      ) => true,
+    ),
     service = createEditorialService({
       store,
       authorization: { require },
-      enqueue,
+      deliver: enqueue,
       digest: (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex'),
       now: () => at,
       ...(redirects ? { redirects } : {}),
@@ -233,6 +239,58 @@ it('retains committed state through uncertain publication and retries without cr
   expect(f.history.get(f.id)).toHaveLength(4);
   expect(f.enqueue).toHaveBeenCalledTimes(2);
   expect(f.enqueue.mock.calls[0]).toEqual(f.enqueue.mock.calls[1]);
+});
+it('settles a committed withdrawal before a concurrent author save can replace its revision', async () => {
+  const f = setup();
+  await f.approve();
+  await f.service.execute(tokens.publisher, f.command('publish'));
+  let visible = true,
+    release!: () => void,
+    started!: () => void;
+  const waiting = new Promise<void>((r) => {
+      started = r;
+    }),
+    hold = new Promise<void>((r) => {
+      release = r;
+    });
+  let first = true;
+  f.enqueue.mockImplementation(
+    async (_actor: string, ref: { revision: number }, action: string) => {
+      if (action === 'withdraw' && first) {
+        first = false;
+        started();
+        await hold;
+      }
+      if (action === 'withdraw') {
+        if (f.documents.get(f.id)?.revision !== ref.revision && visible) throw Error('not_found');
+        visible = false;
+      }
+      return true;
+    },
+  );
+  const withdrawal = f.service.execute(tokens.publisher, f.command('withdraw'));
+  await waiting;
+  const save = f.service.execute(tokens.author, f.command('save', { draft: f.draft }));
+  await save;
+  release();
+  await withdrawal;
+  expect(visible).toBe(false);
+  expect(f.documents.get(f.id)?.revision).toBe(6);
+  expect(f.documents.get(f.id)?.state).toBe('draft');
+});
+it('preserves an undelivered publication command when its delivery cannot be confirmed', async () => {
+  const f = setup();
+  await f.approve();
+  f.enqueue.mockResolvedValue(false);
+  await expect(f.service.execute(tokens.publisher, f.command('publish'))).rejects.toThrow(
+    'unavailable',
+  );
+  const receipt = f.documents.get(f.id)!.command;
+  await expect(
+    f.service.execute(tokens.author, f.command('save', { draft: f.draft })),
+  ).rejects.toThrow('unavailable');
+  expect(f.documents.get(f.id)!.command).toEqual(receipt);
+  expect(f.documents.get(f.id)!.revision).toBe(4);
 });
 it('restores only this document history as a higher unapproved draft', async () => {
   const f = setup();

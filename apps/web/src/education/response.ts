@@ -101,7 +101,7 @@ export async function educationResponse(
       const result = await send(config.api + '/api/v1/tools/scorecard', {
         method: 'POST',
         headers: { origin: config.api, 'content-type': 'application/json' },
-        body: JSON.stringify({ answers: parsed.data }),
+        body: JSON.stringify({ input: parsed.data }),
         cache: 'no-store',
         redirect: 'error',
         signal: AbortSignal.timeout(5000),

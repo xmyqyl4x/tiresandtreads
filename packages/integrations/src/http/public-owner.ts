@@ -1,5 +1,4 @@
 import { operationQuerySchemas } from '../../../contracts/src/operation-queries.ts';
-import { toolInputSchema } from '../../../contracts/src/http.ts';
 import { reportInputSchemas, type ReportOperation } from '../../../contracts/src/report-inputs.ts';
 import { ok, fail } from '../../../domain/src/values/core.ts';
 import { failure } from '../../../application/src/ports/transactions.ts';
@@ -7,7 +6,7 @@ import type { createReportServices } from '../../../application/src/services/rep
 import { PrivateDownload, type HttpRoute } from './core.ts';
 import type { Result } from '../../../domain/src/values/core.ts';
 import type { ApplicationFailure } from '../../../application/src/ports/transactions.ts';
-import { decodeSize, checklist, scorecard } from '../../../domain/src/public-policy.ts';
+import { publicToolRoutes } from './public-tools.ts';
 
 export function publicOwnerRoutes(d: {
   readonly reports: ReturnType<typeof createReportServices>;
@@ -52,23 +51,7 @@ export function publicOwnerRoutes(d: {
     }),
     route('lookupReference', '/reference', 'GET', 'public', (c) => d.lookup(c.query)),
     route('getContent', '/content', 'GET', 'public', (c) => d.content(c.query)),
-    ...(['size', 'checklist', 'scorecard'] as const).map((kind) =>
-      route('tool' + kind, '/tools/' + kind, 'POST', 'public', async (c) => {
-        const parsed = toolInputSchema.safeParse(c.body);
-        if (!parsed.success) return fail(failure('invalid_input'));
-        try {
-          return ok(
-            kind === 'size'
-              ? decodeSize(parsed.data.input)
-              : kind === 'checklist'
-                ? checklist(parsed.data.input as Parameters<typeof checklist>[0])
-                : scorecard(parsed.data.input as Parameters<typeof scorecard>[0]),
-          );
-        } catch {
-          return fail(failure('invalid_input'));
-        }
-      }),
-    ),
+    ...publicToolRoutes(),
     route(
       'createReport',
       '/reports',

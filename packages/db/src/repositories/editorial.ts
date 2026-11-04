@@ -15,6 +15,31 @@ const table = (collection: CmsRef['collection']) =>
 export function createEditorialRepository(s: WriteScope): EditorialRepository {
   const q = s.query;
   const repo: EditorialRepository = {
+    async delivered(tx, ref, publisher, action) {
+      table(ref.collection);
+      const row = (
+        await q(
+          tx,
+          "SELECT public_dto FROM public.publication_work WHERE collection_slug=$1 AND document_id=$2 AND content_revision=$3 AND state='published'",
+          [ref.collection, ref.id, integer(ref.revision)],
+        )
+      ).rows[0];
+      if (!row) return false;
+      const packet = obj(row.public_dto, 240000),
+        reference = obj(packet.ref, 1024);
+      return (
+        packet.schemaVersion === 1 &&
+        reference.collection === ref.collection &&
+        reference.id === ref.id &&
+        reference.revision === ref.revision &&
+        packet.generation === String(ref.revision) &&
+        packet.publisherId === publisher &&
+        Object.hasOwn(packet, 'page') &&
+        (action === 'withdraw'
+          ? packet.page === null
+          : typeof packet.page === 'object' && packet.page !== null)
+      );
+    },
     async source(tx, ref) {
       const t = table(ref.collection);
       const x = (

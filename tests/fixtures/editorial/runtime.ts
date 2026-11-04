@@ -7,6 +7,7 @@ import { disposableTargets } from '../foundation/target.ts';
 import { editorialCollections } from '../../../scripts/database/cms-collections.ts';
 import { editorialPayloadAccess } from '../../../packages/integrations/src/editorial-payload.ts';
 import { createEditorialService } from '../../../packages/application/src/services/editorial.ts';
+import { createEditorialDelivery } from '../../../packages/integrations/src/editorial-delivery.ts';
 import { createContentRuntime } from '../../../packages/integrations/src/content-runtime.ts';
 import { createContentServiceRepository } from '../../../packages/db/src/repositories/content-services.ts';
 import { contentIdentity } from '../../../packages/integrations/src/content-identity.ts';
@@ -20,7 +21,14 @@ import type {
 import seeds from '../../../content/education/en-US.drafts.json';
 
 // Disposable support only. Fixed synthetic credentials do not represent a production identity issuer.
-export async function editorialFixture(origin = 'http://127.0.0.1:8380') {
+export async function editorialFixture(
+  origin = 'http://127.0.0.1:8380',
+  options: {
+    beforeDelivery?: (
+      ...args: Parameters<ReturnType<typeof createEditorialDelivery>>
+    ) => Promise<void>;
+  } = {},
+) {
   if (process.env.TT_EDITORIAL_TRACE) console.log('EDITORIAL_TRACE foundation');
   const f = await contentFixture(),
     admin = new pg.Client({ connectionString: disposableTargets(process.env).cms }),
@@ -199,7 +207,7 @@ export async function editorialFixture(origin = 'http://127.0.0.1:8380') {
         return actor;
       },
     };
-    const jobs: string[] = [];
+    const deliver = createEditorialDelivery(content.services);
     if (process.env.TT_EDITORIAL_TRACE) console.log('EDITORIAL_TRACE service-ready');
     const service = createEditorialService({
       store: access.store(payload),
@@ -227,16 +235,9 @@ export async function editorialFixture(origin = 'http://127.0.0.1:8380') {
           return result.value;
         },
       },
-      enqueue: async (actor, ref, action) => {
-        const a = id('staff', actor),
-          doc = id('cms_document', ref.id);
-        if (!a.ok || !doc.ok) throw Error('invalid_input');
-        const job = await content.services.enqueue(a.value, { ...ref, id: doc.value }, action);
-        if (!job.ok) throw Error(job.error.code);
-        jobs.push(job.value.id);
-        const applied = await content.services.dispatch(job.value.id);
-        if (!applied.ok) throw Error(applied.error.code);
-        return job.value;
+      deliver: async (...args) => {
+        await options.beforeDelivery?.(...args);
+        return deliver(...args);
       },
     });
     async function seed(publish = false) {
@@ -283,7 +284,6 @@ export async function editorialFixture(origin = 'http://127.0.0.1:8380') {
       revoked,
       service,
       content,
-      jobs,
       seed,
       handler: editorialHttp({ origin, service }),
       draft: seeds.records[0] as EditorialDraft,

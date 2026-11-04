@@ -19,11 +19,13 @@ export function createEditorialService(d: {
       value: RedirectSnapshot,
     ) => Promise<unknown>;
   };
-  readonly enqueue: (
+  // True means the immutable CMS work receipt confirms its application projection was applied.
+  // Merely queuing work is insufficient: the current CMS revision must remain available until then.
+  readonly deliver: (
     actor: string,
     document: { id: string; collection: 'articles' | 'glossary-terms'; revision: number },
     action: 'publish' | 'withdraw',
-  ) => Promise<unknown>;
+  ) => Promise<boolean>;
 }) {
   const receipt = (x: { id: string; revision: number; state: string }) => ({
     id: x.id,
@@ -89,6 +91,23 @@ export function createEditorialService(d: {
             throw Error('conflict');
           return current;
         }
+        // This lock covers every headless mutation. Drain the previous publication/withdrawal
+        // before replacing its only current-source revision or unchanged-retry command receipt.
+        if (
+          current &&
+          (current.command.action === 'publish' || current.command.action === 'withdraw')
+        ) {
+          const delivered = await d.deliver(
+            current.command.actor.id,
+            {
+              id: current.id,
+              collection: current.draft.kind === 'glossary' ? 'glossary-terms' : 'articles',
+              revision: current.revision,
+            },
+            current.command.action,
+          );
+          if (delivered !== true) throw Error('unavailable');
+        }
         let applied = command;
         if (command.action === 'rollback') {
           const version = (await tx.versions()).find(
@@ -106,7 +125,7 @@ export function createEditorialService(d: {
       if (command.action === 'publish' || command.action === 'withdraw') {
         const fresh = await d.authorization.require(credential, role);
         if (fresh.id !== actor.id) throw Error('forbidden');
-        await d.enqueue(
+        const delivered = await d.deliver(
           fresh.id,
           {
             id: document.id,
@@ -115,6 +134,7 @@ export function createEditorialService(d: {
           },
           command.action,
         );
+        if (delivered !== true) throw Error('unavailable');
       }
       return receipt(document);
     },

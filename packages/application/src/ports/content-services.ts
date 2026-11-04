@@ -35,6 +35,12 @@ export interface CmsLease {
   readonly packet: ContentPacket;
 }
 export interface EditorialRepository {
+  delivered(
+    tx: Tx,
+    ref: CmsRef,
+    publisher: Id<'staff'>,
+    action: 'publish' | 'withdraw',
+  ): Promise<boolean>;
   source(tx: Tx, ref: CmsRef): Promise<CmsSource | null>;
   enqueue(tx: Tx, packet: ContentPacket): Promise<Id<'cms_work'>>;
   lease(tx: Tx, id: Id<'cms_work'>): Promise<CmsLease | null>;

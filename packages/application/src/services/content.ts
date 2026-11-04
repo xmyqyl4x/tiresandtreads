@@ -76,6 +76,10 @@ export function createContentServices(d: {
     return r.value;
   }
   return {
+    // Internal read-only reconciliation of a durable work receipt; this grants no publication authority.
+    publicationDelivered(ref: CmsRef, publisher: Id<'staff'>, action: 'publish' | 'withdraw') {
+      return run(d.cmsUow, (tx) => d.editorial.delivered(tx, ref, publisher, action));
+    },
     async enqueue(actor: Id<'staff'>, ref: CmsRef, action: 'publish' | 'withdraw' = 'publish') {
       try {
         demand(action === 'publish' || action === 'withdraw');
