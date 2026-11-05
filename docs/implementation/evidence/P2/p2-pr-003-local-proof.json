@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused-disposable-ai-schema-proof",
+  "focusedTestsPassed": 54,
+  "typecheckPassed": true,
+  "ownedProjectRemoved": true,
+  "sourceSha256": {
+    "infra/database/phase-2-local/ai/0037_ai_policy_requests.sql": "45d089aabb5e6423aff8a39b448b8bbefaf669fd254c3fe308e5e95439c2e9b4",
+    "infra/database/phase-2-local/ai/0038_ai_artifacts_reuse.sql": "18cd458e65e9194c11d72adc16a4abd12cd422592c1e7d1de713807a3c56ae81",
+    "infra/database/phase-2-local/ai/0039_ai_budgets.sql": "2f166d3334344291cb523c729df9b105a9d98e2b3fe9f64f7559e7ad8848d229",
+    "infra/database/phase-2-local/ai/manifest.json": "35435733ef996ae3987285f6c41337454cb4fcddce0c2f15cadbc2c70e1fec57",
+    "tests/database/phase2-ai-schema.test.ts": "2c56528318893ecf87bb55de217e289023c5a810cdd32480dd05ce543e979656",
+    "tests/fixtures/phase2/ai.ts": "7fa71bea5119eb7050787f3983df0ceb0cbf54880a850bd66e84f8416dc3ef08",
+    "tests/fixtures/phase2/ai-run.mjs": "d3840c9c4b4e0648692382284edc5955bbb23afcabb4d95aac186427be8c5dd0"
+  },
+  "priorComparison": {
+    "inventoryTables": 164,
+    "completeDataTables": 163,
+    "originalMigrationPrefixRows": 36,
+    "expectedNewMigrationRows": 3,
+    "fullReadOnlyObservation": true,
+    "retainedOwnerReport": true,
+    "retainedPartnerOrganizationAndMembership": true,
+    "existingRelationAndFunctionPermissionsPreserved": true
+  },
+  "redTests": [
+    {
+      "test": "policy storage exists on the populated prior baseline",
+      "failure": "relation was null"
+    },
+    {
+      "test": "photo policy requires a sanitized image hash",
+      "failure": "request without image identity resolved"
+    },
+    {
+      "test": "budget admission checks request expiry",
+      "failure": "expired request reserved funds"
+    },
+    {
+      "test": "partial source purge fails closed",
+      "failure": "artifact remained readable after source deletion"
+    },
+    {
+      "test": "rejects stale captured request revisions at attempt_insert",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "rejects stale captured request revisions at budget_admission",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "rejects stale captured request revisions at attempt_start",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "keeps known provider-attempt identity and reconciled usage immutable",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "rejects an old accepted request even when an artifact copies current permission_revision",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "rejects an old accepted request even when an artifact copies current invalidation_revision",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "requires current cache rights as well as AI processing rights",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "requires current derived rights as well as AI processing rights",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "requires current snapshot rights as well as AI processing rights",
+      "failure": "native adverse assertion failed before its guard was corrected"
+    }
+  ],
+  "observations": {
+    "P2_AI_SCHEMA_EVIDENCE": {
+      "optInLocalTrack": true,
+      "localMigrations": 3,
+      "newTables": 12,
+      "forcedRls": true,
+      "preservedTables": 164,
+      "preservedMigrationPrefix": 36,
+      "existingPermissionsPreserved": true,
+      "restrictedRuntimeLogins": 3,
+      "realBudgetAndLeaseRaces": true,
+      "ownerAndSharedSeparated": true,
+      "sourceSetSealed": true,
+      "frozenSelectionImmutable": true,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "actualModelEvaluation": false,
+      "actualPrivacyAcceptance": false,
+      "productionBootstrapChanged": false,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "P2_AI_QUERY_EVIDENCE": {
+      "syntheticRows": 10000,
+      "returned": 51,
+      "indexed": true,
+      "executionMs": 0.034,
+      "productionSlaAccepted": false
+    }
+  },
+  "productionBootstrapChanged": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAccepted": false,
+  "phase1LiveAccepted": false,
+  "phase2SchemaAccepted": false,
+  "providerCalls": 0,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

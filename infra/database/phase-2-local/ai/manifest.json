@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "5c87352d174f1a1de1f1faed3896484ae9b13b6c83a54844d72bedc726c45285",
+  "priorLocalHead": "0036_partner_history_insights",
+  "migrations": [
+    {
+      "id": "0037_ai_policy_requests",
+      "sha256": "45d089aabb5e6423aff8a39b448b8bbefaf669fd254c3fe308e5e95439c2e9b4"
+    },
+    {
+      "id": "0038_ai_artifacts_reuse",
+      "sha256": "18cd458e65e9194c11d72adc16a4abd12cd422592c1e7d1de713807a3c56ae81"
+    },
+    {
+      "id": "0039_ai_budgets",
+      "sha256": "2f166d3334344291cb523c729df9b105a9d98e2b3fe9f64f7559e7ad8848d229"
+    }
+  ],
+  "tables": [
+    "app.ai_policy_versions",
+    "app.ai_reuse_scopes",
+    "app.ai_scope_guards",
+    "app.ai_analysis_requests",
+    "app.ai_attempts",
+    "app.ai_artifacts",
+    "app.ai_artifact_sources",
+    "app.ai_reuse_entries",
+    "app.report_analysis_attachments",
+    "email.analysis_selections",
+    "app.ai_budget_windows",
+    "app.ai_budget_reservations"
+  ]
+}
