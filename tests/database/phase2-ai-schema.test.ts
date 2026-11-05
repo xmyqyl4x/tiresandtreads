@@ -999,7 +999,7 @@ it('rechecks source-to-AI rights on reads without waiting for invalidation jobs'
     );
   }
 });
-it.each(['cache', 'derived', 'snapshot'])(
+it.each(['cache', 'derived', 'snapshot', 'display', 'api'])(
   'requires current %s rights as well as AI processing rights',
   async (right) => {
     const s = await scope(),
@@ -1020,6 +1020,58 @@ it.each(['cache', 'derived', 'snapshot'])(
       await fixture.admin.query(
         "UPDATE app.data_licenses SET rights=jsonb_set(rights,ARRAY[$2::text],'true'::jsonb) WHERE id=$1",
         [license, right],
+      );
+    }
+  },
+);
+it.each(['unsupported_schema', 'future_review'])(
+  'hides output and reuse when the common source eligibility boundary rejects %s',
+  async (change) => {
+    const s = await scope(),
+      a = await artifact(await request(s)),
+      holder = randomUUID();
+    await worker.query('SELECT app.ai_claim_reuse($1,$2,$3,30)', [s.id, a.request.hash, holder]);
+    await worker.query('SELECT app.ai_publish_reuse($1,$2,$3,1,$4)', [
+      s.id,
+      a.request.hash,
+      holder,
+      a.id,
+    ]);
+    const original = (
+      await fixture.admin.query(
+        'SELECT rights_schema_version,reviewed_at FROM app.data_licenses WHERE id=$1',
+        [license],
+      )
+    ).rows[0]!;
+    try {
+      await fixture.admin.query(
+        change === 'unsupported_schema'
+          ? 'UPDATE app.data_licenses SET rights_schema_version=2 WHERE id=$1'
+          : "UPDATE app.data_licenses SET reviewed_at=now()+interval '1 day' WHERE id=$1",
+        [license],
+      );
+      expect(
+        (await worker.query('SELECT app.ai_artifact_current($1) AS current', [a.id])).rows,
+      ).toEqual([{ current: false }]);
+      expect(
+        (
+          await worker.query(
+            'SELECT artifact_id FROM app.ai_current_reuse WHERE scope_id=$1 AND cache_key=$2',
+            [s.id, a.request.hash],
+          )
+        ).rows,
+      ).toEqual([]);
+      expect(
+        await ownerContext(
+          s.owner!,
+          async () =>
+            (await reader.query('SELECT id FROM app.ai_artifacts WHERE id=$1', [a.id])).rows,
+        ),
+      ).toEqual([]);
+    } finally {
+      await fixture.admin.query(
+        'UPDATE app.data_licenses SET rights_schema_version=$2,reviewed_at=$3 WHERE id=$1',
+        [license, original.rights_schema_version, original.reviewed_at],
       );
     }
   },
@@ -1186,6 +1238,78 @@ it('refuses retroactive frozen selections and a stale attachment at freeze time'
     ),
   ).rejects.toMatchObject({ code: '23514' });
 });
+it.each([
+  { mode: 'artifact', change: 'expired' },
+  { mode: 'artifact', change: 'pending_deletion' },
+  { mode: 'none', change: 'expired' },
+  { mode: 'none', change: 'pending_deletion' },
+])('refuses $mode selection after report becomes $change', async ({ mode, change }) => {
+  const own = await ownReport(),
+    a = await artifact(await request(own.s, own.manifest));
+  await attach(a, own.report.head.id, own.s.owner!);
+  const send = await sendFor(own);
+  await fixture.admin.query(
+    change === 'expired'
+      ? 'UPDATE app.reports SET expires_at=clock_timestamp() WHERE id=$1'
+      : "UPDATE app.reports SET status='pending_deletion' WHERE id=$1",
+    [own.report.head.id],
+  );
+  await expect(
+    worker.query(
+      'INSERT INTO email.analysis_selections(send_id,owner_subject_id,report_id,report_version,mode,attachment_revision,fallback_reason) VALUES($1,$2,$3,1,$4,$5,$6)',
+      [
+        send,
+        own.s.owner,
+        own.report.head.id,
+        mode,
+        mode === 'artifact' ? 1 : null,
+        mode === 'none' ? 'unavailable' : null,
+      ],
+    ),
+  ).rejects.toMatchObject({ code: '23514' });
+  expect(
+    (await worker.query('SELECT send_id FROM email.analysis_selections WHERE send_id=$1', [send]))
+      .rows,
+  ).toEqual([]);
+});
+it.each(['freeze_first', 'revoke_first'])(
+  'serializes frozen AI selection with report revocation in order %s',
+  async (order) => {
+    const own = await ownReport(),
+      a = await artifact(await request(own.s, own.manifest));
+    await attach(a, own.report.head.id, own.s.owner!);
+    const send = await sendFor(own),
+      select = () =>
+        worker.query(
+          "INSERT INTO email.analysis_selections(send_id,owner_subject_id,report_id,report_version,mode,attachment_revision) VALUES($1,$2,$3,1,'artifact',1)",
+          [send, own.s.owner, own.report.head.id],
+        );
+    await worker.query('BEGIN');
+    await fixture.admin.query('BEGIN');
+    try {
+      if (order === 'freeze_first') {
+        await select();
+        await fixture.admin.query("SET LOCAL lock_timeout='200ms'");
+        await expect(
+          fixture.admin.query("UPDATE app.reports SET status='pending_deletion' WHERE id=$1", [
+            own.report.head.id,
+          ]),
+        ).rejects.toMatchObject({ code: '55P03' });
+      } else {
+        await fixture.admin.query("UPDATE app.reports SET status='pending_deletion' WHERE id=$1", [
+          own.report.head.id,
+        ]);
+        await worker.query("SET LOCAL lock_timeout='200ms'");
+        await expect(select()).rejects.toMatchObject({ code: '55P03' });
+        await worker.query('ROLLBACK');
+        await fixture.admin.query('COMMIT');
+        await expect(select()).rejects.toMatchObject({ code: '23514' });
+      }
+    } finally {
+      await Promise.all([worker.query('ROLLBACK'), fixture.admin.query('ROLLBACK')]);
+    }
+  },
+);
 it('binds a terminal deletion guard to the existing privacy request owner and prevents recreation', async () => {
   const s = await scope(),
     r = await request(s),

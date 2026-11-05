@@ -126,12 +126,11 @@ CREATE FUNCTION app.ai_artifact_current(artifact uuid) RETURNS boolean LANGUAGE 
   AND (s.kind='shared' OR (person.status='active' AND person.permission_revision=a.subject_permission_revision AND g.subject_permission_revision=person.permission_revision AND (person.expires_at IS NULL OR person.expires_at>clock_timestamp())))
   AND NOT EXISTS(SELECT 1 FROM app.ai_artifact_sources x
    LEFT JOIN app.advice_facts fact ON fact.id=x.advice_fact_id
-   LEFT JOIN app.dataset_versions d ON d.id=coalesce(x.dataset_version_id,fact.dataset_version_id)
-   LEFT JOIN app.data_licenses license ON license.id=d.license_id LEFT JOIN app.data_providers provider ON provider.id=d.provider_id
-   WHERE x.artifact_id=a.id AND (x.rights_valid_until<=clock_timestamp() OR d.status IS DISTINCT FROM 'published'
-    OR provider.status IS DISTINCT FROM 'active' OR license.rights->'ai_processing' IS DISTINCT FROM 'true'::jsonb
-    OR license.rights->'cache' IS DISTINCT FROM 'true'::jsonb OR license.rights->'derived' IS DISTINCT FROM 'true'::jsonb OR license.rights->'snapshot' IS DISTINCT FROM 'true'::jsonb
-    OR license.effective_at>clock_timestamp() OR license.expires_at<=clock_timestamp()
+   LEFT JOIN app.catalog_sources eligible ON eligible.dataset_id=coalesce(x.dataset_version_id,fact.dataset_version_id)
+   WHERE x.artifact_id=a.id AND (x.rights_valid_until<=clock_timestamp() OR eligible.dataset_id IS NULL
+    OR eligible.rights->'ai_processing' IS DISTINCT FROM 'true'::jsonb
+    OR eligible.rights->'cache' IS DISTINCT FROM 'true'::jsonb OR eligible.rights->'derived' IS DISTINCT FROM 'true'::jsonb OR eligible.rights->'snapshot' IS DISTINCT FROM 'true'::jsonb
+    OR eligible.expires_at<=clock_timestamp()
     OR (x.advice_fact_id IS NOT NULL AND (fact.status<>'reviewed' OR fact.review_due_at<=clock_timestamp())))))
 $$;
 CREATE FUNCTION app.ai_claim_reuse(scope uuid,key text,holder uuid,seconds integer DEFAULT 30) RETURNS bigint
@@ -191,7 +190,7 @@ END $$;
 CREATE TRIGGER ai_attachment_guard BEFORE INSERT ON app.report_analysis_attachments FOR EACH ROW EXECUTE FUNCTION app.ai_guard_attachment();
 CREATE TRIGGER ai_attachment_immutable BEFORE UPDATE ON app.report_analysis_attachments FOR EACH ROW EXECUTE FUNCTION app.reject_history_change();
 CREATE FUNCTION email.ai_guard_selection() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
-DECLARE s email.email_sends%ROWTYPE; x app.report_analysis_attachments%ROWTYPE; g app.ai_scope_guards%ROWTYPE;
+DECLARE s email.email_sends%ROWTYPE; x app.report_analysis_attachments%ROWTYPE; g app.ai_scope_guards%ROWTYPE; r app.reports%ROWTYPE;
 BEGIN
  SELECT * INTO s FROM email.email_sends WHERE id=NEW.send_id FOR SHARE;
  IF NOT FOUND THEN RAISE EXCEPTION 'AI send must already exist' USING ERRCODE='23503'; END IF;
@@ -199,6 +198,9 @@ BEGIN
   OR s.dispatch_state<>'scheduled' OR s.payload_asset_id IS NOT NULL OR s.claimed_at IS NOT NULL
   OR EXISTS(SELECT 1 FROM email.delivery_snapshots WHERE send_id=NEW.send_id) THEN
   RAISE EXCEPTION 'AI selection must precede frozen delivery and match its report owner' USING ERRCODE='23514'; END IF;
+ SELECT * INTO r FROM app.reports WHERE id=NEW.report_id FOR SHARE;
+ IF NOT FOUND OR r.owner_subject_id<>NEW.owner_subject_id OR r.status<>'active' OR r.expires_at<=clock_timestamp() THEN
+  RAISE EXCEPTION 'AI selection requires an available owner report at freeze time' USING ERRCODE='23514'; END IF;
  IF NEW.mode='artifact' THEN
   SELECT * INTO x FROM app.report_analysis_attachments WHERE report_id=NEW.report_id AND report_version=NEW.report_version AND revision=NEW.attachment_revision FOR SHARE;
   IF NOT FOUND OR x.owner_subject_id<>NEW.owner_subject_id THEN RAISE EXCEPTION 'AI selection attachment must already exist for owner' USING ERRCODE='23503'; END IF;

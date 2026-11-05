@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "kind": "focused-disposable-ai-schema-proof",
-  "focusedTestsPassed": 65,
+  "focusedTestsPassed": 75,
   "typecheckPassed": true,
   "ownedProjectRemoved": true,
   "sourceSha256": {
     "infra/database/phase-2-local/ai/0037_ai_policy_requests.sql": "c1f3dd44c3a0edb46fadad6cc1021a9d2bdc0478d0d1d98baf02506b45d53793",
-    "infra/database/phase-2-local/ai/0038_ai_artifacts_reuse.sql": "18cd458e65e9194c11d72adc16a4abd12cd422592c1e7d1de713807a3c56ae81",
+    "infra/database/phase-2-local/ai/0038_ai_artifacts_reuse.sql": "176312325803910afcc2e842666ca74a34c1ddc2a0d85a5a94f86b118e25afdd",
     "infra/database/phase-2-local/ai/0039_ai_budgets.sql": "6f16b4773f5b6c374959097c9ec1ba0663aa52e077042f8f12e1265591b97180",
-    "infra/database/phase-2-local/ai/manifest.json": "4582bd79100865f23b14ddc301fbfd2e2d5b6606ab357f8b097af9b4d7fb5a88",
-    "tests/database/phase2-ai-schema.test.ts": "5a12f724750f4eb5bcb27974ddd22c4f045d9d3d1fd58dc8a7cdb6c4e1f0a50d",
+    "infra/database/phase-2-local/ai/manifest.json": "551c81d46e21749286874ca5c820342d0ab427cc40f5cb25ef362aac3ddc997f",
+    "tests/database/phase2-ai-schema.test.ts": "855d3fd80ebeae69d2da6aaa9ce8543f767e8897a7c6752d937ed248b162b6d0",
     "tests/fixtures/phase2/ai.ts": "7fa71bea5119eb7050787f3983df0ceb0cbf54880a850bd66e84f8416dc3ef08",
     "tests/fixtures/phase2/ai-run.mjs": "d3840c9c4b4e0648692382284edc5955bbb23afcabb4d95aac186427be8c5dd0"
   },
@@ -119,6 +119,46 @@
     {
       "test": "conserves one hold across concurrent conflicting reservation inserts",
       "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "requires current display rights as well as AI processing rights",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "requires current api rights as well as AI processing rights",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "hides output and reuse when the common source eligibility boundary rejects unsupported_schema",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "hides output and reuse when the common source eligibility boundary rejects future_review",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "refuses artifact selection after report becomes expired",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "refuses artifact selection after report becomes pending_deletion",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "refuses none selection after report becomes expired",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "refuses none selection after report becomes pending_deletion",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "serializes frozen AI selection with report revocation in order freeze_first",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
+    },
+    {
+      "test": "serializes frozen AI selection with report revocation in order revoke_first",
+      "failure": "native regression reproduced source-eligibility or freeze-time report gap before correction"
     }
   ],
   "observations": {
@@ -148,7 +188,7 @@
       "syntheticRows": 10000,
       "returned": 51,
       "indexed": true,
-      "executionMs": 0.029,
+      "executionMs": 0.03,
       "productionSlaAccepted": false
     }
   },
@@ -169,5 +209,15 @@
     "metadata": "typed UUID/digest metadata; shared scopes exclude owner packet identities",
     "requestDeadline": "future creation and expiry beyond database admission plus two minutes refused",
     "parentDenials": "compound FKs now execute before AFTER accounting; exact SQLSTATE 23503 asserted"
+  },
+  "sourceAndFreezeReview": {
+    "nativeRed": 10,
+    "nativeGreen": 75,
+    "commonSourceEligibility": "reuse existing app.catalog_sources view; supported rights schema/review date/display/API/provider/expiry checks plus AI/cache/derived/snapshot rights",
+    "frozenSelections": "both artifact and fallback require an active unexpired owner report under a row lock",
+    "realReportLockOrders": [
+      "freeze_first",
+      "revoke_first"
+    ]
   }
 }
