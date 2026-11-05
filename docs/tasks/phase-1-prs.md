@@ -836,9 +836,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** NFR-01, NFR-03, NFR-04, NFR-05, NFR-06, DB28. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Run permission/token leak/security checks and realistic report plus analytics/import/limit/ads mixed load.
-- [ ] Demonstrate container/proxy resource budgets, alerts, bounded costs, backup restore and deletion replay; rehearse readiness/drain, image rollback and cross-replica public-cache invalidation.
-- [ ] Complete incident/runbook, support, secrets/rollback/kill-switch and privacy deadline handover.
+- [x] Implement the permitted local permission/token-leak, mixed report/analytics/import/limit/held-ad workload and concurrent SQL quota proofs. Actual production security/workload acceptance remains pending.
+- [x] Re-run local resource/alert/restore/deletion/drain/rollback suites and add two-process SQL/S3 cache-expiry propagation. Actual production capacity/cost/RPO/RTO and platform/CDN acceptance remains pending.
+- [x] Complete the local incident/support/secrets/rollback/kill-switch/privacy response packet. Actual operators, coverage, custody, rates, budget and production handover acceptance remain unconfirmed.
+
+**Local implementation:** [Security, capacity and recovery](../implementation/P1-PR-042-local-security-capacity-recovery.md). Local technical completion does not accept G2/G4, S3 or hosted/live release.
 
 **Verification and acceptance:** G2/G4 evidence meets approved targets with recorded measurements; no unsafe recommendations, high security defects or failed recovery.
 

@@ -1,0 +1,67 @@
+{
+  "scope": "focused disposable local proof; full clean-commit/CI verification is separate",
+  "recordedAt": "2026-11-05T03:57:41.917309+00:00",
+  "focusedTestsPassed": 4,
+  "codeSha256": {
+    "tests/database/product-mixed-load.test.ts": "b7996e76c1c10dbea5042e3b97148ab926b53243957cac521c6e92c01f47a91e",
+    "tests/database/public-cache-process.test.ts": "31a13aa4408ac7655f1eba38291813dca0e5e302cd7306c6fd7d01ebb0e12488",
+    "tests/fixtures/http/cache-peer.ts": "f919ccffaacc3c6dea30a7341466ea7b4904efcc77d54ce9f174ecb354600ae1",
+    "tests/fixtures/http/callback-api.ts": "3fced07f94d6ba52d6e6e7c746c64e68e89c879c8b56c2999100f9c6f34589e5"
+  },
+  "observations": {
+    "LOCAL_PRODUCT_MIXED_LOAD": {
+      "operations": 18,
+      "lanes": {
+        "report": 4,
+        "analytics": 4,
+        "import": 2,
+        "limiter": 4,
+        "ads": 4
+      },
+      "peakConcurrency": 4,
+      "elapsedMs": 217.13492399999996,
+      "p95Ms": 87.82301599999982,
+      "p99Ms": 87.82301599999982,
+      "rssBytes": 139632640,
+      "approvedProductionSLA": false,
+      "actualRecipientNotifications": 0,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "LOCAL_CACHE_PROCESS_EVIDENCE": {
+      "processes": 2,
+      "actualPostgreSQL": true,
+      "actualFixtureObjectStore": true,
+      "warmedRevision": 1,
+      "publishedRevision": 2,
+      "observedRevision": 2,
+      "configuredTtlMs": 30000,
+      "waitAndRefreshMs": 30124.461746,
+      "immediateInvalidationClaimed": false,
+      "productionActivation": false,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "LOCAL_QUOTA_WINDOW_EVIDENCE": {
+      "attempts": 1,
+      "maximumAttempts": 3,
+      "sqlWindowStable": true,
+      "allowed": 2,
+      "denied": 6,
+      "independentFixturePolicy": true,
+      "actualRecipientNotifications": 0,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  },
+  "ownedProjectRemoved": true,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "rawOwnerTokenLeakAssertions": true,
+  "rawOwnerTokenBearerAccessProved": true
+}
