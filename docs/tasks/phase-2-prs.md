@@ -10,6 +10,8 @@
 
 **Next-card local continuation after PR #90:** The owner selected [P2-PR-003 local AI schemas](../implementation/P2-PR-003-local-ai-schema.md), recorded in a [separate continuation](../implementation/evidence/P2/p2-pr-003-local-authorization.json). This extends disposable local implementation/testing only to card 003; ordinary dependency acceptance, phase entry, all gates and deployment/provider/operator holds remain unchanged. No later card is authorized by that record.
 
+**Next-card local continuation after PR #91:** The owner selected [P2-PR-004 local photo/CSV schemas](../implementation/P2-PR-004-local-photo-import-schema.md), recorded in a [separate continuation](../implementation/evidence/P2/p2-pr-004-local-authorization.json). This permits card 004 local implementation/testing and merge only. Actual phase/schema acceptance, all six S3 gates and deployment/provider/operator holds remain unchanged; card 005 acceptance is not implied.
+
 ## PR sequence
 
 | PR | Stage | Proposed title |
@@ -116,9 +118,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-04, CAP-07, DB22, DB26. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Add private photo upload/extraction/candidate/confirmed-field records and compound owner keys.
-- [ ] Extend P1 import templates/review/status metadata only where required for P2 staff CSV workflow.
-- [ ] Migrate file retention, processing-choice and job cancellation references without duplicating existing source/import truth.
+- [x] Add private photo upload/extraction/candidate/confirmed-field records and compound owner keys.
+- [x] Extend P1 import templates/review/status metadata only where required for P2 staff CSV workflow.
+- [x] Migrate file retention, processing-choice and job cancellation references without duplicating existing source/import truth.
+
+**Local implementation:** [Opt-in photo/import storage and evidence](../implementation/P2-PR-004-local-photo-import-schema.md) completes the three tasks in the owner-selected disposable track: three migrations, eight forced-RLS tables, five guarded views and 78 native cases. Existing P1 import/assets/jobs and AI processing authority remain authoritative. Actual file processing, P2 S1/promotion, privacy/restore/provider acceptance and later services stay held; default bootstrap/CLI/preflight, prior sources and models are unchanged.
 
 **Verification and acceptance:** Wrong-owner FK, pending/complete extraction state, immutable confirmation and upgrade tests pass.
 

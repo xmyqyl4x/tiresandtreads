@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "551c81d46e21749286874ca5c820342d0ab427cc40f5cb25ef362aac3ddc997f",
+  "priorLocalHead": "0039_ai_budgets",
+  "migrations": [
+    {
+      "id": "0040_photo_uploads",
+      "sha256": "3268085e3316178cbb436aa85377d13f935aea86da208c839fd8180ff1df7340"
+    },
+    {
+      "id": "0041_photo_results",
+      "sha256": "335acb7ef941612bddffff0bca760812a0f67cdf95177f9d39261feadab5f628"
+    },
+    {
+      "id": "0042_staff_csv",
+      "sha256": "e9d8d8ba504ae6ab1e9584deb5433737763c6e2521a325329de9bd1715115877"
+    }
+  ],
+  "tables": [
+    "app.photo_asset_claims",
+    "app.tire_photo_uploads",
+    "app.photo_extractions",
+    "app.photo_field_candidates",
+    "app.confirmed_photo_fields",
+    "admin.csv_template_versions",
+    "admin.csv_intakes",
+    "admin.csv_review_decisions"
+  ]
+}
