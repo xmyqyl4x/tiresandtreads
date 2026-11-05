@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "authority": "Owner next-PR continuation after completed PR #91, November 5, 2026",
+  "instruction": "Continue with all the tasks in the current PR. Build, test and validate fully and to completion. Then start and work on the next PR implementing all task to completion. Building, testing and validating fully then check into main",
+  "currentPr": {
+    "number": 91,
+    "status": "complete and merged",
+    "merge": "d0e1a99135f89553475f14d74dbf0c44af6c3fab"
+  },
+  "selectedNextCard": "P2-PR-004",
+  "scope": "Opt-in local photo ownership/upload/extraction/candidate/confirmation and staff CSV template/intake/review/status extension schemas; disposable database validation only",
+  "localImplementationAllowed": true,
+  "localTestingAllowed": true,
+  "mergeAfterValidationAllowed": true,
+  "phase1LiveAccepted": false,
+  "phase2FeasibilityAccepted": false,
+  "phase2SchemaAccepted": false,
+  "providerModelBudgetDecisions": "unconfirmed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "HS01-HS08": "proposed",
+  "sixS3Gates": "pending; unchanged records",
+  "productionBootstrapCliPreflightPolicy": "unchanged",
+  "providerCalls": false,
+  "hostedProvisioning": false,
+  "productionActivation": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "futurePhase2CardsAuthorizedByThisRecord": []
+}

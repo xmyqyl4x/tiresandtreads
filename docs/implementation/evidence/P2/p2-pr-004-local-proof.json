@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused-disposable-photo-import-schema-proof",
+  "focusedTestsPassed": 83,
+  "typecheckPassed": true,
+  "ownedProjectRemoved": true,
+  "sourceSha256": {
+    "infra/database/phase-2-local/photo-import/0040_photo_uploads.sql": "105faed3f1d3bb4bd08fd6800fdb8700cafa4e95f545e01a398a5b5958440340",
+    "infra/database/phase-2-local/photo-import/0041_photo_results.sql": "335acb7ef941612bddffff0bca760812a0f67cdf95177f9d39261feadab5f628",
+    "infra/database/phase-2-local/photo-import/0042_staff_csv.sql": "6f0381ccf51b9d6eaab927d1b7d68b2e277e6f8e54f7f85ad2f08463e48803ba",
+    "infra/database/phase-2-local/photo-import/manifest.json": "730306b86be4531ed86eb9de58dd2d5718824609a9eef980306c5e1871bb5055",
+    "infra/database/phase-2-local/photo-import/README.md": "3909666ec9d305a11a2e237aa4eefe8003138700d203ae5ca864af19ccc5195a",
+    "tests/database/phase2-photo-import-schema.test.ts": "d8f0c2438f04cf745b02142ac893d4e1c722dc684852f07ea5b456336a0b8aaf",
+    "tests/fixtures/phase2/photo-import.ts": "53533ea57ba9580cf9286ba2d361b28d452a63d4fd05ce036f8198969046b632",
+    "tests/fixtures/phase2/photo-import-run.mjs": "82380c1aeb2b833afb9098cac92057dc67e7ad434d29c6a73dc60f39e027e538"
+  },
+  "priorComparison": {
+    "inventoryTables": 176,
+    "completeDataTables": 175,
+    "originalMigrationPrefixRows": 39,
+    "expectedNewMigrationRows": 3,
+    "expectedNewAssetPurposeRows": 2,
+    "completeOriginalRegistryRowsPreserved": true,
+    "fullReadOnlyObservation": true,
+    "retainedOwnerReport": true,
+    "retainedPartnerOrganizationAndMembership": true,
+    "retainedAiPolicy": true,
+    "existingRelationAndFunctionPermissionsPreserved": true
+  },
+  "redTests": [
+    {
+      "test": "installs the opt-in photo and CSV extension on the retained AI base",
+      "failure": "relation was null"
+    },
+    {
+      "test": "expired owners cannot see photo status metadata",
+      "failure": "expired owner could read status"
+    },
+    {
+      "test": "cannot mark a photo complete without its accepted extraction",
+      "failure": "UPDATE unexpectedly resolved"
+    },
+    {
+      "test": "retained erasure barriers invalidate legacy AI artifact reads",
+      "failure": "artifact remained current"
+    },
+    {
+      "test": "keeps terminal extraction references bound to the same upload request and job",
+      "failure": "wrong-upload terminal INSERT resolved"
+    },
+    {
+      "test": "does not substitute sanitized bytes for an original or vice versa",
+      "failure": "swapped purposes were admitted"
+    },
+    {
+      "test": "cannot persist a photo artifact without sealing its complete extraction",
+      "failure": "orphan artifact COMMIT resolved"
+    },
+    {
+      "test": "expired owner context cannot bypass the guarded view through column grants",
+      "failure": "raw column access returned the expired owner row"
+    },
+    {
+      "test": "serializes owner confirmation against withdrawal: confirmation_first",
+      "failure": "withdrawal did not wait for the confirmation transaction"
+    },
+    {
+      "test": "serializes owner confirmation against withdrawal: withdrawal_first",
+      "failure": "confirmation did not wait for withdrawal"
+    },
+    {
+      "test": "rejects removal of retention from an owned ready photo asset",
+      "failure": "ready asset expiry could be cleared"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched license",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched kind",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched checksum",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched rejected",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    }
+  ],
+  "observations": {
+    "P2_PHOTO_IMPORT_SCHEMA_EVIDENCE": {
+      "localMigrations": 3,
+      "newTables": 8,
+      "guardedViews": 5,
+      "preservedTables": 176,
+      "preservedMigrationPrefix": 39,
+      "expectedNewPurposeRows": 2,
+      "existingPermissionsPreserved": true,
+      "forcedRls": true,
+      "actualPostgreSQL": true,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionBootstrapChanged": false,
+      "actualPrivacyAcceptance": false,
+      "actualFileProcessing": false,
+      "actualSchemaAcceptance": false,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "P2_PHOTO_QUERY_EVIDENCE": {
+      "syntheticRows": 1000,
+      "returned": 1,
+      "indexed": true,
+      "productionSlaAccepted": false
+    }
+  },
+  "concurrency": "Explicit pg_blocking_pids observations for both confirmation/withdrawal orders; one winner for competing owner revisions",
+  "productionBootstrapChanged": false,
+  "actualFileProcessing": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAccepted": false,
+  "phase1LiveAccepted": false,
+  "phase2SchemaAccepted": false,
+  "providerCalls": 0,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
