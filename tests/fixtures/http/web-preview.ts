@@ -33,6 +33,7 @@ export async function startWebPreview(
       | { LOCAL_STAFF_CONSOLE: 'enabled'; LOCAL_STAFF_API_ORIGIN: string }
       | { LOCAL_COMMERCIAL_UI: 'enabled' };
   },
+  mailProof?: Parameters<typeof assessmentApiFixture>[0],
 ) {
   const url = new URL(webOrigin);
   if (
@@ -47,7 +48,8 @@ export async function startWebPreview(
   )
     throw Error('Local preview origin refused');
   if (!['unsupported', 'synthetic'].includes(scenario)) throw Error('Preview scenario refused');
-  const synthetic = !extension && scenario === 'synthetic' ? await assessmentApiFixture() : null;
+  const synthetic =
+    !extension && scenario === 'synthetic' ? await assessmentApiFixture(mailProof) : null;
   const composed = extension || synthetic ? null : await composedApiFixture();
   const fixture = extension?.fixture ?? composed ?? { cleanup: () => synthetic!.cleanup() };
   let api: { origin: string; shutdown(): Promise<void> } | undefined,

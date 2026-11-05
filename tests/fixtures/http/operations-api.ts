@@ -1,3 +1,7 @@
+import type {
+  ReportRenderer,
+  FrozenDelivery,
+} from '../../../packages/application/src/ports/delivery-services.ts';
 import { createConsentPolicyQuery } from '../../../packages/application/src/queries/consent-policy.ts';
 import { createContactServiceRepository } from '../../../packages/db/src/repositories/contact-services.ts';
 import { privateFixture, uid, time, success } from '../private/database.ts';
@@ -43,6 +47,7 @@ export async function operationsApiFixture(
     readonly policy: ContactPolicy;
     readonly security: HttpSecurity;
   }) => Promise<readonly HttpRoute[]>,
+  mailProof?: { renderer(hash: string): ReportRenderer },
 ) {
   const db = await privateFixture();
   const observations: { operationId: string; method: string; status: number }[] = [];
@@ -101,6 +106,7 @@ export async function operationsApiFixture(
         ])
       ).rows[0].renderer_hash as string;
     let providerCalls = 0;
+    const syntheticMail: FrozenDelivery[] = [];
     const delivery = await createDeliveryRuntime({
       privateScope: db.scope,
       assetScope: db.adapter('tt_asset_runtime'),
@@ -113,12 +119,18 @@ export async function operationsApiFixture(
         templateId,
         fixture: true,
       },
-      renderer: createFixtureReportRenderer(hash),
+      renderer: mailProof?.renderer(hash) ?? createFixtureReportRenderer(hash),
       provider: {
         name: 'fixture',
         fixture: true,
-        send: async () => {
+        send: async (_key, payload) => {
           providerCalls++;
+          if (mailProof) {
+            if (!payload.recipient.endsWith('@example.invalid') || syntheticMail.length >= 20)
+              throw Error('Synthetic sink refused');
+            syntheticMail.push(structuredClone(payload));
+            return { outcome: 'accepted', messageId: uid('synthetic_message') };
+          }
           return { outcome: 'definitive_rejection', messageId: null };
         },
       },
@@ -373,6 +385,8 @@ export async function operationsApiFixture(
       journal,
       inbox,
       providerCalls: () => providerCalls,
+      syntheticMail,
+      objectsData,
       session,
       call,
       staff,

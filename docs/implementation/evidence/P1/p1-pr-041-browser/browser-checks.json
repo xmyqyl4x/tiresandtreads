@@ -1,0 +1,51 @@
+{
+  "recordedAt": "2026-11-05T02:57:57.591Z",
+  "actualBrowser": true,
+  "actualOuterPreviewProxy": true,
+  "syntheticData": true,
+  "skipLinkFocus": "main",
+  "errorSummaryFocused": true,
+  "errorLinkFocus": "region",
+  "missingDescribedByTargets": [],
+  "mobileMenuTabNavigable": true,
+  "mobileMenuEscapeFocus": "menu-button",
+  "explicitVehicleAndWheelSelection": true,
+  "savedReport": true,
+  "autosavedDraft": true,
+  "immutableVersion": 2,
+  "reportOnlyRequest": true,
+  "cancelledWithinServerWindow": true,
+  "screenReaderAcceptance": false,
+  "inboxClientAcceptance": false,
+  "pdfAssistiveTechnologyAcceptance": false,
+  "cumulativeCLSMeasured": false,
+  "networkInstrumentation": false,
+  "viewportObservations": [
+    {
+      "externalResources": [],
+      "h1Count": 1,
+      "mainCount": 1,
+      "scrollWidth": 305,
+      "width": 320
+    },
+    {
+      "externalResources": [],
+      "h1Count": 1,
+      "mainCount": 1,
+      "scrollWidth": 375,
+      "width": 390
+    },
+    {
+      "externalResources": [],
+      "h1Count": 1,
+      "mainCount": 1,
+      "scrollWidth": 1265,
+      "width": 1280
+    }
+  ],
+  "consoleErrors": 0,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
