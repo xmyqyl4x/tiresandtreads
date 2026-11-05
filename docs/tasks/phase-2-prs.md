@@ -1,10 +1,12 @@
 # Phase 2 — assisted advice and reseller pilot
 
-**Working PR decomposition 1.0 · October 23, 2026.** 27 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. All implementation is unstarted. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
+**Working PR decomposition 1.0 · October 23, 2026.** 27 planned PRs. Scope comes from the approved [four-phase baseline](../12-live-product-phases-and-gap-review.md); this breakdown adds execution detail without approving new capabilities. Local P2-PR-001 preparation and P2-PR-002 groundwork have an explicit owner sequencing exception; actual phase acceptance remains open. The [master task list](../15-project-task-list.md) is the authoritative status/assignee/PR/evidence ledger.
 
 **Live outcome:** The live site supports confirmed photo inputs, grounded AI analysis/reuse, staff CSV publication and 5–10 verified pilot resellers.
 
 **Phase entry:** Acceptance of [P1-PR-043](phase-1-prs.md#p1-pr-043) and a recorded phase scope/estimate review. Every listed dependency means merged **and accepted with required evidence**, not just an open PR. New product UI/templates wait for [P2-PR-020](phase-2-prs.md#p2-pr-020). Read the [TDD](../08-test-driven-development.md), [schema](../09-database-design.md), [coding](../10-coding-standards.md), [domain imports](../13-domain-data-and-imports.md) and [AI/photo](../14-ai-analysis-and-photo-design.md) contracts before the affected work.
+
+**Owner-directed local exception after PR #88:** [Scope and evaluation preparation](../implementation/P2-PR-001-local-scope-evaluation.md) and the [authorization record](../implementation/evidence/P2/local-phase-2-authorization.json) permit only draft P2-PR-001 inputs and opt-in local P2-PR-002 reseller schemas before Phase 1 live acceptance. The ordinary accepted dependency edges, all actual phase gates, provider/operator decisions and deployment restrictions remain. Future cards require their own satisfied dependencies or explicit scope.
 
 ## PR sequence
 
@@ -55,6 +57,14 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Confirm P1 stability, 5–10 pilot-reseller onboarding plan and noncharging pilot terms.
 - [ ] Evaluate/pin provider/model/prompt/schema direction, source-to-AI rights, image handling, notices, budgets and retention controls.
 - [ ] Prepare specialist-labeled explanation/image evaluation fixtures, current acceptance thresholds and P2 effort/dependency forecast.
+
+**Local preparation completed:**
+
+- [x] Draft the noncharging pilot onboarding and actual-input checklist without contacting prospects.
+- [x] Record provider/prompt/schema/rights/budget/retention direction with actual decisions unconfirmed.
+- [x] Prepare 24 synthetic evaluation case templates, actual benchmark/threshold requirements and a provisional dependency/effort forecast.
+
+[Local packet](../implementation/P2-PR-001-local-scope-evaluation.md). The original three acceptance-dependent tasks above remain open; no specialist labels or actual evaluations are claimed.
 
 **Verification and acceptance:** P2 G0/provider/privacy feasibility record is accepted; no AI correctness or network agreement is inferred from a mock.
 
