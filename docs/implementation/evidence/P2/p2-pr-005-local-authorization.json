@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "authority": "Owner next-PR continuation after completed PR #92, November 5, 2026",
+  "instruction": "Continue with all the tasks in the current PR. Build, test and validate fully and to completion. Then start and work on the next PR implementing all task to completion. Building, testing and validating fully then check into main",
+  "currentPr": {
+    "number": 92,
+    "merge": "fe499cecc6e3f90d2740c3c7f7d2d5dbc65163b6",
+    "status": "complete; all 9 PR and 9 main checks/logs/trees and automatic review verified"
+  },
+  "selectedNextCard": "P2-PR-005",
+  "scope": "Disposable local combined schema/upgrade/rollback/restore validation, additive local integrity corrections and pending S1 readiness record only; actual approval stays held",
+  "localImplementationAllowed": true,
+  "localTestingAllowed": true,
+  "mergeAfterValidationAllowed": true,
+  "phase1LiveAccepted": false,
+  "phase2FeasibilityAccepted": false,
+  "phase2SchemaAccepted": false,
+  "providerModelBudgetDecisions": "unconfirmed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "HS01-HS08": "proposed",
+  "sixS3Gates": "pending; unchanged records",
+  "productionBootstrapCliPreflightPolicy": "unchanged",
+  "providerCalls": false,
+  "hostedProvisioning": false,
+  "productionActivation": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "futurePhase2CardsAuthorizedByThisRecord": []
+}

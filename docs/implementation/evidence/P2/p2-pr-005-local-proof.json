@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused-disposable-combined-schema-upgrade-proof",
+  "focusedTestsPassed": 232,
+  "newGateTestsPassed": 30,
+  "priorNativeCases": 202,
+  "typecheckPassed": true,
+  "ownedProjectRemoved": true,
+  "sourceSha256": {
+    "infra/database/phase-2-local/gate/0043_schema_integrity.sql": "513c1f4d5b5088e853dd6bf38646dc68f957e45faaacf513d241b32bdcadebb4",
+    "infra/database/phase-2-local/gate/manifest.json": "b0e11fee2912c0ba89b7102f0202ddf4f1375260c15bd21b1da8bdd58c9bb7e1",
+    "infra/database/phase-2-local/gate/README.md": "ccae9e3178e3e1300ca8530132fcc9efb10588cbf4f5bb8c9d94caf0fea59829",
+    "tests/database/phase2-schema-gate.test.ts": "1efdd321883c4e57ebbad8077d0f152ce141434f773162a4a6ec4705c89f4874",
+    "tests/fixtures/phase2/schema-gate.ts": "463d49e09cc9a77ae289f7054e6985f490217db8f12f5e5a1474550fd27026f5",
+    "tests/fixtures/phase2/seed-schema-gate.ts": "c8bc1d69fd34f3942815260ecd049ae5173a110006691e037cc2cc8135d8c00a",
+    "tests/fixtures/phase2/purge-schema-gate.ts": "13c761e63dfe7e827ba05ba41875370022897941ca35dd4ace4b8ebb25a65b5e",
+    "tests/fixtures/phase2/schema-gate-run.mjs": "97b69b2368aff6582c3f126f185157c588c69ca4946954cb7c43460cadbb68b6",
+    "tests/fixtures/phase2/restore-check-formatting.json": "55b65c20e0d5870db06bdd74561325f1806cc7f7a4a0f122a758b0ec7002bfff"
+  },
+  "redTests": [
+    {
+      "test": "installs the complete Phase 2 track from a truly empty app database",
+      "failure": "relation was null before fixture installed the full track"
+    },
+    {
+      "test": "refuses purging unresolved AI cost holds before their reconciliation",
+      "failure": "DELETE resolved with one removed reserved row; transaction rolled back"
+    },
+    {
+      "test": "indexes the child side of high-cardinality P2 ownership, asset, request and workflow foreign keys",
+      "failure": "missing leading owner index on photo_asset_claims_owner_subject_id_fkey"
+    }
+  ],
+  "observations": {
+    "P2_SCHEMA_GATE_EVIDENCE": {
+      "freshMigrationCount": 43,
+      "localExtensions": 10,
+      "extensionTables": 43,
+      "completeTableInventory": 184,
+      "actualCustomArchives": true,
+      "fullDataParity": true,
+      "fullCatalogParity": true,
+      "realP1RepositoryRead": true,
+      "rollbackViaArchive": true,
+      "sourceAndTargetsSameInstance": true,
+      "maintenanceRestoreOnly": true,
+      "syntheticPhotoPurgeAndMarkerReplay": true,
+      "unresolvedCostPurgeRefused": true,
+      "actualS1Approval": false,
+      "actualPrivacyAcceptance": false,
+      "hostedAccepted": false,
+      "productionBootstrapChanged": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "P2_PARTNER_QUERY_EVIDENCE": {
+      "syntheticRows": 10000,
+      "returned": 51,
+      "indexed": true,
+      "executionMs": 0.048,
+      "productionSlaAccepted": false
+    },
+    "P2_AI_QUERY_EVIDENCE": {
+      "syntheticRows": 10000,
+      "returned": 51,
+      "indexed": true,
+      "executionMs": 0.034,
+      "productionSlaAccepted": false
+    },
+    "P2_PHOTO_QUERY_EVIDENCE": {
+      "syntheticRows": 1000,
+      "returned": 1,
+      "indexed": true,
+      "productionSlaAccepted": false
+    }
+  },
+  "restoreLimitations": [
+    "same disposable instance",
+    "maintenance restore retains restricted owners",
+    "parent-held synthetic erasure markers; no independent custody",
+    "no physical object, off-host or PITR proof"
+  ],
+  "productionBootstrapChanged": false,
+  "actualFileProcessing": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAccepted": false,
+  "phase1LiveAccepted": false,
+  "phase2SchemaAccepted": false,
+  "providerCalls": 0,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

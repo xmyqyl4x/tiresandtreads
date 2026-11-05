@@ -1,0 +1,9 @@
+# Local combined schema validation
+
+P2-PR-005 adds one opt-in integrity migration after the exact P1, partner, AI and photo/CSV histories. The manifest pins the unchanged base and preceding local manifest; only disposable test support installs this directory. No default manifest, bootstrap, role inventory, CLI, preflight, generated model or dependency changes. Persistent dev/stage and hosted targets remain outside this track.
+
+`0043_schema_integrity` refuses deletion of reserved/uncertain AI cost holds. Reconciliation must first use the existing accounting transition. Purging settled/released history keeps the window's historical spend; it cannot refund a charge. It also adds the missing leading owner index on photo claims for direct subject deletion lookups. No new table, runtime grant or production executor is introduced.
+
+Run `node tests/fixtures/phase2/schema-gate-run.mjs` for type checking and all four native Phase 2 suites, followed by owned Docker cleanup. The combined fixture compares fresh and populated migrations, real custom archive restores, restricted grants/RLS, original P1 report repository access, synthetic photo purge ordering and parent-held erasure marker replay. Fixed maintenance commands run `pg_dump`/`pg_restore` inside the owned disposable PostgreSQL container; no caller-supplied command, path, target or credential is accepted. Ordinary runtime roles cannot execute server programs.
+
+The [implementation packet](../../../../docs/implementation/P2-PR-005-local-schema-upgrade-validation.md) defines deployment/backfill/rollback boundaries and the pending S1 approval. This proof does not demonstrate independent backup custody, authentication, fencing, off-host recovery, physical object deletion, production privacy or S1 acceptance. All existing holds remain; no case or gate closes.

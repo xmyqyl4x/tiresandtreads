@@ -1,0 +1,78 @@
+[
+  {
+    "before": "CHECK ((((revenue_minor >= '-1000000000000'::bigint) AND (revenue_minor <= '1000000000000'::bigint)) AND (revenue_status = ANY (ARRAY['estimated'::text, 'finalized'::text]))))",
+    "after": "CHECK (((revenue_minor >= '-1000000000000'::bigint) AND (revenue_minor <= '1000000000000'::bigint) AND (revenue_status = ANY (ARRAY['estimated'::text, 'finalized'::text]))))"
+  },
+  {
+    "before": "CHECK ((((position_sum >= (0)::numeric) AND (position_sum <= ('1000000000000000'::bigint)::numeric)) AND (position_sum <> 'NaN'::numeric)))",
+    "after": "CHECK (((position_sum >= (0)::numeric) AND (position_sum <= ('1000000000000000'::bigint)::numeric) AND (position_sum <> 'NaN'::numeric)))"
+  },
+  {
+    "before": "CHECK ((((occurred_at >= (received_at - '24:00:00'::interval)) AND (occurred_at <= (received_at + '00:05:00'::interval))) AND (expires_at > received_at) AND (expires_at <= (received_at + '1 year 1 mon'::interval))))",
+    "after": "CHECK (((occurred_at >= (received_at - '24:00:00'::interval)) AND (occurred_at <= (received_at + '00:05:00'::interval)) AND (expires_at > received_at) AND (expires_at <= (received_at + '1 year 1 mon'::interval))))"
+  },
+  {
+    "before": "CHECK ((((length(code) >= 1) AND (length(code) <= 80)) AND ((length(name) >= 1) AND (length(name) <= 200))))",
+    "after": "CHECK (((length(code) >= 1) AND (length(code) <= 80) AND ((length(name) >= 1) AND (length(name) <= 200))))"
+  },
+  {
+    "before": "CHECK ((((length(kind) >= 1) AND (length(kind) <= 80)) AND ((length(external_version) >= 1) AND (length(external_version) <= 200))))",
+    "after": "CHECK (((length(kind) >= 1) AND (length(kind) <= 80) AND ((length(external_version) >= 1) AND (length(external_version) <= 200))))"
+  },
+  {
+    "before": "CHECK ((((length(normalized_alias) >= 1) AND (length(normalized_alias) <= 300)) AND ((length(alias_kind) >= 1) AND (length(alias_kind) <= 80))))",
+    "after": "CHECK (((length(normalized_alias) >= 1) AND (length(normalized_alias) <= 300) AND ((length(alias_kind) >= 1) AND (length(alias_kind) <= 80))))"
+  },
+  {
+    "before": "CHECK ((((length(namespace) >= 1) AND (length(namespace) <= 80)) AND ((length(external_id) >= 1) AND (length(external_id) <= 256))))",
+    "after": "CHECK (((length(namespace) >= 1) AND (length(namespace) <= 80) AND ((length(external_id) >= 1) AND (length(external_id) <= 256))))"
+  },
+  {
+    "before": "CHECK ((((length(upstream_run_key) >= 1) AND (length(upstream_run_key) <= 200)) AND ((length(mapping_version) >= 1) AND (length(mapping_version) <= 80)) AND ((length(schema_version) >= 1) AND (length(schema_version) <= 80))))",
+    "after": "CHECK (((length(upstream_run_key) >= 1) AND (length(upstream_run_key) <= 200) AND ((length(mapping_version) >= 1) AND (length(mapping_version) <= 80)) AND ((length(schema_version) >= 1) AND (length(schema_version) <= 80))))"
+  },
+  {
+    "before": "CHECK ((((attempts >= 0) AND (attempts <= 1000)) AND (lease_generation >= 0)))",
+    "after": "CHECK (((attempts >= 0) AND (attempts <= 1000) AND (lease_generation >= 0)))"
+  },
+  {
+    "before": "CHECK ((((attempts >= 0) AND (attempts <= 1000)) AND (lease_generation >= 0)))",
+    "after": "CHECK (((attempts >= 0) AND (attempts <= 1000) AND (lease_generation >= 0)))"
+  },
+  {
+    "before": "CHECK ((((window_seconds >= 1) AND (window_seconds <= 86400)) AND ((limit_value >= 1) AND (limit_value <= 1000000))))",
+    "after": "CHECK (((window_seconds >= 1) AND (window_seconds <= 86400) AND ((limit_value >= 1) AND (limit_value <= 1000000))))"
+  },
+  {
+    "before": "CHECK ((((length(authority) >= 1) AND (length(authority) <= 80)) AND ((length(recall_number) >= 1) AND (length(recall_number) <= 100)) AND ((length(status) >= 1) AND (length(status) <= 100))))",
+    "after": "CHECK (((length(authority) >= 1) AND (length(authority) <= 80) AND ((length(recall_number) >= 1) AND (length(recall_number) <= 100)) AND ((length(status) >= 1) AND (length(status) <= 100))))"
+  },
+  {
+    "before": "CHECK ((((length(system) >= 1) AND (length(system) <= 80)) AND ((length(code) >= 1) AND (length(code) <= 80)) AND ((length(label) >= 1) AND (length(label) <= 200)) AND ((length(meaning) >= 1) AND (length(meaning) <= 4000))))",
+    "after": "CHECK (((length(system) >= 1) AND (length(system) <= 80) AND ((length(code) >= 1) AND (length(code) <= 80)) AND ((length(label) >= 1) AND (length(label) <= 200)) AND ((length(meaning) >= 1) AND (length(meaning) <= 4000))))"
+  },
+  {
+    "before": "CHECK ((((total_minor >= 0) AND (total_minor <= '1000000000000'::bigint)) AND ((quantity >= 1) AND (quantity <= 20))))",
+    "after": "CHECK (((total_minor >= 0) AND (total_minor <= '1000000000000'::bigint) AND ((quantity >= 1) AND (quantity <= 20))))"
+  },
+  {
+    "before": "CHECK ((((length(schema_version) >= 1) AND (length(schema_version) <= 80)) AND ((length(schedule_key) >= 1) AND (length(schedule_key) <= 100))))",
+    "after": "CHECK (((length(schema_version) >= 1) AND (length(schema_version) <= 80) AND ((length(schedule_key) >= 1) AND (length(schedule_key) <= 100))))"
+  },
+  {
+    "before": "CHECK ((((length(brand) >= 1) AND (length(brand) <= 200)) AND ((length(model) >= 1) AND (length(model) <= 200)) AND ((length(category) >= 1) AND (length(category) <= 80)) AND ((length(seasonal_class) >= 1) AND (length(seasonal_class) <= 80))))",
+    "after": "CHECK (((length(brand) >= 1) AND (length(brand) <= 200) AND ((length(model) >= 1) AND (length(model) <= 200)) AND ((length(category) >= 1) AND (length(category) <= 80)) AND ((length(seasonal_class) >= 1) AND (length(seasonal_class) <= 80))))"
+  },
+  {
+    "before": "CHECK ((((length(manufacturer_sku) >= 1) AND (length(manufacturer_sku) <= 200)) AND ((length(size_code) >= 1) AND (length(size_code) <= 80))))",
+    "after": "CHECK (((length(manufacturer_sku) >= 1) AND (length(manufacturer_sku) <= 200) AND ((length(size_code) >= 1) AND (length(size_code) <= 80))))"
+  },
+  {
+    "before": "CHECK ((((length(make) >= 1) AND (length(make) <= 200)) AND ((length(model) >= 1) AND (length(model) <= 200)) AND ((length(\"trim\") >= 1) AND (length(\"trim\") <= 200))))",
+    "after": "CHECK (((length(make) >= 1) AND (length(make) <= 200) AND ((length(model) >= 1) AND (length(model) <= 200)) AND ((length(\"trim\") >= 1) AND (length(\"trim\") <= 200))))"
+  },
+  {
+    "before": "CHECK ((((quantity_delta >= '-4'::integer) AND (quantity_delta <= 4)) AND (quantity_delta <> 0)))",
+    "after": "CHECK (((quantity_delta >= '-4'::integer) AND (quantity_delta <= 4) AND (quantity_delta <> 0)))"
+  }
+]
