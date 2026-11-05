@@ -8,7 +8,7 @@
   "migrations": [
     {
       "id": "0040_photo_uploads",
-      "sha256": "3268085e3316178cbb436aa85377d13f935aea86da208c839fd8180ff1df7340"
+      "sha256": "105faed3f1d3bb4bd08fd6800fdb8700cafa4e95f545e01a398a5b5958440340"
     },
     {
       "id": "0041_photo_results",
@@ -16,7 +16,7 @@
     },
     {
       "id": "0042_staff_csv",
-      "sha256": "e9d8d8ba504ae6ab1e9584deb5433737763c6e2521a325329de9bd1715115877"
+      "sha256": "6f0381ccf51b9d6eaab927d1b7d68b2e277e6f8e54f7f85ad2f08463e48803ba"
     }
   ],
   "tables": [

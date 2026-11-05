@@ -129,6 +129,9 @@ CREATE TRIGGER photo_upload_guard BEFORE INSERT OR UPDATE ON app.tire_photo_uplo
 -- Physical asset revocation also invalidates the existing AI authority, including legacy AI views.
 CREATE FUNCTION app.photo_asset_revoked() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 BEGIN
+ IF NEW.state NOT IN ('deleting','deleted') AND NEW.expires_at IS NULL AND EXISTS(SELECT 1 FROM app.photo_asset_claims WHERE asset_id=NEW.id) THEN
+  RAISE EXCEPTION 'Claimed photo assets require bounded retention' USING ERRCODE='23514';
+ END IF;
  IF (NEW.state IN ('deleting','deleted','quarantined') AND OLD.state='ready') OR NEW.expires_at<OLD.expires_at THEN
   UPDATE app.ai_scope_guards g SET state='withdrawn',processing_allowed=false,permission_revision=g.permission_revision+1,updated_at=clock_timestamp()
    FROM app.photo_asset_claims c JOIN app.tire_photo_uploads u ON u.id=c.upload_id

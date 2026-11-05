@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "kind": "focused-disposable-photo-import-schema-proof",
-  "focusedTestsPassed": 78,
+  "focusedTestsPassed": 83,
   "typecheckPassed": true,
   "ownedProjectRemoved": true,
   "sourceSha256": {
-    "infra/database/phase-2-local/photo-import/0040_photo_uploads.sql": "3268085e3316178cbb436aa85377d13f935aea86da208c839fd8180ff1df7340",
+    "infra/database/phase-2-local/photo-import/0040_photo_uploads.sql": "105faed3f1d3bb4bd08fd6800fdb8700cafa4e95f545e01a398a5b5958440340",
     "infra/database/phase-2-local/photo-import/0041_photo_results.sql": "335acb7ef941612bddffff0bca760812a0f67cdf95177f9d39261feadab5f628",
-    "infra/database/phase-2-local/photo-import/0042_staff_csv.sql": "e9d8d8ba504ae6ab1e9584deb5433737763c6e2521a325329de9bd1715115877",
-    "infra/database/phase-2-local/photo-import/manifest.json": "1c4f064b2314d35f5abbf41658b9b093b6a797ee2eaadec9c6b3b4814b54703e",
+    "infra/database/phase-2-local/photo-import/0042_staff_csv.sql": "6f0381ccf51b9d6eaab927d1b7d68b2e277e6f8e54f7f85ad2f08463e48803ba",
+    "infra/database/phase-2-local/photo-import/manifest.json": "730306b86be4531ed86eb9de58dd2d5718824609a9eef980306c5e1871bb5055",
     "infra/database/phase-2-local/photo-import/README.md": "3909666ec9d305a11a2e237aa4eefe8003138700d203ae5ca864af19ccc5195a",
-    "tests/database/phase2-photo-import-schema.test.ts": "8417d430b7a4094f4eef357b8bfde68c89dceb90b0bd84f0a3169c1def6e2134",
+    "tests/database/phase2-photo-import-schema.test.ts": "d8f0c2438f04cf745b02142ac893d4e1c722dc684852f07ea5b456336a0b8aaf",
     "tests/fixtures/phase2/photo-import.ts": "53533ea57ba9580cf9286ba2d361b28d452a63d4fd05ce036f8198969046b632",
     "tests/fixtures/phase2/photo-import-run.mjs": "82380c1aeb2b833afb9098cac92057dc67e7ad434d29c6a73dc60f39e027e538"
   },
@@ -67,6 +67,26 @@
     {
       "test": "serializes owner confirmation against withdrawal: withdrawal_first",
       "failure": "confirmation did not wait for withdrawal"
+    },
+    {
+      "test": "rejects removal of retention from an owned ready photo asset",
+      "failure": "ready asset expiry could be cleared"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched license",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched kind",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched checksum",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
+    },
+    {
+      "test": "rejects CSV intake whose fixed dataset has mismatched rejected",
+      "failure": "intake admission accepted mismatched fixed dataset provenance"
     }
   ],
   "observations": {

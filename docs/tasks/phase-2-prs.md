@@ -122,7 +122,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Extend P1 import templates/review/status metadata only where required for P2 staff CSV workflow.
 - [x] Migrate file retention, processing-choice and job cancellation references without duplicating existing source/import truth.
 
-**Local implementation:** [Opt-in photo/import storage and evidence](../implementation/P2-PR-004-local-photo-import-schema.md) completes the three tasks in the owner-selected disposable track: three migrations, eight forced-RLS tables, five guarded views and 78 native cases. Existing P1 import/assets/jobs and AI processing authority remain authoritative. Actual file processing, P2 S1/promotion, privacy/restore/provider acceptance and later services stay held; default bootstrap/CLI/preflight, prior sources and models are unchanged.
+**Local implementation:** [Opt-in photo/import storage and evidence](../implementation/P2-PR-004-local-photo-import-schema.md) completes the three tasks in the owner-selected disposable track: three migrations, eight forced-RLS tables, five guarded views and 83 native cases. Existing P1 import/assets/jobs and AI processing authority remain authoritative. Actual file processing, P2 S1/promotion, privacy/restore/provider acceptance and later services stay held; default bootstrap/CLI/preflight, prior sources and models are unchanged.
 
 **Verification and acceptance:** Wrong-owner FK, pending/complete extraction state, immutable confirmation and upgrade tests pass.
 

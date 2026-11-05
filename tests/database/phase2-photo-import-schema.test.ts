@@ -650,7 +650,9 @@ async function template(
   );
   return id;
 }
-async function intake() {
+async function intake(
+  options: { datasetMismatch?: 'license' | 'kind' | 'checksum' | 'rejected' } = {},
+) {
   const uploader = await operator(),
     reviewer = await operator(),
     t = await template(uploader),
@@ -670,13 +672,32 @@ async function intake() {
  VALUES($1,$2,'US','{"display":true,"cache":true,"derived":true,"snapshot":true,"api":true}',now()-interval '1 day',now())`,
     [license, provider],
   );
+  const dataset = randomUUID(),
+    datasetLicense = options.datasetMismatch === 'license' ? randomUUID() : license;
+  if (datasetLicense !== license)
+    await fixture.admin.query(
+      `INSERT INTO app.data_licenses(id,provider_id,market,rights,effective_at,reviewed_at)
+ VALUES($1,$2,'US','{"display":true,"cache":true,"derived":true,"snapshot":true,"api":true}',now()-interval '1 day',now())`,
+      [datasetLicense, provider],
+    );
+  await fixture.admin.query(
+    'INSERT INTO app.dataset_versions(id,provider_id,license_id,kind,external_version,checksum,status,effective_at,fetched_at,row_count) VALUES($1,$2,$3,$4,$1::uuid::text,$5,$6,now(),now(),0)',
+    [
+      dataset,
+      provider,
+      datasetLicense,
+      options.datasetMismatch === 'kind' ? 'other_kind' : 'synthetic_catalog',
+      options.datasetMismatch === 'checksum' ? digest() : packet,
+      options.datasetMismatch === 'rejected' ? 'rejected' : 'staging',
+    ],
+  );
   const head =
     (await fixture.admin.query("SELECT revision FROM app.market_dataset_heads WHERE market='US'"))
       .rows[0]?.revision ?? 0;
   await fixture.admin.query(
-    `INSERT INTO app.import_runs(id,provider_id,asset_id,status,started_at,upstream_run_key,mode,mapping_version,content_hash,schema_version,requested_by,expected_head_revision)
- VALUES($1,$2,$3,'registered',now(),$1::uuid::text,'manual','m1',$4,'s1',$5,$6)`,
-    [run, provider, a.id, packet, uploader, head],
+    `INSERT INTO app.import_runs(id,provider_id,asset_id,status,started_at,upstream_run_key,mode,mapping_version,content_hash,schema_version,requested_by,expected_head_revision,dataset_version_id)
+ VALUES($1,$2,$3,'registered',now(),$1::uuid::text,'manual','m1',$4,'s1',$5,$6,$7)`,
+    [run, provider, a.id, packet, uploader, head, dataset],
   );
   await fixture.admin.query(
     "INSERT INTO app.job_runs(id,job_type,business_key,schema_version,resource_id,deadline_at) VALUES($1,'p2.csv.validate',$2::uuid::text,1,$2::uuid,now()+interval '1 hour')",
@@ -883,6 +904,13 @@ it.each([
   ).toBe(0);
   await deny(review(i, p));
 });
+it.each(['license', 'kind', 'checksum', 'rejected'] as const)(
+  'rejects CSV intake whose fixed dataset has mismatched %s',
+  async (datasetMismatch) => {
+    await deny(intake({ datasetMismatch }));
+  },
+);
+
 it('role revocation immediately hides an existing approval', async () => {
   const i = await intake(),
     p = await preview(i),
@@ -1079,6 +1107,14 @@ it('does not substitute sanitized bytes for an original or vice versa', async ()
 });
 it('cannot persist a photo artifact without sealing its complete extraction', async () => {
   await deny(result(await extraction(await photo()), { complete: false }));
+});
+it('rejects removal of retention from an owned ready photo asset', async () => {
+  const u = await photo();
+  await deny(
+    fixture.admin.query('UPDATE app.object_assets SET expires_at=NULL WHERE id=$1', [
+      u.original.id,
+    ]),
+  );
 });
 
 it('expired owner context cannot bypass the guarded view through column grants', async () => {

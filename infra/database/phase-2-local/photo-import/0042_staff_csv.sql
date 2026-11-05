@@ -72,6 +72,12 @@ CREATE FUNCTION admin.csv_asset_current(asset uuid,until_at timestamptz) RETURNS
  AND a.object_version IS NOT NULL AND a.key_version IS NOT NULL AND a.sha256 IS NOT NULL
  AND NOT EXISTS(SELECT 1 FROM privacy.asset_barriers b WHERE b.asset_id=a.id))
 $$;
+CREATE FUNCTION admin.csv_dataset_current(run uuid,provider uuid,license uuid,kind text,checksum text) RETURNS boolean
+ LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path=pg_catalog AS $$
+ SELECT EXISTS(SELECT 1 FROM app.import_runs r JOIN app.dataset_versions d ON d.id=r.dataset_version_id
+ WHERE r.id=run AND d.provider_id=provider AND d.license_id=license AND d.kind=$4 AND d.checksum=$5
+ AND d.status IN ('staging','validated','published'))
+$$;
 CREATE FUNCTION admin.csv_intake_current(intake uuid) RETURNS boolean LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path=pg_catalog AS $$
  SELECT EXISTS(SELECT 1 FROM admin.csv_intakes i JOIN admin.csv_template_versions t ON t.id=i.template_id JOIN app.import_runs r ON r.id=i.run_id
  JOIN app.object_assets a ON a.id=i.asset_id
@@ -79,6 +85,7 @@ CREATE FUNCTION admin.csv_intake_current(intake uuid) RETURNS boolean LANGUAGE s
  AND admin.csv_asset_current(i.asset_id,i.expires_at) AND admin.csv_license_current(i.provider_id,i.license_id,i.market)
  AND a.sha256=i.raw_sha256 AND r.asset_id=i.asset_id AND r.provider_id=i.provider_id AND r.requested_by=i.uploader_id
  AND r.content_hash=i.packet_sha256 AND r.schema_version=t.schema_version AND r.mapping_version=t.mapping_version AND r.mode='manual'
+ AND admin.csv_dataset_current(r.id,i.provider_id,i.license_id,t.source_kind,i.packet_sha256)
  AND r.status NOT IN ('cancelled','failed','rejected')
  AND EXISTS(SELECT 1 FROM app.job_runs j WHERE j.id=i.job_id AND j.job_type='p2.csv.validate' AND j.resource_id=i.id
  AND j.schema_version=1 AND j.state NOT IN ('cancelled','failed','manual_review') AND j.deadline_at>clock_timestamp()))
@@ -112,6 +119,7 @@ BEGIN
   OR a.purpose IS DISTINCT FROM 'import_source' OR a.mime_type NOT IN ('text/csv','application/csv')
   OR a.sha256 IS DISTINCT FROM NEW.raw_sha256 OR a.size_bytes NOT BETWEEN 1 AND t.max_bytes
   OR NOT admin.csv_asset_current(a.id,NEW.expires_at) OR NOT admin.csv_license_current(NEW.provider_id,NEW.license_id,NEW.market)
+  OR NOT admin.csv_dataset_current(r.id,NEW.provider_id,NEW.license_id,t.source_kind,NEW.packet_sha256)
   OR j.job_type IS DISTINCT FROM 'p2.csv.validate' OR j.schema_version IS DISTINCT FROM 1 OR j.resource_id IS DISTINCT FROM NEW.id
   OR j.state IS DISTINCT FROM 'pending' OR j.deadline_at>NEW.expires_at OR j.deadline_at<=clock_timestamp() OR NEW.created_at>clock_timestamp()
  THEN RAISE EXCEPTION 'CSV intake requires matching existing private import records' USING ERRCODE='23514'; END IF;
