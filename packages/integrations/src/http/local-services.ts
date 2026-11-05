@@ -9,6 +9,8 @@ import { consentRoutes } from './consent.ts';
 import { staffRoutes } from './staff.ts';
 import { withLocalStaffSessions } from './staff-security.ts';
 import { readLocalStaffGrants, registeredImportArtifact } from './local-files.ts';
+import { publicCommerceRoutes } from './public-commerce.ts';
+import { readEducation } from '../education-public.ts';
 import { staffConsoleRoutes } from './staff-console.ts';
 export async function localOperationRoutes(d: {
   readonly policy: ReturnType<typeof createConsentPolicyQuery>;
@@ -25,6 +27,17 @@ export async function localOperationRoutes(d: {
   return {
     security,
     routes: [
+      ...(d.env.LOCAL_COMMERCIAL_UI === 'enabled'
+        ? publicCommerceRoutes({
+            commercial: d.services.commercial,
+            content: async (path) => {
+              const r = await readEducation(d.services.content, new URLSearchParams({ path }));
+              return r.ok && 'content' in r.value
+                ? r.value.content.paragraphs.reduce((n, p) => n + p.length, 0)
+                : null;
+            },
+          })
+        : []),
       ...(d.env.LOCAL_STAFF_CONSOLE === 'enabled'
         ? staffConsoleRoutes({
             queries: d.services.staffConsole,

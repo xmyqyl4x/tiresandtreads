@@ -1350,3 +1350,103 @@ fieldset {
     font-size: 1.8rem;
   }
 }
+
+.commercial-resources {
+  margin: 3rem 0 1rem;
+  border-top: 1px solid var(--border, #d6ddd9);
+  padding-top: 1.5rem;
+}
+.commercial-resources h2 {
+  font-size: 1.25rem;
+}
+.commercial-grid,
+.private-learning-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.commercial-slot {
+  min-width: 0;
+  /* Reserve the largest permitted 128px creative plus its label without inline styles. */
+  min-height: 164px;
+}
+.commercial-label {
+  display: block;
+  padding-bottom: 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #4c5e57;
+}
+.commercial-house {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 128px;
+  padding: 1rem;
+  border: 1px solid #b7c8be;
+  border-radius: 0.5rem;
+  background: #f0f5f0;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #173e2e;
+}
+.commercial-house small {
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  padding-top: 0.4rem;
+}
+.commercial-mark {
+  border: 1px solid #456c56;
+  border-radius: 50%;
+  padding: 0.5rem;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+.affiliate-resource {
+  border-top: 1px solid #d6ddd9;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+}
+.affiliate-resource a {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+.private-learning {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 1px solid #d6ddd9;
+  border-radius: 0.75rem;
+  background: #f7f9f5;
+}
+.private-learning-grid a {
+  display: block;
+  min-height: 80px;
+  color: #173e2e;
+  font-weight: 600;
+}
+.private-learning-grid span {
+  display: block;
+  padding-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.commercial-disclosure {
+  max-width: 760px;
+  margin: 3rem auto;
+  padding-block: 1rem;
+  line-height: 1.7;
+}
+@media (max-width: 640px) {
+  .commercial-grid,
+  .private-learning-grid {
+    grid-template-columns: 1fr;
+  }
+  .commercial-house {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+}

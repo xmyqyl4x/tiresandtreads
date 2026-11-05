@@ -8,6 +8,7 @@ import {
 } from '../results/controller.ts';
 import type { AssessmentRequest } from '../../../../packages/contracts/src/report-inputs.ts';
 import { Button, Field } from './controls.tsx';
+import { PrivateLearningLinks } from '../commercial/view.tsx';
 import { ReportBody } from './report-body.tsx';
 import { when } from '../results/presentation.ts';
 import { assessmentInputSchema } from '../../../../packages/contracts/src/assessment-input.ts';
@@ -255,6 +256,7 @@ export function ReportScreen() {
         </a>
       </p>
       <ReportBody output={report.output} safety={report.safety} version={report.version} />
+      {report.output.result.picks.length ? <PrivateLearningLinks /> : null}
       {report.diff ? (
         <section className="callout info">
           <h2>What changed in this version</h2>

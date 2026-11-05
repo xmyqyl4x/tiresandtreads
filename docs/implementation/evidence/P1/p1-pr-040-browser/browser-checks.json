@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-04",
+  "scope": "disposable-local-commercial-browser",
+  "actualBrowser": true,
+  "actualOuterPreviewProxy": true,
+  "viewportObservations": [
+    {
+      "externalResourceElements": [],
+      "houseMinimums": [
+        "128px",
+        "128px"
+      ],
+      "iframeCount": 0,
+      "inventoryHeight": 381.1145935058594,
+      "mainHeight": 2840.77099609375,
+      "reservedSlots": [
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        },
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        }
+      ],
+      "scriptSources": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ],
+      "scrollWidth": 1265,
+      "slots": 2,
+      "visibility": "visible",
+      "width": 1280
+    },
+    {
+      "externalResourceElements": [],
+      "houseMinimums": [
+        "128px",
+        "128px"
+      ],
+      "iframeCount": 0,
+      "inventoryHeight": 608.3021240234375,
+      "mainHeight": 5974.4794921875,
+      "reservedSlots": [
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        },
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        }
+      ],
+      "scriptSources": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ],
+      "scrollWidth": 375,
+      "slots": 2,
+      "visibility": "visible",
+      "width": 390
+    },
+    {
+      "externalResourceElements": [],
+      "houseMinimums": [
+        "128px",
+        "128px"
+      ],
+      "iframeCount": 0,
+      "inventoryHeight": 608.3021240234375,
+      "mainHeight": 6789.6357421875,
+      "reservedSlots": [
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        },
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        }
+      ],
+      "scriptSources": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ],
+      "scrollWidth": 305,
+      "slots": 2,
+      "visibility": "visible",
+      "width": 320
+    }
+  ],
+  "adsOnlyChoiceSaved": true,
+  "rejectOptionalSaved": true,
+  "crossTabReservedSpace": {
+    "before": {
+      "delivery": "house",
+      "height": 381.1145935058594,
+      "scripts": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ]
+    },
+    "after": {
+      "delivery": "house",
+      "height": 381.1145935058594,
+      "scripts": [
+        "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
+      ]
+    }
+  },
+  "scriptFreeDisclosure": true,
+  "keyboardFocusVisible": true,
+  "consoleErrors": 0,
+  "resourceVerification": "DOM resource declarations plus native response CSP assertions; browser network instrumentation unavailable",
+  "cumulativeLayoutShiftMeasured": false,
+  "layoutBudget": "CLS <=0.1 remains a full-web/live-provider measurement; this proof records reserved space and zero withdrawal height delta",
+  "actualCmpProviderAcceptance": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "rebuiltPreviewRechecked": true,
+  "keyboardSkipFocus": "education-main",
+  "cspCompatibleExternalReservationVerified": true
+}

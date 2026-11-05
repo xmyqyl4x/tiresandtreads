@@ -800,9 +800,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-03, UC17, AT03, AT11, AT27. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Render approved affiliate links/disclosures and manual allowlisted education/results inventory.
-- [ ] Reserve responsive slot space, labels and lazy loading; default private results to house content and keep home/forms/compare/email ad-free.
-- [ ] Wire CMP/default-off/no-fill/blocked-script fallbacks and network readiness without automatic placement expansion.
+- [x] Implement local reviewed affiliate links/disclosures and manual allowlisted public inventory; owner results use isolated first-party learning links after picks.
+- [x] Reserve responsive slot space, labels and lazy admission; default private results to house content and keep home/forms/compare/email ad-free.
+- [x] Implement trusted CMP/adapter ports, default denial, no-fill/blocked-script/deadline fallbacks and held network readiness without automatic placement expansion. Actual certified CMP/provider bindings and live approval remain pending.
+
+**Local implementation:** [P1-PR-040 placements](../implementation/P1-PR-040-local-commercial-placements.md). The shipped entry supplies no external adapter and cannot activate advertising. Local validation does not accept S3/S4/G3, hosted/live serving, actual commercial contracts or policy/legal review; all existing holds remain.
 
 **Verification and acceptance:** Consent-state/browser network checks, ads.txt, density/CLS budgets and unchanged ranking pass; live ad approval recorded separately.
 

@@ -85,10 +85,12 @@ export function EducationView({
   page,
   tool,
   checklist,
+  commerce,
 }: {
   page: EducationPage;
   tool?: EducationTool;
   checklist?: ChecklistTool;
+  commerce?: ReactNode;
 }) {
   const p = page.content,
     hub = ['/learn/tire-basics', '/learn/glossary'].includes(p.path),
@@ -254,6 +256,7 @@ export function EducationView({
                 </ul>
               </section>
             ) : null}
+            {commerce}
           </article>
           <aside className="education-aside">
             <section className="card">

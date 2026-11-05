@@ -128,7 +128,7 @@ it('measures the initial shell JavaScript against the 120KB gzip budget without 
     readFileSync('apps/web/node_modules/.cache/tt-preview/assets.json', 'utf8'),
   ) as {
     files: Record<string, { body: string }>;
-    groups: Record<'visitor' | 'editorial' | 'checklist', string[]>;
+    groups: Record<'visitor' | 'editorial' | 'checklist' | 'staff' | 'commercial', string[]>;
   };
   const all = Object.values(manifest.groups).flat();
   expect(new Set(all).size).toBe(all.length);
@@ -144,6 +144,7 @@ it('measures the initial shell JavaScript against the 120KB gzip budget without 
       JSON.stringify({ gzipBytes: withConsent, budgetBytes: 120000, includesConsent: true }),
   );
   expect(withConsent).toBeLessThanOrEqual(120000);
+  expect(size(manifest.groups.commercial)).toBeLessThanOrEqual(12000);
   const checklist = size(manifest.groups.checklist);
   expect(checklist).toBeLessThanOrEqual(120000);
   console.log(
@@ -152,6 +153,7 @@ it('measures the initial shell JavaScript against the 120KB gzip budget without 
         visitorWithConsentGzipBytes: withConsent,
         checklistGzipBytes: checklist,
         editorialGzipBytes: size(manifest.groups.editorial),
+        commercialGzipBytes: size(manifest.groups.commercial),
         publicBudgetBytes: 120000,
         disjoint: true,
         exhaustive: true,

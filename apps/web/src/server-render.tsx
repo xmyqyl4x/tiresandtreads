@@ -4,6 +4,9 @@ import { locale } from './locale.ts';
 import manifest from '../node_modules/.cache/tt-preview/assets.json';
 import { EditorialWorkbench } from './editorial/workbench.tsx';
 import { StaffConsole } from './staff/console.tsx';
+import { CommercialView, AffiliateDisclosure } from './commercial/view.tsx';
+import { EducationLayout } from './education/view.tsx';
+import type { PublicCommerceView } from '../../../packages/contracts/src/public-commerce.ts';
 import { EducationView } from './education/view.tsx';
 import {
   jsonForHtml,
@@ -53,7 +56,12 @@ export function editorialDocument() {
 }
 export function educationDocument(
   page: EducationPage,
-  options: { tool?: EducationTool; checklist?: ChecklistTool; verification?: string } = {},
+  options: {
+    tool?: EducationTool;
+    checklist?: ChecklistTool;
+    verification?: string;
+    commerce?: PublicCommerceView;
+  } = {},
 ) {
   const p = page.content,
     origin = new URL(page.metadata.canonical).origin;
@@ -104,6 +112,10 @@ export function educationDocument(
           {p.questions ? (
             <script type="module" src={'/local-preview-assets/' + manifest.checklist} />
           ) : null}
+          {options.commerce &&
+          (options.commerce.slots.length || options.commerce.affiliates.length) ? (
+            <script type="module" src={'/local-preview-assets/' + manifest.commercial} />
+          ) : null}
           {page.hreflang.map((h) => (
             <link key={h.locale} rel="alternate" hrefLang={h.locale} href={h.url} />
           ))}
@@ -118,6 +130,7 @@ export function educationDocument(
         <body>
           <EducationView
             page={page}
+            {...(options.commerce ? { commerce: <CommercialView value={options.commerce} /> } : {})}
             {...(options.tool ? { tool: options.tool } : {})}
             {...(options.checklist ? { checklist: options.checklist } : {})}
           />
@@ -169,6 +182,25 @@ export function staffDocument() {
           <div id="staff-root">
             <StaffConsole />
           </div>
+        </body>
+      </html>,
+    )
+  );
+}
+
+export function affiliateDisclosureDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang="en-US">
+        <SiteHead
+          title="How retailer links work"
+          description="Optional retailer links, commissions and independent tire evidence."
+        />
+        <body>
+          <EducationLayout>
+            <AffiliateDisclosure />
+          </EducationLayout>
         </body>
       </html>,
     )
