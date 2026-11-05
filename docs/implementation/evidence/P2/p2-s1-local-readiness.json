@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-phase-2-s1-readiness",
+  "approvalStatus": "pending",
+  "approvedBy": null,
+  "approvedAt": null,
+  "phase1LiveAccepted": false,
+  "phase2FeasibilityAccepted": false,
+  "phase2S1Accepted": false,
+  "promotionAllowed": false,
+  "nextCardAccepted": false,
+  "localEvidence": [
+    "p2-pr-002-local-proof.json",
+    "p2-pr-003-local-proof.json",
+    "p2-pr-004-local-proof.json",
+    "p2-pr-005-local-proof.json"
+  ],
+  "requiredActualInputs": [
+    "phase entry and feasibility decisions",
+    "actual specialist/source/provider/model/budget/privacy decisions",
+    "complete privacy, physical-asset and off-host restore acceptance",
+    "production ownership/role lifecycle and host/operator/recovery decisions",
+    "S1 reviewer sign-off and separately approved migration promotion"
+  ],
+  "sixS3Gates": "pending; original records unchanged",
+  "HS01-HS08": "proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

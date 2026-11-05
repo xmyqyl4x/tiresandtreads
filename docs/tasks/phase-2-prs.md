@@ -12,6 +12,8 @@
 
 **Next-card local continuation after PR #91:** The owner selected [P2-PR-004 local photo/CSV schemas](../implementation/P2-PR-004-local-photo-import-schema.md), recorded in a [separate continuation](../implementation/evidence/P2/p2-pr-004-local-authorization.json). This permits card 004 local implementation/testing and merge only. Actual phase/schema acceptance, all six S3 gates and deployment/provider/operator holds remain unchanged; card 005 acceptance is not implied.
 
+**Next-card local continuation after PR #92:** The owner selected [P2-PR-005 local schema/upgrade validation](../implementation/P2-PR-005-local-schema-upgrade-validation.md), recorded in a [separate continuation](../implementation/evidence/P2/p2-pr-005-local-authorization.json). Card 005 local proof work and merge are allowed; actual S1 approval, phase entry, promotion, all six S3 gates and deployment/provider/operator holds remain open. The pending approval record does not accept later repository cards.
+
 ## PR sequence
 
 | PR | Stage | Proposed title |
@@ -136,9 +138,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** DB12, DB23, DB24, DB25, DB26, DB28. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Run empty and P1-to-P2 migrations with tenant and AI/photo constraints.
-- [ ] Verify storage grants, index plans, purge ordering and backward-compatible deployment/backfill strategy.
+- [x] Run empty and P1-to-P2 migrations with tenant and AI/photo constraints.
+- [x] Verify storage grants, index plans, purge ordering and backward-compatible deployment/backfill strategy.
 - [ ] Record S1 approval and a rollback/restore drill with P1 access still supported.
+
+**Local validation completed:** [Combined schema/upgrade packet](../implementation/P2-PR-005-local-schema-upgrade-validation.md) covers fresh/populated migrations, all-table archive parity, original P1 repository access, grants, existing measured plans, fixed photo purge and synthetic erasure replay. The [S1 record](../implementation/evidence/P2/p2-s1-local-readiness.json) stays pending. The rollback/restore drill is complete locally; the original combined approval task above remains unchecked because actual S1 approval is held. This is no gate closure or ordinary accepted dependency for P2-PR-006.
 
 **Verification and acceptance:** All P2 schema tests pass on real PostgreSQL before repository implementation starts.
 
