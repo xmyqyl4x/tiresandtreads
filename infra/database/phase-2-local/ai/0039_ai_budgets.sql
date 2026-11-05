@@ -69,7 +69,8 @@ BEGIN
  UPDATE app.ai_budget_windows SET reserved_minor=reserved_minor+held,spent_minor=spent_minor+charged WHERE id=b.id;
  RETURN NEW;
 END $$;
-CREATE TRIGGER ai_budget_accounting BEFORE INSERT OR UPDATE ON app.ai_budget_reservations FOR EACH ROW EXECUTE FUNCTION app.ai_account_budget();
+-- AFTER skips accounting for INSERTs suppressed by ON CONFLICT and counts upserts once.
+CREATE TRIGGER ai_budget_accounting AFTER INSERT OR UPDATE ON app.ai_budget_reservations FOR EACH ROW EXECUTE FUNCTION app.ai_account_budget();
 CREATE FUNCTION app.ai_guard_budget_window() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $$
 BEGIN
  IF (to_jsonb(NEW)-ARRAY['reserved_minor','spent_minor']) IS DISTINCT FROM (to_jsonb(OLD)-ARRAY['reserved_minor','spent_minor']) THEN

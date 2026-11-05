@@ -183,6 +183,8 @@ BEGIN
   IF NEW.state IN ('failed','cancelled','uncertain') THEN RETURN NEW; END IF;
  ELSIF NEW.state<>'queued' THEN RAISE EXCEPTION 'AI request must start queued' USING ERRCODE='23514';
  END IF;
+ IF TG_OP='INSERT' AND (NEW.created_at>clock_timestamp() OR NEW.expires_at>clock_timestamp()+interval '2 minutes') THEN
+  RAISE EXCEPTION 'AI request deadline must be bounded by database admission time' USING ERRCODE='23514'; END IF;
  g:=app.ai_assert_scope(NEW.scope_id);
  SELECT * INTO s FROM app.ai_reuse_scopes WHERE id=NEW.scope_id;
  SELECT * INTO p FROM app.ai_policy_versions WHERE id=NEW.policy_version_id;
@@ -195,11 +197,21 @@ BEGIN
  IF jsonb_typeof(NEW.input_manifest->'parameters') IS DISTINCT FROM 'object' OR
   (NEW.input_manifest-ARRAY['parameters','bundle_id','authoritative_hash','rule_version','advice_revision','sanitized_sha256'])<>'{}'::jsonb
  THEN RAISE EXCEPTION 'AI manifest must use bounded typed packet fields' USING ERRCODE='23514'; END IF;
+ FOR param IN SELECT unnest(ARRAY['bundle_id','rule_version','advice_revision']) LOOP
+  IF NEW.input_manifest ? param AND (jsonb_typeof(NEW.input_manifest->param) IS DISTINCT FROM 'string'
+    OR (NEW.input_manifest->>param) !~ '^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$') THEN
+   RAISE EXCEPTION 'AI packet version identities must be UUID strings' USING ERRCODE='23514'; END IF;
+ END LOOP;
+ IF NEW.input_manifest ? 'authoritative_hash' AND (jsonb_typeof(NEW.input_manifest->'authoritative_hash') IS DISTINCT FROM 'string'
+   OR (NEW.input_manifest->>'authoritative_hash') !~ '^[a-f0-9]{64}$') THEN
+  RAISE EXCEPTION 'AI authoritative packet hash must be an exact digest' USING ERRCODE='23514'; END IF;
  IF (p.task='photo_extraction' AND (s.kind<>'owner' OR jsonb_typeof(NEW.input_manifest->'sanitized_sha256') IS DISTINCT FROM 'string'
     OR (NEW.input_manifest->>'sanitized_sha256') !~ '^[a-f0-9]{64}$'))
   OR (p.task<>'photo_extraction' AND NEW.input_manifest ? 'sanitized_sha256') THEN
   RAISE EXCEPTION 'Photo AI requires an exact owner image hash; text tasks cannot carry images' USING ERRCODE='23514'; END IF;
  IF s.kind='shared' THEN
+  IF NEW.input_manifest ?| ARRAY['bundle_id','authoritative_hash'] THEN
+   RAISE EXCEPTION 'Shared AI cannot contain owner report packet identities' USING ERRCODE='23514'; END IF;
   IF NEW.input_manifest ? 'sanitized_sha256' THEN RAISE EXCEPTION 'Shared AI cannot contain an image' USING ERRCODE='23514'; END IF;
   FOR param IN SELECT jsonb_object_keys(NEW.input_manifest->'parameters') LOOP
    IF NOT (p.shared_parameter_allowlist ? param) OR jsonb_typeof(NEW.input_manifest->'parameters'->param) NOT IN ('string','null')

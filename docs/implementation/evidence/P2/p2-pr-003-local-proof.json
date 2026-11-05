@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "kind": "focused-disposable-ai-schema-proof",
-  "focusedTestsPassed": 54,
+  "focusedTestsPassed": 65,
   "typecheckPassed": true,
   "ownedProjectRemoved": true,
   "sourceSha256": {
-    "infra/database/phase-2-local/ai/0037_ai_policy_requests.sql": "45d089aabb5e6423aff8a39b448b8bbefaf669fd254c3fe308e5e95439c2e9b4",
+    "infra/database/phase-2-local/ai/0037_ai_policy_requests.sql": "c1f3dd44c3a0edb46fadad6cc1021a9d2bdc0478d0d1d98baf02506b45d53793",
     "infra/database/phase-2-local/ai/0038_ai_artifacts_reuse.sql": "18cd458e65e9194c11d72adc16a4abd12cd422592c1e7d1de713807a3c56ae81",
-    "infra/database/phase-2-local/ai/0039_ai_budgets.sql": "2f166d3334344291cb523c729df9b105a9d98e2b3fe9f64f7559e7ad8848d229",
-    "infra/database/phase-2-local/ai/manifest.json": "35435733ef996ae3987285f6c41337454cb4fcddce0c2f15cadbc2c70e1fec57",
-    "tests/database/phase2-ai-schema.test.ts": "2c56528318893ecf87bb55de217e289023c5a810cdd32480dd05ce543e979656",
+    "infra/database/phase-2-local/ai/0039_ai_budgets.sql": "6f16b4773f5b6c374959097c9ec1ba0663aa52e077042f8f12e1265591b97180",
+    "infra/database/phase-2-local/ai/manifest.json": "4582bd79100865f23b14ddc301fbfd2e2d5b6606ab357f8b097af9b4d7fb5a88",
+    "tests/database/phase2-ai-schema.test.ts": "5a12f724750f4eb5bcb27974ddd22c4f045d9d3d1fd58dc8a7cdb6c4e1f0a50d",
     "tests/fixtures/phase2/ai.ts": "7fa71bea5119eb7050787f3983df0ceb0cbf54880a850bd66e84f8416dc3ef08",
     "tests/fixtures/phase2/ai-run.mjs": "d3840c9c4b4e0648692382284edc5955bbb23afcabb4d95aac186427be8c5dd0"
   },
@@ -75,6 +75,50 @@
     {
       "test": "requires current snapshot rights as well as AI processing rights",
       "failure": "native adverse assertion failed before its guard was corrected"
+    },
+    {
+      "test": "rejects untyped private content in shared metadata bundle_id",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "rejects untyped private content in shared metadata authoritative_hash",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "rejects untyped private content in shared metadata rule_version",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "rejects untyped private content in shared metadata advice_revision",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "rejects owner packet metadata bundle_id even when it has the correct scalar type",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "rejects owner packet metadata authoritative_hash even when it has the correct scalar type",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "accepts typed version metadata and rejects malformed owner packet identities",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "anchors request creation and maximum expiry to database admission time",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "conserves budget totals across idempotent reservation retries with DO NOTHING",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "conserves budget totals across idempotent reservation retries with DO UPDATE SET state=app.ai_budget_reservations.state",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
+    },
+    {
+      "test": "conserves one hold across concurrent conflicting reservation inserts",
+      "failure": "native regression reproduced automatic review finding before the guard/accounting correction"
     }
   ],
   "observations": {
@@ -104,7 +148,7 @@
       "syntheticRows": 10000,
       "returned": 51,
       "indexed": true,
-      "executionMs": 0.034,
+      "executionMs": 0.029,
       "productionSlaAccepted": false
     }
   },
@@ -117,5 +161,13 @@
   "actualRecipientNotifications": 0,
   "productionActivation": false,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "reviewCorrections": {
+    "nativeRed": 11,
+    "nativeGreen": 65,
+    "budgetAccounting": "AFTER successful row insertion/update; skipped conflicts change no counters",
+    "metadata": "typed UUID/digest metadata; shared scopes exclude owner packet identities",
+    "requestDeadline": "future creation and expiry beyond database admission plus two minutes refused",
+    "parentDenials": "compound FKs now execute before AFTER accounting; exact SQLSTATE 23503 asserted"
+  }
 }

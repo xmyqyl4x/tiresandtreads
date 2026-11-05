@@ -102,7 +102,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add immutable report-analysis attachment and frozen delivery selection references.
 - [x] Add atomic AI budget windows/reservations, expiry/reverse-source indexes and deletion linkage.
 
-**Local implementation:** [Opt-in AI storage and evidence](../implementation/P2-PR-003-local-ai-schema.md) completes these three tasks in the owner-selected disposable track: three migrations, twelve forced-RLS tables, two guarded views and 54 native cases. Actual P2 feasibility/S1, production promotion, provider/model/budget/privacy acceptance and later orchestration remain held. Default P1/partner sources, models, bootstrap/CLI/preflight and policy are unchanged.
+**Local implementation:** [Opt-in AI storage and evidence](../implementation/P2-PR-003-local-ai-schema.md) completes these three tasks in the owner-selected disposable track: three migrations, twelve forced-RLS tables, two guarded views and 65 native cases. Actual P2 feasibility/S1, production promotion, provider/model/budget/privacy acceptance and later orchestration remain held. Default P1/partner sources, models, bootstrap/CLI/preflight and policy are unchanged.
 
 **Verification and acceptance:** Scope/policy/request composite FK tests and budget bounds pass; no shared scope can silently substitute for an owner scope.
 

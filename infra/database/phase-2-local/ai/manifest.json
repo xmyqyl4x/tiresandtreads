@@ -8,7 +8,7 @@
   "migrations": [
     {
       "id": "0037_ai_policy_requests",
-      "sha256": "45d089aabb5e6423aff8a39b448b8bbefaf669fd254c3fe308e5e95439c2e9b4"
+      "sha256": "c1f3dd44c3a0edb46fadad6cc1021a9d2bdc0478d0d1d98baf02506b45d53793"
     },
     {
       "id": "0038_ai_artifacts_reuse",
@@ -16,7 +16,7 @@
     },
     {
       "id": "0039_ai_budgets",
-      "sha256": "2f166d3334344291cb523c729df9b105a9d98e2b3fe9f64f7559e7ad8848d229"
+      "sha256": "6f16b4773f5b6c374959097c9ec1ba0663aa52e077042f8f12e1265591b97180"
     }
   ],
   "tables": [

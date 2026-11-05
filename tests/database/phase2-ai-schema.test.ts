@@ -455,6 +455,70 @@ it('requires the sanitized image hash for photo policy inputs', async () => {
   await expect(request(s)).rejects.toMatchObject({ code: '23514' });
   await request(s, { parameters: {}, sanitized_sha256: digest() });
 });
+it.each(['bundle_id', 'authoritative_hash', 'rule_version', 'advice_revision'])(
+  'rejects untyped private content in shared metadata %s',
+  async (field) => {
+    const s = await scope({ kind: 'shared' });
+    await expect(
+      request(s, {
+        parameters: { usage: 'commute' },
+        [field]: { email: 'synthetic@example.invalid' },
+      }),
+    ).rejects.toMatchObject({ code: '23514' });
+  },
+);
+it.each(['bundle_id', 'authoritative_hash'])(
+  'rejects owner packet metadata %s even when it has the correct scalar type',
+  async (field) => {
+    const s = await scope({ kind: 'shared' });
+    await expect(
+      request(s, { parameters: {}, [field]: field === 'bundle_id' ? randomUUID() : digest() }),
+    ).rejects.toMatchObject({ code: '23514' });
+  },
+);
+it('accepts typed version metadata and rejects malformed owner packet identities', async () => {
+  const s = await scope();
+  for (const [field, value] of [
+    ['bundle_id', 'synthetic@example.invalid'],
+    ['authoritative_hash', []],
+    ['rule_version', null],
+    ['advice_revision', { private: 'synthetic' }],
+  ])
+    await expect(request(s, { parameters: {}, [String(field)]: value })).rejects.toMatchObject({
+      code: '23514',
+    });
+  await request(s, {
+    parameters: {},
+    bundle_id: randomUUID(),
+    authoritative_hash: digest(),
+    rule_version: randomUUID(),
+    advice_revision: randomUUID(),
+  });
+  await request(await scope({ kind: 'shared' }), {
+    parameters: {},
+    rule_version: randomUUID(),
+    advice_revision: randomUUID(),
+  });
+});
+it('anchors request creation and maximum expiry to database admission time', async () => {
+  const s = await scope(),
+    r = await request(s);
+  await expect(
+    worker.query(
+      `INSERT INTO app.ai_analysis_requests(id,scope_id,owner_subject_id,policy_version_id,input_digest,input_manifest,request_key,notice_version,permission_revision,subject_permission_revision,invalidation_revision,created_at,expires_at)
+ SELECT $1::uuid,scope_id,owner_subject_id,policy_version_id,input_digest,input_manifest,$1::text,notice_version,permission_revision,subject_permission_revision,invalidation_revision,now()+interval '1 day',now()+interval '1 day 90 seconds' FROM app.ai_analysis_requests WHERE id=$2`,
+      [randomUUID(), r.id],
+    ),
+  ).rejects.toMatchObject({ code: '23514' });
+  expect(
+    (
+      await worker.query(
+        'SELECT count(*)::integer AS count FROM app.ai_analysis_requests WHERE scope_id=$1',
+        [s.id],
+      )
+    ).rows,
+  ).toEqual([{ count: 1 }]);
+});
 it('rejects an attempt without its already visible request or with a foreign scope', async () => {
   const s = await scope(),
     r = await request(s),
@@ -566,8 +630,9 @@ it('refuses direct counter/config edits and foreign currency/policy admission', 
   await expect(
     fixture.admin.query('UPDATE app.ai_budget_windows SET limit_minor=1000 WHERE id=$1', [window]),
   ).rejects.toMatchObject({ code: '23514' });
-  await expect(reserve(s, a, await budget(other), 1)).rejects.toMatchObject({ code: '23514' });
-  await expect(reserve(s, a, window, 1, worker, 'CAD')).rejects.toMatchObject({ code: '23514' });
+  // Parent FKs reject these before the AFTER accounting trigger can change counters.
+  await expect(reserve(s, a, await budget(other), 1)).rejects.toMatchObject({ code: '23503' });
+  await expect(reserve(s, a, window, 1, worker, 'CAD')).rejects.toMatchObject({ code: '23503' });
   expect(await balance(window)).toEqual({ reserved: '0', spent: '0' });
 });
 it('does not reserve funds for an expired request', async () => {
@@ -649,6 +714,43 @@ it('rolls back counter changes when a reservation insertion fails or its transac
   expect(await balance(b)).toEqual({ reserved: '0', spent: '0' });
   await reserve(s, a, b);
   await expect(reserve(s, a, b)).rejects.toMatchObject({ code: '23505' });
+  expect(await balance(b)).toEqual({ reserved: '100', spent: '0' });
+});
+it.each(['NOTHING', 'UPDATE SET state=app.ai_budget_reservations.state'])(
+  'conserves budget totals across idempotent reservation retries with DO %s',
+  async (action) => {
+    const s = await scope(),
+      a = await attempt(await request(s)),
+      b = await budget(s, 1000);
+    await reserve(s, a, b);
+    for (let i = 0; i < 2; i++)
+      await worker.query(
+        `INSERT INTO app.ai_budget_reservations(id,budget_id,attempt_id,policy_version_id,currency_code,reserved_minor) VALUES($1,$2,$3,$4,'USD',100) ON CONFLICT(budget_id,attempt_id) DO ${action}`,
+        [randomUUID(), b, a, s.policy],
+      );
+    expect(await balance(b)).toEqual({ reserved: '100', spent: '0' });
+    expect(
+      (
+        await worker.query(
+          'SELECT count(*)::integer AS count,sum(reserved_minor)::text AS total FROM app.ai_budget_reservations WHERE budget_id=$1',
+          [b],
+        )
+      ).rows,
+    ).toEqual([{ count: 1, total: '100' }]);
+  },
+);
+it('conserves one hold across concurrent conflicting reservation inserts', async () => {
+  const s = await scope(),
+    a = await attempt(await request(s)),
+    b = await budget(s, 1000);
+  await Promise.all(
+    [worker, competitor].map((client) =>
+      client.query(
+        `INSERT INTO app.ai_budget_reservations(id,budget_id,attempt_id,policy_version_id,currency_code,reserved_minor) VALUES($1,$2,$3,$4,'USD',100) ON CONFLICT(budget_id,attempt_id) DO NOTHING`,
+        [randomUUID(), b, a, s.policy],
+      ),
+    ),
+  );
   expect(await balance(b)).toEqual({ reserved: '100', spent: '0' });
 });
 it('allows cost reconciliation after withdrawal without reopening AI processing', async () => {
