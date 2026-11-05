@@ -9,3 +9,5 @@ When DD03/DD04 are resolved, add the selected registry/host adapter in P1-PR-003
 The release manifest must bind the approved source SHA, lockfile hash, published `registry/image@sha256:<64 hex>` digest, configuration version, separate app/CMS migration revisions, target environment, G0/S4/S6 evidence and rollback digest. Promotion consumes that immutable artifact; it cannot silently rebuild. Serialize migrations independently of runtime startup and require the selected host's authenticated smoke before traffic promotion. Provider credentials and native workstation database credentials never enter image layers or build arguments.
 
 Host selection and actual protected hosted environments remain owner-deferred external work. S0 local acceptance does not authorize production traffic. This scaffold deliberately has no deployment command until a real target and its permissions exist.
+
+The [Phase 1 local release packet](../../docs/implementation/P1-PR-043-local-release-preparation.md) inventories the verified construction baseline and missing production manifest inputs. It does not approve a candidate, select a host or authorize activation.

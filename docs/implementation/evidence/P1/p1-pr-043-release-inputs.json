@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-release-input-inventory",
+  "status": "live-release-held",
+  "card": "P1-PR-043",
+  "baseline": {
+    "mainSha": "03fc439c34c847b54db7ad28a1d5fced48ef3442",
+    "tree": "9e615e3481632b3090913ec3b74cda00fd4da86f",
+    "verifiedSourceSha": "bc4c47e997e0697e1ae615908392c3d1c4b84738",
+    "pullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/87",
+    "fullLocalTestExecutions": 2966,
+    "prChecksVerified": 9,
+    "mainChecksVerified": 9,
+    "lockfileSha256": "8f784e4bcd1555139d363fdae9a339b8379cb1c80dc4118f863600cc02b2ea3c",
+    "migrations": {
+      "app": {
+        "count": 33,
+        "head": "0033_service_validation_operations",
+        "manifestPath": "infra/database/app/manifest.json",
+        "manifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+      },
+      "cms": {
+        "count": 3,
+        "head": "0003_publication_bridge",
+        "manifestPath": "infra/database/cms/manifest.json",
+        "manifestSha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+      }
+    }
+  },
+  "productionManifest": {
+    "approvedSourceSha": null,
+    "approvedTree": null,
+    "lockfileSha256": null,
+    "publishedImageDigest": null,
+    "configurationVersion": null,
+    "targetEnvironment": null,
+    "appMigrationRevision": null,
+    "cmsMigrationRevision": null,
+    "rollbackImageDigest": null,
+    "gateEvidence": null,
+    "productionUrl": null,
+    "ownerG5Decision": null,
+    "productionSmokeEvidence": null
+  },
+  "pendingS3Gates": [
+    "G1-specialist",
+    "G1-fitment-catalog",
+    "G1-prices",
+    "G2-provider-effects",
+    "G2-privacy-policy",
+    "S3-service-host"
+  ],
+  "hostingDecisions": "HS01-HS08 proposed",
+  "operatorsCoverageRatesBudget": "unconfirmed",
+  "specialistLicensed": "pending",
+  "actualInboxesAssistiveTechnology": "pending",
+  "actualEditorialSearchConsoleCmpProvider": "pending",
+  "productionActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "phase1Accepted": false,
+  "phase2EntryAccepted": false
+}
