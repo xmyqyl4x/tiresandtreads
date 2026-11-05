@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "kind": "focused-disposable-partner-schema-proof",
-  "focusedTestsPassed": 36,
+  "focusedTestsPassed": 40,
   "typecheckPassed": true,
   "ownedProjectRemoved": true,
   "sourceSha256": {
     "infra/database/phase-2-local/app/0034_partner_identity.sql": "b1c6ee95ff08a8afc92d5ce2ee5e7b3af2d09dee10d210a612adfa4fa8cf270e",
-    "infra/database/phase-2-local/app/0035_partner_offers.sql": "e5f5216a6e8afb9483fd9e44f799a87f8605e6bca2f5962d0c12dc08b1421e88",
-    "infra/database/phase-2-local/app/0036_partner_history_insights.sql": "8edb3c5b1825f5aa288f0b63d36d4bd35dc5d675a03802e066691d4d8cbe2d68",
-    "infra/database/phase-2-local/app/manifest.json": "d4ee05c0b59b0fbb36f977946aefcc01ea8af19f988fb91a79fa844b59aa82b5",
-    "tests/database/phase2-partner-schema.test.ts": "1a06897edb1f54b747cf418189a482dbd8033261949b0917ccb0379552897a4b",
+    "infra/database/phase-2-local/app/0035_partner_offers.sql": "18c3a3b5a661e915fba655aca1160cbfcbe70b674a193e1ae8e9ed96cd72d08f",
+    "infra/database/phase-2-local/app/0036_partner_history_insights.sql": "0767a412e2181829834833a7fd11b724de1505eb9045bbec0b8dee872013da0a",
+    "infra/database/phase-2-local/app/manifest.json": "a42ec56f6ee472d2cf40de094179244cf28696418129b09c5c2b7f941c11d9df",
+    "tests/database/phase2-partner-schema.test.ts": "bef707cec4e5c48c0425f737c3212d64e8c705d2685e2a0fc4d59a643f4351bf",
     "tests/fixtures/phase2/partners.ts": "a8168e31dbb1d1addf88b64d8b2c7b97eb4422182c2550fc30892eba6e871b42",
     "tests/fixtures/phase2/run.mjs": "be86fbdf2fd53634e3f968647084ebebb4b67440b462625e0d1fb8a9b9d0949c"
   },
@@ -32,6 +32,22 @@
     {
       "test": "evaluated frequency policy snapshot",
       "failure": "frequency_reservations.policy_version did not exist"
+    },
+    {
+      "test": "concurrent target edit versus parent review/publication",
+      "failure": "publication resolved instead of waiting for the uncommitted target edit"
+    },
+    {
+      "test": "issued frequency usage downgrade",
+      "failure": "issued-to-reserved update resolved, permitting a subsequent release"
+    },
+    {
+      "test": "bulk reversal before its referenced reported event",
+      "failure": "invalid reversal and later parent inserted together"
+    },
+    {
+      "test": "malformed redemption URL authority",
+      "failure": "extra slashes after HTTPS passed a NULL host CHECK"
     }
   ],
   "observations": {
@@ -62,7 +78,7 @@
       "syntheticRows": 10000,
       "returned": 51,
       "indexed": true,
-      "executionMs": 0.033,
+      "executionMs": 0.035,
       "productionSlaAccepted": false
     }
   },

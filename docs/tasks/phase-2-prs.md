@@ -82,7 +82,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Add immutable offer/target/pool/code/reservation/cap/decision records and correction/redemption/dispute persistence.
 - [x] Add privacy-scoped visitor/internal aggregate support only where absent from P1; preserve noncharging pilot semantics.
 
-**Local implementation:** [Opt-in reseller schema](../implementation/P2-PR-002-local-reseller-schema.md) completes these three tasks only in the owner-authorized disposable local track. Three migrations, 23 forced-RLS tables and 36 native cases are implemented; ordinary P1 manifests/bootstrap/CLI/preflight and all actual acceptance/deployment holds remain unchanged. P2 S1 and promotion remain open.
+**Local implementation:** [Opt-in reseller schema](../implementation/P2-PR-002-local-reseller-schema.md) completes these three tasks only in the owner-authorized disposable local track. Three migrations, 23 forced-RLS tables and 40 native cases are implemented; ordinary P1 manifests/bootstrap/CLI/preflight and all actual acceptance/deployment holds remain unchanged. P2 S1 and promotion remain open.
 
 **Verification and acceptance:** Real constraints and RLS deny wrong-tenant parents and double live codes; upgrade preserves P1 records.
 

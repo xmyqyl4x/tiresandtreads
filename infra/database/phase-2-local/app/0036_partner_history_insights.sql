@@ -25,10 +25,13 @@ DECLARE mode text; previous smallint;
 BEGIN
   SELECT pool_mode INTO mode FROM partners.coupon_reservations WHERE org_id=NEW.org_id AND id=NEW.reservation_id;
   IF mode='shared' THEN RAISE EXCEPTION 'Shared code cannot attribute a reported redemption' USING ERRCODE='23514'; END IF;
-  IF NEW.kind='reversal' THEN
+  IF NEW.reverses_event_id IS NOT NULL THEN
     SELECT quantity_delta INTO previous FROM partners.redemption_events
       WHERE org_id=NEW.org_id AND reservation_id=NEW.reservation_id AND id=NEW.reverses_event_id;
-    IF previous IS NOT NULL AND NEW.quantity_delta<>-previous THEN
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'Correction parent must already exist in the same assignment' USING ERRCODE='23503';
+    END IF;
+    IF NEW.kind='reversal' AND NEW.quantity_delta<>-previous THEN
       RAISE EXCEPTION 'Reversal quantity must negate the referenced event' USING ERRCODE='23514';
     END IF;
   END IF;

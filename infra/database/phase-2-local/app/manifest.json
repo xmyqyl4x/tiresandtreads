@@ -11,11 +11,11 @@
     },
     {
       "id": "0035_partner_offers",
-      "sha256": "e5f5216a6e8afb9483fd9e44f799a87f8605e6bca2f5962d0c12dc08b1421e88"
+      "sha256": "18c3a3b5a661e915fba655aca1160cbfcbe70b674a193e1ae8e9ed96cd72d08f"
     },
     {
       "id": "0036_partner_history_insights",
-      "sha256": "8edb3c5b1825f5aa288f0b63d36d4bd35dc5d675a03802e066691d4d8cbe2d68"
+      "sha256": "0767a412e2181829834833a7fd11b724de1505eb9045bbec0b8dee872013da0a"
     }
   ],
   "tables": [

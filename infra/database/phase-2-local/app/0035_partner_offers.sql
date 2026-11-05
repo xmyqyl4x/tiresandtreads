@@ -50,7 +50,8 @@ CREATE TABLE partners.offer_versions (
   CHECK(reviewed_at IS NULL OR reviewed_at>=created_at),
   CHECK((redemption_url IS NULL)=(redemption_domain IS NULL)),
   CHECK(redemption_method<>'link' OR redemption_url IS NOT NULL),
-  CHECK(redemption_url IS NULL OR lower(substring(redemption_url FROM '^https://([^/:?#]+)'))=redemption_domain),
+  CHECK(redemption_url IS NULL OR (position(chr(92) in redemption_url)=0
+    AND COALESCE(lower(substring(redemption_url FROM '^https://([^/:?#]+)(:443)?([/?#]|$)'))=redemption_domain,false))),
   CHECK(logo_asset_id IS NULL OR logo_rights_warranted),
   CHECK((discount_type='percent_off')=(percent_basis_points IS NOT NULL)),
   CHECK((discount_type IN ('amount_off','set_of_four_off','mail_in_rebate'))=(amount_minor IS NOT NULL)),
@@ -276,7 +277,8 @@ BEGIN
   IF TG_OP='UPDATE' AND (NEW.org_id,NEW.offer_id,NEW.offer_version,NEW.id) IS DISTINCT FROM (OLD.org_id,OLD.offer_id,OLD.offer_version,OLD.id) THEN
     RAISE EXCEPTION 'Target identity is immutable' USING ERRCODE='23514';
   END IF;
-  SELECT status INTO phase FROM partners.offer_versions WHERE org_id=NEW.org_id AND offer_id=NEW.offer_id AND version=NEW.offer_version;
+  SELECT status INTO phase FROM partners.offer_versions
+    WHERE org_id=NEW.org_id AND offer_id=NEW.offer_id AND version=NEW.offer_version FOR SHARE;
   IF phase IN ('reviewed','published','retired') THEN
     RAISE EXCEPTION 'Reviewed offer targets are immutable' USING ERRCODE='23514';
   END IF;
@@ -312,7 +314,10 @@ CREATE TRIGGER coupon_reservations_transition BEFORE UPDATE ON partners.coupon_r
 CREATE FUNCTION partners.guard_frequency_release() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $$
 BEGIN
   IF OLD.state='released' AND NEW IS DISTINCT FROM OLD THEN RAISE EXCEPTION 'Released frequency history is immutable' USING ERRCODE='23514'; END IF;
-  IF OLD.state='issued' AND NEW.state='released' THEN RAISE EXCEPTION 'Issued frequency use cannot be released' USING ERRCODE='23514'; END IF;
+  IF OLD.state<>NEW.state AND NOT (
+    (OLD.state='reserved' AND NEW.state IN ('issued','uncertain','released')) OR
+    (OLD.state='uncertain' AND NEW.state IN ('issued','released'))
+  ) THEN RAISE EXCEPTION 'Invalid frequency usage transition' USING ERRCODE='23514'; END IF;
   RETURN NEW;
 END $$;
 CREATE TRIGGER frequency_release BEFORE UPDATE ON partners.frequency_reservations FOR EACH ROW EXECUTE FUNCTION partners.guard_frequency_release();

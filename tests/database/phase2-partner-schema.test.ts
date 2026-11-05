@@ -426,6 +426,74 @@ it('requires duration, distinct reviewer and reviewed immutable terms/targets/cu
     ),
   ).rejects.toMatchObject({ code: '23514' });
 });
+it('serializes target edits against concurrent review and publication through the parent version', async () => {
+  const a = await company(),
+    draft = await offer(a, { published: false }),
+    editor = await fixture.connect('tt_p2_staff_runtime'),
+    publisher = await fixture.connect('tt_p2_staff_runtime');
+  try {
+    await editor.query('BEGIN');
+    await editor.query(
+      'UPDATE partners.offer_targets SET rule=\'{"synthetic":"review-boundary"}\' WHERE org_id=$1 AND offer_id=$2',
+      [a.id, draft.id],
+    );
+    await publisher.query('BEGIN');
+    await publisher.query("SET LOCAL lock_timeout='200ms'");
+    await expect(
+      publisher.query(
+        "UPDATE partners.offer_versions SET status='reviewed',reviewed_by=$3,reviewed_at=now() WHERE org_id=$1 AND offer_id=$2",
+        [a.id, draft.id, reviewer],
+      ),
+    ).rejects.toMatchObject({ code: '55P03' });
+    await publisher.query('ROLLBACK');
+    await editor.query('COMMIT');
+    await publisher.query(
+      "UPDATE partners.offer_versions SET status='reviewed',reviewed_by=$3,reviewed_at=now() WHERE org_id=$1 AND offer_id=$2",
+      [a.id, draft.id, reviewer],
+    );
+    await publisher.query(
+      "UPDATE partners.offer_versions SET status='published' WHERE org_id=$1 AND offer_id=$2",
+      [a.id, draft.id],
+    );
+    await expect(
+      editor.query("UPDATE partners.offer_targets SET rule='{}' WHERE org_id=$1 AND offer_id=$2", [
+        a.id,
+        draft.id,
+      ]),
+    ).rejects.toMatchObject({ code: '23514' });
+  } finally {
+    await Promise.all([editor.query('ROLLBACK'), publisher.query('ROLLBACK')]);
+  }
+});
+it('requires a real verified HTTPS authority and rejects malformed or ambiguous redemption URLs', async () => {
+  const a = await company(),
+    draft = await offer(a, { published: false, link: true });
+  const domain = (
+    await fixture.admin.query(
+      'SELECT redemption_domain FROM partners.offer_versions WHERE org_id=$1 AND offer_id=$2',
+      [a.id, draft.id],
+    )
+  ).rows[0]!.redemption_domain as string;
+  for (const url of [
+    'https:///attacker.invalid/redeem',
+    'https:////attacker.invalid/redeem',
+    'https://' + domain + ':444/offer',
+    'https://' + domain + '/\\ambiguous',
+  ]) {
+    await expect(
+      fixture.admin.query(
+        'UPDATE partners.offer_versions SET redemption_url=$3 WHERE org_id=$1 AND offer_id=$2',
+        [a.id, draft.id, url],
+      ),
+    ).rejects.toMatchObject({ code: '23514' });
+  }
+  for (const url of ['https://' + domain, 'https://' + domain + ':443/offer?synthetic=1#terms']) {
+    await fixture.admin.query(
+      'UPDATE partners.offer_versions SET redemption_url=$3 WHERE org_id=$1 AND offer_id=$2',
+      [a.id, draft.id, url],
+    );
+  }
+});
 it('reads current organization, agreement and verified domain status without rewriting frozen terms', async () => {
   const a = await company(),
     v = await offer(a, { link: true });
@@ -663,6 +731,35 @@ it('uses stable cross-organization frequency scopes and explicit windows without
     ),
   ).rejects.toMatchObject({ code: '23514' });
 });
+it('prevents issued frequency usage from downgrading through reserved or uncertain before release', async () => {
+  const message = await send();
+  await worker.query(
+    "INSERT INTO partners.frequency_guards(subject_id,scope_key,policy_version) VALUES($1,'overall_marketing','synthetic')",
+    [message.subject],
+  );
+  await worker.query(
+    "INSERT INTO partners.frequency_reservations(subject_id,scope_key,send_id,window_start,window_end,window_kind,calendar_time_zone,policy_version) VALUES($1,'overall_marketing',$2,now()-interval '1 day',now()+interval '30 days','calendar_month','UTC','synthetic')",
+    [message.subject, message.id],
+  );
+  await worker.query("UPDATE partners.frequency_reservations SET state='issued' WHERE send_id=$1", [
+    message.id,
+  ]);
+  for (const state of ['reserved', 'uncertain', 'released']) {
+    await expect(
+      worker.query(
+        "UPDATE partners.frequency_reservations SET state=$2,released_at=CASE WHEN $2='released' THEN now() END,release_evidence_id=CASE WHEN $2='released' THEN $3::uuid END WHERE send_id=$1",
+        [message.id, state, await evidence()],
+      ),
+    ).rejects.toMatchObject({ code: '23514' });
+  }
+  expect(
+    (
+      await worker.query('SELECT state FROM partners.frequency_reservations WHERE send_id=$1', [
+        message.id,
+      ])
+    ).rows,
+  ).toEqual([{ state: 'issued' }]);
+});
 it('deduplicates codes without plaintext and rejects foreign pool mode and invalid ciphertext bounds', async () => {
   const v = await offer(await company()),
     digest = randomBytes(32);
@@ -734,6 +831,42 @@ it('retains immutable reported-redemption corrections, deduplicates events and r
       event,
     ]),
   ).rejects.toMatchObject({ code: '23514' });
+});
+it('rejects forward reversal parents in bulk inserts and validates already inserted quantities', async () => {
+  const v = await offer(await company()),
+    reservation = await reserve(v, await send(), await code(v)),
+    reported = randomUUID(),
+    reversal = randomUUID();
+  await expect(
+    worker.query(
+      `INSERT INTO partners.redemption_events(id,org_id,reservation_id,offer_id,offer_version,external_event_key,kind,quantity_delta,reverses_event_id,occurred_at) VALUES
+      ($1,$3,$4,$5,1,'forward-reversal','reversal',-4,$2,now()),
+      ($2,$3,$4,$5,1,'later-report','reported',1,NULL,now())`,
+      [reversal, reported, v.org.id, reservation, v.id],
+    ),
+  ).rejects.toMatchObject({ code: '23503' });
+  expect(
+    (
+      await worker.query(
+        'SELECT count(*)::int AS n FROM partners.redemption_events WHERE reservation_id=$1',
+        [reservation],
+      )
+    ).rows,
+  ).toEqual([{ n: 0 }]);
+  await worker.query(
+    `INSERT INTO partners.redemption_events(id,org_id,reservation_id,offer_id,offer_version,external_event_key,kind,quantity_delta,reverses_event_id,occurred_at) VALUES
+    ($1,$3,$4,$5,1,'earlier-report','reported',1,NULL,now()),
+    ($2,$3,$4,$5,1,'ordered-reversal','reversal',-1,$1,now())`,
+    [reported, reversal, v.org.id, reservation, v.id],
+  );
+  expect(
+    (
+      await worker.query(
+        'SELECT sum(quantity_delta)::int AS n FROM partners.redemption_events WHERE reservation_id=$1',
+        [reservation],
+      )
+    ).rows,
+  ).toEqual([{ n: 0 }]);
 });
 it('binds dispute resolution and correction events to the same tenant and dispute', async () => {
   const v = await offer(await company()),
