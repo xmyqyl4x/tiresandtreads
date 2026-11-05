@@ -8,6 +8,8 @@
 
 **Owner-directed local exception after PR #88:** [Scope and evaluation preparation](../implementation/P2-PR-001-local-scope-evaluation.md) and the [authorization record](../implementation/evidence/P2/local-phase-2-authorization.json) permit only draft P2-PR-001 inputs and opt-in local P2-PR-002 reseller schemas before Phase 1 live acceptance. The ordinary accepted dependency edges, all actual phase gates, provider/operator decisions and deployment restrictions remain. Future cards require their own satisfied dependencies or explicit scope.
 
+**Next-card local continuation after PR #90:** The owner selected [P2-PR-003 local AI schemas](../implementation/P2-PR-003-local-ai-schema.md), recorded in a [separate continuation](../implementation/evidence/P2/p2-pr-003-local-authorization.json). This extends disposable local implementation/testing only to card 003; ordinary dependency acceptance, phase entry, all gates and deployment/provider/operator holds remain unchanged. No later card is authorized by that record.
+
 ## PR sequence
 
 | PR | Stage | Proposed title |
@@ -96,9 +98,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-05, CAP-06, DB23, DB24, DB25. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Migrate policy/scopes/requests/attempts/artifacts/source links and exact reuse entry/lease/fence structures.
-- [ ] Add immutable report-analysis attachment and frozen delivery selection references.
-- [ ] Add atomic AI budget windows/reservations, expiry/reverse-source indexes and deletion linkage.
+- [x] Migrate policy/scopes/requests/attempts/artifacts/source links and exact reuse entry/lease/fence structures.
+- [x] Add immutable report-analysis attachment and frozen delivery selection references.
+- [x] Add atomic AI budget windows/reservations, expiry/reverse-source indexes and deletion linkage.
+
+**Local implementation:** [Opt-in AI storage and evidence](../implementation/P2-PR-003-local-ai-schema.md) completes these three tasks in the owner-selected disposable track: three migrations, twelve forced-RLS tables, two guarded views and 75 native cases. Actual P2 feasibility/S1, production promotion, provider/model/budget/privacy acceptance and later orchestration remain held. Default P1/partner sources, models, bootstrap/CLI/preflight and policy are unchanged.
 
 **Verification and acceptance:** Scope/policy/request composite FK tests and budget bounds pass; no shared scope can silently substitute for an owner scope.
 
