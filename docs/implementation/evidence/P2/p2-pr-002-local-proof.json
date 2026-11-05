@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused-disposable-partner-schema-proof",
+  "focusedTestsPassed": 44,
+  "typecheckPassed": true,
+  "ownedProjectRemoved": true,
+  "sourceSha256": {
+    "infra/database/phase-2-local/app/0034_partner_identity.sql": "b1c6ee95ff08a8afc92d5ce2ee5e7b3af2d09dee10d210a612adfa4fa8cf270e",
+    "infra/database/phase-2-local/app/0035_partner_offers.sql": "150053c1d580d7b8cc094d93ee29d4739d7d5da44a0370192377f740ea977de4",
+    "infra/database/phase-2-local/app/0036_partner_history_insights.sql": "4a26325b54dbcb72d681432c159adcdcc6ac85aa71bec1fffdbd57f4400160ea",
+    "infra/database/phase-2-local/app/manifest.json": "5c87352d174f1a1de1f1faed3896484ae9b13b6c83a54844d72bedc726c45285",
+    "tests/database/phase2-partner-schema.test.ts": "3012ce05ac0477e1601ef51c4c84086cef0c767a3dd64729ca736bb932d9c0dc",
+    "tests/fixtures/phase2/partners.ts": "a8168e31dbb1d1addf88b64d8b2c7b97eb4422182c2550fc30892eba6e871b42",
+    "tests/fixtures/phase2/run.mjs": "be86fbdf2fd53634e3f968647084ebebb4b67440b462625e0d1fb8a9b9d0949c"
+  },
+  "p1Comparison": {
+    "inventoryTables": 141,
+    "completeDataTables": 140,
+    "originalMigrationPrefixRows": 33,
+    "expectedNewMigrationRows": 3,
+    "existingRelationOwnersAndAclsPreserved": true
+  },
+  "redTests": [
+    {
+      "test": "installs the opt-in organization schema on an existing populated P1 database",
+      "failure": "expected partners.organizations; received null"
+    },
+    {
+      "test": "shared-code fingerprint and configured cap identity",
+      "failure": "fingerprint update resolved instead of rejecting"
+    },
+    {
+      "test": "evaluated frequency policy snapshot",
+      "failure": "frequency_reservations.policy_version did not exist"
+    },
+    {
+      "test": "concurrent target edit versus parent review/publication",
+      "failure": "publication resolved instead of waiting for the uncommitted target edit"
+    },
+    {
+      "test": "issued frequency usage downgrade",
+      "failure": "issued-to-reserved update resolved, permitting a subsequent release"
+    },
+    {
+      "test": "bulk reversal before its referenced reported event",
+      "failure": "invalid reversal and later parent inserted together"
+    },
+    {
+      "test": "malformed redemption URL authority",
+      "failure": "extra slashes after HTTPS passed a NULL host CHECK"
+    },
+    {
+      "test": "current-version pointer versus retirement in either lock order",
+      "failure": "concurrent retirement resolved while pointer selection was still uncommitted"
+    },
+    {
+      "test": "target before its reviewed parent in a combined insert",
+      "failure": "target and later reviewed version inserted together"
+    },
+    {
+      "test": "frequency reservation before its evaluated guard in a combined insert",
+      "failure": "reservation with mismatched policy and later guard inserted together"
+    },
+    {
+      "test": "redemption event before its shared reservation in a combined insert",
+      "failure": "shared-code attribution and later reservation inserted together"
+    }
+  ],
+  "observations": {
+    "P2_PARTNER_SCHEMA_EVIDENCE": {
+      "optInLocalTrack": true,
+      "localMigrations": 3,
+      "newTables": 23,
+      "forcedRls": true,
+      "preservedP1Tables": 141,
+      "preservedP1Permissions": true,
+      "preservedP1Migrations": 33,
+      "restrictedRuntimeLogins": 3,
+      "realCodeAndCapRaces": true,
+      "sharedAndExclusiveSeparated": true,
+      "sourceChecksumRefused": true,
+      "failedDdlRolledBack": true,
+      "productionBootstrapChanged": false,
+      "actualAuthenticationAcceptance": false,
+      "actualPrivacyAcceptance": false,
+      "actualPilotAccepted": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "P2_PARTNER_QUERY_EVIDENCE": {
+      "syntheticRows": 10000,
+      "returned": 51,
+      "indexed": true,
+      "executionMs": 0.033,
+      "productionSlaAccepted": false
+    }
+  },
+  "productionBootstrapChanged": false,
+  "actualPrivacyAccepted": false,
+  "phase1LiveAccepted": false,
+  "phase2SchemaAccepted": false,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
