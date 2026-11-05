@@ -14,7 +14,7 @@ import { uuid } from '../engine/base.ts';
 import { success } from '../catalog/database.ts';
 // Disposable synthetic domain facts and evidence, with actual HTTP/business services/PostgreSQL.
 // This fixture does not select a licensed adapter, approve a source, or activate product advice.
-export async function assessmentApiFixture() {
+export async function assessmentApiFixture(mailProof?: Parameters<typeof operationsApiFixture>[1]) {
   let tokens: ReturnType<typeof fixtureReportServices>['crypto'] | undefined;
   const api = await operationsApiFixture(async (context) => {
     const { db, services } = context;
@@ -192,7 +192,7 @@ export async function assessmentApiFixture() {
         },
       }),
     ];
-  });
+  }, mailProof);
   return {
     ...api,
     async expiredShare(who: Parameters<typeof api.ownerIdentity>[0], reportId: Id<'report'>) {

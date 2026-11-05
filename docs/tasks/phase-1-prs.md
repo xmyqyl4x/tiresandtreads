@@ -818,9 +818,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-01, UC01, UC02, UC03, UC04, UC05, UC06, UC07, UC08, UC09, UC10, UC13, UC17, AT18. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Run core browser → API → database → email/PDF journeys with real templates and supported data.
-- [ ] Complete keyboard/screen-reader/reflow/email-client checks and beta regression triage.
-- [ ] Verify public SEO/ad fallbacks, editorial content completeness and unsupported-input recovery.
+- [x] Run the permitted local browser/API/SQL and real email/PDF renderer journeys with explicitly synthetic supported data; actual licensed/specialist and inbox acceptance remains pending.
+- [x] Complete local keyboard/reflow, structural accessibility and renderer regression triage. Actual screen-reader/PDF assistive-technology, inbox-client and external beta acceptance remains pending.
+- [x] Verify local SEO/ad fallbacks, editorial register and unsupported-input recovery. Actual launch article completeness, Search Console, CMP/provider and live performance acceptance remains pending.
+
+**Local implementation:** [Full-product validation](../implementation/P1-PR-041-local-product-validation.md). Technical completion does not accept G3, S3/S4 or hosted/live release.
 
 **Verification and acceptance:** G3 experience evidence and relevant AT suite pass; no critical placeholders or inaccessible required journey.
 
