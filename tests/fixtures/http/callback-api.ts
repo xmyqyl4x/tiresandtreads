@@ -25,7 +25,7 @@ import { createPrivacyRepository } from '../../../packages/db/src/repositories/p
 import { createCommercialRuntime } from '../../../packages/integrations/src/commercial-runtime.ts';
 const mailKey = 'whsec_' + Buffer.alloc(32, 31).toString('base64'),
   workflowKey = 'whsec_' + Buffer.alloc(32, 32).toString('base64');
-export async function callbackApiFixture() {
+export async function callbackApiFixture(extend?: Parameters<typeof operationsApiFixture>[0]) {
   let ports:
     | undefined
     | {
@@ -36,7 +36,8 @@ export async function callbackApiFixture() {
         job: () => Promise<{ id: Id<'job'>; eventId: Id<'event'> }>;
       };
   let loseAck = false;
-  const f = await operationsApiFixture(async ({ db, services, crypto, policy }) => {
+  const f = await operationsApiFixture(async (context) => {
+    const { db, services, crypto, policy } = context;
     const mail = await createMailEventsRuntime({
         scope: db.scope,
         lookupVersions: crypto.lookupVersions,
@@ -147,19 +148,22 @@ export async function callbackApiFixture() {
       now: () => time(),
     });
     ports = { mail, actions, analytics, commercial: commerce.commercial, job };
-    return callbackRoutes({
-      services: {
-        ...services,
-        mail,
-        actions,
-        commercial: commerce.commercial,
-        analytics: analytics.analytics,
-      },
-      confirmation,
-      keys: { mail: [mailKey], workflow: [workflowKey] },
-      wake,
-      now: () => time(),
-    });
+    return [
+      ...callbackRoutes({
+        services: {
+          ...services,
+          mail,
+          actions,
+          commercial: commerce.commercial,
+          analytics: analytics.analytics,
+        },
+        confirmation,
+        keys: { mail: [mailKey], workflow: [workflowKey] },
+        wake,
+        now: () => time(),
+      }),
+      ...((await extend?.(context)) ?? []),
+    ];
   });
   function signed(body: string, purpose: 'mail' | 'workflow', eventId: string, offset = 0) {
     const stamp = String(Math.floor(Date.now() / 1000) + offset),

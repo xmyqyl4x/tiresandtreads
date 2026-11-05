@@ -1,0 +1,53 @@
+{
+  "scope": "focused disposable local proof; full clean-commit/CI verification is separate",
+  "recordedAt": "2026-11-05T03:26:16.675506+00:00",
+  "focusedTestsPassed": 4,
+  "codeSha256": {
+    "tests/database/product-mixed-load.test.ts": "3a9b15b1afd80142f163c3639723893e14129bcd5a379422610cb32fca6a6aab",
+    "tests/database/public-cache-process.test.ts": "31a13aa4408ac7655f1eba38291813dca0e5e302cd7306c6fd7d01ebb0e12488",
+    "tests/fixtures/http/cache-peer.ts": "f919ccffaacc3c6dea30a7341466ea7b4904efcc77d54ce9f174ecb354600ae1",
+    "tests/fixtures/http/callback-api.ts": "3fced07f94d6ba52d6e6e7c746c64e68e89c879c8b56c2999100f9c6f34589e5"
+  },
+  "observations": {
+    "LOCAL_PRODUCT_MIXED_LOAD": {
+      "operations": 18,
+      "lanes": {
+        "report": 4,
+        "analytics": 4,
+        "import": 2,
+        "limiter": 4,
+        "ads": 4
+      },
+      "peakConcurrency": 4,
+      "elapsedMs": 244.98170500000015,
+      "p95Ms": 88.51324299999987,
+      "p99Ms": 88.51324299999987,
+      "rssBytes": 140644352,
+      "approvedProductionSLA": false,
+      "actualRecipientNotifications": 0,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "LOCAL_CACHE_PROCESS_EVIDENCE": {
+      "processes": 2,
+      "actualPostgreSQL": true,
+      "actualFixtureObjectStore": true,
+      "warmedRevision": 1,
+      "publishedRevision": 2,
+      "observedRevision": 2,
+      "configuredTtlMs": 30000,
+      "waitAndRefreshMs": 30137.648351,
+      "immediateInvalidationClaimed": false,
+      "productionActivation": false,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  },
+  "ownedProjectRemoved": true,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
