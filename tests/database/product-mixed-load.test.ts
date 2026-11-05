@@ -1,3 +1,4 @@
+import { setTimeout as delay } from 'node:timers/promises';
 import { createLimiterRepository } from '../../packages/db/src/repositories/limiter.ts';
 import { createQuotaCrypto } from '../../packages/integrations/src/analytics-crypto.ts';
 import { beforeAll, afterAll, it, expect } from 'vitest';
@@ -186,7 +187,10 @@ it('rejects cross-owner, forged CSRF, staff impersonation and arbitrary import p
     other = await f.session(),
     created = await f.call('/reports', who, engineFixture().request, uid('command'));
   expect(created.status).toBe(200);
-  const id = (await created.json()).data.report_id;
+  const id = (await created.json()).data.report_id,
+    rawOwnerToken = who.cookie.slice('tt_owner='.length);
+  expect(rawOwnerToken).toMatch(/^[A-Za-z0-9_-]{43}$/);
+  expect((await f.call('/reports/' + id, { csrf: '', bearer: rawOwnerToken })).status).toBe(200);
   const checks = [
     await f.call('/reports/' + id, other),
     await f.call('/reports', { ...who, csrf: 'forged' }, engineFixture().request, uid('command')),
@@ -200,6 +204,7 @@ it('rejects cross-owner, forged CSRF, staff impersonation and arbitrary import p
     const body = await r.text();
     for (const secret of [
       who.cookie,
+      rawOwnerToken,
       who.csrf,
       id,
       'C:/private',
@@ -211,7 +216,8 @@ it('rejects cross-owner, forged CSRF, staff impersonation and arbitrary import p
   }
   expect(f.observationsTruncated).toBe(false);
   const logs = JSON.stringify(f.observations);
-  for (const secret of [who.cookie, who.csrf, id]) expect(logs).not.toContain(secret);
+  for (const secret of [who.cookie, rawOwnerToken, who.csrf, id])
+    expect(logs).not.toContain(secret);
 });
 it('enforces a real SQL quota under concurrent pressure and leaves unrelated reads usable', async () => {
   const scope = f.db.adapter('tt_limiter_runtime'),
@@ -221,23 +227,68 @@ it('enforces a real SQL quota under concurrent pressure and leaves unrelated rea
   await f.db.admin.query(
     "INSERT INTO app.rate_limit_policies(policy_key,policy_version,window_seconds,limit_value,enabled) VALUES('local_product_overload','1',60,2,true)",
   );
-  const outcomes = await Promise.all(
-    Array.from({ length: 8 }, () =>
-      scope.unitOfWork.run(async (tx) =>
-        ok(
-          await limiter.consume(tx, [
-            {
-              policy: 'local_product_overload',
-              version: '1',
-              keys: crypto.keys('ip', '198.51.100.42'),
-            },
-          ]),
+  async function sqlClock() {
+    const seconds = Number(
+      (await f.db.admin.query('SELECT extract(epoch FROM clock_timestamp()) AS seconds')).rows[0]
+        .seconds,
+    );
+    expect(Number.isFinite(seconds)).toBe(true);
+    return { window: Math.floor(seconds / 60), remainingMs: (60 - (seconds % 60)) * 1000 };
+  }
+  let completed = false;
+  // Never retry service failures or a wrong quota result. Retry only a measured SQL window crossing.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let before = await sqlClock();
+    if (before.remainingMs <= 10000) {
+      await delay(Math.ceil(before.remainingMs) + 50);
+      before = await sqlClock();
+    }
+    if (before.remainingMs <= 10000) continue;
+    const keys = crypto.keys('ip', '198.51.100.' + (42 + attempt)),
+      outcomes = await Promise.all(
+        Array.from({ length: 8 }, () =>
+          scope.unitOfWork.run(async (tx) =>
+            ok(
+              await limiter.consume(tx, [{ policy: 'local_product_overload', version: '1', keys }]),
+            ),
+          ),
         ),
       ),
-    ),
-  );
-  expect(outcomes.filter((r) => r.ok && r.value.allowed)).toHaveLength(2);
-  expect(outcomes.filter((r) => r.ok && !r.value.allowed)).toHaveLength(6);
+      after = await sqlClock();
+    expect(outcomes.every((r) => r.ok)).toBe(true);
+    if (before.window !== after.window) {
+      console.log(
+        'LOCAL_QUOTA_WINDOW_RETRY ' +
+          JSON.stringify({ attempt: attempt + 1, measuredSqlWindowCrossing: true }),
+      );
+      continue;
+    }
+    const buckets = await f.db.admin.query(
+      "SELECT floor(extract(epoch FROM window_start)/60)::bigint::text AS window,used FROM app.rate_limit_buckets WHERE policy_key='local_product_overload' AND policy_version='1' AND key_version='http-v1' AND principal_hmac=decode($1,'hex')",
+      [keys[0]!.digest],
+    );
+    expect(buckets.rows).toEqual([{ window: String(before.window), used: 2 }]);
+    expect(outcomes.filter((r) => r.ok && r.value.allowed)).toHaveLength(2);
+    expect(outcomes.filter((r) => r.ok && !r.value.allowed)).toHaveLength(6);
+    console.log(
+      'LOCAL_QUOTA_WINDOW_EVIDENCE ' +
+        JSON.stringify({
+          attempts: attempt + 1,
+          maximumAttempts: 3,
+          sqlWindowStable: true,
+          allowed: 2,
+          denied: 6,
+          independentFixturePolicy: true,
+          actualRecipientNotifications: 0,
+          productionActivation: false,
+          casesClosed: 0,
+          gatesClosed: 0,
+        }),
+    );
+    completed = true;
+    break;
+  }
+  expect(completed, 'No stable SQL-window proof completed within the bounded attempts').toBe(true);
   expect((await f.call('/reference?kind=domainEntityVersions')).status).toBe(200);
   expect(f.providerCalls()).toBe(0);
-});
+}, 45000);
