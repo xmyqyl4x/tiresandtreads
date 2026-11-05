@@ -1367,6 +1367,8 @@ fieldset {
 }
 .commercial-slot {
   min-width: 0;
+  /* Reserve the largest permitted 128px creative plus its label without inline styles. */
+  min-height: 164px;
 }
 .commercial-label {
   display: block;
@@ -1381,6 +1383,7 @@ fieldset {
   align-items: center;
   gap: 1rem;
   width: 100%;
+  min-height: 128px;
   padding: 1rem;
   border: 1px solid #b7c8be;
   border-radius: 0.5rem;

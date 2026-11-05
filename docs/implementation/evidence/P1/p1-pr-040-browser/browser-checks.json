@@ -7,9 +7,25 @@
   "viewportObservations": [
     {
       "externalResourceElements": [],
+      "houseMinimums": [
+        "128px",
+        "128px"
+      ],
       "iframeCount": 0,
-      "inventoryHeight": 323.63543701171875,
-      "mainHeight": 2783.291748046875,
+      "inventoryHeight": 381.1145935058594,
+      "mainHeight": 2840.77099609375,
+      "reservedSlots": [
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        },
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        }
+      ],
       "scriptSources": [
         "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
       ],
@@ -20,9 +36,25 @@
     },
     {
       "externalResourceElements": [],
+      "houseMinimums": [
+        "128px",
+        "128px"
+      ],
       "iframeCount": 0,
-      "inventoryHeight": 477.34375,
-      "mainHeight": 5843.52099609375,
+      "inventoryHeight": 608.3021240234375,
+      "mainHeight": 5974.4794921875,
+      "reservedSlots": [
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        },
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        }
+      ],
       "scriptSources": [
         "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
       ],
@@ -33,9 +65,25 @@
     },
     {
       "externalResourceElements": [],
+      "houseMinimums": [
+        "128px",
+        "128px"
+      ],
       "iframeCount": 0,
-      "inventoryHeight": 534.9271240234375,
-      "mainHeight": 6716.2607421875,
+      "inventoryHeight": 608.3021240234375,
+      "mainHeight": 6789.6357421875,
+      "reservedSlots": [
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        },
+        {
+          "height": 164,
+          "inlineStyle": null,
+          "minimum": "164px"
+        }
+      ],
       "scriptSources": [
         "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
       ],
@@ -50,14 +98,14 @@
   "crossTabReservedSpace": {
     "before": {
       "delivery": "house",
-      "height": 323.63543701171875,
+      "height": 381.1145935058594,
       "scripts": [
         "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
       ]
     },
     "after": {
       "delivery": "house",
-      "height": 323.63543701171875,
+      "height": 381.1145935058594,
       "scripts": [
         "http://127.0.0.1:8380/local-preview-assets/commercial-client.js"
       ]
@@ -75,5 +123,6 @@
   "casesClosed": 0,
   "gatesClosed": 0,
   "rebuiltPreviewRechecked": true,
-  "keyboardSkipFocus": "education-main"
+  "keyboardSkipFocus": "education-main",
+  "cspCompatibleExternalReservationVerified": true
 }

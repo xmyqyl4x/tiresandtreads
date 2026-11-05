@@ -10,6 +10,12 @@ it('proves SSR fallback, disclosures, safe affiliate redirects and ad-free prote
     expect(page.headers.get('content-security-policy')).toContain("script-src 'self'");
     const html = await page.text();
     expect(html.match(/data-commercial-slot=/g) ?? []).toHaveLength(2);
+    expect(html).not.toMatch(/<(aside|a)[^>]+style=/);
+    const cssPath = /<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/.exec(html)?.[1];
+    expect(cssPath).toBeDefined();
+    const css = await (await f.web.request(cssPath!)).text();
+    expect(css).toMatch(/\.commercial-slot\{[^}]*min-height:164px/);
+    expect(css).toMatch(/\.commercial-house\{[^}]*min-height:128px/);
     expect(html).toContain('We may earn a commission from this link.');
     expect(html).toContain('sponsored nofollow noopener noreferrer');
     expect(html).toMatch(/referrerpolicy="no-referrer"/i);

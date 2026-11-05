@@ -10,14 +10,9 @@ export function CommercialView({ value }: { value: PublicCommerceView }) {
       <h2>Explore before you buy</h2>
       <div className="commercial-grid">
         {value.slots.map((slot) => (
-          <aside
-            className="commercial-slot"
-            key={slot.key}
-            data-commercial-slot={slot.key}
-            style={{ minHeight: slot.height + 36 }}
-          >
+          <aside className="commercial-slot" key={slot.key} data-commercial-slot={slot.key}>
             <span className="commercial-label">{slot.label}</span>
-            <a className="commercial-house" href={slot.housePath} style={{ height: slot.height }}>
+            <a className="commercial-house" href={slot.housePath}>
               <span aria-hidden="true" className="commercial-mark">
                 T&amp;T
               </span>
