@@ -279,6 +279,7 @@ BEGIN
   END IF;
   SELECT status INTO phase FROM partners.offer_versions
     WHERE org_id=NEW.org_id AND offer_id=NEW.offer_id AND version=NEW.offer_version FOR SHARE;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Target parent must already exist' USING ERRCODE='23503'; END IF;
   IF phase IN ('reviewed','published','retired') THEN
     RAISE EXCEPTION 'Reviewed offer targets are immutable' USING ERRCODE='23514';
   END IF;
@@ -326,7 +327,8 @@ DECLARE evaluated text;
 BEGIN
   SELECT policy_version INTO evaluated FROM partners.frequency_guards
     WHERE subject_id=NEW.subject_id AND scope_key=NEW.scope_key FOR SHARE;
-  IF FOUND AND NEW.policy_version IS DISTINCT FROM evaluated THEN
+  IF NOT FOUND THEN RAISE EXCEPTION 'Evaluated frequency guard must already exist' USING ERRCODE='23503'; END IF;
+  IF NEW.policy_version IS DISTINCT FROM evaluated THEN
     RAISE EXCEPTION 'Frequency reservation requires the current evaluated policy' USING ERRCODE='23514';
   END IF;
   RETURN NEW;
@@ -351,13 +353,16 @@ WHERE o.status='active' AND company.status='active' AND company.verification_sta
     JOIN app.object_assets physical ON physical.id=b.asset_id
     WHERE b.org_id=o.org_id AND b.asset_id=v.logo_asset_id AND b.purpose='logo' AND b.state='ready' AND physical.state='ready'));
 CREATE FUNCTION partners.guard_offer_pointer() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $$
-DECLARE current_offer partners.offers%ROWTYPE;
+DECLARE current_offer partners.offers%ROWTYPE; phase text;
 BEGIN
   SELECT * INTO current_offer FROM partners.offers WHERE id=NEW.id;
   IF NOT FOUND THEN RETURN NULL; END IF;
-  IF current_offer.current_version IS NOT NULL AND NOT EXISTS(SELECT 1 FROM partners.offer_versions v
-    WHERE v.org_id=current_offer.org_id AND v.offer_id=current_offer.id AND v.version=current_offer.current_version AND v.status='published') THEN
-    RAISE EXCEPTION 'Current offer pointer needs its own published version' USING ERRCODE='23514';
+  IF current_offer.current_version IS NOT NULL THEN
+    SELECT v.status INTO phase FROM partners.offer_versions v
+      WHERE v.org_id=current_offer.org_id AND v.offer_id=current_offer.id AND v.version=current_offer.current_version FOR SHARE;
+    IF NOT FOUND OR phase IS DISTINCT FROM 'published' THEN
+      RAISE EXCEPTION 'Current offer pointer needs its own published version' USING ERRCODE='23514';
+    END IF;
   END IF;
   IF current_offer.status='active' AND NOT EXISTS(SELECT 1 FROM partners.eligible_offer_versions e WHERE e.org_id=current_offer.org_id AND e.offer_id=current_offer.id) THEN
     RAISE EXCEPTION 'Active offer needs verified current organization, terms, domain and version' USING ERRCODE='23514';

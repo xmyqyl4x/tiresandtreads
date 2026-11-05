@@ -465,6 +465,76 @@ it('serializes target edits against concurrent review and publication through th
     await Promise.all([editor.query('ROLLBACK'), publisher.query('ROLLBACK')]);
   }
 });
+it('serializes current-version selection against concurrent retirement in both lock orders', async () => {
+  const a = await company(),
+    selector = await fixture.connect('tt_p2_staff_runtime'),
+    retirer = await fixture.connect('tt_p2_staff_runtime');
+  try {
+    for (const retireFirst of [false, true]) {
+      const draft = await offer(a, { published: false });
+      await fixture.admin.query(
+        "UPDATE partners.offer_versions SET status='published',reviewed_by=$3,reviewed_at=now() WHERE org_id=$1 AND offer_id=$2",
+        [a.id, draft.id, reviewer],
+      );
+      await selector.query('BEGIN');
+      await retirer.query('BEGIN');
+      await selector.query("SET LOCAL lock_timeout='200ms'");
+      await retirer.query("SET LOCAL lock_timeout='200ms'");
+      if (retireFirst) {
+        await retirer.query(
+          "UPDATE partners.offer_versions SET status='retired' WHERE org_id=$1 AND offer_id=$2",
+          [a.id, draft.id],
+        );
+        await retirer.query('SET CONSTRAINTS ALL IMMEDIATE');
+        await selector.query(
+          "UPDATE partners.offers SET current_version=1,status='active' WHERE id=$1",
+          [draft.id],
+        );
+        await expect(selector.query('SET CONSTRAINTS ALL IMMEDIATE')).rejects.toMatchObject({
+          code: '55P03',
+        });
+        await selector.query('ROLLBACK');
+        await retirer.query('COMMIT');
+        await expect(
+          selector.query(
+            "UPDATE partners.offers SET current_version=1,status='active' WHERE id=$1",
+            [draft.id],
+          ),
+        ).rejects.toMatchObject({ code: '23514' });
+      } else {
+        await selector.query(
+          "UPDATE partners.offers SET current_version=1,status='active' WHERE id=$1",
+          [draft.id],
+        );
+        await selector.query('SET CONSTRAINTS ALL IMMEDIATE');
+        await expect(
+          retirer.query(
+            "UPDATE partners.offer_versions SET status='retired' WHERE org_id=$1 AND offer_id=$2",
+            [a.id, draft.id],
+          ),
+        ).rejects.toMatchObject({ code: '55P03' });
+        await retirer.query('ROLLBACK');
+        await selector.query('COMMIT');
+      }
+    }
+  } finally {
+    await Promise.all([selector.query('ROLLBACK'), retirer.query('ROLLBACK')]);
+  }
+});
+it('rejects a target whose reviewed parent is only inserted later in the same statement', async () => {
+  const a = await company(),
+    id = randomUUID();
+  await fixture.admin.query('INSERT INTO partners.offers(id,org_id) VALUES($1,$2)', [id, a.id]);
+  await expect(
+    fixture.admin.query(
+      `WITH target AS (INSERT INTO partners.offer_targets(org_id,offer_id,offer_version,market,strategy)
+      VALUES($1,$2,1,'US','store_wide') RETURNING id)
+    INSERT INTO partners.offer_versions(org_id,offer_id,version,title,description,terms,discount_type,percent_basis_points,redemption_method,valid_from,valid_until,status,created_by,reviewed_by,reviewed_at)
+    SELECT $1,$2,1,'Synthetic','Synthetic','{}','percent_off',1000,'in_store_code',now(),now()+interval '7 days','reviewed',$3,$4,now() FROM target`,
+      [a.id, id, fixture.staff, reviewer],
+    ),
+  ).rejects.toMatchObject({ code: '23503' });
+});
 it('requires a real verified HTTPS authority and rejects malformed or ambiguous redemption URLs', async () => {
   const a = await company(),
     draft = await offer(a, { published: false, link: true });
@@ -760,6 +830,18 @@ it('prevents issued frequency usage from downgrading through reserved or uncerta
     ).rows,
   ).toEqual([{ state: 'issued' }]);
 });
+it('requires the evaluated frequency guard to be visible before inserting its reservation', async () => {
+  const message = await send();
+  await expect(
+    worker.query(
+      `WITH reservation AS (INSERT INTO partners.frequency_reservations(subject_id,scope_key,send_id,window_start,window_end,window_kind,calendar_time_zone,policy_version)
+      VALUES($1,'overall_marketing',$2,now()-interval '1 day',now()+interval '30 days','calendar_month','UTC','not-evaluated') RETURNING id)
+    INSERT INTO partners.frequency_guards(subject_id,scope_key,policy_version)
+      SELECT $1,'overall_marketing','actual-current' FROM reservation`,
+      [message.subject, message.id],
+    ),
+  ).rejects.toMatchObject({ code: '23503' });
+});
 it('deduplicates codes without plaintext and rejects foreign pool mode and invalid ciphertext bounds', async () => {
   const v = await offer(await company()),
     digest = randomBytes(32);
@@ -831,6 +913,28 @@ it('retains immutable reported-redemption corrections, deduplicates events and r
       event,
     ]),
   ).rejects.toMatchObject({ code: '23514' });
+});
+it('rejects redemption attribution before a shared reservation is visible in a combined insert', async () => {
+  const v = await offer(await company(), { mode: 'shared' }),
+    message = await send(),
+    reservation = randomUUID();
+  await expect(
+    worker.query(
+      `WITH event AS (INSERT INTO partners.redemption_events(org_id,reservation_id,offer_id,offer_version,external_event_key,kind,quantity_delta,occurred_at)
+      VALUES($1,$2,$3,1,'combined-shared','reported',1,now()) RETURNING id)
+    INSERT INTO partners.coupon_reservations(id,org_id,send_id,owner_subject_id,offer_id,offer_version,pool_id,pool_mode,slot,policy_version)
+      SELECT $2,$1,$4,$5,$3,1,$6,'shared',1,'synthetic-v1' FROM event`,
+      [v.org.id, reservation, v.id, message.id, message.subject, v.pool],
+    ),
+  ).rejects.toMatchObject({ code: '23503' });
+  expect(
+    (
+      await worker.query(
+        'SELECT count(*)::int AS n FROM partners.redemption_events WHERE reservation_id=$1',
+        [reservation],
+      )
+    ).rows,
+  ).toEqual([{ n: 0 }]);
 });
 it('rejects forward reversal parents in bulk inserts and validates already inserted quantities', async () => {
   const v = await offer(await company()),

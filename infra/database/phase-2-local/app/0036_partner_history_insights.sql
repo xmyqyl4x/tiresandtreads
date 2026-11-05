@@ -24,6 +24,7 @@ CREATE FUNCTION partners.guard_redemption() RETURNS trigger LANGUAGE plpgsql SET
 DECLARE mode text; previous smallint;
 BEGIN
   SELECT pool_mode INTO mode FROM partners.coupon_reservations WHERE org_id=NEW.org_id AND id=NEW.reservation_id;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Redemption reservation must already exist' USING ERRCODE='23503'; END IF;
   IF mode='shared' THEN RAISE EXCEPTION 'Shared code cannot attribute a reported redemption' USING ERRCODE='23514'; END IF;
   IF NEW.reverses_event_id IS NOT NULL THEN
     SELECT quantity_delta INTO previous FROM partners.redemption_events
