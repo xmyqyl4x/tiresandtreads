@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused-disposable-partner-schema-proof",
+  "focusedTestsPassed": 36,
+  "typecheckPassed": true,
+  "ownedProjectRemoved": true,
+  "sourceSha256": {
+    "infra/database/phase-2-local/app/0034_partner_identity.sql": "b1c6ee95ff08a8afc92d5ce2ee5e7b3af2d09dee10d210a612adfa4fa8cf270e",
+    "infra/database/phase-2-local/app/0035_partner_offers.sql": "e5f5216a6e8afb9483fd9e44f799a87f8605e6bca2f5962d0c12dc08b1421e88",
+    "infra/database/phase-2-local/app/0036_partner_history_insights.sql": "8edb3c5b1825f5aa288f0b63d36d4bd35dc5d675a03802e066691d4d8cbe2d68",
+    "infra/database/phase-2-local/app/manifest.json": "d4ee05c0b59b0fbb36f977946aefcc01ea8af19f988fb91a79fa844b59aa82b5",
+    "tests/database/phase2-partner-schema.test.ts": "1a06897edb1f54b747cf418189a482dbd8033261949b0917ccb0379552897a4b",
+    "tests/fixtures/phase2/partners.ts": "a8168e31dbb1d1addf88b64d8b2c7b97eb4422182c2550fc30892eba6e871b42",
+    "tests/fixtures/phase2/run.mjs": "be86fbdf2fd53634e3f968647084ebebb4b67440b462625e0d1fb8a9b9d0949c"
+  },
+  "p1Comparison": {
+    "inventoryTables": 141,
+    "completeDataTables": 140,
+    "originalMigrationPrefixRows": 33,
+    "expectedNewMigrationRows": 3,
+    "existingRelationOwnersAndAclsPreserved": true
+  },
+  "redTests": [
+    {
+      "test": "installs the opt-in organization schema on an existing populated P1 database",
+      "failure": "expected partners.organizations; received null"
+    },
+    {
+      "test": "shared-code fingerprint and configured cap identity",
+      "failure": "fingerprint update resolved instead of rejecting"
+    },
+    {
+      "test": "evaluated frequency policy snapshot",
+      "failure": "frequency_reservations.policy_version did not exist"
+    }
+  ],
+  "observations": {
+    "P2_PARTNER_SCHEMA_EVIDENCE": {
+      "optInLocalTrack": true,
+      "localMigrations": 3,
+      "newTables": 23,
+      "forcedRls": true,
+      "preservedP1Tables": 141,
+      "preservedP1Permissions": true,
+      "preservedP1Migrations": 33,
+      "restrictedRuntimeLogins": 3,
+      "realCodeAndCapRaces": true,
+      "sharedAndExclusiveSeparated": true,
+      "sourceChecksumRefused": true,
+      "failedDdlRolledBack": true,
+      "productionBootstrapChanged": false,
+      "actualAuthenticationAcceptance": false,
+      "actualPrivacyAcceptance": false,
+      "actualPilotAccepted": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "productionActivation": false,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "P2_PARTNER_QUERY_EVIDENCE": {
+      "syntheticRows": 10000,
+      "returned": 51,
+      "indexed": true,
+      "executionMs": 0.033,
+      "productionSlaAccepted": false
+    }
+  },
+  "productionBootstrapChanged": false,
+  "actualPrivacyAccepted": false,
+  "phase1LiveAccepted": false,
+  "phase2SchemaAccepted": false,
+  "actualRecipientNotifications": 0,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

@@ -78,9 +78,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC11, DB09, DB10, DB12. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Add organizations/memberships/agreements/verification/locations and scoped runtime RLS.
-- [ ] Add immutable offer/target/pool/code/reservation/cap/decision records and correction/redemption/dispute persistence.
-- [ ] Add privacy-scoped visitor/internal aggregate support only where absent from P1; preserve noncharging pilot semantics.
+- [x] Add organizations/memberships/agreements/verification/locations and scoped runtime RLS.
+- [x] Add immutable offer/target/pool/code/reservation/cap/decision records and correction/redemption/dispute persistence.
+- [x] Add privacy-scoped visitor/internal aggregate support only where absent from P1; preserve noncharging pilot semantics.
+
+**Local implementation:** [Opt-in reseller schema](../implementation/P2-PR-002-local-reseller-schema.md) completes these three tasks only in the owner-authorized disposable local track. Three migrations, 23 forced-RLS tables and 36 native cases are implemented; ordinary P1 manifests/bootstrap/CLI/preflight and all actual acceptance/deployment holds remain unchanged. P2 S1 and promotion remain open.
 
 **Verification and acceptance:** Real constraints and RLS deny wrong-tenant parents and double live codes; upgrade preserves P1 records.
 

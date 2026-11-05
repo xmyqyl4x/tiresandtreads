@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "baseAppHead": "0033_service_validation_operations",
+  "migrations": [
+    {
+      "id": "0034_partner_identity",
+      "sha256": "b1c6ee95ff08a8afc92d5ce2ee5e7b3af2d09dee10d210a612adfa4fa8cf270e"
+    },
+    {
+      "id": "0035_partner_offers",
+      "sha256": "e5f5216a6e8afb9483fd9e44f799a87f8605e6bca2f5962d0c12dc08b1421e88"
+    },
+    {
+      "id": "0036_partner_history_insights",
+      "sha256": "8edb3c5b1825f5aa288f0b63d36d4bd35dc5d675a03802e066691d4d8cbe2d68"
+    }
+  ],
+  "tables": [
+    "partners.organizations",
+    "partners.memberships",
+    "partners.organization_assets",
+    "partners.agreements",
+    "partners.verification_records",
+    "partners.locations",
+    "partners.organization_domains",
+    "partners.offers",
+    "partners.offer_versions",
+    "partners.offer_targets",
+    "partners.coupon_pools",
+    "partners.coupon_codes",
+    "partners.coupon_reservations",
+    "partners.offer_decisions",
+    "partners.frequency_guards",
+    "partners.frequency_reservations",
+    "partners.offer_cap_windows",
+    "partners.cap_reservations",
+    "partners.redemption_events",
+    "partners.disputes",
+    "partners.dispute_events",
+    "partners.insight_heads",
+    "partners.daily_metrics"
+  ]
+}
