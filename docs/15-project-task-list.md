@@ -19,6 +19,8 @@ No deadline or engineering-day estimate is inferred from the number of PRs. Esti
 
 ## Working rules
 
+**Owner-directed early local Phase 2 exception after PR #88:** The owner explicitly authorized the local P1 release packet, draft P2-PR-001 scope/evaluation inputs and local P2-PR-002 reseller-schema groundwork before Phase 1 live acceptance, with validation and merge. [The exact scope record](implementation/evidence/P2/local-phase-2-authorization.json) and [planning packet](implementation/P2-PR-001-local-scope-evaluation.md) retain all actual acceptance/deployment holds. Reseller SQL uses an explicit opt-in disposable local track; current P1 bootstrap/CLI/preflight and policy remain unchanged. This authorizes no later Phase 2 card or actual phase/gate closure.
+
 **Owner-directed local implementation exception, November 2, 2026:** The owner explicitly authorized local API/frontend implementation and testing for P1-PR-028–032, with merge after validation. These five cards may proceed using the implemented services and synthetic local data while P1-PR-027's six actual S3 acceptance gates remain pending. P1-PR-031 can publish a local technical validation result; full S4 acceptance and live-release dependencies remain open. P1-PR-032 may build the local shell against those locally verified contracts. This exception supersedes the previous API/frontend implementation hold only for this scope. It does not authorize hosted provisioning, purchases, actual notifications, external provider effects, source/specialist acceptance or a production release. See the [implementation boundary](implementation/P1-PR-028-local-api-implementation.md) and [explicit scope record](implementation/evidence/P1/local-product-development-authorization.json).
 
 **Owner-directed P1 sequencing update, October 23, 2026:** commercial source providers and hosting budget are deferred until necessary. The [launch baseline](implementation/P1-PR-001-launch-baseline.md) defines blocking triggers. P1-PR-003 accepts the local S0 foundation independently of full G0, permitting synthetic database/repository work. Actual external integrations remain gated at the affected cards, and full G0/chosen-host evidence is required by P1-PR-031. Stable IDs and dependency edges remain; acceptance scope for 001/003 changes explicitly below and in their cards.
@@ -110,8 +112,8 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 
 | Planned PR and title | Stage | Status | Assignee | PR / acceptance evidence |
 | --- | --- | --- | --- | --- |
-| [P2-PR-001 — Lock Phase 2 scope, AI evaluation and pilot readiness](tasks/phase-2-prs.md#p2-pr-001) | S0 | Not started | Unassigned | — |
-| [P2-PR-002 — Create organization, offer and coupon schemas](tasks/phase-2-prs.md#p2-pr-002) | S1 | Not started | Unassigned | — |
+| [P2-PR-001 — Lock Phase 2 scope, AI evaluation and pilot readiness](tasks/phase-2-prs.md#p2-pr-001) | S0 | Local preparation complete; actual feasibility held | Codex; owner local exception | [Scope/evaluation packet](implementation/P2-PR-001-local-scope-evaluation.md); actual P1 stability, provider/specialist/privacy/pilot acceptance pending |
+| [P2-PR-002 — Create organization, offer and coupon schemas](tasks/phase-2-prs.md#p2-pr-002) | S1 | Local groundwork authorized; not started | Codex; owner local exception | [Scope exception](implementation/evidence/P2/local-phase-2-authorization.json); opt-in disposable schemas only; actual S1 held |
 | [P2-PR-003 — Create AI policy, artifact, reuse and budget schemas](tasks/phase-2-prs.md#p2-pr-003) | S1 | Not started | Unassigned | — |
 | [P2-PR-004 — Create photo and admin-import extension schemas](tasks/phase-2-prs.md#p2-pr-004) | S1 | Not started | Unassigned | — |
 | [P2-PR-005 — Close Phase 2 schema and upgrade gate](tasks/phase-2-prs.md#p2-pr-005) | S1 | Not started | Unassigned | — |

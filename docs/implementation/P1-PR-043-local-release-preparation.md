@@ -49,6 +49,8 @@ These are review requirements, not executable commands for an unknown target. Pr
 
 The next planned cards are [P2-PR-001](../tasks/phase-2-prs.md#p2-pr-001), scope/evaluation/pilot readiness, and [P2-PR-002](../tasks/phase-2-prs.md#p2-pr-002), organization/offer/coupon schemas. Their ordinary dependency is accepted Phase 1 live release plus accepted Phase 2 feasibility. Neither is satisfied here. Early local Phase 2 design/schema implementation needs an explicit sequencing exception; it must preserve actual phase acceptance, provider/rights, specialist, budget and deployment decisions. Do not infer that exception or choose a provider/model/price from a generic request to continue implementation.
 
+The owner subsequently granted that limited sequencing exception: [P2 local preparation](P2-PR-001-local-scope-evaluation.md) and [the exact authorization](evidence/P2/local-phase-2-authorization.json) cover draft P2-PR-001 and opt-in local P2-PR-002 only. Actual Phase 1 live release and Phase 2 entry acceptance remain false.
+
 ## Review and verification
 
 This is documentation and inventory work; TDD does not require artificial behavioral tests. Validate inventory hashes against repository bytes, confirm all linked evidence exists, reconcile the master ledger with merged local implementation, and preserve original source pins, six pending S3 records and all historical case statuses. Run the repository's required exact-commit build/regression and PR/main checks before merge completion. Record new run results in the PR; the baseline counts above remain historical observations from PR #87.

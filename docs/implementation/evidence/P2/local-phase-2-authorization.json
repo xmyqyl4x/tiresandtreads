@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "authority": "Explicit owner clarification in the implementation conversation after PR #88",
+  "instruction": "Proceed with those three local scopes; keep all acceptance and deployment holds",
+  "scopes": {
+    "P1-PR-043": "Local release packet, completed in PR #88",
+    "P2-PR-001": "Draft local scope, pilot and evaluation inputs",
+    "P2-PR-002": "Opt-in local reseller-schema groundwork and disposable validation"
+  },
+  "baselineMain": "0fbd94aba6096d621bd75c0be3579a68dbcdeb44",
+  "localImplementationAllowed": true,
+  "localTestingAllowed": true,
+  "mergeAfterValidationAllowed": true,
+  "phase1LiveAccepted": false,
+  "phase2FeasibilityAccepted": false,
+  "phase2SchemaAccepted": false,
+  "providerModelBudgetDecisions": "unconfirmed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "HS01-HS08": "proposed",
+  "sixS3Gates": "pending; unchanged records",
+  "productionBootstrapCliPreflightPolicy": "unchanged",
+  "hostedProvisioning": false,
+  "productionActivation": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "futurePhase2CardsAuthorizedByThisRecord": []
+}
