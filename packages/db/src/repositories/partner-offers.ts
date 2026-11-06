@@ -10,6 +10,7 @@ import { boundedJson, pageLimit, reject } from './bounds.ts';
 import { text, integer, one } from './private-values.ts';
 const columns =
   'org_id,offer_id,version,supersedes_version,title,description,terms,discount_type,amount_minor,currency_code,percent_basis_points,service_code,minimum_tires,minimum_purchase_minor,minimum_purchase_currency,redemption_method,redemption_domain,redemption_url,logo_asset_id,logo_rights_warranted,valid_from,valid_until,status,created_by,reviewed_by';
+const selectedColumns = columns + ",to_jsonb(offer_versions)->>'partner_author' AS partner_author";
 function draftRow(i: OfferDraft) {
   const d = i.discount;
   if (!d || typeof d !== 'object') return reject();
@@ -41,10 +42,11 @@ function draftRow(i: OfferDraft) {
     created_by: i.createdBy,
     reviewed_by: null,
   };
-  const checked = partnerOfferFromRow(r);
+  const authored = i.partnerAuthor === undefined ? r : { ...r, partner_author: i.partnerAuthor };
+  const checked = partnerOfferFromRow(authored);
   if (!checked.ok) return reject();
-  r.terms = checked.value.terms;
-  return r;
+  authored.terms = checked.value.terms;
+  return authored;
 }
 export function createPartnerOfferRepository(s: WriteScope): PartnerOfferRepository {
   const q = s.query;
@@ -62,7 +64,7 @@ export function createPartnerOfferRepository(s: WriteScope): PartnerOfferReposit
       const r = (
         await q(
           tx,
-          `SELECT ${columns} FROM partners.offer_versions WHERE org_id=$1 AND offer_id=$2 AND version=$3`,
+          `SELECT ${selectedColumns} FROM partners.offer_versions WHERE org_id=$1 AND offer_id=$2 AND version=$3`,
           [org, offer, version],
         )
       ).rows[0];
@@ -76,7 +78,7 @@ export function createPartnerOfferRepository(s: WriteScope): PartnerOfferReposit
       return (
         await q(
           tx,
-          `SELECT ${columns} FROM partners.offer_versions WHERE org_id=$1 AND offer_id=$2 AND ($3::int IS NULL OR version<$3) ORDER BY version DESC LIMIT $4`,
+          `SELECT ${selectedColumns} FROM partners.offer_versions WHERE org_id=$1 AND offer_id=$2 AND ($3::int IS NULL OR version<$3) ORDER BY version DESC LIMIT $4`,
           [org, offer, before, limit],
         )
       ).rows.map((r) => mapped(partnerOfferFromRow(r)));
@@ -101,7 +103,7 @@ export function createPartnerOfferRepository(s: WriteScope): PartnerOfferReposit
         r.supersedes_version !== (head?.version ?? null)
       )
         return stop('conflict');
-      const keys = columns.split(','),
+      const keys = [...columns.split(','), ...('partner_author' in r ? ['partner_author'] : [])],
         values = keys.map((k) =>
           k === 'terms' ? boundedJson(r.terms, 16384) : r[k as keyof typeof r],
         );
@@ -109,7 +111,7 @@ export function createPartnerOfferRepository(s: WriteScope): PartnerOfferReposit
         (
           await q(
             tx,
-            `INSERT INTO partners.offer_versions(${columns}) VALUES(${keys.map((_, n) => '$' + (n + 1)).join(',')}) RETURNING ${columns}`,
+            `INSERT INTO partners.offer_versions(${keys.join(',')}) VALUES(${keys.map((_, n) => '$' + (n + 1)).join(',')}) RETURNING ${selectedColumns}`,
             values,
           )
         ).rows,

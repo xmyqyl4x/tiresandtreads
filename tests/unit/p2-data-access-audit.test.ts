@@ -70,3 +70,21 @@ it('refuses missing source rather than reporting partial coverage', () => {
     }),
   ).toThrow('missing');
 });
+
+it('rejects unreviewed source-revision metadata even when repository code is unchanged', () => {
+  expect(() =>
+    auditP2DataAccess(
+      (p: string) =>
+        readFileSync(p, 'utf8') + (p.endsWith('p2-source-revisions.json') ? '\n ' : ''),
+    ),
+  ).toThrow(/checksum/);
+});
+it('refuses a drifted partner-authorship revision independently from historical pins', () => {
+  expect(() =>
+    auditP2DataAccess(
+      (p: string) =>
+        readFileSync(p, 'utf8') +
+        (p.endsWith('partner-offers.ts') ? '\n// unauthorized drift\n' : ''),
+    ),
+  ).toThrow(/checksum/);
+});
