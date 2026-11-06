@@ -28,6 +28,8 @@ afterAll(async () => {
         oversizeRefused: 10001,
         boundedRetention: true,
         healthCurrentPermission: true,
+        heldReleaseRetention: true,
+        closedOrganizationIndependence: true,
         privateEncryption: 'scoped-local-aes-double',
         authentication: 'synthetic-authority-double',
         actualS1Approval: false,
@@ -336,6 +338,49 @@ it('refuses stale dispute revisions, cross-tenant parents and self resolution', 
       })
     ).ok,
   ).toBe(false);
+  await f.admin.query(
+    "UPDATE partners.organizations SET status='closed',revision=revision+1 WHERE id=$1",
+    [o.id],
+  );
+  expect(
+    (
+      await s.service.dispute(s.caseworker, o.id, {
+        ...c,
+        key: uuid('command'),
+        kind: 'resolved',
+        expected: 1,
+      })
+    ).ok,
+  ).toBe(false);
+  const independent = await s.staff('partner_caseworker');
+  expect(
+    value(
+      await s.service.dispute(independent, o.id, {
+        ...c,
+        key: uuid('command'),
+        kind: 'resolved',
+        expected: 1,
+      }),
+    ),
+  ).toMatchObject({ state: 'closed', revision: 2 });
+  expect(
+    (
+      await s.service.dispute(s.caseworker, o.id, {
+        ...c,
+        key: uuid('command'),
+        kind: 'reopened',
+        expected: 2,
+      })
+    ).ok,
+  ).toBe(false);
+  expect(
+    (
+      await f.admin.query(
+        'SELECT count(*)::int n FROM partners.dispute_events WHERE dispute_id=$1',
+        [c.id],
+      )
+    ).rows[0]!.n,
+  ).toBe(2);
 });
 it('serializes concurrent dispute evidence using expected revisions', async () => {
   const o = await s.company(),
@@ -766,12 +811,31 @@ it('purges only a bounded batch of expired observations and domain samples', asy
       [uuid('sample')],
     );
   }
-  const hold = uuid('hold');
+  const hold = uuid('hold'),
+    release = uuid('release');
   await f.admin.query(
-    "INSERT INTO privacy.legal_holds(id,subject_id,resource_kind,reason_code,approved_by,review_after) VALUES($1,$2,'subject','synthetic',$3,now()+interval '1 day')",
-    [hold, a.subject, f.staff],
+    "INSERT INTO partners.operations_releases(id,audience,week,state,computed_at,expires_at) VALUES($1,$2,$3::date,'suppressed',statement_timestamp()-interval '14 months',statement_timestamp()-interval '1 month')",
+    [release, o.id, s.week],
   );
-  value(await s.service.maintenance(s.privacy, 1));
+  await f.admin.query(
+    "INSERT INTO partners.operations_release_subjects(release_id,subject_id,permission_revision,scope,collected_at,valid_until) VALUES($1,$2,1,'email',$3,statement_timestamp()+interval '1 day')",
+    [release, a.subject, s.historical],
+  );
+  await f.admin.query(
+    "INSERT INTO privacy.legal_holds(id,resource_id,resource_kind,reason_code,approved_by,review_after) VALUES($1,$2,'operations_release','synthetic',$3,now()+interval '1 day')",
+    [hold, release, f.staff],
+  );
+  for (let i = 0; i < 2; i++) {
+    value(await s.service.maintenance(s.privacy, 500));
+    expect(
+      (
+        await f.admin.query(
+          'SELECT count(*)::int n FROM partners.operations_release_subjects WHERE release_id=$1',
+          [release],
+        )
+      ).rows[0]!.n,
+    ).toBe(1);
+  }
   expect(
     (
       await f.admin.query(

@@ -278,7 +278,7 @@ export function createPartnerInsightsRepository(
     },
     async dispute(tx, org, actor, input, details, hash) {
       const isMember =
-        (await q(tx, 'SELECT partners.ops_member($1,$2,false) AS member', [org, actor.subject]))
+        (await q(tx, 'SELECT partners.ops_affiliated($1,$2) AS member', [org, actor.subject]))
           .rows[0]?.member === true;
       if ((input.kind === 'resolved' || input.kind === 'reopened') && isMember)
         return stop('forbidden');
@@ -506,7 +506,7 @@ export function createPartnerInsightsRepository(
         `WITH b AS(SELECT id FROM partners.operations_clicks WHERE expires_at<=clock_timestamp() AND NOT partners.ops_observation_held(id) ORDER BY expires_at,id LIMIT $1 FOR UPDATE SKIP LOCKED) DELETE FROM partners.operations_clicks d USING b WHERE d.id=b.id`,
         `WITH b AS(SELECT id FROM partners.operations_domain_samples WHERE expires_at<=clock_timestamp() ORDER BY expires_at,id LIMIT $1 FOR UPDATE SKIP LOCKED) DELETE FROM partners.operations_domain_samples d USING b WHERE d.id=b.id`,
         `WITH b AS(SELECT id FROM partners.operations_releases WHERE expires_at<=clock_timestamp() AND state<>'blocked' ORDER BY expires_at,id LIMIT $1 FOR UPDATE SKIP LOCKED) UPDATE partners.operations_releases r SET state='blocked',cells=NULL FROM b WHERE r.id=b.id`,
-        `WITH b AS(SELECT s.release_id,s.subject_id FROM partners.operations_release_subjects s JOIN partners.operations_releases r ON r.id=s.release_id WHERE r.expires_at<=clock_timestamp() ORDER BY s.release_id,s.subject_id LIMIT $1 FOR UPDATE OF s SKIP LOCKED) DELETE FROM partners.operations_release_subjects s USING b WHERE s.release_id=b.release_id AND s.subject_id=b.subject_id`,
+        `WITH b AS(SELECT s.release_id,s.subject_id FROM partners.operations_release_subjects s JOIN partners.operations_releases r ON r.id=s.release_id WHERE r.expires_at<=clock_timestamp() AND NOT partners.ops_subject_held(s.subject_id) ORDER BY s.release_id,s.subject_id LIMIT $1 FOR UPDATE OF s SKIP LOCKED) DELETE FROM partners.operations_release_subjects s USING b WHERE s.release_id=b.release_id AND s.subject_id=b.subject_id`,
       ])
         total += (await q(tx, sql, [limit])).rowCount;
       return total;

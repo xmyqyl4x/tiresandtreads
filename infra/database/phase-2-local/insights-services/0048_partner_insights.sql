@@ -75,6 +75,14 @@ BEGIN
  PERFORM 1 FROM partners.memberships m WHERE m.org_id=organization AND m.provider_subject=subject AND m.status='active' AND (NOT writing OR m.role IN('owner','manager')) FOR SHARE;
  RETURN FOUND;
 END $$;
+-- Conflicts of interest persist when portal access ends; organization state is irrelevant.
+CREATE FUNCTION partners.ops_affiliated(organization uuid,subject text) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+BEGIN
+ PERFORM 1 FROM partners.memberships m WHERE m.org_id=organization AND m.provider_subject=subject AND m.status='active' FOR SHARE;
+ RETURN FOUND;
+END $$;
+REVOKE ALL ON FUNCTION partners.ops_affiliated(uuid,text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION partners.ops_affiliated(uuid,text) TO tt_p2_insights_service;
 CREATE FUNCTION partners.ops_permitted(person uuid,scope text,collected timestamptz,revision bigint DEFAULT NULL) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $$
  SELECT EXISTS(SELECT 1 FROM app.subjects s JOIN privacy.consent_state p ON p.subject_id=s.id
  JOIN privacy.consent_events e ON e.id=p.source_event_id JOIN privacy.notices n ON n.id=e.notice_id
@@ -167,7 +175,7 @@ CREATE FUNCTION partners.ops_observation_held(observation uuid) RETURNS boolean 
  SELECT EXISTS(SELECT 1 FROM partners.operations_clicks e JOIN partners.coupon_reservations a ON a.id=e.reservation_id JOIN email.email_sends s ON s.id=a.send_id JOIN privacy.contacts c ON c.id=s.recipient_contact_id WHERE e.id=$1 AND partners.ops_subject_held(c.subject_id));
 $$;
 REVOKE ALL ON FUNCTION partners.ops_subject_held(uuid),partners.ops_observation_held(uuid) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION partners.ops_observation_held(uuid) TO tt_p2_insights_service;
+GRANT EXECUTE ON FUNCTION partners.ops_observation_held(uuid),partners.ops_subject_held(uuid) TO tt_p2_insights_service;
 CREATE FUNCTION partners.ops_purge(person uuid) RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 BEGIN
  PERFORM id FROM app.subjects WHERE id=person FOR UPDATE;
