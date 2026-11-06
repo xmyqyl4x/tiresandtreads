@@ -3,8 +3,8 @@
   "card": "P2-PR-007",
   "scope": "Opt-in disposable local repository proof only",
   "baseMain": "de8b7c64e64b74d2704ff633ccac7c9e6745b23c",
-  "focusedTestsPassed": 124,
-  "nativeTestsPassed": 56,
+  "focusedTestsPassed": 126,
+  "nativeTestsPassed": 58,
   "mapperTestsPassed": 49,
   "inputTestsPassed": 19,
   "typecheckPassed": true,
@@ -13,8 +13,8 @@
   "newTables": 0,
   "newPurposeRoles": 2,
   "sourceSha256": {
-    "infra/database/phase-2-local/analysis-repositories/0045_analysis_repository_support.sql": "31c230c89c71824e777af334aa3b24e46f839d6da3c5295f2fea31e2f9705d06",
-    "infra/database/phase-2-local/analysis-repositories/manifest.json": "f9ba94b6a971e58c7cdfc662470fd8655cd00733513933ba883815374c5abe51",
+    "infra/database/phase-2-local/analysis-repositories/0045_analysis_repository_support.sql": "071b5c71ad681ff0880f96c638529135308878ffd49d3ef9de6dcd178d83c480",
+    "infra/database/phase-2-local/analysis-repositories/manifest.json": "49ef81b8fad943ac1aa67b745f3df2639386b4ea5b2629f915a229db65933c63",
     "packages/application/src/ports/analysis-privacy.ts": "8b8c176f1dbc559a7e2b2e3e396f7da8dec9d6d8d59478080356ab69b6be9a87",
     "packages/application/src/ports/analysis-repositories.ts": "97524721f61ee77632863d496e93822b56da9c4ac0ad2893462b76a450e9b8e8",
     "packages/application/src/ports/csv-review-repositories.ts": "9711c9d13a73eb62b25e86eea11a52b254c54fecab45aeab5f90f3348f384b3c",
@@ -38,13 +38,13 @@
     "packages/domain/src/entities/analysis.ts": "9e8095cbc9fcb049b030d44cf601ed6289917fa23d106f2c8f28cfea177c7c07",
     "packages/domain/src/entities/csv-review.ts": "ade374a367678d8b3d47aedfa72f47c77724cc1401380e7e262b6394e882c025",
     "packages/domain/src/entities/photo.ts": "84127be1f9887022c60e4f3e437882c8ab93c67eeee14e4b356d295882abbbab",
-    "tests/database/phase2-analysis-repositories.test.ts": "94d877ad9dced67b0e2328770905ed689c9f350f4b451d520a462109bc4ab5a5",
+    "tests/database/phase2-analysis-repositories.test.ts": "63003f2482a07ebeab6d6446bc08355bd8a99347bf258f6c7c0a0b2e386ba623",
     "tests/fixtures/phase2/analysis-repositories-run.mjs": "51083251830036614e6e5a7f82de4070d016caf557bc3e49290bf2be0ecc030e",
     "tests/fixtures/phase2/analysis-repositories.ts": "9190d45f818c1e8e459869b3098ae3d85ff448f2e2961c7e3f31e45de15dcfc9",
     "tests/unit/analysis-input.test.ts": "f2e06ca735f990788ce12bb2fd4616587d141f5613dcece1aaca23d5a0ddd7b4",
     "tests/unit/analysis-mappers.test.ts": "4e74cf7c90167b964d29575d1ad3c1574dbf450898fc3ec7619e23798163eca0"
   },
-  "focusedLogSha256": "6fc343f0faa0a4ed2f3dacf7a41c1ba6071c0a377774bca3d56901292691bf5e",
+  "focusedLogSha256": "ae637e3be24767e1b67f58400d3e5b0ba584bb488a557af38e412e0de115847a",
   "redTests": [
     {
       "case": "Request mapper exact int64 and private extra exclusion",
@@ -69,6 +69,10 @@
     {
       "case": "Terminal release retry binds exact evidence",
       "logSha256": "d8ac0d596685979484ff9a5723eb7e48b1936e4613ffe04a671f29a429ab6351"
+    },
+    {
+      "case": "Opposite-order privacy uncertainty must acquire sorted shared budget locks; actual PostgreSQL deadlock reproduced without prelocks",
+      "logSha256": "9ca1f117a9c5e9fc68b18613d19bce07cab68e1e7d473d458902fbad37e166b9"
     }
   ],
   "evidence": {

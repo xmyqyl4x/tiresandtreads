@@ -88,6 +88,18 @@ BEGIN
  END IF;
  PERFORM 1 FROM app.tire_photo_uploads WHERE id=upload AND owner_subject_id=owner FOR UPDATE;
 END $$;
+-- Internal only: callers already hold the owner/scope/request roots.
+CREATE FUNCTION app.ai_repository_uncertain_budgets(requests uuid[]) RETURNS void
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+BEGIN
+ IF requests IS NULL OR cardinality(requests)>1000 OR array_position(requests,NULL) IS NOT NULL THEN RAISE EXCEPTION 'Bounded analysis requests required' USING ERRCODE='23514'; END IF;
+ PERFORM b.id FROM app.ai_budget_windows b WHERE b.id IN(
+ SELECT h.budget_id FROM app.ai_budget_reservations h JOIN app.ai_attempts a ON a.id=h.attempt_id
+ WHERE a.request_id=ANY(requests) AND a.started_at IS NOT NULL AND h.state='reserved') ORDER BY b.id FOR UPDATE;
+ UPDATE app.ai_budget_reservations h SET state='uncertain' FROM app.ai_attempts a
+ WHERE h.attempt_id=a.id AND a.request_id=ANY(requests) AND a.started_at IS NOT NULL AND h.state='reserved';
+END $$;
+REVOKE ALL ON FUNCTION app.ai_repository_uncertain_budgets(uuid[]) FROM PUBLIC;
 CREATE FUNCTION app.photo_repository_cancel(owner uuid,extraction uuid) RETURNS void
 LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE e app.photo_extractions%ROWTYPE;
@@ -99,7 +111,7 @@ BEGIN
  IF e.state NOT IN('queued','processing') THEN RAISE EXCEPTION 'Photo extraction terminal' USING ERRCODE='23514'; END IF;
  UPDATE app.ai_analysis_requests SET state=CASE WHEN state='running' THEN 'uncertain' ELSE 'cancelled' END WHERE id=e.request_id AND state IN('queued','running');
  UPDATE app.ai_attempts SET state=CASE WHEN state='created' THEN 'cancelled' ELSE 'uncertain' END WHERE request_id=e.request_id AND state IN('created','started');
- UPDATE app.ai_budget_reservations b SET state='uncertain' FROM app.ai_attempts a WHERE b.attempt_id=a.id AND a.request_id=e.request_id AND a.started_at IS NOT NULL AND b.state='reserved';
+ PERFORM app.ai_repository_uncertain_budgets(ARRAY[e.request_id]);
  UPDATE app.job_runs SET state='cancelled',lease_token=NULL,lease_until=NULL,revision=revision+1,updated_at=clock_timestamp() WHERE id=e.job_id AND state NOT IN('completed','cancelled');
  UPDATE app.photo_extractions SET state='cancelled' WHERE id=e.id;
  IF app.photo_current(e.upload_id) THEN UPDATE app.tire_photo_uploads SET state='ready' WHERE id=e.upload_id AND state='processing'; END IF;
@@ -160,8 +172,7 @@ BEGIN
  WHERE owner_subject_id=person AND state IN('queued','running');
  UPDATE app.ai_attempts a SET state=CASE WHEN a.state='started' THEN 'uncertain' ELSE 'cancelled' END
  FROM app.ai_analysis_requests r WHERE r.id=a.request_id AND r.owner_subject_id=person AND a.state IN('created','started');
- UPDATE app.ai_budget_reservations b SET state='uncertain' FROM app.ai_attempts a,app.ai_analysis_requests r
- WHERE b.attempt_id=a.id AND a.request_id=r.id AND r.owner_subject_id=person AND a.started_at IS NOT NULL AND b.state='reserved';
+ PERFORM app.ai_repository_uncertain_budgets(ARRAY(SELECT id FROM app.ai_analysis_requests WHERE owner_subject_id=person));
  UPDATE app.job_runs j SET state='cancelled',lease_token=NULL,lease_until=NULL,revision=revision+1,updated_at=clock_timestamp()
  WHERE j.id IN(SELECT job_id FROM app.photo_extractions WHERE owner_subject_id=person) AND j.state NOT IN('completed','cancelled');
  UPDATE app.photo_extractions SET state='cancelled' WHERE owner_subject_id=person AND state IN('queued','processing');

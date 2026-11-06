@@ -1431,3 +1431,98 @@ it('purges owner authorization and frozen links to shared output while retaining
     ).rowCount,
   ).toBe(0);
 });
+
+it('serializes opposite-order multi-window privacy withdrawal through common sorted budget locks', async () => {
+  const first = await attempt(await scope()),
+    person = (await f.owner()).identity.subjectId,
+    secondScope = await run(staff, (tx) =>
+      createAIScopeRepository(staff).create(tx, {
+        id: uuid('ai_scope'),
+        policyId: first.s.policyId,
+        ownerId: person,
+        key: randomUUID(),
+        subjectRevision: rev(),
+        noticeVersion: 'v1',
+        evidenceHash: hash(),
+      }),
+    ),
+    second = await attempt(secondScope),
+    windows = [await budget(first.s), await budget(first.s)].sort(),
+    requests = createAIRequestRepository(worker);
+  // Opposite physical reservation order plus a bounded pause exposes the former unordered UPDATE deadlock.
+  for (const [index, t] of [first, second].entries()) {
+    for (const b of index === 0 ? windows : windows.toReversed())
+      await f.admin.query(
+        "INSERT INTO app.ai_budget_reservations(budget_id,attempt_id,policy_version_id,currency_code,reserved_minor) VALUES($1,$2,$3,'USD',100)",
+        [b, t.a.id, t.s.policyId],
+      );
+    await run(worker, (tx) => requests.transition(tx, t.r.id, 'queued', 'running'));
+    await run(worker, (tx) => requests.start(tx, t.a.id));
+  }
+  const leases = await Promise.all([first, second].map((t) => rights(t.s.ownerId!))),
+    r = privacyRepo();
+  await f.admin.query(
+    `CREATE FUNCTION app.analysis_fixture_budget_pause() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN IF NEW.id IN('${windows[0]}','${windows[1]}') THEN PERFORM pg_sleep(0.08); END IF; RETURN NEW;END $$;CREATE TRIGGER zz_analysis_fixture_budget_pause BEFORE UPDATE ON app.ai_budget_windows FOR EACH ROW EXECUTE FUNCTION app.analysis_fixture_budget_pause()`,
+  );
+  try {
+    await Promise.all(
+      leases.map((l) =>
+        run(privacy, async (tx) => {
+          await privacy.query(tx, 'SET LOCAL enable_indexscan=off');
+          await privacy.query(tx, 'SET LOCAL enable_bitmapscan=off');
+          await r.restrict(tx, l);
+        }),
+      ),
+    );
+    expect(
+      (
+        await f.admin.query(
+          'SELECT state FROM app.ai_budget_reservations WHERE attempt_id=ANY($1)',
+          [[first.a.id, second.a.id]],
+        )
+      ).rows.map((x) => x.state),
+    ).toEqual(['uncertain', 'uncertain', 'uncertain', 'uncertain']);
+    expect(
+      (
+        await f.admin.query('SELECT reserved_minor FROM app.ai_budget_windows WHERE id=ANY($1)', [
+          windows,
+        ])
+      ).rows.map((x) => x.reserved_minor),
+    ).toEqual(['200', '200']);
+  } finally {
+    await f.admin.query(
+      'DROP TRIGGER zz_analysis_fixture_budget_pause ON app.ai_budget_windows;DROP FUNCTION app.analysis_fixture_budget_pause()',
+    );
+  }
+});
+it('cancels an in-flight photo attempt while preserving every unresolved budget hold', async () => {
+  const p = await photoStarted(),
+    r = createAIRequestRepository(photoWorker),
+    a = await run(photoWorker, (tx) =>
+      r.attempt(tx, { id: uuid('ai_attempt'), requestId: p.r.id, ordinal: 1, currency: 'USD' }),
+    ),
+    windows = [await budget(p.s), await budget(p.s)];
+  await run(photoWorker, (tx) =>
+    createAIBudgetRepository(photoWorker).reserve(
+      tx,
+      a.id,
+      windows.map((id) => ({ id, amountMinor: 100n })),
+    ),
+  );
+  await run(photoWorker, (tx) => r.transition(tx, p.r.id, 'queued', 'running'));
+  await run(photoWorker, (tx) => r.start(tx, a.id));
+  await run(photoWorker, (tx) =>
+    createPhotoWorkerRepository(photoWorker).cancel(tx, p.s.ownerId!, p.e.id),
+  );
+  expect(
+    (
+      await f.admin.query('SELECT state FROM app.ai_budget_reservations WHERE attempt_id=$1', [
+        a.id,
+      ])
+    ).rows.map((x) => x.state),
+  ).toEqual(['uncertain', 'uncertain']);
+  expect(
+    (await f.admin.query('SELECT state FROM app.ai_analysis_requests WHERE id=$1', [p.r.id]))
+      .rows[0]?.state,
+  ).toBe('uncertain');
+});
