@@ -219,7 +219,7 @@ export function createPartnerOfferServices(
           await c.member(tx, p, org, ['owner', 'manager', 'analyst'], true);
           const offer = await repo.version(tx, { organizationId: org, actor: p.subject }, id, n);
           demand(offer, 'not_found');
-          return { offer, eligible: await repo.eligible(tx, org, id) };
+          return { offer, eligible: await repo.eligible(tx, org, id, n) };
         });
         if (!admitted.ok) return admitted;
         const output = await d.preview.render(admitted.value),
@@ -237,7 +237,7 @@ export function createPartnerOfferServices(
             current && d.crypto.digest(current) === d.crypto.digest(admitted.value.offer),
             'conflict',
           );
-          demand((await repo.eligible(tx, org, id)) === admitted.value.eligible, 'conflict');
+          demand((await repo.eligible(tx, org, id, n)) === admitted.value.eligible, 'conflict');
           return output;
         });
       });

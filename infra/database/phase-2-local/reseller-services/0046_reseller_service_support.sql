@@ -83,6 +83,32 @@ END $$;
 CREATE POLICY partner_service_job ON app.job_runs TO tt_p2_partner_service,tt_p2_coupon_worker USING(job_type='partner.coupon_import') WITH CHECK(job_type='partner.coupon_import');
 CREATE POLICY partner_service_assets ON app.object_assets TO tt_p2_partner_service USING(purpose IN('agreement','import_evidence','import_source','cms_media')) WITH CHECK(purpose IN('agreement','import_evidence','import_source','cms_media'));
 CREATE POLICY partner_worker_assets ON app.object_assets FOR SELECT TO tt_p2_coupon_worker USING(purpose='import_source');
+-- Append renewal evidence; the original accepted agreement is never rewritten.
+CREATE TABLE partners.agreement_renewals(
+ id uuid PRIMARY KEY DEFAULT gen_random_uuid(),org_id uuid NOT NULL,agreement_id uuid NOT NULL,asset_id uuid NOT NULL,
+ asset_purpose text NOT NULL DEFAULT 'agreement' CHECK(asset_purpose='agreement'),accepted_by text NOT NULL,accepted_at timestamptz NOT NULL DEFAULT clock_timestamp(),expires_at timestamptz NOT NULL,
+ document_sha256 text NOT NULL CHECK(document_sha256 ~ '^[a-f0-9]{64}$'),
+ UNIQUE(org_id,id),UNIQUE(org_id,agreement_id,asset_id),
+ FOREIGN KEY(org_id,agreement_id) REFERENCES partners.agreements(org_id,id),
+ FOREIGN KEY(org_id,asset_id,asset_purpose) REFERENCES partners.organization_assets(org_id,asset_id,purpose),
+ FOREIGN KEY(org_id,accepted_by) REFERENCES partners.memberships(org_id,provider_subject),CHECK(expires_at>accepted_at)
+);
+CREATE INDEX agreement_renewal_latest_idx ON partners.agreement_renewals(org_id,agreement_id,accepted_at DESC,id DESC);
+ALTER TABLE partners.agreement_renewals ENABLE ROW LEVEL SECURITY;
+ALTER TABLE partners.agreement_renewals FORCE ROW LEVEL SECURITY;
+CREATE POLICY agreement_renewal_owner ON partners.agreement_renewals TO tt_app_migrator USING(true) WITH CHECK(true);
+CREATE POLICY agreement_renewal_service ON partners.agreement_renewals TO tt_p2_partner_service USING(true) WITH CHECK(true);
+GRANT SELECT,INSERT ON partners.agreement_renewals TO tt_p2_partner_service;
+CREATE TRIGGER agreement_renewal_immutable BEFORE UPDATE OR DELETE ON partners.agreement_renewals FOR EACH ROW EXECUTE FUNCTION partners.reject_update();
+CREATE VIEW partners.current_agreements WITH (security_barrier=true) AS
+SELECT a.id,a.org_id,a.kind,a.version,coalesce(r.asset_id,a.asset_id) AS asset_id,a.asset_purpose,
+ coalesce(r.accepted_by,a.accepted_by) AS accepted_by,coalesce(r.accepted_at,a.accepted_at) AS accepted_at,
+ coalesce(r.expires_at,a.expires_at) AS expires_at,a.status,a.billing_mode,a.created_at
+FROM partners.agreements a LEFT JOIN LATERAL(
+ SELECT e.asset_id,e.accepted_by,e.accepted_at,e.expires_at FROM partners.agreement_renewals e
+ WHERE e.org_id=a.org_id AND e.agreement_id=a.id ORDER BY e.accepted_at DESC,e.id DESC LIMIT 1
+) r ON true;
+GRANT SELECT ON partners.current_agreements TO tt_p2_partner_service;
 -- Existing staff-authored S2 rows remain readable; serving in this opt-in track now requires actual onboarding metadata.
 CREATE OR REPLACE VIEW partners.eligible_offer_versions WITH (security_barrier=true) AS
 SELECT o.org_id,o.id AS offer_id,v.version,v.valid_from,v.valid_until,v.title,v.discount_type
@@ -91,7 +117,7 @@ JOIN partners.offer_versions v ON v.org_id=o.org_id AND v.offer_id=o.id AND v.ve
 WHERE o.status='active' AND company.status='active' AND company.verification_status='verified'
   AND v.status='published' AND v.valid_from<=statement_timestamp() AND v.valid_until>statement_timestamp()
   AND EXISTS(SELECT 1 FROM partners.offer_targets t WHERE t.org_id=o.org_id AND t.offer_id=o.id AND t.offer_version=v.version AND t.market=company.market)
-  AND (SELECT count(DISTINCT a.kind) FROM partners.agreements a
+  AND (SELECT count(DISTINCT a.kind) FROM partners.current_agreements a
     JOIN partners.organization_assets b ON b.org_id=a.org_id AND b.asset_id=a.asset_id
     JOIN app.object_assets physical ON physical.id=b.asset_id
     WHERE a.org_id=o.org_id AND a.status='accepted' AND a.accepted_at<=statement_timestamp()
@@ -103,7 +129,7 @@ WHERE o.status='active' AND company.status='active' AND company.verification_sta
     WHERE b.org_id=o.org_id AND b.asset_id=v.logo_asset_id AND b.purpose='logo' AND b.state='ready' AND physical.state='ready' AND (physical.expires_at IS NULL OR physical.expires_at>statement_timestamp())))
  AND EXISTS(SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=o.org_id AND p.state='approved')
  AND EXISTS(SELECT 1 FROM partners.locations l WHERE l.org_id=o.org_id AND l.status='approved')
- AND EXISTS(SELECT 1 FROM partners.verification_records r JOIN partners.organization_assets b ON b.org_id=r.org_id AND b.asset_id=r.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE r.org_id=o.org_id AND r.status='verified' AND r.expires_at>statement_timestamp() AND b.state='ready' AND a.state='ready' AND (a.expires_at IS NULL OR a.expires_at>statement_timestamp()));
+ AND EXISTS(SELECT 1 FROM partners.verification_records r JOIN partners.organization_assets b ON b.org_id=r.org_id AND b.asset_id=r.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE r.org_id=o.org_id AND r.status='verified' AND r.expires_at>statement_timestamp() AND NOT EXISTS(SELECT 1 FROM partners.verification_records denied WHERE denied.org_id=r.org_id AND denied.status='rejected' AND denied.reviewed_at>=r.reviewed_at) AND b.state='ready' AND a.state='ready' AND (a.expires_at IS NULL OR a.expires_at>statement_timestamp()));
 GRANT SELECT ON partners.eligible_offer_versions TO tt_p2_partner_service,tt_p2_coupon_worker;
 
 CREATE FUNCTION partners.lock_coupon_authority(organization uuid,actor text,asset uuid) RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$

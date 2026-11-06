@@ -241,7 +241,12 @@ export interface PartnerModerationRepository {
     expected: number | null,
   ): Promise<void>;
   pause(tx: Tx, org: Id<'organization'>, offer: Id<'partner_offer'>): Promise<void>;
-  eligible(tx: Tx, org: Id<'organization'>, offer: Id<'partner_offer'>): Promise<boolean>;
+  eligible(
+    tx: Tx,
+    org: Id<'organization'>,
+    offer: Id<'partner_offer'>,
+    version: number,
+  ): Promise<boolean>;
 }
 export interface CouponImport {
   readonly id: Id<'coupon_import'>;

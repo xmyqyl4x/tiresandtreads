@@ -17,11 +17,12 @@ export function createPartnerOnboardingRepository(s: WriteScope): PartnerOnboard
         ])
       ).rows[0];
       if (p?.policy_version !== policy.version) return stop('forbidden');
+      await q(tx, 'SELECT id FROM partners.agreements WHERE org_id=$1 FOR SHARE', [org]);
       for (const kind of ['pilot_terms', 'privacy', 'dpa'] as const) {
         const expected = policy.agreements[kind];
         const found = await q(
           tx,
-          "SELECT 1 FROM partners.agreements g JOIN partners.organization_assets b ON b.org_id=g.org_id AND b.asset_id=g.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE g.org_id=$1 AND g.kind=$2 AND g.version=$3 AND g.status='accepted' AND g.expires_at>clock_timestamp() AND b.state='ready' AND a.state='ready' AND a.sha256=$4 AND a.expires_at>clock_timestamp() FOR SHARE OF g,b,a",
+          "SELECT 1 FROM partners.current_agreements g JOIN partners.organization_assets b ON b.org_id=g.org_id AND b.asset_id=g.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE g.org_id=$1 AND g.kind=$2 AND g.version=$3 AND g.status='accepted' AND g.expires_at>clock_timestamp() AND b.state='ready' AND a.state='ready' AND a.sha256=$4 AND a.expires_at>clock_timestamp() FOR SHARE OF b,a",
           [org, kind, word(expected.version, 100), sha(expected.sha256)],
         );
         if (found.rowCount !== 1) return stop('forbidden');
@@ -127,27 +128,34 @@ export function createPartnerOnboardingRepository(s: WriteScope): PartnerOnboard
         [org, i.kind, word(i.version, 100), i.assetId, word(actor)],
       );
       if (!r.rowCount) {
-        const old = (
-          await q(
-            tx,
-            'SELECT asset_id,accepted_by,status FROM partners.agreements WHERE org_id=$1 AND kind=$2 AND version=$3',
-            [org, i.kind, i.version],
-          )
-        ).rows[0];
-        if (
-          !old ||
-          old.asset_id !== i.assetId ||
-          old.accepted_by !== actor ||
-          old.status !== 'accepted'
-        )
-          return stop('conflict');
+        await q(
+          tx,
+          'SELECT id FROM partners.agreements WHERE org_id=$1 AND kind=$2 AND version=$3 FOR UPDATE',
+          [org, i.kind, i.version],
+        );
+        const current =
+          (
+            await q(
+              tx,
+              'SELECT g.id,g.asset_id,g.accepted_by,g.status,(g.expires_at<=clock_timestamp() OR a.expires_at<=clock_timestamp()) AS expired FROM partners.current_agreements g JOIN app.object_assets a ON a.id=g.asset_id WHERE g.org_id=$1 AND g.kind=$2 AND g.version=$3',
+              [org, i.kind, i.version],
+            )
+          ).rows[0] ?? stop('conflict');
+        if (current.status !== 'accepted') return stop('conflict');
+        if (current.asset_id === i.assetId && current.accepted_by === actor) return;
+        if (current.expired !== true) return stop('conflict');
+        await q(
+          tx,
+          'INSERT INTO partners.agreement_renewals(org_id,agreement_id,asset_id,accepted_by,expires_at,document_sha256) SELECT $1,$2,$3,$4,expires_at,$5 FROM app.object_assets WHERE id=$3',
+          [org, current.id, i.assetId, actor, i.sha256],
+        );
       }
     },
     async submit(tx, org, expected, policy) {
       const valid = (
         await q(
           tx,
-          "SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=$1 AND p.services<>'[]' AND p.policy_version=$2 AND EXISTS(SELECT 1 FROM partners.locations l WHERE l.org_id=p.org_id) AND (SELECT count(DISTINCT kind) FROM partners.agreements a JOIN partners.organization_assets b ON b.org_id=a.org_id AND b.asset_id=a.asset_id JOIN app.object_assets o ON o.id=b.asset_id WHERE a.org_id=p.org_id AND a.status='accepted' AND a.expires_at>clock_timestamp() AND b.state='ready' AND o.state='ready' AND o.expires_at>clock_timestamp())=3",
+          "SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=$1 AND p.services<>'[]' AND p.policy_version=$2 AND EXISTS(SELECT 1 FROM partners.locations l WHERE l.org_id=p.org_id) AND (SELECT count(DISTINCT kind) FROM partners.current_agreements a JOIN partners.organization_assets b ON b.org_id=a.org_id AND b.asset_id=a.asset_id JOIN app.object_assets o ON o.id=b.asset_id WHERE a.org_id=p.org_id AND a.status='accepted' AND a.expires_at>clock_timestamp() AND b.state='ready' AND o.state='ready' AND o.expires_at>clock_timestamp())=3",
           [uid('organization', org), word(policy, 100)],
         )
       ).rowCount;
@@ -229,7 +237,7 @@ export function createPartnerOnboardingRepository(s: WriteScope): PartnerOnboard
       const valid = (
         await q(
           tx,
-          "SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=$1 AND p.state='approved' AND EXISTS(SELECT 1 FROM partners.verification_records v JOIN partners.organization_assets b ON b.org_id=v.org_id AND b.asset_id=v.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE v.org_id=p.org_id AND v.status='verified' AND v.expires_at>clock_timestamp() AND b.state='ready' AND a.state='ready' AND a.expires_at>clock_timestamp()) AND EXISTS(SELECT 1 FROM partners.organization_domains d WHERE d.org_id=p.org_id AND (p.email_override OR d.domain=p.email_domain) AND d.status='verified' AND d.expires_at>clock_timestamp()) AND EXISTS(SELECT 1 FROM partners.locations l WHERE l.org_id=p.org_id AND l.status='approved') AND (SELECT count(DISTINCT kind) FROM partners.agreements a JOIN partners.organization_assets b ON b.org_id=a.org_id AND b.asset_id=a.asset_id JOIN app.object_assets physical ON physical.id=b.asset_id WHERE a.org_id=p.org_id AND a.status='accepted' AND a.expires_at>clock_timestamp() AND b.state='ready' AND physical.state='ready' AND physical.expires_at>clock_timestamp())=3",
+          "SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=$1 AND p.state='approved' AND EXISTS(SELECT 1 FROM partners.verification_records v JOIN partners.organization_assets b ON b.org_id=v.org_id AND b.asset_id=v.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE v.org_id=p.org_id AND v.status='verified' AND v.expires_at>clock_timestamp() AND NOT EXISTS(SELECT 1 FROM partners.verification_records denied WHERE denied.org_id=v.org_id AND denied.status='rejected' AND denied.reviewed_at>=v.reviewed_at) AND b.state='ready' AND a.state='ready' AND a.expires_at>clock_timestamp()) AND EXISTS(SELECT 1 FROM partners.organization_domains d WHERE d.org_id=p.org_id AND (p.email_override OR d.domain=p.email_domain) AND d.status='verified' AND d.expires_at>clock_timestamp()) AND EXISTS(SELECT 1 FROM partners.locations l WHERE l.org_id=p.org_id AND l.status='approved') AND (SELECT count(DISTINCT kind) FROM partners.current_agreements a JOIN partners.organization_assets b ON b.org_id=a.org_id AND b.asset_id=a.asset_id JOIN app.object_assets physical ON physical.id=b.asset_id WHERE a.org_id=p.org_id AND a.status='accepted' AND a.expires_at>clock_timestamp() AND b.state='ready' AND physical.state='ready' AND physical.expires_at>clock_timestamp())=3",
           [uid('organization', org)],
         )
       ).rowCount;

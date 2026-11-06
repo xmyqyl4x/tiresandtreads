@@ -28,8 +28,8 @@ afterAll(async () => {
       JSON.stringify({
         actualPostgreSQL: true,
         optInMigrations: 46,
-        optInTables: 190,
-        nativeCases: 43,
+        optInTables: 191,
+        nativeCases: 46,
         maxImportedCodes: 100000,
         overflowRowRefused: 100001,
         privateObjects: 'in-memory-byte-double',
@@ -46,6 +46,13 @@ afterAll(async () => {
 }, 60000);
 it('installs 46 opt-in migrations without changing the default manifest and replays without DDL', async () => {
   expect(f.serviceApplied).toBe(1);
+  expect(
+    (
+      await f.admin.query(
+        "SELECT count(*)::int n FROM pg_tables WHERE schemaname NOT IN('pg_catalog','information_schema') AND schemaname NOT LIKE 'pg_%'",
+      )
+    ).rows[0]?.n,
+  ).toBe(191);
   expect(await migrateApplication(f.target, partnerServiceSources().sources)).toBe(0);
   expect(
     (await f.admin.query('SELECT count(*)::int n FROM migration_meta.applied')).rows[0]?.n,
@@ -886,4 +893,131 @@ it('lets a current owner close its organization even when its identity also has 
   const r = await s.onboarding.lifecycle(c.handle, c.org, rev(2), 'closed', 'owner_request');
   expect(r.ok).toBe(true);
   expect(value(await s.onboarding.status(c.handle, c.org)).organization.status).toBe('closed');
+});
+
+it('review regression: renews expired same-version agreements without losing original acceptance evidence', async () => {
+  const c = await s.company(),
+    offer = await s.published(c.org, c.handle),
+    before = (
+      await f.admin.query(
+        "SELECT * FROM partners.agreements WHERE org_id=$1 AND kind='pilot_terms'",
+        [c.org],
+      )
+    ).rows[0]!;
+  await f.admin.query(
+    "UPDATE app.object_assets SET expires_at=clock_timestamp()+interval '50 milliseconds' WHERE id=$1",
+    [before.asset_id],
+  );
+  await f.admin.query('SELECT pg_sleep(0.1)');
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain(
+    'unavailable for serving',
+  );
+  const asset = value(
+    await s.onboarding.upload(c.handle, c.org, 'agreement', 'application/json', s.docs.pilot_terms),
+  );
+  value(await s.onboarding.acceptAgreement(c.handle, c.org, 'pilot_terms', asset.id));
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain('Offer preview');
+  expect(
+    (await f.admin.query('SELECT * FROM partners.agreements WHERE id=$1', [before.id])).rows[0],
+  ).toEqual(before);
+  expect(
+    (
+      await f.admin.query(
+        'SELECT count(*)::int n FROM partners.agreement_renewals WHERE org_id=$1',
+        [c.org],
+      )
+    ).rows[0]?.n,
+  ).toBe(1);
+  value(await s.onboarding.acceptAgreement(c.handle, c.org, 'pilot_terms', asset.id));
+  expect(
+    (
+      await f.admin.query(
+        'SELECT count(*)::int n FROM partners.agreement_renewals WHERE org_id=$1',
+        [c.org],
+      )
+    ).rows[0]?.n,
+  ).toBe(1);
+  await expect(
+    f.admin.query('UPDATE partners.agreement_renewals SET document_sha256=$2 WHERE org_id=$1', [
+      c.org,
+      '0'.repeat(64),
+    ]),
+  ).rejects.toMatchObject({ code: '23514' });
+});
+it('review regression: previews only the requested eligible offer version', async () => {
+  const c = await s.company(),
+    offer = await s.published(c.org, c.handle);
+  value(
+    await s.offers.draft(
+      c.handle,
+      c.org,
+      offer,
+      2,
+      { ...offerBody(), title: 'Replacement draft' },
+      [target()],
+    ),
+  );
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 2)).text).toContain(
+    'Draft preview — unavailable for serving',
+  );
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain('Offer preview');
+  value(await s.offers.submit(c.handle, c.org, offer, 2));
+  value(await s.offers.review(s.moderator, c.org, offer, 2, true, 'reviewed'));
+  value(await s.offers.publish(s.moderator, c.org, offer, 2, 1));
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain(
+    'Draft preview — unavailable for serving',
+  );
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 2)).text).toContain('Offer preview');
+});
+it('review regression: requires a successful review newer than rejection before either reactivation path', async () => {
+  const c = await s.company(),
+    offer = await s.published(c.org, c.handle),
+    asset = value(
+      await s.onboarding.upload(
+        c.handle,
+        c.org,
+        'verification',
+        'application/json',
+        new TextEncoder().encode('{"review":"fresh synthetic review"}'),
+      ),
+    );
+  value(
+    await s.onboarding.verification(s.verifier, c.org, {
+      kind: 'manual',
+      assetId: asset.id,
+      approved: false,
+      expiresAt: time(),
+      domain: null,
+    }),
+  );
+  expect((await s.onboarding.activate(s.verifier, c.org, rev(3))).ok).toBe(false);
+  expect((await s.onboarding.lifecycle(s.verifier, c.org, rev(3), 'active', 'reviewed')).ok).toBe(
+    false,
+  );
+  expect(
+    (
+      await f.admin.query('SELECT 1 FROM partners.eligible_offer_versions WHERE offer_id=$1', [
+        offer,
+      ])
+    ).rowCount,
+  ).toBe(0);
+  value(
+    await s.onboarding.verification(s.verifier, c.org, {
+      kind: 'manual',
+      assetId: asset.id,
+      approved: true,
+      expiresAt: time(),
+      domain: null,
+    }),
+  );
+  value(await s.onboarding.activate(s.verifier, c.org, rev(3)));
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain('Offer preview');
+  expect(
+    (
+      await f.admin.query(
+        "SELECT count(*)::int n FROM partners.verification_records WHERE org_id=$1 AND status='rejected'",
+        [c.org],
+      )
+    ).rows[0]?.n,
+  ).toBe(1);
 });

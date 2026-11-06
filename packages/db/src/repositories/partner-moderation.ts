@@ -87,13 +87,17 @@ export function createPartnerModerationRepository(s: WriteScope): PartnerModerat
       );
       if (r.rowCount !== 1) return stop('conflict');
     },
-    async eligible(tx, org, offer) {
+    async eligible(tx, org, offer, version) {
       return (
         (
           await q(
             tx,
-            'SELECT 1 FROM partners.eligible_offer_versions WHERE org_id=$1 AND offer_id=$2',
-            [uid('organization', org), uid('partner_offer', offer)],
+            'SELECT 1 FROM partners.eligible_offer_versions WHERE org_id=$1 AND offer_id=$2 AND version=$3',
+            [
+              uid('organization', org),
+              uid('partner_offer', offer),
+              integer(version, 1, 2147483647),
+            ],
           )
         ).rowCount === 1
       );

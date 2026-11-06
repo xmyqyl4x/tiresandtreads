@@ -7,7 +7,7 @@
   "migrations": [
     {
       "id": "0046_reseller_service_support",
-      "sha256": "d8419b308a26822236b6c1e2464b119b71fffe7fd1744b55519cea4d6a4047dc"
+      "sha256": "4ecab22b907e01e8d19cd5d0917685e65f0ff39afc8d383dde0071061391a0a5"
     }
   ],
   "tables": [
@@ -15,6 +15,7 @@
     "partners.membership_invites",
     "partners.organization_audit",
     "partners.coupon_imports",
-    "partners.coupon_import_rows"
+    "partners.coupon_import_rows",
+    "partners.agreement_renewals"
   ]
 }
