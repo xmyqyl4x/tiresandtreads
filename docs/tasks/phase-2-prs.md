@@ -156,11 +156,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC11, DB09, DB10, DB12. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement pure tenant/offer/coupon entities and row/DTO mappers with organization-scoped ports.
-- [ ] Implement code/cap/reservation locking and immutable offer selection plus correction ledgers.
-- [ ] Implement masked pilot/redemption/visitor/aggregate query projections and purpose-specific grants.
+- [x] Implement pure tenant/offer/coupon entities and row/DTO mappers with organization-scoped ports.
+- [x] Implement code/cap/reservation locking and immutable offer selection plus correction ledgers.
+- [x] Implement masked pilot/redemption/visitor/aggregate query projections and purpose-specific grants.
 
 **Verification and acceptance:** Real RLS/transaction/cross-tenant tests and last-code/cap races pass; no recipient identity in partner projections.
+
+**Local implementation completed:** [Repository packet](../implementation/P2-PR-006-local-partner-repositories.md) and [focused proof](../implementation/evidence/P2/p2-pr-006-local-proof.json) cover the three tasks in the owner-authorized disposable track. Actual S1 approval remains pending; this local continuation is an explicit exception to the ordinary accepted dependency. Actual S2/pilot/privacy/source/provider/deployment acceptance and all existing holds remain open; no original case or gate closes. P2-PR-007 is not implemented by this card.
 
 ### P2-PR-007
 
