@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused-disposable-local-partner-repository-proof",
+  "focusedTestsPassed": 117,
+  "nativeTestsPassed": 45,
+  "mapperTestsPassed": 54,
+  "inputTestsPassed": 18,
+  "typecheckPassed": true,
+  "ownedProjectRemoved": true,
+  "sourceSha256": {
+    "infra/database/phase-2-local/repositories/0044_partner_repository_support.sql": "c28e2f892736d1e1faafcac450a8446e85c5b3822068fa41f041902e4ea4a24f",
+    "infra/database/phase-2-local/repositories/README.md": "f8c7bcc08c50815a9f4755983402dd9ef9ed49eb98e3262b73c8d1a34041552e",
+    "infra/database/phase-2-local/repositories/manifest.json": "f231778a26caa25fd98f7d74c61ffcac809ed0380ec288d1e4107e8652464c42",
+    "packages/application/src/ports/partner-repositories.ts": "77b90aa08541147b9b1a36fc541bea22ae2011932a11fbd3b11880d751a453bb",
+    "packages/db/src/repositories/partner-allocation-input.ts": "a3e03060ac8e831c685a158caf43e3d9245b078c9820094dbb09ad4b72ffa7b7",
+    "packages/db/src/repositories/partner-allocations.ts": "85f8a980a7083a72f3ced419de5728c9eafd7f26432acf8abf91d9d74e727762",
+    "packages/db/src/repositories/partner-frequency.ts": "51ce154caf6d77281fc5ed7a3fb4682d3f541f6a52b73ac24eeeb6e9debb67a8",
+    "packages/db/src/repositories/partner-identity.ts": "768d8dded4b635dbd6e6515700651d515b23828df54b6a1ea403c65fbb2fc980",
+    "packages/db/src/repositories/partner-mappers.ts": "1db651676e894ff3d35b9acf873b6404395013cdbf97f8f0fb55fcd393c8ca15",
+    "packages/db/src/repositories/partner-offers.ts": "0220918022a663e256084fbc853f859b51eed5d6626988dedc47df7bad8ff330",
+    "packages/db/src/repositories/partner-reporting.ts": "9f073661946323c5531c85b3a324bb5b0671b3c9461798b60c87ed6f22cf654f",
+    "packages/db/src/repositories/partner-support.ts": "6d882e167aafddeb13cc849384558ed3fd677f1643e1310c74090e28d9e9d455",
+    "packages/db/src/repositories/partner-tenant.ts": "b11ad9bea3ee8ce931981ca1b852581a57628f4c329d672b9de76cde1ce09caa",
+    "packages/domain/src/entities/partner.ts": "6e62774b8f05403d64cb603c80e9f957a2991703c44ac29e43ab86bec276f961",
+    "tests/database/phase2-partner-repositories.test.ts": "fba64963f4b56361ddd4c63739ddf465788273aa32997d3edc7408177ade2aef",
+    "tests/fixtures/phase2/partner-repositories-run.mjs": "98a58469124983e5ad1baaea318fbd6c03b1ce9d016ae19cb169fe2e8f8c2795",
+    "tests/fixtures/phase2/partner-repositories.ts": "474ede9c12a0e2986b3836119240bc8b76d1d4c00309f771c51b91bf7eccfa75",
+    "tests/fixtures/phase2/seed-partner-repositories.ts": "9d0711e07abec8620eef2ee9eaedca89146c55b611ce5985a6d22c888251e759",
+    "tests/unit/partner-allocation-input.test.ts": "f8126020e765c681e6224a331558393a30ae908a84bf3b7aa60202094158cc6f",
+    "tests/unit/partner-mappers.test.ts": "e41b95ad0c8733002cac90418279b1c2bce34197b71ba831cf27690a7e5a28bd"
+  },
+  "redTests": [
+    {
+      "test": "typed organization row mapping",
+      "failure": "valid organization/revision was refused before mapper implementation"
+    },
+    {
+      "test": "UC11 restricted tenant repository read",
+      "failure": "authorized real-role organization read returned null before implementation"
+    },
+    {
+      "test": "idempotent redemption event retry with milliseconds",
+      "failure": "String(Date) lost milliseconds and caused retry conflict"
+    },
+    {
+      "test": "full rolling frequency window",
+      "failure": "issued use 29.5 days ago was excluded by caller-supplied narrower bounds"
+    },
+    {
+      "test": "cap expires during observed lock wait",
+      "failure": "allocation succeeded after its locked cap window expired before the post-lock recheck"
+    }
+  ],
+  "observations": {
+    "actualPostgreSQL": true,
+    "migrations": 44,
+    "purposeRoles": 4,
+    "syntheticLocations": 10000,
+    "boundedReturned": 11,
+    "organizationKeysetIndexed": true,
+    "executionMs": 0.413,
+    "productionWiring": false,
+    "actualS1Approval": false,
+    "providerDispatches": 0,
+    "actualRecipientNotifications": 0,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  },
+  "productionBootstrapChanged": false,
+  "phase1LiveAccepted": false,
+  "phase2SchemaAccepted": false,
+  "phase2DataAccessAccepted": false,
+  "providerCalls": false,
+  "actualRecipientNotifications": false,
+  "productionActivation": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "b0e11fee2912c0ba89b7102f0202ddf4f1375260c15bd21b1da8bdd58c9bb7e1",
+  "priorLocalHead": "0043_schema_integrity",
+  "migrations": [
+    {
+      "id": "0044_partner_repository_support",
+      "sha256": "c28e2f892736d1e1faafcac450a8446e85c5b3822068fa41f041902e4ea4a24f"
+    }
+  ],
+  "tables": ["partners.allocation_receipts"]
+}
