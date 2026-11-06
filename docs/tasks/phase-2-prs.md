@@ -216,7 +216,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Use-case tests deny pending/suspended serving, preserve published offers during edits and prevent cross-tenant access.
 
-**Local implementation complete:** [Service packet](../implementation/P2-PR-009-local-reseller-services.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-009-local-proof.json) cover the three local tasks under the owner-authorized exception. Actual S1/S2, authentication/provider/privacy/pilot/deployment acceptance and all six S3 gates remain pending. No case or gate closes; P2-PR-010 is not started.
+**Local implementation complete:** [Service packet](../implementation/P2-PR-009-local-reseller-services.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-009-local-proof.json) cover the three local tasks under the owner-authorized exception. Actual S1/S2, authentication/provider/privacy/pilot/deployment acceptance and all six S3 gates remain pending. No case or gate closed in P2-PR-009; the separately authorized local P2-PR-010 work is recorded below.
 
 ### P2-PR-010
 
@@ -228,11 +228,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC06, UC08, UC11, AT09, AT10, DB09, DB10. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement deterministic nonpaid matching and simulation with maximum three offers/one per seller.
-- [ ] Reserve unique codes, per-offer/monthly caps and slots atomically; quarantine uncertain sends.
-- [ ] Recheck purpose before dispatch, remove ineligible offers and preserve separately requested report-only delivery.
+- [x] Implement deterministic nonpaid matching and simulation with maximum three offers/one per seller.
+- [x] Reserve unique codes, per-offer/monthly caps and slots atomically; quarantine uncertain sends.
+- [x] Recheck purpose before dispatch, remove ineligible offers and preserve separately requested report-only delivery.
 
 **Verification and acceptance:** Two-worker last-code/cap and withdrawal races pass; no cash billing or ranking effect in the pilot.
+
+**Local implementation complete:** [Service packet](../implementation/P2-PR-010-local-matching-delivery.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-010-local-proof.json) cover the three local tasks under the owner-authorized exception. Actual S1/S2, authentication/MFA/privacy/source/restore/provider/pilot/deployment acceptance and all six S3 gates remain pending. No case or gate closes; P2-PR-011 is not started.
 
 ### P2-PR-011
 

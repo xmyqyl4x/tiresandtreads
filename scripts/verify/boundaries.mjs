@@ -16,7 +16,9 @@ const result = spawnSync(
     '--output-type',
     'json',
   ],
-  { encoding: 'utf8' },
+  // The whole repository graph exceeds Node's default 1 MiB stdout limit.
+  // Keep capture bounded while allowing graph growth; violations still fail below.
+  { encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 },
 );
 if (result.error || !result.stdout) throw new Error('Dependency analysis did not produce a graph');
 const graph = JSON.parse(result.stdout);

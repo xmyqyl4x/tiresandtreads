@@ -1,0 +1,20 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "130d099330041cc8fc0d4495bd995d02d4cfee37768867f8c6f43a9ef09aaf04",
+  "priorLocalHead": "0046_reseller_service_support",
+  "migrations": [
+    {
+      "id": "0047_pilot_services",
+      "sha256": "300fc464f3fe37d885a577ea598f1a617bed7b661b6ed85ec0acd6e780404be0"
+    }
+  ],
+  "tables": [
+    "partners.pilot_requests",
+    "partners.pilot_work",
+    "partners.pilot_considerations",
+    "partners.pilot_usage",
+    "partners.pilot_payload_refs"
+  ]
+}
