@@ -27,6 +27,7 @@ afterAll(async () => {
         boundedSourceRows: 10000,
         oversizeRefused: 10001,
         boundedRetention: true,
+        healthCurrentPermission: true,
         privateEncryption: 'scoped-local-aes-double',
         authentication: 'synthetic-authority-double',
         actualS1Approval: false,
@@ -590,6 +591,13 @@ it('preserves independent delivery facts and excludes machine clicks from human 
   expect(BigInt(after.machineClicks) - BigInt(before.machineClicks)).toBe(1n);
   expect(BigInt(after.suspectedHumanClicks) - BigInt(before.suspectedHumanClicks)).toBe(1n);
   expect(after.opensAreEstimates).toBe(true);
+  await s.consent(a.subject, 'email', 'withdrawn', s.now());
+  const withdrawn = value(await s.service.health(s.email, s.week));
+  expect(withdrawn.suspectedHumanClicks).toBe(before.suspectedHumanClicks);
+  expect(withdrawn.machineClicks).toBe(before.machineClicks);
+  expect(withdrawn.machineOpens).toBe(before.machineOpens);
+  expect(withdrawn.delivered).toBe(after.delivered);
+  expect(withdrawn.bounced).toBe(after.bounced);
   expect((await s.service.health(s.analyst, s.week)).ok).toBe(false);
 });
 it('imports structured domain health idempotently and exposes stale/unavailable sources explicitly', async () => {

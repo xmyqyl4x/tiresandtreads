@@ -198,11 +198,16 @@ BEGIN
  INSERT INTO admin.audit_identity_links(event_id,actor_staff_id,subject_id) VALUES(receipt,actor,person);
 END $$;
 CREATE FUNCTION partners.ops_health(start_day date) RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $$
- WITH cohort AS(SELECT s.id,s.dispatch_state FROM email.email_sends s WHERE s.accepted_at>=start_day::timestamp AT TIME ZONE 'UTC' AND s.accepted_at<(start_day+7)::timestamp AT TIME ZONE 'UTC' AND s.anonymized_at IS NULL AND s.dispatch_state='accepted'),
- facts AS(SELECT c.id,bool_or(e.type='delivered') delivered,bool_or(e.type='bounced') bounced,bool_or(e.type='complained') complained,
- bool_or(e.type='opened' AND e.classification='suspected_human') human_opens,bool_or(e.type='opened' AND e.classification='machine') machine_opens,bool_or(e.type='opened' AND coalesce(e.classification,'unknown')='unknown') unknown_opens,
- bool_or(e.type='clicked' AND e.classification='suspected_human') human_clicks,bool_or(e.type='clicked' AND e.classification='machine') machine_clicks,bool_or(e.type='clicked' AND coalesce(e.classification,'unknown')='unknown') unknown_clicks
- FROM cohort c LEFT JOIN email.email_events e ON e.send_id=c.id GROUP BY c.id)
+ WITH cohort AS(
+ SELECT s.id,c.subject_id,(c.status='active' AND c.verified_at IS NOT NULL) AS contact_ready FROM email.email_sends s LEFT JOIN privacy.contacts c ON c.id=s.recipient_contact_id
+ WHERE s.accepted_at>=start_day::timestamp AT TIME ZONE 'UTC' AND s.accepted_at<(start_day+7)::timestamp AT TIME ZONE 'UTC' AND s.anonymized_at IS NULL AND s.dispatch_state='accepted'),
+ permitted_events AS MATERIALIZED(
+ SELECT c.id,e.type,e.classification,CASE WHEN e.type IN('opened','clicked') THEN c.contact_ready AND partners.ops_permitted(c.subject_id,'email',e.occurred_at) ELSE true END AS permitted
+ FROM cohort c LEFT JOIN email.email_events e ON e.send_id=c.id),
+ facts AS(SELECT id,bool_or(type='delivered') delivered,bool_or(type='bounced') bounced,bool_or(type='complained') complained,
+ bool_or(type='opened' AND classification='suspected_human' AND permitted) human_opens,bool_or(type='opened' AND classification='machine' AND permitted) machine_opens,bool_or(type='opened' AND coalesce(classification,'unknown')='unknown' AND permitted) unknown_opens,
+ bool_or(type='clicked' AND classification='suspected_human' AND permitted) human_clicks,bool_or(type='clicked' AND classification='machine' AND permitted) machine_clicks,bool_or(type='clicked' AND coalesce(classification,'unknown')='unknown' AND permitted) unknown_clicks
+ FROM permitted_events GROUP BY id)
  SELECT jsonb_build_object('accepted',count(*)::text,'uncertain',(SELECT count(*)::text FROM email.email_sends s WHERE s.dispatch_state IN('uncertain','manual_review') AND s.created_at>=start_day::timestamp AT TIME ZONE 'UTC' AND s.created_at<(start_day+7)::timestamp AT TIME ZONE 'UTC' AND s.anonymized_at IS NULL),
  'delivered',count(*) FILTER(WHERE delivered)::text,'bounced',count(*) FILTER(WHERE bounced)::text,'complained',count(*) FILTER(WHERE complained)::text,
  'suspectedHumanOpens',count(*) FILTER(WHERE human_opens)::text,'machineOpens',count(*) FILTER(WHERE machine_opens)::text,'unknownOpens',count(*) FILTER(WHERE unknown_opens)::text,
