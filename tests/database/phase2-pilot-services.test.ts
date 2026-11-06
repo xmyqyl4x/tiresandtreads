@@ -5,6 +5,7 @@ import { value, uuid } from '../fixtures/phase2/compose-partner-services.ts';
 import { success } from '../fixtures/catalog/database.ts';
 import { createPilotDeliveryServices } from '../../packages/application/src/partners/pilot-delivery.ts';
 import { pilotCandidates } from '../../packages/db/src/repositories/pilot-candidates.ts';
+import { createPilotRepository } from '../../packages/db/src/repositories/pilot-delivery.ts';
 let f: Awaited<ReturnType<typeof pilotFixture>>, s: Awaited<ReturnType<typeof composePilot>>;
 beforeAll(async () => {
   f = await pilotFixture();
@@ -18,7 +19,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 47,
         newTables: 5,
-        nativeCases: 31,
+        nativeCases: 34,
         maximumOffers: 3,
         onePerSeller: true,
         recipientCalendarMonthLimit: 4,
@@ -593,4 +594,115 @@ it('distinguishes an absent or explicitly null optional rear axle from an unreso
     value(await s.service.dispatch(m.send));
     expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(true);
   }
+});
+const capExpiryDelay =
+  "SELECT pg_sleep(least(5,greatest(0,extract(epoch FROM(window_end-clock_timestamp())))+.05)) FROM partners.offer_cap_windows WHERE org_id=$1 AND kind='day' ORDER BY window_end DESC LIMIT 1";
+async function expirePilotDay(org: string) {
+  expect(
+    (
+      await f.admin.query(
+        "SELECT id FROM partners.coupon_reservations WHERE org_id=$1 AND state='reserved'",
+        [org],
+      )
+    ).rows,
+  ).toHaveLength(1);
+  await f.admin.query(capExpiryDelay, [org]);
+}
+async function nextPilotDay(org: string, offer: string) {
+  return (
+    await f.admin.query(
+      "INSERT INTO partners.offer_cap_windows(org_id,offer_id,kind,policy_version,window_start,window_end,limit_units) VALUES($1,$2,'day',$3,clock_timestamp(),clock_timestamp()+interval '1 day',1) RETURNING id",
+      [org, offer, s.policy.version],
+    )
+  ).rows[0]!.id;
+}
+it.each(['resumed work', 'rendering'])(
+  'drops expired reserved cap identities after a daily window rollover during %s',
+  async (phase) => {
+    const o = await s.offer('unique', 100n, 5),
+      m = await s.message();
+    let replacement: string | undefined;
+    if (phase === 'resumed work') {
+      s.renderer.render.mockRejectedValueOnce(Error('synthetic pre-handoff interruption'));
+      expect((await s.service.dispatch(m.send)).ok).toBe(false);
+      await expirePilotDay(o.org);
+      replacement = await nextPilotDay(o.org, o.id);
+      value(await s.fresh().dispatch(m.send));
+    } else {
+      let once = true;
+      s.hooks.render = async () => {
+        if (once) {
+          once = false;
+          await expirePilotDay(o.org);
+          replacement = await nextPilotDay(o.org, o.id);
+        }
+      };
+      value(await s.service.dispatch(m.send));
+    }
+    expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(false);
+    expect(s.provider.send).toHaveBeenCalledTimes(1);
+    expect(
+      (
+        await f.admin.query('SELECT state FROM partners.coupon_reservations WHERE send_id=$1', [
+          m.send,
+        ])
+      ).rows.every((r) => r.state === 'released'),
+    ).toBe(true);
+    expect(
+      (
+        await f.admin.query(
+          'SELECT consumed_units::text n FROM partners.offer_cap_windows WHERE org_id=$1',
+          [o.org],
+        )
+      ).rows.every((r) => r.n === '0'),
+    ).toBe(true);
+    delete s.hooks.render;
+    const fresh = await s.message({ contact: m.contact });
+    value(await s.fresh().dispatch(fresh.send));
+    expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(true);
+    expect(
+      (
+        await f.admin.query(
+          'SELECT consumed_units::text n FROM partners.offer_cap_windows WHERE id=$1',
+          [replacement],
+        )
+      ).rows[0]!.n,
+    ).toBe('1');
+  },
+);
+it('rechecks cap time at the SQL handoff marker after the final application-side read', async () => {
+  const o = await s.offer('unique', 100n, 5),
+    m = await s.message();
+  let once = true;
+  const query: typeof s.scope.query = async (...args) => {
+    if (once && args[1].startsWith('UPDATE partners.pilot_work SET payload=')) {
+      once = false;
+      expect(
+        (
+          await s.scope.query(
+            args[0],
+            "SELECT id FROM partners.coupon_reservations WHERE org_id=$1 AND state='reserved'",
+            [o.org],
+          )
+        ).rows,
+      ).toHaveLength(1);
+      // Keep this fixed test delay inside SQL; preserve the adapter's normal idle timeout.
+      await s.scope.query(args[0], capExpiryDelay, [o.org]);
+    }
+    return s.scope.query(...args);
+  };
+  const service = createPilotDeliveryServices({
+    ...s.deps,
+    repository: createPilotRepository({ ...s.scope, query }),
+  });
+  value(await service.dispatch(m.send));
+  expect(s.provider.send).toHaveBeenCalledTimes(1);
+  expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(false);
+  expect(
+    (
+      await f.admin.query('SELECT state FROM partners.coupon_reservations WHERE send_id=$1', [
+        m.send,
+      ])
+    ).rows.every((r) => r.state === 'released'),
+  ).toBe(true);
 });

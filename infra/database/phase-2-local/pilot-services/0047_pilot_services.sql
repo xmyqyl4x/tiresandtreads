@@ -155,7 +155,7 @@ DECLARE evidence uuid:=gen_random_uuid();BEGIN
  RETURN evidence;
 END $$;
 CREATE FUNCTION partners.pilot_send_state(message uuid,token uuid,generation bigint,state text,message_id text DEFAULT NULL) RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
-DECLARE attempt uuid;work partners.pilot_work%ROWTYPE;BEGIN
+DECLARE attempt uuid;work partners.pilot_work%ROWTYPE;handoff_at timestamptz;BEGIN
  PERFORM partners.pilot_root(message);
  IF NOT EXISTS(SELECT 1 FROM partners.pilot_work w WHERE w.send_id=message AND w.lease_token=token AND w.lease_generation=generation AND w.lease_until>clock_timestamp()) THEN RAISE EXCEPTION 'Pilot lease unavailable' USING ERRCODE='23514';END IF;
  IF state NOT IN('dispatching','accepted','uncertain','failed','cancelled','suppressed') THEN RAISE EXCEPTION 'Invalid pilot send state' USING ERRCODE='23514';END IF;
@@ -164,8 +164,15 @@ DECLARE attempt uuid;work partners.pilot_work%ROWTYPE;BEGIN
   SELECT * INTO work FROM partners.pilot_work WHERE send_id=message;
   IF NOT EXISTS(SELECT 1 FROM app.object_assets a JOIN partners.pilot_payload_refs ref ON ref.asset_id=a.id AND ref.send_id=message AND ref.generation=$3
   WHERE a.id=work.payload_asset_id AND a.purpose='email_payload' AND a.state='ready' AND a.sha256=work.payload_object_hash AND a.object_version IS NOT NULL AND a.expires_at>clock_timestamp()) THEN RAISE EXCEPTION 'Ready pilot payload required' USING ERRCODE='23514';END IF;
-  INSERT INTO email.send_attempts(send_id,attempt_no,started_at,outcome) VALUES(message,1,clock_timestamp(),'in_progress') RETURNING id INTO attempt;
-  UPDATE email.email_sends SET claimed_at=clock_timestamp(),payload_asset_id=work.payload_asset_id,payload_hash=work.payload_object_hash WHERE id=message;
+  handoff_at:=clock_timestamp();
+  -- A held code cannot borrow a replacement cap window's unused capacity.
+  IF EXISTS(SELECT 1 FROM partners.coupon_reservations a WHERE a.send_id=message AND a.state<>'released' AND
+   (a.state<>'reserved' OR (SELECT count(*) FROM partners.cap_reservations cr JOIN partners.offer_cap_windows cw ON cw.org_id=cr.org_id AND cw.id=cr.cap_id
+    WHERE cr.org_id=a.org_id AND cr.reservation_id=a.id AND cr.state='reserved' AND cw.consumed_units>=cr.units
+    AND cw.policy_version=(SELECT policy_version FROM partners.pilot_requests WHERE send_id=message)
+    AND cw.window_start<=handoff_at AND cw.window_end>handoff_at)<>3)) THEN RETURN NULL;END IF;
+  INSERT INTO email.send_attempts(send_id,attempt_no,started_at,outcome) VALUES(message,1,handoff_at,'in_progress') RETURNING id INTO attempt;
+  UPDATE email.email_sends SET claimed_at=handoff_at,payload_asset_id=work.payload_asset_id,payload_hash=work.payload_object_hash WHERE id=message;
  ELSE
   SELECT attempt_id INTO attempt FROM partners.pilot_work WHERE send_id=message;
   IF attempt IS NOT NULL THEN UPDATE email.send_attempts SET outcome=CASE state WHEN 'accepted' THEN 'accepted' WHEN 'failed' THEN 'definitive_rejection' ELSE 'uncertain' END,finished_at=clock_timestamp() WHERE id=attempt;END IF;

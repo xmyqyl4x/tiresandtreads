@@ -361,7 +361,11 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
     value(await service.request([owner.token], send, request));
     return { send, owner, contact, report, reportScope, request, document, challenge };
   }
-  async function offer(mode: 'shared' | 'unique' | 'generated' = 'shared', limit = 100n) {
+  async function offer(
+    mode: 'shared' | 'unique' | 'generated' = 'shared',
+    limit = 100n,
+    daySeconds: number | null = null,
+  ) {
     const company = await partners.company(),
       id = await partners.published(company.org, company.handle);
     let pool = uuid('coupon_pool');
@@ -390,8 +394,16 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
       );
     for (const kind of ['total', 'day', 'budget'])
       await f.admin.query(
-        "INSERT INTO partners.offer_cap_windows(org_id,offer_id,kind,policy_version,window_start,window_end,limit_units,currency_code) VALUES($1,$2,$3,$4,clock_timestamp()-interval '1 minute',clock_timestamp()+interval '1 day',$5,$6)",
-        [company.org, id, kind, policy.version, limit.toString(), kind === 'budget' ? 'USD' : null],
+        "INSERT INTO partners.offer_cap_windows(org_id,offer_id,kind,policy_version,window_start,window_end,limit_units,currency_code) VALUES($1,$2,$3,$4,clock_timestamp()-interval '1 minute',clock_timestamp()+CASE WHEN $3='day' AND $7::integer IS NOT NULL THEN make_interval(secs=>$7) ELSE interval '1 day' END,$5,$6)",
+        [
+          company.org,
+          id,
+          kind,
+          policy.version,
+          limit.toString(),
+          kind === 'budget' ? 'USD' : null,
+          daySeconds,
+        ],
       );
     return { ...company, id, pool };
   }

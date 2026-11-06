@@ -7,7 +7,7 @@
   "migrations": [
     {
       "id": "0047_pilot_services",
-      "sha256": "56035b6d67ff1cd3ae0a6b7095a0fa93e7188121e0e860354bea67bf18cb9185"
+      "sha256": "300fc464f3fe37d885a577ea598f1a617bed7b661b6ed85ec0acd6e780404be0"
     }
   ],
   "tables": [

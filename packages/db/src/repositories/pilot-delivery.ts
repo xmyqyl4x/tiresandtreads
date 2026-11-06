@@ -249,12 +249,34 @@ export function createPilotRepository(s: WriteScope): PilotRepository {
       await fence(tx, l);
       const offers = await repo.candidates(tx, l, p),
         held = [];
-      for (const a of await assignments(tx, l)) {
+      const owned = await assignments(tx, l),
+        caps = (
+          await q(
+            tx,
+            "SELECT r.reservation_id,r.cap_id,r.units::text,r.state FROM partners.cap_reservations r JOIN partners.coupon_reservations a ON a.org_id=r.org_id AND a.id=r.reservation_id WHERE a.send_id=$1 AND a.state='reserved' ORDER BY r.reservation_id,r.cap_id LIMIT 10",
+            [l.sendId],
+          )
+        ).rows;
+      if (caps.length > 9) return stop('integrity');
+      for (const a of owned) {
         const o = offers.find(
           (o) =>
             o.offer.offerId === a.offerId && o.offer.version === a.version && o.poolId === a.poolId,
         );
-        if (!o) continue;
+        const reserved = caps.filter((r) => r.reservation_id === a.id);
+        if (
+          !o ||
+          a.state !== 'reserved' ||
+          reserved.length !== o.caps.length ||
+          o.caps.some(
+            (c) =>
+              !reserved.some(
+                (r) =>
+                  r.cap_id === c.id && r.units === c.units.toString() && r.state === 'reserved',
+              ),
+          )
+        )
+          continue;
         const r = (
           await q(
             tx,
@@ -349,6 +371,8 @@ export function createPilotRepository(s: WriteScope): PilotRepository {
       const attempt = (
         await q(tx, "SELECT partners.pilot_send_state($1,$2,$3,'dispatching') id", args(l))
       ).rows[0]!.id;
+      // The last SQL clock check can refuse expiry after our final application-side read.
+      if (attempt === null) return false;
       await q(
         tx,
         "UPDATE partners.pilot_work SET state='dispatching',payload=decode($2,'hex'),payload_key_version=$3,payload_hash=$4,provider_started_at=clock_timestamp(),attempt_id=$5,updated_at=clock_timestamp() WHERE send_id=$1",
