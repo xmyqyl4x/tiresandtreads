@@ -7,6 +7,11 @@ it('captures graphs over 1 MiB while still rejecting an actual boundary violatio
   const root = realpathSync(tmpdir()),
     directory = mkdtempSync(join(root, 'tt-boundary-')),
     cli = join(directory, 'pnpm-fixture.mjs');
+  function cleanup() {
+    if (realpathSync(directory) !== directory || !directory.startsWith(root + sep + 'tt-boundary-'))
+      throw Error('Owned fixture directory mismatch');
+    rmSync(directory, { recursive: true, force: true });
+  }
   try {
     for (const violation of [false, true]) {
       const graph = {
@@ -42,8 +47,6 @@ it('captures graphs over 1 MiB while still rejecting an actual boundary violatio
         expect(r.stdout).toContain('Layer, cycle and transitive client/server boundaries passed');
     }
   } finally {
-    if (realpathSync(directory) !== directory || !directory.startsWith(root + sep + 'tt-boundary-'))
-      throw Error('Owned fixture directory mismatch');
-    rmSync(directory, { recursive: true, force: true });
+    cleanup();
   }
 });

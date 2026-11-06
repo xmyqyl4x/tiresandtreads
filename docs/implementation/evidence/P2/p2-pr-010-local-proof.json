@@ -17,7 +17,7 @@
   "defaultAppMigrations": 33,
   "defaultCmsMigrations": 3,
   "proofCommand": "node tests/fixtures/phase2/pilot-services-run.mjs",
-  "focusedLogSha256": "e6c84d37da84739cebbddc16d4c3c102fa536ac4332e340c6d72ea05e763a657",
+  "focusedLogSha256": "a02cedd91dda1728266d8ba88273728d55063741c9e0cc7b3f2d2ef5af9e418f",
   "initialPolicyRedLogSha256": "ec782625d9edbede3b8e978fe2e761ac72300ae533aef9b5337c607c384f950c",
   "nativeEvidence": {
     "actualPostgreSQL": true,
@@ -62,7 +62,7 @@
     "tests/fixtures/phase2/matching.ts": "c8cb2ec645570cd4dd594e5d5b9a513a70974a9820cad05a4f0544ecbd605c69",
     "tests/fixtures/phase2/pilot-services-run.mjs": "b347aab1e2d9eaf8b7a4142c4fc0fc90f8b36b6975da6265246ba1a29f2f1961",
     "tests/fixtures/phase2/pilot-services.ts": "89c0b3cc5dfbcb41498dd0c03ea44db34a41596e526770ac390e9db8408c7f11",
-    "tests/unit/boundary-capture.test.ts": "adc7bef1acb98a8a6ce7f0a07f135c3fa226f32bf7a4f1285250c2c6993127a3",
+    "tests/unit/boundary-capture.test.ts": "e1d096c194dd30b2189a599c0abf02061efdea01e9356bf1fae59b940b30a3e4",
     "tests/unit/offer-matching.test.ts": "edb2c3caefc0f3f0e9901a0e5e9056261f25f0c9a098019f30f7242d743ef99d",
     "tests/unit/pilot-renderer.test.ts": "79211d73f5509f6b49fc4721af774402e7014225ca112bdbde1e0d075500dbd6",
     "tests/usecases/pilot-delivery.test.ts": "06c85545e077d7cae89540e764e297edf1b184730b8852553e0829142c675e00"
