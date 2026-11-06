@@ -3,9 +3,9 @@
   "card": "P2-PR-010",
   "scope": "Local nonpaid matching/allocation/consented delivery only; actual acceptance held",
   "baseMain": "eaf99952e34716abaf2c41f17a6b70a4117ac6f6",
-  "focusedTestsPassed": 147,
-  "newTestsAdded": 125,
-  "nativeTestsPassed": 27,
+  "focusedTestsPassed": 151,
+  "newTestsAdded": 129,
+  "nativeTestsPassed": 31,
   "pureTestsPassed": 120,
   "rerunExistingAuditTests": 22,
   "typecheckPassed": true,
@@ -17,7 +17,7 @@
   "defaultAppMigrations": 33,
   "defaultCmsMigrations": 3,
   "proofCommand": "node tests/fixtures/phase2/pilot-services-run.mjs",
-  "focusedLogSha256": "a02cedd91dda1728266d8ba88273728d55063741c9e0cc7b3f2d2ef5af9e418f",
+  "focusedLogSha256": "7c935538db4008eb134c9edf0217c52eb2c8ed09dbecccecbb9128420e447714",
   "initialPolicyRedLogSha256": "ec782625d9edbede3b8e978fe2e761ac72300ae533aef9b5337c607c384f950c",
   "nativeEvidence": {
     "actualPostgreSQL": true,
@@ -33,7 +33,7 @@
     "gatesClosed": 0,
     "migrations": 47,
     "newTables": 5,
-    "nativeCases": 27,
+    "nativeCases": 31,
     "maximumOffers": 3,
     "onePerSeller": true,
     "recipientCalendarMonthLimit": 4,
@@ -44,12 +44,13 @@
     "freshConnectionHandoffRecovery": true,
     "actualPrivacyAcceptance": false,
     "actualProviderPilotDeploymentAcceptance": false,
-    "productionBootstrapChanged": false
+    "productionBootstrapChanged": false,
+    "completeSelectedAxleProjection": true
   },
   "sourceSha256": {
-    "infra/database/phase-2-local/pilot-services/0047_pilot_services.sql": "59807fcc5bdf488226f4ebd8b261419fa60ceb14e9b421e3ed2aceef8af5837d",
+    "infra/database/phase-2-local/pilot-services/0047_pilot_services.sql": "56035b6d67ff1cd3ae0a6b7095a0fa93e7188121e0e860354bea67bf18cb9185",
     "infra/database/phase-2-local/pilot-services/README.md": "26a4645662bcf1467be5f7593989a27477759b42701057d0ed4fc493f59c67fb",
-    "infra/database/phase-2-local/pilot-services/manifest.json": "b81b228f624db1f91ab15942f43e53608e351d5b351099e689aa7e58492bd186",
+    "infra/database/phase-2-local/pilot-services/manifest.json": "4fffa6d772152422fd44c12b4f0fe9a9f5aca3d628a7563c6b93f25c5d56ff8f",
     "packages/application/src/partners/pilot-delivery.ts": "087e27ac946bbfb711d887fb949f22bb4e01f3d0e61562cc3b592d24f35aca94",
     "packages/application/src/ports/pilot-delivery.ts": "7bec011d1e92b5066eb4db0e77d0a31b43d6cef1b0514ee49dd2a07db224fa91",
     "packages/db/src/repositories/pilot-candidates.ts": "8033f094e98f1d798f53c334c6a6750fbd2328e10924a56cfe3c799c0ad79229",
@@ -57,8 +58,8 @@
     "packages/domain/src/offer-matching.ts": "277d7de1ab0c712b8c3b3e5f878fdec401b73b41c1a5c9feb08ee83698111860",
     "packages/integrations/src/pilot-renderer.ts": "45318a6dbc42034a257c30b3c3a4a42087cd9c36ea2926861c40b898ba131db2",
     "scripts/verify/boundaries.mjs": "649890637370f44c280d92776dee9546f5682c49900eb574b96cffe94bc9acc6",
-    "tests/database/phase2-pilot-services.test.ts": "f5ccdf13ea2aa83c03d58a9821f09872577de990552b222047120b341dd6d1e6",
-    "tests/fixtures/phase2/compose-pilot.ts": "ef3beb219ec7a075b97917bea369f9009cbad9a2919f1f80a2c296735c0c660d",
+    "tests/database/phase2-pilot-services.test.ts": "82a0c871e69b8461e654ab1e37b3aa35ac4ce070c09ff7148f74e173a9aa9348",
+    "tests/fixtures/phase2/compose-pilot.ts": "fd640071612102c6b563ed2a1ed6bb7760dfe3152aebcd3071eead0f2b5cfbee",
     "tests/fixtures/phase2/matching.ts": "c8cb2ec645570cd4dd594e5d5b9a513a70974a9820cad05a4f0544ecbd605c69",
     "tests/fixtures/phase2/pilot-services-run.mjs": "b347aab1e2d9eaf8b7a4142c4fc0fc90f8b36b6975da6265246ba1a29f2f1961",
     "tests/fixtures/phase2/pilot-services.ts": "89c0b3cc5dfbcb41498dd0c03ea44db34a41596e526770ac390e9db8408c7f11",
@@ -79,5 +80,6 @@
   "casesClosed": 0,
   "gatesClosed": 0,
   "nextCardStarted": false,
-  "boundaryCaptureRegressionLogSha256": "6a784f11495a82c3747f52991a2f026cb301aef68f6e637109403f86b297fc72"
+  "boundaryCaptureRegressionLogSha256": "6a784f11495a82c3747f52991a2f026cb301aef68f6e637109403f86b297fc72",
+  "partialAxleReviewRedLogSha256": "0eb79322e41b1ad85841631a2608937697dc5bc2bb4b0a8eb7420db0815b0530"
 }

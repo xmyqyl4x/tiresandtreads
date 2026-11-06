@@ -2,7 +2,7 @@ import { createDeliveryFiles } from '../../../packages/integrations/src/delivery
 import { randomBytes, createCipheriv, createDecipheriv } from 'node:crypto';
 import { vi } from 'vitest';
 import type { pilotFixture } from './pilot-services.ts';
-import { composePartnerServices, uuid, value, time } from './compose-partner-services.ts';
+import { composePartnerServices, uuid, value, time, rev } from './compose-partner-services.ts';
 import { success } from '../catalog/database.ts';
 import { createPilotRepository } from '../../../packages/db/src/repositories/pilot-delivery.ts';
 import { createPilotDeliveryServices } from '../../../packages/application/src/partners/pilot-delivery.ts';
@@ -145,7 +145,59 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
     ],
     2n,
   );
-  const publication = await f.candidate(catalog, 2n);
+  const frontPublication = await f.candidate(catalog, 2n);
+  await success(f.publishScope.unitOfWork, (tx) => f.publish.publish(tx, frontPublication));
+  const rearCatalog = await f.run(),
+    rearModel = uuid('tire_model'),
+    rearSku = uuid('tire_sku'),
+    rearLicense = uuid('license');
+  await f.admin.query(
+    'INSERT INTO app.data_licenses(id,provider_id,market,rights,effective_at,reviewed_at) SELECT $1,provider_id,market,rights,effective_at,reviewed_at FROM app.data_licenses WHERE id=$2',
+    [rearLicense, f.license],
+  );
+  await f.admin.query(
+    "UPDATE app.dataset_versions SET license_id=$2 WHERE id=$1 AND status='staging'",
+    [rearCatalog.datasetId, rearLicense],
+  );
+  await f.stage(rearCatalog, 'tireModels', [
+    {
+      id: rearModel,
+      sourceRecordKey: rearModel,
+      brand: 'Synthetic',
+      model: 'Local Rear',
+      category: 'touring',
+      seasonalClass: 'all_season',
+    },
+  ]);
+  await f.stage(
+    rearCatalog,
+    'tireSkus',
+    [
+      {
+        id: rearSku,
+        sourceRecordKey: rearSku,
+        modelId: rearModel,
+        manufacturerSku: 'LOCAL-REAR',
+        sizeCode: '245/50R18',
+        construction: 'radial',
+        rimInches: '18',
+        loadIndex: 100,
+        speedRank: 10,
+        loadRange: null,
+        xl: false,
+        runFlat: false,
+        status: 'active',
+      },
+    ],
+    2n,
+  );
+  const publication = {
+    ...(await f.candidate(rearCatalog, 2n, [
+      { key: 'catalog', datasetId: catalog.datasetId },
+      { key: 'rear-catalog', datasetId: rearCatalog.datasetId },
+    ])),
+    expectedHead: { bundleId: frontPublication.bundleId, revision: rev() },
+  };
   await success(f.publishScope.unitOfWork, (tx) => f.publish.publish(tx, publication));
   const contacts = createContactServiceRepository(f.scope, ['test-hmac-v1']);
   async function consent(
@@ -180,6 +232,7 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
       adult?: boolean;
       pendingReport?: boolean;
       quantity?: number;
+      axles?: 'staggered' | 'single-absent' | 'single-null';
     } = {},
   ) {
     const owner = await f.owner(),
@@ -200,7 +253,22 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
         picks: [item],
         decisions: [{ id: item, status: 'eligible', reasons: [], scoreBp: 5000 }],
       },
-      evidence: { plans: [{ id: item, front: { id: sku }, rear: { id: sku } }] },
+      evidence: {
+        plans: [
+          {
+            id: item,
+            front: { id: sku },
+            ...(options.axles === 'single-absent'
+              ? {}
+              : {
+                  rear:
+                    options.axles === 'single-null'
+                      ? null
+                      : { id: options.axles === 'staggered' ? rearSku : sku },
+                }),
+          },
+        ],
+      },
       prices: [{ planId: item, quantity: 4, totalMinor: '80000', currency: 'USD' }],
     };
     const report = await f.report(owner.identity, output);
@@ -354,5 +422,7 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
     publication,
     sku,
     model,
+    rearSku,
+    rearLicense,
   };
 }

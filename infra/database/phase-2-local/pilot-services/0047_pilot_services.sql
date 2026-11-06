@@ -115,8 +115,10 @@ BEGIN
  SELECT * INTO r FROM app.reports WHERE id=s.report_id;SELECT * INTO request FROM partners.pilot_requests WHERE send_id=message;
  SELECT v.output_snapshot INTO output FROM app.report_versions v WHERE v.report_id=s.report_id AND v.version=s.report_version;
  SELECT p INTO plan FROM jsonb_array_elements(coalesce(output#>'{evidence,plans}','[]')) p WHERE p->>'id'=request.item_key;
- SELECT coalesce(jsonb_agg(p),'[]') INTO products FROM (SELECT DISTINCT partners.pilot_product((x->>'id')::uuid,(SELECT bundle_id FROM app.report_versions WHERE report_id=s.report_id AND version=s.report_version),r.market) p
- FROM (VALUES(plan->'front'),(plan->'rear')) v(x) WHERE x IS NOT NULL) candidates WHERE p IS NOT NULL;
+ -- An absent optional rear axle is different from a selected axle whose current source facts cannot resolve.
+ SELECT CASE WHEN jsonb_typeof(plan->'front')='object' AND bool_and(p IS NOT NULL) THEN coalesce(jsonb_agg(p),'[]') ELSE '[]'::jsonb END INTO products
+ FROM (SELECT DISTINCT partners.pilot_product((x->>'id')::uuid,(SELECT bundle_id FROM app.report_versions WHERE report_id=s.report_id AND version=s.report_version),r.market) p
+ FROM (VALUES(plan->'front'),(plan->'rear')) v(x) WHERE x IS NOT NULL AND x<>'null'::jsonb) candidates;
  SELECT d.document INTO doc FROM email.delivery_snapshots d WHERE d.send_id=message;
  live:=s.anonymized_at IS NULL AND person.status='active' AND (person.expires_at IS NULL OR person.expires_at>clock_timestamp()) AND c.status='active'
  AND r.status='active' AND r.expires_at>clock_timestamp() AND request.expires_at>clock_timestamp()

@@ -18,7 +18,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 47,
         newTables: 5,
-        nativeCases: 27,
+        nativeCases: 31,
         maximumOffers: 3,
         onePerSeller: true,
         recipientCalendarMonthLimit: 4,
@@ -525,4 +525,72 @@ it('refuses dispatch under a different policy version than the immutable owner r
       )
     ).rows[0]!.n,
   ).toBe(0);
+});
+it('resolves both distinct staggered axles from the immutable selected bundle', async () => {
+  await s.offer();
+  const m = await s.message({ axles: 'staggered' });
+  const lease = (await success(s.scope.unitOfWork, (tx) => s.repository.acquire(tx, m.send)))!;
+  const c = await success(s.scope.unitOfWork, (tx) => s.repository.context(tx, lease, s.policy));
+  expect(c.audience.products.map((p) => p.skuId).sort()).toEqual([s.sku, s.rearSku].sort());
+  await success(s.scope.unitOfWork, (tx) => s.repository.retry(tx, lease));
+  value(await s.service.dispatch(m.send));
+  expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(true);
+});
+it.each(['before allocation', 'during rendering'])(
+  'refuses the entire selected product projection when rear rights are withdrawn %s',
+  async (phase) => {
+    const o = await s.offer(),
+      m = await s.message({ axles: 'staggered' });
+    let once = true;
+    const withdraw = async () => {
+      await f.admin.query(
+        "UPDATE app.data_licenses SET rights=jsonb_set(rights,'{display}','false') WHERE id=$1",
+        [s.rearLicense],
+      );
+    };
+    try {
+      if (phase === 'before allocation') await withdraw();
+      else
+        s.hooks.render = async () => {
+          if (once) {
+            once = false;
+            await withdraw();
+          }
+        };
+      value(await s.service.dispatch(m.send));
+      expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(false);
+      expect(
+        (
+          await f.admin.query('SELECT state FROM partners.coupon_reservations WHERE send_id=$1', [
+            m.send,
+          ])
+        ).rows.every((r) => r.state === 'released'),
+      ).toBe(true);
+      expect(
+        (
+          await f.admin.query(
+            'SELECT consumed_units::text n FROM partners.offer_cap_windows WHERE org_id=$1',
+            [o.org],
+          )
+        ).rows.every((r) => r.n === '0'),
+      ).toBe(true);
+    } finally {
+      await f.admin.query(
+        "UPDATE app.data_licenses SET rights=jsonb_set(rights,'{display}','true') WHERE id=$1",
+        [s.rearLicense],
+      );
+    }
+  },
+);
+it('distinguishes an absent or explicitly null optional rear axle from an unresolved selected axle', async () => {
+  await s.offer();
+  for (const axles of ['single-absent', 'single-null'] as const) {
+    const m = await s.message({ axles });
+    const lease = (await success(s.scope.unitOfWork, (tx) => s.repository.acquire(tx, m.send)))!;
+    const c = await success(s.scope.unitOfWork, (tx) => s.repository.context(tx, lease, s.policy));
+    expect(c.audience.products.map((p) => p.skuId)).toEqual([s.sku]);
+    await success(s.scope.unitOfWork, (tx) => s.repository.retry(tx, lease));
+    value(await s.service.dispatch(m.send));
+    expect(s.provider.send.mock.lastCall![1].mail.commercial).toBe(true);
+  }
 });
