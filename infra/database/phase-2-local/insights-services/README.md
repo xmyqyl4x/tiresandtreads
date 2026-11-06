@@ -1,0 +1,7 @@
+# Opt-in local partner insights support
+
+0048 follows the exact checksum-bound 0047 chain and adds six forced-RLS support tables for command receipts, keyed audit, classified clicks, immutable weekly releases, erasable permission/expiry links and structured domain health. Only the disposable fixture creates the dedicated service capability and applies these sources. The local chain has 48 app migrations / 202 tables; defaults stay at 33 app / 3 CMS migrations.
+
+Run `node tests/fixtures/phase2/partner-insights-run.mjs` for pinned Linux/PostgreSQL setup, strict type checking, focused service/native tests and verified owned cleanup. No existing dev/stage database, production bootstrap, CLI, preflight, default runtime or policy is changed.
+
+Current role/purpose checks, full-matrix minimum-cell/complement suppression, fixed completed-week queries and immutable releases restrict local output. Privacy changes permanently block affected periods; they do not publish a smaller replacement. New links/clicks have an operations-only purge and bounded expiry maintenance. These controls do not accept full P2 erasure, restore/deletion replay, deidentification, rights/source/provider/authentication or deployment. Actual sender-domain attribution is unavailable. No recipient notifications or provider/model calls occur. See [the service packet](../../../../docs/implementation/P2-PR-011-local-partner-insights.md).
