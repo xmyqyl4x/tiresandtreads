@@ -28,6 +28,7 @@ try {
     '--project',
     'usecases',
     'tests/database/phase2-partner-insights.test.ts',
+    'tests/database/contact-services.test.ts',
     'tests/unit/partner-insights-policy.test.ts',
     'tests/unit/insights-tokens.test.ts',
     'tests/usecases/partner-insights.test.ts',

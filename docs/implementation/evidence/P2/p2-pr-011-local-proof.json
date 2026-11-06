@@ -3,9 +3,9 @@
   "card": "P2-PR-011",
   "scope": "Local partner insights, disputes, domain health and consented operations only; actual acceptance held",
   "baseMain": "4a9a837ef3c31fb682b7052372032967294f5ff3",
-  "focusedTestsPassed": 145,
+  "focusedTestsPassed": 168,
   "newTestsAdded": 145,
-  "nativeTestsPassed": 46,
+  "nativeTestsPassed": 69,
   "pureTestsPassed": 99,
   "typecheckPassed": true,
   "ownedProjectRemoved": true,
@@ -16,7 +16,7 @@
   "defaultAppMigrations": 33,
   "defaultCmsMigrations": 3,
   "proofCommand": "node tests/fixtures/phase2/partner-insights-run.mjs",
-  "focusedLogSha256": "054f84a650883c0e2c8fc4bb31379382f7be81f3662467925270fcb9500de95b",
+  "focusedLogSha256": "1f5bbed388c3617b36875aab7fd3c6aebc8764e9e32139409fe98a25f97a814f",
   "typecheckPreparationLogSha256": "e8bf3f682433cfaefe9453c2d356d6d2924dadcd0bf257e0d7c229f1f4b5c840",
   "initialPolicyRedLogSha256": "1623e628b2baef8a29fcd544e93ea2e78c78f40fed58dd03222259b10a9aab59",
   "withdrawalRaceRedLogSha256": "0daaccec81fe7bf07d9aedae366170ade94c1cd3be33f533329c847a89858ed9",
@@ -50,7 +50,7 @@
     "gatesClosed": 0
   },
   "sourceSha256": {
-    "docs/implementation/P2-PR-011-local-partner-insights.md": "c43d8c23371911b0c498463d41e7200f570a7ca9966b28422af700713df06a70",
+    "docs/implementation/P2-PR-011-local-partner-insights.md": "63f58c524da09cc71a521ab7d9d4cad513f11938722d2054d41ca209cbf2f7b2",
     "docs/implementation/evidence/P2/p2-pr-011-local-authorization.json": "11d493e95336f0b1cc0c36f075f939553192c19571f3bb53408e03dc196c4d82",
     "infra/database/phase-2-local/insights-services/0048_partner_insights.sql": "af07df1daea64046fae745c092fbfd077490d6204cf2cb4de7b5fd1e9821b63e",
     "infra/database/phase-2-local/insights-services/README.md": "4cb3340bf2e64f2866dc4c461ed0129e1dca4851eba3cdc7d7e048b5c5ad918f",
@@ -62,11 +62,12 @@
     "packages/integrations/src/insights-tokens.ts": "a9741e1f25fb7457035c3169198b78e90eb1cade2192fab204d40e4f1dc97fa4",
     "tests/database/phase2-partner-insights.test.ts": "9d256dfaec1960960d613d668dbb3ec0a74af4db2316fa7aebaaaad60d9d2d5e",
     "tests/fixtures/phase2/compose-insights.ts": "419a424a0d0313a87905583b4ba18d15cdd1bcb8ffdf3418377e24c877c5b1d3",
-    "tests/fixtures/phase2/partner-insights-run.mjs": "d0fad96ecc62bd9ad02ec054096e163be6027f3f8d14fc7b224da2bde51dc2dc",
+    "tests/fixtures/phase2/partner-insights-run.mjs": "08b8d193cf50c9e0985af0411835515c116d5121e38dbe523fcf3aa2c6d068cd",
     "tests/fixtures/phase2/partner-insights.ts": "9753783512ea045218133fc145920de228297379acadb46fa9c4037db8bfa58f",
     "tests/unit/insights-tokens.test.ts": "b475dfeb1531a200406440b6068701207180d5b2e85d69daeb958e2bace80f8b",
     "tests/unit/partner-insights-policy.test.ts": "98c8ca7adea4209470860ed3222707e5c81fb86eda813f7b1fee77a849fabbe6",
-    "tests/usecases/partner-insights.test.ts": "123def782abca53e35b105f1a89dbf4a377507fb252f6a87ec46eed3f1b58009"
+    "tests/usecases/partner-insights.test.ts": "123def782abca53e35b105f1a89dbf4a377507fb252f6a87ec46eed3f1b58009",
+    "tests/database/contact-services.test.ts": "42f2d0feb7e0c91fa407ea718eb77854968c8dd6ad9ef8bb459641f71b60905e"
   },
   "actualS1Approval": false,
   "actualS2Approval": false,
@@ -80,5 +81,8 @@
   "casesClosed": 0,
   "gatesClosed": 0,
   "nextCardStarted": false,
-  "qualityCorrectionProofLogSha256": "f3bee20a2e72b5a239d8b6bca9ad89e74401d52052fe86f23e3afdbcab4e6a2e"
+  "qualityCorrectionProofLogSha256": "f3bee20a2e72b5a239d8b6bca9ad89e74401d52052fe86f23e3afdbcab4e6a2e",
+  "rerunExistingContactTests": 23,
+  "contactFixtureRedLogSha256": "216071d86d66bffa4dc602807de9c2ae97888fb4478591cb30c7ec45165ad007",
+  "existingContactFullRegressionRedLogSha256": "1b27f6c43831541411b6b49fbbd47c6972f1547ded76bcf79b4171428e3215ae"
 }
