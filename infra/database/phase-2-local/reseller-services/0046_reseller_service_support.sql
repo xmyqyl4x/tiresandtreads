@@ -127,7 +127,9 @@ WHERE o.status='active' AND company.status='active' AND company.verification_sta
   AND (v.logo_asset_id IS NULL OR EXISTS(SELECT 1 FROM partners.organization_assets b
     JOIN app.object_assets physical ON physical.id=b.asset_id
     WHERE b.org_id=o.org_id AND b.asset_id=v.logo_asset_id AND b.purpose='logo' AND b.state='ready' AND physical.state='ready' AND (physical.expires_at IS NULL OR physical.expires_at>statement_timestamp())))
- AND EXISTS(SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=o.org_id AND p.state='approved')
+ AND EXISTS(SELECT 1 FROM partners.onboarding_profiles p WHERE p.org_id=o.org_id AND p.state='approved'
+   AND EXISTS(SELECT 1 FROM partners.organization_domains d WHERE d.org_id=p.org_id
+     AND (p.email_override OR d.domain=p.email_domain) AND d.status='verified' AND d.expires_at>statement_timestamp()))
  AND EXISTS(SELECT 1 FROM partners.locations l WHERE l.org_id=o.org_id AND l.status='approved')
  AND EXISTS(SELECT 1 FROM partners.verification_records r JOIN partners.organization_assets b ON b.org_id=r.org_id AND b.asset_id=r.asset_id JOIN app.object_assets a ON a.id=b.asset_id WHERE r.org_id=o.org_id AND r.status='verified' AND r.expires_at>statement_timestamp() AND NOT EXISTS(SELECT 1 FROM partners.verification_records denied WHERE denied.org_id=r.org_id AND denied.status='rejected' AND denied.reviewed_at>=r.reviewed_at) AND b.state='ready' AND a.state='ready' AND (a.expires_at IS NULL OR a.expires_at>statement_timestamp()));
 GRANT SELECT ON partners.eligible_offer_versions TO tt_p2_partner_service,tt_p2_coupon_worker;

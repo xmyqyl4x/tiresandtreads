@@ -29,7 +29,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         optInMigrations: 46,
         optInTables: 191,
-        nativeCases: 46,
+        nativeCases: 47,
         maxImportedCodes: 100000,
         overflowRowRefused: 100001,
         privateObjects: 'in-memory-byte-double',
@@ -178,6 +178,14 @@ it('requires an explicit reviewed public-email override', async () => {
     }),
   );
   expect(value(await s.onboarding.activate(s.verifier, c.org, rev())).status).toBe('active');
+  const offer = await s.published(c.org, h);
+  expect(value(await s.offers.preview(h, c.org, offer, 1)).text).toContain('Offer preview');
+  await f.admin.query("UPDATE partners.organization_domains SET status='revoked' WHERE org_id=$1", [
+    c.org,
+  ]);
+  expect(value(await s.offers.preview(h, c.org, offer, 1)).text).toContain(
+    'unavailable for serving',
+  );
 });
 it('binds invitations to the target identity, expiry and a single use without sending email', async () => {
   const c = await s.company(),
@@ -1020,4 +1028,55 @@ it('review regression: requires a successful review newer than rejection before 
       )
     ).rows[0]?.n,
   ).toBe(1);
+});
+it('review regression: rechecks the onboarding domain for in-store offers despite valid manual evidence', async () => {
+  const c = await s.company(),
+    offer = await s.published(c.org, c.handle),
+    asset = value(
+      await s.onboarding.upload(
+        c.handle,
+        c.org,
+        'verification',
+        'application/json',
+        new TextEncoder().encode('{"review":"independent manual evidence"}'),
+      ),
+    );
+  value(
+    await s.onboarding.verification(s.verifier, c.org, {
+      kind: 'manual',
+      assetId: asset.id,
+      approved: true,
+      expiresAt: time(),
+      domain: 'different.example',
+    }),
+  );
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain('Offer preview');
+  await f.admin.query(
+    "UPDATE partners.organization_domains SET expires_at=created_at+interval '1 millisecond' WHERE org_id=$1 AND domain='synthetic.example'",
+    [c.org],
+  );
+  const eligible = async () =>
+    (
+      await f.admin.query('SELECT 1 FROM partners.eligible_offer_versions WHERE offer_id=$1', [
+        offer,
+      ])
+    ).rowCount;
+  expect(await eligible()).toBe(0);
+  expect(value(await s.offers.preview(c.handle, c.org, offer, 1)).text).toContain(
+    'unavailable for serving',
+  );
+  expect(value(await s.onboarding.status(c.handle, c.org)).organization).toMatchObject({
+    status: 'active',
+    verification: 'verified',
+  });
+  await f.admin.query(
+    "UPDATE partners.organization_domains SET expires_at=clock_timestamp()+interval '1 day' WHERE org_id=$1 AND domain='synthetic.example'",
+    [c.org],
+  );
+  expect(await eligible()).toBe(1);
+  await f.admin.query(
+    "UPDATE partners.organization_domains SET status='revoked' WHERE org_id=$1 AND domain='synthetic.example'",
+    [c.org],
+  );
+  expect(await eligible()).toBe(0);
 });

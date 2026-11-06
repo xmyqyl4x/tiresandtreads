@@ -7,7 +7,7 @@
   "migrations": [
     {
       "id": "0046_reseller_service_support",
-      "sha256": "4ecab22b907e01e8d19cd5d0917685e65f0ff39afc8d383dde0071061391a0a5"
+      "sha256": "1e41ab24036667dcac7b45b1de951063e9eeb705bd96b01ead66c96ff4bf0a13"
     }
   ],
   "tables": [
