@@ -192,11 +192,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** ENG-03, ENG-04, ENG-05. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Audit new entity/row/wire boundaries and sharing of existing repository ports.
-- [ ] Prove P1 regression, realistic query/lease contention and rollback/deletion behavior.
-- [ ] Publish S2 evidence, risks and revised P2 estimate before service construction.
+- [x] Audit new entity/row/wire boundaries and sharing of existing repository ports.
+- [x] Prove P1 regression, realistic query/lease contention and rollback/deletion behavior.
+- [x] Publish S2 evidence, risks and revised P2 estimate before service construction.
 
 **Verification and acceptance:** All new repositories pass real DB integration; no provider SDK or ORM leaks into pure models.
+
+**Local validation completed:** [S2 packet](../implementation/P2-PR-008-local-data-access-validation.md) and [source-bound proof](../implementation/evidence/P2/p2-pr-008-local-proof.json) cover the three local tasks. [Actual S2 readiness](../implementation/evidence/P2/p2-s2-local-readiness.json) remains pending with no approval records; actual S1 is also pending. This owner-authorized local exception closes no gate or design case and starts no P2-PR-009 service.
 
 ### P2-PR-009
 

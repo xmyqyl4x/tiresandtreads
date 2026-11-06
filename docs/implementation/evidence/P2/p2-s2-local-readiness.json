@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-008",
+  "status": "pending",
+  "actualS1Approval": false,
+  "actualS2Approval": false,
+  "localValidationOnly": true,
+  "approvalRecords": [],
+  "servicesStarted": false,
+  "sourceProof": "p2-pr-008-local-proof.json",
+  "risks": [
+    "Actual P1 phase entry and P2 S1 acceptance remain pending",
+    "Latest 0044/0045 repository extension has not been independently archive/restored or included in an approved production rights executor",
+    "Full physical erasure, off-host/PITR restore and replay acceptance remain pending",
+    "Models/providers/licenses/budgets/operators and coverage remain unconfirmed",
+    "Owner/staff authentication, business authorization, semantic AI validators and explicit wire DTO serialization belong to later service/API cards",
+    "Graph bounds require a separately reviewed batch/operator path; database credentials are trusted server capabilities",
+    "Local query/connection/window measurements establish no production SLA or independent durability/authentication/provider fencing"
+  ],
+  "remainingCards": {
+    "first": "P2-PR-009",
+    "last": "P2-PR-027",
+    "count": 19
+  },
+  "remainingEstimate": {
+    "unit": "engineering person-days; draft range excluding external waits",
+    "resellerServices009to011": [
+      10,
+      18
+    ],
+    "aiPhotoPrivacyCsv012to016": [
+      22,
+      38
+    ],
+    "serviceAndApiValidation017to020": [
+      12,
+      21
+    ],
+    "frontend021to025": [
+      16,
+      27
+    ],
+    "securityAndRelease026to027": [
+      8,
+      14
+    ],
+    "total": [
+      68,
+      118
+    ],
+    "assumptions": "One focused experienced engineer equivalent; existing local foundation reused; tests/review included; real provider, specialist, source, operator and phase/deployment acceptance may extend calendar time. No spend or schedule commitment."
+  },
+  "HS01-HS08": "proposed",
+  "sixS3Gates": "pending; empty records unchanged",
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
