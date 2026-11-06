@@ -32,6 +32,7 @@ try {
     'tests/unit/p2-data-access-audit.test.ts',
     'tests/unit/pilot-renderer.test.ts',
     'tests/usecases/pilot-delivery.test.ts',
+    'tests/unit/boundary-capture.test.ts',
   ]);
 } finally {
   try {
