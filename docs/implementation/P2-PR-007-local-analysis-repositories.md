@@ -1,0 +1,50 @@
+# P2-PR-007 — Local AI, photo and import-review repositories
+
+The owner continued the next local card after completed [PR #94](https://github.com/xmyqyl4x/tiresandtreads/pull/94). The [authorization record](evidence/P2/p2-pr-007-local-authorization.json) permits local implementation, testing and merge while actual S1 approval remains pending. It is an exception to the ordinary accepted dependency in the [task card](../tasks/phase-2-prs.md#p2-pr-007), not acceptance of S1, S2 or later cards.
+
+**Trace:** persistence portions of UC13–UC16, DB22–DB26 and E36/E39–E41. Original FR rows and design-case/gate statuses remain unchanged.
+
+## Implemented boundaries
+
+Pure domain entities represent policy/scope/request/attempt/artifact/budget, safe report output, photo/candidate/confirmation and CSV template/review projections. Application ports use existing branded identifiers, int64 bigint values, P1 asset/job/privacy types and opaque transaction contexts. PostgreSQL adapters own SQL, decoding, concurrency and persistence. Unknown stored shapes fail closed. DTOs list fields explicitly; private provider identifiers, image keys and staff/internal records never appear in owner projections. JSON is bounded, copied and frozen before the first awaited query.
+
+| Repository | Local implementation |
+| --- | --- |
+| Policy/scope | Read evaluated policies, create scopes with captured subject authority, revision-checked processing choices and source invalidation |
+| Requests/attempts | SQL canonical digests, scope/key request retries, immutable deadline identity, expected-state transitions, bounded attempt ordinals, dispatch budget admission and forward cost reconciliation |
+| Exact reuse | Existing exact-key lease/fence functions, current-output projection and bounded source-affected scope pages, including a dataset reached through an advice fact |
+| Artifacts | Captured request/attempt authority, database output hashes, sealed source metadata and fenced publication in one transaction |
+| Attachments | Report revision compare-and-set, distinct owner authorization for shared output, current owner output and immutable matching-send artifact/fallback selection |
+| Photos | Private image asset metadata using P1 asset lifecycle methods, compound owner claims, sanitized-ready state, existing job lease fencing, atomic artifact/candidate completion, owner confirmations and one explicit saved retention choice |
+| CSV review | Declarative versioned template metadata, existing private source/run/job intake linkage, masked workflow counts, independent revision/head-bound review and current diff/validation asset locations |
+| Privacy/cancellation | Existing P1 verified journaled rights lease, current scope withdrawal, photo job cancellation, bounded object locations, receipt-before-SQL refusal, unresolved-charge refusal and owner-only SQL purge |
+
+This card contains data access. It does not call models, parse CSV, sanitize images, perform OCR, semantically validate model claims, send reports, publish imports, authenticate users or compose production services. Those use cases remain at later cards. P1 `PrivateObjects` consumes asset locations outside database transactions; these adapters perform no storage or provider I/O.
+
+## Canonical identity and transactions
+
+The manifest accepts bounded `parameters` and explicit bundle/rule/advice/authoritative/image fields only. PostgreSQL's existing `app.ai_input_digest` remains authoritative for JSONB ordering, scope, policy and canonical version. Shared generic scopes allow only reviewed named parameters and fixed categorical values, never free owner text, report bundles or image hashes. A photo task requires its sanitized hash. Provider/model/schema/prompt identity belongs to an evaluated immutable policy; synthetic fixture values do not select or approve a provider.
+
+A request retry must match the digest, captured revisions and original deadline duration. Reuse claims use the original PostgreSQL lease/fence functions. A stale holder cannot publish into a replacement generation. No external provider fencing, independent durability or authentication is claimed. Artifact/source insertion and reuse publication share a transaction; failures roll back the whole result. Artifact creation is single-write; a duplicate insertion conflicts. Callers recover an uncertain publication by reading the current exact-key result rather than assuming a fresh write.
+
+One existing unit of work owns one checked-out connection. Repository failures poison it even if caught. Subject, policy and scope guard roots precede request/attempt rows and sorted budget windows. A dispatch start rechecks every held window after acquiring locks; reservations are not perpetual dispatch permission. Reservations conserve money across all supplied windows. Unknown charges remain reserved until reconciliation; terminal reservation removal preserves historical spent counters. An exact terminal reconciliation retry cannot replace its release reason or evidence. Repeating a started attempt returns its recorded state and grants no permission to dispatch again. Cost metadata can progress from unknown/estimated to reconciled under existing immutable-history guards.
+
+Attachment writes declare both authorization/artifact scope roots in sorted order before locking the report. Freeze binds owner, send, report version and selected attachment revision; retry cannot change the frozen choice. Scope validity alone is not application authorization. All internal credentials remain trusted server capabilities, with owner/staff authentication and business policy required in later service composition.
+
+Photo completion uses one transaction for the artifact, exact source/image provenance, candidate set and current extraction/job lease. A dedicated disposable composite worker inherits the existing AI-worker and photo-worker capabilities so both repositories use the same connection. It receives no migrator, owner, privacy or staff authority. The owner role reads guarded views; append-only confirmations are read back through the safe view rather than raw `INSERT RETURNING`. Manual origin is explicit and candidate corrections retain provenance. Current scope/subject/asset/expiry checks remain authoritative on every read.
+
+## P1 privacy and import integration
+
+The new privacy bridge accepts only a current verified subject-target P1 delete/restrict request, completed journal step, elapsed barrier and matching P1 token/generation. It follows subject-before-work locking and never invents an independent journal or receipt. Restriction withdraws scope permission, cancels queued work and preserves in-flight charge uncertainty. Delete prepares image barriers and object deletion state. Active holds refuse destructive stages. Object locations are bucket/key-version checked and cursor-bound to the request; the existing objects port and P1 receipt method perform and record erasure separately.
+
+SQL purge owns one owner scope. It refuses another owner's/shared scope, active authority, unresolved charges or missing object receipts. It removes dependent photo/output/selection records in foreign-key order and preserves unrelated owners, shared outputs and historical spent totals. Commands refuse graphs beyond their explicit bounds rather than pretending to offer a durable batch executor: restriction permits at most 100 scopes and 1,000 affected mutable rows; one-scope purge permits at most 1,000 graph rows. Larger graphs require a separately designed operator/batch workflow. The production P1 graph/executor is unchanged; future composition must invoke these extension stages before P1 identity deletion. Full privacy, restore/replay and physical asset acceptance remain held.
+
+CSV adapters reuse P1 import runs, jobs, licensed datasets, artifacts and asset locations. Raw CSV and canonical packet hashes remain distinct. Templates contain typed column declarations, not executable mappings. Reviews require a different current operator from the uploader and exact run revision/fence, publication head, reviewer role revision and both existing evidence artifacts. Current approval and evidence views recheck source rights and private assets. This is metadata review/diff access, not a second import/publication pipeline. Staff authentication and approved ingestion semantics remain later service work.
+
+## Validation and held acceptance
+
+Run `node tests/fixtures/phase2/analysis-repositories-run.mjs` for workspace typechecking and the focused mapper/input/native suite. The [source-bound proof](evidence/P2/p2-pr-007-local-proof.json) records actual counts, intended red regressions and owned cleanup. Native tests exercise exact JSONB keys, replacement fences, budget races/rollback/expiry/reconciliation, pooled owner context, atomic photo output/confirmations, current CSV review/evidence, immutable send selection, P1 job/rights leases, legal holds, receipt refusal, owner-only purge and spent/shared-data preservation. Exact-commit full Linux build/regression plus actual PR and main CI are required for merge completion.
+
+The [additive opt-in migration](../../infra/database/phase-2-local/analysis-repositories/README.md) adds fixed bridges and a guarded evidence view, with no new tables. Prior source checksums, default manifests/models, production bootstrap/CLI/preflight/policy and dependency versions remain unchanged. No default runtime composition is wired. P2-PR-008 is not implemented here.
+
+All six S3 gates remain open; HS01–HS08 remain proposed; operators/coverage/rates and provider/model/budgets remain unconfirmed; specialist/licensed work remains pending. Actual phase entry, feasibility, S1/S2, privacy/source/restore/provider/pilot/deployment acceptance stays held. No provisioning, purchases, actual recipient notifications, model/provider calls or design-case/gate closure occurs.

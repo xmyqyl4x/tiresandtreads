@@ -174,11 +174,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC13, UC14, UC15, UC16, DB22, DB23, DB24, DB25, DB26. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement typed inference/artifact/scope/budget/attachment repositories and canonical input manifests.
-- [ ] Implement fenced exact-key claims, source invalidation queries, owner-scoped photo/candidate/confirmation persistence.
-- [ ] Implement import review/diff projections and deletion/cancellation adapters using P1 storage abstractions.
+- [x] Implement typed inference/artifact/scope/budget/attachment repositories and canonical input manifests.
+- [x] Implement fenced exact-key claims, source invalidation queries, owner-scoped photo/candidate/confirmation persistence.
+- [x] Implement import review/diff projections and deletion/cancellation adapters using P1 storage abstractions.
 
 **Verification and acceptance:** Unit mapper and real lease/budget/ownership/expiry tests pass; one connection owns each transaction.
+
+**Local implementation completed:** [Repository packet](../implementation/P2-PR-007-local-analysis-repositories.md) and [focused proof](../implementation/evidence/P2/p2-pr-007-local-proof.json) cover the three tasks in the owner-authorized disposable track. Actual S1 approval remains pending; this is an explicit local exception to the accepted dependency. Actual S2/privacy/source/provider/restore/deployment acceptance and all existing holds remain open. No original case or gate closes; P2-PR-008 is not implemented here.
 
 ### P2-PR-008
 

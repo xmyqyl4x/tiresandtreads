@@ -1,0 +1,14 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "f231778a26caa25fd98f7d74c61ffcac809ed0380ec288d1e4107e8652464c42",
+  "priorLocalHead": "0044_partner_repository_support",
+  "migrations": [
+    {
+      "id": "0045_analysis_repository_support",
+      "sha256": "31c230c89c71824e777af334aa3b24e46f839d6da3c5295f2fea31e2f9705d06"
+    }
+  ],
+  "tables": []
+}
