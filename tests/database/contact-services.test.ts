@@ -230,8 +230,10 @@ it('rejects forged verification/unsubscribe tokens, audience confusion and arbit
   const s = await setup(),
     r = await s.requested(),
     i = r.all[0]!,
-    m = value(await s.service.verificationMessage(i.id));
-  for (const token of ['garbage', m.verificationToken.slice(0, -3) + 'abc', m.unsubscribeToken])
+    m = value(await s.service.verificationMessage(i.id)),
+    tampered = m.verificationToken.slice(0, -1) + (m.verificationToken.endsWith('0') ? '1' : '0');
+  expect(tampered).not.toBe(m.verificationToken);
+  for (const token of ['garbage', tampered, m.unsubscribeToken])
     expect((await s.service.confirm(token, 'POST')).ok).toBe(false);
   expect((await s.service.withdraw(m.verificationToken, 'POST')).ok).toBe(false);
   const missing = s.crypto.token('verify', uid('verification'), 'v1').raw;

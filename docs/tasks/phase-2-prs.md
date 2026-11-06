@@ -234,7 +234,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Two-worker last-code/cap and withdrawal races pass; no cash billing or ranking effect in the pilot.
 
-**Local implementation complete:** [Service packet](../implementation/P2-PR-010-local-matching-delivery.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-010-local-proof.json) cover the three local tasks under the owner-authorized exception. Actual S1/S2, authentication/MFA/privacy/source/restore/provider/pilot/deployment acceptance and all six S3 gates remain pending. No case or gate closes; P2-PR-011 is not started.
+**Local implementation complete:** [Service packet](../implementation/P2-PR-010-local-matching-delivery.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-010-local-proof.json) cover the three local tasks under the owner-authorized exception. Actual S1/S2, authentication/MFA/privacy/source/restore/provider/pilot/deployment acceptance and all six S3 gates remain pending. No case or gate closes; subsequent local services are tracked under P2-PR-011.
 
 ### P2-PR-011
 
@@ -246,11 +246,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC09, UC11, AT13, AT15. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement aggregate partner includes/clicks/issues/redemption reporting and append-only corrections/disputes.
-- [ ] Implement deliverability/domain health and role-masked consented visitor explorer.
-- [ ] Implement internal aggregate insights with minimum-cell/differencing safeguards and privacy deletion propagation.
+- [x] Implement aggregate partner includes/clicks/issues/redemption reporting and append-only corrections/disputes.
+- [x] Implement deliverability/domain health and role-masked consented visitor explorer.
+- [x] Implement internal aggregate insights with minimum-cell/differencing safeguards and privacy deletion propagation.
 
 **Verification and acceptance:** Partner/analyst permission tests, scanner exclusion and small-cell suppression pass; no identity export through aggregates.
+
+**Local implementation complete:** [Service packet](../implementation/P2-PR-011-local-partner-insights.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-011-local-proof.json) cover the three local tasks under the existing owner-authorized exception. Actual S1/S2, privacy/rights, authentication/MFA, source/restore/provider/pilot/deployment acceptance and all six S3 gates remain pending. No original case or gate closes. P2-PR-012 is next and is not started.
 
 ### P2-PR-012
 
