@@ -1,0 +1,9 @@
+# Opt-in local analysis repository support
+
+Migration `0045_analysis_repository_support` follows the exact checksummed 0044 repository track and unchanged default application manifest. It adds no tables: the combined disposable catalog remains 185 tables including migration history, now with 45 migration entries. The manifest stays `opt-in-disposable-local`, `promoted: false`; default commands never select it.
+
+Fixed security-definer bridges use `pg_catalog` search paths, qualified relations, revoked PUBLIC execution and purpose-specific grants. They provide subject/scope/report/send/budget lock roots, indirect source lookup, photo cancellation and P1 rights-lease/receipt-fenced extension purge. The CSV evidence view checks current operator/source/asset eligibility. The separate photo-asset role has photo-purpose-only RLS on existing object metadata.
+
+Only the dedicated owned fixture creates roles. It adds two NOSUPERUSER/NOCREATEDB/NOCREATEROLE/NOREPLICATION/NOBYPASSRLS actors: a photo asset metadata role and a composite photo processor that inherits existing AI/photo worker capabilities. It rotates passwords only on the base roles just created by its disposable fixture; it never alters persistent/local dev/stage identities. Pools are bounded and all connections, roles, databases, containers, networks and owned volumes are cleaned up. No production identity/provisioning policy is selected.
+
+Run `node tests/fixtures/phase2/analysis-repositories-run.mjs`. See the [repository contract](../../../../docs/implementation/P2-PR-007-local-analysis-repositories.md) for transaction ordering, bounded command refusal, P1 composition requirements and held acceptance. The prior S1 restore proof remains evidence for its original sources, not an assertion that this new track has passed a full extension restore/privacy gate. All actual S1/S2 and deployment gates remain pending.
