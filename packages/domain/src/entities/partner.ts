@@ -38,7 +38,9 @@ export interface PartnerOfferVersion {
   readonly validFrom: Instant;
   readonly validUntil: Instant;
   readonly status: 'draft' | 'pending_review' | 'reviewed' | 'published' | 'retired';
-  readonly createdBy: Id<'staff'>;
+  readonly createdBy: Id<'staff'> | null;
+  // Present only for a partner-authored version; never a public wire field.
+  readonly partnerAuthor?: string;
   readonly reviewedBy: Id<'staff'> | null;
 }
 export type CouponMode = 'shared' | 'generated' | 'unique';

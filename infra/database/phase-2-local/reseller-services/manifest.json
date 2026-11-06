@@ -1,0 +1,20 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "49ef81b8fad943ac1aa67b745f3df2639386b4ea5b2629f915a229db65933c63",
+  "priorLocalHead": "0045_analysis_repository_support",
+  "migrations": [
+    {
+      "id": "0046_reseller_service_support",
+      "sha256": "d8419b308a26822236b6c1e2464b119b71fffe7fd1744b55519cea4d6a4047dc"
+    }
+  ],
+  "tables": [
+    "partners.onboarding_profiles",
+    "partners.membership_invites",
+    "partners.organization_audit",
+    "partners.coupon_imports",
+    "partners.coupon_import_rows"
+  ]
+}

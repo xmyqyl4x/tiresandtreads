@@ -79,6 +79,22 @@ export function inspectProjection(source, name, fields) {
     throw Error('Projection field drift');
 }
 export function auditP2DataAccess(load = read) {
+  const revisionPath = 'scripts/review/p2-source-revisions.json',
+    revisionSource = load(revisionPath);
+  if (sha(revisionSource) !== '03df35a31771e858244047b0be1f585816cb878a0b1df7471949dccf89c9284b')
+    throw Error('Source revision checksum mismatch');
+  const revisions = JSON.parse(revisionSource);
+  if (
+    revisions.schemaVersion !== 1 ||
+    revisions.card !== 'P2-PR-009' ||
+    JSON.stringify(Object.keys(revisions.revisions).sort()) !==
+      JSON.stringify([
+        'packages/db/src/repositories/partner-mappers.ts',
+        'packages/db/src/repositories/partner-offers.ts',
+        'packages/domain/src/entities/partner.ts',
+      ])
+  )
+    throw Error('Exact source revisions required');
   const pins = {};
   for (const card of ['006', '007']) {
     const proof = JSON.parse(
@@ -100,8 +116,12 @@ export function auditP2DataAccess(load = read) {
       )
         throw Error('Invalid source pin');
       if (pins[path] && pins[path] !== checksum) throw Error('Conflicting source pins');
-      if (sha(load(path)) !== checksum) throw Error('Source checksum mismatch: ' + path);
-      pins[path] = checksum;
+      const revision = revisions.revisions[path];
+      if (revision && revision.priorSha256 !== checksum)
+        throw Error('Historical revision mismatch');
+      const currentChecksum = revision ? revision.sha256 : checksum;
+      if (sha(load(path)) !== currentChecksum) throw Error('Source checksum mismatch: ' + path);
+      pins[path] = currentChecksum;
     }
   }
   if (Object.keys(pins).length !== 50) throw Error('Exact P2 repository inventory required');

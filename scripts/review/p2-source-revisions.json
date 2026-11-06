@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-009",
+  "reason": "Explicit partner authorship; staff-authored45 rows retain their original mapping",
+  "revisions": {
+    "packages/domain/src/entities/partner.ts": {
+      "priorSha256": "6e62774b8f05403d64cb603c80e9f957a2991703c44ac29e43ab86bec276f961",
+      "sha256": "320435144207c2bc218824e6877a4ec8e303d159a7a5c095292f4363a8800f7e"
+    },
+    "packages/db/src/repositories/partner-mappers.ts": {
+      "priorSha256": "1db651676e894ff3d35b9acf873b6404395013cdbf97f8f0fb55fcd393c8ca15",
+      "sha256": "5b80a1b07dd115d07ffaf9e8f4d003b84ae47a97a335c570c911c458a7fd0b6f"
+    },
+    "packages/db/src/repositories/partner-offers.ts": {
+      "priorSha256": "0220918022a663e256084fbc853f859b51eed5d6626988dedc47df7bad8ff330",
+      "sha256": "fb0801477b2059c3c32a94badc41ba5c340194a5cee16be21cb7a2ffc506611e"
+    }
+  }
+}

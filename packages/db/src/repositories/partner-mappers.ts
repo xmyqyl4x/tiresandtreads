@@ -141,8 +141,10 @@ export function partnerOfferFromRow(r: StorageRow): Result<PartnerOfferVersion, 
       'published',
       'retired',
     ]);
-    const createdBy = parsed(id('staff', r.created_by)),
+    const partnerAuthor = r.partner_author == null ? null : word(r.partner_author),
+      createdBy = r.created_by === null ? null : parsed(id('staff', r.created_by)),
       reviewedBy = r.reviewed_by === null ? null : parsed(id('staff', r.reviewed_by));
+    if ((createdBy === null) === (partnerAuthor === null)) bad();
     if (
       ['reviewed', 'published', 'retired'].includes(status) &&
       (!reviewedBy || reviewedBy === createdBy)
@@ -189,6 +191,7 @@ export function partnerOfferFromRow(r: StorageRow): Result<PartnerOfferVersion, 
       validUntil,
       status,
       createdBy,
+      ...(partnerAuthor === null ? {} : { partnerAuthor }),
       reviewedBy,
     };
   });
