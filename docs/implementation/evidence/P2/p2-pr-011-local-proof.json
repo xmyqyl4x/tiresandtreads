@@ -16,7 +16,7 @@
   "defaultAppMigrations": 33,
   "defaultCmsMigrations": 3,
   "proofCommand": "node tests/fixtures/phase2/partner-insights-run.mjs",
-  "focusedLogSha256": "b2033e39b0518457d027d6c327d7f0cb2ce2d8d25733f3638fee5cb464690253",
+  "focusedLogSha256": "c7286e3bec088e9aafc443fdc3670525088723759dc81f0a11693b9e19d09505",
   "typecheckPreparationLogSha256": "e8bf3f682433cfaefe9453c2d356d6d2924dadcd0bf257e0d7c229f1f4b5c840",
   "initialPolicyRedLogSha256": "1623e628b2baef8a29fcd544e93ea2e78c78f40fed58dd03222259b10a9aab59",
   "withdrawalRaceRedLogSha256": "0daaccec81fe7bf07d9aedae366170ade94c1cd3be33f533329c847a89858ed9",
@@ -63,7 +63,7 @@
     "packages/db/src/repositories/partner-insights.ts": "37c6e617a7288035e6b4f12a1f53051b4af4b29f04ae68883b6331b02cbe66d4",
     "packages/domain/src/partner-insights-policy.ts": "c43302c79880096448b79f53657cbc64d9268ccc81678a882cef5ebf8abc4990",
     "packages/integrations/src/insights-tokens.ts": "a9741e1f25fb7457035c3169198b78e90eb1cade2192fab204d40e4f1dc97fa4",
-    "tests/database/phase2-partner-insights.test.ts": "ecc34ef8f193f9d0a137722adc08284c628eca27e6669592197a907461367d99",
+    "tests/database/phase2-partner-insights.test.ts": "f6d4d9d3aef1f922da8e476dbc42d9224c78566e2688c3a92862fa407244ec40",
     "tests/fixtures/phase2/compose-insights.ts": "419a424a0d0313a87905583b4ba18d15cdd1bcb8ffdf3418377e24c877c5b1d3",
     "tests/fixtures/phase2/partner-insights-run.mjs": "08b8d193cf50c9e0985af0411835515c116d5121e38dbe523fcf3aa2c6d068cd",
     "tests/fixtures/phase2/partner-insights.ts": "9753783512ea045218133fc145920de228297379acadb46fa9c4037db8bfa58f",
@@ -89,5 +89,11 @@
   "contactFixtureRedLogSha256": "216071d86d66bffa4dc602807de9c2ae97888fb4478591cb30c7ec45165ad007",
   "existingContactFullRegressionRedLogSha256": "1b27f6c43831541411b6b49fbbd47c6972f1547ded76bcf79b4171428e3215ae",
   "healthWithdrawalRedLogSha256": "7df7396c322a234b11ee366f5ec5bdd7f7c5e313422012ea8b9d401b771bae14",
-  "reviewRegressionRedLogSha256": "10c2f5d066359f526c7e80e6053aba0f5b604e43e406bc6e1d2cb33201006c88"
+  "reviewRegressionRedLogSha256": "10c2f5d066359f526c7e80e6053aba0f5b604e43e406bc6e1d2cb33201006c88",
+  "calendarFixtureObservation": {
+    "observedDays": 1827,
+    "previousInvalidDays": 19,
+    "correctedValidDays": 1827,
+    "fixedReadOnlyQueryLogSha256": "33843b91c0e89cb69df6062d2fb71e1377985ceae52f64f335f3da55ed426f82"
+  }
 }

@@ -814,7 +814,7 @@ it('purges only a bounded batch of expired observations and domain samples', asy
   const hold = uuid('hold'),
     release = uuid('release');
   await f.admin.query(
-    "INSERT INTO partners.operations_releases(id,audience,week,state,computed_at,expires_at) VALUES($1,$2,$3::date,'suppressed',statement_timestamp()-interval '14 months',statement_timestamp()-interval '1 month')",
+    "INSERT INTO partners.operations_releases(id,audience,week,state,computed_at,expires_at) VALUES($1,$2,$3::date,'suppressed',statement_timestamp()-interval '14 months',(statement_timestamp()-interval '14 months')+interval '13 months')",
     [release, o.id, s.week],
   );
   await f.admin.query(
