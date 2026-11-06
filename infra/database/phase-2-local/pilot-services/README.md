@@ -1,0 +1,11 @@
+# Opt-in local pilot delivery support
+
+This unpromoted extension follows the exact checksum-bound local 0046 reseller chain. It adds 0047 and five forced-RLS tables for immutable owner requests, fenced durable work, append-only scoring evidence, recipient-wide frequency holds and private payload references. The resulting local chain has 47 application migrations / 196 application tables; default manifests remain 33 application / 3 CMS migrations.
+
+Only `tests/fixtures/phase2/pilot-services.ts` provisions the dedicated disposable service role and applies this chain. Run `node tests/fixtures/phase2/pilot-services-run.mjs` for owned Linux/PostgreSQL setup, workspace typechecking, matching/renderer/use-case/native tests and verified cleanup. No existing dev/stage database is modified by this runner.
+
+Interactive adoption requires a live owner session and an immutable selected report item. It refuses P1 work that is leased, attempted or rendered. The private location is encrypted with send-scoped associated data outside SQL; only ciphertext and a keyed digest are stored. Private payload references precede object writes, and a ready checksum/version-bound object is mandatory before provider handoff. Native composition uses explicit private-byte and provider doubles; it sends no notification.
+
+The worker has fixed bridges to current report/source/permission state and inherited coupon allocation capabilities. It has no direct contact or owner-session access. Lease generations and immutable attempted bytes prevent a resumed worker from silently issuing different content. Ambiguous handoff retains codes/caps as uncertain; it never retries a provider send. These are local transaction/interruption proofs, not actual provider fencing or independent durability acceptance.
+
+This directory is not in any default bootstrap, CLI, preflight, runtime or deployment manifest. Promotion, physical-erasure/retention execution, latest-chain restore/rights replay, real provider/authentication/key custody and operational acceptance remain separately held. Expiry metadata and permission refusal do not constitute physical erasure. See [the service packet](../../../../docs/implementation/P2-PR-010-local-matching-delivery.md).

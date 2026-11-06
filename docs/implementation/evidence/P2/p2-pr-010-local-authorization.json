@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-010",
+  "basis": "Owner requested completion of the current PR and next PR, full build/test validation and merge; PR97/P2-PR-009 already merged and verified",
+  "scope": "Local nonpaid matching/simulation, atomic coupon/cap/slot/frequency allocation and consented frozen-payload pilot delivery with synthetic provider only",
+  "localImplementationAndMergeAuthorized": true,
+  "acceptedDependencyException": "Local construction only despite pending actual S1/S2; no downstream acceptance inferred",
+  "actualS1Approval": false,
+  "actualS2Approval": false,
+  "sixS3GatesOpen": true,
+  "hostedDecisions": "HS01-HS08 proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensedWork": "pending",
+  "actualAuthenticationAccepted": false,
+  "actualProviderPilotDeploymentAcceptance": false,
+  "provisioning": false,
+  "purchases": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "nextCardStarted": false
+}
