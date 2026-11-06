@@ -1,15 +1,16 @@
-import { ok, invalid, type Result } from './values/core.ts';
+import { ok, invalid, instant, type Result } from './values/core.ts';
+import { instantMilliseconds } from './values/time.ts';
 import { partnerDomain } from './partner-policy.ts';
 function day(v: unknown): number {
   if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return NaN;
-  const n = Date.parse(v + 'T00:00:00.000Z');
-  return Number.isFinite(n) && new Date(n).toISOString().slice(0, 10) === v ? n : NaN;
+  const stamp = instant(v + 'T00:00:00.000Z');
+  return stamp.ok ? instantMilliseconds(stamp.value) - 62135596800000 : NaN;
 }
 export function completedWeek(v: unknown, now: number): Result<string> {
   const n = day(v);
   return Number.isFinite(now) &&
     Number.isFinite(n) &&
-    new Date(n).getUTCDay() === 1 &&
+    (((n / 86400000 + 3) % 7) + 7) % 7 === 0 &&
     n + 7 * 86400000 <= now &&
     n >= now - 395 * 86400000
     ? ok(v as string)

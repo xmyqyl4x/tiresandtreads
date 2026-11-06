@@ -287,7 +287,7 @@ export function createPartnerInsightsRepository(
       if (old) return summary({ ...old, created_at: old.createdAt, reason_code: old.reason });
       if (!/^[a-f0-9]{64,16384}$/.test(details.hex) || details.hex.length % 2)
         return stop('invalid_input');
-      let prior = (
+      const prior = (
         await q(
           tx,
           'SELECT id,reservation_id,reason_code,state FROM partners.disputes WHERE org_id=$1 AND id=$2 FOR UPDATE',
@@ -308,7 +308,6 @@ export function createPartnerInsightsRepository(
             word(details.keyVersion, 100),
           ],
         );
-        prior = { state: 'open', reservation_id: input.assignment, reason_code: input.reason };
       } else {
         if (
           !prior ||

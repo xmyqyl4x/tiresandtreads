@@ -57,8 +57,8 @@
     "infra/database/phase-2-local/insights-services/manifest.json": "23705b82b034dd08aa6dac73af77544deadb1df13b5c25a32f46eb56ec19a3f4",
     "packages/application/src/partners/partner-insights.ts": "22231c0415f83329d6db3bc71aedac991e1a44b73987f6aa7ceef5d46c4c947d",
     "packages/application/src/ports/partner-insights.ts": "82a737dfc937920972de9038562e994ad36361f666797dafc587f96d55c358b9",
-    "packages/db/src/repositories/partner-insights.ts": "17e37458ccdb53732ae5171c27ddf6b33e65c5febfaabc8c82b85a9e62602022",
-    "packages/domain/src/partner-insights-policy.ts": "7d360749b6e1d4bde4d5410aae436192c5c4c7b39dd3de2225438f65ad502157",
+    "packages/db/src/repositories/partner-insights.ts": "0daf1f11bf34ec7684b359616040ab9bb2843656b1366052c013040e07fdc269",
+    "packages/domain/src/partner-insights-policy.ts": "c43302c79880096448b79f53657cbc64d9268ccc81678a882cef5ebf8abc4990",
     "packages/integrations/src/insights-tokens.ts": "a9741e1f25fb7457035c3169198b78e90eb1cade2192fab204d40e4f1dc97fa4",
     "tests/database/phase2-partner-insights.test.ts": "9d256dfaec1960960d613d668dbb3ec0a74af4db2316fa7aebaaaad60d9d2d5e",
     "tests/fixtures/phase2/compose-insights.ts": "419a424a0d0313a87905583b4ba18d15cdd1bcb8ffdf3418377e24c877c5b1d3",
@@ -79,5 +79,6 @@
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
   "gatesClosed": 0,
-  "nextCardStarted": false
+  "nextCardStarted": false,
+  "qualityCorrectionProofLogSha256": "f3bee20a2e72b5a239d8b6bca9ad89e74401d52052fe86f23e3afdbcab4e6a2e"
 }
