@@ -1,4 +1,7 @@
-import { beforeAll, afterAll, afterEach, it, expect } from 'vitest';
+import { createAnalysisErasureServices } from '../../packages/application/src/analysis/analysis-lifecycle.ts';
+import { createAnalysisErasureRepository } from '../../packages/db/src/repositories/analysis-lifecycle.ts';
+import { createPrivacyCrypto } from '../../packages/integrations/src/privacy-crypto.ts';
+import { beforeAll, afterAll, afterEach, it, expect, vi } from 'vitest';
 import { analysisLifecycleFixture } from '../fixtures/phase2/analysis-lifecycle.ts';
 import { composeAnalysisDelivery } from '../fixtures/phase2/compose-analysis-delivery.ts';
 import { composeReportAnalysis } from '../fixtures/phase2/compose-report-analysis.ts';
@@ -201,4 +204,158 @@ it('does not upgrade an already captured fallback when assistance arrives later'
   value(await s.service.dispatch(send.id));
   expect(s.provider.send.mock.calls[0]![1].mail.text).toContain('AI assistance was not included');
   expect(s.provider.send).toHaveBeenCalledOnce();
+});
+
+async function makeRights(s: Awaited<ReturnType<typeof setup>>) {
+  const worker = f.privacyAdapter(),
+    owner = f.analysisServiceAdapter(),
+    repository = createAnalysisErasureRepository(worker, 'fixture-private', ['fixture-kms']),
+    owners = createAnalysisErasureRepository(owner, 'fixture-private', ['fixture-kms']);
+  return createAnalysisErasureServices({
+    uow: worker.unitOfWork,
+    ownerUow: owner.unitOfWork,
+    repository,
+    owners,
+    crypto: createPrivacyCrypto('local', { local: new Uint8Array(32).fill(37) }),
+    now: () => new Date().toISOString(),
+    journal: { async append() {} },
+    encryption: s.encryption,
+    objects: s.objects,
+    mail: {
+      async verify() {
+        throw Error('Notifications held');
+      },
+      async erase() {
+        return 'not_stored';
+      },
+    },
+    provider: {
+      async erase() {
+        return 'not_stored';
+      },
+    },
+  });
+}
+async function eraseRights(
+  rights: Awaited<ReturnType<typeof makeRights>>,
+  job: Parameters<typeof rights.workOne>[0],
+) {
+  for (let n = 0; n < 100; n++) {
+    const state = value(await rights.status(job));
+    if (state !== 'pending') return state;
+    expect((await rights.workOne(job)).ok).toBe(true);
+  }
+  return value(await rights.status(job));
+}
+it('review regression: fences every reserved ID while rendering is paused before asset registration', async () => {
+  const ai = await composeReportAnalysis(f),
+    e = await example(ai),
+    pending = value(await ai.service.request(e.keys, e.input));
+  value(await ai.service.execute(pending.id));
+  const a = (
+      await f.admin.query(
+        'SELECT revision::text,authorization_scope_id FROM app.report_analysis_attachments WHERE report_id=$1',
+        [e.report],
+      )
+    ).rows[0]!,
+    s = await setup(f, undefined, { owner: e.owner, report: e.report }),
+    send = await s.request(uuid('command'), {
+      ...s.input,
+      analysis: { attachmentRevision: a.revision, fallback: null },
+    }),
+    rights = await makeRights(s);
+  let enter!: () => void, release!: () => void;
+  const entered = new Promise<void>((r) => {
+      enter = r;
+    }),
+    held = new Promise<void>((r) => {
+      release = r;
+    }),
+    original = s.renderer.render.getMockImplementation()!;
+  s.renderer.render.mockImplementation(async (document) => {
+    enter();
+    await held;
+    return original(document);
+  });
+  await s.due(send.id);
+  const dispatch = s.service.dispatch(send.id);
+  await entered;
+  try {
+    const job = value(
+      await rights.removeScope(e.keys, a.authorization_scope_id, 'reserved-' + uuid('command')),
+    );
+    expect(await eraseRights(rights, job)).toBe('complete');
+    const ids = (
+      await f.admin.query(
+        'SELECT asset_id FROM email.delivery_asset_reservations WHERE send_id=$1',
+        [send.id],
+      )
+    ).rows.map((x) => x.asset_id);
+    expect(
+      (
+        await f.admin.query(
+          'SELECT asset_id FROM privacy.asset_barriers WHERE asset_id=ANY($1::uuid[])',
+          [ids],
+        )
+      ).rows,
+    ).toHaveLength(2);
+  } finally {
+    release();
+    await dispatch;
+  }
+  expect(s.objectsData.size).toBe(0);
+  expect(s.provider.send).not.toHaveBeenCalled();
+});
+it('review regression: waits for an admitted pending delivery write before acknowledging physical erasure', async () => {
+  const ai = await composeReportAnalysis(f),
+    e = await example(ai),
+    pending = value(await ai.service.request(e.keys, e.input));
+  value(await ai.service.execute(pending.id));
+  const a = (
+      await f.admin.query(
+        'SELECT revision::text,authorization_scope_id FROM app.report_analysis_attachments WHERE report_id=$1',
+        [e.report],
+      )
+    ).rows[0]!,
+    s = await setup(f, undefined, { owner: e.owner, report: e.report }),
+    send = await s.request(uuid('command'), {
+      ...s.input,
+      analysis: { attachmentRevision: a.revision, fallback: null },
+    }),
+    rights = await makeRights(s);
+  let enter!: () => void, release!: () => void;
+  const entered = new Promise<void>((r) => {
+      enter = r;
+    }),
+    held = new Promise<void>((r) => {
+      release = r;
+    }),
+    write = vi.spyOn(s.objects, 'put'),
+    original = write.getMockImplementation()!;
+  write.mockImplementation(async (...args) => {
+    enter();
+    await held;
+    return original(...args);
+  });
+  await s.due(send.id);
+  const dispatch = s.service.dispatch(send.id);
+  await entered;
+  let job: Parameters<typeof rights.workOne>[0] | undefined;
+  try {
+    job = value(
+      await rights.removeScope(
+        e.keys,
+        a.authorization_scope_id,
+        'pending-write-' + uuid('command'),
+      ),
+    );
+    for (let n = 0; n < 35; n++) expect((await rights.workOne(job)).ok).toBe(true);
+    expect(value(await rights.status(job))).toBe('pending');
+  } finally {
+    release();
+    await dispatch;
+  }
+  expect(await eraseRights(rights, job!)).toBe('complete');
+  expect(s.objectsData.size).toBe(0);
+  expect(s.provider.send).not.toHaveBeenCalled();
 });

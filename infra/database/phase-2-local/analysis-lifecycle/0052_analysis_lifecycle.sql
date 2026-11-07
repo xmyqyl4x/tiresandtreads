@@ -82,8 +82,16 @@ CREATE FUNCTION privacy.ai_erasure_asset_ids(job uuid) RETURNS SETOF uuid LANGUA
  UNION SELECT r.asset_id FROM email.delivery_asset_reservations r JOIN email.analysis_selections z ON z.send_id=r.send_id JOIN app.report_analysis_attachments a ON(a.report_id,a.report_version,a.revision)=(z.report_id,z.report_version,z.attachment_revision) JOIN privacy.ai_erasure_targets t ON t.scope_id=a.authorization_scope_id WHERE t.job_id=job
 $$;
 CREATE FUNCTION privacy.ai_erasure_object(job uuid,token uuid,generation bigint) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
-DECLARE j privacy.ai_erasure_jobs%ROWTYPE;a app.object_assets%ROWTYPE;BEGIN
+DECLARE j privacy.ai_erasure_jobs%ROWTYPE;a app.object_assets%ROWTYPE;n integer;BEGIN
  j:=privacy.ai_erasure_fence(job,token,generation);IF j.phase<>'objects' OR privacy.ai_erasure_hold(job) THEN RAISE EXCEPTION 'Object erasure held' USING ERRCODE='23514';END IF;
+ -- Fence future reservations as well as registered assets. The existing trigger serializes
+ -- asset admission and barriers on the exact ID. Page fixed IDs before acknowledging objects.
+ INSERT INTO privacy.asset_barriers(asset_id) SELECT x.id FROM(SELECT privacy.ai_erasure_asset_ids(job) AS id) x WHERE NOT EXISTS(SELECT 1 FROM privacy.asset_barriers b WHERE b.asset_id=x.id) ORDER BY x.id LIMIT 250 ON CONFLICT DO NOTHING;
+ GET DIAGNOSTICS n=ROW_COUNT;IF n>0 THEN RETURN jsonb_build_object('wait',true,'asset',NULL);END IF;
+ -- A previously admitted pending delivery PUT gets the existing P1 45-second cooperative
+ -- write window, unless its completed version is already visible. No remote fencing claim.
+ IF EXISTS(SELECT 1 FROM app.object_assets o JOIN privacy.asset_barriers b ON b.asset_id=o.id WHERE o.id IN(SELECT privacy.ai_erasure_asset_ids(job)) AND o.purpose IN('report_pdf','email_payload') AND o.object_version IS NULL AND o.state<>'deleted' AND b.created_at+interval '45 seconds'>clock_timestamp()) THEN RETURN jsonb_build_object('wait',true,'asset',NULL);END IF;
+
  SELECT o.* INTO a FROM app.object_assets o WHERE o.id IN(SELECT privacy.ai_erasure_asset_ids(job)) AND(j.inflight_id IS NULL OR o.id=j.inflight_id) AND NOT EXISTS(SELECT 1 FROM privacy.ai_erasure_receipts r WHERE r.job_id=job AND r.kind='objects' AND r.resource_id=o.id)
  AND NOT EXISTS(SELECT 1 FROM app.photo_service_intents i WHERE o.id IN(i.original_id,i.sanitized_id) AND i.cleanup_after>clock_timestamp()) ORDER BY o.id LIMIT 1;
  IF NOT FOUND THEN
@@ -130,8 +138,11 @@ DECLARE j privacy.ai_erasure_jobs%ROWTYPE;scope uuid;statement text;n bigint;BEG
  IF NOT EXISTS(SELECT 1 FROM app.ai_reuse_scopes WHERE id=scope AND owner_subject_id=j.owner_id) THEN RAISE EXCEPTION 'Erasure scope ownership mismatch' USING ERRCODE='23514';END IF;
  PERFORM app.ai_repository_scope(scope,false);PERFORM app.ai_service_withdraw(scope);
  IF EXISTS(SELECT 1 FROM app.ai_analysis_requests WHERE scope_id=scope AND state IN('queued','running')) THEN RETURN 'pending';END IF;
+ -- New cleanup references can arrive after this job first passed providers. Revisit their
+ -- physical work before deleting SQL, including after an authorized blocked-job retry.
+ IF EXISTS(SELECT 1 FROM privacy.ai_provider_objects WHERE scope_id=scope AND state<>'erased') THEN UPDATE privacy.ai_erasure_jobs SET phase='providers' WHERE id=job;RETURN 'pending';END IF;
  IF EXISTS(SELECT 1 FROM app.ai_budget_reservations b JOIN app.ai_attempts a ON a.id=b.attempt_id WHERE a.scope_id=scope AND b.state IN('reserved','uncertain')) THEN RETURN 'charges';END IF;
- IF EXISTS(SELECT 1 FROM app.object_assets a WHERE a.id IN(SELECT privacy.ai_erasure_asset_ids(job)) AND(a.state<>'deleted' OR NOT EXISTS(SELECT 1 FROM privacy.ai_erasure_receipts r WHERE r.job_id=job AND r.kind='objects' AND r.resource_id=a.id))) OR EXISTS(SELECT 1 FROM privacy.ai_provider_objects WHERE scope_id=scope AND state<>'erased') THEN RAISE EXCEPTION 'Physical erasure receipts required' USING ERRCODE='23514';END IF;
+ IF EXISTS(SELECT 1 FROM app.object_assets a WHERE a.id IN(SELECT privacy.ai_erasure_asset_ids(job)) AND(a.state<>'deleted' OR NOT EXISTS(SELECT 1 FROM privacy.ai_erasure_receipts r WHERE r.job_id=job AND r.kind='objects' AND r.resource_id=a.id))) THEN UPDATE privacy.ai_erasure_jobs SET phase='objects' WHERE id=job;RETURN 'pending';END IF;
  -- Closed, fixed statements only. Each leaf batch is bounded and can be replayed after restart.
  FOREACH statement IN ARRAY ARRAY[
  'DELETE FROM email.ai_delivery_bindings WHERE send_id IN(SELECT z.send_id FROM email.analysis_selections z JOIN app.report_analysis_attachments a ON(a.report_id,a.report_version,a.revision)=(z.report_id,z.report_version,z.attachment_revision) WHERE a.authorization_scope_id=$1 OR a.scope_id=$1 LIMIT 250)',
@@ -231,7 +242,7 @@ DECLARE old privacy.ai_provider_objects%ROWTYPE; h jsonb;BEGIN
  INSERT INTO privacy.ai_provider_objects(id,scope_id,attempt_id,provider,kind,key_version,ciphertext,reference_key_version,reference_hash) VALUES(resource,scope,attempt,provider_name,resource_kind,version,secret,h->>'keyVersion',h->>'digest');
  END $$;
 CREATE FUNCTION privacy.ai_legacy_completion_guard() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$ BEGIN
- IF NEW.status='completed' AND OLD.status<>'completed' AND NEW.kind IN('delete','restrict') AND NOT EXISTS(SELECT 1 FROM privacy.ai_erasure_jobs WHERE linked_request=NEW.id AND phase='done') THEN RAISE EXCEPTION 'Compose AI rights before completing P1 rights' USING ERRCODE='23514';END IF;RETURN NEW;END $$;
+ IF NEW.status='completed' AND OLD.status<>'completed' AND NEW.kind IN('delete','restrict') AND(NEW.subject_id IS NOT NULL OR EXISTS(SELECT 1 FROM privacy.request_work WHERE request_id=NEW.id AND target_id IS NOT NULL)) AND NOT EXISTS(SELECT 1 FROM privacy.ai_erasure_jobs WHERE linked_request=NEW.id AND phase='done') THEN RAISE EXCEPTION 'Compose AI rights before completing P1 rights' USING ERRCODE='23514';END IF;RETURN NEW;END $$;
 CREATE TRIGGER ai_legacy_completion BEFORE UPDATE ON privacy.privacy_requests FOR EACH ROW EXECUTE FUNCTION privacy.ai_legacy_completion_guard();
 
 CREATE FUNCTION privacy.ai_resource_owner(resource uuid) RETURNS SETOF uuid LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path=pg_catalog AS $$

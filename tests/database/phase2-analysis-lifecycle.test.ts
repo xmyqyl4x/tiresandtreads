@@ -251,7 +251,7 @@ it('retains an uncertain admitted object across worker loss and rejects a confli
   value(await r.analysis.workOne(j));
   value(await r.analysis.workOne(j));
   objectFails = true;
-  value(await r.analysis.workOne(j));
+  for (let n = 0; n < 3; n++) value(await r.analysis.workOne(j));
   expect(
     (await f.admin.query('SELECT inflight_id FROM privacy.ai_erasure_jobs WHERE id=$1', [j]))
       .rows[0]!.inflight_id,
@@ -657,3 +657,76 @@ it('rejects stale erasure lease generations after an owned fixture cold handoff'
   );
   expect(await drain(j)).toBe('complete');
 });
+
+it('review regression: returns from SQL cleanup to erase a provider reference registered after the provider phase', async () => {
+  const s = await composeReportAnalysis(f),
+    e = await s.example(),
+    pending = value(await s.service.request(e.keys, e.input));
+  let j: Parameters<typeof drain>[0] | undefined;
+  s.setBehavior(async (input) => {
+    const row = (
+      await f.admin.query('SELECT id,scope_id FROM app.ai_attempts WHERE request_id=$1', [
+        pending.id,
+      ])
+    ).rows[0]!;
+    j = value(await r.analysis.removeScope(e.keys, row.scope_id, 'late-phase-' + uuid('command')));
+    expect(await drain(j)).toBe('blocked');
+    value(
+      await r.analysis.registerProvider({
+        id: uuid('erasure_resource'),
+        attemptId: row.id,
+        scopeId: row.scope_id,
+        provider: 'synthetic',
+        kind: 'file',
+        reference: 'file_arrived_after_provider_phase',
+      }),
+    );
+    return s.defaultBehavior(input);
+  });
+  const execution = await s.service.execute(pending.id);
+  expect(execution.ok ? execution.value.state : 'unavailable').not.toBe('available');
+  value(await r.analysis.retry(j!, f.staff, 'f'.repeat(64)));
+  expect(await drain(j!)).toBe('complete');
+  expect(erased).toContain('file_arrived_after_provider_phase');
+});
+it.each(['delete', 'restrict'] as const)(
+  'review regression: completes a verified no-match email %s without a bound subject',
+  async (kind) => {
+    value(
+      await r.requestEmail('unmatched-' + uuid('email') + '@example.invalid', kind, 'synthetic'),
+    );
+    const row = (
+        await f.admin.query(
+          "SELECT p.id FROM privacy.privacy_requests p WHERE p.status='pending' AND p.policy_version='local52' ORDER BY created_at DESC LIMIT 1",
+        )
+      ).rows[0]!,
+      proof = crypto.proof(row.id, crypto.current).raw;
+    // Fixture-only proof possession/notification timestamp; no mail transport is called.
+    await f.admin.query(
+      'UPDATE privacy.request_work SET notified_at=clock_timestamp() WHERE request_id=$1',
+      [row.id],
+    );
+    value(await r.confirm(proof));
+    await f.admin.query(
+      'UPDATE privacy.request_work SET barrier_until=clock_timestamp(),next_attempt_at=clock_timestamp() WHERE request_id=$1',
+      [row.id],
+    );
+    for (let n = 0; n < 30; n++) {
+      expect((await r.workOne(row.id)).ok).toBe(true);
+      const state = value(await r.status(proof));
+      if (state.status === 'completed' || state.status === 'manual_review') break;
+      await f.admin.query(
+        'UPDATE privacy.request_work SET next_attempt_at=clock_timestamp() WHERE request_id=$1',
+        [row.id],
+      );
+    }
+    expect(value(await r.status(proof)).status).toBe('completed');
+    expect(
+      (
+        await f.admin.query('SELECT id FROM privacy.ai_erasure_jobs WHERE linked_request=$1', [
+          row.id,
+        ])
+      ).rows,
+    ).toHaveLength(0);
+  },
+);
