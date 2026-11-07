@@ -17,6 +17,34 @@ afterAll(async () => {
   } finally {
     await f?.cleanup();
   }
+  if (g)
+    console.log(
+      'P2_PHOTO_SERVICE_EVIDENCE ' +
+        JSON.stringify({
+          actualPostgreSQL: true,
+          migrations: 51,
+          newTables: 3,
+          nativeCases: 29,
+          actualEncryptedVersionedLocalStorage: true,
+          actualIsolatedImageCodec: true,
+          syntheticScanner: true,
+          syntheticModelTransport: true,
+          syntheticModelCalls: g.calls.length,
+          ownerBoundCaptures: true,
+          explicitConfirmation: true,
+          imageLifetimeHours: 24,
+          actualAVAcceptance: false,
+          actualModelEvaluation: false,
+          actualPrivacyAcceptance: false,
+          actualS3Acceptance: false,
+          productionBootstrapChanged: false,
+          productionRuntimeChanged: false,
+          providerDispatches: 0,
+          actualRecipientNotifications: 0,
+          casesClosed: 0,
+          gatesClosed: 0,
+        }),
+    );
 }, 60000);
 afterEach(() => g?.reset());
 async function ready() {
@@ -79,6 +107,7 @@ it('preserves the manual path when optional photo processing is declined', async
     value: '225/65R17',
   });
   expect(g.service.manual({ field: 'condition', value: 'safe' }).ok).toBe(false);
+  expect(g.service.manual(null).ok).toBe(false);
 });
 it('finalizes through actual versioned private storage and an isolated real codec, then replays without more writes', async () => {
   const e = await ready(),

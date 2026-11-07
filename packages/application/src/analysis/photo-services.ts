@@ -547,8 +547,12 @@ export function createPhotoServices(d: {
       });
     },
     manual(raw: unknown) {
-      const x = exact(raw, 'field,value');
-      return photoFieldValue(x.field, x.value, clock());
+      try {
+        const x = exact(raw, 'field,value');
+        return photoFieldValue(x.field, x.value, clock());
+      } catch (e) {
+        return fail(serviceFailure(e));
+      }
     },
     remove(k: readonly KeyDigest[], raw: unknown) {
       return safe(async () => {
