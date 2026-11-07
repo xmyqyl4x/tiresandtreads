@@ -59,7 +59,7 @@
     "docs/tasks/phase-2-prs.md": "418d5e9b6d250a3636ce804b4b8445980518e4b28f6444c6e3202c6d4ddbfe4e",
     "infra/database/phase-2-local/photo-services/0051_photo_services.sql": "585b121f4d0ec61bceba665715c60dd64d7d68b5c12b7a07924c40911779ab1e",
     "infra/database/phase-2-local/photo-services/README.md": "2f96eef3b876957c187d136e1a373803f15321ef4da82683f94730e7a85075b4",
-    "infra/database/phase-2-local/photo-services/manifest.json": "c1d2727b5d60399cf2ff9a645f94fcc9478c9ba5e64998305a151b4f1d7a82e4",
+    "infra/database/phase-2-local/photo-services/manifest.json": "3a82460288ba413dc3a64bc1b944aae3d48883d739fd93aa4ed6a7d204403939",
     "package.json": "84e7ae89cc0e804b64f4b02abc5273b6152399bbb21791e9de40e06d92f0964b",
     "packages/application/src/analysis/analysis-runner.ts": "1f865adb04ef8d00088f9fbf8627b5827a1f1480dee1a77866ff79e383c49402",
     "packages/application/src/analysis/photo-services.ts": "71d65d20f81d484da2a0ce4954c79198714cba1aeb5e6628a588ea68b9e24036",
@@ -104,5 +104,6 @@
   "dependencyTransitionGreenLogSha256": "98a91610c9ddd571b6cde3338d9b6ec329888a61b60c58950dfaf3e0db162fe7",
   "historicalSourceGuardsPassed": 10,
   "reuseRecoveryRedLogSha256": "42b3f2eaa4992a6dbcd802224c73ab821fc01f4bb5df61ba71ff6231df6c8074",
-  "reuseRecoveryTargetedGreenLogSha256": "898ead106ea728b97023871e64adda15855d406200d19f60ca8d5810a7099b0b"
+  "reuseRecoveryTargetedGreenLogSha256": "898ead106ea728b97023871e64adda15855d406200d19f60ca8d5810a7099b0b",
+  "latestManifestFormattingRedLogSha256": "a2e688e7c63493f4d51de6948078477b0d7b2c2407c8813e50458d8bc1f5077f"
 }
