@@ -63,6 +63,37 @@ it('coalesces concurrent requests, copies input and emits identical frozen bytes
   expect(out.text).not.toContain('DOT identification');
   expect(await r.render(document())).toEqual(out);
 }, 30000);
+it('renders a shared generic selection in real HTML/text/PDF using fixed reviewed copy', async () => {
+  const out = await createAnalysisReportRenderer(base(), hash).render(
+    document({
+      ...selected(),
+      output: {
+        schema: 1,
+        kind: 'reviewed_generic_explanation',
+        claims: [
+          {
+            text: '<img src=x onerror=alert(1)> PRIVATE_RAW_PROSE',
+            adviceId: '11111111-1111-4111-8111-111111111111',
+            sourceId: '22222222-2222-4222-8222-222222222222',
+          },
+        ],
+        questions: ['verify_fitment'],
+        limitations: [
+          'deterministic_authority',
+          'physical_inspection_required',
+          'no_recall_clearance',
+        ],
+      },
+    }),
+  );
+  expect(out.text).toContain('Reviewed general installer questions');
+  expect(out.html).toContain('reviewed general guidance');
+  expect(out.html + out.text).not.toContain('PRIVATE_RAW_PROSE');
+  expect(out.html).not.toContain('<img src=x');
+  expect((await PDFDocument.load(Buffer.from(out.pdf, 'base64'))).getPageCount()).toBeGreaterThan(
+    1,
+  );
+}, 30000);
 it.each(['not_requested', 'unavailable', 'declined', 'expired'])(
   'keeps explicit %s fallback in all output formats',
   async (fallback) => {

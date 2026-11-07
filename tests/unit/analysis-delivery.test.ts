@@ -18,7 +18,56 @@ const selection = () => ({
     questions: ['verify_fitment', 'verify_dot'],
   },
 });
+const generic = () => ({
+  ...selection(),
+  output: {
+    schema: 1,
+    kind: 'reviewed_generic_explanation',
+    claims: [
+      {
+        text: 'Reviewed source provenance, not model prose.',
+        adviceId: '11111111-1111-4111-8111-111111111111',
+        sourceId: '22222222-2222-4222-8222-222222222222',
+      },
+    ],
+    limitations: ['deterministic_authority', 'physical_inspection_required', 'no_recall_clearance'],
+    questions: ['verify_fitment'],
+  },
+});
 describe('frozen AI delivery selection', () => {
+  it('freezes reviewed shared generic provenance and presents fixed general questions without raw artifact prose', () => {
+    const input = generic(),
+      frozen = freezeAnalysis(input);
+    if (frozen.mode !== 'artifact') throw Error('Selected generic artifact required');
+    input.output.claims[0]!.text = 'Changed after capture';
+    expect(frozen.output).toMatchObject({
+      kind: 'reviewed_generic_explanation',
+      claims: [{ text: 'Reviewed source provenance, not model prose.' }],
+    });
+    const text = analysisDeliveryText(frozen).join('\n');
+    expect(text).toContain('Reviewed general installer questions');
+    expect(text).not.toContain('Reviewed source provenance');
+    expect(text).toContain('physical inspection');
+  });
+  it.each([
+    'owner_claim',
+    'multiple_claims',
+    'invalid_text',
+    'invalid_advice',
+    'invalid_source',
+    'owner_summary',
+  ])('refuses malformed shared generic provenance: %s', (mode) => {
+    const x: Record<string, unknown> = generic(),
+      o = x.output as Record<string, unknown>,
+      c = (o.claims as Record<string, unknown>[])[0]!;
+    if (mode === 'owner_claim') o.claims = [{ rank: 1 }];
+    if (mode === 'multiple_claims') o.claims = [c, c];
+    if (mode === 'invalid_text') c.text = 1;
+    if (mode === 'invalid_advice') c.adviceId = 'bad';
+    if (mode === 'invalid_source') c.sourceId = 'bad';
+    if (mode === 'owner_summary') o.summary = 'Your tires are safe';
+    expect(() => freezeAnalysis(x)).toThrow();
+  });
   it('copies a selected immutable revision without consulting a provider or latest analysis', () => {
     const source = selection(),
       frozen = freezeAnalysis(source);
