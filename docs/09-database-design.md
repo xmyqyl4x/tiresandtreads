@@ -499,3 +499,7 @@ P2-PR-013 adds the unpromoted local 0050 extension: eight forced-RLS price/circu
 P2-PR-014 adds the unpromoted 0051 photo-service extension: three forced-RLS reviewed-limit/capture/intent tables, 51 local app migrations / 214 tables. Default manifests remain 33 app / three CMS; no production bootstrap/CLI/preflight/policy/composition promotion. See [the packet](implementation/P2-PR-014-local-photo-services.md). Full metadata/rights/provider/saved-image/restore acceptance remains held.
 
 P2-PR-015 adds unpromoted0052: seven forced-RLS lifecycle/receipt/provider-reference/frozen-binding/save-plan tables;52 local app migrations /221 tables. Default33 app /three CMS, bootstrap/CLI/preflight/policy/default composition remain unchanged. See [the packet](implementation/P2-PR-015-local-ai-photo-privacy-delivery.md). All six S3 gates remain open.
+
+### P2-PR-016 local CSV service evidence
+
+Opt-in migration0053 adds two forced-RLS staff CSV command/preview tables and fixed capabilities over the existing P1 ingestion/publication engine. The local chain has53 migrations/223 tables; default33 app/3 CMS manifests remain unchanged. See [the service packet](implementation/P2-PR-016-local-staff-csv-services.md). No original case/gate closes.
