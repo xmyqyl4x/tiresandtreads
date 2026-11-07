@@ -1,0 +1,22 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "55d1e04da6364c262ad1f7b43bab4e130b52b04a0ff1a2b5fa9be5c5429903bc",
+  "priorLocalHead": "0051_photo_services",
+  "migrations": [
+    {
+      "id": "0052_analysis_lifecycle",
+      "sha256": "f66d2b82e493d5c9e012aa8aaeff289b77363683de20859240ea350d1c9bb29f"
+    }
+  ],
+  "tables": [
+    "privacy.ai_scope_marks",
+    "privacy.ai_erasure_jobs",
+    "privacy.ai_erasure_targets",
+    "privacy.ai_erasure_receipts",
+    "privacy.ai_provider_objects",
+    "email.ai_delivery_bindings",
+    "app.photo_save_plans"
+  ]
+}

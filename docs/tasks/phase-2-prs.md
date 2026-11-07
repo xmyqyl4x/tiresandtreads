@@ -318,11 +318,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC06, UC09, UC14, UC15, UC16, AT23, AT25, DB23, DB25. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Freeze selected AI attachment or no-AI fallback in email/PDF presentation identities; never regenerate on retry or auto-resend.
-- [ ] Extend deletion/withdrawal/tombstone jobs to requests, reuse entries, artifacts, images, provider files and attempts.
-- [ ] Preserve confirmed report facts under their retention policy while purging expired images/candidates and usable image links.
+- [x] Freeze selected AI attachment or no-AI fallback in email/PDF presentation identities; never regenerate on retry or auto-resend.
+- [x] Extend deletion/withdrawal/tombstone jobs to requests, reuse entries, artifacts, images, provider files and attempts.
+- [x] Preserve confirmed report facts under their retention policy while purging expired images/candidates and usable image links.
 
 **Verification and acceptance:** Delete/withdraw during provider return and restore replay cannot recreate data; fixed send payload and shared-view redaction tests pass.
+
+**Local implementation complete:** [The service packet](../implementation/P2-PR-015-local-ai-photo-privacy-delivery.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-015-local-proof.json) cover these three local tasks. Real provider/retention, full privacy/rights and latest-chain restore/custody acceptance remains held, as do all existing gates. No case/gate closes. P2-PR-016 is next.
 
 ### P2-PR-016
 
