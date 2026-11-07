@@ -10,9 +10,5 @@
       "sha256": "7462723c7437eff13efff6cc5f1e27f4eefe249e4d1a9b7a1c054ec2ede49853"
     }
   ],
-  "tables": [
-    "app.photo_upload_plans",
-    "app.photo_service_captures",
-    "app.photo_service_intents"
-  ]
+  "tables": ["app.photo_upload_plans", "app.photo_service_captures", "app.photo_service_intents"]
 }
