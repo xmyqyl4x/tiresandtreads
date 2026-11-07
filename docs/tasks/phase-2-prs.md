@@ -360,6 +360,14 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** No observed critical model misclaim, all server confirmation gates enforced, and real provider evidence available before API/UI acceptance.
 
+**Authorized local preparation:**
+
+- [x] Run combined latest-schema partner/CSV/photo/analysis/frozen-delivery journeys and local lifecycle adversarial tests with real repositories and owned local storage.
+- [x] Implement an offline synthetic validator/evaluation rehearsal with bounded inputs, denominator accounting, split bookkeeping and aggregate-only output.
+- [x] Reconcile current local evidence and record actual benchmark/provider/privacy/operator inputs still required.
+
+[Local readiness packet](../implementation/P2-PR-017-local-service-readiness.md). These local tasks do not complete the three original acceptance tasks above. Actual50+50 evaluation, provider calls, agreed thresholds and P2 S3/G2/G7 sign-off remain pending; all existing holds remain and no case/gate closes.
+
 ### P2-PR-018
 
 **Expose reseller and staff CSV/operations APIs**

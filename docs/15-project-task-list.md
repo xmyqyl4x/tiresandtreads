@@ -249,3 +249,7 @@ P2-PR-015 local backend tasks are complete: frozen AI/fallback presentation, bou
 ### P2-PR-016 local CSV service evidence
 
 P2-PR-016 local staff CSV services, bounded parser, shared script/admin workflow, independent review/publish, stale-head recovery and atomic P1 publication are implemented in the authorized opt-in track. Actual source/authentication/privacy and service acceptance remains held. See [the service packet](implementation/P2-PR-016-local-staff-csv-services.md). No original case/gate closes.
+
+### P2-PR-017 local service readiness
+
+The [combined service/readiness packet](implementation/P2-PR-017-local-service-readiness.md) adds latest opt-in53-schema service journeys and a fixed synthetic evaluation rehearsal over installed validators. Actual50 specialist explanation cases,50 representative labeled images, calibrated thresholds, provider/budget/privacy inputs and P2 S3/G2/G7 acceptance remain pending. No original case/gate or deployment hold closes.

@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-017",
+  "scope": "Local combined service journeys and synthetic evaluator rehearsal; actual acceptance pending",
+  "prerequisiteReviewedHead": "4f748c6ccbb7bab05d99cb40a9764df2812c1da0",
+  "historicalLocalEvidence": {
+    "P2-PR-008": {
+      "path": "docs/implementation/evidence/P2/p2-pr-008-local-proof.json",
+      "sha256": "697f1bd902b5fa9513d91aba4c7f17fb1d0a496ae2ed2e25bce538d16e9e3544",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-009": {
+      "path": "docs/implementation/evidence/P2/p2-pr-009-local-proof.json",
+      "sha256": "4377236abb3ac38b4571cbf44fb315e82ca3ee77a082a92b772bfc7a9a5fe9dd",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-010": {
+      "path": "docs/implementation/evidence/P2/p2-pr-010-local-proof.json",
+      "sha256": "41ee02c486257f769ca42ae52baac07a1078320d354ec43082d73e408392b58f",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-011": {
+      "path": "docs/implementation/evidence/P2/p2-pr-011-local-proof.json",
+      "sha256": "bdaac07c18c3237bd56762f2d750d04effa8aaa59d298661de4c80259c4141a2",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-012": {
+      "path": "docs/implementation/evidence/P2/p2-pr-012-local-proof.json",
+      "sha256": "81ea420bd13a1d0896e499bd32cc604abe905c97cd84ca3aa083992d74757116",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-013": {
+      "path": "docs/implementation/evidence/P2/p2-pr-013-local-proof.json",
+      "sha256": "cf4dd5fc41380ed631b18f5f74d200d976e8959282915b7a37db92d18d3dd11b",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-014": {
+      "path": "docs/implementation/evidence/P2/p2-pr-014-local-proof.json",
+      "sha256": "882329a3a01fa23f3e8b76478dca736c52141c8643208d1d5fdca52ceb4f9175",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-015": {
+      "path": "docs/implementation/evidence/P2/p2-pr-015-local-proof.json",
+      "sha256": "21fd50a2df2f45d0391ce5d43aa2de9da5c3d5817af5898925727f3f3a56b17e",
+      "actualAcceptanceInferred": false
+    },
+    "P2-PR-016": {
+      "path": "docs/implementation/evidence/P2/p2-pr-016-local-proof.json",
+      "sha256": "b6ac99c636a6baba448ca87a611f8293da19e00f4e3b4af36eec304938ba665e",
+      "actualAcceptanceInferred": false
+    }
+  },
+  "localApplicationMigrations": 53,
+  "localTables": 223,
+  "defaultAppMigrations": 33,
+  "defaultCmsMigrations": 3,
+  "actualSpecialistExplanationLabels": 0,
+  "actualRepresentativeImages": 0,
+  "actualProviderResponses": 0,
+  "actualModelEvaluation": false,
+  "modelId": null,
+  "providerAccount": null,
+  "approvedBudget": null,
+  "perFieldPrecisionThresholds": null,
+  "abstentionThresholds": null,
+  "usefulnessThreshold": null,
+  "primaryOperator": null,
+  "backupOperator": null,
+  "coverage": null,
+  "operatorRates": null,
+  "pendingActualInputs": [
+    "specialist labels and adjudication",
+    "50 explanation cases and 50 representative permitted labeled images",
+    "locked independent held-out corpus and leakage review",
+    "provider/model/prompt/schema/validator pins",
+    "actual cost latency retries and approved budgets",
+    "source-to-AI processing rights and licensed contracts",
+    "real authentication/MFA and current staff context",
+    "full privacy retention erasure and scanner acceptance",
+    "latest-chain archive restore journal custody and off-host recovery",
+    "pilot agreements terms prospects and service acceptance",
+    "operator responsibilities coverage rates and hosting decisions"
+  ],
+  "sixS3Gates": [
+    {
+      "id": "G1-specialist",
+      "state": "open"
+    },
+    {
+      "id": "G1-fitment-catalog",
+      "state": "open"
+    },
+    {
+      "id": "G1-prices",
+      "state": "open"
+    },
+    {
+      "id": "G2-provider-effects",
+      "state": "open"
+    },
+    {
+      "id": "G2-privacy-policy",
+      "state": "open"
+    },
+    {
+      "id": "S3-service-host",
+      "state": "open"
+    }
+  ],
+  "HS01toHS08": "proposed",
+  "actualP2S1Accepted": false,
+  "actualP2S2Accepted": false,
+  "actualP2S3Accepted": false,
+  "actualG2Accepted": false,
+  "actualG7Accepted": false,
+  "deploymentAccepted": false,
+  "productionBootstrapChanged": false,
+  "productionRuntimeCompositionChanged": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
