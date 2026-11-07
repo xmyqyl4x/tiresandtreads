@@ -246,7 +246,7 @@ it('orders popular refresh definition locks before demand updates during an actu
         (
           await f.admin.query(
             "SELECT EXISTS(SELECT 1 FROM pg_locks WHERE locktype='advisory' AND NOT granted AND database=(SELECT oid FROM pg_database WHERE datname=current_database()) AND classid::bigint=((hashtextextended('ai.generic.definition:'||$1,0)>>32)&4294967295) AND objid::bigint=(hashtextextended('ai.generic.definition:'||$1,0)&4294967295) AND objsubid=1) AS waiting",
-          [e.definition],
+            [e.definition],
           )
         ).rows[0]!.waiting === true;
       if (observed) break;

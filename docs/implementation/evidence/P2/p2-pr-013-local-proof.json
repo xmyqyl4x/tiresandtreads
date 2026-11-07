@@ -43,7 +43,7 @@
     "packages/integrations/src/analysis-provider.ts": "bf124d1133e3028b639bc65f1387d1c091a93c092fbd50ed920935214a244d3a",
     "packages/integrations/src/generic-analysis-provider.ts": "efd38438027b8852da2322a08e398bdc596b1f393cf1d5bf6f35fee2056ba77b",
     "tests/database/phase2-analysis-execution.test.ts": "a2ee415a9ad1321e36cd58b736eea171448815a0197df8bee5b932069d7893a8",
-    "tests/database/phase2-generic-analysis.test.ts": "f75b589a9091d571b892169a5bbe230dc3325ee710cab76f7480c9a5b6518a4a",
+    "tests/database/phase2-generic-analysis.test.ts": "a4f3e1e892da5494e26cd6ff313dd54c91f9fd64c1e7fc86d6216175dd5efced",
     "tests/fixtures/phase2/analysis-execution-run.mjs": "41c5b0581784f937df603c40db5e79434325894f2afa3beeb5aaefa02aefb8f9",
     "tests/fixtures/phase2/analysis-execution.ts": "13cb5712549bd91f6ece55bfa819f5b9e38f49909be9aecdd65824a04e5ed5e4",
     "tests/fixtures/phase2/compose-generic-analysis.ts": "f01f77abbfa9e096b4e7b4dd2fc5be2b3aeb86dddc93a0571d1f41be069b2a7a",
@@ -71,5 +71,6 @@
   "historicalRestartRecheckLogSha256": "c250aae9405356987410a69ee54b5867e17508589faa4c5b92655875a7f84b1b",
   "reviewRegressionRedLogSha256": "23eab4238e5eda1dc7742437dd872935a9ef7079aee784942a0410b7257a0aae",
   "reviewRegressionTargetedGreenLogSha256": "30b68113dc266dcc301e642d04e8ba0c08714f35aff0f28b47d859791ccd8691",
-  "finalizationAndWarmRaceRedLogSha256": "809dae15fb756e11bb278725bf9e7a955c80a9cac2687a4a8be6dbbd62089fdf"
+  "finalizationAndWarmRaceRedLogSha256": "809dae15fb756e11bb278725bf9e7a955c80a9cac2687a4a8be6dbbd62089fdf",
+  "finalWarmRaceFormattingRedLogSha256": "a6a9378f17aa9ad94195f1ee729b7df4672e6f2b362fe890c4030de4aa98b2c9"
 }
