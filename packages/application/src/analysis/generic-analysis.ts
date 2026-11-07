@@ -146,7 +146,7 @@ export function createGenericAnalysisServices(d: {
       }
       return view('pending', hit.requestId);
     }
-    if (!allowed) return view('unavailable');
+    if (!allowed || (await d.repository.blocked(tx, scope, digest))) return view('unavailable');
     // The scope lock and pending lookup coalesce misses; each terminal generation gets a fresh key.
     const key = refreshKey ?? 'generic-' + d.crypto.id('ai_request');
     const request = await d.requests.create(tx, {

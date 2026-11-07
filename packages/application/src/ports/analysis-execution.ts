@@ -37,6 +37,7 @@ export interface AnalysisDispatch {
   readonly generation: bigint;
 }
 export interface AnalysisExecutionRuntime {
+  terminal(tx: Tx, request: AIRequest): Promise<void>;
   next(tx: Tx, request: AIRequest, policy: AIPolicy): Promise<AnalysisDispatch | null>;
   begin(
     tx: Tx,

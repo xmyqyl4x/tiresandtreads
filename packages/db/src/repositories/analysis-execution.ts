@@ -179,6 +179,7 @@ export function createAnalysisExecutionSupport(s: WriteScope) {
       "UPDATE app.ai_analysis_requests SET state='failed' WHERE id=$1 AND state IN('queued','running')",
       [request.id],
     );
+    await q(tx, 'SELECT app.ai_release_terminal_lease($1)', [request.id]);
     await q(
       tx,
       "UPDATE app.job_runs SET state='cancelled',lease_until=NULL,lease_token=NULL,updated_at=clock_timestamp(),revision=revision+1 WHERE resource_id=$1 AND job_type IN('ai.report-analysis','ai.generic-analysis') AND state IN('pending','failed')",
@@ -353,6 +354,9 @@ export function createAnalysisExecutionSupport(s: WriteScope) {
           i.dispatch.generation.toString(),
         ],
       );
+    },
+    async terminal(tx, request) {
+      await q(tx, 'SELECT app.ai_release_terminal_lease($1)', [request.id]);
     },
     async finish(tx, i) {
       await root(tx, i.request);

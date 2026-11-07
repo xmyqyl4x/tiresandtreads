@@ -207,6 +207,22 @@ END $$;
 CREATE TRIGGER ai_execution_identity BEFORE INSERT OR UPDATE ON app.ai_execution_states FOR EACH ROW EXECUTE FUNCTION app.ai_execution_identity();
 REVOKE ALL ON FUNCTION app.ai_execution_identity() FROM PUBLIC;
 
+-- Negative coordination cleanup only: terminal recorded requests cannot retain or release a newer fence.
+CREATE FUNCTION app.ai_release_terminal_lease(request uuid) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE r app.ai_analysis_requests%ROWTYPE;x app.ai_execution_states%ROWTYPE;changed integer;
+BEGIN
+ SELECT * INTO r FROM app.ai_analysis_requests WHERE id=request;IF NOT FOUND THEN RETURN false;END IF;
+ PERFORM app.ai_repository_scope(r.scope_id,false);
+ SELECT * INTO r FROM app.ai_analysis_requests WHERE id=request FOR UPDATE;
+ IF r.state NOT IN('rejected','failed','uncertain','cancelled') THEN RETURN false;END IF;
+ SELECT * INTO x FROM app.ai_execution_states WHERE request_id=request AND state IN('retry','complete','failed','uncertain') FOR UPDATE;
+ IF NOT FOUND THEN RETURN false;END IF;
+ UPDATE app.ai_reuse_entries e SET state=CASE WHEN e.artifact_id IS NOT NULL AND e.valid_until>clock_timestamp() AND app.ai_artifact_current(e.artifact_id) THEN 'ready' ELSE 'invalidated' END,lease_holder=NULL,lease_until=NULL,fence=e.fence+1
+ WHERE e.scope_id=r.scope_id AND e.cache_key=r.input_digest AND e.state='leased' AND e.lease_holder=x.lease_holder AND e.fence=x.reuse_fence;
+ GET DIAGNOSTICS changed=ROW_COUNT;RETURN changed=1;
+END $$;
+REVOKE ALL ON FUNCTION app.ai_release_terminal_lease(uuid) FROM PUBLIC;GRANT EXECUTE ON FUNCTION app.ai_release_terminal_lease(uuid) TO tt_p2_analysis_service;
+
 -- Only an expired recorded execution may reach the internal uncertainty ledger helper.
 CREATE FUNCTION app.ai_recover_expired_dispatch(request uuid) RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE r app.ai_analysis_requests%ROWTYPE;e app.ai_execution_states%ROWTYPE;
@@ -218,6 +234,7 @@ BEGIN
  PERFORM app.ai_repository_uncertain_budgets(ARRAY[r.id]);
  UPDATE app.ai_attempts SET state='uncertain',finished_at=clock_timestamp(),error_code='timeout' WHERE id=e.attempt_id AND state='started';
  UPDATE app.ai_analysis_requests SET state=CASE WHEN e.state='failed' THEN 'failed' ELSE 'uncertain' END WHERE id=r.id;
+ PERFORM app.ai_release_terminal_lease(r.id);
 END $$;
 REVOKE ALL ON FUNCTION app.ai_recover_expired_dispatch(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.ai_recover_expired_dispatch(uuid) TO tt_p2_analysis_service;

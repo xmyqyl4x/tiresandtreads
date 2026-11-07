@@ -111,6 +111,18 @@ export function createGenericAnalysisRepository(s: WriteScope): GenericAnalysisR
         ? Object.freeze({ requestId: uid('ai_request', r.id), output: null, pending: true })
         : null;
     },
+    async blocked(tx, scope, digest) {
+      if (scope.kind !== 'shared') return stop('forbidden');
+      const row = (
+        await q(
+          tx,
+          "SELECT EXISTS(SELECT 1 FROM app.ai_analysis_requests r JOIN app.ai_attempts a ON a.request_id=r.id JOIN app.ai_budget_reservations h ON h.attempt_id=a.id WHERE r.scope_id=$1 AND r.input_digest=$2 AND h.state IN('reserved','uncertain')) AS blocked",
+          [scope.id, hash(digest)],
+        )
+      ).rows[0];
+      if (typeof row?.blocked !== 'boolean') return stop('integrity');
+      return row.blocked;
+    },
     async enqueue(tx, request, d, packet) {
       const prior = await work(tx, request.id);
       if (prior) {

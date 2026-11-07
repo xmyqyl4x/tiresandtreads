@@ -42,6 +42,7 @@ export interface GenericAnalysisRepository {
     output: Readonly<Record<string, unknown>> | null;
     pending: boolean;
   }> | null>;
+  blocked(tx: Tx, scope: AIScope, digest: string): Promise<boolean>;
   enqueue(
     tx: Tx,
     request: AIRequest,

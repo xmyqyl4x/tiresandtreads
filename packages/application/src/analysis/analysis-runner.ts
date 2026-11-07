@@ -261,6 +261,7 @@ export function createAnalysisRunner<W>(d: {
                   'running',
                   uncertain ? 'uncertain' : 'failed',
                 );
+              if (d.runtime) await d.runtime.terminal(tx, a.p.request);
               await d.jobs.complete(tx, a.job);
             }
             return ok(again);

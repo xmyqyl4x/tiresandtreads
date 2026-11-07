@@ -117,6 +117,26 @@ it('charges all three bounded attempts and publishes only the final validated at
     state: ++n < 3 ? 'incomplete' : 'complete',
   }));
   expect(value(await service.execute(p.id)).state).toBe('deferred');
+  const released = value(
+    await s.adapter.unitOfWork.run(
+      async (tx) =>
+        ({
+          ok: true,
+          value: (
+            await s.adapter.query(tx, 'SELECT app.ai_release_terminal_lease($1) AS changed', [p.id])
+          ).rows[0]!.changed,
+        }) as const,
+    ),
+  );
+  expect(released).toBe(false);
+  expect(
+    (
+      await f.admin.query(
+        'SELECT e.state,e.lease_holder IS NOT NULL AS held FROM app.ai_reuse_entries e JOIN app.ai_analysis_requests r ON r.scope_id=e.scope_id AND r.input_digest=e.cache_key WHERE r.id=$1',
+        [p.id],
+      )
+    ).rows[0],
+  ).toEqual({ state: 'leased', held: true });
   expect(value(await service.execute(p.id)).state).toBe('deferred');
   expect(n).toBe(1);
   await new Promise((r) => setTimeout(r, 2100));
@@ -405,6 +425,14 @@ it.each(['complete', 'refused', 'unavailable'] as const)(
     value(await service.execute(p.id));
     expect(s.calls.length).toBe(calls);
     expect(
+      (
+        await f.admin.query(
+          'SELECT e.state,e.lease_holder FROM app.ai_reuse_entries e JOIN app.ai_analysis_requests r ON r.scope_id=e.scope_id AND r.input_digest=e.cache_key WHERE r.id=$1',
+          [p.id],
+        )
+      ).rows[0],
+    ).toEqual({ state: 'invalidated', lease_holder: null });
+    expect(
       (await f.admin.query('SELECT state FROM app.ai_analysis_requests WHERE id=$1', [p.id]))
         .rows[0]!.state,
     ).toBe('uncertain');
@@ -485,6 +513,14 @@ it.each(['complete', 'refused', 'unavailable'] as const)(
     value(await service.execute(p.id));
     expect(s.calls.length).toBe(calls);
     expect(
+      (
+        await f.admin.query(
+          'SELECT e.state,e.lease_holder FROM app.ai_reuse_entries e JOIN app.ai_analysis_requests r ON r.scope_id=e.scope_id AND r.input_digest=e.cache_key WHERE r.id=$1',
+          [p.id],
+        )
+      ).rows[0],
+    ).toEqual({ state: 'invalidated', lease_holder: null });
+    expect(
       (await f.admin.query('SELECT state FROM app.ai_analysis_requests WHERE id=$1', [p.id]))
         .rows[0]!.state,
     ).toBe(state === 'refused' ? 'failed' : 'uncertain');
@@ -498,3 +534,33 @@ it.each(['complete', 'refused', 'unavailable'] as const)(
     ).toEqual(before);
   },
 );
+
+it('releases the recorded lease when admission stops a due known-cost retry', async () => {
+  const e = await example(),
+    p = value(await service.request(e.keys, e.input));
+  s.setBehavior(async (input) => ({ ...(await s.defaultBehavior(input)), state: 'incomplete' }));
+  expect(value(await service.execute(p.id)).state).toBe('deferred');
+  const calls = s.calls.length;
+  await f.admin.query("UPDATE app.ai_cost_plans SET status='blocked' WHERE policy_id=$1", [
+    e.policy,
+  ]);
+  await new Promise((resolve) => setTimeout(resolve, 2100));
+  value(await service.execute(p.id));
+  expect(s.calls.length).toBe(calls);
+  expect(
+    (await f.admin.query('SELECT state FROM app.ai_analysis_requests WHERE id=$1', [p.id])).rows[0]!
+      .state,
+  ).toBe('failed');
+  expect(
+    (
+      await f.admin.query(
+        'SELECT e.state,e.lease_holder FROM app.ai_reuse_entries e JOIN app.ai_analysis_requests r ON r.scope_id=e.scope_id AND r.input_digest=e.cache_key WHERE r.id=$1',
+        [p.id],
+      )
+    ).rows[0],
+  ).toEqual({ state: 'invalidated', lease_holder: null });
+  expect(
+    (await f.admin.query('SELECT cost_minor FROM app.ai_attempts WHERE request_id=$1', [p.id]))
+      .rows[0]!.cost_minor,
+  ).toBe('5');
+}, 15000);

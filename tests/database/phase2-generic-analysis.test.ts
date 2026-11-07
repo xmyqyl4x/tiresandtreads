@@ -260,3 +260,97 @@ it('orders popular refresh definition locks before demand updates during an actu
   expect(value(await reading).state).toBe('available');
   expect(value(await refreshing).scheduled).toBe(1);
 }, 50000);
+
+it.each(['refused', 'invalid'] as const)(
+  'executes a fresh generation after a terminal %s result and fences old lease cleanup',
+  async (kind) => {
+    const e = await g.example(),
+      first = value(await g.service.read(e.input));
+    g.setBehavior(async (input) =>
+      kind === 'refused'
+        ? { ...(await g.defaultBehavior(input)), state: 'refused' }
+        : {
+            ...(await g.defaultBehavior(input)),
+            output: { schema: 1, factIds: ['invented'], questions: [] },
+          },
+    );
+    expect(value(await g.service.execute(first.id)).state).toBe('unavailable');
+    const next = value(await g.service.read(e.input));
+    expect(next.state).toBe('pending');
+    expect(next.id).not.toBe(first.id);
+    g.setBehavior(async (input) => {
+      const sql =
+        'SELECT e.state,e.lease_holder,e.fence FROM app.ai_reuse_entries e JOIN app.ai_analysis_requests r ON r.scope_id=e.scope_id AND r.input_digest=e.cache_key WHERE r.id=$1';
+      const before = (await f.admin.query(sql, [next.id])).rows;
+      value(
+        await s.adapter.unitOfWork.run(async (tx) => {
+          await s.adapter.query(tx, 'SELECT app.ai_release_terminal_lease($1)', [first.id]);
+          return { ok: true, value: null } as const;
+        }),
+      );
+      expect((await f.admin.query(sql, [next.id])).rows).toEqual(before);
+      return g.defaultBehavior(input);
+    });
+    expect(value(await g.service.execute(next.id)).state).toBe('available');
+    expect(
+      (
+        await f.admin.query('SELECT cost_minor FROM app.ai_attempts WHERE request_id=$1', [
+          first.id,
+        ])
+      ).rows[0]!.cost_minor,
+    ).toBe('5');
+  },
+);
+it.each(['refused', 'unavailable'] as const)(
+  'releases a %s popular refresh lease while keeping the still-current old artifact readable',
+  async (state) => {
+    const e = await g.example(),
+      short = createGenericAnalysisServices({ ...g.deps, validitySeconds: 30 }),
+      first = value(await short.read(e.input));
+    value(await short.execute(first.id));
+    const old = value(await short.read(e.input));
+    value(await short.read(e.input));
+    value(await short.read(e.input));
+    await new Promise((resolve) => setTimeout(resolve, 20200));
+    const scheduled = value(await short.refreshPopular());
+    expect(scheduled.scheduled).toBe(1);
+    g.setBehavior(async (input) =>
+      state === 'unavailable'
+        ? Promise.reject(Error('synthetic uncertain refresh'))
+        : { ...(await g.defaultBehavior(input)), state: 'refused' },
+    );
+    expect(value(await short.execute(scheduled.requestIds[0]!)).state).toBe('unavailable');
+    expect(value(await short.read({ ...e.input, allowed: false }))).toEqual(old);
+    expect(
+      (
+        await f.admin.query(
+          'SELECT e.state,e.lease_holder FROM app.ai_reuse_entries e JOIN app.ai_analysis_requests r ON r.scope_id=e.scope_id AND r.input_digest=e.cache_key WHERE r.id=$1',
+          [first.id],
+        )
+      ).rows[0],
+    ).toEqual({ state: 'ready', lease_holder: null });
+  },
+  40000,
+);
+
+it('does not queue another generic generation while exact-key charges remain unresolved', async () => {
+  const e = await g.example(),
+    first = value(await g.service.read(e.input));
+  g.setBehavior(async () => {
+    throw Error('synthetic unknown charge');
+  });
+  expect(value(await g.service.execute(first.id)).state).toBe('unavailable');
+  g.reset();
+  const calls = g.calls.length;
+  expect(value(await g.service.read(e.input)).state).toBe('unavailable');
+  expect(value(await g.service.read(e.input)).state).toBe('unavailable');
+  expect(g.calls.length).toBe(calls);
+  const reservations = (
+    await f.admin.query(
+      'SELECT h.state FROM app.ai_budget_reservations h JOIN app.ai_attempts a ON a.id=h.attempt_id WHERE a.request_id=$1',
+      [first.id],
+    )
+  ).rows;
+  expect(reservations).toHaveLength(2);
+  expect(reservations.every((r) => r.state === 'uncertain')).toBe(true);
+});
