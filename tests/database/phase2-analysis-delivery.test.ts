@@ -19,6 +19,10 @@ afterEach(async () => {
 let f: Awaited<ReturnType<typeof analysisLifecycleFixture>>;
 beforeAll(async () => {
   f = await analysisLifecycleFixture();
+  await f.admin.query(
+    "INSERT INTO admin.staff_role_assignments(staff_id,role_id) SELECT $1,id FROM admin.roles WHERE code='privacy_operator'",
+    [f.staff],
+  );
 }, 90000);
 afterAll(async () => {
   await f?.cleanup();
@@ -249,6 +253,88 @@ async function eraseRights(
   }
   return value(await rights.status(job));
 }
+it.each(['report_pdf', 'email_payload'])(
+  'review regression: preserves a resource-only legal hold on a delivery %s before erasure',
+  async (kind) => {
+    const ai = await composeReportAnalysis(f),
+      e = await example(ai),
+      pending = value(await ai.service.request(e.keys, e.input));
+    value(await ai.service.execute(pending.id));
+    const attachment = (
+        await f.admin.query(
+          'SELECT revision::text,authorization_scope_id FROM app.report_analysis_attachments WHERE report_id=$1',
+          [e.report],
+        )
+      ).rows[0]!,
+      s = await setup(f, undefined, { owner: e.owner, report: e.report }),
+      send = await s.request(uuid('command'), {
+        ...s.input,
+        analysis: { attachmentRevision: attachment.revision, fallback: null },
+      });
+    await s.due(send.id);
+    value(await s.service.dispatch(send.id));
+    const asset = (
+        await f.admin.query(
+          'SELECT asset_id FROM email.delivery_asset_reservations WHERE send_id=$1 AND purpose=$2',
+          [send.id, kind],
+        )
+      ).rows[0]!.asset_id,
+      hold = uuid('hold');
+    expect(
+      (await f.admin.query('SELECT privacy.ai_resource_owner($1) AS owner', [asset])).rows,
+    ).toEqual([{ owner: e.owner.identity.subjectId }]);
+    await f.admin.query(
+      "INSERT INTO privacy.legal_holds(id,resource_kind,resource_id,reason_code,approved_by,review_after) VALUES($1,'object_asset',$2,'litigation',$3,clock_timestamp()+interval '1 day')",
+      [hold, asset, f.staff],
+    );
+    const rights = await makeRights(s),
+      job = value(
+        await rights.removeScope(e.keys, attachment.authorization_scope_id, uuid('command')),
+      );
+    expect(await eraseRights(rights, job)).toBe('blocked');
+    expect(s.objectsData.size).toBe(2);
+    expect(
+      (
+        await f.admin.query(
+          'SELECT count(*)::int n FROM privacy.ai_erasure_receipts WHERE job_id=$1',
+          [job],
+        )
+      ).rows[0]!.n,
+    ).toBe(0);
+    await f.admin.query(
+      'UPDATE privacy.legal_holds SET released_at=clock_timestamp() WHERE id=$1',
+      [hold],
+    );
+    value(await rights.retry(job, f.staff, 'a'.repeat(64)));
+    const erase = vi
+      .spyOn(s.objects, 'erase')
+      .mockRejectedValueOnce(Error('Synthetic lost erase result'));
+    let admitted = false;
+    for (let n = 0; n < 10 && !admitted; n++) {
+      value(await rights.workOne(job));
+      admitted =
+        (await f.admin.query('SELECT inflight_id FROM privacy.ai_erasure_jobs WHERE id=$1', [job]))
+          .rows[0]!.inflight_id !== null;
+    }
+    expect(admitted).toBe(true);
+    await expect(
+      f.admin.query(
+        "INSERT INTO privacy.legal_holds(resource_kind,resource_id,reason_code,approved_by,review_after) VALUES('object_asset',$1,'litigation',$2,clock_timestamp()+interval '1 day')",
+        [asset, f.staff],
+      ),
+    ).rejects.toThrow('Erasure effect admitted');
+    erase.mockRestore();
+    expect(await eraseRights(rights, job)).toBe('complete');
+    expect(s.objectsData.size).toBe(0);
+    await expect(
+      f.admin.query(
+        "INSERT INTO privacy.legal_holds(resource_kind,resource_id,reason_code,approved_by,review_after) VALUES('object_asset',$1,'litigation',$2,clock_timestamp()+interval '1 day')",
+        [asset, f.staff],
+      ),
+    ).rejects.toThrow('Asset already erased');
+  },
+);
+
 it('review regression: fences every reserved ID while rendering is paused before asset registration', async () => {
   const ai = await composeReportAnalysis(f),
     e = await example(ai),

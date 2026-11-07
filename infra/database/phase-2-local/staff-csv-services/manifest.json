@@ -2,7 +2,7 @@
   "kind": "opt-in-disposable-local",
   "promoted": false,
   "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
-  "priorLocalManifestSha256": "d71e355256a548604611bdb0e063104347b63c571c962265e7b75d05818737a6",
+  "priorLocalManifestSha256": "815d51495d004e151e9e500e4cb2b66a9b49188e56ea0a12440741a8453b5c51",
   "priorLocalHead": "0052_analysis_lifecycle",
   "migrations": [
     {
