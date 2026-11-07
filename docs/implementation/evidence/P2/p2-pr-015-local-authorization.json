@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-015",
+  "basis": "Owner requested current plus next three cards fully implemented, tested, fixed and merged; PR102 already complete",
+  "scope": "Local AI/photo privacy and frozen delivery composition only",
+  "localImplementationAndMergeAuthorized": true,
+  "acceptedDependencyException": "Local construction despite pending actual S1/S2; no acceptance inferred",
+  "actualS1Approval": false,
+  "actualS2Approval": false,
+  "sixS3GatesOpen": true,
+  "hostedDecisions": "HS01-HS08 proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensedWork": "pending",
+  "actualAuthenticationAccepted": false,
+  "actualProviderPilotDeploymentAcceptance": false,
+  "provisioning": false,
+  "purchases": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "nextCardStarted": false
+}
