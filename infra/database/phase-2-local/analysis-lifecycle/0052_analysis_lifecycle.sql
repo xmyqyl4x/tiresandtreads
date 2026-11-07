@@ -33,9 +33,15 @@ DECLARE j privacy.ai_erasure_jobs%ROWTYPE;BEGIN
  PERFORM app.ai_repository_subject(j.owner_id,false);
  SELECT * INTO j FROM privacy.ai_erasure_jobs WHERE id=job AND lease_token=token AND lease_generation=generation AND lease_until>clock_timestamp() FOR UPDATE;
  IF NOT FOUND THEN RAISE EXCEPTION 'Current erasure lease required' USING ERRCODE='23514';END IF;RETURN j;END $$;
+CREATE FUNCTION privacy.ai_erasure_asset_ids(job uuid) RETURNS SETOF uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $$
+ SELECT i.original_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=job
+ UNION SELECT i.sanitized_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=job
+ UNION SELECT c.asset_id FROM app.photo_asset_claims c JOIN app.tire_photo_uploads u ON u.id=c.upload_id JOIN privacy.ai_erasure_targets t ON t.scope_id=u.scope_id WHERE t.job_id=job
+ UNION SELECT r.asset_id FROM email.delivery_asset_reservations r JOIN email.analysis_selections z ON z.send_id=r.send_id JOIN app.report_analysis_attachments a ON(a.report_id,a.report_version,a.revision)=(z.report_id,z.report_version,z.attachment_revision) JOIN privacy.ai_erasure_targets t ON t.scope_id=a.authorization_scope_id WHERE t.job_id=job
+$$;
 CREATE FUNCTION privacy.ai_erasure_hold(job uuid) RETURNS boolean LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path=pg_catalog AS $$
  SELECT EXISTS(SELECT 1 FROM privacy.ai_erasure_jobs j JOIN privacy.legal_holds h ON h.released_at IS NULL WHERE j.id=job AND(privacy.analysis_repository_hold(j.owner_id) OR h.subject_id=j.owner_id OR h.resource_id IN(j.id,j.linked_request,j.target_id) OR h.resource_id IN(
- SELECT t.scope_id FROM privacy.ai_erasure_targets t WHERE t.job_id=j.id UNION SELECT r.id FROM app.ai_analysis_requests r JOIN privacy.ai_erasure_targets t ON t.scope_id=r.scope_id WHERE t.job_id=j.id UNION SELECT a.id FROM app.ai_attempts a JOIN privacy.ai_erasure_targets t ON t.scope_id=a.scope_id WHERE t.job_id=j.id UNION SELECT a.id FROM app.ai_artifacts a JOIN privacy.ai_erasure_targets t ON t.scope_id=a.scope_id WHERE t.job_id=j.id UNION SELECT i.id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=j.id UNION SELECT i.original_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=j.id UNION SELECT i.sanitized_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=j.id UNION SELECT o.id FROM privacy.ai_provider_objects o JOIN privacy.ai_erasure_targets t ON t.scope_id=o.scope_id WHERE t.job_id=j.id)))
+ SELECT privacy.ai_erasure_asset_ids(j.id) UNION SELECT t.scope_id FROM privacy.ai_erasure_targets t WHERE t.job_id=j.id UNION SELECT r.id FROM app.ai_analysis_requests r JOIN privacy.ai_erasure_targets t ON t.scope_id=r.scope_id WHERE t.job_id=j.id UNION SELECT a.id FROM app.ai_attempts a JOIN privacy.ai_erasure_targets t ON t.scope_id=a.scope_id WHERE t.job_id=j.id UNION SELECT a.id FROM app.ai_artifacts a JOIN privacy.ai_erasure_targets t ON t.scope_id=a.scope_id WHERE t.job_id=j.id UNION SELECT i.id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=j.id UNION SELECT i.original_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=j.id UNION SELECT i.sanitized_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=j.id UNION SELECT o.id FROM privacy.ai_provider_objects o JOIN privacy.ai_erasure_targets t ON t.scope_id=o.scope_id WHERE t.job_id=j.id)))
 $$;
 CREATE FUNCTION privacy.ai_erasure_begin_request(request uuid) RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE r record;BEGIN
@@ -75,12 +81,6 @@ DECLARE j privacy.ai_erasure_jobs%ROWTYPE; row record; n integer:=0; rev bigint;
   UPDATE privacy.ai_erasure_jobs SET phase='objects' WHERE id=job;
  END IF;END $$;
 
-CREATE FUNCTION privacy.ai_erasure_asset_ids(job uuid) RETURNS SETOF uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $$
- SELECT i.original_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=job
- UNION SELECT i.sanitized_id FROM app.photo_service_intents i JOIN privacy.ai_erasure_targets t ON t.scope_id=i.scope_id WHERE t.job_id=job
- UNION SELECT c.asset_id FROM app.photo_asset_claims c JOIN app.tire_photo_uploads u ON u.id=c.upload_id JOIN privacy.ai_erasure_targets t ON t.scope_id=u.scope_id WHERE t.job_id=job
- UNION SELECT r.asset_id FROM email.delivery_asset_reservations r JOIN email.analysis_selections z ON z.send_id=r.send_id JOIN app.report_analysis_attachments a ON(a.report_id,a.report_version,a.revision)=(z.report_id,z.report_version,z.attachment_revision) JOIN privacy.ai_erasure_targets t ON t.scope_id=a.authorization_scope_id WHERE t.job_id=job
-$$;
 CREATE FUNCTION privacy.ai_erasure_object(job uuid,token uuid,generation bigint) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE j privacy.ai_erasure_jobs%ROWTYPE;a app.object_assets%ROWTYPE;n integer;BEGIN
  j:=privacy.ai_erasure_fence(job,token,generation);IF j.phase<>'objects' OR privacy.ai_erasure_hold(job) THEN RAISE EXCEPTION 'Object erasure held' USING ERRCODE='23514';END IF;
@@ -259,6 +259,7 @@ CREATE FUNCTION privacy.ai_resource_owner(resource uuid) RETURNS SETOF uuid LANG
  UNION SELECT owner_subject_id FROM app.photo_field_candidates WHERE id=resource UNION SELECT owner_subject_id FROM app.photo_asset_claims WHERE asset_id=resource
  UNION SELECT owner_id FROM app.photo_service_intents WHERE resource IN(original_id,sanitized_id)
  UNION SELECT s.owner_subject_id FROM privacy.ai_provider_objects p JOIN app.ai_reuse_scopes s ON s.id=p.scope_id WHERE p.id=resource
+ UNION SELECT s.owner_subject_id FROM email.delivery_asset_reservations r JOIN email.email_sends s ON s.id=r.send_id JOIN email.ai_delivery_bindings b ON b.send_id=s.id WHERE r.asset_id=resource
  UNION SELECT owner_id FROM privacy.ai_erasure_jobs WHERE id=resource
  UNION SELECT owner_subject_id FROM app.reports WHERE id=resource
  UNION SELECT s.owner_subject_id FROM email.email_sends s JOIN email.ai_delivery_bindings b ON b.send_id=s.id WHERE s.id=resource
@@ -272,7 +273,7 @@ DECLARE person uuid;known boolean;BEGIN
   IF EXISTS(SELECT 1 FROM privacy.ai_erasure_jobs WHERE owner_id=person AND inflight_id IS NOT NULL) THEN RAISE EXCEPTION 'Erasure effect admitted; reconcile before accepting hold' USING ERRCODE='23514';END IF;
  END LOOP;
  IF (known OR NEW.resource_kind IN('ai_scope','ai_request','ai_attempt','ai_artifact','photo_upload','photo_candidate','provider_object')) AND NEW.resource_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM privacy.ai_resource_owner(NEW.resource_id)) THEN RAISE EXCEPTION 'Erased hold target unavailable' USING ERRCODE='23514';END IF;
- IF EXISTS(SELECT 1 FROM app.object_assets WHERE id=NEW.resource_id AND purpose IN('tire_photo_original','tire_photo_sanitized') AND state='deleted') THEN RAISE EXCEPTION 'Photo already erased' USING ERRCODE='23514';END IF;
+ IF EXISTS(SELECT 1 FROM app.object_assets WHERE id=NEW.resource_id AND purpose IN('tire_photo_original','tire_photo_sanitized','report_pdf','email_payload') AND state='deleted') THEN RAISE EXCEPTION 'Asset already erased' USING ERRCODE='23514';END IF;
  RETURN NEW;END $$;
 CREATE TRIGGER ai_legal_hold_admission BEFORE INSERT OR UPDATE ON privacy.legal_holds FOR EACH ROW EXECUTE FUNCTION privacy.ai_legal_hold_admission();
 CREATE FUNCTION privacy.ai_erasure_begin_expired(scope uuid) RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
