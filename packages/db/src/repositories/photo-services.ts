@@ -170,6 +170,7 @@ export function createPhotoServiceRepository(
         return stop('conflict');
     },
     async reject(tx, i, lease) {
+      await q(tx, 'SELECT app.ai_repository_scope($1,false)', [i.scopeId]);
       const changed = await q(
         tx,
         "UPDATE app.photo_service_intents SET state='rejected',lease=NULL,lease_until=NULL WHERE id=$1 AND owner_id=$2 AND state='processing' AND lease=$3 RETURNING id",
@@ -181,6 +182,7 @@ export function createPhotoServiceRepository(
           "UPDATE app.ai_scope_guards SET processing_allowed=false,state='withdrawn',permission_revision=permission_revision+1,updated_at=clock_timestamp() WHERE scope_id=$1 AND state='active'",
           [i.scopeId],
         );
+      return changed.rowCount === 1;
     },
     async enqueue(tx, person, upload, request) {
       await q(tx, "SELECT set_config('tt.p2_photo_subject',$1,true)", [person]);
@@ -245,16 +247,37 @@ export function createPhotoServiceRepository(
       );
     },
     async expired(tx) {
-      return Object.freeze(
-        (
+      const candidates = (
+        await q(
+          tx,
+          "SELECT id,owner_id,scope_id FROM app.photo_service_intents WHERE state<>'deleted' AND (state='deleting' OR expires_at<=clock_timestamp()) AND maintenance_after<=clock_timestamp() ORDER BY maintenance_after,expires_at,id LIMIT 25",
+        )
+      ).rows
+        .map((r) => ({
+          id: uid('photo_upload', r.id),
+          ownerId: uid('subject', r.owner_id),
+          scopeId: uid('ai_scope', r.scope_id),
+        }))
+        .sort(
+          (a, b) =>
+            a.ownerId.localeCompare(b.ownerId) ||
+            a.scopeId.localeCompare(b.scopeId) ||
+            a.id.localeCompare(b.id),
+        );
+      const claimed = [];
+      for (const item of candidates) {
+        // Normal scope/owner roots precede intent writes; CAS prevents duplicate batch claims.
+        await q(tx, 'SELECT app.ai_repository_scope($1,false)', [item.scopeId]);
+        const row = (
           await q(
             tx,
-            "SELECT id,owner_id FROM app.photo_service_intents WHERE state='deleting' OR(state<>'deleted' AND expires_at<=clock_timestamp()) ORDER BY expires_at,id LIMIT 25",
+            "UPDATE app.photo_service_intents SET maintenance_after=clock_timestamp()+interval '60 seconds' WHERE id=$1 AND owner_id=$2 AND state<>'deleted' AND (state='deleting' OR expires_at<=clock_timestamp()) AND maintenance_after<=clock_timestamp() RETURNING id",
+            [item.id, item.ownerId],
           )
-        ).rows.map((r) =>
-          Object.freeze({ id: uid('photo_upload', r.id), ownerId: uid('subject', r.owner_id) }),
-        ),
-      );
+        ).rows[0];
+        if (row) claimed.push(Object.freeze({ id: item.id, ownerId: item.ownerId }));
+      }
+      return Object.freeze(claimed);
     },
   });
 }

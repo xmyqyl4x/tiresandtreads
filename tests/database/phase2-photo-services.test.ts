@@ -24,7 +24,7 @@ afterAll(async () => {
           actualPostgreSQL: true,
           migrations: 51,
           newTables: 3,
-          nativeCases: 32,
+          nativeCases: 36,
           actualEncryptedVersionedLocalStorage: true,
           actualIsolatedImageCodec: true,
           syntheticScanner: true,
@@ -705,3 +705,176 @@ it('recovers an expired synthetic dispatch and cancels its photo work without re
     ).rows.every((r) => r.state === 'uncertain'),
   ).toBe(true);
 });
+
+it('does not let an expired finalizer erase a successfully reclaimed replacement', async () => {
+  const e = await g.example(),
+    i = value(await g.service.intent(e.keys, e.input));
+  let entered!: () => void, release!: () => void;
+  const atCodec = new Promise<void>((resolve) => {
+      entered = resolve;
+    }),
+    wait = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+  const stale = createPhotoServices({
+    ...g.d,
+    codec: {
+      async sanitize(bytes, mime) {
+        entered();
+        await wait;
+        return g.d.codec.sanitize(bytes, mime);
+      },
+    },
+  });
+  const pending = stale.finalize(e.keys, { uploadId: i.id, grant: i.grant }, e.bytes);
+  await atCodec;
+  try {
+    await f.admin.query('ALTER TABLE app.photo_service_intents DISABLE TRIGGER photo_intent_guard');
+    try {
+      await f.admin.query(
+        "UPDATE app.photo_service_intents SET lease_until=clock_timestamp()-interval '1 second' WHERE id=$1",
+        [i.id],
+      );
+    } finally {
+      await f.admin.query(
+        'ALTER TABLE app.photo_service_intents ENABLE TRIGGER photo_intent_guard',
+      );
+    }
+    expect(
+      value(await g.service.finalize(e.keys, { uploadId: i.id, grant: i.grant }, e.bytes)).state,
+    ).toBe('ready');
+    const before = await versions(i.id!);
+    release();
+    expect((await pending).ok).toBe(false);
+    expect(value(await g.service.get(e.keys, i.id)).state).toBe('ready');
+    expect(await versions(i.id!)).toEqual(before);
+  } finally {
+    release();
+    await pending;
+  }
+}, 30000);
+it.each(['legal_hold', 'object_outage', 'write_barrier'] as const)(
+  'advances past25 %s cleanup rows and retries them later without starving the next expired image',
+  async (kind) => {
+    const ids: string[] = [],
+      blocked = new Set<string>(),
+      holdOwners: string[] = [];
+    try {
+      for (let n = 0; n < 26; n++) {
+        const e = await g.example(),
+          i = value(await g.service.intent(e.keys, e.input));
+        if (!i.id) throw Error('Missing owned intent');
+        ids.push(i.id);
+        if (n === 25)
+          value(await g.service.finalize(e.keys, { uploadId: i.id, grant: i.grant }, e.bytes));
+        const row = (
+          await f.admin.query(
+            'SELECT owner_id,original_id FROM app.photo_service_intents WHERE id=$1',
+            [i.id],
+          )
+        ).rows[0]!;
+        if (n < 25) {
+          blocked.add(row.original_id);
+          if (kind === 'legal_hold') {
+            holdOwners.push(row.owner_id);
+            await f.admin.query(
+              "INSERT INTO privacy.legal_holds(subject_id,resource_kind,reason_code,approved_by,review_after) VALUES($1,'subject','synthetic_photo_maintenance',$2,statement_timestamp()+interval '1 day')",
+              [row.owner_id, f.staff],
+            );
+          }
+        }
+      }
+      // Controlled fixture timestamps model due work and a later retry; no elapsed-time/provider custody claim.
+      await f.admin.query(
+        'ALTER TABLE app.photo_service_intents DISABLE TRIGGER photo_intent_guard',
+      );
+      try {
+        await f.admin.query(
+          "UPDATE app.photo_service_intents SET created_at=statement_timestamp()-interval '26 hours',grant_until=statement_timestamp()-interval '25 hours 50 minutes',expires_at=statement_timestamp()-interval '2 hours' WHERE id=ANY($1::uuid[])",
+          [ids.slice(0, 25)],
+        );
+        await f.admin.query(
+          "UPDATE app.photo_service_intents SET created_at=statement_timestamp()-interval '25 hours',grant_until=statement_timestamp()-interval '24 hours 50 minutes',expires_at=statement_timestamp()-interval '1 hour' WHERE id=$1",
+          [ids[25]],
+        );
+        if (kind === 'write_barrier')
+          await f.admin.query(
+            "UPDATE app.photo_service_intents SET state='deleting',cleanup_after=statement_timestamp()+interval '60 seconds' WHERE id=ANY($1::uuid[])",
+            [ids.slice(0, 25)],
+          );
+      } finally {
+        await f.admin.query(
+          'ALTER TABLE app.photo_service_intents ENABLE TRIGGER photo_intent_guard',
+        );
+      }
+      const service = createPhotoServices({
+        ...g.d,
+        objects: {
+          ...g.objects,
+          async erase(asset) {
+            if (kind === 'object_outage' && blocked.has(asset.id))
+              throw Error('synthetic per-object cleanup outage');
+            await g.objects.erase(asset);
+          },
+        },
+      });
+      expect(value(await service.expire())).toMatchObject({ processed: 25, pending: 25 });
+      expect(value(await service.expire())).toMatchObject({ processed: 1, pending: 0 });
+      expect(
+        (await f.admin.query('SELECT state FROM app.photo_service_intents WHERE id=$1', [ids[25]]))
+          .rows[0]!.state,
+      ).toBe('deleted');
+      expect(await versions(ids[25]!)).toHaveLength(0);
+      if (kind === 'legal_hold')
+        await f.admin.query(
+          'UPDATE privacy.legal_holds SET released_at=statement_timestamp() WHERE subject_id=ANY($1::uuid[]) AND released_at IS NULL',
+          [holdOwners],
+        );
+      blocked.clear();
+      await f.admin.query(
+        'ALTER TABLE app.photo_service_intents DISABLE TRIGGER photo_intent_guard',
+      );
+      try {
+        await f.admin.query(
+          "UPDATE app.photo_service_intents SET maintenance_after=statement_timestamp()-interval '1 second',cleanup_after=CASE WHEN cleanup_after IS NULL THEN NULL ELSE statement_timestamp()-interval '1 second' END WHERE id=ANY($1::uuid[])",
+          [ids.slice(0, 25)],
+        );
+      } finally {
+        await f.admin.query(
+          'ALTER TABLE app.photo_service_intents ENABLE TRIGGER photo_intent_guard',
+        );
+      }
+      expect(value(await service.expire())).toMatchObject({ processed: 25, pending: 0 });
+      expect(
+        (
+          await f.admin.query(
+            "SELECT count(*)::int n FROM app.photo_service_intents WHERE id=ANY($1::uuid[]) AND state='deleted'",
+            [ids],
+          )
+        ).rows[0]!.n,
+      ).toBe(26);
+    } finally {
+      // Disarm only this failed/successful fixture after all assertions; each matrix row is independent.
+      if (holdOwners.length)
+        await f.admin.query(
+          'UPDATE privacy.legal_holds SET released_at=statement_timestamp() WHERE subject_id=ANY($1::uuid[]) AND released_at IS NULL',
+          [holdOwners],
+        );
+      blocked.clear();
+      await f.admin.query(
+        'ALTER TABLE app.photo_service_intents DISABLE TRIGGER photo_intent_guard',
+      );
+      try {
+        await f.admin.query(
+          "UPDATE app.photo_service_intents SET state='deleted',lease=NULL,lease_until=NULL WHERE id=ANY($1::uuid[]) AND state<>'deleted'",
+          [ids],
+        );
+      } finally {
+        await f.admin.query(
+          'ALTER TABLE app.photo_service_intents ENABLE TRIGGER photo_intent_guard',
+        );
+      }
+    }
+  },
+  60000,
+);

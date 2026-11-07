@@ -73,7 +73,7 @@ export interface PhotoServiceRepository {
   ): Promise<PhotoIntent | null>;
   current(tx: Tx, intent: PhotoIntent, lease?: Id<'photo_lease'>): Promise<boolean>;
   finish(tx: Tx, intent: PhotoIntent, lease: Id<'photo_lease'>): Promise<void>;
-  reject(tx: Tx, intent: PhotoIntent, lease: Id<'photo_lease'>): Promise<void>;
+  reject(tx: Tx, intent: PhotoIntent, lease: Id<'photo_lease'>): Promise<boolean>;
   enqueue(
     tx: Tx,
     owner: Id<'subject'>,

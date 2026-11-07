@@ -471,11 +471,9 @@ export function createPhotoServices(d: {
             return ok(await view(tx, { ...i, state: 'ready', lease: null, leaseUntil: null }));
           });
         } catch (e) {
-          await run(async (tx) => {
-            await d.repository.reject(tx, i, lease);
-            return ok(null);
-          });
-          await cleanup(i.ownerId, i.id);
+          const rejected = await run(async (tx) => ok(await d.repository.reject(tx, i, lease)));
+          // A stale finalizer must not withdraw or erase a replacement's work.
+          if (rejected.ok && rejected.value) await cleanup(i.ownerId, i.id);
           return fail(serviceFailure(e));
         }
       });
