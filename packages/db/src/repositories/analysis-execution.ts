@@ -229,6 +229,16 @@ export function createAnalysisExecutionSupport(s: WriteScope) {
         await q(tx, 'SELECT app.ai_recover_expired_dispatch($1)', [request.id]);
         return null;
       }
+      if (
+        state &&
+        state.live !== true &&
+        request.state === 'running' &&
+        ['complete', 'failed', 'uncertain'].includes(String(state.state))
+      ) {
+        // The provider outcome committed, but publication/failure finalization did not.
+        await q(tx, 'SELECT app.ai_recover_expired_dispatch($1)', [request.id]);
+        return null;
+      }
       if (state && (state.state !== 'retry' || state.due !== true)) return null;
       const alive = (
         await q(

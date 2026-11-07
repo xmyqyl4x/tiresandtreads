@@ -182,6 +182,15 @@ export function createGenericAnalysisRepository(s: WriteScope): GenericAnalysisR
           [budget.hour, remaining],
         )
       ).rows;
+      // Warm reads take the definition lock before touching demand. Keep that order for every key.
+      for (const definition of [
+        ...new Set(rows.map((r) => uid('ai_definition', r.definition_id))),
+      ].sort())
+        await q(
+          tx,
+          "SELECT pg_advisory_xact_lock(hashtextextended('ai.generic.definition:'||$1,0))",
+          [definition],
+        );
       for (const r of rows)
         await q(
           tx,

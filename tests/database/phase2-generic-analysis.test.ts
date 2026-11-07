@@ -208,3 +208,55 @@ it('commits bounded expiry before opening the refresh transaction and releases a
   });
   expect(value(await checked.refreshPopular()).scheduled).toBe(0);
 }, 20000);
+
+it('orders popular refresh definition locks before demand updates during an actual overlapping warm read', async () => {
+  const e = await g.example(),
+    short = createGenericAnalysisServices({ ...g.deps, validitySeconds: 30 }),
+    p = value(await short.read(e.input));
+  value(await short.execute(p.id));
+  value(await short.read(e.input));
+  value(await short.read(e.input));
+  value(await short.read(e.input));
+  await new Promise((resolve) => setTimeout(resolve, 20200));
+  let release!: () => void, held!: () => void;
+  const pause = new Promise<void>((resolve) => {
+      release = resolve;
+    }),
+    entered = new Promise<void>((resolve) => {
+      held = resolve;
+    });
+  const reader = createGenericAnalysisServices({
+    ...g.deps,
+    repository: {
+      ...g.repository,
+      async touch(tx, scope, digest) {
+        held();
+        await pause;
+        await g.repository.touch(tx, scope, digest);
+      },
+    },
+  });
+  const reading = reader.read(e.input);
+  await entered;
+  const refreshing = short.refreshPopular();
+  let observed = false;
+  try {
+    for (let n = 0; n < 100; n++) {
+      observed =
+        (
+          await f.admin.query(
+            "SELECT EXISTS(SELECT 1 FROM pg_locks WHERE locktype='advisory' AND NOT granted AND database=(SELECT oid FROM pg_database WHERE datname=current_database()) AND classid::bigint=((hashtextextended('ai.generic.definition:'||$1,0)>>32)&4294967295) AND objid::bigint=(hashtextextended('ai.generic.definition:'||$1,0)&4294967295) AND objsubid=1) AS waiting",
+          [e.definition],
+          )
+        ).rows[0]!.waiting === true;
+      if (observed) break;
+      await new Promise((resolve) => setTimeout(resolve, 20));
+    }
+  } finally {
+    release();
+    await Promise.allSettled([reading, refreshing]);
+  }
+  expect(observed).toBe(true);
+  expect(value(await reading).state).toBe('available');
+  expect(value(await refreshing).scheduled).toBe(1);
+}, 50000);

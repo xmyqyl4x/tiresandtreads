@@ -426,3 +426,75 @@ it.each(['complete', 'refused', 'unavailable'] as const)(
     ).toBe(true);
   },
 );
+
+it.each(['complete', 'refused', 'unavailable'] as const)(
+  'recovers a running request after %s execution finalization without redispatch or charge changes',
+  async (state) => {
+    const e = await example(),
+      p = value(await service.request(e.keys, e.input));
+    let finalized = false;
+    const interrupted = createReportAnalysisServices({
+      ...s.d,
+      ...support,
+      runtime: {
+        ...support.runtime,
+        async finish(tx, input) {
+          const result = await support.runtime.finish(tx, input);
+          finalized = true;
+          return result;
+        },
+      },
+      repository: {
+        ...s.d.repository,
+        async current(tx, work) {
+          if (finalized) throw Error('synthetic interruption after execution finalization');
+          return s.d.repository.current(tx, work);
+        },
+      },
+    });
+    s.setBehavior(async (input) =>
+      state === 'unavailable'
+        ? Promise.reject(Error('synthetic unknown charge'))
+        : { ...(await s.defaultBehavior(input)), state },
+    );
+    expect((await interrupted.execute(p.id)).ok).toBe(false);
+    const before = (
+      await f.admin.query(
+        'SELECT state,cost_minor,cost_status,provider_request_id,input_tokens,output_tokens,finished_at FROM app.ai_attempts WHERE request_id=$1',
+        [p.id],
+      )
+    ).rows;
+    expect(
+      (await f.admin.query('SELECT state FROM app.ai_execution_states WHERE request_id=$1', [p.id]))
+        .rows[0]!.state,
+    ).toBe(state === 'complete' ? 'complete' : state === 'refused' ? 'failed' : 'uncertain');
+    const calls = s.calls.length;
+    await f.admin.query(
+      'ALTER TABLE app.ai_execution_states DISABLE TRIGGER ai_execution_identity',
+    );
+    try {
+      await f.admin.query(
+        "UPDATE app.ai_execution_states SET lease_until=clock_timestamp()-interval '1 second' WHERE request_id=$1",
+        [p.id],
+      );
+    } finally {
+      await f.admin.query(
+        'ALTER TABLE app.ai_execution_states ENABLE TRIGGER ai_execution_identity',
+      );
+    }
+    value(await service.execute(p.id));
+    expect(s.calls.length).toBe(calls);
+    expect(
+      (await f.admin.query('SELECT state FROM app.ai_analysis_requests WHERE id=$1', [p.id]))
+        .rows[0]!.state,
+    ).toBe(state === 'refused' ? 'failed' : 'uncertain');
+    expect(
+      (
+        await f.admin.query(
+          'SELECT state,cost_minor,cost_status,provider_request_id,input_tokens,output_tokens,finished_at FROM app.ai_attempts WHERE request_id=$1',
+          [p.id],
+        )
+      ).rows,
+    ).toEqual(before);
+  },
+);

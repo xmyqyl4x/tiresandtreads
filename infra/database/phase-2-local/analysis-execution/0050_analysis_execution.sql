@@ -213,11 +213,11 @@ DECLARE r app.ai_analysis_requests%ROWTYPE;e app.ai_execution_states%ROWTYPE;
 BEGIN
  SELECT * INTO r FROM app.ai_analysis_requests WHERE id=request;IF NOT FOUND THEN RAISE EXCEPTION 'Recorded execution unavailable' USING ERRCODE='23514';END IF;
  PERFORM app.ai_repository_scope(r.scope_id,false);
- SELECT * INTO e FROM app.ai_execution_states WHERE request_id=request AND state='uncertain' AND lease_until<=clock_timestamp() FOR UPDATE;
+ SELECT * INTO e FROM app.ai_execution_states WHERE request_id=request AND state IN('complete','failed','uncertain') AND lease_until<=clock_timestamp() FOR UPDATE;
  IF NOT FOUND OR NOT EXISTS(SELECT 1 FROM app.ai_attempts WHERE id=e.attempt_id AND request_id=r.id AND state IN('started','succeeded','failed','uncertain')) OR r.state<>'running' THEN RAISE EXCEPTION 'Only an expired recorded dispatch may become uncertain' USING ERRCODE='23514';END IF;
  PERFORM app.ai_repository_uncertain_budgets(ARRAY[r.id]);
  UPDATE app.ai_attempts SET state='uncertain',finished_at=clock_timestamp(),error_code='timeout' WHERE id=e.attempt_id AND state='started';
- UPDATE app.ai_analysis_requests SET state='uncertain' WHERE id=r.id;
+ UPDATE app.ai_analysis_requests SET state=CASE WHEN e.state='failed' THEN 'failed' ELSE 'uncertain' END WHERE id=r.id;
 END $$;
 REVOKE ALL ON FUNCTION app.ai_recover_expired_dispatch(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.ai_recover_expired_dispatch(uuid) TO tt_p2_analysis_service;
