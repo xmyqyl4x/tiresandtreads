@@ -206,7 +206,11 @@ it('does not upgrade an already captured fallback when assistance arrives later'
   expect(s.provider.send).toHaveBeenCalledOnce();
 });
 
-async function makeRights(s: Awaited<ReturnType<typeof setup>>) {
+async function makeRights(
+  s: Awaited<ReturnType<typeof setup>>,
+  erase: Parameters<typeof createAnalysisErasureServices>[0]['mail']['erase'] = async () =>
+    'not_stored',
+) {
   const worker = f.privacyAdapter(),
     owner = f.analysisServiceAdapter(),
     repository = createAnalysisErasureRepository(worker, 'fixture-private', ['fixture-kms']),
@@ -225,9 +229,7 @@ async function makeRights(s: Awaited<ReturnType<typeof setup>>) {
       async verify() {
         throw Error('Notifications held');
       },
-      async erase() {
-        return 'not_stored';
-      },
+      erase,
     },
     provider: {
       async erase() {
@@ -359,3 +361,94 @@ it('review regression: waits for an admitted pending delivery write before ackno
   expect(s.objectsData.size).toBe(0);
   expect(s.provider.send).not.toHaveBeenCalled();
 });
+
+it.each(['recent_claim', 'old_claim_active_lease', 'old_receipt_active_lease'])(
+  'review regression: drains admitted email handoff before cleanup (%s)',
+  async (mode) => {
+    const ai = await composeReportAnalysis(f),
+      e = await example(ai),
+      pending = value(await ai.service.request(e.keys, e.input));
+    value(await ai.service.execute(pending.id));
+    const attachment = (
+        await f.admin.query(
+          'SELECT revision::text,authorization_scope_id FROM app.report_analysis_attachments WHERE report_id=$1',
+          [e.report],
+        )
+      ).rows[0]!,
+      s = await setup(f, undefined, { owner: e.owner, report: e.report }),
+      send = await s.request(uuid('command'), {
+        ...s.input,
+        analysis: { attachmentRevision: attachment.revision, fallback: null },
+      });
+    let enter!: () => void, release!: () => void;
+    const entered = new Promise<void>((r) => {
+        enter = r;
+      }),
+      held = new Promise<void>((r) => {
+        release = r;
+      }),
+      delivered = new Set<string>();
+    s.provider.send.mockImplementation(async (key) => {
+      enter();
+      await held;
+      delivered.add(key);
+      return { outcome: 'accepted', messageId: 'synthetic-late-message' };
+    });
+    const erase = vi.fn<Parameters<typeof createAnalysisErasureServices>[0]['mail']['erase']>(
+        async (x) => (delivered.delete(x.deliveryKey) ? 'erased' : 'not_stored'),
+      ),
+      rights = await makeRights(s, erase);
+    await s.due(send.id);
+    const dispatch = s.service.dispatch(send.id);
+    await entered;
+    let job: Parameters<typeof rights.workOne>[0] | undefined;
+    try {
+      if (mode !== 'recent_claim') {
+        await f.admin.query('ALTER TABLE email.email_sends DISABLE TRIGGER email_sends_identity');
+        try {
+          await f.admin.query(
+            "UPDATE email.email_sends SET created_at=statement_timestamp()-interval '2 hours',cancel_deadline=statement_timestamp()-interval '61 minutes',send_after=statement_timestamp()-interval '61 minutes',claimed_at=statement_timestamp()-interval '1 hour',provider_message_id=$2 WHERE id=$1",
+            [send.id, mode === 'old_receipt_active_lease' ? 'synthetic-prior-message' : null],
+          );
+        } finally {
+          await f.admin.query('ALTER TABLE email.email_sends ENABLE TRIGGER email_sends_identity');
+        }
+      }
+      job = value(
+        await rights.removeScope(
+          e.keys,
+          attachment.authorization_scope_id,
+          'handoff-drain-' + uuid('command'),
+        ),
+      );
+      for (let n = 0; n < 35; n++) expect((await rights.workOne(job)).ok).toBe(true);
+      expect(value(await rights.status(job))).toBe('pending');
+      expect(erase).not.toHaveBeenCalled();
+      expect(delivered.size).toBe(0);
+    } finally {
+      release();
+      await dispatch;
+    }
+    expect(delivered.size).toBe(1);
+    // Owned fixture clock fast-forward after the paused provider has returned. No original
+    // SQL/service policy or production deadline is changed by these synthetic observations.
+    await f.admin.query(
+      "UPDATE email.delivery_work SET lease_until=clock_timestamp()-interval '1 second' WHERE send_id=$1",
+      [send.id],
+    );
+    await f.admin.query('ALTER TABLE email.email_sends DISABLE TRIGGER email_sends_identity');
+    try {
+      await f.admin.query(
+        "UPDATE email.email_sends SET claimed_at=clock_timestamp()-interval '46 seconds' WHERE id=$1",
+        [send.id],
+      );
+    } finally {
+      await f.admin.query('ALTER TABLE email.email_sends ENABLE TRIGGER email_sends_identity');
+    }
+    expect(await eraseRights(rights, job!)).toBe('complete');
+    expect(erase).toHaveBeenCalledOnce();
+    expect(erase.mock.calls[0]![0].deliveryKey).toBe((await s.row(send.id)).provider_key);
+    expect(delivered.size).toBe(0);
+    expect(s.objectsData.size).toBe(0);
+  },
+);

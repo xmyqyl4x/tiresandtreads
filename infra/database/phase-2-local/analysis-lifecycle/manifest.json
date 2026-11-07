@@ -7,7 +7,7 @@
   "migrations": [
     {
       "id": "0052_analysis_lifecycle",
-      "sha256": "ad223df3eb844b871997aa9a908351cdfe3f53ed6bb832df811d5c2f89753a80"
+      "sha256": "3b8098bb8bf74a08f4ef0b1d0254d0733d7535800f335b7fac6a8907e0885359"
     }
   ],
   "tables": [
