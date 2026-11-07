@@ -106,6 +106,12 @@ DECLARE j privacy.ai_erasure_jobs%ROWTYPE;a app.object_assets%ROWTYPE;n integer;
 CREATE FUNCTION privacy.ai_erasure_provider(job uuid,token uuid,generation bigint) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE j privacy.ai_erasure_jobs%ROWTYPE;o record;BEGIN
  j:=privacy.ai_erasure_fence(job,token,generation);IF j.phase<>'providers' OR privacy.ai_erasure_hold(job) THEN RAISE EXCEPTION 'Provider erasure held' USING ERRCODE='23514';END IF;
+ -- Suppression can prevent a paused dispatcher from recording its eventual provider result.
+ -- Keep this phase pending through the existing delivery lease and the P1 cooperative
+ -- 45-second unknown-result window. The eraser must reconcile by delivery key afterwards;
+ -- this does not supply independent remote fencing or a provider-retention guarantee.
+ IF EXISTS(SELECT 1 FROM email.email_sends s JOIN email.delivery_work w ON w.send_id=s.id JOIN email.analysis_selections z ON z.send_id=s.id JOIN app.report_analysis_attachments a ON(a.report_id,a.report_version,a.revision)=(z.report_id,z.report_version,z.attachment_revision) JOIN privacy.ai_erasure_targets t ON t.scope_id=a.authorization_scope_id WHERE t.job_id=job AND s.claimed_at IS NOT NULL AND(w.lease_until>clock_timestamp() OR(s.provider_message_id IS NULL AND s.claimed_at+interval '45 seconds'>clock_timestamp()))) THEN RETURN NULL;END IF;
+
  SELECT * INTO o FROM(
  SELECT p.id,p.provider,p.kind,p.key_version,encode(p.ciphertext,'hex') AS ciphertext FROM privacy.ai_provider_objects p JOIN privacy.ai_erasure_targets t ON t.scope_id=p.scope_id WHERE t.job_id=job AND p.state='pending'
  UNION SELECT s.id,s.provider,'email','p1-email',encode(convert_to(jsonb_build_object('provider',s.provider,'messageId',s.provider_message_id,'deliveryKey',s.provider_key)::text,'UTF8'),'hex') FROM email.email_sends s JOIN email.analysis_selections z ON z.send_id=s.id JOIN app.report_analysis_attachments a ON(a.report_id,a.report_version,a.revision)=(z.report_id,z.report_version,z.attachment_revision) JOIN privacy.ai_erasure_targets t ON t.scope_id=a.authorization_scope_id WHERE t.job_id=job AND s.claimed_at IS NOT NULL
