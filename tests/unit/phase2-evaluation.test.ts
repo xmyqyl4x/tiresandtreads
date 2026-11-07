@@ -74,6 +74,11 @@ it.each([
   'oversize',
   'invalid-label',
   'invalid-time',
+  'undefined-output',
+  'family-object',
+  'expected-object',
+  'split-object',
+  'cohort-object',
 ])('refuses malformed or misleading synthetic inputs: %s', (mode) => {
   const b = syntheticEvaluationBatch();
   if (mode === 'duplicate-id') b.cases[1]!.id = b.cases[0]!.id;
@@ -90,6 +95,9 @@ it.each([
     Object.assign(c.labels, { condition: 'safe' });
   }
   if (mode === 'invalid-time') b.now = 'yesterday';
+  if (mode === 'undefined-output') b.cases[0]!.output = undefined;
+  for (const key of ['family', 'expected', 'split', 'cohort'] as const)
+    if (mode === key + '-object') Object.assign(b.cases[0]!, { [key]: Object(b.cases[0]![key]) });
   expect(() => evaluateSyntheticBatch(b)).toThrow();
 });
 it('calculates a bounded Wilson interval and refuses invalid denominators', () => {

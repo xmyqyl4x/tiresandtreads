@@ -121,13 +121,17 @@ export function evaluateSyntheticBatch(raw: unknown) {
     demand(
       typeof c.group === 'string' &&
         /^[a-f0-9]{64}$/.test(c.group) &&
-        ['development', 'heldout'].includes(String(c.split)) &&
+        typeof c.split === 'string' &&
+        ['development', 'heldout'].includes(c.split) &&
         (!groups.has(c.group) || groups.get(c.group) === c.split),
     );
     groups.set(c.group, String(c.split));
     demand(
-      ['explanation', 'photo'].includes(String(c.family)) &&
-        ['accepted', 'rejected', 'unavailable'].includes(String(c.expected)) &&
+      typeof c.cohort === 'string' &&
+        typeof c.family === 'string' &&
+        ['explanation', 'photo'].includes(c.family) &&
+        typeof c.expected === 'string' &&
+        ['accepted', 'rejected', 'unavailable'].includes(c.expected) &&
         [
           'supported',
           'missing_evidence',
@@ -137,8 +141,9 @@ export function evaluateSyntheticBatch(raw: unknown) {
           'blurred',
           'partial_dot',
           'conflicting_text',
-        ].includes(String(c.cohort)),
+        ].includes(c.cohort),
     );
+    demand(c.output !== undefined);
     const label = record(c.labels);
     if (c.family === 'photo') {
       demand(
