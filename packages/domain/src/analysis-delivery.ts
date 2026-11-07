@@ -1,7 +1,10 @@
 import { analysisLimitations, analysisQuestions } from './analysis-policy.ts';
+import { id } from './values/core.ts';
 
 export const analysisSummary =
   'These explanations refer only to facts recorded in the deterministic report.';
+export const analysisGenericSummary =
+  'These installer questions use reviewed general guidance and do not assess your tires.';
 export type AnalysisFallback = 'not_requested' | 'unavailable' | 'declined' | 'expired';
 export type FrozenAnalysis = Readonly<
   | { schema: 1; mode: 'none'; fallback: AnalysisFallback }
@@ -10,14 +13,23 @@ export type FrozenAnalysis = Readonly<
       mode: 'artifact';
       attachmentRevision: string;
       artifactHash: string;
-      output: Readonly<{
-        schema: 1;
-        kind: 'ai_assisted_selection';
-        summary: string;
-        claims: readonly Readonly<Record<string, unknown>>[];
-        limitations: readonly string[];
-        questions: readonly string[];
-      }>;
+      output: Readonly<
+        | {
+            schema: 1;
+            kind: 'ai_assisted_selection';
+            summary: string;
+            claims: readonly Readonly<Record<string, unknown>>[];
+            limitations: readonly string[];
+            questions: readonly string[];
+          }
+        | {
+            schema: 1;
+            kind: 'reviewed_generic_explanation';
+            claims: readonly Readonly<Record<string, unknown>>[];
+            limitations: readonly string[];
+            questions: readonly string[];
+          }
+      >;
     }
 >;
 function demand(v: unknown): asserts v {
@@ -55,6 +67,40 @@ export function freezeAnalysis(raw: unknown): FrozenAnalysis {
       /^[1-9]\d{0,18}$/.test(x.attachmentRevision),
   );
   demand(typeof x.artifactHash === 'string' && /^[a-f0-9]{64}$/.test(x.artifactHash));
+  if (
+    x.output &&
+    typeof x.output === 'object' &&
+    (x.output as Record<string, unknown>).kind === 'reviewed_generic_explanation'
+  ) {
+    const o = object(x.output, 'claims,kind,limitations,questions,schema');
+    demand(o.schema === 1 && Array.isArray(o.claims) && o.claims.length === 1);
+    const c = object(o.claims[0], 'adviceId,sourceId,text'),
+      advice = id('advice_fact', c.adviceId),
+      source = id('dataset', c.sourceId);
+    demand(
+      typeof c.text === 'string' &&
+        c.text.trim().length > 0 &&
+        c.text.length <= 2000 &&
+        !c.text.includes('\0') &&
+        advice.ok &&
+        source.ok,
+    );
+    return Object.freeze({
+      schema: 1,
+      mode: 'artifact',
+      attachmentRevision: x.attachmentRevision,
+      artifactHash: x.artifactHash,
+      output: Object.freeze({
+        schema: 1,
+        kind: 'reviewed_generic_explanation',
+        claims: Object.freeze([
+          Object.freeze({ text: c.text, adviceId: advice.value, sourceId: source.value }),
+        ]),
+        limitations: codes(o.limitations, analysisLimitations, 4),
+        questions: codes(o.questions, analysisQuestions, 4),
+      }),
+    });
+  }
   const o = object(x.output, 'claims,kind,limitations,questions,schema,summary');
   demand(o.schema === 1 && o.kind === 'ai_assisted_selection' && o.summary === analysisSummary);
   demand(Array.isArray(o.claims) && o.claims.length <= 5);
@@ -120,8 +166,10 @@ export function analysisDeliveryText(raw: FrozenAnalysis): readonly string[] {
       'AI assistance was not included in this presentation. Use the deterministic report and reviewed guidance.',
     ]);
   return Object.freeze([
-    'AI-assisted installer questions',
-    analysisSummary,
+    x.output.kind === 'reviewed_generic_explanation'
+      ? 'Reviewed general installer questions'
+      : 'AI-assisted installer questions',
+    x.output.kind === 'reviewed_generic_explanation' ? analysisGenericSummary : analysisSummary,
     ...x.output.questions.map((k) => questionCopy[k]!),
     'This assistance does not establish fitment, tire condition or recall clearance. A physical inspection and current source verification are required.',
   ]);

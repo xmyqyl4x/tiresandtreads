@@ -3,7 +3,7 @@
   "card": "P2-PR-016",
   "authority": "Owner requested completion, full validation and merge of the current work and next three PRs after PR102.",
   "scope": "Local opt-in staff CSV services over P1 ingestion, bounded parser/private assets and script adapter; no default activation.",
-  "prerequisiteReviewedHead": "d00ddc457eba87788f7f686f0bcc38da0ceee4d3",
+  "prerequisiteReviewedHead": "298ed76015f69eb343b236ee0c1e72a7b3dd435c",
   "sixS3GatesOpen": true,
   "HS01toHS08": "proposed",
   "operatorsCoverageRates": "unconfirmed",
