@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "card": "P2-PR-017",
   "scope": "Local combined service journeys and synthetic evaluator rehearsal; actual acceptance pending",
-  "prerequisiteReviewedHead": "62eb1004d75e9a4e99d0e9758f7c471d97ccd086",
+  "prerequisiteReviewedHead": "fd0c44689c1f72cb42b4b9a4ee98d009c3ba5b91",
   "historicalLocalEvidence": {
     "P2-PR-008": {
       "path": "docs/implementation/evidence/P2/p2-pr-008-local-proof.json",
@@ -41,12 +41,12 @@
     },
     "P2-PR-015": {
       "path": "docs/implementation/evidence/P2/p2-pr-015-local-proof.json",
-      "sha256": "f27a326e514672a07640993bd17a82b32d72c0e94124f43f05f2a0578d916fb1",
+      "sha256": "15447dac8eba51b931168759d004e37cc8501874557ba86f5502ec85efb180ad",
       "actualAcceptanceInferred": false
     },
     "P2-PR-016": {
       "path": "docs/implementation/evidence/P2/p2-pr-016-local-proof.json",
-      "sha256": "41210273b33efed10ac74191f8cf4fbdf06e650f550a5035c49b12bb662c1299",
+      "sha256": "de0cc0d08fe409ae63c96c2492dfd10526eff02dd3651c08fc8761be3ab831e1",
       "actualAcceptanceInferred": false
     }
   },
