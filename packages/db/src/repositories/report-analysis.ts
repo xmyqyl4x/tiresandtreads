@@ -189,6 +189,15 @@ export function createReportAnalysisRepository(s: WriteScope): ReportAnalysisRep
     },
     async withdraw(tx, scope) {
       await q(tx, 'SELECT app.ai_service_withdraw($1)', [uid('ai_scope', scope)]);
+      const remaining = (
+        await q(
+          tx,
+          "SELECT EXISTS(SELECT 1 FROM app.ai_analysis_requests WHERE scope_id=$1 AND state IN('queued','running')) AS remaining",
+          [uid('ai_scope', scope)],
+        )
+      ).rows[0]?.remaining;
+      if (typeof remaining !== 'boolean') return stop('integrity');
+      return remaining;
     },
   });
 }

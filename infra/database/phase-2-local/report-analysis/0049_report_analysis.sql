@@ -8,6 +8,8 @@ CREATE TABLE app.ai_report_work (
  created_at timestamptz NOT NULL DEFAULT statement_timestamp(),
  FOREIGN KEY(report_id,report_version) REFERENCES app.report_versions(report_id,version) ON DELETE RESTRICT
 );
+-- Bounded replay avoids scanning terminal request history during withdrawal.
+CREATE INDEX ai_service_withdraw_pending_idx ON app.ai_analysis_requests(scope_id,id) WHERE state IN('queued','running');
 CREATE INDEX ai_report_work_owner_idx ON app.ai_report_work(owner_subject_id,request_id);
 CREATE INDEX ai_report_work_report_idx ON app.ai_report_work(report_id,report_version,request_id);
 ALTER TABLE app.ai_report_work ENABLE ROW LEVEL SECURITY;
@@ -94,8 +96,9 @@ DECLARE affected uuid[];
 BEGIN
  PERFORM app.ai_repository_scope(scope,false);
  IF NOT EXISTS(SELECT 1 FROM app.ai_scope_guards WHERE scope_id=scope AND NOT processing_allowed AND state='withdrawn') THEN RAISE EXCEPTION 'Processing choice must be withdrawn first' USING ERRCODE='23514';END IF;
- SELECT array_agg(id ORDER BY id) INTO affected FROM (SELECT id FROM app.ai_analysis_requests WHERE scope_id=scope AND state IN('queued','running') LIMIT 1001) a;
- IF cardinality(affected)>1000 THEN RAISE EXCEPTION 'Bounded withdrawal required' USING ERRCODE='54000';END IF;
+ SELECT array_agg(id ORDER BY id) INTO affected FROM (SELECT id FROM app.ai_analysis_requests WHERE scope_id=scope AND state IN('queued','running') ORDER BY id LIMIT 1000) a;
+ -- Permission denial has already been recorded. Repeated calls drain further batches;
+ -- remaining requests cannot dispatch or publish under the withdrawn guard.
  PERFORM app.ai_repository_uncertain_budgets(coalesce(affected,'{}'::uuid[]));
  UPDATE app.ai_analysis_requests SET state=CASE WHEN state='running' THEN 'uncertain' ELSE 'cancelled' END WHERE id=ANY(affected);
  UPDATE app.ai_attempts SET state=CASE WHEN state='started' THEN 'uncertain' ELSE 'cancelled' END WHERE request_id=ANY(affected) AND state IN('created','started');

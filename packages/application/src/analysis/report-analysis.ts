@@ -214,7 +214,11 @@ export function createReportAnalysisServices(d: {
             view(
               reportId,
               version,
-              request.state === 'queued' || request.state === 'running' ? 'pending' : 'unavailable',
+              request.expiresAt <= clock()
+                ? 'expired'
+                : request.state === 'queued' || request.state === 'running'
+                  ? 'pending'
+                  : 'unavailable',
               request.id,
             ),
           );
@@ -232,7 +236,7 @@ export function createReportAnalysisServices(d: {
         );
         const allowed = x.allowed,
           notice = String(x.noticeVersion);
-        return run(async (tx) => {
+        const committed = await run(async (tx) => {
           const who = await owner(tx, authorization),
             scope = await d.scopes.scope(tx, scopeId);
           demand(scope && scope.kind === 'owner' && scope.ownerId === who.subjectId, 'forbidden');
@@ -248,15 +252,22 @@ export function createReportAnalysisServices(d: {
               canonical({ scopeId, revision: expected.value, allowed, notice }),
             ),
           });
-          if (!allowed) await d.repository.withdraw(tx, scopeId);
           return ok(
             Object.freeze({
               scopeId,
               allowed,
               permissionRevision: changed.permissionRevision.toString(),
+              cleanupPending: !allowed,
             }),
           );
         });
+        if (!committed.ok || allowed) return committed;
+        // Permission denial commits before any potentially contended cleanup work.
+        // Billing/terminalization failures must never restore processing permission.
+        const cleaned = await run(async (tx) => ok(await d.repository.withdraw(tx, scopeId)));
+        return ok(
+          Object.freeze({ ...committed.value, cleanupPending: !cleaned.ok || cleaned.value }),
+        );
       });
     },
     status(keys: readonly KeyDigest[], raw: unknown) {

@@ -7,7 +7,7 @@
   "migrations": [
     {
       "id": "0049_report_analysis",
-      "sha256": "8f5dbb0a473404e2ba14207f2e722aaf59480bc296f344cdeb11467fb9f3fead"
+      "sha256": "72f04e1d6c4586f009b9a392864716ec5fbddae5d0868c50c52466e8f9a9c64a"
     }
   ],
   "tables": ["app.ai_report_work"]

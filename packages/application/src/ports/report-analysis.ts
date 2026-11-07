@@ -56,7 +56,7 @@ export interface ReportAnalysisRepository {
   work(tx: Tx, request: Id<'ai_request'>): Promise<AnalysisWork | null>;
   current(tx: Tx, work: AnalysisWork): Promise<boolean>;
   output(tx: Tx, work: AnalysisWork): Promise<Readonly<Record<string, unknown>> | null>;
-  withdraw(tx: Tx, scope: Id<'ai_scope'>): Promise<void>;
+  withdraw(tx: Tx, scope: Id<'ai_scope'>): Promise<boolean>;
 }
 export interface AnalysisUsage {
   readonly providerRequestId: string | null;

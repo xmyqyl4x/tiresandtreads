@@ -16,7 +16,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 49,
         newTables: 1,
-        nativeCases: 22,
+        nativeCases: 24,
         syntheticTransport: true,
         ownerBound: true,
         immutableCore: true,
@@ -455,4 +455,103 @@ it('records unavailable provider uncertainty without exposing raw errors', async
   ).rows[0];
   expect(a).toEqual({ state: 'uncertain', cost_minor: null });
   expect(JSON.stringify(value(await s.service.status(e.keys, p.id)))).not.toContain('credential');
+});
+
+it('returns expired instead of pending when an expired queued command is replayed', async () => {
+  const e = await s.example(),
+    p = value(await s.service.request(e.keys, e.input)),
+    calls = s.calls.length;
+  const { createReportAnalysisServices } =
+    await import('../../packages/application/src/analysis/report-analysis.ts');
+  const later = createReportAnalysisServices({
+    ...s.d,
+    now: () => new Date(Date.now() + 180000).toISOString(),
+  });
+  expect(value(await later.request(e.keys, e.input))).toMatchObject({
+    id: p.id,
+    state: 'expired',
+    output: null,
+  });
+  expect(s.calls).toHaveLength(calls);
+});
+it('makes withdrawal immediate above one cleanup batch and safely replays bounded cleanup', async () => {
+  const e = await s.example(),
+    p = value(await s.service.request(e.keys, e.input)),
+    calls = s.calls.length;
+  const scope = (
+    await f.admin.query('SELECT scope_id FROM app.ai_analysis_requests WHERE id=$1', [p.id])
+  ).rows[0]!.scope_id;
+  await f.admin.query(
+    `INSERT INTO app.ai_analysis_requests(id,scope_id,owner_subject_id,policy_version_id,input_digest,input_manifest,request_key,notice_version,permission_revision,subject_permission_revision,invalidation_revision,created_at,expires_at)
+ SELECT gen_random_uuid(),r.scope_id,r.owner_subject_id,r.policy_version_id,r.input_digest,r.input_manifest,'bounded-overflow-'||n::text,r.notice_version,r.permission_revision,r.subject_permission_revision,r.invalidation_revision,clock.at,clock.at+interval '120 seconds'
+ FROM app.ai_analysis_requests r CROSS JOIN generate_series(1,1001) n CROSS JOIN (SELECT clock_timestamp() AS at) clock WHERE r.id=$1`,
+    [p.id],
+  );
+  expect(
+    value(
+      await s.service.choice(e.keys, {
+        scopeId: scope,
+        expectedRevision: '1',
+        allowed: false,
+        noticeVersion: s.d.noticeVersion,
+      }),
+    ),
+  ).toMatchObject({ allowed: false, permissionRevision: '2' });
+  expect(
+    (
+      await f.admin.query(
+        "SELECT count(*)::int n FROM app.ai_analysis_requests WHERE scope_id=$1 AND state='queued'",
+        [scope],
+      )
+    ).rows[0]!.n,
+  ).toBe(2);
+  expect(value(await s.service.status(e.keys, p.id))).toMatchObject({
+    state: 'unavailable',
+    output: null,
+  });
+  expect((await s.service.execute(p.id)).ok).toBe(false);
+  expect(s.calls).toHaveLength(calls);
+  const { createReportAnalysisServices } =
+    await import('../../packages/application/src/analysis/report-analysis.ts');
+  const cleanupUnavailable = createReportAnalysisServices({
+    ...s.d,
+    repository: {
+      ...s.repository,
+      async withdraw() {
+        throw Error('synthetic cleanup unavailable');
+      },
+    },
+  });
+  expect(
+    value(
+      await cleanupUnavailable.choice(e.keys, {
+        scopeId: scope,
+        expectedRevision: '2',
+        allowed: false,
+        noticeVersion: s.d.noticeVersion,
+      }),
+    ),
+  ).toMatchObject({ allowed: false, permissionRevision: '3', cleanupPending: true });
+  expect(
+    (
+      await f.admin.query(
+        'SELECT processing_allowed,permission_revision::text FROM app.ai_scope_guards WHERE scope_id=$1',
+        [scope],
+      )
+    ).rows[0],
+  ).toEqual({ processing_allowed: false, permission_revision: '3' });
+  value(
+    await s.adapter.unitOfWork.run(async (tx) => {
+      await s.repository.withdraw(tx, scope);
+      return { ok: true as const, value: null };
+    }),
+  );
+  expect(
+    (
+      await f.admin.query(
+        "SELECT count(*)::int n FROM app.ai_analysis_requests WHERE scope_id=$1 AND state='cancelled'",
+        [scope],
+      )
+    ).rows[0]!.n,
+  ).toBe(1002);
 });
