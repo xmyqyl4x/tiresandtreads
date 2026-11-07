@@ -1,0 +1,14 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "8b3b0931c2f11fec3255c60ff7b61414eef08a2c30e73dbd18498dd369fc7272",
+  "priorLocalHead": "0048_partner_insights",
+  "migrations": [
+    {
+      "id": "0049_report_analysis",
+      "sha256": "8f5dbb0a473404e2ba14207f2e722aaf59480bc296f344cdeb11467fb9f3fead"
+    }
+  ],
+  "tables": ["app.ai_report_work"]
+}
