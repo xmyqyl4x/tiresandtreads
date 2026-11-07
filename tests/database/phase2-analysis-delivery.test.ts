@@ -5,7 +5,8 @@ import { beforeAll, afterAll, afterEach, it, expect, vi } from 'vitest';
 import { analysisLifecycleFixture } from '../fixtures/phase2/analysis-lifecycle.ts';
 import { composeAnalysisDelivery } from '../fixtures/phase2/compose-analysis-delivery.ts';
 import { composeReportAnalysis } from '../fixtures/phase2/compose-report-analysis.ts';
-import { ok } from '../../packages/domain/src/values/core.ts';
+import { composeGenericAnalysis } from '../fixtures/phase2/compose-generic-analysis.ts';
+import { ok, id } from '../../packages/domain/src/values/core.ts';
 import { value, uuid } from '../fixtures/phase2/compose-partner-services.ts';
 const cleanups: (() => Promise<void>)[] = [];
 async function setup(...args: Parameters<typeof composeAnalysisDelivery>) {
@@ -145,6 +146,73 @@ it('freezes an exact attachment revision into retry bytes without regeneration o
   expect(JSON.stringify((await s.row(send.id)).document)).not.toMatch(
     /PRIVATE_ZIP|omit-this-note|providerRequestId/,
   );
+});
+it('review regression: delivers an authorized shared generic revision, retries frozen bytes and refuses withdrawn source rights', async () => {
+  const ai = await composeReportAnalysis(f),
+    e = await example(ai),
+    generic = await composeGenericAnalysis(f, ai),
+    definition = await generic.example(),
+    request = value(await generic.service.read(definition.input));
+  expect(request.id).not.toBeNull();
+  value(await generic.service.execute(request.id!));
+  const artifact = (
+      await f.admin.query(
+        'SELECT id,scope_id,output_hash FROM app.ai_artifacts WHERE request_id=$1',
+        [request.id],
+      )
+    ).rows[0]!,
+    authorization = value(await ai.service.request(e.keys, e.input)),
+    authorizationScope = (
+      await f.admin.query('SELECT scope_id FROM app.ai_analysis_requests WHERE id=$1', [
+        authorization.id,
+      ])
+    ).rows[0]!.scope_id,
+    revision = value(
+      await ai.adapter.unitOfWork.run(async (tx) => {
+        const auth = await ai.d.scopes.scope(tx, value(id('ai_scope', authorizationScope)));
+        expect(auth?.ownerId).toBe(e.owner.identity.subjectId);
+        return ok(
+          await ai.d.attachments.append(tx, {
+            reportId: e.input.reportId,
+            version: 1,
+            expectedRevision: 0n,
+            artifactId: value(id('ai_artifact', artifact.id)),
+            scopeId: value(id('ai_scope', artifact.scope_id)),
+            ownerId: e.owner.identity.subjectId,
+            kind: 'shared',
+            authorizationScopeId: auth!.id,
+            permissionRevision: auth!.permissionRevision,
+            subjectRevision: auth!.subjectRevision!,
+          }),
+        );
+      }),
+    ),
+    s = await setup(f, undefined, { owner: e.owner, report: e.report }),
+    input = { ...s.input, analysis: { attachmentRevision: revision.toString(), fallback: null } },
+    send = await s.request(uuid('command'), input);
+  await s.due(send.id);
+  s.provider.send.mockResolvedValueOnce({ outcome: 'uncertain', messageId: null });
+  value(await s.service.dispatch(send.id));
+  const first = s.provider.send.mock.calls[0]![1];
+  expect(first.mail.text).toContain('Reviewed general installer questions');
+  await f.admin.query(
+    'UPDATE email.delivery_work SET next_attempt_at=clock_timestamp() WHERE send_id=$1',
+    [send.id],
+  );
+  value(await s.service.dispatch(send.id));
+  expect(s.provider.send.mock.calls[1]![1]).toEqual(first);
+  expect(generic.calls).toHaveLength(1);
+  expect(ai.calls).toHaveLength(0);
+  expect((await s.row(send.id)).document.analysisIdentity.artifactHash).toBe(artifact.output_hash);
+  const later = await s.request(uuid('command'), input);
+  await f.admin.query(
+    "UPDATE app.data_licenses SET expires_at=clock_timestamp()-interval '1 second' WHERE id=$1",
+    [generic.license],
+  );
+  await s.due(later.id);
+  await s.service.dispatch(later.id);
+  expect(s.provider.send).toHaveBeenCalledTimes(2);
+  expect(generic.calls).toHaveLength(1);
 });
 it('stops a selected presentation after withdrawal without replacing it with a different attachment or fallback', async () => {
   const ai = await composeReportAnalysis(f),
