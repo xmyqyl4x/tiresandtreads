@@ -24,7 +24,7 @@ afterAll(async () => {
           actualPostgreSQL: true,
           migrations: 51,
           newTables: 3,
-          nativeCases: 36,
+          nativeCases: 37,
           actualEncryptedVersionedLocalStorage: true,
           actualIsolatedImageCodec: true,
           syntheticScanner: true,
@@ -878,3 +878,46 @@ it.each(['legal_hold', 'object_outage', 'write_barrier'] as const)(
   },
   60000,
 );
+
+it('erases an expired abandoned processing intent without its dead lease blocking maintenance', async () => {
+  const e = await ready();
+  expect(await versions(e.i.id!)).toHaveLength(2);
+  // Controlled finalizer interruption after object writes; no real elapsed-time/crash claim.
+  await f.admin.query('ALTER TABLE app.photo_service_intents DISABLE TRIGGER photo_intent_guard');
+  try {
+    await f.admin.query(
+      "UPDATE app.photo_service_intents SET state='processing',lease=$2,lease_until=statement_timestamp()-interval '24 hours',created_at=statement_timestamp()-interval '25 hours',grant_until=statement_timestamp()-interval '24 hours 50 minutes',expires_at=statement_timestamp()-interval '1 hour' WHERE id=$1",
+      [e.i.id, uuid('photo_finalize')],
+    );
+  } finally {
+    await f.admin.query('ALTER TABLE app.photo_service_intents ENABLE TRIGGER photo_intent_guard');
+  }
+  expect(value(await g.service.expire())).toMatchObject({ processed: 1, pending: 1 });
+  expect(
+    (
+      await f.admin.query(
+        'SELECT state,lease,lease_until FROM app.photo_service_intents WHERE id=$1',
+        [e.i.id],
+      )
+    ).rows[0],
+  ).toMatchObject({ state: 'deleting', lease: null, lease_until: null });
+  expect((await g.service.get(e.keys, e.i.id)).ok).toBe(false);
+  expect(await versions(e.i.id!)).toHaveLength(2);
+  // The existing bounded write barrier still applies; model its later due retry explicitly.
+  await f.admin.query('ALTER TABLE app.photo_service_intents DISABLE TRIGGER photo_intent_guard');
+  try {
+    await f.admin.query(
+      "UPDATE app.photo_service_intents SET cleanup_after=statement_timestamp()-interval '1 second',maintenance_after=statement_timestamp()-interval '1 second' WHERE id=$1",
+      [e.i.id],
+    );
+  } finally {
+    await f.admin.query('ALTER TABLE app.photo_service_intents ENABLE TRIGGER photo_intent_guard');
+  }
+  expect(value(await g.service.expire())).toMatchObject({ processed: 1, pending: 0 });
+  expect(
+    (await f.admin.query('SELECT state FROM app.photo_service_intents WHERE id=$1', [e.i.id]))
+      .rows[0]!.state,
+  ).toBe('deleted');
+  expect(await versions(e.i.id!)).toHaveLength(0);
+  expect((await g.service.get(e.keys, e.i.id)).ok).toBe(false);
+});
