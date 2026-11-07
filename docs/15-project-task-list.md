@@ -241,3 +241,5 @@ This approval establishes the working backlog and authorizes its documentation m
 P2-PR-012 local bounded report-analysis implementation and its limits are recorded in [the service packet](implementation/P2-PR-012-local-report-analysis.md). Actual acceptance and all six S3 gates remain pending; P2-PR-013 and P2-PR-014 are the next authorized local scopes.
 
 P2-PR-013 local tasks are implemented in opt-in factories: exact private command receipts, reviewed generic reuse, bounded popular-key refresh, reviewed cost admission and fenced retry/circuits. See [the packet](implementation/P2-PR-013-local-ai-reuse.md). P2-PR-014 is next within the authorized local scope; all six S3 gates and every existing acceptance/deployment hold remain.
+
+P2-PR-014 local backend tasks cover private capture/intent/finalize, resource and cost limits, required scan/bounded real codec, sanitized extraction, explicit confirmations/manual input and replayable image removal. See [the packet](implementation/P2-PR-014-local-photo-services.md). P2-PR-015 remains the next backlog card. Every actual acceptance/deployment hold and all six S3 gates remain open.

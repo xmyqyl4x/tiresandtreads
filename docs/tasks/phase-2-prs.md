@@ -300,11 +300,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-07, UC16, AT26, DB26. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement owner-bound upload intent/finalize, quotas, quarantine, bounded decode/scan/re-encode and metadata removal.
-- [ ] Send sanitized images through the extraction port; return per-field candidates/quality/partial-DOT states.
-- [ ] Implement explicit confirm/correct/delete commands through ordinary domain validators; retain manual input path.
+- [x] Implement owner-bound upload intent/finalize, quotas, quarantine, bounded decode/scan/re-encode and metadata removal.
+- [x] Send sanitized images through the extraction port; return per-field candidates/quality/partial-DOT states.
+- [x] Implement explicit confirm/correct/delete commands through ordinary domain validators; retain manual input path.
 
 **Verification and acceptance:** Malicious/oversized/unreadable images and forged owner/finalize/confirmation tests pass; no photo establishes condition or approved fitment.
+
+**Local implementation complete:** [Service packet](../implementation/P2-PR-014-local-photo-services.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-014-local-proof.json) cover these three local tasks under the owner-authorized exception. Actual S1/S2, real scanner/model/provider quality, full privacy/rights/source/recovery/authentication and deployment acceptance and all six S3 gates remain pending. No case or gate closes. P2-PR-015 remains the next backlog card.
 
 ### P2-PR-015
 

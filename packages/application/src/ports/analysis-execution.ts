@@ -70,4 +70,5 @@ export interface AnalysisValidatedOutput {
   readonly output: Readonly<Record<string, unknown>>;
   readonly sources: readonly AnalysisArtifactSource[];
   readonly expiresAt: Instant;
+  readonly retainSeconds?: number;
 }

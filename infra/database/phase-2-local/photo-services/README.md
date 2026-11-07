@@ -1,0 +1,5 @@
+# Opt-in local private tire-photo services
+
+0051 follows the pinned 0050 execution chain. Three forced-RLS tables hold reviewed upload limits, owner-bound server-issued capture groups and exclusive upload/finalization intents. Narrow capabilities recheck current image/request authority and perform logical removal without granting raw private authority helpers. Only disposable support adds photo capabilities to the owned local analysis service role; no production role, bootstrap, CLI, preflight, policy, default manifest or runtime is promoted.
+
+Run `node tests/fixtures/phase2/photo-services-run.mjs` for strict Linux typing, actual PostgreSQL and versioned encrypted Moto storage, real isolated image-codec checks, synthetic scanner/model contracts and owned project cleanup. See [the service packet](../../../../docs/implementation/P2-PR-014-local-photo-services.md). Default app/CMS manifests remain 33/3. Actual provider/model/scanner account controls, specialist quality, full privacy/rights/latest-chain restore, authentication and all acceptance/deployment holds remain. No case or gate closes.

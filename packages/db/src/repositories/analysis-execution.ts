@@ -13,7 +13,10 @@ import { createAIRequestRepository } from './analysis-requests.ts';
 import { canonicalManifest } from './analysis-input.ts';
 import { guarded, stop, type WriteScope } from './mutations.ts';
 import { uid, hash, big, num, type Row } from './analysis-values.ts';
-export function createAnalysisExecutionSupport(s: WriteScope) {
+export function createAnalysisExecutionSupport(
+  s: WriteScope,
+  options: Readonly<{ photoJobs?: boolean }> = {},
+) {
   const q = s.query,
     requests = createAIRequestRepository(s);
   async function root(tx: Tx, request: AIRequest) {
@@ -185,6 +188,12 @@ export function createAnalysisExecutionSupport(s: WriteScope) {
       "UPDATE app.job_runs SET state='cancelled',lease_until=NULL,lease_token=NULL,updated_at=clock_timestamp(),revision=revision+1 WHERE resource_id=$1 AND job_type IN('ai.report-analysis','ai.generic-analysis') AND state IN('pending','failed')",
       [request.id],
     );
+    if (options.photoJobs)
+      await q(
+        tx,
+        "UPDATE app.job_runs SET state='cancelled',lease_until=NULL,lease_token=NULL,updated_at=clock_timestamp(),revision=revision+1 WHERE job_type='p2.photo.extract' AND resource_id IN(SELECT id FROM app.photo_extractions WHERE request_id=$1) AND state IN('pending','failed')",
+        [request.id],
+      );
   }
   async function signal(tx: Tx, p: unknown, c: Row, generation: bigint, bad: boolean) {
     if (big(c.generation) !== generation) return;
