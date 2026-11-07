@@ -75,7 +75,7 @@ export function createReportAnalysisRepository(s: WriteScope): ReportAnalysisRep
         ])
       ).rows[0]?.evidence;
       if (raw === null || raw === undefined) return null;
-      const e = object(raw, 262144);
+      const e = object(raw, 655360);
       if (!Array.isArray(e.sources) || e.sources.length < 1 || e.sources.length > 16)
         return stop('integrity');
       return Object.freeze({
@@ -86,7 +86,7 @@ export function createReportAnalysisRepository(s: WriteScope): ReportAnalysisRep
         ruleVersion: uid('rule', e.ruleVersion),
         engineVersion: word(e.engineVersion),
         input: object(e.input),
-        output: object(e.output),
+        output: object(e.output, 524288),
         sources: Object.freeze(
           e.sources.map((raw) => {
             const v = object(raw);

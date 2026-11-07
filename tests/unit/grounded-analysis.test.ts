@@ -235,3 +235,40 @@ it('renders selections in deterministic rank order despite model selection order
   if (s.ok)
     expect(renderAnalysisSelection(p.value, s.value).claims.map((c) => c.rank)).toEqual([1, 2]);
 });
+
+it('minimizes a supported thirty-plan engine snapshot larger than64KiB', async () => {
+  const { engineFixture, uuid, asOf } = await import('../fixtures/engine/base.ts');
+  const { evaluate } = await import('../../packages/engine/src/evaluate.ts');
+  const { normalizeAssessment } = await import('../../packages/engine/src/input.ts');
+  const { json } = await import('../../packages/application/src/services/service-records.ts');
+  const f = engineFixture(),
+    first = f.snapshot.plans[0]!;
+  f.snapshot.plans = Array.from({ length: 30 }, (_, n) => ({
+    ...structuredClone(first),
+    id: uuid(2000 + n),
+  }));
+  const normalized = normalizeAssessment(f.request);
+  if (!normalized.ok) throw Error('fixture');
+  const result = evaluate(normalized.value, f.snapshot);
+  expect(result.ok).toBe(true);
+  if (!result.ok) return;
+  const output = json({ result: result.value, evidence: f.snapshot });
+  expect(Buffer.byteLength(JSON.stringify(output))).toBeGreaterThan(65536);
+  expect(Buffer.byteLength(JSON.stringify(output))).toBeLessThan(524288);
+  const built = buildAnalysisPacket(
+    {
+      market: 'US',
+      locale: 'en-US',
+      snapshotHash: 'a'.repeat(64),
+      bundleId: f.snapshot.bundleId,
+      ruleVersion: f.snapshot.policy.id,
+      engineVersion: '1.0.0',
+      input: f.request,
+      output,
+      sources: f.snapshot.sources.map((s) => ({ id: s.datasetId, validUntil: s.validUntil })),
+    },
+    asOf,
+  );
+  expect(built.ok).toBe(true);
+  if (built.ok) expect(Buffer.byteLength(JSON.stringify(built.value))).toBeLessThan(32768);
+});

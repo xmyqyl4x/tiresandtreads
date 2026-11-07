@@ -16,7 +16,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 49,
         newTables: 1,
-        nativeCases: 24,
+        nativeCases: 25,
         syntheticTransport: true,
         ownerBound: true,
         immutableCore: true,
@@ -554,4 +554,47 @@ it('makes withdrawal immediate above one cleanup batch and safely replays bounde
       )
     ).rows[0]!.n,
   ).toBe(1002);
+});
+
+it('reads a schema-supported large report before minimizing the provider packet', async () => {
+  const e = await s.example(),
+    large = {
+      ...e.version,
+      version: 2,
+      baseVersion: 1,
+      output: { ...e.version.output, auxiliaryEvidence: 'unused-evidence-'.repeat(7000) },
+    };
+  value(
+    await f.scope.unitOfWork.run(async (tx) => ({
+      ok: true as const,
+      value: await f.reports.publish(
+        tx,
+        e.owner.identity,
+        2n as import('../../packages/domain/src/values/core.ts').Revision,
+        large,
+        [],
+      ),
+    })),
+  );
+  const before = (
+    await f.admin.query(
+      'SELECT output_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1 AND version=2',
+      [e.report],
+    )
+  ).rows[0]!;
+  expect(Buffer.byteLength(JSON.stringify(before.output_snapshot))).toBeGreaterThan(65536);
+  const pending = value(await s.service.request(e.keys, { ...e.input, version: 2 }));
+  expect(pending.state).toBe('pending');
+  expect(value(await s.service.execute(pending.id)).state).toBe('available');
+  const sent = JSON.stringify(s.calls.at(-1)!.packet);
+  expect(Buffer.byteLength(sent)).toBeLessThan(32768);
+  expect(sent).not.toContain('auxiliaryEvidence');
+  expect(
+    (
+      await f.admin.query(
+        'SELECT output_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1 AND version=2',
+        [e.report],
+      )
+    ).rows[0],
+  ).toEqual(before);
 });
