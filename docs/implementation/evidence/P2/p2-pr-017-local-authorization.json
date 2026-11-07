@@ -3,7 +3,7 @@
   "card": "P2-PR-017",
   "authority": "Owner requested completion, full validation and merge of current work and next three PRs after PR102. Existing holds are retained.",
   "scope": "Local combined service journeys, synthetic evaluation rehearsal and evidence/readiness reconciliation only.",
-  "prerequisiteReviewedHead": "4f748c6ccbb7bab05d99cb40a9764df2812c1da0",
+  "prerequisiteReviewedHead": "bd77cf32bc6a9499b2a187b5407a16e30543148c",
   "actual50ExplanationAnd50ImageEvaluation": "pending",
   "actualP2S3G2G7Acceptance": "pending",
   "sixS3GatesOpen": true,
