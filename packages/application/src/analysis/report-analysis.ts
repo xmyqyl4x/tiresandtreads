@@ -4,7 +4,6 @@ import {
   revision,
   ok,
   fail,
-  maxInt64,
   type Id,
   type Result,
 } from '../../../domain/src/values/core.ts';
@@ -26,7 +25,6 @@ import type {
 import type {
   ReportAnalysisRepository,
   AnalysisProvider,
-  AnalysisProviderResult,
   AnalysisAdmission,
   AnalysisStatus,
   AnalysisWork,
@@ -40,6 +38,11 @@ import type { KeyDigest } from '../ports/private-records.ts';
 import type { ReportCrypto } from '../ports/report-services.ts';
 import type { JobRepository } from '../ports/jobs.ts';
 import { canonical, exact, json } from '../services/service-records.ts';
+import { createAnalysisRunner } from './analysis-runner.ts';
+import type {
+  AnalysisCommandCache,
+  AnalysisExecutionRuntime,
+} from '../ports/analysis-execution.ts';
 import { demand, serviceFailure, serviceWork } from '../services/service-work.ts';
 
 export function createReportAnalysisServices(d: {
@@ -57,6 +60,8 @@ export function createReportAnalysisServices(d: {
   crypto: Pick<ReportCrypto, 'id' | 'hash'>;
   now: () => string;
   noticeVersion: string;
+  cache?: AnalysisCommandCache;
+  runtime?: AnalysisExecutionRuntime;
 }) {
   const run = <T>(work: (tx: Tx) => Promise<Result<T, ApplicationFailure>>) =>
     serviceWork(d.uow, work);
@@ -182,18 +187,23 @@ export function createReportAnalysisServices(d: {
               scope.noticeVersion === notice,
             'forbidden',
           );
-          const request = await d.requests.create(tx, {
-            id: d.crypto.id('ai_request', scopeKey + '\0' + key),
-            scopeId: scope.id,
-            key,
-            manifest: {
-              parameters: { ...packet },
-              bundle_id: packet.bundleId,
-              authoritative_hash: packet.authoritativeHash,
-              rule_version: packet.ruleVersion,
-            },
-            deadlineSeconds: 120,
-          });
+          const manifest = {
+            parameters: { ...packet },
+            bundle_id: packet.bundleId,
+            authoritative_hash: packet.authoritativeHash,
+            rule_version: packet.ruleVersion,
+          };
+          const request =
+            (d.cache
+              ? await d.cache.lookup(tx, { scope, policy, key, manifest, reportId, version })
+              : null) ??
+            (await d.requests.create(tx, {
+              id: d.crypto.id('ai_request', scopeKey + '\0' + key),
+              scopeId: scope.id,
+              key,
+              manifest,
+              deadlineSeconds: 120,
+            }));
           const work = await d.repository.enqueue(tx, {
             requestId: request.id,
             reportId,
@@ -202,6 +212,7 @@ export function createReportAnalysisServices(d: {
             packet,
             expectedAttachment: evidence.attachmentRevision,
           });
+          if (d.cache) await d.cache.remember(tx, { scope, key, request, reportId, version });
           if (request.state === 'accepted') {
             const output = (await currentWork(tx, work))
               ? await d.repository.output(tx, work)
@@ -303,202 +314,79 @@ export function createReportAnalysisServices(d: {
         });
       });
     },
-    execute(raw: unknown) {
-      return safely<
-        Readonly<{ requestId: Id<'ai_request'>; state: 'available' | 'unavailable' | 'deferred' }>
-      >(async () => {
-        const requestId = uuid('ai_request', raw);
-        const admission = await run(async (tx) => {
-          const work = await d.repository.work(tx, requestId),
-            request = await d.requests.get(tx, requestId);
-          demand(work && request, 'not_found');
-          demand(await currentWork(tx, work), 'unavailable');
-          const scope = await d.scopes.scope(tx, request.scopeId),
-            policy = await d.scopes.policy(tx, request.policyId);
-          demand(
-            scope &&
-              policy &&
-              scope.state === 'active' &&
-              scope.processingAllowed &&
-              policy.status === 'active',
-            'unavailable',
-          );
-          if (request.state !== 'queued') return ok(null);
-          const job = await d.jobs.lease(tx, work.jobId);
-          if (!job) return ok(null);
-          demand(
-            job.input.type === 'ai.report-analysis' && String(job.input.resourceId) === requestId,
-            'integrity',
-          );
-          const lease = await d.reuse.claim(
-            tx,
-            scope.id,
-            request.digest,
-            d.crypto.id('ai_holder', job.token),
-            120,
-          );
-          demand(lease, 'conflict');
-          const plan = await d.admission.plan(tx, policy, scope, request);
-          demand(
-            plan &&
-              plan.configurationHash === work.configuration.configurationHash &&
-              plan.currency === 'USD' &&
-              plan.windows.length >= 1 &&
-              plan.windows.length <= 3,
-            'unavailable',
-          );
-          const windows = plan.windows.map((w) => {
-            demand(
-              id('ai_budget', w.id).ok &&
-                typeof w.amountMinor === 'bigint' &&
-                w.amountMinor > 0n &&
-                w.amountMinor <= maxInt64,
-            );
-            return Object.freeze({ ...w });
-          });
-          demand(new Set(windows.map((w) => w.id)).size === windows.length);
-          const attempt = await d.requests.attempt(tx, {
-            id: d.crypto.id('ai_attempt', requestId + '\0attempt-1'),
-            requestId,
-            ordinal: 1,
-            currency: 'USD',
-          });
-          demand(attempt.state === 'created', 'conflict');
-          await d.budgets.reserve(tx, attempt.id, windows);
-          await d.requests.transition(tx, requestId, 'queued', 'running');
-          await d.requests.start(tx, attempt.id);
-          await d.jobs.fence(tx, job);
-          return ok({ work, request, scope, attempt, lease, job, windows });
-        });
-        if (!admission.ok) return admission;
-        if (!admission.value) return ok(Object.freeze({ requestId, state: 'deferred' as const }));
-        const a = admission.value;
-        let response: AnalysisProviderResult;
-        try {
-          response = await d.provider.analyze({
-            packet: a.work.packet,
-            configuration: a.work.configuration,
-            deadlineMs: 25000,
-            attempt: a.attempt.id,
-          });
-        } catch {
-          response = {
-            state: 'unavailable',
-            providerRequestId: null,
-            inputTokens: null,
-            outputTokens: null,
-            costMinor: null,
-          };
-        }
-        const selected =
-          response.state === 'complete'
-            ? validateAnalysisSelection(a.work.packet, response.output)
-            : null;
-        const excess =
-          response.costMinor !== null && a.windows.some((w) => response.costMinor! > w.amountMinor);
-        const accepted = selected?.ok === true && !excess;
-        const uncertain = response.state === 'timeout' || response.state === 'unavailable';
-        const error = accepted
-          ? null
-          : excess
-            ? 'unknown_charge'
-            : response.state === 'refused'
-              ? 'refused'
-              : response.state === 'timeout'
-                ? 'timeout'
-                : response.state === 'unavailable'
-                  ? 'provider_unavailable'
-                  : 'invalid_output';
-        const charged = await run(async (tx) => {
-          await d.requests.finish(tx, {
-            id: a.attempt.id,
-            state: accepted ? 'succeeded' : uncertain ? 'uncertain' : 'failed',
-            providerRequestId: response.providerRequestId,
-            inputTokens: response.inputTokens,
-            outputTokens: response.outputTokens,
-            costMinor: response.costMinor,
-            costStatus: response.costMinor === null ? 'unknown' : 'reconciled',
-            error,
-          });
-          await d.budgets.reconcile(tx, a.attempt.id, {
-            state: response.costMinor === null || excess ? 'uncertain' : 'settled',
-            costMinor: response.costMinor === null || excess ? null : response.costMinor,
-            reason: null,
-            evidenceId: null,
-          });
-          return ok(null);
-        });
-        if (!charged.ok) return charged;
-        if (!accepted || !selected?.ok) {
-          const finished = await run(async (tx) => {
-            await d.jobs.fence(tx, a.job);
-            const current = await d.requests.get(tx, requestId);
-            if (current?.state === 'running')
-              await d.requests.transition(
-                tx,
-                requestId,
-                'running',
-                uncertain ? 'uncertain' : 'failed',
-              );
-            await d.jobs.complete(tx, a.job);
-            return ok(null);
-          });
-          if (!finished.ok) return finished;
-          return ok(Object.freeze({ requestId, state: 'unavailable' as const }));
-        }
-        const published = await run(async (tx) => {
-          await d.jobs.fence(tx, a.job);
-          demand(await currentWork(tx, a.work), 'unavailable');
-          const current = await d.requests.get(tx, requestId);
-          demand(current?.state === 'running', 'conflict');
-          const validSeconds = Math.min(
-            604800,
-            ...a.work.packet.sources.map(
-              (s) => Math.floor((Date.parse(s.validUntil) - Date.parse(clock())) / 1000) - 5,
+    execute: createAnalysisRunner<AnalysisWork>({
+      ...d,
+      async prepare(tx, requestId) {
+        const work = await d.repository.work(tx, requestId),
+          request = await d.requests.get(tx, requestId);
+        demand(work && request, 'not_found');
+        demand(await currentWork(tx, work), 'unavailable');
+        const scope = await d.scopes.scope(tx, request.scopeId),
+          policy = await d.scopes.policy(tx, request.policyId);
+        demand(
+          scope &&
+            policy &&
+            scope.state === 'active' &&
+            scope.processingAllowed &&
+            policy.status === 'active',
+          'unavailable',
+        );
+        return {
+          work,
+          request,
+          scope,
+          policy,
+          jobId: work.jobId,
+          configurationHash: work.configuration.configurationHash,
+          jobType: 'ai.report-analysis',
+          resourceId: requestId,
+        };
+      },
+      current: currentWork,
+      invoke: (work, attempt) =>
+        d.provider.analyze({
+          packet: work.packet,
+          configuration: work.configuration,
+          deadlineMs: 25000,
+          attempt,
+        }),
+      validate(work, raw) {
+        const selected = validateAnalysisSelection(work.packet, raw);
+        if (!selected.ok) return null;
+        return {
+          output: json(renderAnalysisSelection(work.packet, selected.value), 16384),
+          expiresAt: work.packet.sources
+            .map((s) => s.validUntil)
+            .sort()[0]! as import('../../../domain/src/values/core.ts').Instant,
+          sources: work.packet.sources.map((s) => ({
+            key: s.id,
+            datasetId: uuid('dataset', s.id),
+            adviceId: null,
+            claimHash: d.crypto.hash(
+              'ai.source-claims',
+              canonical({
+                source: s.id,
+                claims: work.packet.claims.filter((c) => c.citations.includes(s.id)),
+              }),
             ),
-          );
-          demand(validSeconds > 0, 'unavailable');
-          await d.requests.transition(tx, requestId, 'running', 'accepted');
-          const artifact = await d.artifacts.publish(tx, {
-            id: d.crypto.id('ai_artifact', requestId),
-            requestId,
-            attemptId: a.attempt.id,
-            lease: a.lease,
-            output: json(renderAnalysisSelection(a.work.packet, selected.value), 16384),
-            validSeconds,
-            retainSeconds: 2592000,
-            sources: a.work.packet.sources.map((s) => ({
-              key: s.id,
-              datasetId: uuid('dataset', s.id),
-              adviceId: null,
-              claimHash: d.crypto.hash(
-                'ai.source-claims',
-                canonical({
-                  source: s.id,
-                  claims: a.work.packet.claims.filter((c) => c.citations.includes(s.id)),
-                }),
-              ),
-              rightsUntil: s.validUntil as import('../../../domain/src/values/core.ts').Instant,
-            })),
-          });
-          await d.attachments.append(tx, {
-            reportId: a.work.reportId,
-            version: a.work.version,
-            expectedRevision: a.work.expectedAttachment,
-            artifactId: artifact.id,
-            scopeId: a.scope.id,
-            ownerId: a.work.ownerId,
-            kind: 'owner',
-            authorizationScopeId: a.scope.id,
-            permissionRevision: a.scope.permissionRevision,
-            subjectRevision: a.scope.subjectRevision!,
-          });
-          await d.jobs.complete(tx, a.job);
-          return ok(Object.freeze({ requestId, state: 'available' as const }));
+            rightsUntil: s.validUntil as import('../../../domain/src/values/core.ts').Instant,
+          })),
+        };
+      },
+      async publish(tx, work, scope, artifact) {
+        await d.attachments.append(tx, {
+          reportId: work.reportId,
+          version: work.version,
+          expectedRevision: work.expectedAttachment,
+          artifactId: artifact.id,
+          scopeId: scope.id,
+          ownerId: work.ownerId,
+          kind: 'owner',
+          authorizationScopeId: scope.id,
+          permissionRevision: scope.permissionRevision,
+          subjectRevision: scope.subjectRevision!,
         });
-        if (!published.ok) return published;
-        return published;
-      });
-    },
+      },
+    }).execute,
   });
 }

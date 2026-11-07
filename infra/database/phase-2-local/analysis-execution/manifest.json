@@ -1,0 +1,23 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "0d1d855bba7ba0b22d7966b8bdeabeaf1efed58480d535b6f91359c6ced78e7d",
+  "priorLocalHead": "0049_report_analysis",
+  "migrations": [
+    {
+      "id": "0050_analysis_execution",
+      "sha256": "909542975b529a15b9bbd1ca004115edf9d5002263908a22a360e1c76ce36fb6"
+    }
+  ],
+  "tables": [
+    "app.ai_cost_plans",
+    "app.ai_provider_circuits",
+    "app.ai_execution_states",
+    "app.ai_report_commands",
+    "app.ai_generic_definitions",
+    "app.ai_generic_work",
+    "app.ai_shared_demand",
+    "app.ai_refresh_batches"
+  ]
+}
