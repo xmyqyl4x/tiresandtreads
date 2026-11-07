@@ -356,3 +356,73 @@ it('refuses uncertainty recovery on queued work without a recorded expired dispa
       .state,
   ).toBe('queued');
 });
+
+it.each(['complete', 'refused', 'unavailable'] as const)(
+  'recovers interruption after %s charge settlement without changing its measured attempt or dispatching again',
+  async (state) => {
+    const e = await example(),
+      p = value(await service.request(e.keys, e.input));
+    const interrupted = createReportAnalysisServices({
+      ...s.d,
+      ...support,
+      runtime: {
+        ...support.runtime,
+        async finish() {
+          throw Error('synthetic interruption after committed charge');
+        },
+      },
+    });
+    s.setBehavior(async (input) =>
+      state === 'unavailable'
+        ? Promise.reject(Error('synthetic unknown charge'))
+        : { ...(await s.defaultBehavior(input)), state },
+    );
+    expect((await interrupted.execute(p.id)).ok).toBe(false);
+    const before = (
+      await f.admin.query(
+        'SELECT state,cost_minor,cost_status,provider_request_id,input_tokens,output_tokens,finished_at FROM app.ai_attempts WHERE request_id=$1',
+        [p.id],
+      )
+    ).rows;
+    expect(before).toHaveLength(1);
+    expect(before[0]!.state).toBe(
+      state === 'complete' ? 'succeeded' : state === 'refused' ? 'failed' : 'uncertain',
+    );
+    const calls = s.calls.length;
+    await f.admin.query(
+      'ALTER TABLE app.ai_execution_states DISABLE TRIGGER ai_execution_identity',
+    );
+    try {
+      await f.admin.query(
+        "UPDATE app.ai_execution_states SET lease_until=clock_timestamp()-interval '1 second' WHERE request_id=$1",
+        [p.id],
+      );
+    } finally {
+      await f.admin.query(
+        'ALTER TABLE app.ai_execution_states ENABLE TRIGGER ai_execution_identity',
+      );
+    }
+    value(await service.execute(p.id));
+    expect(s.calls.length).toBe(calls);
+    expect(
+      (await f.admin.query('SELECT state FROM app.ai_analysis_requests WHERE id=$1', [p.id]))
+        .rows[0]!.state,
+    ).toBe('uncertain');
+    expect(
+      (
+        await f.admin.query(
+          'SELECT state,cost_minor,cost_status,provider_request_id,input_tokens,output_tokens,finished_at FROM app.ai_attempts WHERE request_id=$1',
+          [p.id],
+        )
+      ).rows,
+    ).toEqual(before);
+    expect(
+      (
+        await f.admin.query(
+          'SELECT state FROM app.ai_budget_reservations WHERE attempt_id IN(SELECT id FROM app.ai_attempts WHERE request_id=$1)',
+          [p.id],
+        )
+      ).rows.every((r) => r.state === (state === 'unavailable' ? 'uncertain' : 'settled')),
+    ).toBe(true);
+  },
+);

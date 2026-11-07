@@ -147,16 +147,8 @@ export function createGenericAnalysisServices(d: {
       return view('pending', hit.requestId);
     }
     if (!allowed) return view('unavailable');
-    const key =
-      refreshKey ??
-      'generic-' +
-        digest +
-        '-' +
-        Math.floor(Date.parse(clock()) / 120000) +
-        '-' +
-        scope.permissionRevision +
-        '-' +
-        scope.invalidationRevision;
+    // The scope lock and pending lookup coalesce misses; each terminal generation gets a fresh key.
+    const key = refreshKey ?? 'generic-' + d.crypto.id('ai_request');
     const request = await d.requests.create(tx, {
       id: d.crypto.id('ai_request', scopeKey + '\0' + key),
       scopeId: scope.id,
@@ -258,9 +250,14 @@ export function createGenericAnalysisServices(d: {
       });
     },
     execute,
-    refreshPopular() {
-      return run(async (tx) => {
+    async refreshPopular() {
+      // Commit reuse-row expiry before refresh enqueue acquires scope roots.
+      const maintained = await run(async (tx) => {
         await d.repository.maintain(tx);
+        return ok(null);
+      });
+      if (!maintained.ok) return maintained;
+      return run(async (tx) => {
         const inputs = await d.repository.refresh(tx),
           requests: Id<'ai_request'>[] = [];
         for (const input of inputs) {

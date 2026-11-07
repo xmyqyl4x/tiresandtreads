@@ -157,3 +157,54 @@ it('never schedules private owner report work through generic maintenance', asyn
     before,
   );
 });
+
+it('regenerates expired short-lived generic output within the same request time bucket', async () => {
+  const e = await g.example(),
+    fixed = new Date().toISOString(),
+    service = createGenericAnalysisServices({ ...g.deps, validitySeconds: 10, now: () => fixed }),
+    p = value(await service.read(e.input));
+  value(await service.execute(p.id));
+  await new Promise((resolve) => setTimeout(resolve, 6200));
+  expect(value(await service.read({ ...e.input, allowed: false })).state).toBe('unavailable');
+  const [a, b] = await Promise.all([service.read(e.input), service.read(e.input)]),
+    next = value(a);
+  expect(next.state).toBe('pending');
+  expect(next.id).not.toBe(p.id);
+  expect(value(b).id).toBe(next.id);
+}, 20000);
+it('commits bounded expiry before opening the refresh transaction and releases actual expired-row locks', async () => {
+  const e = await g.example(),
+    service = createGenericAnalysisServices({ ...g.deps, validitySeconds: 10 }),
+    p = value(await service.read(e.input));
+  value(await service.execute(p.id));
+  await new Promise((resolve) => setTimeout(resolve, 6200));
+  let maintenance = '';
+  const checked = createGenericAnalysisServices({
+    ...g.deps,
+    repository: {
+      ...g.repository,
+      async maintain(tx) {
+        maintenance = String(
+          (await s.adapter.query(tx, 'SELECT txid_current() AS id')).rows[0]!.id,
+        );
+        await g.repository.maintain(tx);
+      },
+      async refresh(tx) {
+        expect(
+          String((await s.adapter.query(tx, 'SELECT txid_current() AS id')).rows[0]!.id),
+        ).not.toBe(maintenance);
+        await f.admin.query('BEGIN');
+        try {
+          await f.admin.query(
+            'SELECT e.scope_id FROM app.ai_reuse_entries e JOIN app.ai_artifacts a ON a.id=e.artifact_id WHERE a.request_id=$1 FOR UPDATE OF e NOWAIT',
+            [p.id],
+          );
+        } finally {
+          await f.admin.query('ROLLBACK');
+        }
+        return g.repository.refresh(tx);
+      },
+    },
+  });
+  expect(value(await checked.refreshPopular()).scheduled).toBe(0);
+}, 20000);
