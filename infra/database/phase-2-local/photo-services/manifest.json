@@ -7,8 +7,12 @@
   "migrations": [
     {
       "id": "0051_photo_services",
-      "sha256": "7462723c7437eff13efff6cc5f1e27f4eefe249e4d1a9b7a1c054ec2ede49853"
+      "sha256": "585b121f4d0ec61bceba665715c60dd64d7d68b5c12b7a07924c40911779ab1e"
     }
   ],
-  "tables": ["app.photo_upload_plans", "app.photo_service_captures", "app.photo_service_intents"]
+  "tables": [
+    "app.photo_upload_plans",
+    "app.photo_service_captures",
+    "app.photo_service_intents"
+  ]
 }

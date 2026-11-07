@@ -24,7 +24,7 @@ afterAll(async () => {
           actualPostgreSQL: true,
           migrations: 51,
           newTables: 3,
-          nativeCases: 29,
+          nativeCases: 32,
           actualEncryptedVersionedLocalStorage: true,
           actualIsolatedImageCodec: true,
           syntheticScanner: true,
@@ -245,7 +245,7 @@ it('extracts only sanitized private bytes and publishes unconfirmed suggestions 
     value(
       await g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
     ).state,
-  ).toBe('queued');
+  ).toBe('accepted');
 });
 it('requires explicit accept/correct/manual commands using the shared ordinary field validator', async () => {
   const e = await ready(),
@@ -613,4 +613,95 @@ it('restores the manual path after an atomic publication failure while retaining
       await g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
     ).state,
   ).toBe('queued');
+});
+
+it('coalesces exact concurrent photo extraction misses and reuses the accepted result without a second model call', async () => {
+  const e = await ready(),
+    calls = g.calls.length;
+  const [a, b] = await Promise.all([
+    g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
+    g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
+  ]);
+  const request = value(a);
+  expect(value(b).id).toBe(request.id);
+  expect(value(await g.service.execute(request.id)).state).toBe('available');
+  expect(
+    value(
+      await g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
+    ),
+  ).toMatchObject({ id: request.id, state: 'accepted' });
+  expect(g.calls.length - calls).toBe(1);
+});
+it('restores manual entry after a lost extraction job lease without losing charges or blocking a new explicit request', async () => {
+  const e = await ready(),
+    r = value(
+      await g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
+    );
+  g.setBehavior(async () => {
+    await f.admin.query(
+      "UPDATE app.job_runs SET lease_until=updated_at+interval '1 microsecond' WHERE job_type='p2.photo.extract' AND resource_id=$1",
+      [r.id],
+    );
+    return {
+      state: 'complete',
+      output: { schema: 1, fields: [] },
+      providerRequestId: 'synthetic-lost-lease',
+      inputTokens: 1n,
+      outputTokens: 1n,
+      costMinor: 5n,
+    };
+  });
+  expect((await g.service.execute(r.id)).ok).toBe(false);
+  expect(value(await g.service.get(e.keys, e.i.id)).state).toBe('ready');
+  expect(
+    (await f.admin.query('SELECT cost_minor FROM app.ai_attempts WHERE request_id=$1', [r.id]))
+      .rows[0]!.cost_minor,
+  ).toBe('5');
+  g.reset();
+  const next = value(
+    await g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
+  );
+  expect(next.id).not.toBe(r.id);
+});
+it('recovers an expired synthetic dispatch and cancels its photo work without redispatching unknown charges', async () => {
+  const e = await ready(),
+    r = value(
+      await g.service.extract(e.keys, { uploadId: e.i.id, key: 'synthetic-' + uuid('command') }),
+    ),
+    calls = g.calls.length;
+  const broken = createPhotoServices({
+    ...g.d,
+    provider: {
+      async extract() {
+        throw Error('synthetic interrupted dispatch');
+      },
+    },
+    requests: {
+      ...g.d.requests,
+      async finish() {
+        throw Error('synthetic unavailable persistence');
+      },
+    },
+  });
+  expect((await broken.execute(r.id)).ok).toBe(false);
+  await f.admin.query('ALTER TABLE app.ai_execution_states DISABLE TRIGGER ai_execution_identity');
+  try {
+    await f.admin.query(
+      "UPDATE app.ai_execution_states SET lease_until=clock_timestamp()-interval '1 second' WHERE request_id=$1",
+      [r.id],
+    );
+  } finally {
+    await f.admin.query('ALTER TABLE app.ai_execution_states ENABLE TRIGGER ai_execution_identity');
+  }
+  value(await g.service.execute(r.id));
+  expect(g.calls.length).toBe(calls);
+  expect(value(await g.service.get(e.keys, e.i.id)).state).toBe('ready');
+  expect(
+    (
+      await f.admin.query(
+        'SELECT state FROM app.ai_budget_reservations WHERE attempt_id IN(SELECT id FROM app.ai_attempts WHERE request_id=$1)',
+        [r.id],
+      )
+    ).rows.every((r) => r.state === 'uncertain'),
+  ).toBe(true);
 });

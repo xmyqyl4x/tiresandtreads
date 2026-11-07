@@ -310,14 +310,9 @@ export function createAnalysisRunner<W>(d: {
         if (!published.ok && d.failed) {
           // Charges already committed. A lost publication cannot strand an active photo extraction.
           await run(async (tx) => {
-            await d.current(tx, a.p.work); // Acquire the normal authority root before the job fence.
-            const current = await d.requests.get(tx, requestId);
-            if (current?.state === 'running') {
-              await d.jobs.fence(tx, a.job);
-              await d.requests.transition(tx, requestId, 'running', 'failed');
-              await d.jobs.complete(tx, a.job);
-              await d.failed!(tx, a.p.work, a.job);
-            }
+            await d.current(tx, a.p.work);
+            // Negative cleanup checks its own generation; an expired positive lease cannot strand work.
+            await d.failed!(tx, a.p.work, a.job);
             return ok(null);
           });
         }

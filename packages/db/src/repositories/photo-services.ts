@@ -5,7 +5,7 @@ import type {
 } from '../../../application/src/ports/photo-services.ts';
 import { createReportAnalysisRepository } from './report-analysis.ts';
 import { guarded, stop, type WriteScope } from './mutations.ts';
-import { uid, hash, word, num, at, choice, type Row } from './analysis-values.ts';
+import { uid, hash, word, num, at, choice, requestStates, type Row } from './analysis-values.ts';
 import { createPhotoAssetRepository } from './photo-assets.ts';
 export function createPhotoServiceRepository(
   s: WriteScope,
@@ -201,6 +201,23 @@ export function createPhotoServiceRepository(
         [extraction, person, upload, request, row.id],
       );
       return (await work(tx, request)) ?? stop('integrity');
+    },
+    async reusable(tx, person, upload) {
+      const r = (await q(tx, 'SELECT * FROM app.photo_service_reusable($1,$2)', [person, upload]))
+        .rows[0];
+      return r
+        ? Object.freeze({
+            id: uid('ai_request', r.request_id),
+            state: choice(r.request_state, requestStates),
+          })
+        : null;
+    },
+    async failed(tx, request, lease) {
+      await q(tx, 'SELECT app.photo_service_failed($1,$2,$3)', [
+        request,
+        lease?.token ?? null,
+        lease?.generation.toString() ?? null,
+      ]);
     },
     work,
     async currentWork(tx, w) {

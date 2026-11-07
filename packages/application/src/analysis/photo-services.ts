@@ -194,8 +194,8 @@ export function createPhotoServices(d: {
     async started(tx, w, job) {
       await d.worker.start(tx, w.ownerId, w.extractionId, job);
     },
-    async failed(tx, w) {
-      await d.worker.cancel(tx, w.ownerId, w.extractionId);
+    async failed(tx, w, job) {
+      await d.repository.failed(tx, w.requestId, job);
     },
     async invoke(w, attempt) {
       const bytes = await d.objects.get(w.sanitized);
@@ -246,7 +246,14 @@ export function createPhotoServices(d: {
     },
   });
   return Object.freeze({
-    execute: execute.execute,
+    async execute(requestId: Id<'ai_request'>) {
+      const result = await execute.execute(requestId);
+      await run(async (tx) => {
+        await d.repository.failed(tx, requestId);
+        return ok(null);
+      });
+      return result;
+    },
     capture(k: readonly KeyDigest[], raw: unknown) {
       return safe(async () => {
         const x = exact(raw, 'key,policyId'),
@@ -483,6 +490,8 @@ export function createPhotoServices(d: {
         return run(async (tx) => {
           const i = await authorized(tx, auth, upload);
           demand(i.state === 'ready' && (await d.repository.current(tx, i)), 'unavailable');
+          const reused = await d.repository.reusable(tx, i.ownerId, i.id);
+          if (reused) return ok(reused);
           const sanitized = await d.assets.get(tx, i.sanitizedId);
           demand(sanitized, 'unavailable');
           const request = await d.requests.create(tx, {

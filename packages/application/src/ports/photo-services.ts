@@ -5,6 +5,8 @@ import type {
   PhotoCandidate,
   PhotoConfirmation,
 } from '../../../domain/src/entities/photo.ts';
+import type { AIRequestState } from '../../../domain/src/entities/analysis.ts';
+import type { JobLease } from './jobs.ts';
 import type { TransactionContext as Tx } from './transactions.ts';
 import type { KeyDigest } from './private-records.ts';
 import type { AssetLocation } from './assets.ts';
@@ -78,6 +80,12 @@ export interface PhotoServiceRepository {
     upload: Id<'photo_upload'>,
     request: Id<'ai_request'>,
   ): Promise<PhotoWork>;
+  reusable(
+    tx: Tx,
+    owner: Id<'subject'>,
+    upload: Id<'photo_upload'>,
+  ): Promise<Readonly<{ id: Id<'ai_request'>; state: AIRequestState }> | null>;
+  failed(tx: Tx, request: Id<'ai_request'>, lease?: JobLease): Promise<void>;
   work(tx: Tx, request: Id<'ai_request'>): Promise<PhotoWork | null>;
   currentWork(tx: Tx, work: PhotoWork): Promise<boolean>;
   delete(tx: Tx, owner: Id<'subject'>, id: Id<'photo_upload'>): Promise<readonly Id<'asset'>[]>;

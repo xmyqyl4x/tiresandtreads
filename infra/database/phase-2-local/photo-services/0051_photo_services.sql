@@ -99,3 +99,35 @@ CREATE FUNCTION app.photo_service_work_current(request uuid,upload uuid,sha text
  SELECT EXISTS(SELECT 1 FROM app.photo_extractions e JOIN app.ai_analysis_requests a ON a.id=e.request_id JOIN app.tire_photo_uploads u ON u.id=e.upload_id JOIN app.ai_scope_guards g ON g.scope_id=a.scope_id JOIN app.object_assets image ON image.id=u.sanitized_asset_id WHERE e.request_id=request AND e.upload_id=upload AND u.scope_id=a.scope_id AND app.photo_intent_current(u.id) AND app.photo_current(u.id) AND(a.permission_revision,a.subject_permission_revision,a.invalidation_revision)=(g.permission_revision,g.subject_permission_revision,g.invalidation_revision) AND a.input_manifest->>'sanitized_sha256'=sha AND image.sha256=sha)
 $$;
 REVOKE ALL ON FUNCTION app.photo_service_work_current(uuid,uuid,text) FROM PUBLIC;GRANT EXECUTE ON FUNCTION app.photo_service_work_current(uuid,uuid,text) TO tt_p2_analysis_service;
+
+-- Narrow negative cleanup: never publishes, clears accepted work, or cancels a newer job generation.
+CREATE FUNCTION app.photo_service_failed(request uuid,token uuid,generation bigint) RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE e app.photo_extractions%ROWTYPE;a app.ai_analysis_requests%ROWTYPE;j app.job_runs%ROWTYPE;
+BEGIN
+ SELECT * INTO e FROM app.photo_extractions WHERE request_id=request;IF NOT FOUND THEN RETURN;END IF;
+ PERFORM set_config('tt.p2_photo_subject',e.owner_subject_id::text,true);
+ PERFORM app.photo_repository_root(e.owner_subject_id,e.upload_id,e.job_id);
+ SELECT * INTO e FROM app.photo_extractions WHERE id=e.id;
+ SELECT * INTO a FROM app.ai_analysis_requests WHERE id=request FOR UPDATE;
+ SELECT * INTO j FROM app.job_runs WHERE id=e.job_id;
+ IF e.state NOT IN('queued','processing') OR a.state='accepted' THEN RETURN;END IF;
+ IF NOT(a.state NOT IN('queued','running','accepted') OR a.expires_at<=clock_timestamp() OR(a.state='running' AND token IS NOT NULL AND j.lease_generation=generation AND(j.lease_token=token OR j.state IN('completed','cancelled')))) THEN RETURN;END IF;
+ PERFORM app.photo_repository_cancel(e.owner_subject_id,e.id);
+ UPDATE app.ai_reuse_entries r SET state='invalidated',lease_holder=NULL,lease_until=NULL,fence=r.fence+1
+ FROM app.ai_execution_states x WHERE x.request_id=request AND r.scope_id=a.scope_id AND r.cache_key=a.input_digest AND r.state='leased' AND r.lease_holder=x.lease_holder AND r.fence=x.reuse_fence;
+END $$;
+REVOKE ALL ON FUNCTION app.photo_service_failed(uuid,uuid,bigint) FROM PUBLIC;GRANT EXECUTE ON FUNCTION app.photo_service_failed(uuid,uuid,bigint) TO tt_p2_analysis_service;
+
+-- Same immutable image/scope only. Current scope locking coalesces concurrent misses before enqueue.
+CREATE FUNCTION app.photo_service_reusable(person uuid,upload uuid) RETURNS TABLE(request_id uuid,request_state text) LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE i app.photo_service_intents%ROWTYPE;pending record;
+BEGIN
+ SELECT * INTO i FROM app.photo_service_intents WHERE id=upload AND owner_id=person;IF NOT FOUND THEN RETURN;END IF;
+ PERFORM app.ai_repository_scope(i.scope_id,false);
+ IF i.state<>'ready' OR NOT app.photo_intent_current(upload) THEN RETURN;END IF;
+ FOR pending IN SELECT e.request_id FROM app.photo_extractions e JOIN app.ai_analysis_requests a ON a.id=e.request_id WHERE e.upload_id=upload AND e.state IN('queued','processing') AND(a.state NOT IN('queued','running','accepted') OR a.expires_at<=clock_timestamp()) ORDER BY e.id LIMIT 1 LOOP
+  PERFORM app.photo_service_failed(pending.request_id,NULL,NULL);
+ END LOOP;
+ RETURN QUERY SELECT a.id,a.state FROM app.photo_extractions e JOIN app.ai_analysis_requests a ON a.id=e.request_id JOIN app.tire_photo_uploads u ON u.id=e.upload_id JOIN app.object_assets image ON image.id=u.sanitized_asset_id WHERE e.upload_id=upload AND e.owner_subject_id=person AND a.scope_id=i.scope_id AND a.policy_version_id=i.policy_id AND app.photo_service_work_current(a.id,upload,image.sha256) AND((e.state IN('queued','processing') AND a.state IN('queued','running') AND a.expires_at>clock_timestamp()) OR(e.state='complete' AND a.state='accepted' AND EXISTS(SELECT 1 FROM app.ai_artifacts artifact WHERE artifact.request_id=a.id AND app.ai_artifact_current(artifact.id)))) ORDER BY a.created_at DESC,a.id LIMIT 1;
+END $$;
+REVOKE ALL ON FUNCTION app.photo_service_reusable(uuid,uuid) FROM PUBLIC;GRANT EXECUTE ON FUNCTION app.photo_service_reusable(uuid,uuid) TO tt_p2_analysis_service;
