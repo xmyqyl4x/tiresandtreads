@@ -172,7 +172,8 @@ export function evaluateSyntheticBatch(raw: unknown) {
     }
     add('measured');
     let outcome: 'accepted' | 'rejected' | 'unavailable' = 'rejected',
-      wrong = false;
+      wrong = false,
+      photoValues: ReadonlyMap<string, string | null> = new Map();
     const refusal =
       typeof c.output === 'object' &&
       c.output !== null &&
@@ -188,24 +189,29 @@ export function evaluateSyntheticBatch(raw: unknown) {
       const readings = photoReadingSet(c.output, now);
       if (readings.ok) {
         outcome = 'accepted';
-        for (const f of fields) {
-          const predicted = readings.value.fields.find((r) => r.field === f.field)?.value ?? null,
-            expected = label[f.field];
-          f.labeled++;
-          if (predicted === null) {
-            f.abstained++;
-            if (expected === null) f.expectedAbstentions++;
-            else {
-              f.missedValues++;
-              wrong = true;
-            }
-          } else {
-            f.emitted++;
-            if (predicted === expected) f.correct++;
-            else {
-              f.incorrect++;
-              wrong = true;
-            }
+        photoValues = new Map(readings.value.fields.map((r) => [r.field, r.value]));
+      }
+    }
+    // A measured refusal or rejected schema supplies no usable field values. Keep its
+    // labels in the denominator; only an explicit null output is unmeasured above.
+    if (c.family === 'photo') {
+      for (const f of fields) {
+        const predicted = photoValues.get(f.field) ?? null,
+          expected = label[f.field];
+        f.labeled++;
+        if (predicted === null) {
+          f.abstained++;
+          if (expected === null) f.expectedAbstentions++;
+          else {
+            f.missedValues++;
+            wrong = true;
+          }
+        } else {
+          f.emitted++;
+          if (predicted === expected) f.correct++;
+          else {
+            f.incorrect++;
+            wrong = true;
           }
         }
       }

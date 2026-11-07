@@ -54,6 +54,30 @@ it('retains unknown rates as null when no measured predictions exist', () => {
   const r = evaluateSyntheticBatch(b);
   expect(r.fields.every((f) => f.precision === null && f.precisionInterval === null)).toBe(true);
 });
+it.each(['refused', 'malformed'])(
+  'counts measured %s photo output in field abstention and missed-value denominators',
+  (mode) => {
+    const b = syntheticEvaluationBatch(),
+      c = b.cases.find((c) => c.family === 'photo' && c.cohort === 'clear')!;
+    c.output =
+      mode === 'refused' ? { refused: true } : { schema: 1, fields: [], condition: 'safe' };
+    c.expected = mode === 'refused' ? 'unavailable' : 'rejected';
+    b.cases = [c];
+    const r = evaluateSyntheticBatch(b);
+    expect(r.measured).toBe(1);
+    expect(r.fields.every((f) => f.labeled === 1 && f.abstained === 1 && f.emitted === 0)).toBe(
+      true,
+    );
+    expect(r.fields.find((f) => f.field === 'tire_size')).toMatchObject({
+      missedValues: 1,
+      abstentionRate: 1,
+      precision: null,
+    });
+    expect(r.expectationMismatches).toBe(1);
+    expect(r.localExpectationsMet).toBe(false);
+    expect(r.accepted).toBe(false);
+  },
+);
 it('returns only aggregate measurements without raw inputs, labels, output text or identifiers', () => {
   const b = syntheticEvaluationBatch(),
     r = evaluateSyntheticBatch(b),
