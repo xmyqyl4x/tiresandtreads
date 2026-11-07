@@ -94,8 +94,36 @@ export function reconcileProductPins(root, rawPins) {
     path: p.path,
     sha256: staffOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
   }));
+  // The photo backend declares an already locked native codec explicitly. Only these
+  // two exact source digests advance; old execution receipts and admission stay unchanged.
+  const staffResult = mergeReviewedPins(editorialResult, result, staffOverlay),
+    photoOverlay = photoDependencyPins.filter((e) => present.has(e.path)),
+    photoResult = staffResult.map((p) => ({
+      path: p.path,
+      sha256: photoOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(editorialResult, result, staffOverlay),
-    exceptions: new Set([...entries, ...overlay, ...staffOverlay].map((e) => e.path)).size,
+    pins: mergeReviewedPins(staffResult, photoResult, photoOverlay),
+    exceptions: new Set(
+      [...entries, ...overlay, ...staffOverlay, ...photoOverlay].map((e) => e.path),
+    ).size,
   };
 }
+export const photoDependencyPins = Object.freeze(
+  [
+    {
+      path: 'package.json',
+      baselineSha256: '6c73ff4729672ee2a60221b905d54c0b6b7ced30ab3c9f19b5be7aee0a5bf3f6',
+      currentSha256: '84e7ae89cc0e804b64f4b02abc5273b6152399bbb21791e9de40e06d92f0964b',
+      reason:
+        'Explicit pinned local Sharp0.35.5 tooling dependency with existing peer/native resolutions; frozen historical execution and all acceptance holds retained.',
+    },
+    {
+      path: 'pnpm-lock.yaml',
+      baselineSha256: '8f784e4bcd1555139d363fdae9a339b8379cb1c80dc4118f863600cc02b2ea3c',
+      currentSha256: 'd0ed0cf9f1b6469150d1ae0a7eb4527bc37d2000327613d69262fc03c6cba97a',
+      reason:
+        'Explicit pinned local Sharp0.35.5 tooling dependency with existing peer/native resolutions; frozen historical execution and all acceptance holds retained.',
+    },
+  ].map((p) => Object.freeze(p)),
+);

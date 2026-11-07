@@ -132,3 +132,10 @@ it('normalizes empty not-visible text to null for sealed candidate storage', () 
       fields: [{ rawText: null, value: null, unknownReason: 'not_visible' }],
     },
   }));
+
+it('validates date markings against the supplied calendar, including leap dates and invalid clocks', () => {
+  expect(photoFieldValue('date_code', '0924', '2024-02-29T00:00:00.000Z').ok).toBe(true);
+  expect(photoFieldValue('date_code', '1024', '2024-02-29T00:00:00.000Z').ok).toBe(false);
+  expect(photoFieldValue('date_code', '0126', '2026-01-01T00:00:00.000Z').ok).toBe(true);
+  expect(photoFieldValue('date_code', '0126', 'not-a-clock').ok).toBe(false);
+});

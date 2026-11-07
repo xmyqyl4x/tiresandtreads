@@ -8,7 +8,7 @@ it.each(['jpeg', 'png', 'webp'] as const)(
     const bytes = await sharp({
         create: { width: 30, height: 20, channels: 3, background: '#abcdef' },
       })
-        [format]()
+        .toFormat(format)
         .toBuffer(),
       out = await codec.sanitize(
         bytes,

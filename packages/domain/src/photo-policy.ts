@@ -1,7 +1,16 @@
-import { ok, invalid, known, unknown, type Result } from './values/core.ts';
+import { ok, invalid, known, unknown, instant, type Result } from './values/core.ts';
 import { tireSize } from './values/tire.ts';
 import { quantity } from './values/units.ts';
 import type { PhotoField, PhotoCandidate } from './entities/photo.ts';
+function unsafeText(value: string) {
+  return (
+    /[<>]/.test(value) ||
+    Array.from(value).some((c) => {
+      const n = c.charCodeAt(0);
+      return n < 32 || n === 127;
+    })
+  );
+}
 export const photoFields: readonly PhotoField[] = Object.freeze([
   'brand',
   'model',
@@ -34,13 +43,13 @@ export function photoFieldValue(field: unknown, raw: unknown, now: string): Resu
     typeof raw !== 'string' ||
     raw.length < 1 ||
     raw.length > 160 ||
-    /[<>\x00-\x1f\x7f]/.test(raw)
+    unsafeText(raw)
   )
     return invalid('photo_field');
   const text = raw.trim().normalize('NFC'),
     code = text.toUpperCase();
   if (field === 'brand' || field === 'model')
-    return text.length >= 1 && text.length <= 80 && /^[\p{L}\p{N} &.,+'()\/-]+$/u.test(text)
+    return text.length >= 1 && text.length <= 80 && /^[\p{L}\p{N} &.,+'()/-]+$/u.test(text)
       ? ok(text)
       : invalid('photo_field');
   if (field === 'tire_size') {
@@ -85,17 +94,21 @@ export function photoFieldValue(field: unknown, raw: unknown, now: string): Resu
       ? ok(code)
       : invalid('speed_rating');
   if (field === 'date_code') {
-    const date = new Date(now),
+    if (!instant(now).ok) return invalid('date_code');
+    const currentYear = Number(now.slice(0, 4)),
+      month = Number(now.slice(5, 7)),
+      day = Number(now.slice(8, 10)),
+      leap = currentYear % 4 === 0 && (currentYear % 100 !== 0 || currentYear % 400 === 0),
+      days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+      dayOfYear = days.slice(0, month - 1).reduce((n, d) => n + d, 0) + day,
       week = Number(code.slice(0, 2)),
       year = 2000 + Number(code.slice(2));
     if (
       !/^\d{4}$/.test(code) ||
       week < 1 ||
       week > 53 ||
-      !Number.isFinite(date.getTime()) ||
-      year > date.getUTCFullYear() ||
-      (year === date.getUTCFullYear() &&
-        week > Math.ceil((date.getTime() - Date.UTC(year, 0, 1) + 86400000) / 604800000))
+      year > currentYear ||
+      (year === currentYear && week > Math.ceil(dayOfYear / 7))
     )
       return invalid('date_code');
     return ok(code);
@@ -157,9 +170,7 @@ export function photoReadingSet(raw: unknown, now: string): Result<PhotoReadings
       ) ||
       !(
         f.rawText === null ||
-        (typeof f.rawText === 'string' &&
-          f.rawText.length <= 160 &&
-          !/[<>\x00-\x1f\x7f]/.test(f.rawText))
+        (typeof f.rawText === 'string' && f.rawText.length <= 160 && !unsafeText(f.rawText))
       ) ||
       !(f.value === null || (typeof f.value === 'string' && f.value.length <= 160))
     )
