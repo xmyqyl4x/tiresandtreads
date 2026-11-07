@@ -378,3 +378,5 @@ The local P2-PR-010 packet maps UC06/UC08/UC11, AT09/AT10 and DB09/DB10 to nonpa
 Local P2-PR-012 evidence for CAP-05/UC14/AT23/DB23 is tracked in [the bounded report-analysis packet](implementation/P2-PR-012-local-report-analysis.md); actual acceptance and all six S3 gates remain pending.
 
 P2-PR-013 local CAP-06/UC15/AT24–25/DB24–25/E40 implementation adds exact private receipts/coalescing, reviewed coarse public-fact reuse, bounded hourly refresh and conservative per-attempt budgets/retry/circuits. See [the packet](implementation/P2-PR-013-local-ai-reuse.md). No FR row or acceptance status changes; actual model/provider/privacy/source/recovery and all existing holds remain.
+
+P2-PR-014 local CAP-07/UC16/AT26/DB26/E41 implementation adds owner-bound capture/upload grants, quotas/private quarantine, bounded real image decoding, required scanner and sanitized-only extraction ports, explicit field confirmation/manual entry and replayable scoped image removal. See [the packet](implementation/P2-PR-014-local-photo-services.md). No FR row or acceptance status changes; full rights/retention/delivery integration is P2-PR-015 and all existing holds remain.

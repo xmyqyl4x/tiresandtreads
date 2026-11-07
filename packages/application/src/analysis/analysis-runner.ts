@@ -30,7 +30,7 @@ import type {
   TransactionContext as Tx,
   ApplicationFailure,
 } from '../ports/transactions.ts';
-import type { JobRepository } from '../ports/jobs.ts';
+import type { JobLease, JobRepository } from '../ports/jobs.ts';
 import type { ReportCrypto } from '../ports/report-services.ts';
 import { demand, serviceWork, serviceFailure } from '../services/service-work.ts';
 import { json } from '../services/service-records.ts';
@@ -60,7 +60,9 @@ export function createAnalysisRunner<W>(d: {
   current(tx: Tx, work: W): Promise<boolean>;
   invoke(work: W, attempt: Id<'ai_attempt'>): Promise<AnalysisProviderResult>;
   validate(work: W, raw: unknown): AnalysisValidatedOutput | null;
-  publish(tx: Tx, work: W, scope: AIScope, artifact: AIArtifact): Promise<void>;
+  started?(tx: Tx, work: W, job: JobLease): Promise<void>;
+  failed?(tx: Tx, work: W, job: JobLease): Promise<void>;
+  publish(tx: Tx, work: W, scope: AIScope, artifact: AIArtifact, job: JobLease): Promise<void>;
 }) {
   const run = <T>(work: (tx: Tx) => Promise<Result<T, ApplicationFailure>>) =>
     serviceWork(d.uow, work);
@@ -168,6 +170,7 @@ export function createAnalysisRunner<W>(d: {
               lease,
             });
           await d.jobs.fence(tx, job);
+          if (d.started) await d.started(tx, p.work, job);
           return ok({ p, job, lease, attempt, windows, ceilings });
         });
         if (!admission.ok) return admission;
@@ -263,6 +266,7 @@ export function createAnalysisRunner<W>(d: {
                 );
               if (d.runtime) await d.runtime.terminal(tx, a.p.request);
               await d.jobs.complete(tx, a.job);
+              if (d.failed) await d.failed(tx, a.p.work, a.job);
             }
             return ok(again);
           });
@@ -272,7 +276,7 @@ export function createAnalysisRunner<W>(d: {
           );
         }
         const output = validated;
-        return await run(async (tx) => {
+        const published = await run(async (tx) => {
           demand(await d.current(tx, a.p.work), 'unavailable');
           await d.jobs.fence(tx, a.job);
           demand((await d.requests.get(tx, requestId))?.state === 'running', 'conflict');
@@ -281,6 +285,13 @@ export function createAnalysisRunner<W>(d: {
             Math.floor((Date.parse(output.expiresAt) - Date.parse(clock())) / 1000) - 5,
           );
           demand(validSeconds > 0, 'unavailable');
+          const retainSeconds = output.retainSeconds ?? 2592000;
+          demand(
+            Number.isInteger(retainSeconds) &&
+              retainSeconds >= validSeconds &&
+              retainSeconds <= 2592000,
+            'integrity',
+          );
           await d.requests.transition(tx, requestId, 'running', 'accepted');
           const artifact = await d.artifacts.publish(tx, {
             id: d.crypto.id('ai_artifact', requestId),
@@ -289,13 +300,23 @@ export function createAnalysisRunner<W>(d: {
             lease: a.lease,
             output: json(output.output, 16384),
             validSeconds,
-            retainSeconds: 2592000,
+            retainSeconds,
             sources: output.sources,
           });
-          await d.publish(tx, a.p.work, a.p.scope, artifact);
+          await d.publish(tx, a.p.work, a.p.scope, artifact, a.job);
           await d.jobs.complete(tx, a.job);
           return ok(Object.freeze({ requestId, state: 'available' as const }));
         });
+        if (!published.ok && d.failed) {
+          // Charges already committed. A lost publication cannot strand an active photo extraction.
+          await run(async (tx) => {
+            await d.current(tx, a.p.work);
+            // Negative cleanup checks its own generation; an expired positive lease cannot strand work.
+            await d.failed!(tx, a.p.work, a.job);
+            return ok(null);
+          });
+        }
+        return published;
       } catch (e) {
         return fail(serviceFailure(e));
       }

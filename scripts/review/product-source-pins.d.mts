@@ -5,3 +5,10 @@ export function reconcileProductPins(
   root: string,
   rawPins: unknown,
 ): { pins: ReviewPin[]; exceptions: number };
+
+export const photoDependencyPins: readonly Readonly<{
+  path: string;
+  baselineSha256: string;
+  currentSha256: string;
+  reason: string;
+}>[];
