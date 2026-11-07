@@ -252,7 +252,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Partner/analyst permission tests, scanner exclusion and small-cell suppression pass; no identity export through aggregates.
 
-**Local implementation complete:** [Service packet](../implementation/P2-PR-011-local-partner-insights.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-011-local-proof.json) cover the three local tasks under the existing owner-authorized exception. Actual S1/S2, privacy/rights, authentication/MFA, source/restore/provider/pilot/deployment acceptance and all six S3 gates remain pending. No original case or gate closes. P2-PR-012 is next and is not started.
+**Local implementation complete:** [Service packet](../implementation/P2-PR-011-local-partner-insights.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-011-local-proof.json) cover the three local tasks under the existing owner-authorized exception. Actual S1/S2, privacy/rights, authentication/MFA, source/restore/provider/pilot/deployment acceptance and all six S3 gates remain pending. No original case or gate closes. Subsequent authorized local services are tracked under P2-PR-012.
 
 ### P2-PR-012
 
@@ -264,11 +264,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-05, UC14, AT23, DB23. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Build minimized versioned evidence packets, explicit processing-choice checks and strict output contracts.
-- [ ] Implement the server provider port, deadline/refusal/incomplete response handling and grounded claim/citation/number validation.
-- [ ] Publish accepted immutable report enrichment or deterministic fallback without mutating rankings/safety/costs.
+- [x] Build minimized versioned evidence packets, explicit processing-choice checks and strict output contracts.
+- [x] Implement the server provider port, deadline/refusal/incomplete response handling and grounded claim/citation/number validation.
+- [x] Publish accepted immutable report enrichment or deterministic fallback without mutating rankings/safety/costs.
 
 **Verification and acceptance:** Unit/provider-contract/use-case tests reject unsupported facts and unsafe output; core report stays available on AI failure.
+
+**Local implementation complete:** [Service packet](../implementation/P2-PR-012-local-report-analysis.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-012-local-proof.json) cover these three local tasks under the owner-authorized exception. Actual S1/S2, specialist/model quality, provider, full privacy/rights, source/restore/deployment acceptance and all six S3 gates remain pending. No original case or gate closes. P2-PR-013 is the next authorized local scope.
 
 ### P2-PR-013
 
