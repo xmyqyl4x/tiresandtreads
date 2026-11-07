@@ -336,11 +336,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-04, UC13, AT21, AT22, DB22. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Expose versioned template/mapping/upload/validation/diff/approval/publish/cancel services over P1 ingestion.
-- [ ] Implement bounded CSV validation and safe exported error reports without arbitrary SQL or URL fetching.
-- [ ] Implement separation of reviewer/publisher permissions and stale-head conflict recovery.
+- [x] Expose versioned template/mapping/upload/validation/diff/approval/publish/cancel services over P1 ingestion.
+- [x] Implement bounded CSV validation and safe exported error reports without arbitrary SQL or URL fetching.
+- [x] Implement separation of reviewer/publisher permissions and stale-head conflict recovery.
 
 **Verification and acceptance:** Script/admin parity, malformed/formula CSV, rejected critical rows and simultaneous publish tests pass.
+
+**Local implementation complete:** [The service packet](../implementation/P2-PR-016-local-staff-csv-services.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-016-local-proof.json) cover these three tasks in the opt-in disposable track. Default runtime/bootstrap/policy are unchanged; actual authentication, source/privacy and gate/deployment acceptance remain held. No case/gate closes.
 
 ### P2-PR-017
 

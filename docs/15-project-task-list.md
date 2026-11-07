@@ -245,3 +245,7 @@ P2-PR-013 local tasks are implemented in opt-in factories: exact private command
 P2-PR-014 local backend tasks cover private capture/intent/finalize, resource and cost limits, required scan/bounded real codec, sanitized extraction, explicit confirmations/manual input and replayable image removal. See [the packet](implementation/P2-PR-014-local-photo-services.md). P2-PR-015 remains the next backlog card. Every actual acceptance/deployment hold and all six S3 gates remain open.
 
 P2-PR-015 local backend tasks are complete: frozen AI/fallback presentation, bounded journaled AI/photo graph erasure and explicit reviewed photo saving while preserving retained report facts. P2-PR-016 CSV services and P2-PR-017 local validation/evaluation preparation are the next authorized scopes. Actual model/specialist/provider/sign-off and deployment acceptance remain held. See [the packet](implementation/P2-PR-015-local-ai-photo-privacy-delivery.md). All six S3 gates remain open.
+
+### P2-PR-016 local CSV service evidence
+
+P2-PR-016 local staff CSV services, bounded parser, shared script/admin workflow, independent review/publish, stale-head recovery and atomic P1 publication are implemented in the authorized opt-in track. Actual source/authentication/privacy and service acceptance remains held. See [the service packet](implementation/P2-PR-016-local-staff-csv-services.md). No original case/gate closes.
