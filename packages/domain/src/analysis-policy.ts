@@ -96,11 +96,14 @@ function unique(v: readonly string[]) {
 }
 function size(v: unknown) {
   if (v === null || v === undefined) return null;
-  requireValue(
-    typeof v === 'string' &&
-      /^(?:P|LT|ST)?[0-9]{3}\/[0-9]{2,3}(?:ZR|R|D)[0-9]{2}(?:\.[05])?$/.test(v),
-  );
-  return v;
+  requireValue(typeof v === 'string' && /^[A-Z0-9/.-]{1,80}$/.test(v));
+  // Reports support more than metric sizes. Retain known bounded code shapes;
+  // omit other optional normalized codes instead of blocking all grounded assistance.
+  const metric = /^(?:P|LT|ST)?[0-9]{3}\/[0-9]{2,3}(?:ZR|R|D|B)[0-9]{2}(?:\.[05])?(?:C|LT)?$/;
+  const flotation =
+    /^(?:LT)?[0-9]{2}(?:\.[0-9]{1,2})?X[0-9]{1,2}(?:\.[0-9]{1,2})?(?:R|D|B)[0-9]{2}(?:\.[05])?(?:LT|C)?$/;
+  const widthOnly = /^(?:LT)?[0-9]{3}(?:R|D|B)[0-9]{2}(?:\.[05])?C?$/;
+  return metric.test(v) || flotation.test(v) || widthOnly.test(v) ? v : null;
 }
 export function buildAnalysisPacket(raw: unknown, now: string): Result<AnalysisPacket> {
   try {

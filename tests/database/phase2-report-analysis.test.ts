@@ -16,7 +16,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 49,
         newTables: 1,
-        nativeCases: 25,
+        nativeCases: 26,
         syntheticTransport: true,
         ownerBound: true,
         immutableCore: true,
@@ -593,6 +593,49 @@ it('reads a schema-supported large report before minimizing the provider packet'
     (
       await f.admin.query(
         'SELECT output_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1 AND version=2',
+        [e.report],
+      )
+    ).rows[0],
+  ).toEqual(before);
+});
+
+it('queues and publishes supported flotation-size report input without changing deterministic facts', async () => {
+  const e = await s.example(),
+    v = {
+      ...e.version,
+      version: 2,
+      baseVersion: 1,
+      input: { ...e.version.input, sizes: { front: '31X10.50R15', rear: '31X10.50R15' } },
+    };
+  value(
+    await f.scope.unitOfWork.run(async (tx) => ({
+      ok: true as const,
+      value: await f.reports.publish(
+        tx,
+        e.owner.identity,
+        2n as import('../../packages/domain/src/values/core.ts').Revision,
+        v,
+        [],
+      ),
+    })),
+  );
+  const before = (
+    await f.admin.query(
+      'SELECT input_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1 AND version=2',
+      [e.report],
+    )
+  ).rows[0];
+  const p = value(await s.service.request(e.keys, { ...e.input, version: 2 }));
+  expect(p.state).toBe('pending');
+  expect(value(await s.service.execute(p.id)).state).toBe('available');
+  expect(s.calls.at(-1)!.packet.parameters).toMatchObject({
+    frontSize: '31X10.50R15',
+    rearSize: '31X10.50R15',
+  });
+  expect(
+    (
+      await f.admin.query(
+        'SELECT input_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1 AND version=2',
         [e.report],
       )
     ).rows[0],

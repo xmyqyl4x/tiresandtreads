@@ -272,3 +272,54 @@ it('minimizes a supported thirty-plan engine snapshot larger than64KiB', async (
   expect(built.ok).toBe(true);
   if (built.ok) expect(Buffer.byteLength(JSON.stringify(built.value))).toBeLessThan(32768);
 });
+
+it.each([
+  { code: '31X10.50R15', sent: '31X10.50R15' },
+  { code: '35X12.50R17LT', sent: '35X12.50R17LT' },
+  { code: '195R15C', sent: '195R15C' },
+  { code: '235/80R17.5', sent: '235/80R17.5' },
+  { code: '7.50R16', sent: null },
+])(
+  'preserves deterministic engine support for $code without sending unknown optional size formats',
+  async ({ code, sent }) => {
+    const { engineFixture, asOf } = await import('../fixtures/engine/base.ts'),
+      { evaluate } = await import('../../packages/engine/src/evaluate.ts'),
+      { normalizeAssessment } = await import('../../packages/engine/src/input.ts'),
+      { json } = await import('../../packages/application/src/services/service-records.ts');
+    const f = engineFixture(),
+      input = { ...f.request, sizes: { front: code, rear: code } },
+      rim = /R([0-9]{2}(?:\.[05])?)/.exec(code)![1]!;
+    for (const a of f.snapshot.fitment!.axles) {
+      a.sizeCode = code;
+      a.rimInches = rim;
+    }
+    for (const p of f.snapshot.plans) {
+      p.front.sizeCode = code;
+      p.rear.sizeCode = code;
+      p.front.rimInches = rim;
+      p.rear.rimInches = rim;
+    }
+    const normalized = normalizeAssessment(input);
+    if (!normalized.ok) throw Error('Normalization fixture');
+    const result = evaluate(normalized.value, f.snapshot);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.value.picks).toHaveLength(1);
+    const built = buildAnalysisPacket(
+      {
+        market: 'US',
+        locale: 'en-US',
+        snapshotHash: 'a'.repeat(64),
+        bundleId: f.snapshot.bundleId,
+        ruleVersion: f.snapshot.policy.id,
+        engineVersion: '1.0.0',
+        input,
+        output: json({ result: result.value, evidence: f.snapshot }),
+        sources: f.snapshot.sources.map((s) => ({ id: s.datasetId, validUntil: s.validUntil })),
+      },
+      asOf,
+    );
+    expect(built.ok).toBe(true);
+    if (built.ok) expect(built.value.parameters).toMatchObject({ frontSize: sent, rearSize: sent });
+  },
+);
