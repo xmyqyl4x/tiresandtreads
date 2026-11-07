@@ -91,6 +91,7 @@ export interface StructuredAnalysisTransport {
       store: false;
       tools: readonly never[];
       maxOutputTokens: 4096;
+      maxInputTokens: 65536;
       signal: AbortSignal;
     }>,
   ): Promise<
@@ -100,6 +101,8 @@ export interface StructuredAnalysisTransport {
 export interface AnalysisAdmissionPlan {
   readonly configurationHash: string;
   readonly currency: 'USD';
+  readonly inputCeiling?: bigint;
+  readonly outputCeiling?: bigint;
   readonly windows: readonly Readonly<{ id: Id<'ai_budget'>; amountMinor: bigint }>[];
 }
 export interface AnalysisAdmission {

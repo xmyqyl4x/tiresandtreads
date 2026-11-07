@@ -282,11 +282,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-06, UC15, AT24, AT25, DB24, DB25. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement canonical exact keys over parameters, source/engine/model/prompt/schema/policy and scope; enforce reviewed generic versus private reuse.
-- [ ] Implement read-time invalidation, expiry, hourly bounded popular-key refresh and leased/fenced publication.
-- [ ] Reserve/settle per-attempt cost budgets, retain uncertain reservations and enforce bounded retry/circuit-breaker behavior.
+- [x] Implement canonical exact keys over parameters, source/engine/model/prompt/schema/policy and scope; enforce reviewed generic versus private reuse.
+- [x] Implement read-time invalidation, expiry, hourly bounded popular-key refresh and leased/fenced publication.
+- [x] Reserve/settle per-attempt cost budgets, retain uncertain reservations and enforce bounded retry/circuit-breaker behavior.
 
 **Verification and acceptance:** Concurrent hit/miss/refresh/price-budget tests pass; no stale, cross-owner or late-worker result is published.
+
+**Local implementation complete:** [Service packet](../implementation/P2-PR-013-local-ai-reuse.md) and [source-bound evidence](../implementation/evidence/P2/p2-pr-013-local-proof.json) cover these three local tasks under the owner-authorized exception. Actual S1/S2, provider/model/cost/privacy/authentication, source/recovery and deployment acceptance and all six S3 gates remain pending. No case or gate closes. P2-PR-014 is the next authorized local scope.
 
 ### P2-PR-014
 

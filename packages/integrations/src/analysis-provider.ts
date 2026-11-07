@@ -52,7 +52,7 @@ export const groundedAnalysisOutputSchema = Object.freeze({
     },
   },
 });
-function usage(raw: AnalysisUsage): AnalysisUsage {
+export function analysisUsage(raw: AnalysisUsage): AnalysisUsage {
   for (const v of [raw.inputTokens, raw.outputTokens, raw.costMinor])
     if (v !== null && (typeof v !== 'bigint' || v < 0n || v > maxInt64))
       throw Error('Invalid usage');
@@ -117,13 +117,14 @@ export function createStructuredAnalysisProvider(
               store: false,
               tools: Object.freeze([]) as readonly never[],
               maxOutputTokens: 4096,
+              maxInputTokens: 65536,
               signal: controller.signal,
             }),
           ),
           expired,
         ]);
         if (result === null) return Object.freeze({ ...unknownUsage, state: 'timeout' });
-        const observed = usage(result);
+        const observed = analysisUsage(result);
         if (result.state === 'refused' || result.state === 'incomplete')
           return Object.freeze({ ...observed, state: result.state });
         if (result.state !== 'complete') throw Error('Invalid response state');
