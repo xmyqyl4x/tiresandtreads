@@ -138,20 +138,18 @@ it('rejects invalid private response states rather than accepting arbitrary prov
   ).rejects.toThrow();
 });
 it('does not retry ambiguous conflicts or invent command credentials', async () => {
-  const transport = vi
-    .fn<typeof fetch>()
-    .mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          code: 'conflict',
-          messageKey: 'errors.conflict',
-          fieldErrors: {},
-          retryable: false,
-          requestId,
-        }),
-        { status: 409 },
-      ),
-    );
+  const transport = vi.fn<typeof fetch>().mockResolvedValue(
+    new Response(
+      JSON.stringify({
+        code: 'conflict',
+        messageKey: 'errors.conflict',
+        fieldErrors: {},
+        retryable: false,
+        requestId,
+      }),
+      { status: 409 },
+    ),
+  );
   await expect(
     createP2OwnerClient('http://localhost:3000', transport).p2PhotoExtract({
       path: { upload: id },
