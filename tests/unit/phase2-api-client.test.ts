@@ -188,8 +188,8 @@ it('exports a deterministic private-only OpenAPI document with all versioned ope
   const document = phase2OpenApi();
   expect(document.openapi).toBe('3.1.0');
   const operations = Object.values(document.paths).flatMap((p) => Object.values(p));
-  expect(operations).toHaveLength(72);
-  expect(new Set(operations.map((p) => p.operationId)).size).toBe(72);
+  expect(operations).toHaveLength(78);
+  expect(new Set(operations.map((p) => p.operationId)).size).toBe(78);
   for (const p of operations) expect(p.security.length).toBeGreaterThan(0);
   expect(document['x-actual-acceptance']).toBe(false);
 });

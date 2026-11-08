@@ -1,3 +1,4 @@
+import { pilotHealthView } from './phase2-pilot-health-view.ts';
 import { z, p2Uuid as id, p2Revision as rev } from './phase2-wire.ts';
 import {
   partnerApiContracts,
@@ -202,28 +203,7 @@ export const partnerP2Operations = {
       coverage: text,
     }),
   ),
-  p2Health: get(
-    'p2Health',
-    p2Week,
-    z.object({
-      accepted: count,
-      uncertain: count,
-      delivered: count,
-      bounced: count,
-      complained: count,
-      suspectedHumanOpens: count,
-      machineOpens: count,
-      unknownOpens: count,
-      suspectedHumanClicks: count,
-      machineClicks: count,
-      unknownClicks: count,
-      week: text,
-      grain: text,
-      deliveryIsIndependentFact: z.literal(true),
-      opensAreEstimates: z.literal(true),
-      domainAttribution: text,
-    }),
-  ),
+  p2Health: get('p2Health', p2Week, pilotHealthView),
   p2Domains: get(
     'p2Domains',
     z.strictObject({ domain: z.string().min(1).max(253) }),

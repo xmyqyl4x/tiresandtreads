@@ -20,15 +20,36 @@ import { ownerReportWebRoutes } from '../../../packages/integrations/src/http/ph
 import { publicOwnerRoutes } from '../../../packages/integrations/src/http/public-owner.ts';
 import { validateP2Routes } from '../../../packages/integrations/src/http/phase2-response-contracts.ts';
 import { createP2HttpAdmission } from '../../../packages/integrations/src/http/phase2-admission.ts';
-import { createHttpApi, type HttpActor } from '../../../packages/integrations/src/http/core.ts';
+import {
+  createHttpApi,
+  type HttpActor,
+  type HttpRoute,
+  type HttpSecurity,
+} from '../../../packages/integrations/src/http/core.ts';
 import { listenLocalApi } from '../../../packages/integrations/src/http/server.ts';
 import { ok, fail, id } from '../../../packages/domain/src/values/core.ts';
 import { failure } from '../../../packages/application/src/ports/transactions.ts';
 import { startWebPreview } from '../http/web-preview.ts';
+export interface OwnerWebExtensionContext {
+  f: Awaited<ReturnType<typeof httpAdmissionFixture>>;
+  photo: Awaited<ReturnType<typeof composePhotoServices>>;
+  analysis: Awaited<ReturnType<typeof composeReportAnalysis>>;
+  runtime: Awaited<ReturnType<typeof createLocalReportAnalysisRuntime>>;
+  secret: Uint8Array;
+  admission: ReturnType<typeof createP2HttpAdmission>;
+  onCleanup: (cleanup: () => Promise<void>) => void;
+}
+export type OwnerWebExtension = (
+  context: OwnerWebExtensionContext,
+) => Promise<{ routes: readonly HttpRoute[]; security: (base: HttpSecurity) => HttpSecurity }>;
 // Fixed source identities and synthetic provider/identity/scanner ports. No network feed/model/mail.
-export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
+export async function ownerWebFixture(
+  webOrigin = 'http://127.0.0.1:3000',
+  extend?: OwnerWebExtension,
+) {
   let f = await httpAdmissionFixture();
   const previousBundle = f.bundleId;
+  const extensionCleanups: (() => Promise<void>)[] = [];
   let api: Awaited<ReturnType<typeof listenLocalApi>> | undefined,
     delivery: Awaited<ReturnType<typeof composeAnalysisDelivery>> | undefined,
     photo: Awaited<ReturnType<typeof composePhotoServices>> | undefined,
@@ -37,6 +58,7 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
   const resources = () =>
     (cleanup ??= (async () => {
       try {
+        await Promise.all(extensionCleanups.map((cleanup) => cleanup()));
         privacy?.cleanup();
         await photo?.cleanup();
         await delivery?.cleanup();
@@ -125,10 +147,26 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
     actors.set(strangerToken, { keys: [stranger.token], csrf });
     const secret = randomBytes(32),
       admission = createP2HttpAdmission(f.serviceAdapter('tt_p2_partner_service'));
+    const extra = extend
+      ? await extend({
+          f,
+          photo,
+          analysis,
+          runtime,
+          secret,
+          admission,
+          onCleanup: (cleanup) => extensionCleanups.push(cleanup),
+        })
+      : null;
+    const baseSecurity: HttpSecurity = {
+      authenticate: async (r) => actors.get(r.headers.get('authorization')?.slice(7) ?? '') ?? null,
+      quota: async () => ({ allowed: true }),
+    };
     api = await listenLocalApi((origin) =>
       createHttpApi({
         origin,
         routes: validateP2Routes([
+          ...(extra?.routes ?? []),
           ...analysisPhotoRoutes({
             analysis: runtime,
             photos: photo!.service,
@@ -151,17 +189,17 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
             ['readReport', 'createReport', 'lookupReference'].includes(r.operationId),
           ),
         ]),
-        security: {
-          authenticate: async (r) =>
-            actors.get(r.headers.get('authorization')?.slice(7) ?? '') ?? null,
-          quota: async () => ({ allowed: true }),
-        },
+        security: extra ? extra.security(baseSecurity) : baseSecurity,
       }),
     );
     const web = await startWebPreview(webOrigin, 'dev', 'unsupported', {
       fixture: { cleanup: resources },
       api: { origin: api.origin, shutdown: () => api!.close() },
-      env: { LOCAL_P2_OWNER_UI: 'enabled', LOCAL_P2_API_ORIGIN: api.origin },
+      env: {
+        LOCAL_P2_OWNER_UI: 'enabled',
+        LOCAL_P2_API_ORIGIN: api.origin,
+        ...(extra ? { LOCAL_P2_OPERATIONS_UI: 'enabled' as const } : {}),
+      },
     });
     return {
       f,

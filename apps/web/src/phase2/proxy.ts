@@ -1,3 +1,4 @@
+import { operationsContracts } from '../../../../packages/contracts/src/phase2-operations-client.ts';
 import { ownerWebContracts } from '../../../../packages/contracts/src/phase2-owner-web.ts';
 import { csvApiContracts } from '../../../../packages/contracts/src/phase2-partners.ts';
 import { reviewApiContracts } from '../../../../packages/contracts/src/phase2-review-client.ts';
@@ -13,28 +14,30 @@ const privateHeaders = {
 export function p2ProxyContract(
   path: string,
   method: string,
-  surface: 'partner' | 'staff' | 'owner' = 'partner',
+  surface: 'partner' | 'staff' | 'owner' | 'operations' = 'partner',
 ) {
   const parts = path.split('/');
   return (
     (surface === 'partner'
       ? partnerApiContracts
-      : surface === 'owner'
-        ? ownerWebContracts
-        : [
-            ...csvApiContracts,
-            ...reviewApiContracts,
-            ...partnerApiContracts.filter((c) =>
-              [
-                'p2Verification',
-                'p2Decide',
-                'p2Activate',
-                'p2Lifecycle',
-                'p2OfferReview',
-                'p2OfferPublish',
-              ].includes(c.operationId),
-            ),
-          ]
+      : surface === 'operations'
+        ? operationsContracts
+        : surface === 'owner'
+          ? ownerWebContracts
+          : [
+              ...csvApiContracts,
+              ...reviewApiContracts,
+              ...partnerApiContracts.filter((c) =>
+                [
+                  'p2Verification',
+                  'p2Decide',
+                  'p2Activate',
+                  'p2Lifecycle',
+                  'p2OfferReview',
+                  'p2OfferPublish',
+                ].includes(c.operationId),
+              ),
+            ]
     ).find(
       (c) =>
         c.method === method &&
@@ -85,7 +88,7 @@ export async function forwardP2(
   request: Request,
   env: PreviewEnvironment = process.env,
   send: typeof fetch = fetch,
-  surface: 'partner' | 'staff' | 'owner' = 'partner',
+  surface: 'partner' | 'staff' | 'owner' | 'operations' = 'partner',
 ) {
   const c = localPreview(env);
   const refuse = (status: number, code: string) =>
@@ -106,7 +109,9 @@ export async function forwardP2(
         ? 'LOCAL_P2_UI'
         : surface === 'staff'
           ? 'LOCAL_P2_STAFF_UI'
-          : 'LOCAL_P2_OWNER_UI'
+          : surface === 'operations'
+            ? 'LOCAL_P2_OPERATIONS_UI'
+            : 'LOCAL_P2_OWNER_UI'
     ] !== 'enabled'
   )
     return refuse(404, 'not_found');
@@ -123,7 +128,9 @@ export async function forwardP2(
         ? '/local-p2-api'
         : surface === 'staff'
           ? '/local-p2-staff-api'
-          : '/local-p2-owner-api',
+          : surface === 'operations'
+            ? '/local-p2-operations-api'
+            : '/local-p2-owner-api',
     path = u.pathname.slice(prefix.length),
     contract = p2ProxyContract(path, request.method, surface);
   if (

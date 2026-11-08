@@ -1,3 +1,4 @@
+import { operationsP2Definitions } from '../../packages/contracts/src/phase2-operations-client.ts';
 import { presentationP2Operations } from '../../packages/contracts/src/phase2-presentation-client.ts';
 import { photoPresentationOperations } from '../../packages/contracts/src/phase2-photo-presentation-client.ts';
 import { reviewP2Operations } from '../../packages/contracts/src/phase2-review-client.ts';
@@ -8,6 +9,7 @@ import { partnerP2Operations } from '../../packages/contracts/src/phase2-partner
 import { staffP2Operations } from '../../packages/contracts/src/phase2-staff-client.ts';
 const definitions = {
   ...photoPresentationOperations,
+  ...operationsP2Definitions,
   ...ownerP2Operations,
   ...partnerP2Operations,
   ...staffP2Operations,
@@ -57,7 +59,10 @@ export function phase2OpenApi() {
           name,
           in: 'header',
           required: true,
-          schema: { type: 'string', minLength: 1 },
+          schema:
+            name === 'Idempotency-Key' && c.operationId.startsWith('p2Operations')
+              ? schema(p2Uuid)
+              : { type: 'string', minLength: 1 },
         })),
       );
     if (name === 'p2PhotoFinalize')
