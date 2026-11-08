@@ -1,9 +1,15 @@
+import { reviewP2Operations } from '../../packages/contracts/src/phase2-review-client.ts';
 import { apiErrorSchema, wireSchemaJson } from '../../packages/contracts/src/http-views.ts';
 import { z, p2Uuid } from '../../packages/contracts/src/phase2-wire.ts';
 import { ownerP2Operations } from '../../packages/contracts/src/phase2-owner-client.ts';
 import { partnerP2Operations } from '../../packages/contracts/src/phase2-partner-client.ts';
 import { staffP2Operations } from '../../packages/contracts/src/phase2-staff-client.ts';
-const definitions = { ...ownerP2Operations, ...partnerP2Operations, ...staffP2Operations };
+const definitions = {
+  ...ownerP2Operations,
+  ...partnerP2Operations,
+  ...staffP2Operations,
+  ...reviewP2Operations,
+};
 type Schema = Record<string, unknown>;
 interface Operation {
   operationId: string;

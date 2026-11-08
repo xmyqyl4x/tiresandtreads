@@ -125,6 +125,26 @@ for (const file of partner.outputFiles)
     body: file.text,
     type: file.path.endsWith('.css') ? 'text/css; charset=utf-8' : 'text/javascript; charset=utf-8',
   };
+const p2Staff = await build({
+  absWorkingDir: root,
+  entryPoints: ['apps/web/src/phase2/staff/client.tsx'],
+  bundle: true,
+  format: 'esm',
+  platform: 'browser',
+  target: 'es2022',
+  jsx: 'automatic',
+  minify: true,
+  legalComments: 'eof',
+  define: { 'process.env.NODE_ENV': '"production"' },
+  outfile: join(cache, 'browser/p2-staff-client.js'),
+  write: false,
+  logLevel: 'error',
+});
+for (const file of p2Staff.outputFiles)
+  files[basename(file.path)] = {
+    body: file.text,
+    type: file.path.endsWith('.css') ? 'text/css; charset=utf-8' : 'text/javascript; charset=utf-8',
+  };
 writeFileSync(
   join(cache, 'assets.json'),
   JSON.stringify({
@@ -133,12 +153,15 @@ writeFileSync(
     staff: 'staff-client.js',
     partner: 'partner-client.js',
     partnerCss: 'partner-client.css',
+    p2Staff: 'p2-staff-client.js',
+    p2StaffCss: 'p2-staff-client.css',
     commercial: 'commercial-client.js',
     checklist: 'checklist-client.js',
     groups: {
       visitor: browser.outputFiles.map((file) => basename(file.path)),
       editorial: editorial.outputFiles.map((file) => basename(file.path)),
       partner: partner.outputFiles.map((file) => basename(file.path)),
+      p2Staff: p2Staff.outputFiles.map((file) => basename(file.path)),
       staff: staff.outputFiles.map((file) => basename(file.path)),
       commercial: commercial.outputFiles.map((file) => basename(file.path)),
       checklist: checklist.outputFiles.map((file) => basename(file.path)),
@@ -166,6 +189,6 @@ await build({
 });
 writeFileSync(
   join(cache, 'renderer.d.mts'),
-  'export function htmlDocument(page:string):string|null;\nexport function getAsset(name:string):{readonly body:string;readonly type:string}|null;\nexport function editorialDocument():string;\nexport function staffDocument():string;\nexport function partnerDocument():string;\nexport function affiliateDisclosureDocument():string;\nexport function educationDocument(page:unknown,options?:{tool?:{input:string;result:unknown};checklist?:{answers:unknown;result:unknown};verification?:string;commerce?:import("../../../../../packages/contracts/src/public-commerce.ts").PublicCommerceView}):string;\n',
+  'export function htmlDocument(page:string):string|null;\nexport function getAsset(name:string):{readonly body:string;readonly type:string}|null;\nexport function editorialDocument():string;\nexport function staffDocument():string;\nexport function partnerDocument():string;\nexport function p2StaffDocument():string;\nexport function affiliateDisclosureDocument():string;\nexport function educationDocument(page:unknown,options?:{tool?:{input:string;result:unknown};checklist?:{answers:unknown;result:unknown};verification?:string;commerce?:import("../../../../../packages/contracts/src/public-commerce.ts").PublicCommerceView}):string;\n',
 );
 console.log('Local React shell assets built; Next remains the HTTP/API host');

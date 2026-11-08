@@ -16,21 +16,35 @@ export function privateTransport(
   bearer: string,
   signal: AbortSignal,
   send: typeof fetch = fetch,
+  surface: 'partner' | 'staff' = 'partner',
 ): typeof fetch {
   return (input, options) => {
     const url = new URL(input instanceof Request ? input.url : String(input));
-    if (url.origin !== base || !url.pathname.startsWith('/api/v1/partners/'))
+    if (
+      url.origin !== base ||
+      !(surface === 'partner'
+        ? url.pathname.startsWith('/api/v1/partners/')
+        : url.pathname.startsWith('/api/v1/staff/csv/') ||
+          url.pathname.startsWith('/api/v1/staff/review/') ||
+          url.pathname.startsWith('/api/v1/partners/organizations/'))
+    )
       throw Error('Private transport refused');
     const headers = new Headers(options?.headers);
     headers.set('authorization', 'Bearer ' + bearer);
-    return send(base + '/local-p2-api' + url.pathname + url.search, {
-      ...options,
-      headers,
-      signal,
-      credentials: 'omit',
-      redirect: 'error',
-      cache: 'no-store',
-    });
+    return send(
+      base +
+        (surface === 'partner' ? '/local-p2-api' : '/local-p2-staff-api') +
+        url.pathname +
+        url.search,
+      {
+        ...options,
+        headers,
+        signal,
+        credentials: 'omit',
+        redirect: 'error',
+        cache: 'no-store',
+      },
+    );
   };
 }
 function errorCode(e: unknown) {
@@ -180,7 +194,7 @@ export function Workbench<C>({
         {message}
       </p>
       {!session ? (
-        <form className="staff-card p2-connect" onSubmit={login}>
+        <form id="workspace" tabIndex={-1} className="staff-card p2-connect" onSubmit={login}>
           <h2>Connect locally</h2>
           <label>
             Credential
@@ -230,7 +244,7 @@ export function Workbench<C>({
               </button>
             </section>
           ) : null}
-          <div id="workspace" aria-busy={busy}>
+          <div id="workspace" tabIndex={-1} aria-busy={busy}>
             {children({ client: session.client, busy, blocked: !!pending, read, command })}
           </div>
         </>

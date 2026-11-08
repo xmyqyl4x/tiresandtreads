@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-022",
+  "browser": "in-app browser",
+  "actualBrowserInteraction": true,
+  "syntheticIdentityAndPrivatePartnerObjects": true,
+  "actualNextPostgreSQLEncryptedCsv": true,
+  "observations": [
+    "template schema and private download link",
+    "prepared intake current status",
+    "immutable diff, parser/template, run revision/fence and expected head",
+    "separate reviewer captures and approves evidence",
+    "publication-only role cannot open review-only status; UI reference selection corrected",
+    "final-source publisher selects an independently approved synthetic fixture intake and commits publication without review-only source/status access",
+    "durable committed publication receipt read by publisher",
+    "permitted business queue and current revisions",
+    "scoped ready private JSON evidence read and escaped rendering",
+    "keyboard Tab reaches staff navigation",
+    "390px one-column and1280px two-column without horizontal page overflow",
+    "zero duplicate IDs or unnamed inspected controls",
+    "no console warnings or errors observed",
+    "disconnect clears private evidence and credentials"
+  ],
+  "viewportWidths": [
+    390,
+    1280
+  ],
+  "actualBrowserFileUpload": false,
+  "actualBrowserRollback": false,
+  "actualAuthenticationAccepted": false,
+  "actualS4S5Acceptance": false,
+  "wcagCertification": false,
+  "browserMatrixAccepted": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

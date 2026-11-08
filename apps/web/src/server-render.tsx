@@ -1,3 +1,4 @@
+import { P2StaffConsole } from './phase2/staff/console.tsx';
 import { renderToString } from 'react-dom/server';
 import { PageView, pageTitle } from './ui/pages.tsx';
 import { locale } from './locale.ts';
@@ -223,6 +224,28 @@ export function partnerDocument() {
         <body>
           <div id="p2-partner-root">
             <PartnerPortal />
+          </div>
+        </body>
+      </html>,
+    )
+  );
+}
+
+export function p2StaffDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang={locale}>
+        <SiteHead
+          title="Data and partner review"
+          description="Private CSV publication and independent partner review"
+        >
+          <link rel="stylesheet" href={'/local-preview-assets/' + manifest.p2StaffCss} />
+          <script type="module" src={'/local-preview-assets/' + manifest.p2Staff} />
+        </SiteHead>
+        <body>
+          <div id="p2-staff-root">
+            <P2StaffConsole />
           </div>
         </body>
       </html>,
