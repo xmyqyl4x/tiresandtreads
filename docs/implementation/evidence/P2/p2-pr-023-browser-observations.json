@@ -14,9 +14,10 @@
     "withdrawal immediately removes private explanation",
     "explicit reallow revision3 leaves processing/email checkboxes off and creates no automatic request",
     "390/1280 reflow, labeled controls, keyboard focus, clean console",
-    "disconnect clears private state"
+    "disconnect clears private state",
+    "final-source pass: plain-language limitations; explicit synthetic request, selected revision1 delivery; same send cancelled revision2; cancel disabled and console clean; disconnect and owned cleanup"
   ],
-  "finalCopyAndCancelDisableBrowserRetest": false,
+  "finalCopyAndCancelDisableBrowserRetest": true,
   "viewportWidths": [
     390,
     1280

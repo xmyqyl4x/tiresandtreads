@@ -44,8 +44,8 @@
     "apps/web/src/phase2/workbench.tsx": "bbc93d91749a6a0750c73abe7f3a275fd148ec462ed0fe360cd01a3e63505dc6",
     "apps/web/src/server-render.tsx": "95f1ff5414ccc890b73088718044856399479d558b6f35d5b4cd7eb2111c5a7d",
     "docs/api/phase2-local.openapi.json": "bb6a5c5e880f0c3e384a86e948fec5afb40392669777cab5a47999862a0f2a65",
-    "docs/implementation/P2-PR-023-local-assisted-report-presentation.md": "29f05d1f2c84ae1b7863d3782656dc030e4fbb6a09b1dfd4b9bb1e1774e7495b",
-    "docs/implementation/evidence/P2/p2-pr-023-browser-observations.json": "f12a52ebba2ab25a7df14f2ce85d268075ba626c6b3ddd4258d77a8e30e4e368",
+    "docs/implementation/P2-PR-023-local-assisted-report-presentation.md": "1231be8b946ab455bd56a94363f756c35ce0a2fadb93dc49493fa6e800ba561f",
+    "docs/implementation/evidence/P2/p2-pr-023-browser-observations.json": "c91d8a4678a656d34b21807e46b595cc0a03b101d5a2e953feb72875a67f6e37",
     "docs/implementation/evidence/P2/p2-pr-023-local-authorization.json": "e1e906dc16402201367c6aa0b63d7513e8e7551fd57629cf25c0db0ffbd5ea84",
     "docs/implementation/evidence/P2/p2-pr-023-pdf-observations.json": "8214afcaddbc4c073ec2654a3172d4426777eb8bbb07e761cd3c653bf9214c26",
     "docs/tasks/phase-2-prs.md": "fe88910a557ab7479cf47a656c93f81169f5453f435aa2a51510f537017d10a5",
@@ -102,6 +102,7 @@
   ],
   "inheritedPortalReviewProof": "p2-pr-021-local-proof.json",
   "expectedFullExecutions": 4580,
-  "focusedLogSha256": "ad45c4585f8c8601e8674eac371eb7fe0255cd7ab55fa8b26a6148c6525e8a18",
-  "rendererFollowupLogSha256": "0aae39b4e8e14bd55520ed7eabcb0f425a6dea684ce105222f142b66880c965f"
+  "focusedLogSha256": "d3c0f262aa2865e76972703e9086020092dceeda8968057d6ac9e770e04e42de",
+  "rendererFollowupLogSha256": "0aae39b4e8e14bd55520ed7eabcb0f425a6dea684ce105222f142b66880c965f",
+  "finalBehaviorBrowserObserved": true
 }
