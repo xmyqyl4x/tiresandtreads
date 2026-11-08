@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-024",
+  "actualBrowserInteraction": true,
+  "syntheticPreparedPendingIntent": true,
+  "actualBrowserFileUpload": false,
+  "pendingDiscoveredAfterOptionsReload": true,
+  "pendingSelectedWithoutProcessingPermission": true,
+  "extractionDisabledForPending": true,
+  "removalAvailable": true,
+  "queuedCleanupAcknowledged": true,
+  "pendingAbsentAfterHistoryRefresh": true,
+  "otherReadyHistoryRetained": true,
+  "manualSizesPlacardRegionPrioritiesRetained": true,
+  "manualSubmissionAvailable": true,
+  "viewportWidths": [
+    390,
+    1280
+  ],
+  "noObservedOverflow": true,
+  "consoleWarningsErrors": [],
+  "browserClaimOfImmediateQuotaOrPhysicalCleanup": false,
+  "nativeExistingPrivacyWorkerProvesQuotaReleaseAndFreshAdmission": true,
+  "actualAuthenticationAccepted": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAcceptance": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

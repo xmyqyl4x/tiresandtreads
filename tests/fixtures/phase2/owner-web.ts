@@ -204,6 +204,7 @@ export async function ownerWebFixture(
     return {
       f,
       photo,
+      privacy,
       analysis,
       runtime,
       presentation,

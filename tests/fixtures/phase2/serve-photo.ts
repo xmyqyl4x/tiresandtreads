@@ -24,6 +24,14 @@ value(
     f.photoExample.bytes,
   ),
 );
+const pending = value(
+  await f.photo.service.intent(f.example.keys, {
+    ...f.photoExample.input,
+    batchId: capture.batchId,
+    key: 'preview-pending-photo-upload',
+  }),
+);
+if (pending.state === 'manual') throw Error('Synthetic pending intent required');
 let running: Promise<unknown> | null = null;
 // Only this fixed synthetic owner's queued report work. The provider is an in-memory fixture.
 const worker = setInterval(() => {
@@ -58,6 +66,7 @@ try {
         report: f.report,
         version: 1,
         preparedOwnedPhoto: seeded.id,
+        pendingOwnedUpload: pending.id,
         disposable: true,
         syntheticIdentity: true,
         actualAcceptance: false,

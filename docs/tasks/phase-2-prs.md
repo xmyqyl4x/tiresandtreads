@@ -503,7 +503,7 @@ Local progress: opt-in owner report/assistance presentation, typed current optio
 
 **Verification and acceptance:** Keyboard/mobile/browser tests prove no candidate changes inputs before confirmation and all failure paths offer manual recovery.
 
-Local progress: optional private photo options/upload, per-field confirmation/correction, confirmed-only axle application and manual assessment recovery are implemented. Focused120-case Linux/Next/SQL/public regression and actual browser checks are recorded in [P2-PR-024](../implementation/P2-PR-024-local-photo-confirmation.md). Original acceptance boxes remain open; exact-commit full regression and actual PR/main checks are required.
+Local progress: optional private photo options/upload, per-field confirmation/correction, confirmed-only axle application and manual assessment recovery are implemented. Focused121-case Linux/Next/SQL/public regression and actual browser checks including interrupted pending-intent recovery are recorded in [P2-PR-024](../implementation/P2-PR-024-local-photo-confirmation.md). Original acceptance boxes remain open; exact-commit full regression and actual PR/main checks are required.
 
 ### P2-PR-025
 

@@ -32,7 +32,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await f?.cleanup();
 }, 60000);
-async function ready() {
+async function admitted() {
   const c = owner(),
     batch = (
       await c.p2PhotoCapture({ body: { policyId: f.photoExample.policy }, command: command() })
@@ -42,6 +42,10 @@ async function ready() {
   const intent = (await c.p2PhotoIntent({ body: { ...input, batchId: batch }, command: command() }))
     .data;
   if (intent.state === 'manual') throw Error('Expected synthetic admission');
+  return { c, intent };
+}
+async function ready() {
+  const { c, intent } = await admitted();
   const status = (
     await c.p2PhotoFinalize({
       path: { upload: intent.id },
@@ -64,6 +68,49 @@ it('reads safe configured options and owned metadata without processing on page/
   const page = await f.web.request('/assisted-report');
   expect(page.status).toBe(200);
   expect(await page.text()).not.toContain(f.token);
+  expect(f.photo.calls).toHaveLength(0);
+  expect(f.delivery.provider.send).not.toHaveBeenCalled();
+});
+it('rediscovers and removes unfinalized owned upload intents without stranding active quota', async () => {
+  const first = await admitted();
+  expect((await options()).data.items.find((i) => i.id === first.intent.id)).toMatchObject({
+    id: first.intent.id,
+    state: 'pending',
+    savedAt: null,
+  });
+  expect((await options(f.strangerToken)).data.items).toEqual([]);
+  expect((await first.c.p2PhotoStatus({ path: { upload: first.intent.id } })).data).toMatchObject({
+    state: 'pending',
+    candidates: [],
+    confirmations: [],
+  });
+  expect(JSON.stringify((await options()).data)).not.toMatch(
+    /grant_hash|grant_until|original_id|sha256|digest/,
+  );
+  const removal = (
+    await first.c.p2PhotoDelete({ path: { upload: first.intent.id }, body: {}, command: command() })
+  ).data;
+  expect(removal.cleanupPending).toBe(true);
+  expect((await options()).data.items.map((i) => i.id)).not.toContain(first.intent.id);
+  const job = p2Id('analysis_erasure', removal.jobId);
+  for (let n = 0; n < 40 && value(await f.privacy.service.status(job)) !== 'complete'; n++)
+    value(await f.privacy.service.workOne(job));
+  expect(value(await f.privacy.service.status(job))).toBe('complete');
+  expect(
+    (
+      await f.f.admin.query(
+        "SELECT count(*)::int n FROM app.photo_service_intents WHERE owner_id=$1 AND state IN('pending','processing') AND grant_until>clock_timestamp()",
+        [f.example.owner.identity.subjectId],
+      )
+    ).rows[0]!.n,
+  ).toBe(0);
+  const second = await admitted();
+  expect((await options()).data.items.map((i) => i.id)).toContain(second.intent.id);
+  await second.c.p2PhotoDelete({
+    path: { upload: second.intent.id },
+    body: {},
+    command: command(),
+  });
   expect(f.photo.calls).toHaveLength(0);
   expect(f.delivery.provider.send).not.toHaveBeenCalled();
 });
@@ -214,6 +261,7 @@ it('keeps manual/status paths available when a policy is blocked and rejects for
         confirmedOnlyApplication: true,
         manualReportAfterRemoval: true,
         ownedHistory: true,
+        unfinalizedIntentsDiscoverableAndRemovable: true,
         syntheticIdentityScannerModel: true,
         actualBrowserUpload: false,
         actualModelEvaluation: false,
