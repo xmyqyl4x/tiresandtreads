@@ -216,14 +216,46 @@ it('refuses owner capability reuse across staff and partner purposes without lea
     send('/local-p2-owner-api', f.strangerToken),
   );
   await expect(results.read(f.report, 1)).rejects.toBeDefined();
-  for (const prefix of ['/local-p2-staff-api', '/local-p2-operations-api', '/local-p2-api']) {
-    const r = await f.web.request(prefix + '/api/v1/staff/assistance/session', {
-      headers: { authorization: 'Bearer ' + f.token },
+  const surfaces = [
+    {
+      prefix: '/local-p2-staff-api',
+      authorized: f.uploader,
+      status: 403,
+      code: 'forbidden',
+      session: (transport: typeof fetch) =>
+        createP2ReviewClient(f.web.webOrigin, transport).p2StaffSession({}),
+    },
+    {
+      prefix: '/local-p2-operations-api',
+      authorized: f.operator.handle,
+      status: 403,
+      code: 'forbidden',
+      session: (transport: typeof fetch) =>
+        createOperationsP2Client(f.web.webOrigin, transport).p2OperationsSession({}),
+    },
+    {
+      prefix: '/local-p2-api',
+      authorized: f.company.handle,
+      status: 401,
+      code: 'unauthorized',
+      session: (transport: typeof fetch) =>
+        createP2PartnerClient(f.web.webOrigin, transport).p2PartnerSession({}),
+    },
+  ];
+  for (const surface of surfaces) {
+    // A legitimate principal proves this is a reachable session contract, not a route refusal.
+    expect(await surface.session(send(surface.prefix, surface.authorized))).toMatchObject({
+      data: { csrf: expect.any(String) },
     });
-    expect(r.ok).toBe(false);
-    const text = await r.text();
-    for (const secret of [f.token, f.operator.handle, f.example.owner.token])
-      expect(text).not.toContain(secret);
+    const ownerTransport: typeof fetch = async (input, init) => {
+      const response = await send(surface.prefix, f.token)(input, init);
+      expect(response.status).toBe(surface.status);
+      const text = await response.clone().text();
+      for (const secret of [f.token, f.operator.handle, f.example.owner.token])
+        expect(text).not.toContain(secret);
+      return response;
+    };
+    await expect(surface.session(ownerTransport)).rejects.toMatchObject({ code: surface.code });
   }
   expect(
     (
