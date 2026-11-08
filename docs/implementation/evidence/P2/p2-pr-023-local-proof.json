@@ -68,6 +68,7 @@
     "tests/fixtures/phase2/owner-web.ts": "4d8057eb50314aab18d1f18bb6ccbca26f41f1b874d8740a5d54ea403205f326",
     "tests/fixtures/phase2/render-owner-pdf.ts": "e10dc70981a57a4cc275ada97fb78953f4958288f526250f85135e2d7f87cfce",
     "tests/fixtures/phase2/serve-owner.ts": "9af70781824a4b7519d71e05fc4de4bfa98ce79bc0601e0a7fde2683b6f22f1b",
+    "tests/unit/analysis-delivery.test.ts": "86f04ae8318e5d45eaa4c2c1a67b047f7768ce5f120b6e7bb37a5174963d7d0e",
     "tests/unit/phase2-analysis-presentation.test.ts": "d7009948ff9d99005767d21b28b3c811d50afcdec223849972ba7fb22a8bc5dc",
     "tests/unit/phase2-api-client.test.ts": "7fdccf192a8c74856f7a0e869f6dca91e47c80662cbfe64734c844d515c9cccf",
     "tests/unit/phase2-assisted-forms.test.ts": "7fb218198ac7718152783726d3e750f631da7f30d3660b76774b9ac5ed98b5e9",
@@ -106,5 +107,11 @@
   "rendererFollowupLogSha256": "0aae39b4e8e14bd55520ed7eabcb0f425a6dea684ce105222f142b66880c965f",
   "finalBehaviorBrowserObserved": true,
   "formatOnlyFollowup": "Full regression found one Prettier failure in analysis-delivery.ts; formatted without behavior changes; final exact full verification required.",
-  "failedFormatFullLogSha256": "f421e889afd8133b9ecadbc1fb2788efcf2e52e928d7d97bf4e1eea502ccd861"
+  "failedFormatFullLogSha256": "f421e889afd8133b9ecadbc1fb2788efcf2e52e928d7d97bf4e1eea502ccd861",
+  "deliveryRedactionRegression": {
+    "testsPassed": 29,
+    "failedLogSha256": "2fa03755ad677a4382854682252f973da8045709221045e63ef5dd4ea0359168",
+    "passedLogSha256": "83c5106ba5831a81af69b76fb3b2352b66fec5a04187e920b4c46d8007ff7fdb",
+    "resolution": "Replace obsolete rejection of generic owner word with assertions excluding actual private claim values and citation identifiers, retaining safety/URL/markup/prompt exclusions."
+  }
 }
