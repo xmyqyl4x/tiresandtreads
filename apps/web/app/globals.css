@@ -1450,3 +1450,11 @@ fieldset {
     padding: 0.75rem;
   }
 }
+/* Structural group used to disable a private assessment during a pending command. */
+.assessment-form > fieldset.assessment-inputs {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
+  background: transparent;
+}

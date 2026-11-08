@@ -22,7 +22,7 @@ it('admits only the reviewed owner operations, never staff, partner, session cre
     ['/api/v1/sessions', 'POST'],
     ['/api/v1/shared', 'GET'],
     ['/api/v1/reports/' + id + '/versions/01/analysis', 'POST'],
-    ['/api/v1/photos', 'POST'],
+    ['/api/v1/photos/' + id + '/save/arbitrary', 'POST'],
   ])
     expect(p2ProxyContract(path!, method!, 'owner')).toBeNull();
 });

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-024",
+  "browser": "in-app browser",
+  "actualBrowserInteraction": true,
+  "syntheticPreparedOwnedPhoto": true,
+  "actualBrowserFileUpload": false,
+  "observations": [
+    "purpose default-off; manual answers retained",
+    "explicit extraction and refresh; partial DOT and unknown readings",
+    "corrected tire size235/65R17 confirmed revision1",
+    "no apply control before confirmation; assessment unchanged after extraction and confirmation",
+    "explicit front-only application resets placard confirmation and retains rear,region,wheel,wet priority",
+    "remove photo then reauthorize history: removed entry absent, assessment preserved",
+    "explicit placard confirmation and manual assessment committed/opened",
+    "keyboard Tab;390/1280px no page overflow, duplicate IDs or unnamed inspected controls",
+    "console clean; disconnect clears private state"
+  ],
+  "viewportWidths": [
+    390,
+    1280
+  ],
+  "actualBrowserWallClockExpiry": false,
+  "actualAuthenticationAccepted": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAcceptance": false,
+  "wcagCertification": false,
+  "browserMatrixAccepted": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

@@ -9,6 +9,9 @@ import { createLocalReportAnalysisRuntime } from '../../../packages/integrations
 import { createAnalysisErasureRepository } from '../../../packages/db/src/repositories/analysis-lifecycle.ts';
 import { createAnalysisPresentationRepository } from '../../../packages/db/src/repositories/analysis-presentation.ts';
 import { createAnalysisPresentationService } from '../../../packages/application/src/analysis/analysis-presentation.ts';
+import { createPhotoPresentationService } from '../../../packages/application/src/analysis/photo-presentation.ts';
+import { createPhotoPresentationRepository } from '../../../packages/db/src/repositories/photo-presentation.ts';
+import { photoPresentationRoutes } from '../../../packages/integrations/src/http/phase2-photo-presentation.ts';
 import { fixtureReportServices } from '../http/report-services.ts';
 import { analysisPhotoRoutes } from '../../../packages/integrations/src/http/phase2-analysis.ts';
 import { analysisDeliveryRoutes } from '../../../packages/integrations/src/http/phase2-analysis-delivery.ts';
@@ -73,6 +76,13 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
     photo = await composePhotoServices(f);
     const analysis = await composeReportAnalysis(f),
       example = await analysis.example();
+    const photoExample = await photo.example();
+    // Fixed synthetic policy; each owner retains independent capture/history authorization.
+    const photoPresentation = createPhotoPresentationService({
+      ...photo.d,
+      presentation: createPhotoPresentationRepository(photo.adapter),
+      policyId: photoExample.policy,
+    });
     privacy = composeHttpPrivacy(f, photo);
     const runtime = await createLocalReportAnalysisRuntime({
       mode: 'local-opt-in',
@@ -108,6 +118,8 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
     const token = randomBytes(32).toString('base64url'),
       csrf = randomBytes(32).toString('hex'),
       actors = new Map<string, HttpActor>([[token, { keys: example.keys, csrf }]]);
+    const photoToken = randomBytes(32).toString('base64url');
+    actors.set(photoToken, { keys: photoExample.keys, csrf });
     const stranger = await f.owner(),
       strangerToken = randomBytes(32).toString('base64url');
     actors.set(strangerToken, { keys: [stranger.token], csrf });
@@ -126,14 +138,18 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
           }),
           ...analysisDeliveryRoutes({ delivery: delivery!.service, admission, secret }),
           ...analysisPresentationRoutes(presentation),
+          ...photoPresentationRoutes(photoPresentation),
           ...ownerReportWebRoutes({ delivery: delivery!.service, policy: delivery!.contactPolicy }),
           ...publicOwnerRoutes({
             reports: reports.reports,
             shareKeys: () => [],
-            lookup: async () => ok({}),
+            lookup: async () =>
+              ok({ coverage: 'unavailable', source: null, items: [], next: null }),
             content: async () => ok({}),
             download: async () => fail(failure('not_found')),
-          }).filter((r) => r.operationId === 'readReport'),
+          }).filter((r) =>
+            ['readReport', 'createReport', 'lookupReference'].includes(r.operationId),
+          ),
         ]),
         security: {
           authenticate: async (r) =>
@@ -156,6 +172,9 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
       delivery,
       reports,
       example,
+      photoExample,
+      photoPresentation,
+      photoToken,
       report: value(id('report', created.report_id)),
       previousBundle,
       token,
