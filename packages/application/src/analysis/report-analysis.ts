@@ -120,6 +120,40 @@ export function createReportAnalysisServices(d: {
     return rebuilt.ok && canonical(rebuilt.value) === canonical(work.packet);
   }
   return Object.freeze({
+    attachment(keys: readonly KeyDigest[], raw: unknown) {
+      return safely(async () => {
+        const x = exact(raw, 'reportId,version'),
+          reportId = uuid('report', x.reportId),
+          authorization = capturedKeys(keys);
+        demand(
+          typeof x.version === 'number' &&
+            Number.isSafeInteger(x.version) &&
+            x.version >= 1 &&
+            x.version <= 2147483647,
+        );
+        const version = x.version;
+        return run(async (tx) => {
+          const who = await owner(tx, authorization),
+            evidence = await d.repository.evidence(tx, who.subjectId, reportId, version);
+          demand(evidence, 'not_found');
+          const projection = await d.attachments.report(tx, who.subjectId, reportId, version);
+          return ok({
+            state: projection ? ('available' as const) : ('unavailable' as const),
+            reportId,
+            version,
+            attachment: projection
+              ? {
+                  revision: projection.revision,
+                  kind: projection.kind,
+                  output: projection.output,
+                  generatedAt: projection.generatedAt,
+                  validUntil: projection.validUntil,
+                }
+              : null,
+          });
+        });
+      });
+    },
     request(keys: readonly KeyDigest[], raw: unknown) {
       return safely(async () => {
         const x = exact(raw, 'allowed,key,noticeVersion,policyId,reportId,version'),

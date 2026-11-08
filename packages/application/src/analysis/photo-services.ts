@@ -515,6 +515,13 @@ export function createPhotoServices(d: {
         return run(async (tx) => ok(await view(tx, await authorized(tx, auth, upload))));
       });
     },
+    deletionTarget(k: readonly KeyDigest[], raw: unknown) {
+      return safe(async () => {
+        const upload = uuid('photo_upload', raw),
+          auth = keys(k);
+        return run(async (tx) => ok((await authorized(tx, auth, upload)).scopeId));
+      });
+    },
     confirm(k: readonly KeyDigest[], raw: unknown) {
       return safe(async () => {
         const x = exact(raw, 'candidateId,field,revision,uploadId,value'),
