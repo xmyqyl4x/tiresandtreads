@@ -163,7 +163,9 @@
     "apps/web/src/phase2/response.ts": "2f82827cfe4063ec27c0ad24280e9553d422b952874960742126f7daac97d302",
     "tests/fixtures/phase2/security-web.ts": "7e23c8b4a200c54c857087708277c1d46358108dd192f2f5c52adfc7fd2c36ff",
     "tests/fixtures/phase2/security-archive.ts": "18dfec5130315941b084a685c820dd3d963de34ae7b53affa1a5c3788485efca",
-    "tests/fixtures/phase2/operations-web.ts": "9cd74f3bcbc32e18bbc88130691b2a0530310a8dc18994c6f98a4218475be8f8"
+    "tests/fixtures/phase2/operations-web.ts": "9cd74f3bcbc32e18bbc88130691b2a0530310a8dc18994c6f98a4218475be8f8",
+    "scripts/observability/postgres.ts": "ade70ef7207172335ab88aaa43fd7f50b797ff15c6676636bbee319b8cb391c8",
+    "scripts/observability/observer.ts": "f67e5b1ddf18a4a851faf7b4c6fbd38e194443881867a7213bd56a501d437fad"
   },
   "defaultMigrations": {
     "app": {
@@ -626,5 +628,10 @@
     "card": "P3-PR-001",
     "requires": "Accepted P2 release or explicit owner-defined local sequencing exception",
     "authorizedByThisPacket": false
+  },
+  "validationFollowup": {
+    "path": "docs/implementation/evidence/P2/p2-pr-027-validation-followup.json",
+    "sha256": "6fcca9c5840894fa16bad7dce2cb9e026571a9daed3753bcf79514df50b85713",
+    "historicalBaselineUnchanged": true
   }
 }

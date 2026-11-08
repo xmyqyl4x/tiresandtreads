@@ -566,3 +566,5 @@ Validation follow-up: a bounded 40-minute CI job budget accommodates the complet
 - [x] Prepare controlled rollout, real-journey observations, operator responsibilities, full budget intake, uncertainty/pause/rollback and owner decision handoff.
 
 See the [local release packet](../implementation/P2-PR-027-local-release-preparation.md), [machine-readable inventory](../implementation/evidence/P2/p2-pr-027-release-inputs.json) and [rollout handover](../operations/phase-2-controlled-rollout.md). New exact-commit build/regression, fresh review and actual PR/main checks are required before reporting local preparation complete. The original three live tasks remain open. Production composition/promotion, actual approvals and5-10 verified real pilot organizations are outstanding; no local merge accepts the phase or grants early P3 sequencing.
+
+Validation follow-up replaces an unreliable fixed-delay capacity-test baseline with bounded stable actual samples, preserving the production observer, threshold and policy. All eight isolated observation cases pass; historical evidence and source reconciliation remain unchanged. Full corrected-commit verification is required.

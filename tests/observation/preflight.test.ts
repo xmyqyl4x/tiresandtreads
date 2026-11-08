@@ -378,15 +378,36 @@ it('observes actual queue backlog, denied/stale evidence, synthetic acknowledgem
   }
 });
 it('measures real usable connection capacity under three controlled clients without confusing quota rows', async () => {
-  await new Promise((r) => setTimeout(r, 1300));
-  await observer().sample();
-  const initial = await source.readCapacity(),
-    baseline = Number(initial.backends),
-    threshold = Math.floor(((baseline + 1) * 10000) / 70),
+  const warm = observer(),
+    baselineSamples: number[] = [];
+  let baseline = 0,
+    stableSince = performance.now();
+  // Exercise all lazy read/health pools before calibrating the synthetic threshold.
+  // A fixed sleep followed by one count cannot prove those connections have settled.
+  await vi.waitFor(
+    async () => {
+      const sample = await warm.sample();
+      expect(sample.fresh).toBe(true);
+      expect(sample.capacity).not.toBeNull();
+      const count = sample.capacity!.observedDatabaseBackends;
+      if (count !== baseline) {
+        baseline = count;
+        stableSince = performance.now();
+      }
+      baselineSamples.push(count);
+      expect(performance.now() - stableSince).toBeGreaterThanOrEqual(1000);
+    },
+    { timeout: 5000, interval: 100 },
+  );
+  const initial = await source.readCapacity();
+  expect(Number(initial.backends)).toBe(baseline);
+  const threshold = Math.floor(((baseline + 1) * 10000) / 70),
     monitor = observer(threshold),
     clients: pg.Client[] = [];
   try {
-    expect((await monitor.sample()).activeAlerts).not.toContain('database_capacity');
+    const unpressured = await monitor.sample();
+    expect(unpressured.capacity!.observedDatabaseBackends).toBe(baseline);
+    expect(unpressured.activeAlerts).not.toContain('database_capacity');
     for (let n = 0; n < 3; n++) {
       const c = new pg.Client({
         connectionString: f.connectionUrl(n === 0 ? 'tt_operations_runtime' : 'tt_catalog_runtime'),
@@ -415,7 +436,14 @@ it('measures real usable connection capacity under three controlled clients with
     expect(raised.queues!.find((q) => q.code === 'quota_capacity')!.queued).toBe(0);
     await Promise.all(clients.map((c) => c.end()));
     clients.length = 0;
-    expect((await monitor.sample()).activeAlerts).not.toContain('database_capacity');
+    await vi.waitFor(
+      async () => {
+        const recovered = await monitor.sample();
+        expect(recovered.capacity!.observedDatabaseBackends).toBe(baseline);
+        expect(recovered.activeAlerts).not.toContain('database_capacity');
+      },
+      { timeout: 5000, interval: 100 },
+    );
     metrics.capacity = {
       required: 69,
       raw: 75,
@@ -423,6 +451,9 @@ it('measures real usable connection capacity under three controlled clients with
       usable: 70,
       controlledClients: 3,
       baselineDatabaseBackends: baseline,
+      baselineSamples,
+      baselineStableForMs: 1000,
+      baselineDeadlineMs: 5000,
       observedDatabaseBackends: c.observedDatabaseBackends,
       fixtureThresholdBasisPoints: threshold,
       quotaRows: 0,
