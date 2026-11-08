@@ -35,6 +35,11 @@ try {
     'tests/unit/phase2-response-contracts.test.ts',
     'tests/unit/phase2-dispute-authorization.test.ts',
     'tests/unit/phase2-analysis-http.test.ts',
+    'tests/unit/phase2-contract-pins.test.ts',
+    'tests/unit/photo-dependency-pins.test.ts',
+    'tests/unit/product-source-pins.test.ts',
+    'tests/usecases/evidence-readiness.test.ts',
+    'tests/usecases/restore-readiness.test.ts',
   ]);
 } finally {
   try {

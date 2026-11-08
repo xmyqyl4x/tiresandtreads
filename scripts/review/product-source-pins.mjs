@@ -102,10 +102,16 @@ export function reconcileProductPins(root, rawPins) {
       path: p.path,
       sha256: photoOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
     }));
+  const afterPhoto = mergeReviewedPins(staffResult, photoResult, photoOverlay),
+    apiOverlay = apiContractPins.filter((e) => present.has(e.path)),
+    apiResult = afterPhoto.map((p) => ({
+      path: p.path,
+      sha256: apiOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(staffResult, photoResult, photoOverlay),
+    pins: mergeReviewedPins(afterPhoto, apiResult, apiOverlay),
     exceptions: new Set(
-      [...entries, ...overlay, ...staffOverlay, ...photoOverlay].map((e) => e.path),
+      [...entries, ...overlay, ...staffOverlay, ...photoOverlay, ...apiOverlay].map((e) => e.path),
     ).size,
   };
 }
@@ -124,6 +130,20 @@ export const photoDependencyPins = Object.freeze(
       currentSha256: 'd0ed0cf9f1b6469150d1ae0a7eb4527bc37d2000327613d69262fc03c6cba97a',
       reason:
         'Explicit pinned local Sharp0.35.5 tooling dependency with existing peer/native resolutions; frozen historical execution and all acceptance holds retained.',
+    },
+  ].map((p) => Object.freeze(p)),
+);
+
+// Only the two normal contract scripts advance to generate/check the opt-in API.
+// Dependency pins, old execution receipts and actual acceptance remain unchanged.
+export const apiContractPins = Object.freeze(
+  [
+    {
+      path: 'package.json',
+      baselineSha256: '84e7ae89cc0e804b64f4b02abc5273b6152399bbb21791e9de40e06d92f0964b',
+      currentSha256: '695486b5da6baa31ccb9a4b02386a508e788f7edc8ea56933ae5e2c8c52d1098',
+      reason:
+        'Only contracts:generate and contracts:check include the opt-in Phase2 artifact; dependencies, lockfile, historical execution and all acceptance holds retained.',
     },
   ].map((p) => Object.freeze(p)),
 );

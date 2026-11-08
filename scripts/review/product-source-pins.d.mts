@@ -12,3 +12,4 @@ export const photoDependencyPins: readonly Readonly<{
   currentSha256: string;
   reason: string;
 }>[];
+export const apiContractPins: typeof photoDependencyPins;
