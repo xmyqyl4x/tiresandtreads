@@ -115,3 +115,42 @@ it('keeps ordinary ingress bounded and admits only the reviewed private binary u
     previewBodyLimit('/local-p2-api/api/v1/partners/organizations/' + org + '/assets', 'GET'),
   ).toBe(65536);
 });
+
+function audienceForm() {
+  const f = new FormData();
+  for (const [key, value] of Object.entries({
+    quantity: '4',
+    skuId: org,
+    modelId: org,
+    size: '225/45R18',
+    rim: '18',
+    category: 'touring',
+  }))
+    f.set(key, value);
+  return f;
+}
+it('preserves optional coordinates for actual radius matching and keeps omitted coordinates unknown', () => {
+  const f = audienceForm();
+  f.set('latitude', '34.05');
+  f.set('longitude', '-118.25');
+  expect(simulation(f)).toMatchObject({ latitude: 34.05, longitude: -118.25 });
+  f.delete('latitude');
+  f.delete('longitude');
+  expect(simulation(f)).toMatchObject({ latitude: null, longitude: null });
+});
+it('refuses partial, nonfinite and out-of-range simulation coordinates before transport', () => {
+  for (const [lat, lon] of [
+    ['34', ''],
+    ['', '-118'],
+    ['NaN', '-118'],
+    ['91', '0'],
+    ['0', '181'],
+    ['-91', '0'],
+    ['0', '-181'],
+  ]) {
+    const f = audienceForm();
+    f.set('latitude', lat!);
+    f.set('longitude', lon!);
+    expect(() => simulation(f)).toThrow();
+  }
+});

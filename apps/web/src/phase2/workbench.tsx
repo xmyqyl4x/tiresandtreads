@@ -261,6 +261,7 @@ export function Field({
   value,
   min,
   max,
+  step = '1',
 }: {
   name: string;
   label: string;
@@ -270,6 +271,7 @@ export function Field({
   value?: string;
   min?: string;
   max?: string;
+  step?: string;
 }) {
   const id = useId();
   return (
@@ -302,7 +304,7 @@ export function Field({
           min={min}
           max={max}
           maxLength={2048}
-          step={type === 'number' ? '1' : undefined}
+          step={type === 'number' ? step : undefined}
         />
       )}
     </label>
