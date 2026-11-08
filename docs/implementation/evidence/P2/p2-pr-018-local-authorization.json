@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-018",
+  "authority": "Owner requested current completion and next three local PRs after PR105, fully implement/test/validate/merge; existing local API exception and all actual acceptance/deployment holds retained.",
+  "scope": "Local P2 reseller/staff/operations and owner reservation-intent HTTP implementation; no provider dispatch or activation.",
+  "prerequisiteReviewedHead": "71e05aee65811d24335674cdd3054cdd419b28e5",
+  "actualP2S3S4Acceptance": "pending",
+  "actualAuthenticationMfa": "pending",
+  "sixS3GatesOpen": true,
+  "HS01toHS08": "proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "actualAcceptanceAndDeployment": "held",
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

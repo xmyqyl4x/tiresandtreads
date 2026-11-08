@@ -1,0 +1,16 @@
+{
+  "kind": "opt-in-disposable-local",
+  "promoted": false,
+  "baseAppManifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+  "priorLocalManifestSha256": "c5714b5b99864f083fc555b987956724aefcfaa7a191793bf426193c9d90a4cd",
+  "priorLocalHead": "0053_staff_csv_services",
+  "migrations": [
+    {
+      "id": "0054_http_admission",
+      "sha256": "096c8a4a4f141c7e56c31906093fec5f81eaa933b0a2d124f44c934d994ed9af"
+    }
+  ],
+  "tables": [
+    "admin.p2_http_admissions"
+  ]
+}

@@ -1,3 +1,5 @@
+import { partnerContext } from './partner-support.ts';
+import { pilotTargetsFromRows } from './pilot-candidates.ts';
 import type { PartnerModerationRepository } from '../../../application/src/ports/partner-services.ts';
 import { createPartnerOfferRepository } from './partner-offers.ts';
 import { guarded, stop, type WriteScope } from './mutations.ts';
@@ -20,6 +22,18 @@ export function createPartnerModerationRepository(s: WriteScope): PartnerModerat
       return created;
     },
     version: repo.version,
+    async simulationTargets(tx, scope, id, version) {
+      const org = await partnerContext(s, tx, scope);
+      const rows = (
+        await q(
+          tx,
+          `SELECT t.*,t.rim_inches::text,t.radius_km::text,l.status AS location_status,l.approved_address,l.market AS location_market FROM partners.offer_targets t LEFT JOIN partners.locations l ON l.org_id=t.org_id AND l.id=t.location_id WHERE t.org_id=$1 AND t.offer_id=$2 AND t.offer_version=$3 ORDER BY t.id LIMIT 101`,
+          [org, uid('partner_offer', id), integer(version, 1, 2147483647)],
+        )
+      ).rows;
+      if (rows.length > 100) return stop('unavailable');
+      return pilotTargetsFromRows(rows);
+    },
     async submit(tx, org, offer, version, actor) {
       await q(tx, 'SELECT partners.lock_offer_write($1,$2)', [
         uid('organization', org),

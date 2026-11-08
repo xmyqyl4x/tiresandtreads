@@ -1,4 +1,12 @@
-import { ok, fail, id, instant, type Id, type Result } from '../../../domain/src/values/core.ts';
+import {
+  ok,
+  fail,
+  id,
+  instant,
+  revision,
+  type Id,
+  type Result,
+} from '../../../domain/src/values/core.ts';
 import {
   parseStaffCsv,
   validateCsvDefinition,
@@ -212,6 +220,33 @@ export function createStaffCsvServices(
     });
   }
   return Object.freeze({
+    status(actorRaw: unknown, raw: unknown) {
+      return safe(async () => {
+        const c = await load(uid('staff', actorRaw), uid('csv_intake', raw));
+        return ok({ id: c.id, phase: c.phase, runId: c.runId, expiresAt: c.expiresAt });
+      });
+    },
+    rollback(actorRaw: unknown, raw: unknown) {
+      return safe(async () => {
+        const actor = uid('staff', actorRaw),
+          x = exact(raw, 'approvalId,bundleId,expected,expectedBundleId,intakeId'),
+          intake = uid('csv_intake', x.intakeId),
+          expected = revision(x.expected);
+        demand(expected.ok);
+        const input = {
+          actorId: actor,
+          approvalId: uid('audit_event', x.approvalId),
+          bundleId: uid('bundle', x.bundleId),
+          expectedHead: { bundleId: uid('bundle', x.expectedBundleId), revision: expected.value },
+        };
+        return run(d.publishUow, async (tx) => {
+          await d.publishSupport.authorize(tx, actor, 'data.publish');
+          // The existing operation requires a distinct pre-recorded exact rollback approval and CAS.
+          const market = await d.publishSupport.rollbackMarket(tx, actor, intake);
+          return d.publicationOperations.rollback(tx, { ...input, market });
+        });
+      });
+    },
     createTemplate(actorRaw: unknown, raw: unknown) {
       return safe(async () => {
         const actor = uid('staff', actorRaw),

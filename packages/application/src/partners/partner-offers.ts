@@ -1,3 +1,4 @@
+import { matchPilotOffers, type PilotAudience } from '../../../domain/src/offer-matching.ts';
 import type { Id } from '../../../domain/src/values/core.ts';
 import { partnerDraft } from '../../../domain/src/partner-policy.ts';
 import type { PartnerOfferTarget } from '../ports/partner-repositories.ts';
@@ -92,6 +93,47 @@ export function createPartnerOfferServices(
     return v;
   };
   return {
+    simulate(
+      handle: string,
+      organizationId: Id<'organization'>,
+      offerId: Id<'partner_offer'>,
+      version: number,
+      raw: PilotAudience,
+    ) {
+      return c.safe(async () => {
+        const org = identifier('organization', organizationId),
+          id = identifier('partner_offer', offerId),
+          n = number(version),
+          audience = capture(raw),
+          p = await c.principal(handle);
+        demand(
+          audience.market === 'US' &&
+            audience.currency === 'USD' &&
+            Array.isArray(audience.products) &&
+            audience.products.length <= 2 &&
+            Number.isInteger(audience.quantity) &&
+            audience.quantity >= 1 &&
+            audience.quantity <= 4,
+        );
+        return c.run(async (tx) => {
+          await c.member(tx, p, org, ['owner', 'manager', 'analyst'], true);
+          const offer = await repo.version(tx, { organizationId: org, actor: p.subject }, id, n);
+          demand(offer, 'not_found');
+          const targets = await repo.simulationTargets(
+              tx,
+              { organizationId: org, actor: p.subject },
+              id,
+              n,
+            ),
+            available = await repo.eligible(tx, org, id, n);
+          return {
+            hypothetical: true as const,
+            capacityChecked: false as const,
+            decisions: matchPilotOffers(audience, [{ offer, targets, available }]),
+          };
+        });
+      });
+    },
     draft(
       handle: string,
       organizationId: Id<'organization'>,

@@ -58,6 +58,7 @@ export interface CsvPublication {
   readonly published: boolean;
 }
 export interface StaffCsvRepository {
+  rollbackMarket(tx: Tx, actor: Id<'staff'>, intake: Id<'csv_intake'>): Promise<string>;
   authorize(
     tx: Tx,
     actor: Id<'staff'>,

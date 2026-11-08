@@ -378,11 +378,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC11, UC13, AT09, AT15, AT22. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Expose scoped organization/offer/moderation/reservation/simulation/reporting/dispute endpoints.
-- [ ] Expose private import upload/template/diff/approval/status/rollback and masked operations endpoints.
-- [ ] Add versioned contracts, MFA/roles/RLS, quotas, idempotency, expected revisions and audit.
+- [x] Expose scoped organization/offer/moderation/reservation/simulation/reporting/dispute endpoints.
+- [x] Expose private import upload/template/diff/approval/status/rollback and masked operations endpoints.
+- [x] Add versioned contracts, MFA/roles/RLS, quotas, idempotency, expected revisions and audit.
 
 **Verification and acceptance:** Running HTTP tenant/CSV/race tests pass; guessing IDs or injecting file/URL data cannot bypass shared services.
+
+**Local implementation only:** [HTTP packet](../implementation/P2-PR-018-local-partner-staff-api.md). Trusted authority/MFA remains synthetic in tests; actual service/API/schema/privacy/provider acceptance and all six S3 gates remain held. Generated clients and combined acceptance evidence are P2-PR-020; no gate closes.
 
 ### P2-PR-019
 

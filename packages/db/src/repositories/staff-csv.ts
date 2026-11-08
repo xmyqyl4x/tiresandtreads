@@ -123,6 +123,15 @@ function publication(raw: unknown): CsvPublication {
 export function createStaffCsvRepository(s: WriteScope): StaffCsvRepository {
   const q = s.query;
   return guarded<StaffCsvRepository>(s, {
+    async rollbackMarket(tx, actor, intake) {
+      const row = (
+        await s.query(tx, 'SELECT admin.csv_http_rollback_market($1,$2) AS market', [
+          uid('staff', actor),
+          uid('csv_intake', intake),
+        ])
+      ).rows[0];
+      return word(row?.market, 2);
+    },
     async authorize(tx, actor, permission) {
       return revisionValue(
         (
