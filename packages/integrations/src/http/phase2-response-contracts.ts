@@ -1,4 +1,5 @@
 import { presentationP2Operations } from '../../../contracts/src/phase2-presentation-client.ts';
+import { photoPresentationOperations } from '../../../contracts/src/phase2-photo-presentation-client.ts';
 import { reviewP2Operations } from '../../../contracts/src/phase2-review-client.ts';
 import { ownerP2Operations } from '../../../contracts/src/phase2-owner-client.ts';
 import { partnerP2Operations } from '../../../contracts/src/phase2-partner-client.ts';
@@ -6,6 +7,7 @@ import { staffP2Operations } from '../../../contracts/src/phase2-staff-client.ts
 import { HttpFailure, HttpSuccess, type HttpRoute } from './core.ts';
 import { ok } from '../../../domain/src/values/core.ts';
 const definitions = {
+  ...photoPresentationOperations,
   ...ownerP2Operations,
   ...partnerP2Operations,
   ...staffP2Operations,

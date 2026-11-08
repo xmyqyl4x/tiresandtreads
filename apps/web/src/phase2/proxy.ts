@@ -170,6 +170,11 @@ export async function forwardP2(
         headers.set(name, value);
       }
     }
+    if (contract.operationId === 'p2PhotoFinalize') {
+      const grant = request.headers.get('x-upload-grant');
+      if (!grant || !/^[a-f0-9]{64}$/.test(grant)) return refuse(400, 'invalid_input');
+      headers.set('x-upload-grant', grant);
+    }
     const response = await send(target.origin + path + u.search, {
       method: request.method,
       headers,

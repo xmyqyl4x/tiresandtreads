@@ -26,6 +26,7 @@ export function assessmentController(
   origin: string,
   send: typeof fetch = fetch,
   key = () => crypto.randomUUID(),
+  session?: () => Promise<{ csrf: string }>,
 ) {
   const bounded: typeof fetch = (url, options) =>
     send(url, { ...options, signal: options?.signal ?? AbortSignal.timeout(15000) });
@@ -43,11 +44,13 @@ export function assessmentController(
       if (last?.body !== body) last = { body, key: key() };
       const requestKey = last!.key;
       pending = (async () =>
-        client.create(input, (await ownerSession(origin, bounded)).csrf, requestKey))().finally(
-        () => {
-          pending = undefined;
-        },
-      );
+        client.create(
+          input,
+          (await (session ? session() : ownerSession(origin, bounded))).csrf,
+          requestKey,
+        ))().finally(() => {
+        pending = undefined;
+      });
       return pending;
     },
   };

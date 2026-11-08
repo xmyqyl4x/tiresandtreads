@@ -1,4 +1,5 @@
 import { presentationP2Operations } from '../../packages/contracts/src/phase2-presentation-client.ts';
+import { photoPresentationOperations } from '../../packages/contracts/src/phase2-photo-presentation-client.ts';
 import { reviewP2Operations } from '../../packages/contracts/src/phase2-review-client.ts';
 import { apiErrorSchema, wireSchemaJson } from '../../packages/contracts/src/http-views.ts';
 import { z, p2Uuid } from '../../packages/contracts/src/phase2-wire.ts';
@@ -6,6 +7,7 @@ import { ownerP2Operations } from '../../packages/contracts/src/phase2-owner-cli
 import { partnerP2Operations } from '../../packages/contracts/src/phase2-partner-client.ts';
 import { staffP2Operations } from '../../packages/contracts/src/phase2-staff-client.ts';
 const definitions = {
+  ...photoPresentationOperations,
   ...ownerP2Operations,
   ...partnerP2Operations,
   ...staffP2Operations,

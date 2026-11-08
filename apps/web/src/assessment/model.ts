@@ -1,4 +1,22 @@
 import type { AssessmentRequest } from '../../../../packages/contracts/src/report-inputs.ts';
+export type ConfirmedSizeApplication = { key: string; axle: 'front' | 'rear'; value: string };
+export function applyConfirmedSize(
+  before: AssessmentFields,
+  application: ConfirmedSizeApplication | null,
+): AssessmentFields {
+  if (application === null) return before;
+  const value = application.value.trim();
+  if (!/^[A-Z0-9/.-]{1,80}$/i.test(value)) throw Error('Invalid confirmed size');
+  return {
+    ...before,
+    mode: 'manual',
+    configuration: '',
+    vehicle: '',
+    year: '',
+    [application.axle]: value.toUpperCase(),
+    confirmed: false,
+  };
+}
 export type AssessmentFields = {
   mode: 'vehicle' | 'manual';
   region: string;
