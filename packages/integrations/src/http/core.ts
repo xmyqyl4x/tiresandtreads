@@ -10,6 +10,7 @@ export interface HttpActor {
   readonly csrfAliases?: readonly string[];
   readonly staff?: Id<'staff'>;
   readonly mfaAt?: number;
+  readonly partner?: Readonly<{ handle: string; subject: string }>;
 }
 export interface HttpContext {
   readonly request: Request;
@@ -108,12 +109,23 @@ export function createHttpApi(d: {
       !['json', 'bytes', 'form'].includes(mode) ||
       !Number.isInteger(limit) ||
       limit < 1 ||
-      limit > (mode === 'form' ? 8192 : mode === 'bytes' ? 262144 : 65536)
+      limit >
+        (mode === 'form'
+          ? 8192
+          : mode === 'bytes'
+            ? route.bodyContentType === 'application/octet-stream'
+              ? 16777216
+              : 262144
+            : 65536) ||
+      (route.bodyContentType !== undefined &&
+        (mode !== 'bytes' || route.bodyContentType !== 'application/octet-stream'))
     )
       throw Error('Invalid HTTP body declaration');
   }
   const routes = d.routes.map((route) => ({ route, parts: route.path.split('/') }));
+  let binaryActive = 0;
   return async function handle(request: Request, peer = '127.0.0.1'): Promise<Response> {
+    let binaryAdmitted = false;
     const requestId = randomUUID();
     const started = performance.now();
     let observedOperation = 'unmatched',
@@ -191,11 +203,12 @@ export function createHttpApi(d: {
       )
         throw new HttpFailure(403, 'forbidden');
       const actor =
-        route.access === 'owner' || route.access === 'staff'
+        route.access === 'owner' || route.access === 'staff' || route.access === 'partner'
           ? await d.security.authenticate(request)
           : null;
-      if ((route.access === 'owner' || route.access === 'staff') && !actor)
+      if (['owner', 'staff', 'partner'].includes(route.access) && !actor)
         throw new HttpFailure(401, 'unauthorized');
+      if (route.access === 'partner' && !actor?.partner) throw new HttpFailure(401, 'unauthorized');
       if (
         route.access === 'staff' &&
         (!actor?.staff ||
@@ -229,9 +242,18 @@ export function createHttpApi(d: {
       if (mutation) {
         const mode = route.bodyMode ?? 'json',
           limit = route.maxBodyBytes ?? (mode === 'form' ? 8192 : 65536);
+        if (mode === 'bytes' && route.bodyContentType === 'application/octet-stream') {
+          if (binaryActive >= 2) {
+            headers.set('retry-after', '1');
+            throw new HttpFailure(429, 'rate_limited');
+          }
+          binaryActive++;
+          binaryAdmitted = true;
+        }
         if (
           request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() !==
-          (mode === 'form' ? 'application/x-www-form-urlencoded' : 'application/json')
+          (route.bodyContentType ??
+            (mode === 'form' ? 'application/x-www-form-urlencoded' : 'application/json'))
         )
           throw new HttpFailure(415, 'unsupported_media_type');
         const length = request.headers.get('content-length');
@@ -329,6 +351,7 @@ export function createHttpApi(d: {
       // Never expose raw SQL, tokens, provider exceptions or supplied request identifiers.
       return error(503, 'unavailable', true);
     } finally {
+      if (binaryAdmitted) binaryActive--;
       try {
         void Promise.resolve(
           d.observe?.({

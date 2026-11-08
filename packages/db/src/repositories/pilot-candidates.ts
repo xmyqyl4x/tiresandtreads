@@ -100,27 +100,33 @@ export async function pilotCandidates(
             capList[n]!.units,
         ),
       caps: capList,
-      targets: targets.map((t) => {
-        const address = t.approved_address === null ? {} : obj(t.approved_address);
-        const coordinate = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
-        return {
-          strategy: text(t.strategy),
-          market: text(t.market),
-          value: t.value_text === null ? null : text(t.value_text),
-          skuId: t.sku_id === null ? null : text(t.sku_id),
-          modelId: t.model_id === null ? null : text(t.model_id),
-          brandId: t.brand_entity_id === null ? null : text(t.brand_entity_id),
-          rim: t.rim_inches === null ? null : text(t.rim_inches),
-          radiusKm: t.radius_km === null ? null : Number(t.radius_km),
-          latitude: coordinate(address.latitude),
-          longitude: coordinate(address.longitude),
-          validLocation:
-            t.location_id === null ||
-            (t.location_status === 'approved' && t.location_market === t.market),
-          rule: obj(t.rule),
-        };
-      }),
+      targets: pilotTargetsFromRows(targets),
     });
   }
   return result;
+}
+
+export function pilotTargetsFromRows(
+  rows: readonly Record<string, unknown>[],
+): import('../../../domain/src/offer-matching.ts').PilotTarget[] {
+  return rows.map((t) => {
+    const address = t.approved_address === null ? {} : obj(t.approved_address);
+    const coordinate = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+    return {
+      strategy: text(t.strategy),
+      market: text(t.market),
+      value: t.value_text === null ? null : text(t.value_text),
+      skuId: t.sku_id === null ? null : text(t.sku_id),
+      modelId: t.model_id === null ? null : text(t.model_id),
+      brandId: t.brand_entity_id === null ? null : text(t.brand_entity_id),
+      rim: t.rim_inches === null ? null : text(t.rim_inches),
+      radiusKm: t.radius_km === null ? null : Number(t.radius_km),
+      latitude: coordinate(address.latitude),
+      longitude: coordinate(address.longitude),
+      validLocation:
+        t.location_id === null ||
+        (t.location_status === 'approved' && t.location_market === t.market),
+      rule: obj(t.rule),
+    };
+  });
 }

@@ -231,6 +231,7 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
       offers?: boolean;
       adult?: boolean;
       pendingReport?: boolean;
+      capture?: boolean;
       quantity?: number;
       axles?: 'staggered' | 'single-absent' | 'single-null';
     } = {},
@@ -358,7 +359,7 @@ export async function composePilot(f: Awaited<ReturnType<typeof pilotFixture>>) 
       latitude: 34,
       longitude: -118,
     };
-    value(await service.request([owner.token], send, request));
+    if (options.capture !== false) value(await service.request([owner.token], send, request));
     return { send, owner, contact, report, reportScope, request, document, challenge };
   }
   async function offer(

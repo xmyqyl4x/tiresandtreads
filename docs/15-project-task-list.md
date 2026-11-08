@@ -123,13 +123,13 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | [P2-PR-009 — Implement reseller verification and offer moderation](tasks/phase-2-prs.md#p2-pr-009) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Service packet](implementation/P2-PR-009-local-reseller-services.md); actual authentication/provider/privacy/pilot/deployment acceptance remains pending |
 | [P2-PR-010 — Implement matching, coupon allocation and pilot delivery](tasks/phase-2-prs.md#p2-pr-010) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Service packet](implementation/P2-PR-010-local-matching-delivery.md); current-purpose rechecks, atomic code/cap/frequency allocation and uncertain handoff; actual acceptance remains pending |
 | [P2-PR-011 — Implement partner insights, disputes and consented operations](tasks/phase-2-prs.md#p2-pr-011) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local proof](implementation/evidence/P2/p2-pr-011-local-proof.json) |
-| [P2-PR-012 — Implement bounded AI report analysis and validation](tasks/phase-2-prs.md#p2-pr-012) | S3 | Not started | Unassigned | — |
-| [P2-PR-013 — Implement exact AI reuse, refresh and cost admission](tasks/phase-2-prs.md#p2-pr-013) | S3 | Not started | Unassigned | — |
-| [P2-PR-014 — Implement private tire-photo processing and confirmation](tasks/phase-2-prs.md#p2-pr-014) | S3 | Not started | Unassigned | — |
-| [P2-PR-015 — Integrate AI/photo privacy and frozen report delivery](tasks/phase-2-prs.md#p2-pr-015) | S3 | Not started | Unassigned | — |
-| [P2-PR-016 — Implement staff CSV review and publication workflow](tasks/phase-2-prs.md#p2-pr-016) | S3 | Not started | Unassigned | — |
-| [P2-PR-017 — Accept Phase 2 services and evaluate real model behavior](tasks/phase-2-prs.md#p2-pr-017) | S3 | Not started | Unassigned | — |
-| [P2-PR-018 — Expose reseller and staff CSV/operations APIs](tasks/phase-2-prs.md#p2-pr-018) | S4 | Not started | Unassigned | — |
+| [P2-PR-012 — Implement bounded AI report analysis and validation](tasks/phase-2-prs.md#p2-pr-012) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-012-local-report-analysis.md) |
+| [P2-PR-013 — Implement exact AI reuse, refresh and cost admission](tasks/phase-2-prs.md#p2-pr-013) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-013-local-ai-reuse.md) |
+| [P2-PR-014 — Implement private tire-photo processing and confirmation](tasks/phase-2-prs.md#p2-pr-014) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-014-local-photo-services.md) |
+| [P2-PR-015 — Integrate AI/photo privacy and frozen report delivery](tasks/phase-2-prs.md#p2-pr-015) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-015-local-ai-photo-privacy-delivery.md) |
+| [P2-PR-016 — Implement staff CSV review and publication workflow](tasks/phase-2-prs.md#p2-pr-016) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-016-local-staff-csv-services.md) |
+| [P2-PR-017 — Accept Phase 2 services and evaluate real model behavior](tasks/phase-2-prs.md#p2-pr-017) | S3 | Local preparation complete; original acceptance tasks pending | Codex; owner local exception | [Local packet](implementation/P2-PR-017-local-service-readiness.md) |
+| [P2-PR-018 — Expose reseller and staff CSV/operations APIs](tasks/phase-2-prs.md#p2-pr-018) | S4 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-018-local-partner-staff-api.md) |
 | [P2-PR-019 — Expose AI analysis and photo APIs](tasks/phase-2-prs.md#p2-pr-019) | S4 | Not started | Unassigned | — |
 | [P2-PR-020 — Accept all Phase 2 APIs before new frontend work](tasks/phase-2-prs.md#p2-pr-020) | S4 | Not started | Unassigned | — |
 | [P2-PR-021 — Build reseller onboarding, offers and pilot portal](tasks/phase-2-prs.md#p2-pr-021) | S5 | Not started | Unassigned | — |
@@ -253,3 +253,7 @@ P2-PR-016 local staff CSV services, bounded parser, shared script/admin workflow
 ### P2-PR-017 local service readiness
 
 The [combined service/readiness packet](implementation/P2-PR-017-local-service-readiness.md) adds latest opt-in53-schema service journeys and a fixed synthetic evaluation rehearsal over installed validators. Actual50 specialist explanation cases,50 representative labeled images, calibrated thresholds, provider/budget/privacy inputs and P2 S3/G2/G7 acceptance remain pending. No original case/gate or deployment hold closes.
+
+### P2-PR-018 local HTTP implementation
+
+The owner continuation after PR105 authorizes local P2-PR-018–020 API implementation/validation with merge while actual P2 S3/S4 and all acceptance/deployment holds remain. The [reseller/CSV/operations API packet](implementation/P2-PR-018-local-partner-staff-api.md) records scoped adapters, fixed private upload admission, exact approved rollback and local HTTP evidence. P2-PR-019 is next. Prior012–017 table rows are reconciled to their already recorded local packets; no historical approval or gate closure is inferred.

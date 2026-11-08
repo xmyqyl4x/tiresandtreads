@@ -16,10 +16,11 @@ export interface EndpointContract {
   readonly operationId: string;
   readonly method: 'GET' | 'POST' | 'DELETE';
   readonly path: string;
-  readonly access: 'public' | 'owner' | 'capability' | 'staff' | 'callback';
+  readonly access: 'public' | 'owner' | 'capability' | 'staff' | 'callback' | 'partner';
   readonly command?: boolean;
   readonly bodyMode?: 'json' | 'bytes' | 'form';
   readonly maxBodyBytes?: number;
+  readonly bodyContentType?: 'application/octet-stream';
   readonly successStatuses?: readonly (200 | 201 | 202 | 204 | 302)[];
 }
 export const sessionContracts = [

@@ -1,4 +1,12 @@
-import { ok, fail, id, instant, type Id, type Result } from '../../../domain/src/values/core.ts';
+import {
+  ok,
+  fail,
+  id,
+  instant,
+  revision,
+  type Id,
+  type Result,
+} from '../../../domain/src/values/core.ts';
 import {
   parseStaffCsv,
   validateCsvDefinition,
@@ -24,6 +32,8 @@ import type {
 import { createImportService } from '../services/ingestion.ts';
 import { serviceWork, demand, serviceFailure, ServiceFault } from '../services/service-work.ts';
 import { canonical, exact } from '../services/service-records.ts';
+import { decodeCsvPreviewEvidence } from '../../../domain/src/csv-preview.ts';
+import type { CsvPreview } from '../ports/staff-csv.ts';
 export function createStaffCsvServices(
   d: Readonly<{
     staffUow: UnitOfWork;
@@ -211,7 +221,83 @@ export function createStaffCsvServices(
       expires: () => c.expiresAt,
     });
   }
+  async function previewEvidence(actor: Id<'staff'>, c: CsvCommand, p: CsvPreview) {
+    demand(p.complete && p.runRevision > 1n, 'integrity');
+    const diff = await d.files.read(p.diffAssetId),
+      validation = await d.files.read(p.validationAssetId),
+      evidence = decodeCsvPreviewEvidence(diff, validation, {
+        intakeId: c.id,
+        head: p.head ? { bundleId: p.head.bundleId, revision: p.head.revision.toString() } : null,
+        runRevision: (p.runRevision - 1n).toString(),
+        fence: p.fence.toString(),
+        templateId: c.templateId,
+        rawHash: c.rawHash,
+        packetHash: c.packetHash,
+        parserRevision: d.parserRevision,
+      });
+    demand(evidence.ok, 'integrity');
+    demand(
+      BigInt(evidence.value.validation.accepted) + BigInt(evidence.value.validation.rejected) ===
+        BigInt(c.registration.expectedRows),
+      'integrity',
+    );
+    const current = await load(actor, c.id);
+    demand(
+      current.phase !== 'cancelled' &&
+        current.rawHash === c.rawHash &&
+        current.packetHash === c.packetHash &&
+        p.expiresAt > clock(),
+      'conflict',
+    );
+    return Object.freeze({ ...p, evidence: evidence.value });
+  }
   return Object.freeze({
+    publicationReceipt(actorRaw: unknown, raw: unknown) {
+      return safe(async () => {
+        const actor = uid('staff', actorRaw),
+          intake = uid('csv_intake', raw);
+        return run(d.publishUow, async (tx) => {
+          await d.publishSupport.authorize(tx, actor, 'data.publish');
+          return {
+            id: intake,
+            publicationBundleId: await d.publishSupport.publicationReceipt(tx, actor, intake),
+          };
+        });
+      });
+    },
+    status(actorRaw: unknown, raw: unknown) {
+      return safe(async () => {
+        const c = await load(uid('staff', actorRaw), uid('csv_intake', raw));
+        return ok({
+          id: c.id,
+          phase: c.phase,
+          runId: c.runId,
+          expiresAt: c.expiresAt,
+          publicationBundleId: c.publicationBundleId,
+        });
+      });
+    },
+    rollback(actorRaw: unknown, raw: unknown) {
+      return safe(async () => {
+        const actor = uid('staff', actorRaw),
+          x = exact(raw, 'approvalId,bundleId,expected,expectedBundleId,intakeId'),
+          intake = uid('csv_intake', x.intakeId),
+          expected = revision(x.expected);
+        demand(expected.ok);
+        const input = {
+          actorId: actor,
+          approvalId: uid('audit_event', x.approvalId),
+          bundleId: uid('bundle', x.bundleId),
+          expectedHead: { bundleId: uid('bundle', x.expectedBundleId), revision: expected.value },
+        };
+        return run(d.publishUow, async (tx) => {
+          await d.publishSupport.authorize(tx, actor, 'data.publish');
+          // The existing operation requires a distinct pre-recorded exact rollback approval and CAS.
+          const market = await d.publishSupport.rollbackMarket(tx, actor, intake);
+          return d.publicationOperations.rollback(tx, { ...input, market });
+        });
+      });
+    },
     createTemplate(actorRaw: unknown, raw: unknown) {
       return safe(async () => {
         const actor = uid('staff', actorRaw),
@@ -445,7 +531,7 @@ export function createStaffCsvServices(
             };
           }),
         );
-        if (captured.p.complete) return ok(captured.p);
+        if (captured.p.complete) return ok(await previewEvidence(actor, c, captured.p));
         const p = captured.p,
           diff = new TextEncoder().encode(
             canonical({ schema: 1, intakeId: intake, head: p.head, changes: captured.diff }, 65536),
@@ -481,7 +567,7 @@ export function createStaffCsvServices(
           validation,
           p.expiresAt,
         );
-        return run(d.publishUow, (tx) =>
+        const completed = await run(d.publishUow, (tx) =>
           d.publishSupport.completePreview(
             tx,
             actor,
@@ -490,6 +576,7 @@ export function createStaffCsvServices(
             d.crypto.sha256(validation),
           ),
         );
+        return completed.ok ? ok(await previewEvidence(actor, c, completed.value)) : completed;
       });
     },
     review(actorRaw: unknown, raw: unknown) {

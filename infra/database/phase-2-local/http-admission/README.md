@@ -1,0 +1,7 @@
+# Local Phase2 HTTP command admission
+
+Explicit opt-in0054 after the exact0053 chain;54 application migrations/224 tables. Default33 app/3 CMS manifests, models, runtime, bootstrap, CLI and preflight policy remain unchanged. Apply only through owned disposable/local composition pending actual schema/service/identity/privacy and deployment acceptance.
+
+One forced-RLS table holds keyed opaque command/fingerprint hashes. A fixed SECURITY DEFINER admission function, public-revoked and callable only by existing local partner/CSV service roles, serializes insertion and fails closed at100,000 rows. Runtime roles have no direct table access. No payload, token, address, file path, response or provider reference is stored. There is no automatic key expiry/reset or unsafe uncertain-command redispatch. Duplicate attempts return409 and require an authorized status read/operator reconciliation. Keep the separately supplied command key stable across process restarts; real custody/rotation, retention/cleanup and capacity approval remain pending. This bounded local design is not an independently durable production journal.
+
+Fixed read functions admit a currently authorized publisher's rollback only for a published intake and expose its committed bundle receipt for lost-response reconciliation. The narrow receipt read does not grant source/diff review authority. The shared P1 rollback still requires a pre-recorded exact approval, current rights, matching safety components and expected-head CAS. No arbitrary SQL, provider dispatch or approval creation is exposed.

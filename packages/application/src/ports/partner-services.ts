@@ -203,6 +203,12 @@ export interface PartnerServiceAssets {
   ready(tx: Tx, org: Id<'organization'>, asset: AssetLocation, version: string): Promise<void>;
 }
 export interface PartnerModerationRepository {
+  simulationTargets(
+    tx: Tx,
+    scope: PartnerScope,
+    id: Id<'partner_offer'>,
+    version: number,
+  ): Promise<readonly import('../../../domain/src/offer-matching.ts').PilotTarget[]>;
   draft(
     tx: Tx,
     scope: PartnerScope,
