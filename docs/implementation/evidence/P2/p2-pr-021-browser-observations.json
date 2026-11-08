@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-021",
+  "browser": "in-app browser",
+  "actualBrowserInteraction": true,
+  "syntheticIdentityAndPrivateObjects": true,
+  "actualLocalNextAndPostgreSQL": true,
+  "observations": [
+    "pending registration receipt",
+    "pending profile CAS from1 to2",
+    "approved profile edit and submit disabled",
+    "saved offer and server text preview",
+    "independent moderation submission",
+    "stale draft receipt cleared after submission on final source",
+    "completed UTC-week suppressed noncharging report",
+    "cross-tenant read refusal clears private workspace",
+    "disconnect clears credentials and private state",
+    "keyboard Tab reaches next input",
+    "inspected controls have labels and unique IDs",
+    "390px one-column and1280px two-column layout without horizontal page overflow",
+    "no browser console warnings or errors observed"
+  ],
+  "viewportWidths": [
+    390,
+    1280
+  ],
+  "largeCsvBrowserUpload": "Attempted120005-byte synthetic CSV; delayed file chooser exceeded the10-minute synthetic identity lifetime. Access was refused, private data cleared and command reference retained; successful upload is not claimed.",
+  "actualAuthenticationAccepted": false,
+  "actualS4S5Acceptance": false,
+  "wcagCertification": false,
+  "browserMatrixAccepted": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "reviewFollowup": {
+    "actualBrowserInteraction": true,
+    "observations": [
+      "invited account accepted the intended business invitation before any membership read, then loaded analyst active membership",
+      "location command showed its actual scalar UUID result",
+      "saved version1 then version2; selected version and draft version both2; saved preview contained version2 terms",
+      "submitted saved version2 for independent moderation",
+      "independent publication guidance present and reseller publication button absent",
+      "390px view had no horizontal page overflow, duplicate IDs or unnamed inspected inputs",
+      "console warnings/errors empty; disconnect cleared private state"
+    ],
+    "screenshotSha256": "e4c3181ae9fa47822a458baf5e01071d487d2b6bb654916d1bdeaa467fd7ad8d",
+    "syntheticOnly": true,
+    "actualAcceptance": false
+  }
+}

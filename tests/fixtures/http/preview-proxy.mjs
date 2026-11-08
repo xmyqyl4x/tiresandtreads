@@ -1,11 +1,12 @@
 import { createServer, request as upstream } from 'node:http';
 import { randomUUID } from 'node:crypto';
-import { previewForwardHeaders } from './preview-headers.mjs';
+import { previewForwardHeaders, previewBodyLimit } from './preview-headers.mjs';
 const mode = process.env.LOCAL_PREVIEW_MODE;
 if (!['dev', 'stage'].includes(mode) || process.env.PROVIDER_MODE !== 'fixtures')
   throw Error('Local preview proxy refused');
 const authority = '127.0.0.1:' + (mode === 'dev' ? 8380 : 8480);
-let active = 0;
+let active = 0,
+  largeActive = 0;
 function refuse(response, status, code) {
   const requestId = randomUUID();
   response.writeHead(status, {
@@ -27,13 +28,14 @@ function refuse(response, status, code) {
     }),
   );
 }
-function body(request) {
+function body(request, limit) {
   return new Promise((resolve, reject) => {
     let bytes = 0;
     const chunks = [];
     request.on('data', (chunk) => {
       bytes += chunk.length;
-      if (bytes > 65536) {
+      if (bytes > limit) {
+        request.pause();
         reject(Error('body_limit'));
         return;
       }
@@ -60,13 +62,16 @@ const server = createServer(async (incoming, outgoing) => {
     refuse(outgoing, 405, 'method_not_allowed');
     return;
   }
-  if (active >= 32) {
+  const limit = previewBodyLimit(incoming.url, incoming.method),
+    large = limit > 65536;
+  if (active >= 32 || (large && largeActive >= 1)) {
     refuse(outgoing, 503, 'unavailable');
     return;
   }
   active++;
+  if (large) largeActive++;
   try {
-    const bytes = await body(incoming),
+    const bytes = await body(incoming, limit),
       headers = previewForwardHeaders(incoming.headers, authority, incoming.url, incoming.method);
     if (!['GET', 'HEAD'].includes(incoming.method))
       headers['content-length'] = String(bytes.length);
@@ -108,6 +113,7 @@ const server = createServer(async (incoming, outgoing) => {
     else outgoing.end();
   } finally {
     active--;
+    if (large) largeActive--;
   }
 });
 server.headersTimeout = 5000;

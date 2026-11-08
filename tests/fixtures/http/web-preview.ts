@@ -31,7 +31,8 @@ export async function startWebPreview(
           SEARCH_CONSOLE_VERIFICATION?: string;
         }
       | { LOCAL_STAFF_CONSOLE: 'enabled'; LOCAL_STAFF_API_ORIGIN: string }
-      | { LOCAL_COMMERCIAL_UI: 'enabled' };
+      | { LOCAL_COMMERCIAL_UI: 'enabled' }
+      | { LOCAL_P2_UI: 'enabled'; LOCAL_P2_API_ORIGIN: string };
   },
   mailProof?: Parameters<typeof assessmentApiFixture>[0],
 ) {

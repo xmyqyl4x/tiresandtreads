@@ -443,6 +443,11 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Tenant/browser/accessibility tests pass; pilot portal has no inferred charges or paid ranking controls.
 
+Local implementation progress (actual S5/pilot acceptance remains open):
+
+- [x] Implement opt-in private onboarding/member/state controls, reviewed typed offer/coupon/simulation controls and noncharging aggregate/redemption/dispute views.
+- [x] Validate tenant/API/database/CSP boundaries and actual synthetic-browser registration, offers, suppression, keyboard/reflow and private disconnect; record source-bound evidence and preserved holds.
+
 ### P2-PR-022
 
 **Build staff CSV import and partner moderation screens**

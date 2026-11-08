@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-021",
+  "authority": "Owner explicitly authorized complete current work and the next five implementation PRs, full build/test/fix and merge into main.",
+  "authorizedLocalCards": [
+    "P2-PR-021",
+    "P2-PR-022",
+    "P2-PR-023",
+    "P2-PR-024",
+    "P2-PR-025"
+  ],
+  "localApiFrontendImplementationAllowed": true,
+  "actualS4S5Acceptance": false,
+  "sixS3GatesOpen": true,
+  "HS01toHS08": "proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "actualAcceptanceAndDeployment": "held",
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

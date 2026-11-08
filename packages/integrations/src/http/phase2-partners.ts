@@ -87,6 +87,7 @@ export function partnerRoutes(
     'organization.revision',
     'profile.services',
     'profile.revision',
+    'profile.state',
     'member.role',
     'member.status',
     'member.revision',

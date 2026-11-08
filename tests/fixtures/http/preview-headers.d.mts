@@ -4,3 +4,5 @@ export function previewForwardHeaders(
   path: string,
   method: string,
 ): Record<string, string>;
+
+export function previewBodyLimit(path: string, method: string): number;
