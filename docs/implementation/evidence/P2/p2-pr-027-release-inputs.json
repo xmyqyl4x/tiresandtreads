@@ -1,0 +1,630 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-release-input-inventory",
+  "card": "P2-PR-027",
+  "status": "live-release-held",
+  "authority": "Owner continuation to finish current and next PR with full validation and merge; restricted to local release preparation under continuing actual acceptance and deployment holds.",
+  "historicalBaseline": {
+    "mainSha": "89d7e95f53916052dc254d732a85f6aae9c19405",
+    "tree": "3894189c1540d186eb711d48136fd134d97b47c3",
+    "verifiedSourceSha": "e19b62afa5087f5efd7075c039aee091988e0d90",
+    "pullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/114",
+    "fullLocalTestExecutions": 4696,
+    "rootTests": 4586,
+    "rootFiles": 304,
+    "prChecksVerified": 9,
+    "mainChecksVerified": 9,
+    "freshCodeReviewFindings": 0,
+    "independentSecurityReviewAccepted": false,
+    "verificationScope": "Local synthetic application plus existing isolated fixtures; no actual phase or release acceptance",
+    "actualCheckLogs": {
+      "pr": [
+        {
+          "name": "bootstrap",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561139/job/128865174770",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "a272598e690ed584557f669d2ff94494f22584d98004e2b16799a4c193b1301d"
+        },
+        {
+          "name": "dependency-compatibility",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561131/job/128865175114",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "0f6bca1b0351d839427c7e1acd825a842f545dcba873132fb3a761c0e850acce"
+        },
+        {
+          "name": "io-inspection",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561347/job/128865175773",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "873df857d3437445e2996b9324f286cd8981d03c400ffcb28af352b2b851d687"
+        },
+        {
+          "name": "multitarget-coordination",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561241/job/128865175305",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "7482e4fff7873fdcde8a6ea9dc712692f8a14cfe263d55ece7fb26e6ee839610"
+        },
+        {
+          "name": "populated-preservation",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561217/job/128865175197",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "9b13fff76864409e782a0cbcb87968c051f4a942a532f61b0918f22de2425095"
+        },
+        {
+          "name": "restore-handoff",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561204/job/128865174929",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "387d0815e45c5154bf4639440da8750d9e754f1cb36dd0f31db1a3c4df2ac8a5"
+        },
+        {
+          "name": "routing-resource",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561163/job/128865175004",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "81ab7805a63131386aa9eaca382f4523def12a8783221e12502481952cd13118"
+        },
+        {
+          "name": "tls-admission",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561207/job/128865175195",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "4b7fc7c5a0bb41da9625b6f4728fd1c0daf07a737b38142f059b5a25ba308e0a"
+        },
+        {
+          "name": "trust-material",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42524561239/job/128865175342",
+          "conclusion": "success",
+          "checkout": "066427562f70cfd93ce6009d43e311a0fa16093e",
+          "rawLogSha256": "f16181aa41a2b36a3d4a6fd47b5df9fe66535e21b8462402415018dd43957522"
+        }
+      ],
+      "main": [
+        {
+          "name": "bootstrap",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573284/job/128871402551",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "3f83074b5d8b8eb31b8df32f66369b3c503ba60bc4d0a82cccd58359d0fe2bf9"
+        },
+        {
+          "name": "dependency-compatibility",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573313/job/128871402397",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "e7187411a0b9ced7fab2eba2b9b319761397ac2d6144f5ca5b0c40e9825cfff7"
+        },
+        {
+          "name": "io-inspection",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573348/job/128871402402",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "b3445114260b3f91f445d8bc8949e409452cbddb2fcf3e0436bf835e298cba63"
+        },
+        {
+          "name": "multitarget-coordination",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573388/job/128871402360",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "220ce0199c375d4a0c23e5aee7f21e84f687359ff813b6a55704b9775aab7181"
+        },
+        {
+          "name": "populated-preservation",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573311/job/128871402469",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "ed40e8e3a8797db50e7e89de5e0aa9b2d59ec2ce2438668972149bf65aaf93c0"
+        },
+        {
+          "name": "restore-handoff",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573314/job/128871402591",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "ceb9f055a84a9a2cc2ee8c5e4e68a2b4bc28a3f7064c205e6a7ed459c21a906a"
+        },
+        {
+          "name": "routing-resource",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573319/job/128871402586",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "09defe5c92696c6c7cab3e47978a6ef67090a076ae26bd402218f47aca611f61"
+        },
+        {
+          "name": "tls-admission",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573342/job/128871402428",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "bb38f9d03b8ae62e1caf7334b02746ea66ecc95ed1262d5b9c0c39b80b2a53b4"
+        },
+        {
+          "name": "trust-material",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42526573351/job/128871402184",
+          "conclusion": "success",
+          "checkout": "89d7e95f53916052dc254d732a85f6aae9c19405",
+          "rawLogSha256": "c48422e2fcf6997985bd0fad7c1ad6d241e49f8c40c9b6de48a4963091c286f6"
+        }
+      ]
+    }
+  },
+  "sourceBindingsSha256": {
+    "infra/database/app/manifest.json": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82",
+    "infra/database/cms/manifest.json": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461",
+    "pnpm-lock.yaml": "d0ed0cf9f1b6469150d1ae0a7eb4527bc37d2000327613d69262fc03c6cba97a",
+    "package.json": "695486b5da6baa31ccb9a4b02386a508e788f7edc8ea56933ae5e2c8c52d1098",
+    ".github/workflows/ci.yml": "494d8afd76ec4ca8195db6863e4288ac522df9861570b67e483838b13b3f65f3",
+    "docs/api/phase2-local.openapi.json": "467c4342db0a77db3b513f7c882f87e5ae38967bfdfb6c185ce94559d3bcb9c6",
+    "scripts/runtime/service-host.ts": "8c305ca23973d7e1782632f84247bda0a833b120b897e6688515306505ff6a2d",
+    "packages/integrations/src/service-host.ts": "48ba7f12f9f7550b11cdd82db111b9fa26d1ec4902df474e67af2763da5a2fba",
+    "apps/web/src/phase2/proxy.ts": "9209cc5a16a0d341fea6b38d1da93a2f2c141b50667e97e3fc68a4afbf6f2b9d",
+    "apps/web/src/phase2/response.ts": "2f82827cfe4063ec27c0ad24280e9553d422b952874960742126f7daac97d302",
+    "tests/fixtures/phase2/security-web.ts": "7e23c8b4a200c54c857087708277c1d46358108dd192f2f5c52adfc7fd2c36ff",
+    "tests/fixtures/phase2/security-archive.ts": "18dfec5130315941b084a685c820dd3d963de34ae7b53affa1a5c3788485efca",
+    "tests/fixtures/phase2/operations-web.ts": "9cd74f3bcbc32e18bbc88130691b2a0530310a8dc18994c6f98a4218475be8f8"
+  },
+  "defaultMigrations": {
+    "app": {
+      "count": 33,
+      "head": "0033_service_validation_operations",
+      "manifestPath": "infra/database/app/manifest.json",
+      "manifestSha256": "5caee6da40f04a9faaf6f827cf12a05665bd2082011342b92b3e3e2ed89d7c82"
+    },
+    "cms": {
+      "count": 3,
+      "head": "0003_publication_bridge",
+      "manifestPath": "infra/database/cms/manifest.json",
+      "manifestSha256": "880d1f7816b1fe92d0a90367494ad0c2f9a4a8284492abbf0ba766c1ffd2d461"
+    }
+  },
+  "localPhase2Migrations": {
+    "additionalAppMigrations": 22,
+    "totalAppMigrations": 55,
+    "expectedAppTables": 225,
+    "head": "0055_analysis_operations",
+    "productionPromoted": false,
+    "orderedManifests": [
+      {
+        "path": "infra/database/phase-2-local/app/manifest.json",
+        "sha256": "5c87352d174f1a1de1f1faed3896484ae9b13b6c83a54844d72bedc726c45285",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0034_partner_identity",
+            "sha256": "b1c6ee95ff08a8afc92d5ce2ee5e7b3af2d09dee10d210a612adfa4fa8cf270e"
+          },
+          {
+            "id": "0035_partner_offers",
+            "sha256": "150053c1d580d7b8cc094d93ee29d4739d7d5da44a0370192377f740ea977de4"
+          },
+          {
+            "id": "0036_partner_history_insights",
+            "sha256": "4a26325b54dbcb72d681432c159adcdcc6ac85aa71bec1fffdbd57f4400160ea"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/ai/manifest.json",
+        "sha256": "551c81d46e21749286874ca5c820342d0ab427cc40f5cb25ef362aac3ddc997f",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0037_ai_policy_requests",
+            "sha256": "c1f3dd44c3a0edb46fadad6cc1021a9d2bdc0478d0d1d98baf02506b45d53793"
+          },
+          {
+            "id": "0038_ai_artifacts_reuse",
+            "sha256": "176312325803910afcc2e842666ca74a34c1ddc2a0d85a5a94f86b118e25afdd"
+          },
+          {
+            "id": "0039_ai_budgets",
+            "sha256": "6f16b4773f5b6c374959097c9ec1ba0663aa52e077042f8f12e1265591b97180"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/photo-import/manifest.json",
+        "sha256": "730306b86be4531ed86eb9de58dd2d5718824609a9eef980306c5e1871bb5055",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0040_photo_uploads",
+            "sha256": "105faed3f1d3bb4bd08fd6800fdb8700cafa4e95f545e01a398a5b5958440340"
+          },
+          {
+            "id": "0041_photo_results",
+            "sha256": "335acb7ef941612bddffff0bca760812a0f67cdf95177f9d39261feadab5f628"
+          },
+          {
+            "id": "0042_staff_csv",
+            "sha256": "6f0381ccf51b9d6eaab927d1b7d68b2e277e6f8e54f7f85ad2f08463e48803ba"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/gate/manifest.json",
+        "sha256": "b0e11fee2912c0ba89b7102f0202ddf4f1375260c15bd21b1da8bdd58c9bb7e1",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0043_schema_integrity",
+            "sha256": "513c1f4d5b5088e853dd6bf38646dc68f957e45faaacf513d241b32bdcadebb4"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/repositories/manifest.json",
+        "sha256": "f231778a26caa25fd98f7d74c61ffcac809ed0380ec288d1e4107e8652464c42",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0044_partner_repository_support",
+            "sha256": "c28e2f892736d1e1faafcac450a8446e85c5b3822068fa41f041902e4ea4a24f"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/analysis-repositories/manifest.json",
+        "sha256": "49ef81b8fad943ac1aa67b745f3df2639386b4ea5b2629f915a229db65933c63",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0045_analysis_repository_support",
+            "sha256": "071b5c71ad681ff0880f96c638529135308878ffd49d3ef9de6dcd178d83c480"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/reseller-services/manifest.json",
+        "sha256": "130d099330041cc8fc0d4495bd995d02d4cfee37768867f8c6f43a9ef09aaf04",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0046_reseller_service_support",
+            "sha256": "1e41ab24036667dcac7b45b1de951063e9eeb705bd96b01ead66c96ff4bf0a13"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/pilot-services/manifest.json",
+        "sha256": "9441351aec076d9df466c16aade5c9fdc0c4c79d7e105ffc6f53f23311f545e5",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0047_pilot_services",
+            "sha256": "300fc464f3fe37d885a577ea598f1a617bed7b661b6ed85ec0acd6e780404be0"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/insights-services/manifest.json",
+        "sha256": "8b3b0931c2f11fec3255c60ff7b61414eef08a2c30e73dbd18498dd369fc7272",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0048_partner_insights",
+            "sha256": "b99e4b509344e4ded8dad1d962a6015f16ddb28788b2ae2730bb500429dc8f28"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/report-analysis/manifest.json",
+        "sha256": "0d1d855bba7ba0b22d7966b8bdeabeaf1efed58480d535b6f91359c6ced78e7d",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0049_report_analysis",
+            "sha256": "72f04e1d6c4586f009b9a392864716ec5fbddae5d0868c50c52466e8f9a9c64a"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/analysis-execution/manifest.json",
+        "sha256": "74e4d42bb933289cf002e74e09cb2f4edae7f50539b11651185ca6ed11d282b4",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0050_analysis_execution",
+            "sha256": "de1a2a6e94febf7c9f5728637d657e4e3d8a9d8d34bdb72a96f87e4919950a4c"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/photo-services/manifest.json",
+        "sha256": "55d1e04da6364c262ad1f7b43bab4e130b52b04a0ff1a2b5fa9be5c5429903bc",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0051_photo_services",
+            "sha256": "b2d57cf4e03a42479e350f2e8fd0a69ba0beebb0ece0f407ae7297e011855b1c"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/analysis-lifecycle/manifest.json",
+        "sha256": "815d51495d004e151e9e500e4cb2b66a9b49188e56ea0a12440741a8453b5c51",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0052_analysis_lifecycle",
+            "sha256": "95203f76851160ac738d9eb8de068c7fd55582112a6718e44b91d6541178a3c1"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/staff-csv-services/manifest.json",
+        "sha256": "c5714b5b99864f083fc555b987956724aefcfaa7a191793bf426193c9d90a4cd",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0053_staff_csv_services",
+            "sha256": "f9c5bbb4db0e60c17241635e5b9f8dc78abb55ff15324380c4516e9ea169b5b7"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/http-admission/manifest.json",
+        "sha256": "9f8a207fd354e090d0841a3435345a16e80723aadc80270fa4093e25a68c5330",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0054_http_admission",
+            "sha256": "7f5bfab1fc2a79fe5229be3e72c609c355bba91ca969575199f1624e0d810fc8"
+          }
+        ]
+      },
+      {
+        "path": "infra/database/phase-2-local/analysis-operations/manifest.json",
+        "sha256": "987cc328985d58912c85e4ccc79759d9519704912fcd2fe637a2ff217e373f54",
+        "kind": "opt-in-disposable-local",
+        "promoted": false,
+        "migrations": [
+          {
+            "id": "0055_analysis_operations",
+            "sha256": "70976bbeead793de9709fea44e3aac7d99a63c8087f75d1b7ea88c2964bb5764"
+          }
+        ]
+      }
+    ]
+  },
+  "localApi": {
+    "artifact": "docs/api/phase2-local.openapi.json",
+    "sha256": "467c4342db0a77db3b513f7c882f87e5ae38967bfdfb6c185ce94559d3bcb9c6",
+    "operationCount": 78,
+    "productionComposed": false
+  },
+  "historicalEvidenceSha256": {
+    "docs/implementation/evidence/P1/p1-pr-043-release-inputs.json": "c43398d01f0540a4e907ba34f8b6224663a2654055bc011ab3e15297451cc723",
+    "docs/implementation/evidence/P2/p2-pr-017-local-readiness.json": "9e1966e39d4ad0cd0a3707031869a545f2ba635d4296c147abb6f56f6f707071",
+    "docs/implementation/evidence/P2/p2-pr-020-local-proof.json": "e5ffe37e870432c03a0eea657c1a2f9fdbc062b7f7430610242b0060607aae4e",
+    "docs/implementation/evidence/P2/p2-pr-025-local-proof.json": "b18e7bfd5a2acf43e4662929e853909c68fa45ce7e97853ee6e9fe242fe8d516",
+    "docs/implementation/evidence/P2/p2-pr-026-local-proof.json": "ca32d6a1a6358a2800489d888ab94ec4f2a6ad7e370af5fff1658443513cbebf",
+    "docs/implementation/evidence/P2/p2-pr-026-browser-observations.json": "b9c8a17291b2f1c9e808b3b3b0636a2ee192da73ebdb49aed507d35438a4b11f",
+    "docs/implementation/evidence/P2/p2-pr-026-renderer-followup.json": "cd27a6ee35cb9ac5c5df97ef527a5b26a443a0fed39c2130fbf171f27e6c2b89"
+  },
+  "productionManifest": {
+    "approvedSourceSha": null,
+    "approvedTree": null,
+    "lockfileSha256": null,
+    "publishedImageDigest": null,
+    "configurationVersion": null,
+    "targetEnvironment": null,
+    "productionUrl": null,
+    "appMigrationRevision": null,
+    "cmsMigrationRevision": null,
+    "rollbackImageDigest": null,
+    "rollbackConfigurationVersion": null,
+    "migrationCompatibilityEvidence": null,
+    "runtimeCompositionEvidence": null,
+    "identityMfaEvidence": null,
+    "scannerProviderEvidence": null,
+    "modelPromptSchemaValidatorPins": null,
+    "modelEvaluationEvidence": null,
+    "rightsNoticeVersions": null,
+    "privacyRecoveryEvidence": null,
+    "approvedSmokeScope": null,
+    "actualProductionObservations": null,
+    "gateEvidence": null,
+    "ownerG5Decision": null
+  },
+  "pendingS3Register": {
+    "path": "docs/implementation/evidence/P1/s3-service-register.json",
+    "sha256": "86faa356413a522cb76746b75e40d7b8a9c6722aabefbb3aefe584988f7642a1",
+    "gates": [
+      {
+        "id": "G1-specialist",
+        "status": "pending",
+        "records": []
+      },
+      {
+        "id": "G1-fitment-catalog",
+        "status": "pending",
+        "records": []
+      },
+      {
+        "id": "G1-prices",
+        "status": "pending",
+        "records": []
+      },
+      {
+        "id": "G2-provider-effects",
+        "status": "pending",
+        "records": []
+      },
+      {
+        "id": "G2-privacy-policy",
+        "status": "pending",
+        "records": []
+      },
+      {
+        "id": "S3-service-host",
+        "status": "pending",
+        "records": []
+      }
+    ]
+  },
+  "hostingDecisions": {
+    "path": "docs/implementation/evidence/P1/p1-pr-027-staging-decision.json",
+    "sha256": "633a36210c0a003aa50fe260aca303dc24e42d0cea81b52e53ba496995afc7fa",
+    "decisions": [
+      {
+        "id": "HS01",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS02",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS03",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS04",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS05",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS06",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS07",
+        "status": "proposed",
+        "approvedValue": null
+      },
+      {
+        "id": "HS08",
+        "status": "proposed",
+        "approvedValue": null
+      }
+    ]
+  },
+  "requiredActualInputs": [
+    "P1 live acceptance and shared six S3 gates",
+    "scoped G0-G7 and S0-S6 evidence",
+    "licensed source and source-to-AI/photo/redistribution rights",
+    "actual specialist model evaluation: at least50 explanation cases and50 representative permitted labeled images, held-out corpus and calibrated safety/quality/cost thresholds",
+    "actual identity/MFA, independent tenant review and penetration test",
+    "actual P2 production runtime/provider/migration integration",
+    "accepted target, full capacity/worker/schedule and latest-chain DB/object/journal/key recovery with post-backup deletion replay",
+    "notices, privacy deadlines, erasure, provider effects and independent custody",
+    "browser/mobile/assistive-technology/PDF/inbox matrix",
+    "versioned noncharging pilot agreements and5-10 verified real organizations",
+    "accepted operator coverage/rates/support and full measured budget",
+    "exact approved immutable candidate, rollback and owner-authorized smoke/release decision"
+  ],
+  "pilot": {
+    "targetMinimumOrganizations": 5,
+    "targetMaximumOrganizations": 10,
+    "actualOrganizations": [],
+    "actualVerifiedOrganizationCount": 0,
+    "approvedCohort": null,
+    "approvedTermsVersion": null,
+    "approvedContactOrNotificationScope": null,
+    "actualModeratedJourneyEvidence": null,
+    "actualMetrics": null,
+    "chargingEnabled": false,
+    "accepted": false
+  },
+  "operations": {
+    "primaryOperator": null,
+    "backupOperator": null,
+    "coverage": null,
+    "rates": null,
+    "supportContact": null,
+    "escalationPolicy": null,
+    "approvedOneTimeBudget": null,
+    "approvedRecurringBudget": null,
+    "approvedModelRetryBudget": null,
+    "approvedCapacityTargets": null,
+    "approvedRecoveryTargets": null,
+    "approvedStopThresholds": null
+  },
+  "capabilities": {
+    "sharedP1Foundation": {
+      "actualEvidence": null,
+      "accepted": false
+    },
+    "resellerPilotG6": {
+      "actualEvidence": null,
+      "accepted": false
+    },
+    "aiAnalysisG7": {
+      "actualEvidence": null,
+      "accepted": false
+    },
+    "tirePhotoG7": {
+      "actualEvidence": null,
+      "accepted": false
+    },
+    "permissionPrivacyG2": {
+      "actualEvidence": null,
+      "accepted": false
+    },
+    "testedOperationG4": {
+      "actualEvidence": null,
+      "accepted": false
+    },
+    "publicReleaseG5": {
+      "actualEvidence": null,
+      "accepted": false
+    }
+  },
+  "acceptance": {
+    "phase1LiveAccepted": false,
+    "phase2ServicesAccepted": false,
+    "phase2ApisAccepted": false,
+    "phase2FrontendAccepted": false,
+    "phase2PilotAccepted": false,
+    "phase2LiveAccepted": false,
+    "deploymentAccepted": false,
+    "phase3EntryAccepted": false
+  },
+  "effects": {
+    "productionBootstrapChanged": false,
+    "productionRuntimeChanged": false,
+    "defaultManifestsChanged": false,
+    "providerModelChosen": false,
+    "modelConfigurationChanged": false,
+    "historicalEvidenceRewritten": false,
+    "hostedProvisioning": false,
+    "purchases": false,
+    "providerDispatches": 0,
+    "actualRecipientNotifications": 0,
+    "productionActivation": false,
+    "casesClosed": 0,
+    "gatesClosed": 0
+  },
+  "nextWork": {
+    "card": "P3-PR-001",
+    "requires": "Accepted P2 release or explicit owner-defined local sequencing exception",
+    "authorizedByThisPacket": false
+  }
+}

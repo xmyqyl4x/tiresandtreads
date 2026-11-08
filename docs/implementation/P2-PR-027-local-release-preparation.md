@@ -1,0 +1,61 @@
+# P2-PR-027 - Local release preparation; live pilot held
+
+This packet completes the permitted local preparation for the Phase 2 release card after PR114. The owner requested finishing the current PR and the next PR, with full build/test/validation, fixes and merge. PR114 is already complete at `89d7e95f53916052dc254d732a85f6aae9c19405`; no unfinished PR114 implementation is carried forward. Continuing locally does not waive the existing release, provider, specialist, operator or deployment holds. The three original live-release tasks remain open.
+
+Trace: CAP-01, CAP-04, CAP-05, CAP-06, CAP-07, UC18, E26 and P2-PR-027. The [release gates](../04-implementation-plan.md#release-gates), [Phase 2 scope](P2-PR-001-local-scope-evaluation.md), [release scaffold](../../infra/release/README.md) and [controlled rollout handover](../operations/phase-2-controlled-rollout.md) govern eventual activation. This is a preparation record, not a deploy command, accepted production candidate or live phase completion.
+
+## Verified local construction
+
+The [release-input inventory](evidence/P2/p2-pr-027-release-inputs.json) binds the historical PR114 source/merge/tree, lockfile, contract artifact, migration manifests, local evidence and actual PR/main check URLs. PR114's source `e19b62afa5087f5efd7075c039aee091988e0d90`, its CI merge checkout and main merge have the same source tree `3894189c1540d186eb711d48136fd134d97b47c3`. Full verification passed 4,696 test executions, fresh code review had no findings, and all nine PR plus nine main check logs were verified. These are historical local construction results, not actual identity, model, security certification, hosted recovery or pilot acceptance.
+
+| Card group | Built and locally exercised | Remaining release evidence |
+| --- | --- | --- |
+| 002-008 schemas and repositories | Opt-in PostgreSQL entities, constraints, forced RLS, ownership and upgrade/data-access proofs | Accepted target migration authority, real ownership/security review and production promotion |
+| 009-011 reseller services | Verification/moderation, offers, coupon allocation races, budget/dispute/aggregate controls | Real verified partners, permitted agreements/data, independent security review, budgets and support |
+| 012-017 AI/photo/CSV services | Optional analysis, exact reuse, cost/uncertainty controls, private images, explicit field confirmation, erasure and independently reviewed publication | Actual provider/scanner/source rights, specialist-labeled evaluation, calibrated quality/cost limits and privacy/custody acceptance |
+| 018-020 APIs and generated clients | 78 documented opt-in operations; real loopback HTTP/PostgreSQL journeys, private transport, current authority and P1 regression | Real authentication/MFA, target transport/composition, S3/S4 and provider acceptance |
+| 021-025 product surfaces | Reseller portal, staff CSV/moderation, report assistance/delivery, photo confirmation/manual recovery and purpose-scoped operations | Accepted browser/assistive-technology/inbox matrix, real identity, live partner/support journeys and S5 acceptance |
+| 026 integrated validation | Four private surfaces on the same Next/API/PostgreSQL55 chain; hostile uploads, authorization, withdrawal/deletion races, actual frozen HTML/text/PDF retry and SQL archive parity | Independent review, actual model/privacy/provider effects, latest-chain recovery with objects/deletion replay, G2/G4/G6/G7 and phase acceptance |
+
+Default bootstrap remains 33 app and three CMS migrations. The disposable Phase 2 chain adds22 app migrations through `0055_analysis_operations`, totaling55 app migrations/225 app tables. Its manifests remain `opt-in-disposable-local` and unpromoted. The chain inventory includes every manifest in dependency order and its actual SQL hashes. This does not add that chain to the default bootstrap or authorize a production migration. The existing PostgreSQL-only architecture and option C (app and DB outside Vercel) remain unchanged.
+
+## Release inputs still required
+
+Every decision below is pending. Proposed responsibilities identify roles, not assigned or accepted people. The inventory leaves candidate, provider/model, operator, budget, target, pilot and sign-off fields null or empty.
+
+| Required input | Responsible role, assignment unconfirmed | Completion evidence |
+| --- | --- | --- |
+| P1 and shared foundation | Owner, platform/data/privacy reviewers | Actual P1 live acceptance, the six existing S3 gates and scoped G0-G5/stage evidence; no local sequencing exception accepts a live prerequisite |
+| Source and model rights | Owner, data/privacy reviewers, specialist | Licensed contracts and source-to-AI/photo/redistribution rights, permitted coverage/freshness and recall/fitment/price evidence; current notices and retention |
+| AI and image quality | Specialist, QA, privacy/technical reviewers | At least50 explanation cases and50 representative permitted labeled images; independent held-out/leakage review; provider/model/prompt/schema/validator pins; approved per-field/abstention/usefulness/safety/cost/latency/retry limits; zero critical failures; actual capability G7 decision |
+| Identity and security | Security/platform reviewers | Real current owner/company/staff identities, MFA, independent tenant/permission review and penetration test; private uploads/decoder/scanner, CSRF, command custody and revocation evidence |
+| Hosted composition and data promotion | Platform and DB operators | Approved HS01-HS08, environment protection/TLS/secrets, target/runtime wiring, exact migration grants/ledgers, connection budget, schedules/workers, health and drain; reviewed provider adapters |
+| Privacy and recovery | Privacy, DB/platform and custody operators | Actual notices/deadlines/holds, source and derived erasure across object versions/provider effects, independent keys/journals/backups and latest-chain recovery with post-backup deletion replay before runtime reopening |
+| Complete experience | Product/content/QA reviewers | Actual supported browser/mobile/assistive-technology and PDF/inbox evidence; corrected/unknown photo paths, explicit permissions/fallback, immutable report and CSV publication; P1 regression and no critical/high unresolved defects |
+| Pilot and commercial boundaries | Owner, partner/privacy/security reviewers | Agreed5-10 verified real organizations, accepted versioned noncharging terms/agreements, reviewed current offers/coupon handling, disclosures, permission/verification/suspension/dispute processes and G6 |
+| Operations and full budget | Owner, primary/backup operators | Accepted named responsibilities/coverage/rates/escalation and support address; supplier quotes and one-time/recurring app, DB, storage, custody/backup/recovery, staging, traffic, email, scanner/model, licensed data, support and contingency costs; cutoff and reconciliation plan |
+| Final release decision | Owner and relevant reviewers | Exact immutable candidate/config/rollback manifest, applicable G0-G7 and S0-S6 evidence, explicit smoke/notification/activation scope, actual production observations and recorded owner G5 decision |
+
+Actual model evaluation cannot be replaced by synthetic cases. A fallback is required for failures and unavailable processing; it is not an implicit amendment dropping committed Phase 2 AI/photo capability. Pilot delivery is noncharging; billing, paid lead activation and later commercial capabilities need their own approval. Advertising/affiliate serving retains its separate P1 commercial/network/privacy gates.
+
+## Production integration work before a candidate can exist
+
+The current private pages/proxies and HTTP factories are explicitly local and opt-in. Their `LOCAL_P2_*` flags, loopback origin checks and synthetic identity/provider ports are test boundaries. The production runtime has not been changed to compose or activate Phase 2. Publishing the existing image or changing local flags does not provide a hosted Phase 2 application.
+
+Before selecting a release candidate, separately implement and review the actual target composition: real identity/MFA and scoped client authority, approved model/scanner/private-object/crypto/mail/workflow adapters, migration ownership and the accepted Phase 2 chain, durable command/privacy/cost custody, worker/schedule admission, authenticated routing and observability. Preserve the shared service/API separation, current-purpose/role checks and deterministic/manual fallback. No default bypass, test identity, test issuer, synthetic key, local proxy address or in-memory delivery sink may become production configuration. Revalidate complete journeys and compatibility on the accepted host. This future work needs concrete selected-provider and authority inputs and remains outstanding; this documentation PR neither implements it nor certifies it.
+
+The PR026 archive exercise proved quarantined SQL parity for225 app tables. It did not restore an object archive, replay deletion marks newer than that backup, prove independent key/journal custody or admit a production runtime. Earlier full recovery profiles retain their own33-app/3-CMS and disposable fixture scope. Combining these records does not create an unperformed latest-chain full recovery proof. Production rollback must retain privacy withdrawals, cost uncertainty, irreversible provider effects and committed publication/offer history; destructive down migrations are not a recovery plan.
+
+## Controlled rollout handoff
+
+The [rollout runbook](../operations/phase-2-controlled-rollout.md) maps each original card task to concrete prerequisites, future authorized observations, pause/recovery and required receipts. It covers real photo confirmation/manual recovery, explicit AI processing or visible fallback, exact reuse/frozen delivery, independent CSV publication, verified partner moderation/coupon behavior, staffing, uncertainty and rollback. It contains no target-specific commands because no target or authority is accepted. No real partner is contacted and no notification is sent in this preparation.
+
+The future production manifest must bind approved source/tree/lock and published image digest, target/configuration/provider-policy versions, separate app/CMS revisions and checksums, notices/model/evaluation references, gate decisions, rollback compatibility and smoke scope. All are unapproved here. A local image ID is not a published deployment digest, and this baseline's source/tree must not be prefilled as the approved future candidate. Any later integration change requires a new exact-candidate build, review and validation.
+
+## Local completion and actual phase status
+
+Completed locally: reconcile PR114 completion; inventory immutable construction evidence and both migration tracks; map release/provider/runtime/pilot gaps to accountable roles and acceptance evidence; prepare staged rollout, support, pause/rollback and owner handoff; update the working ledger while preserving original live checkboxes. This is documentation/inventory work and does not need artificial behavioral tests. Validate hashes, migration chain/SQL checksums, contract counts, linked evidence, empty approvals and unchanged production/default/history files; then run required exact-commit full build/regression, fresh review, nine PR checks and nine post-merge main checks before reporting this local PR complete. New results belong to this PR; the4696 baseline remains historical.
+
+Six S3 gates remain open; HS01-HS08 proposed; operators/coverage/rates/provider/model/budgets unconfirmed; specialist/licensed work pending. Actual source/identity/MFA/scanner/model/privacy/custody/latest-chain recovery, inbox/browser/assistive-technology matrix, independent security review, pilot, stage, phase and deployment acceptance remain held. No provisioning, purchases, live business-provider/model calls, actual recipient notifications, original case or gate closure occurs.
+
+P2-PR-027 remains open for its actual live-release tasks. P3-PR-001 is the next scheduled phase card and depends on accepted P2 release. This packet grants no early Phase 3 exception or app/MCP implementation authority; unresolved external inputs must be addressed or the owner must explicitly define a new local sequencing scope before advancing beyond this card.
