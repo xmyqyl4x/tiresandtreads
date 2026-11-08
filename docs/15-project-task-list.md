@@ -131,7 +131,7 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | [P2-PR-017 — Accept Phase 2 services and evaluate real model behavior](tasks/phase-2-prs.md#p2-pr-017) | S3 | Local preparation complete; original acceptance tasks pending | Codex; owner local exception | [Local packet](implementation/P2-PR-017-local-service-readiness.md) |
 | [P2-PR-018 — Expose reseller and staff CSV/operations APIs](tasks/phase-2-prs.md#p2-pr-018) | S4 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-018-local-partner-staff-api.md) |
 | [P2-PR-019 — Expose AI analysis and photo APIs](tasks/phase-2-prs.md#p2-pr-019) | S4 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-019-local-analysis-photo-api.md) |
-| [P2-PR-020 — Accept all Phase 2 APIs before new frontend work](tasks/phase-2-prs.md#p2-pr-020) | S4 | Not started | Unassigned | — |
+| [P2-PR-020 — Accept all Phase 2 APIs before new frontend work](tasks/phase-2-prs.md#p2-pr-020) | S4 | Local validation implemented; actual S4/frontend acceptance held | Codex | [Combined local API packet](implementation/P2-PR-020-local-api-validation.md) |
 | [P2-PR-021 — Build reseller onboarding, offers and pilot portal](tasks/phase-2-prs.md#p2-pr-021) | S5 | Not started | Unassigned | — |
 | [P2-PR-022 — Build staff CSV import and partner moderation screens](tasks/phase-2-prs.md#p2-pr-022) | S5 | Not started | Unassigned | — |
 | [P2-PR-023 — Build AI-assisted report and delivery presentation](tasks/phase-2-prs.md#p2-pr-023) | S5 | Not started | Unassigned | — |

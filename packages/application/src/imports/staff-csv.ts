@@ -579,9 +579,11 @@ export function createStaffCsvServices(
         return completed.ok ? ok(await previewEvidence(actor, c, completed.value)) : completed;
       });
     },
-    review(actorRaw: unknown, raw: unknown) {
+    review(actorRaw: unknown, raw: unknown, expectedIntakeRaw?: unknown) {
       return safe(async () => {
         const actor = uid('staff', actorRaw),
+          expectedIntake =
+            expectedIntakeRaw === undefined ? null : uid('csv_intake', expectedIntakeRaw),
           x = exact(raw, 'command,decision,previewId,reason'),
           pid = uid('csv_preview', x.previewId),
           key = command(x.command);
@@ -603,6 +605,7 @@ export function createStaffCsvServices(
               reason: x.reason as string,
             },
             old = await d.staff.reviewReplay(tx, actor, rid);
+          demand(expectedIntake === null || basis.intakeId === expectedIntake, 'conflict');
           if (old) {
             demand(canonical(old, 16384) === canonical(input, 16384), 'conflict');
             return old;

@@ -257,13 +257,13 @@ export function partnerRoutes(
     'p2ImportErrors',
     z.strictObject({}),
     (c) => d.coupons.errorReport(handle(c), org(c), p2Id('coupon_import', c.params.import)),
-    ['filename', 'mime', 'csv'],
+    ['filename', 'mime', 'csv', 'truncated'],
   );
   get(
     'p2PoolStats',
     z.strictObject({}),
     (c) => d.coupons.statistics(handle(c), org(c), p2Id('coupon_pool', c.params.pool)),
-    ['total', 'available', 'reserved', 'issued', 'quarantined', 'redeemed', 'expired'],
+    ['total', 'available', 'low'],
   );
   get('p2Report', p2Week, (c, v) => d.insights.report(handle(c), org(c), v.week), [
     'state',

@@ -1,3 +1,4 @@
+import { ok } from '../../../domain/src/values/core.ts';
 import { z, pilotApiContracts, pilotRequestInput } from '../../../contracts/src/phase2-partners.ts';
 import type { createPilotDeliveryServices } from '../../../application/src/partners/pilot-delivery.ts';
 import {
@@ -25,19 +26,18 @@ export function pilotRoutes(
       const send = p2Id('send', c.params.send);
       if (contract.operationId === 'p2PilotRequest') {
         const v = p2Parse(pilotRequestInput, c.body);
-        return command.execute(c, contract.operationId, v, async () =>
-          p2Project(await d.service.request(c.actor!.keys, send, v), [
-            'sendId',
-            'state',
-            'includeOffers',
-            'policyVersion',
-          ]),
-        );
+        return command.execute(c, contract.operationId, v, async () => {
+          const result = await d.service.request(c.actor!.keys, send, v);
+          return result.ok
+            ? ok({ sendId: send, state: 'registered', includeOffers: v.includeOffers })
+            : p2Project(result, []);
+        });
       }
       p2Parse(z.strictObject({}), c.body);
-      return command.execute(c, contract.operationId, {}, async () =>
-        p2Project(await d.service.cancel(c.actor!.keys, send), ['state']),
-      );
+      return command.execute(c, contract.operationId, {}, async () => {
+        const result = await d.service.cancel(c.actor!.keys, send);
+        return result.ok ? ok({ state: 'cancelled' }) : p2Project(result, []);
+      });
     },
   }));
 }

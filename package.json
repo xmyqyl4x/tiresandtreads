@@ -15,7 +15,7 @@
     "typecheck": "pnpm --filter @tt/web typecheck && node --max-old-space-size=1536 ./node_modules/typescript/bin/tsc --noEmit",
     "boundaries": "node scripts/verify/boundaries.mjs",
     "contracts:generate": "node scripts/contracts/openapi.mjs",
-    "contracts:check": "node scripts/contracts/openapi.mjs --check",
+    "contracts:check": "node scripts/contracts/openapi.mjs --check && node scripts/contracts/phase2-generate.mjs --check",
     "quality": "pnpm source:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm boundaries && pnpm contracts:check && pnpm db:check && pnpm s3:check",
     "s3:check": "node scripts/verify/s3.mjs",
     "s3:acceptance": "node scripts/verify/s3.mjs --require-accepted",
