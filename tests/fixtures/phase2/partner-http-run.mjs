@@ -29,6 +29,8 @@ try {
     '--project',
     'usecases',
     'tests/database/phase2-partner-http.test.ts',
+    'tests/unit/http-callback-transport.test.ts',
+    'tests/unit/csv-preview.test.ts',
     'tests/unit/phase2-http-contracts.test.ts',
     'tests/unit/phase2-http-security.test.ts',
   ]);

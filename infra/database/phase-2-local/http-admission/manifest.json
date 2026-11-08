@@ -7,7 +7,7 @@
   "migrations": [
     {
       "id": "0054_http_admission",
-      "sha256": "096c8a4a4f141c7e56c31906093fec5f81eaa933b0a2d124f44c934d994ed9af"
+      "sha256": "7f5bfab1fc2a79fe5229be3e72c609c355bba91ca969575199f1624e0d810fc8"
     }
   ],
   "tables": ["admin.p2_http_admissions"]

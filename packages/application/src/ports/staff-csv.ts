@@ -28,9 +28,13 @@ export interface CsvCommand {
   readonly registration: Registration;
   readonly expiresAt: Instant;
   readonly runId: Id<'import_run'> | null;
+  readonly publicationBundleId: Id<'bundle'> | null;
   readonly phase: 'uploading' | 'registered' | 'prepared' | 'rejected' | 'cancelled' | 'published';
 }
-export type CsvCommandInput = Omit<CsvCommand, 'runId' | 'phase' | 'actorId'> & {
+export type CsvCommandInput = Omit<
+  CsvCommand,
+  'runId' | 'phase' | 'actorId' | 'publicationBundleId'
+> & {
   readonly commandHash: string;
 };
 export interface CsvPreview {
@@ -58,6 +62,7 @@ export interface CsvPublication {
   readonly published: boolean;
 }
 export interface StaffCsvRepository {
+  publicationReceipt(tx: Tx, actor: Id<'staff'>, intake: Id<'csv_intake'>): Promise<Id<'bundle'>>;
   rollbackMarket(tx: Tx, actor: Id<'staff'>, intake: Id<'csv_intake'>): Promise<string>;
   authorize(
     tx: Tx,

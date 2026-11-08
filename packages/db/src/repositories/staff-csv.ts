@@ -40,6 +40,7 @@ function command(raw: unknown): CsvCommand {
     fingerprint: hash(r.fingerprint),
     expiresAt: at(r.expires_at),
     runId: r.run_id === null ? null : uid('import_run', r.run_id),
+    publicationBundleId: r.publication_bundle === null ? null : uid('bundle', r.publication_bundle),
     phase: choice(r.phase, [
       'uploading',
       'registered',
@@ -123,6 +124,17 @@ function publication(raw: unknown): CsvPublication {
 export function createStaffCsvRepository(s: WriteScope): StaffCsvRepository {
   const q = s.query;
   return guarded<StaffCsvRepository>(s, {
+    async publicationReceipt(tx, actor, intake) {
+      return uid(
+        'bundle',
+        (
+          await s.query(tx, 'SELECT admin.csv_http_publication_receipt($1,$2) AS id', [
+            uid('staff', actor),
+            uid('csv_intake', intake),
+          ])
+        ).rows[0]?.id,
+      );
+    },
     async rollbackMarket(tx, actor, intake) {
       const row = (
         await s.query(tx, 'SELECT admin.csv_http_rollback_market($1,$2) AS market', [

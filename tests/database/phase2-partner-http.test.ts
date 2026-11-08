@@ -1,5 +1,6 @@
 import { composePilot } from '../fixtures/phase2/compose-pilot.ts';
 import { pilotRoutes } from '../../packages/integrations/src/http/phase2-pilot.ts';
+import { createStaffCsvRuntime } from '../../packages/integrations/src/staff-csv-runtime.ts';
 import { beforeAll, afterAll, it, expect } from 'vitest';
 import { createHmac, randomBytes, randomUUID } from 'node:crypto';
 import { httpAdmissionFixture } from '../fixtures/phase2/http-admission.ts';
@@ -362,6 +363,12 @@ it('runs private CSV upload, validation, diff, separate approval and publication
   expect((await call(u, root + '/validate', {})).status).toBe(200);
   const preview = await call(reviewer, root + '/preview', {});
   expect(preview.status).toBe(200);
+  expect(preview.data.evidence.validation).toMatchObject({ accepted: '1', rejected: '0' });
+  expect(
+    preview.data.evidence.changes.some(
+      (row: { kind: string; added: string }) => row.kind === 'tireModels' && row.added === '1',
+    ),
+  ).toBe(true);
   expect(
     (
       await call(u, root + '/review', {
@@ -379,7 +386,13 @@ it('runs private CSV upload, validation, diff, separate approval and publication
   expect(review.status).toBe(200);
   expect((await call(u, root + '/publish', { reviewId: review.data.id })).status).not.toBe(200);
   expect((await call(publisher, root + '/publish', { reviewId: review.data.id })).status).toBe(200);
-  expect((await call(u, root + '/status')).data.phase).toBe('published');
+  const publishedStatus = (await call(u, root + '/status')).data;
+  expect(publishedStatus.phase).toBe('published');
+  expect(publishedStatus.publicationBundleId).toMatch(/^[a-f0-9-]{36}$/);
+  const receipt = await call(publisher, root + '/receipt');
+  expect(receipt.status).toBe(200);
+  expect(receipt.data.publicationBundleId).toBe(publishedStatus.publicationBundleId);
+  expect((await call(u, root + '/receipt')).status).toBe(409);
   expect(JSON.stringify(preview.body)).not.toMatch(
     /object_key|objectKey|bucket|envelope|encrypted/,
   );
@@ -549,6 +562,59 @@ it('registers and cancels an owner-scoped pilot reservation intent without dispa
   ).toBe(before);
   expect(pilot.provider.send).not.toHaveBeenCalled();
 }, 90000);
+it('reauthorizes private preview evidence after storage I/O and refuses a role withdrawn during the read', async () => {
+  const e = await csv.prepared(),
+    reviewer = await csv.operator('data.review');
+  let revoked = false;
+  const service = await createStaffCsvRuntime({
+      ...csv.options,
+      files: {
+        ...csv.files,
+        async read(id) {
+          const bytes = await csv.files.read(id);
+          if (!revoked) {
+            revoked = true;
+            await f.admin.query(
+              'UPDATE admin.staff_role_assignments SET revoked_at=clock_timestamp() WHERE staff_id=$1',
+              [reviewer],
+            );
+          }
+          return bytes;
+        },
+      },
+    }),
+    raw = staffToken(reviewer),
+    admission = createP2HttpAdmission(p.service),
+    local = await listenLocalApi((origin) =>
+      createHttpApi({
+        origin,
+        routes: staffCsvRoutes({ service, admission, secret }),
+        security: {
+          authenticate: async (r) =>
+            staff.get(r.headers.get('authorization')?.slice(7) ?? '') ?? null,
+          quota: async () => ({ allowed: true }),
+        },
+      }),
+    );
+  try {
+    const response = await fetch(local.origin + '/api/v1/staff/csv/uploads/' + e.id + '/preview', {
+      method: 'POST',
+      headers: {
+        origin: local.origin,
+        authorization: 'Bearer ' + raw,
+        'x-csrf-token': csrf(raw),
+        'idempotency-key': randomUUID(),
+        'content-type': 'application/json',
+      },
+      body: '{}',
+    });
+    expect(revoked).toBe(true);
+    expect(response.status).toBe(409);
+    expect(await response.text()).not.toMatch(/changes|evidence|rawHash|packetHash/);
+  } finally {
+    await local.close();
+  }
+});
 it('protects admission records with forced RLS, serializes independent SQL contenders and fails closed at its row cap', async () => {
   const admission = createP2HttpAdmission(p.service),
     hash = 'd'.repeat(64),

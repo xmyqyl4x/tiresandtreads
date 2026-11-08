@@ -109,8 +109,16 @@ export function createHttpApi(d: {
       !['json', 'bytes', 'form'].includes(mode) ||
       !Number.isInteger(limit) ||
       limit < 1 ||
-      limit > (mode === 'form' ? 8192 : mode === 'bytes' ? 16777216 : 65536) ||
-      (route.bodyContentType !== undefined && mode !== 'bytes')
+      limit >
+        (mode === 'form'
+          ? 8192
+          : mode === 'bytes'
+            ? route.bodyContentType === 'application/octet-stream'
+              ? 16777216
+              : 262144
+            : 65536) ||
+      (route.bodyContentType !== undefined &&
+        (mode !== 'bytes' || route.bodyContentType !== 'application/octet-stream'))
     )
       throw Error('Invalid HTTP body declaration');
   }

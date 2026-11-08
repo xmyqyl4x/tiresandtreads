@@ -258,6 +258,12 @@ export const partnerApiContracts: readonly EndpointContract[] = [
 ];
 export const csvApiContracts: readonly EndpointContract[] = [
   {
+    operationId: 'p2CsvReceipt',
+    method: 'GET',
+    path: '/api/v1/staff/csv/uploads/:intake/receipt',
+    access: 'staff',
+  },
+  {
     operationId: 'p2CsvTemplate',
     method: 'POST',
     path: '/api/v1/staff/csv/templates',

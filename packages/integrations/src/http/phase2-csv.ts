@@ -99,7 +99,17 @@ export function staffCsvRoutes(
       );
     },
   });
-  get('p2CsvStatus', (c) => s.status(actor(c), intake(c)), ['id', 'phase', 'runId', 'expiresAt']);
+  get('p2CsvReceipt', (c) => s.publicationReceipt(actor(c), intake(c)), [
+    'id',
+    'publicationBundleId',
+  ]);
+  get('p2CsvStatus', (c) => s.status(actor(c), intake(c)), [
+    'id',
+    'phase',
+    'runId',
+    'expiresAt',
+    'publicationBundleId',
+  ]);
   get('p2CsvErrors', (c) => s.errors(actor(c), intake(c)), ['filename', 'mime', 'csv']);
   add('p2CsvValidate', inputs.empty, (c) => s.validate(actor(c), intake(c)), [
     'id',
@@ -122,6 +132,7 @@ export function staffCsvRoutes(
       'validationId',
       'expiresAt',
       'complete',
+      'evidence',
     ],
   );
   add('p2CsvReview', inputs.review, (c, v) => s.review(actor(c), { ...v, command: c.key }), [

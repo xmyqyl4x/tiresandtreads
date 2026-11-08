@@ -24,3 +24,12 @@ DECLARE market text;BEGIN
 END $$;
 REVOKE ALL ON FUNCTION admin.csv_http_rollback_market(uuid,uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION admin.csv_http_rollback_market(uuid,uuid) TO tt_publish_runtime;
+
+CREATE FUNCTION admin.csv_http_publication_receipt(actor uuid,intake uuid) RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE bundle uuid;BEGIN
+ PERFORM admin.csv_http_rollback_market(actor,intake);
+ SELECT c.publication_bundle INTO bundle FROM admin.csv_upload_commands c WHERE c.id=intake;
+ IF bundle IS NULL THEN RAISE EXCEPTION 'Committed CSV publication required' USING ERRCODE='23514';END IF;RETURN bundle;
+END $$;
+REVOKE ALL ON FUNCTION admin.csv_http_publication_receipt(uuid,uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION admin.csv_http_publication_receipt(uuid,uuid) TO tt_publish_runtime;
