@@ -29,5 +29,6 @@
   "providerDispatches": 0,
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "supplementalPendingIntentProof": "p2-pr-024-pending-intent-browser.json"
 }

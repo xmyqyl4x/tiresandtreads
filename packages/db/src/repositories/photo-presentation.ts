@@ -15,7 +15,7 @@ export function createPhotoPresentationRepository(s: WriteScope): PhotoPresentat
       const rows = (
         await s.query(
           tx,
-          `SELECT u.id,u.state,u.created_at,u.expires_at,u.saved_at FROM app.photo_owner_status u JOIN app.photo_service_intents i ON i.id=u.id WHERE i.owner_id=$1 AND app.photo_intent_current(i.id) AND ($2::uuid IS NULL OR u.id>$2) ORDER BY u.id LIMIT $3`,
+          `SELECT i.id,coalesce(u.state,i.state) AS state,i.created_at,i.expires_at,u.saved_at FROM app.photo_service_intents i LEFT JOIN app.photo_owner_status u ON u.id=i.id WHERE i.owner_id=$1 AND app.photo_intent_current(i.id) AND ($2::uuid IS NULL OR i.id>$2) ORDER BY i.id LIMIT $3`,
           [person, after, limit + 1],
         )
       ).rows;

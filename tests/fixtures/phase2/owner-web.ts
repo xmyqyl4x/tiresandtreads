@@ -166,6 +166,7 @@ export async function ownerWebFixture(webOrigin = 'http://127.0.0.1:3000') {
     return {
       f,
       photo,
+      privacy,
       analysis,
       runtime,
       presentation,
