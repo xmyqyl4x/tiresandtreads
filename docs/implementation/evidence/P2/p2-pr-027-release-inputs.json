@@ -631,7 +631,7 @@
   },
   "validationFollowup": {
     "path": "docs/implementation/evidence/P2/p2-pr-027-validation-followup.json",
-    "sha256": "6fcca9c5840894fa16bad7dce2cb9e026571a9daed3753bcf79514df50b85713",
+    "sha256": "7d232b79772bc9b8f9f6d3582c635dd67892a41c3fb1a51cfaeceaaa01de4c85",
     "historicalBaselineUnchanged": true
   }
 }

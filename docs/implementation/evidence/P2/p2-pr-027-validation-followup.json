@@ -54,5 +54,12 @@
   "providerDispatches": 0,
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "lineEndingGuard": {
+    "failedHead": "bb37ab0",
+    "failedLogSha256": "2657ea867f3f347f71195bac893507148569a8992ee8b249069641ed35fbe6a8",
+    "failure": "Source hygiene refused raw CRLF in the new JSON evidence file; no publication. Normalized evidence and its dependent digest to LF under existing attributes.",
+    "repositoryAttributesChanged": false,
+    "workingBytesMustMatchGitBytes": true
+  }
 }
