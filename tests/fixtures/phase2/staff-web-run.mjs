@@ -33,6 +33,7 @@ try {
     'tests/unit/phase2-staff-forms.test.ts',
     'tests/unit/phase2-review-services.test.ts',
     'tests/unit/phase2-staff-proxy.test.ts',
+    'tests/unit/phase2-api-client.test.ts',
     'tests/usecases/phase2-web-csp.test.ts',
   ]);
 } finally {

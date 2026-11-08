@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "card": "P2-PR-022",
   "scope": "opt-in-local-staff-csv-and-partner-review",
-  "prerequisiteReviewedHead": "8c6a61b8895c59032fdad03341890cc4f0a4ad55",
-  "focusedTestsPassed": 54,
+  "prerequisiteReviewedHead": "45655fc1b55b201525156ede5bf4ef75d023cdd6",
+  "focusedTestsPassed": 79,
   "newTests": 35,
   "reviewServiceUnitCases": 31,
   "reviewServiceCoverage": {
@@ -13,7 +13,6 @@
     "functions": 100
   },
   "browserObserved": true,
-  "finalFocusedLogSha256": "d1a53acce6fd6d063883f31919f3c0ccd05ff6682e497f7c673b22a33117d1e3",
   "reviewCoverageLogSha256": "7e698d0172f64b57589b0928a9862ef15dc52cc38a522952d24a663bcea1ebbe",
   "formRedLogSha256": "0bb033ecb36d3acb96a78b929879c179b25f3b290f01dfb9a87a8ee30f199519",
   "formGreenLogSha256": "bd7ca35e8234fbfaead0e636d98b14db7f41ef13235d112726f205860d4d0c0d",
@@ -53,10 +52,10 @@
     "apps/web/src/phase2/staff/forms.ts": "e8ee326470d86e97287a0fafee6f526657bcd13c91eeee544efdca8d27c190b8",
     "apps/web/src/phase2/staff/moderation.tsx": "8f69582ad4c468bd93e242d3454235268fb805dcfccd382ba310e4baab34b7e3",
     "apps/web/src/phase2/staff/types.ts": "7271495e53e19654e029340a826737f949eca70a27cffd95191df22528be1599",
-    "apps/web/src/phase2/workbench.tsx": "70d44399b1470776d87a2cda44958bbb3723275531ba27e28b4d369c96ab8329",
+    "apps/web/src/phase2/workbench.tsx": "3c2124ac26314f5fa9de9a66ceeee9dd8c99e7be2b7ab378524ad429ddbd4386",
     "apps/web/src/server-render.tsx": "75223e3dae93445246892acb63443ee7ca33279796fa760d17ec6e8ffca9756a",
     "docs/api/phase2-local.openapi.json": "ccd1b8f036fe685e7c9ff668ddfa7d97ff21d9468d49e03bad54e88d2ed8959b",
-    "docs/implementation/P2-PR-022-local-staff-import-moderation.md": "ce2d7bf6e4a8d8f62deb9abccc7d12e192b76893c4f08fe1381fdbef46c209ff",
+    "docs/implementation/P2-PR-022-local-staff-import-moderation.md": "7ea90474aad29f0420eb943d3fa10adbed40c0de5b192ce5a5f69692c997c1f3",
     "docs/implementation/evidence/P2/p2-pr-022-browser-observations.json": "7f391ff097b8dc7328a3462c7e33e89e54686c9c33d905655117017b78469115",
     "docs/implementation/evidence/P2/p2-pr-022-local-authorization.json": "22a957db308604c1a5563e3798524e36089980e01c20185c644a1f8c765449b2",
     "docs/tasks/phase-2-prs.md": "bb9bff6f2011288b44697228bea0bd2ef1b261fb33172ca07e778006f37ee1f8",
@@ -73,8 +72,9 @@
     "tests/fixtures/http/web-preview.ts": "da3d2e3a2b10b44d5d7a83e52a5b0f5bd9bf087cbc6e4e4bf9fe13c35c1e4423",
     "tests/fixtures/phase2/serve-staff.ts": "9216fea8b5c80778082f2d214900778347cbb1805dca7c149991b64c670a82bf",
     "tests/fixtures/phase2/staff-preview.mjs": "7034a21391e001827580a87d5b5d66afac43fb24583e16867ff60da7ccacbbdc",
-    "tests/fixtures/phase2/staff-web-run.mjs": "9e3285e73fe396fd4bf22217526932104a498dfb7ce4244a102f993af2f7af69",
+    "tests/fixtures/phase2/staff-web-run.mjs": "8638a558bfbedc8ab353997742c2c468909b879208322d17775dcc77065a04f9",
     "tests/fixtures/phase2/staff-web.ts": "f9765e67f7f923d09a733ce6d3a01f15c33c40e25d9c89949fc8bf92ee56426b",
+    "tests/unit/phase2-api-client.test.ts": "941f57e28e3b5fb055a96cf0eba86a880220bcf43a927d52d3170d54ed95ea5e",
     "tests/unit/phase2-review-services.test.ts": "a890e7be658c7eae8393d8b8fa2e27278eba16a4633527e6333d077a77e20229",
     "tests/unit/phase2-staff-forms.test.ts": "d69743d6a467f062f9c7b02bc70de261d8d3026e071fe6ffa9b47a8d4a2a7a0d",
     "tests/unit/phase2-staff-proxy.test.ts": "86a022d190ac2d7fb504b4dcb9c93dee695f943f446e2a97d360e752c574e639"
@@ -90,5 +90,21 @@
     "packages/integrations/src/service-host.ts": "48ba7f12f9f7550b11cdd82db111b9fa26d1ec4902df474e67af2763da5a2fba",
     "scripts/runtime/service-host.ts": "8c305ca23973d7e1782632f84247bda0a833b120b897e6688515306505ff6a2d",
     "package.json": "695486b5da6baa31ccb9a4b02386a508e788f7edc8ea56933ae5e2c8c52d1098"
-  }
+  },
+  "focusedRuns": [
+    {
+      "scope": "staff workflow",
+      "executions": 54,
+      "source": "f8ffa131c7a446b032ce0c150ccb4ef5d9891abd",
+      "logSha256": "d1a53acce6fd6d063883f31919f3c0ccd05ff6682e497f7c673b22a33117d1e3"
+    },
+    {
+      "scope": "corrected inventory in isolated prior staff image",
+      "executions": 25,
+      "reviewedTestSha256": "941f57e28e3b5fb055a96cf0eba86a880220bcf43a927d52d3170d54ed95ea5e",
+      "logSha256": "3f8708854c7f6e3b8a41df738a8b4efcb6a2f057dc2c0ca70cb2664fe138b6e0"
+    }
+  ],
+  "inheritedPortalReviewProof": "p2-pr-021-local-proof.json",
+  "expectedFullExecutions": 4580
 }
