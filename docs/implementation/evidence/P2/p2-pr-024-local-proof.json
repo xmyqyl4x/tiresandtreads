@@ -44,7 +44,7 @@
     "apps/web/src/phase2/proxy.ts": "9273adaa7d9450fb13c2d6af7cb95b87fcb5df2a851f92514db2dac993d8629f",
     "apps/web/src/ui/assessment-form.tsx": "d5c7327699170666b742ae4c6ea2e0908e99af1390083d8d71cfc1cf445804d4",
     "docs/api/phase2-local.openapi.json": "fd1c46268efbcf42e126c5be57b505da4d010e91a1f9afe4f3fbb8ec567481f9",
-    "docs/implementation/P2-PR-024-local-photo-confirmation.md": "780f8858c02d0e0a7630f36d5f4675bf3a262efd4dfd136538f2b3e416cd0118",
+    "docs/implementation/P2-PR-024-local-photo-confirmation.md": "f2ce7a9dc59247bae0ee0901adc851ea2c8797401c15aede7a32ca59a5f87415",
     "docs/implementation/evidence/P2/p2-pr-024-browser-observations.json": "16dc89ca08bf56a5861d8c699b548489f0c0e2def93524df07114c4435069a63",
     "docs/implementation/evidence/P2/p2-pr-024-local-authorization.json": "b10d11c9d8561837a3540f0832f0d4ca7973edcabc8f504dde00e9cdab87174f",
     "docs/tasks/phase-2-prs.md": "0c943c0f123a2c6f3cd4b3b16433f1bbb09908affc523d39c99ee843acb02ec7",
@@ -82,7 +82,16 @@
     "scripts/runtime/service-host.ts": "8c305ca23973d7e1782632f84247bda0a833b120b897e6688515306505ff6a2d",
     "package.json": "695486b5da6baa31ccb9a4b02386a508e788f7edc8ea56933ae5e2c8c52d1098"
   },
-  "focusedRuns": [
+  "inheritedPortalReviewProof": "p2-pr-021-local-proof.json",
+  "expectedFullExecutions": 4639,
+  "focusedLogSha256": "ac8fad85c4c7f95dba1719ae153d10f14b3b1d9abc8699d893647bdc3da7378b",
+  "finalBehaviorBrowserObserved": true,
+  "actualBrowserFileUpload": false,
+  "historyRegressionFailedLogSha256": "8d91e498d7b742fb96acf456f17b36b95095c128c641af79680919a72143f40e",
+  "finalSubmissionCoordinationVerificationRequired": false,
+  "finalFocusedRuntimeHead": "9fb43a6062ee7caa46fe228be06acd2b203f978d",
+  "finalSubmissionCoordinationBrowserObserved": false,
+  "inheritedStaffFocusedRuns": [
     {
       "scope": "staff workflow",
       "executions": 54,
@@ -95,12 +104,5 @@
       "reviewedTestSha256": "941f57e28e3b5fb055a96cf0eba86a880220bcf43a927d52d3170d54ed95ea5e",
       "logSha256": "3f8708854c7f6e3b8a41df738a8b4efcb6a2f057dc2c0ca70cb2664fe138b6e0"
     }
-  ],
-  "inheritedPortalReviewProof": "p2-pr-021-local-proof.json",
-  "expectedFullExecutions": 4580,
-  "focusedLogSha256": "1586875a2fd16e81a63e159333273559e8be23e516f16769c2f83d15fb8aac16",
-  "finalBehaviorBrowserObserved": true,
-  "actualBrowserFileUpload": false,
-  "historyRegressionFailedLogSha256": "8d91e498d7b742fb96acf456f17b36b95095c128c641af79680919a72143f40e",
-  "finalSubmissionCoordinationVerificationRequired": true
+  ]
 }
