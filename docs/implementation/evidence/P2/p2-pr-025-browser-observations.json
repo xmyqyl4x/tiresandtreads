@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-025",
+  "browser": "in-app browser",
+  "actualBrowserInteraction": true,
+  "syntheticOnly": true,
+  "observations": [
+    "operator reads persisted metrics and explicitly resumes one previously admitted synthetic report request",
+    "original command reference returns succeeded receipt; refresh shows one accepted request, one succeeded attempt and five synthetic reconciled USD minor units",
+    "separate privacy, consented visitor and completed-week pilot projections preserve unknown/estimate/attribution labels",
+    "exact active report policy blocked with explicit confirmation; no enable control",
+    "AI observer has no photo metrics and all writes disabled; independent privacy request refused and private state cleared",
+    "390/1280px no inspected page overflow, duplicate IDs or unnamed controls; keyboard Tab reaches policy checkbox; warning/error console empty",
+    "blocked optional assistance retains readable immutable deterministic report with manual fallback",
+    "prepared owned confirmed size235/65R17 applied explicitly to front; rear255/40R18 and other answers retained",
+    "bounded synthetic report table lock: apply-front/apply-rear/open-report/assistance controls disabled while submission pending; both sizes unchanged",
+    "lock rollback, retained-answer retry, committed manual report and immutable opened result",
+    "disconnect clears private state; viewport reset; ownership-checked preview cleanup"
+  ],
+  "actualBrowserFileUpload": false,
+  "actualBrowserWallClockExpiry": false,
+  "browserMatrixAccepted": false,
+  "wcagCertification": false,
+  "independentDurabilityAuthenticationFencingClaim": false,
+  "actualAuthenticationAccepted": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAcceptance": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

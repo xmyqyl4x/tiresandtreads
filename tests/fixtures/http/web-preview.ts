@@ -34,7 +34,11 @@ export async function startWebPreview(
       | { LOCAL_COMMERCIAL_UI: 'enabled' }
       | { LOCAL_P2_UI: 'enabled'; LOCAL_P2_API_ORIGIN: string }
       | { LOCAL_P2_STAFF_UI: 'enabled'; LOCAL_P2_API_ORIGIN: string }
-      | { LOCAL_P2_OWNER_UI: 'enabled'; LOCAL_P2_API_ORIGIN: string };
+      | {
+          LOCAL_P2_OWNER_UI: 'enabled';
+          LOCAL_P2_OPERATIONS_UI?: 'enabled';
+          LOCAL_P2_API_ORIGIN: string;
+        };
   },
   mailProof?: Parameters<typeof assessmentApiFixture>[0],
 ) {

@@ -1,3 +1,4 @@
+import { AnalysisOperationsWorkspace } from './phase2/operations/workspace.tsx';
 import { OwnerWorkspace } from './phase2/owner/workspace.tsx';
 import { P2StaffConsole } from './phase2/staff/console.tsx';
 import { renderToString } from 'react-dom/server';
@@ -254,6 +255,27 @@ export function p2StaffDocument() {
   );
 }
 
+export function p2OperationsDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang="en-US">
+        <SiteHead
+          title="Assistance, photo and privacy operations"
+          description="Private purpose-scoped operational health"
+        >
+          <link rel="stylesheet" href={'/local-preview-assets/' + manifest.p2OperationsCss} />
+          <script type="module" src={'/local-preview-assets/' + manifest.p2Operations} />
+        </SiteHead>
+        <body>
+          <div id="p2-operations-root">
+            <AnalysisOperationsWorkspace />
+          </div>
+        </body>
+      </html>,
+    )
+  );
+}
 export function p2OwnerDocument() {
   return (
     '<!doctype html>' +
