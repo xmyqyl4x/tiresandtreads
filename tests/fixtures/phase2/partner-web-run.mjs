@@ -31,6 +31,8 @@ try {
     'tests/database/phase2-partner-web.test.ts',
     'tests/database/phase2-partner-http.test.ts',
     'tests/unit/phase2-portal.test.ts',
+    'tests/unit/phase2-portal-render.test.ts',
+    'tests/unit/phase2-api-client.test.ts',
     'tests/usecases/phase2-web-csp.test.ts',
   ]);
 } finally {

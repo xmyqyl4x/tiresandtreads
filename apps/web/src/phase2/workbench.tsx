@@ -377,6 +377,12 @@ export function Receipt({
           <dd>{value.revision}</dd>
         </>
       ) : null}
+      {value.value !== undefined ? (
+        <>
+          <dt>Result</dt>
+          <dd>{value.value === null ? 'No value' : String(value.value)}</dd>
+        </>
+      ) : null}
     </dl>
   ) : null;
 }

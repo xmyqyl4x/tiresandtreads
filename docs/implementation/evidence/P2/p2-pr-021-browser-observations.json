@@ -12,7 +12,6 @@
     "saved offer and server text preview",
     "independent moderation submission",
     "stale draft receipt cleared after submission on final source",
-    "unapproved publication refused and reconciliation reference retained",
     "completed UTC-week suppressed noncharging report",
     "cross-tenant read refusal clears private workspace",
     "disconnect clears credentials and private state",
@@ -33,5 +32,20 @@
   "providerDispatches": 0,
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "reviewFollowup": {
+    "actualBrowserInteraction": true,
+    "observations": [
+      "invited account accepted the intended business invitation before any membership read, then loaded analyst active membership",
+      "location command showed its actual scalar UUID result",
+      "saved version1 then version2; selected version and draft version both2; saved preview contained version2 terms",
+      "submitted saved version2 for independent moderation",
+      "independent publication guidance present and reseller publication button absent",
+      "390px view had no horizontal page overflow, duplicate IDs or unnamed inspected inputs",
+      "console warnings/errors empty; disconnect cleared private state"
+    ],
+    "screenshotSha256": "e4c3181ae9fa47822a458baf5e01071d487d2b6bb654916d1bdeaa467fd7ad8d",
+    "syntheticOnly": true,
+    "actualAcceptance": false
+  }
 }
