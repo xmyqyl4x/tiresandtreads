@@ -20,6 +20,7 @@ import { createP2OwnerClient } from '../../packages/contracts/src/phase2-owner-c
 import { createResultsClient } from '../../packages/contracts/src/results-client.ts';
 import { createP2ReviewClient } from '../../packages/contracts/src/phase2-review-client.ts';
 import { createOperationsP2Client } from '../../packages/contracts/src/phase2-operations-client.ts';
+import { photoReadingSet } from '../../packages/domain/src/photo-policy.ts';
 let f: Awaited<ReturnType<typeof securityWebFixture>>;
 const send =
   (prefix: string, token: string): typeof fetch =>
@@ -215,7 +216,7 @@ it('refuses owner capability reuse across staff and partner purposes without lea
     f.web.webOrigin,
     send('/local-p2-owner-api', f.strangerToken),
   );
-  await expect(results.read(f.report, 1)).rejects.toBeDefined();
+  await expect(results.read(f.report, 1)).rejects.toMatchObject({ code: 'not_found' });
   const surfaces = [
     {
       prefix: '/local-p2-staff-api',
@@ -287,7 +288,8 @@ it('rejects cross-site analysis admission before recording work or model cost', 
       }),
     },
   );
-  expect(response.ok).toBe(false);
+  expect(response.status).toBe(403);
+  expect(await response.json()).toMatchObject({ code: 'forbidden' });
   expect(
     (await f.f.admin.query('SELECT count(*)::int n FROM app.ai_analysis_requests')).rows,
   ).toEqual(before);
@@ -299,6 +301,7 @@ it('refuses a different verified tenant across organization, offer and staff rev
     offer = await f.p.published(f.company.org, f.company.handle),
     path = { org: f.company.org };
   expect((await company.p2Organization({ path })).data.organization.id).toBe(f.company.org);
+  await company.p2OfferPreview({ path: { ...path, offer }, query: { version: 1 } });
   await expect(other.p2Organization({ path })).rejects.toMatchObject({ code: 'not_found' });
   await expect(
     other.p2OfferPreview({ path: { ...path, offer }, query: { version: 1 } }),
@@ -309,7 +312,11 @@ it('refuses a different verified tenant across organization, offer and staff rev
   );
   await expect(
     tenantReview.p2BusinessQueue({ query: { after: null, limit: 25 } }),
-  ).rejects.toBeDefined();
+  ).rejects.toMatchObject({ code: 'forbidden' });
+  await createP2ReviewClient(
+    f.web.webOrigin,
+    send('/local-p2-staff-api', f.p.verifier),
+  ).p2BusinessQueue({ query: { after: null, limit: 25 } });
 });
 it('refuses forged JPEG declarations without forwarding attacker markup to extraction', async () => {
   const e = await photoIntent(
@@ -367,6 +374,7 @@ it('withdraws owner analysis during an actual in-flight worker, preserves charge
     return f.analysis.defaultBehavior(input);
   });
   const work = f.runtime.execute(p2Id('ai_request', request.id!));
+  let completed: Awaited<typeof work> | undefined;
   try {
     await enteredWorker(entered, work);
     const status = (await owner().p2AnalysisStatus({ path: { request: request.id! } })).data;
@@ -385,8 +393,16 @@ it('withdraws owner analysis during an actual in-flight worker, preserves charge
     ).toBe('unavailable');
   } finally {
     release.release();
-    await work;
+    completed = await work;
   }
+  expect(completed?.ok).toBe(false);
+  expect(
+    (
+      await f.f.admin.query('SELECT count(*)::int n FROM app.ai_artifacts WHERE request_id=$1', [
+        request.id,
+      ])
+    ).rows[0]!.n,
+  ).toBe(0);
   expect(
     (
       await createP2PresentationClient(f.web.webOrigin, ownerSend()).p2AnalysisPresentation({
@@ -433,13 +449,31 @@ it('removes a photo during in-flight extraction and refuses stale candidate publ
       await e.c.p2PhotoExtract({ path: { upload: e.intent.id }, body: {}, command: command() })
     ).data,
     entered = latch(),
-    release = latch();
+    release = latch(),
+    lateOutput = {
+      schema: 1,
+      fields: [
+        {
+          field: 'tire_size',
+          rawText: '225/65R17',
+          value: '225/65R17',
+          quality: 'clear',
+          unknownReason: null,
+          region: null,
+        },
+      ],
+    };
+  const publishable = photoReadingSet(lateOutput, new Date().toISOString());
+  expect(publishable.ok).toBe(true);
+  if (!publishable.ok) throw Error('Publishable synthetic candidate required');
+  expect(publishable.value.fields).toHaveLength(1);
+  expect(publishable.value.fields[0]!.value).toBe('225/65R17');
   f.photo.setBehavior(async () => {
     entered.release();
     await release.promise;
     return {
       state: 'complete',
-      output: { schema: 1, fields: [] },
+      output: lateOutput,
       providerRequestId: 'synthetic-late-result',
       inputTokens: 1n,
       outputTokens: 1n,
@@ -447,6 +481,7 @@ it('removes a photo during in-flight extraction and refuses stale candidate publ
     };
   });
   const work = f.photo.service.execute(p2Id('ai_request', request.id));
+  let completed: Awaited<typeof work> | undefined;
   try {
     await enteredWorker(entered, work);
     expect(
@@ -458,8 +493,19 @@ it('removes a photo during in-flight extraction and refuses stale candidate publ
     });
   } finally {
     release.release();
-    await work;
+    completed = await work;
   }
+  expect(completed?.ok).toBe(false);
+  await expect(e.c.p2PhotoStatus({ path: { upload: e.intent.id } })).rejects.toMatchObject({
+    code: 'not_found',
+  });
+  expect(
+    (
+      await f.f.admin.query('SELECT count(*)::int n FROM app.ai_artifacts WHERE request_id=$1', [
+        request.id,
+      ])
+    ).rows[0]!.n,
+  ).toBe(0);
   expect(
     (
       await f.f.admin.query('SELECT cost_minor::text FROM app.ai_attempts WHERE request_id=$1', [

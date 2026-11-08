@@ -41,6 +41,7 @@ try {
     'tests/unit/phase2-evaluation.test.ts',
     'tests/unit/phase2-operations-reconciliation.test.ts',
     'tests/unit/photo-codec.test.ts',
+    'tests/unit/security-renderer.test.ts',
     'tests/usecases/analysis-delivery-renderer.test.ts',
     'tests/usecases/phase2-web-csp.test.ts',
   ]);
