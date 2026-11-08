@@ -291,6 +291,13 @@ it('rechecks database role withdrawal and fresh MFA before returning metadata', 
   await expect(dashboard(f.photoObserver.handle)).rejects.toMatchObject({ code: 'unauthorized' });
 });
 it('withholds another operator receipt even after the caller receives its own control role', async () => {
+  const review = await f.seedReceiptReview();
+  expect(
+    (await client().p2OperationsReceipt({ path: { command: review.unknown } })).data.state,
+  ).toBe('unknown');
+  expect(
+    (await client().p2OperationsReceipt({ path: { command: review.refused } })).data.state,
+  ).toBe('refused');
   await f.f.admin.query(
     "INSERT INTO admin.staff_role_assignments(staff_id,role_id) SELECT $1,id FROM admin.roles WHERE code='ai_operator'",
     [f.unassigned.id],

@@ -4,6 +4,7 @@ if (process.argv.length !== 2)
   throw Error('Fixed disposable operations preview accepts no arguments');
 const f = await operationsWebFixture('http://127.0.0.1:8380');
 try {
+  const receiptReview = await f.seedReceiptReview();
   const capture = value(
     await f.photo.service.capture(f.example.keys, {
       policyId: f.photoExample.policy,
@@ -55,6 +56,7 @@ try {
         report: f.report,
         preparedPhoto: photo.id,
         queuedRequest: request.id,
+        syntheticReceiptReview: receiptReview,
         disposable: true,
         syntheticOnly: true,
         actualAcceptance: false,

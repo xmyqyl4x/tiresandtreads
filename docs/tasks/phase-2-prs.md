@@ -521,7 +521,7 @@ Local progress: optional private photo options/upload, per-field confirmation/co
 
 **Verification and acceptance:** Role and browser tests show no private prompts/images in analytics; kill switches preserve deterministic/manual product paths.
 
-Local progress: role-scoped cost/reuse/photo health, durable existing-worker resume receipts, exact negative policy control and independent privacy/delivery/visitor/pilot projections are implemented. Focused149-case strict Linux/Next/PostgreSQL and actual browser/negative-control/manual-recovery evidence is recorded in [P2-PR-025](../implementation/P2-PR-025-local-assistance-operations.md). Original acceptance boxes remain open; exact-commit full regression and actual PR/main checks are required.
+Local progress: role-scoped cost/reuse/photo health, durable existing-worker resume receipts, exact negative policy control and independent privacy/delivery/visitor/pilot projections are implemented. Focused154-case strict Linux/Next/PostgreSQL and actual browser/negative-control/manual-recovery/receipt-hold evidence is recorded in [P2-PR-025](../implementation/P2-PR-025-local-assistance-operations.md). Original acceptance boxes remain open; exact-commit full regression and actual PR/main checks are required.
 
 ### P2-PR-026
 

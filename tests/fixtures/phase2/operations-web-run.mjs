@@ -33,6 +33,7 @@ try {
     'tests/database/phase2-operations-web.test.ts',
     'tests/unit/phase2-analysis-operations.test.ts',
     'tests/unit/phase2-operations-proxy.test.ts',
+    'tests/unit/phase2-operations-reconciliation.test.ts',
     'tests/database/web-shell.test.ts',
     'tests/database/web-assessment.test.ts',
     'tests/unit/phase2-photo-forms.test.ts',

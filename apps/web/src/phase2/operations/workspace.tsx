@@ -16,6 +16,7 @@ import {
   type Workspace,
 } from '../workbench.tsx';
 import { OperationsMetrics } from './views.tsx';
+import { receiveOperationReceipt, type OperationReceiptState } from './receipt-state.ts';
 type Client = {
   api: ReturnType<typeof createOperationsP2Client>;
   capabilities: z.output<typeof operationsCapabilities>;
@@ -35,19 +36,34 @@ function lastCompletedWeek() {
 }
 function OperationsSpace({ w }: { w: Workspace<Client> }) {
   const [data, setData] = useState<z.output<typeof operationsDashboard> | null>(null),
-    [receipt, setReceipt] = useState<z.output<typeof operationsReceipt> | null>(null),
+    [receipts, setReceipts] = useState<OperationReceiptState>(() => ({
+      receipt: null,
+      held: null,
+    })),
     [purpose, setPurpose] = useState<z.output<
       typeof operationsP2Definitions.p2OperationsPurpose.output
     > | null>(null),
     [confirmed, setConfirmed] = useState(false);
+  const { receipt, held } = receipts;
+  function acceptReceipt(r: z.output<typeof operationsReceipt>) {
+    setReceipts((previous) => receiveOperationReceipt(previous, r));
+  }
   const capabilities = data?.capabilities ?? w.client.capabilities,
-    blocked = w.busy || w.blocked;
+    blocked = w.busy || w.blocked || held !== null;
   return (
     <>
       <nav aria-label="Staff tools">
         <a href="/staff">Privacy, delivery and visitor console</a> ·{' '}
         <a href="/staff/data">CSV and partner moderation</a>
       </nav>
+      {held ? (
+        <p role="alert" className="p2-warning">
+          Operation <code>{held}</code> requires authorized reconciliation. New writes are paused.
+          Read the original receipt and use the existing operator tools to resolve its outcome.
+          Reading another receipt does not clear this hold. After resolution, disconnect and
+          reconnect; no automatic replacement or worker reset is authorized.
+        </p>
+      ) : null}
       <ActionForm
         title="Read assistance operations"
         disabled={w.busy}
@@ -118,7 +134,7 @@ function OperationsSpace({ w }: { w: Workspace<Client> }) {
                               })
                             ).data,
                           (r) => {
-                            setReceipt(r);
+                            acceptReceipt(r);
                             setConfirmed(false);
                             setData(null);
                           },
@@ -164,7 +180,7 @@ function OperationsSpace({ w }: { w: Workspace<Client> }) {
                                 command,
                               })
                             ).data,
-                          setReceipt,
+                          acceptReceipt,
                         )
                       }
                     >
@@ -179,7 +195,7 @@ function OperationsSpace({ w }: { w: Workspace<Client> }) {
       ) : null}
       <ActionForm
         title="Read my operation receipt"
-        disabled={w.busy}
+        disabled={w.busy || !capabilities.aiControl}
         action={async (f) => {
           await w.read(
             'Durable command receipt',
@@ -189,7 +205,7 @@ function OperationsSpace({ w }: { w: Workspace<Client> }) {
                   path: { command: String(f.get('command')) },
                 })
               ).data,
-            setReceipt,
+            acceptReceipt,
           );
         }}
       >

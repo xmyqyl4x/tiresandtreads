@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-025",
+  "browser": "in-app browser",
+  "actualBrowserInteraction": true,
+  "syntheticExistingReceiptRecordsOnly": true,
+  "actualExecutorDispatchForReceiptSeed": false,
+  "unknownReceiptPausesWrites": true,
+  "unrelatedReceiptRetainsOriginalHold": true,
+  "dashboardRefreshRetainsOriginalHold": true,
+  "readsRemainAvailable": true,
+  "disconnectClearsLocalHold": true,
+  "reconnectReauthorizesAndInitializesFreshPageState": true,
+  "serverEffectsReset": false,
+  "viewportWidths": [
+    320,
+    390,
+    1280
+  ],
+  "noObservedOverflow": true,
+  "noDuplicateIdsOrUnnamedInspectedControls": true,
+  "keyboardReachesReceiptReadWhileWritesDisabled": true,
+  "consoleWarningsErrors": [],
+  "wcagCertification": false,
+  "browserMatrixAccepted": false,
+  "independentDurabilityAuthenticationFencingClaim": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

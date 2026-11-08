@@ -172,9 +172,29 @@ export async function operationsWebFixture(origin = 'http://127.0.0.1:3000') {
     await base.cleanup();
     throw Error('Operations composition missing');
   }
+  async function seedReceiptReview() {
+    // Fixed synthetic existing receipt states only; no executor, request or provider effect.
+    const unknown = uuid('ai_operation'),
+      refused = uuid('ai_operation');
+    for (const [command, state] of [
+      [unknown, 'unknown'],
+      [refused, 'refused'],
+    ] as const) {
+      await base.f.admin.query(
+        "INSERT INTO admin.ai_operation_commands(id,actor_id,operation,target_id,input_digest,state) VALUES($1,$2,'resume',$3,$4,'executing')",
+        [command, context!.operator.id, uuid('ai_target'), 'a'.repeat(64)],
+      );
+      await base.f.admin.query(
+        'UPDATE admin.ai_operation_commands SET state=$2,finished_at=clock_timestamp() WHERE id=$1',
+        [command, state],
+      );
+    }
+    return { unknown, refused };
+  }
   return {
     ...base,
     ...context,
+    seedReceiptReview,
     operationsMigrationHead: operationsSources().sources.at(-1)!.id,
   };
 }
