@@ -30,7 +30,7 @@
     "docs/tasks/phase-2-prs.md": "6fc8732b0293cfba5f4f0028b02f682f6c1096b93d17567a8f7c772a92f8075e",
     "infra/database/phase-2-local/http-admission/0054_http_admission.sql": "096c8a4a4f141c7e56c31906093fec5f81eaa933b0a2d124f44c934d994ed9af",
     "infra/database/phase-2-local/http-admission/README.md": "b53a47cd6f3d95c3d01c7e5a1139252c5c3d17f9ee3004a70b76ba7b79f0a3d8",
-    "infra/database/phase-2-local/http-admission/manifest.json": "cffc25acd8c35e58a133f2115396d692111c8ee8bb243c28261efc29ec5fcc79",
+    "infra/database/phase-2-local/http-admission/manifest.json": "7e673cb2d11a22ccedeb727bff07fc33e051ff2ecbc1b1f2289a3a1ff1bb3b19",
     "packages/application/src/imports/staff-csv.ts": "916841a4f30bf19d0351231686f8f4fb46f6fbf31ad718b6c34aea93751b32ba",
     "packages/application/src/partners/partner-offers.ts": "f114cbe55d9695752413bed041bdffeb7d2ab276a6789f90d16cfd636ca02caf",
     "packages/application/src/ports/partner-services.ts": "82409ada4a55d52efb2c2f1db66bebf0bc1c015d556d78bb619393e736955a23",

@@ -10,7 +10,5 @@
       "sha256": "096c8a4a4f141c7e56c31906093fec5f81eaa933b0a2d124f44c934d994ed9af"
     }
   ],
-  "tables": [
-    "admin.p2_http_admissions"
-  ]
+  "tables": ["admin.p2_http_admissions"]
 }
