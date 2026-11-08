@@ -6,6 +6,7 @@ import { phase2OpenApi } from '../../scripts/contracts/phase2-openapi.ts';
 import { build } from 'esbuild';
 import { gzipSync } from 'node:zlib';
 import { readFileSync } from 'node:fs';
+import { createHttpApi } from '../../packages/integrations/src/http/core.ts';
 const id = 'b378bf40-18ab-454f-8eb3-71da7d81d81f';
 const requestId = '96298e66-c11c-4108-bbaa-1ec04efdb881';
 const cmd = { key: 'client-command', csrf: 'csrf' };
@@ -141,7 +142,13 @@ it('does not retry ambiguous conflicts or invent command credentials', async () 
     .fn<typeof fetch>()
     .mockResolvedValue(
       new Response(
-        JSON.stringify({ error: { code: 'conflict', message: 'Conflict' }, requestId }),
+        JSON.stringify({
+          code: 'conflict',
+          messageKey: 'errors.conflict',
+          fieldErrors: {},
+          retryable: false,
+          requestId,
+        }),
         { status: 409 },
       ),
     );
@@ -187,6 +194,38 @@ it('exports a deterministic private-only OpenAPI document with all versioned ope
   expect(new Set(operations.map((p) => p.operationId)).size).toBe(64);
   for (const p of operations) expect(p.security.length).toBeGreaterThan(0);
   expect(document['x-actual-acceptance']).toBe(false);
+});
+it('documents the actual flat private HTTP error envelope', async () => {
+  const origin = 'http://127.0.0.1:3000';
+  const api = createHttpApi({
+    origin,
+    routes: [
+      {
+        operationId: 'p2PhotoStatus',
+        method: 'GET',
+        path: '/api/v1/photos/:upload',
+        access: 'owner',
+        handle: async () => ({ ok: true, value: null }),
+      },
+    ],
+    security: { authenticate: async () => null, quota: async () => ({ allowed: true }) },
+  });
+  const response = await api(new Request(origin + '/api/v1/photos/' + id));
+  expect(response.status).toBe(401);
+  const body = await response.json();
+  expect(body.code).toBe('unauthorized');
+  const operation = phase2OpenApi().paths['/api/v1/photos/{upload}']!.get!;
+  const responses = operation.responses as Record<
+    string,
+    {
+      content: {
+        'application/json': { schema: { properties: Record<string, unknown>; required: string[] } };
+      };
+    }
+  >;
+  const schema = responses['401']!.content['application/json'].schema;
+  expect(Object.keys(schema.properties).sort()).toEqual(Object.keys(body).sort());
+  expect(schema.required.sort()).toEqual(Object.keys(body).sort());
 });
 
 it.each([

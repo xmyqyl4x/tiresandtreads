@@ -1,3 +1,4 @@
+import { apiErrorSchema, wireSchemaJson } from '../../packages/contracts/src/http-views.ts';
 import { z, p2Uuid } from '../../packages/contracts/src/phase2-wire.ts';
 import { ownerP2Operations } from '../../packages/contracts/src/phase2-owner-client.ts';
 import { partnerP2Operations } from '../../packages/contracts/src/phase2-partner-client.ts';
@@ -14,8 +15,8 @@ export function phase2OpenApi() {
   for (const [name, d] of Object.entries(definitions).sort(([a], [b]) => a.localeCompare(b))) {
     const c = d.contract,
       path = c.path.replace(/:([A-Za-z]+)/g, '{$1}');
-    const schema = (s: z.ZodType) => {
-      const result = z.toJSONSchema(s, { io: 'input' });
+    const schema = (s: z.ZodType, io: 'input' | 'output' = 'input') => {
+      const result = z.toJSONSchema(s, { io });
       delete result.$schema;
       return result;
     };
@@ -56,27 +57,14 @@ export function phase2OpenApi() {
         required: true,
         schema: { type: 'string', pattern: '^[a-f0-9]{64}$' },
       });
+    const errorSchema = wireSchemaJson(apiErrorSchema, { io: 'output' });
+    delete errorSchema.$schema;
     const errors = Object.fromEntries(
-      [400, 401, 403, 404, 409, 413, 415, 429, 503].map((n) => [
+      [400, 401, 403, 404, 405, 409, 413, 415, 429, 500, 503].map((n) => [
         n,
         {
           description: 'Opaque application error; no automatic command retry',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                required: ['error', 'requestId'],
-                properties: {
-                  error: {
-                    type: 'object',
-                    required: ['code'],
-                    properties: { code: { type: 'string' } },
-                  },
-                  requestId: { type: 'string', format: 'uuid' },
-                },
-              },
-            },
-          },
+          content: { 'application/json': { schema: errorSchema } },
         },
       ]),
     );
@@ -125,7 +113,7 @@ export function phase2OpenApi() {
                 required: ['data', 'requestId'],
                 properties: {
                   requestId: { type: 'string', format: 'uuid' },
-                  data: schema(d.output),
+                  data: schema(d.output, 'output'),
                 },
               },
             },
