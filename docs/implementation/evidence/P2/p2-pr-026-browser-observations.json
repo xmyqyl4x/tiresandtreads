@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-026",
+  "environment": "owned-disposable-loopback-Next-API-PostgreSQL55",
+  "browser": "single-ChatGPT-in-app-browser",
+  "actualBrowserInteraction": true,
+  "syntheticIdentityModelScannerMail": true,
+  "firstPreview": [
+    "explicit owner report processing",
+    "operator resumes recorded work",
+    "exact reuse retains generation/revision",
+    "explicit frozen email selection, scheduled then cancelled",
+    "withdrawal removes assistance, deterministic facts remain",
+    "expired operator MFA refuses access and clears private controls"
+  ],
+  "secondPreview": [
+    "prepared image extraction through operator worker",
+    "candidate corrected to235/65R17, explicitly confirmed and applied only to front axle",
+    "rear255/40R18 and SYNTHETIC_US region unchanged",
+    "photo removal reports pending cleanup, manual assessment creates committed report",
+    "uploader self-review refused and original command retained",
+    "separate reviewer approves fresh immutable evidence",
+    "expired publisher refused; bounded same-actor fixture reauthorization, reconnect and receipt inspection precede publication",
+    "publisher commits approved review and reads durable bundle receipt",
+    "manual report remains readable after CSV publication",
+    "unknown command write hold survives different refused receipt and operations refresh",
+    "expired company credential refused"
+  ],
+  "tenantIsolationEvidence": "native actual HTTP with two verified synthetic companies; successful browser tenant journey not claimed",
+  "actualViewportMeasurements": [
+    {
+      "name": "owner-with-stored-report",
+      "requestedWidth": 320,
+      "documentWidth": 305,
+      "overflow": false,
+      "viewport": 320
+    },
+    {
+      "name": "owner-with-stored-report",
+      "requestedWidth": 390,
+      "documentWidth": 375,
+      "overflow": false,
+      "viewport": 390
+    },
+    {
+      "name": "owner-with-stored-report",
+      "requestedWidth": 1280,
+      "documentWidth": 1265,
+      "overflow": false,
+      "viewport": 1280
+    },
+    {
+      "name": "staff-csv-connected",
+      "requestedWidth": 320,
+      "documentWidth": 305,
+      "overflow": false,
+      "viewport": 320
+    },
+    {
+      "name": "staff-csv-connected",
+      "requestedWidth": 390,
+      "documentWidth": 375,
+      "overflow": false,
+      "viewport": 390
+    },
+    {
+      "name": "staff-csv-connected",
+      "requestedWidth": 1280,
+      "documentWidth": 1265,
+      "overflow": false,
+      "viewport": 1280
+    },
+    {
+      "name": "operations-with-projection",
+      "requestedWidth": 320,
+      "documentWidth": 305,
+      "overflow": false,
+      "viewport": 320
+    },
+    {
+      "name": "operations-with-projection",
+      "requestedWidth": 390,
+      "documentWidth": 375,
+      "overflow": false,
+      "viewport": 390
+    },
+    {
+      "name": "operations-with-projection",
+      "requestedWidth": 1280,
+      "documentWidth": 1265,
+      "overflow": false,
+      "viewport": 1280
+    },
+    {
+      "name": "partner",
+      "width": 320,
+      "documentWidth": 320,
+      "overflow": false,
+      "viewport": 320
+    },
+    {
+      "name": "partner",
+      "width": 390,
+      "documentWidth": 390,
+      "overflow": false,
+      "viewport": 390
+    },
+    {
+      "name": "partner",
+      "width": 1280,
+      "documentWidth": 1280,
+      "overflow": false,
+      "viewport": 1280
+    }
+  ],
+  "keyboardCredentialToConnect": true,
+  "capturedWarningErrorLogs": 0,
+  "fixtureIssuerRenewal": {
+    "roundsObserved": 1,
+    "fixedStaffIdentities": 7,
+    "maxRounds": 8,
+    "ownershipCheckedSignal": "SIGUSR2",
+    "sameSubjectAndRoles": true,
+    "oldCredentialsUnchanged": true,
+    "actualIdpMfaAcceptance": false
+  },
+  "browserFileUpload": false,
+  "nativeBinaryUploadAndCodec": true,
+  "allBrowserSessionsDisconnected": true,
+  "viewportOverrideReset": true,
+  "ownedPreviewsRemoved": true,
+  "pdf": {
+    "bytes": 24596,
+    "sha256": "7ec26254ff6def8a99d2d096d1c443bbdfe27b01c943e8c0a4ea3d23ba10c250",
+    "pages": 3,
+    "baseReportPages": 2,
+    "separateAssistanceAppendixPages": 1,
+    "allPagesRenderedAndVisuallyInspected": true,
+    "clippingOrOverlapObserved": false,
+    "renderer": "actual SQL-frozen selection through real branded renderer",
+    "popplerWarnings": [
+      "No display font for Symbol",
+      "No display font for ArialUnicode"
+    ],
+    "tagged": false,
+    "pdfAccessibilityAccepted": false,
+    "realInboxAccepted": false
+  },
+  "artifactSha256": {
+    ".local\\security-manual-browser.png": "406bcd60198d5758b9214fde9880eadf6064514842fc305ec28473517cb21080",
+    ".local\\security-publication-browser.png": "840bdbb2a22cba437723f24e69fd7500eae2386ce6ec5d456cbee3564c8c162a",
+    ".local\\security-unknown-hold-browser.png": "6d6aab50d38d2cde63ae8f792c679efa5b537165f52a9fd1a559b8725141d398",
+    ".local\\security-report-browser.png": "64edda8c1b8dadff5f0f26c7adbdd05ec496acf6f12417bbeb84ff7f6659dcf4",
+    ".local\\security-report.html": "9694b1d0c73ac3205e3d11e43695a5078159cc610daa6b99d007a16145d338ad"
+  },
+  "actualBrowserAssistiveTechnologyMatrix": false,
+  "independentSecurityReview": false,
+  "actualAcceptance": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

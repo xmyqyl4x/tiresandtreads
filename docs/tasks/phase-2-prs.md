@@ -539,6 +539,8 @@ Local progress: role-scoped cost/reuse/photo health, durable existing-worker res
 
 **Verification and acceptance:** G2/G4/G6/G7 evidence passes; no private-data leak, critical AI failure, duplicate coupon or broken existing live journey.
 
+Local progress: the combined Next/API/PostgreSQL55 boundary, real frozen HTML/text/PDF renderer, hostile uploads, current owner/tenant/role checks, in-flight withdrawal/deletion, source-image purge and quarantined 225-table SQL archive parity are exercised by 205 focused cases, including 16 new scenarios. Actual browser journeys, narrow layouts and operator uncertainty/expiry response are recorded in [P2-PR-026](../implementation/P2-PR-026-local-security-privacy-validation.md), with a [local support handover](../operations/phase-2-local-security-handover.md). Model configuration is unchanged. Original acceptance boxes remain open: real identity/MFA, external model/scanner/source/privacy/custody/latest-chain recovery, inbox/browser/assistive-technology matrix, independent review and pilot/phase acceptance are still required. Full exact-commit regression and actual PR/main checks are required before reporting this local card complete; P2-PR-027 rollout remains held.
+
 ### P2-PR-027
 
 **Release Phase 2 assistance and reseller pilot**

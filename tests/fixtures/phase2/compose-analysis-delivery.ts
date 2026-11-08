@@ -16,6 +16,7 @@ import type {
 } from '../../../packages/application/src/ports/contact-services.ts';
 import type { PrivateObjects } from '../../../packages/application/src/ports/assets.ts';
 import type { MailProvider } from '../../../packages/application/src/ports/delivery-services.ts';
+import type { ReportRenderer } from '../../../packages/application/src/ports/delivery-services.ts';
 import type { JsonObject } from '../../../packages/application/src/ports/catalog-records.ts';
 import { type Result } from '../../../packages/domain/src/values/core.ts';
 import type { analysisLifecycleFixture } from './analysis-lifecycle.ts';
@@ -52,6 +53,7 @@ export async function composeAnalysisDelivery(
   f: Awaited<ReturnType<typeof analysisLifecycleFixture>>,
   reportOutput: JsonObject = output(f),
   existing?: { owner: Awaited<ReturnType<typeof f.owner>>; report: string },
+  options?: { baseRenderer: ReportRenderer },
 ) {
   const crypto = createContactCrypto(
     'v1',
@@ -93,7 +95,10 @@ export async function composeAnalysisDelivery(
         templateId,
       ])
     ).rows[0].renderer_hash;
-  const fixture = createAnalysisReportRenderer(createFixtureReportRenderer('d'.repeat(64)), hash),
+  const fixture = createAnalysisReportRenderer(
+      options?.baseRenderer ?? createFixtureReportRenderer('d'.repeat(64)),
+      hash,
+    ),
     renderer = { ...fixture, render: vi.fn(fixture.render) };
   const objectsData = new Map<string, Uint8Array>();
   const objects: PrivateObjects = {

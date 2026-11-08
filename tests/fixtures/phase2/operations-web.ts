@@ -8,7 +8,11 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { httpAdmissionSources } from './http-admission.ts';
 import { composeGenericAnalysis } from './compose-generic-analysis.ts';
-import { ownerWebFixture } from './owner-web.ts';
+import {
+  ownerWebFixture,
+  type OwnerWebExtensionContext,
+  type OwnerWebExtension,
+} from './owner-web.ts';
 import { composePartnerServices, uuid } from './compose-partner-services.ts';
 import { withPartnerSessions } from '../../../packages/integrations/src/http/partner-security.ts';
 import { createAnalysisOperationsService } from '../../../packages/application/src/analysis/analysis-operations.ts';
@@ -52,7 +56,14 @@ export function operationsSources() {
   validateSources(extra);
   return { sources: [...prior.sources, ...extra], manifest };
 }
-export async function operationsWebFixture(origin = 'http://127.0.0.1:3000') {
+export async function operationsWebFixture(
+  origin = 'http://127.0.0.1:3000',
+  extend?: (
+    context: OwnerWebExtensionContext & {
+      p: Awaited<ReturnType<typeof composePartnerServices>>;
+    },
+  ) => ReturnType<OwnerWebExtension>,
+) {
   let context:
     | {
         service: ReturnType<typeof createAnalysisOperationsService>;
@@ -156,16 +167,24 @@ export async function operationsWebFixture(origin = 'http://127.0.0.1:3000') {
       photoObserver = await who(['photo_observer']),
       unassigned = await who([]);
     context = { service, p, generic, operator, observer, photoObserver, unassigned, executeCalls };
+    const extra = extend ? await extend({ ...c, p }) : null;
     return {
-      routes: analysisOperationsRoutes({
-        service,
-        staff,
-        operations,
-        pilot,
-        secret: c.secret,
-        admission: c.admission,
-      }),
-      security: (security) => withPartnerSessions(security, p.d.authority, c.secret),
+      routes: [
+        ...analysisOperationsRoutes({
+          service,
+          staff,
+          operations,
+          pilot,
+          secret: c.secret,
+          admission: c.admission,
+        }),
+        ...(extra?.routes ?? []),
+      ],
+      security: (security) => {
+        const base = withPartnerSessions(security, p.d.authority, c.secret);
+        return extra ? extra.security(base) : base;
+      },
+      ...(extra?.env ? { env: extra.env } : {}),
     };
   });
   if (!context) {
