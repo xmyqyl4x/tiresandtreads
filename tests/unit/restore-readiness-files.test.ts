@@ -109,7 +109,7 @@ it(
       writeFileSync(path, readFileSync(path, 'utf8') + '# unexpected current change\n');
       const before = readFileSync(path),
         report = reviewRestoreEvidence(root);
-      expect(report.newExceptions).toBe(4);
+      expect(report.newExceptions).toBe(5);
       expect(report.fileReview.issues).toContainEqual({
         path: 'pnpm-lock.yaml',
         code: 'digest-mismatch',

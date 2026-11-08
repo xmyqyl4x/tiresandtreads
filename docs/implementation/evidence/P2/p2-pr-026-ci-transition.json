@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-026",
+  "scope": "Exact current CI budget transition; historical execution remains historical",
+  "baseReviewedHead": "2596edabd26eacb87cce3da1cb986eb93db8db83",
+  "exactPins": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "baselineSha256": "3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f",
+      "currentSha256": "494d8afd76ec4ca8195db6863e4288ac522df9861570b67e483838b13b3f65f3",
+      "reason": "Only the bounded bootstrap CI job budget increases from 25 to 40 minutes so the complete unchanged verification command can finish. Historical manifests, individual proof limits and all acceptance holds remain unchanged."
+    }
+  ],
+  "verificationCommandChanged": false,
+  "historicalManifestsRewritten": false,
+  "actualAcceptance": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
