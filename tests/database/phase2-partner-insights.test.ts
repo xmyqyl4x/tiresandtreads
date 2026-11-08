@@ -1,4 +1,4 @@
-import { beforeAll, afterAll, it, expect } from 'vitest';
+import { beforeAll, afterAll, it, expect, vi } from 'vitest';
 import { insightsFixture } from '../fixtures/phase2/partner-insights.ts';
 import { composeInsights } from '../fixtures/phase2/compose-insights.ts';
 import { value, uuid } from '../fixtures/phase2/compose-partner-services.ts';
@@ -18,7 +18,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 48,
         newTables: 6,
-        nativeCases: 47,
+        nativeCases: 48,
         minimumCohort: 50,
         wholeMatrixComplementSuppression: true,
         immutableWeeklyRelease: true,
@@ -972,4 +972,31 @@ it('refuses an oversized analytics source before returning a truncated explorer 
     ok: false,
     error: { code: 'unavailable' },
   });
+});
+
+it('authorizes tenant writes before dispute encryption and rechecks after encryption I/O', async () => {
+  const o = await s.company(),
+    assignment = await s.assignment(o),
+    other = await s.company();
+  const encrypt = vi.spyOn(s.encryption, 'encrypt');
+  try {
+    expect((await s.service.dispute(other.handle, o.id, dispute(assignment.id))).ok).toBe(false);
+    expect(encrypt).not.toHaveBeenCalled();
+    const original = encrypt.getMockImplementation()!;
+    encrypt.mockImplementationOnce(async (...args) => {
+      await f.admin.query(
+        "UPDATE partners.memberships SET status='suspended',revision=revision+1 WHERE org_id=$1",
+        [o.id],
+      );
+      return original(...args);
+    });
+    expect((await s.service.dispute(o.handle, o.id, dispute(assignment.id))).ok).toBe(false);
+    expect(encrypt).toHaveBeenCalledTimes(1);
+    expect(
+      (await f.admin.query('SELECT count(*)::int n FROM partners.disputes WHERE org_id=$1', [o.id]))
+        .rows[0]!.n,
+    ).toBe(0);
+  } finally {
+    encrypt.mockRestore();
+  }
 });

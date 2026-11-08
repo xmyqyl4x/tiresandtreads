@@ -8,8 +8,11 @@ import { ok } from '../../../packages/domain/src/values/core.ts';
 
 // Fixed synthetic evidence/encryption ports; engine, business services and SQL remain real.
 export function fixtureReportServices(
-  db: Awaited<ReturnType<typeof privateFixture>>,
-  options: { current?: boolean } = {},
+  db: Pick<
+    Awaited<ReturnType<typeof privateFixture>>,
+    'scope' | 'owners' | 'reports' | 'caps' | 'bundleId' | 'ruleId'
+  >,
+  options: { current?: boolean; localSourceIds?: readonly string[] } = {},
 ) {
   const crypto = createReportCrypto(
     'http-v1',
@@ -69,6 +72,24 @@ export function fixtureReportServices(
           }
           if (_input.regionKey === 'SYNTHETIC_STALE')
             e.snapshot.recall.checkedAt = new Date(Date.parse(asOf) - 30 * 86400000).toISOString();
+        }
+        if (options.localSourceIds?.length) {
+          // A controlled synthetic catalog is rebound to owned fixture dataset IDs for the
+          // combined API proof. This is never a source/provider acceptance assertion.
+          const ids = options.localSourceIds,
+            replacements = new Map(
+              e.snapshot.sources.map((s, i) => [s.datasetId, ids[i % ids.length]!]),
+            );
+          if (ids.length !== e.snapshot.sources.length || new Set(ids).size !== ids.length)
+            throw Error('Distinct complete synthetic source binding required');
+          function rebind(value: unknown): unknown {
+            if (typeof value === 'string') return replacements.get(value) ?? value;
+            if (Array.isArray(value)) return value.map(rebind);
+            if (value && typeof value === 'object')
+              return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, rebind(v)]));
+            return value;
+          }
+          e.snapshot = rebind(e.snapshot) as typeof e.snapshot;
         }
         return ok({
           snapshot: e.snapshot,

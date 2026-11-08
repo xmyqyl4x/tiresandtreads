@@ -1,4 +1,4 @@
-import { z, p2Uuid, p2Revision } from './phase2-partners.ts';
+import { z, p2Uuid, p2Revision } from './phase2-wire.ts';
 import type { EndpointContract } from './http.ts';
 const notice = z.string().min(1).max(100),
   empty = z.strictObject({});

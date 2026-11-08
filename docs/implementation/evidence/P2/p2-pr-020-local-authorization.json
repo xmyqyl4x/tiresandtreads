@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-020",
+  "authority": "Owner continuation after merged PR105 authorizes the next three local implementation cards with full validation and merge, retaining actual acceptance/deployment holds.",
+  "scope": "Combined opt-in API validation, typed private clients/OpenAPI, headless photo/report/analysis/reuse/frozen-delivery/deletion, reseller/last-code/CSV flows, bounded mixed load and local S4 readiness reporting; actual acceptance held.",
+  "prerequisiteCard": "P2-PR-019",
+  "actualAuthenticationMfaModelPrivacyAccepted": false,
+  "actualS1S2S3S4G2G7Acceptance": false,
+  "sixS3GatesOpen": true,
+  "HS01toHS08": "proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "actualAcceptanceAndDeployment": "held",
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "prerequisiteReviewedHead": "82c9e6c20193c140659ddfbf3503cfae4444e1aa",
+  "actualFrontendGateOpened": false
+}

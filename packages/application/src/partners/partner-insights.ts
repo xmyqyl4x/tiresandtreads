@@ -173,7 +173,12 @@ export function createPartnerInsightsServices(
             input.expected <= 10000 &&
             (input.kind === 'opened' ? input.expected === 0 : input.expected > 0),
         );
-        await principal(handle);
+        // Authorize before encryption I/O, then reauthorize in the write transaction.
+        const admitted =
+          input.kind === 'resolved' || input.kind === 'reopened'
+            ? await staff(handle, 'partner.disputes', async () => undefined)
+            : await member(handle, org, true, async () => undefined);
+        demand(admitted.ok, 'forbidden');
         const box = await d.encryption.encrypt(
             new TextEncoder().encode(JSON.stringify({ details })),
             'partner_dispute',

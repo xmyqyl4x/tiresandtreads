@@ -135,18 +135,23 @@ export function staffCsvRoutes(
       'evidence',
     ],
   );
-  add('p2CsvReview', inputs.review, (c, v) => s.review(actor(c), { ...v, command: c.key }), [
-    'id',
-    'intakeId',
-    'runId',
-    'decision',
-    'reason',
-    'runRevision',
-    'fence',
-    'expectedHead',
-    'diffId',
-    'validationId',
-  ]);
+  add(
+    'p2CsvReview',
+    inputs.review,
+    (c, v) => s.review(actor(c), { ...v, command: c.key }, intake(c)),
+    [
+      'id',
+      'intakeId',
+      'runId',
+      'decision',
+      'reason',
+      'runRevision',
+      'fence',
+      'expectedHead',
+      'diffId',
+      'validationId',
+    ],
+  );
   add(
     'p2CsvPublish',
     inputs.publish,

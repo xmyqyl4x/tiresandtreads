@@ -420,6 +420,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** All P2 API categories pass together; neither AI-only nor reseller-only acceptance opens the frontend gate.
 
+**Owner-authorized local validation:** [Combined API packet](../implementation/P2-PR-020-local-api-validation.md). The three original acceptance boxes above remain open. Local implementation/testing/merge through card020 is authorized; actual dependency acceptance, phase entry and S4/frontend acceptance are not implied. No frontend or hosted deployment is activated.
+
+- [x] Implement64 opt-in API operation definitions, separate typed clients, private response validation and deterministic OpenAPI drift checking.
+- [x] Implement combined actual loopback HTTP/SQL owner, partner and staff journeys with explicit frozen analysis delivery, last-code race, scoped deletion/withdrawal and bounded mixed reads/workers.
+- [x] Harden coupon error truncation, dispute authorization around encryption and CSV preview/intake binding; record source-bound local validation and remaining actual acceptance inputs.
+
+
 ### P2-PR-021
 
 **Build reseller onboarding, offers and pilot portal**

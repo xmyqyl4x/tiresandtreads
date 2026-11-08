@@ -5,7 +5,7 @@ import {
   photoConfirmationView,
 } from '../../../contracts/src/phase2-analysis.ts';
 import { privateAnalysisView } from './phase2-analysis-views.ts';
-import { z } from '../../../contracts/src/phase2-partners.ts';
+import { z } from '../../../contracts/src/phase2-wire.ts';
 import {
   analysisApiContracts,
   analysisApiInputs,

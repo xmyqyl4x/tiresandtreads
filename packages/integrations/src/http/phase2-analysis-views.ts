@@ -1,4 +1,4 @@
-import { z } from '../../../contracts/src/phase2-partners.ts';
+import { z } from '../../../contracts/src/phase2-wire.ts';
 import type { Result } from '../../../domain/src/values/core.ts';
 import { ok } from '../../../domain/src/values/core.ts';
 import type { ApplicationFailure } from '../../../application/src/ports/transactions.ts';

@@ -1,3 +1,21 @@
+import { validateP2Routes } from '../../packages/integrations/src/http/phase2-response-contracts.ts';
+import { createP2OwnerClient } from '../../packages/contracts/src/phase2-owner-client.ts';
+import { createP2PartnerClient } from '../../packages/contracts/src/phase2-partner-client.ts';
+import { createP2StaffClient } from '../../packages/contracts/src/phase2-staff-client.ts';
+import { ownerP2Operations } from '../../packages/contracts/src/phase2-owner-client.ts';
+import { partnerP2Operations } from '../../packages/contracts/src/phase2-partner-client.ts';
+import { staffP2Operations } from '../../packages/contracts/src/phase2-staff-client.ts';
+import { analysisPhotoRoutes } from '../../packages/integrations/src/http/phase2-analysis.ts';
+import { analysisDeliveryRoutes } from '../../packages/integrations/src/http/phase2-analysis-delivery.ts';
+import { createLocalReportAnalysisRuntime } from '../../packages/integrations/src/analysis-http-runtime.ts';
+import { createAnalysisErasureRepository } from '../../packages/db/src/repositories/analysis-lifecycle.ts';
+import { composePhotoServices } from '../fixtures/phase2/compose-photo-services.ts';
+import { composeReportAnalysis } from '../fixtures/phase2/compose-report-analysis.ts';
+import { composeHttpPrivacy } from '../fixtures/phase2/compose-http-privacy.ts';
+import { composeAnalysisDelivery } from '../fixtures/phase2/compose-analysis-delivery.ts';
+import { fixtureReportServices } from '../fixtures/http/report-services.ts';
+import { publicOwnerRoutes } from '../../packages/integrations/src/http/public-owner.ts';
+import { performance } from 'node:perf_hooks';
 import { composePilot } from '../fixtures/phase2/compose-pilot.ts';
 import { pilotRoutes } from '../../packages/integrations/src/http/phase2-pilot.ts';
 import { createStaffCsvRuntime } from '../../packages/integrations/src/staff-csv-runtime.ts';
@@ -32,7 +50,30 @@ let f: Awaited<ReturnType<typeof httpAdmissionFixture>>,
 let pilot: Awaited<ReturnType<typeof composePilot>>;
 const secret = randomBytes(32),
   staff = new Map<string, HttpActor>();
+let photo: Awaited<ReturnType<typeof composePhotoServices>>,
+  analysis: Awaited<ReturnType<typeof composeReportAnalysis>>,
+  privacy: ReturnType<typeof composeHttpPrivacy>,
+  runtime: Awaited<ReturnType<typeof createLocalReportAnalysisRuntime>>;
+let frozenDelivery: Awaited<ReturnType<typeof composeAnalysisDelivery>> | undefined;
+let reports: ReturnType<typeof fixtureReportServices>;
+let declaredOperations: string[] = [];
 let limited = false;
+function ownerToken(keys: HttpActor['keys']) {
+  const raw = randomBytes(32).toString('base64url');
+  staff.set(raw, { keys, csrf: 'synthetic-owner-csrf' });
+  return raw;
+}
+function clientTransport(token: string): typeof fetch {
+  return async (url, init) => {
+    const headers = new Headers(init?.headers);
+    headers.set('authorization', 'Bearer ' + token);
+    if (init?.method !== 'GET') headers.set('origin', host.origin);
+    const response = await fetch(url, { ...init, headers });
+    return response;
+  };
+}
+const commandFor = (token: string) => ({ key: randomUUID(), csrf: csrf(token) });
+
 function staffToken(id: NonNullable<HttpActor['staff']>) {
   const token = randomBytes(32).toString('base64url');
   staff.set(token, { keys: [], csrf: 'synthetic-csrf', staff: id, mfaAt: Date.now() });
@@ -80,20 +121,87 @@ async function call(
 }
 beforeAll(async () => {
   f = await httpAdmissionFixture();
+  // Compose this reviewed contact runtime before other independent synthetic fixtures add
+  // contacts under their separate test key rings. It only handles its own API-created contacts.
+  frozenDelivery = await composeAnalysisDelivery(f);
   p = await composePartnerServices(f);
-  i = await composeInsights(f);
+  i = await composeInsights(f, p.sessions);
   csv = await composeStaffCsv(f);
   pilot = await composePilot(f);
+  // Five fixed source categories are distinct owned synthetic records. No live catalog
+  // or licensed evidence is accepted; the controlled engine port uses these exact IDs.
+  const engineBundle = uuid('bundle'),
+    engineSourceIds: string[] = [];
+  await f.admin.query(
+    "INSERT INTO app.dataset_bundles(id,market,manifest_hash,status) VALUES($1,'US',$2,'staging')",
+    [engineBundle, 'a'.repeat(64)],
+  );
+  for (const kind of ['fitment', 'catalog', 'recall', 'climate', 'market_rules']) {
+    const id = uuid('dataset');
+    engineSourceIds.push(id);
+    await f.admin.query(
+      "INSERT INTO app.dataset_versions(id,provider_id,license_id,kind,external_version,checksum,status,effective_at,fetched_at,row_count) SELECT $1,provider_id,license_id,$2,$1::uuid::text,$3,'staging',statement_timestamp()-interval '1 day',statement_timestamp(),0 FROM app.dataset_versions WHERE id=(SELECT dataset_version_id FROM app.bundle_members WHERE bundle_id=$4 LIMIT 1)",
+      [id, kind, 'b'.repeat(64), f.bundleId],
+    );
+    await f.admin.query(
+      "UPDATE app.dataset_versions SET status='published',published_at=clock_timestamp() WHERE id=$1",
+      [id],
+    );
+    await f.admin.query(
+      'INSERT INTO app.bundle_members(bundle_id,component_key,dataset_version_id) VALUES($1,$2,$3)',
+      [engineBundle, kind, id],
+    );
+  }
+  await f.admin.query(
+    "UPDATE app.dataset_bundles SET status='published',published_at=clock_timestamp() WHERE id=$1",
+    [engineBundle],
+  );
+  f = { ...f, bundleId: engineBundle };
+  photo = await composePhotoServices(f);
+  analysis = await composeReportAnalysis(f);
+  privacy = composeHttpPrivacy(f, photo);
+  runtime = await createLocalReportAnalysisRuntime({
+    mode: 'local-opt-in',
+    scope: analysis.adapter,
+    dependencies: analysis.d,
+    rights: createAnalysisErasureRepository(analysis.adapter, photo.bucket, [photo.key]),
+  });
+  reports = fixtureReportServices(f, { current: true, localSourceIds: engineSourceIds });
   const admission = createP2HttpAdmission(p.service),
     routes = [
       ...partnerRoutes({ ...p, insights: i.service, admission, secret }),
+      ...analysisPhotoRoutes({
+        analysis: runtime,
+        photos: photo.service,
+        privacy: privacy.service,
+        admission,
+        secret,
+      }),
+      ...analysisDeliveryRoutes({
+        delivery: {
+          request: (...args) => {
+            if (!frozenDelivery) throw Error('Owned synthetic delivery composition required');
+            return frozenDelivery.service.request(...args);
+          },
+        },
+        admission,
+        secret,
+      }),
+      ...publicOwnerRoutes({
+        reports: reports.reports,
+        shareKeys: () => [],
+        lookup: async () => ok({}),
+        content: async () => ok({}),
+        download: async () => fail(failure('not_found')),
+      }),
       ...pilotRoutes({ service: pilot.service, admission, secret }),
       ...staffCsvRoutes({ service: csv.service, admission, secret }),
     ];
+  declaredOperations = routes.map((r) => r.operationId);
   host = await listenLocalApi((origin) =>
     createHttpApi({
       origin,
-      routes,
+      routes: validateP2Routes(routes),
       security: withPartnerSessions(
         {
           authenticate: async (r) =>
@@ -137,6 +245,9 @@ afterAll(async () => {
   } finally {
     try {
       await csv?.cleanup();
+      await frozenDelivery?.cleanup();
+      privacy?.cleanup();
+      await photo?.cleanup();
     } finally {
       await f?.cleanup();
     }
@@ -309,6 +420,9 @@ it('publishes independently moderated exact-money offers and privately imports d
   const status = await call(c.handle, root + '/imports/' + queued.data.id);
   expect(status.status).toBe(200);
   expect(status.data).toMatchObject({ state: 'ready', accepted: 2, duplicates: 1 });
+  expect(
+    (await call(c.handle, root + '/imports/' + queued.data.id + '/errors')).data.truncated,
+  ).toBe(false);
   expect(JSON.stringify(status.body)).not.toMatch(/PRIVATE1|PRIVATE2|keyVersion|requester|subject/);
   expect((await call(c.handle, root + '/pools/' + pool)).data).toMatchObject({
     available: 2,
@@ -614,6 +728,306 @@ it('reauthorizes private preview evidence after storage I/O and refuses a role w
   } finally {
     await local.close();
   }
+});
+it('binds every generated private operation to the same running opt-in API host', () => {
+  const expected = Object.keys({
+    ...ownerP2Operations,
+    ...partnerP2Operations,
+    ...staffP2Operations,
+  });
+  expect(expected).toHaveLength(64);
+  expect(expected.every((id) => declaredOperations.filter((x) => x === id).length === 1)).toBe(
+    true,
+  );
+  expect(new Set(declaredOperations).size).toBe(declaredOperations.length);
+});
+it('runs explicit photo confirmation, deterministic report, validated exact reuse, frozen send and erasure headlessly', async () => {
+  const e = await photo.example(),
+    raw = ownerToken(e.keys),
+    client = createP2OwnerClient(host.origin, clientTransport(raw));
+  const command = () => commandFor(raw);
+  const batch = (await client.p2PhotoCapture({ body: { policyId: e.policy }, command: command() }))
+    .data;
+  const { key: sourceKey, ...photoInput } = e.input;
+  const intent = (
+    await client.p2PhotoIntent({
+      body: { ...photoInput, batchId: batch.batchId },
+      command: { ...command(), key: sourceKey },
+    })
+  ).data;
+  if (intent.state === 'manual') throw Error('Synthetic allowed processing required');
+  const path = { upload: intent.id };
+  await client.p2PhotoFinalize({ path, bytes: e.bytes, grant: intent.grant, command: command() });
+  const request = (await client.p2PhotoExtract({ path, body: {}, command: command() })).data;
+  value(await photo.service.execute(p2Id('ai_request', request.id)));
+  const suggestions = (await client.p2PhotoStatus({ path })).data;
+  expect(suggestions.confirmations).toEqual([]);
+  const candidate = suggestions.candidates.find((x) => x.field === 'tire_size')!;
+  const confirmed = (
+    await client.p2PhotoConfirm({
+      path,
+      body: { candidateId: candidate.id, field: 'tire_size', revision: '1', value: '225/45R18' },
+      command: command(),
+    })
+  ).data;
+  expect(confirmed.origin).toBe('corrected_candidate');
+  await f.admin.query(
+    "UPDATE app.market_dataset_heads SET bundle_id=$1,revision=revision+1 WHERE market='US'",
+    [f.bundleId],
+  );
+  const created = await call(raw, 'reports', {
+    market: 'US',
+    regionKey: 'SYNTHETIC_US',
+    configurationId: null,
+    wheelPackage: null,
+    sizes: { front: confirmed.value, rear: '255/40R18' },
+    strategy: 'year_round',
+    winterUse: 'none',
+    replace: ['front_left', 'front_right', 'rear_left', 'rear_right'],
+    priorities: ['wet'],
+    budget: null,
+  });
+  expect(created.status).toBe(200);
+  const report = String(created.data.report_id),
+    versionPath = { report, version: '1' };
+  const original = (
+    await f.admin.query(
+      'SELECT input_snapshot,output_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1',
+      [report],
+    )
+  ).rows;
+  expect(original).toHaveLength(1);
+  expect(original[0].input_snapshot.sizes.front).toBe(confirmed.value);
+  expect(original[0].output_snapshot.purpose).toBe('technical_evaluation');
+  expect(original[0].output_snapshot.issuanceAuthorized).toBe(false);
+  const policy = await analysis.example();
+  await f.admin.query(
+    "INSERT INTO app.ai_cost_plans(policy_id,configuration_hash,input_ceiling,output_ceiling,input_per_million_minor,output_per_million_minor,daily_limit,hourly_limit,owner_daily_limit,max_concurrency,status,reviewed_by) SELECT id,configuration_hash,65536,4096,100,100,100000,100000,100000,2,'active',$2 FROM app.ai_policy_versions WHERE id=$1",
+    [policy.policy, f.staff],
+  );
+  const input = { policyId: policy.policy, allowed: true, noticeVersion: 'ai-processing-v1' };
+  const pending = (
+    await client.p2AnalysisRequest({ path: versionPath, body: input, command: command() })
+  ).data;
+  expect(pending.state).toBe('pending');
+  value(await runtime.execute(p2Id('ai_request', pending.id)));
+  const available = (await client.p2AnalysisStatus({ path: { request: pending.id! } })).data;
+  expect(available.state).toBe('available');
+  const calls = analysis.calls.length;
+  expect(
+    (await client.p2AnalysisRequest({ path: versionPath, body: input, command: command() })).data
+      .state,
+  ).toBe('available');
+  expect(analysis.calls).toHaveLength(calls);
+  const attachment = (await client.p2AnalysisAttachment({ path: versionPath })).data;
+  expect(attachment.state).toBe('available');
+  if (attachment.state !== 'available') throw Error('Validated attachment required');
+  if (!frozenDelivery) throw Error('Owned synthetic delivery composition required');
+  const send = (
+    await client.p2AnalysisDelivery({
+      body: {
+        ...frozenDelivery.input,
+        report: { id: report, version: 1 },
+        notices: { report: frozenDelivery.contactPolicy.notices.report! },
+        analysis: { attachmentRevision: attachment.attachment.revision, fallback: null },
+      },
+      command: command(),
+    })
+  ).data;
+  const frozen = await frozenDelivery.row(send.id);
+  expect(frozen.document.analysisIdentity.attachmentRevision).toBe(attachment.attachment.revision);
+  expect(frozenDelivery.provider.send).not.toHaveBeenCalled();
+  await frozenDelivery.due(send.id);
+  value(await frozenDelivery.service.dispatch(p2Id('send', send.id)));
+  const first = frozenDelivery.provider.send.mock.calls[0]![1];
+  expect(first.mail.text).toContain('AI-assisted');
+  value(await frozenDelivery.service.dispatch(p2Id('send', send.id)));
+  expect(frozenDelivery.provider.send).toHaveBeenCalledTimes(1);
+  expect((await frozenDelivery.row(send.id)).document.analysisIdentity).toEqual(
+    frozen.document.analysisIdentity,
+  );
+  const removed = (await client.p2PhotoDelete({ path, body: {}, command: command() })).data;
+  await expect(client.p2PhotoStatus({ path })).rejects.toBeDefined();
+  for (
+    let n = 0;
+    n < 80 &&
+    value(await privacy.service.status(p2Id('analysis_erasure', removed.jobId))) !== 'complete';
+    n++
+  )
+    value(await privacy.service.workOne(p2Id('analysis_erasure', removed.jobId)));
+  expect(value(await privacy.service.status(p2Id('analysis_erasure', removed.jobId)))).toBe(
+    'complete',
+  );
+  const processing = (await client.p2AnalysisStatus({ path: { request: pending.id! } })).data
+    .processing;
+  if (!processing) throw Error('Owned current processing permission required');
+  await client.p2AnalysisChoice({
+    path: { scope: processing.scopeId },
+    body: {
+      allowed: false,
+      expectedRevision: processing.permissionRevision,
+      noticeVersion: 'ai-processing-v1',
+    },
+    command: command(),
+  });
+  expect((await client.p2AnalysisAttachment({ path: versionPath })).data.state).toBe('unavailable');
+  expect(
+    (
+      await f.admin.query(
+        'SELECT input_snapshot,output_snapshot,snapshot_hash FROM app.report_versions WHERE report_id=$1',
+        [report],
+      )
+    ).rows,
+  ).toEqual(original);
+  console.log(
+    'P2_API_HEADLESS_EVIDENCE ' +
+      JSON.stringify({
+        confirmedOnly: true,
+        actualDeterministicEngine: true,
+        actualPostgreSQL: true,
+        exactReuseWithoutExtraModelCall: true,
+        frozenSelectionPreserved: true,
+        ownedPhotoPurged: true,
+        withdrawalDenied: true,
+        reportFactsPreserved: true,
+        syntheticModelAndMail: true,
+        providerDispatches: 0,
+        actualRecipientNotifications: 0,
+        actualModelEvaluation: false,
+        actualAcceptance: false,
+        gatesClosed: 0,
+        casesClosed: 0,
+      }),
+  );
+}, 120000);
+it('uses independent owner API intents and workers for the last code while mixed private reads remain responsive', async () => {
+  const offer = await pilot.offer('unique'),
+    a = await pilot.message({ capture: false }),
+    b = await pilot.message({ capture: false });
+  for (const m of [a, b]) {
+    const raw = ownerToken([m.owner.token]);
+    await createP2OwnerClient(host.origin, clientTransport(raw)).p2PilotRequest({
+      path: { send: m.send },
+      body: m.request,
+      command: commandFor(raw),
+    });
+  }
+  const loadTenant = await p.company(),
+    reader = createP2PartnerClient(host.origin, clientTransport(loadTenant.handle));
+  const before = pilot.provider.send.mock.calls.length,
+    durations: number[] = [];
+  const workers = Promise.all([pilot.service.dispatch(a.send), pilot.fresh().dispatch(b.send)]);
+  const load = Promise.all(
+    Array.from({ length: 16 }, async () => {
+      const start = performance.now();
+      const r = await reader.p2Organization({ path: { org: loadTenant.org } });
+      expect(r.data.organization.id).toBe(loadTenant.org);
+      durations.push(performance.now() - start);
+    }),
+  );
+  const results = await workers;
+  await load;
+  expect(results.every((r) => r.ok)).toBe(true);
+  expect(
+    pilot.provider.send.mock.calls.slice(before).filter((x) => x[1].mail.commercial),
+  ).toHaveLength(1);
+  const codes = (
+    await f.admin.query(
+      "SELECT count(*)::int n FROM partners.coupon_reservations WHERE org_id=$1 AND state='issued'",
+      [offer.org],
+    )
+  ).rows[0]!.n;
+  expect(codes).toBe(1);
+  durations.sort((a, b) => a - b);
+  console.log(
+    'P2_API_MIXED_LOAD_EVIDENCE ' +
+      JSON.stringify({
+        concurrentHttpReads: 16,
+        independentSqlWorkers: 2,
+        issuedUniqueCodes: codes,
+        p95Ms: Math.ceil(durations[Math.ceil(durations.length * 0.95) - 1]!),
+        maxMs: Math.ceil(durations.at(-1)!),
+        syntheticMailOnly: true,
+        productionSlaAccepted: false,
+        actualRecipientNotifications: 0,
+        gatesClosed: 0,
+        casesClosed: 0,
+      }),
+  );
+}, 120000);
+it('runs staff typed upload, immutable evidence, independent review and publication receipts on the combined API', async () => {
+  const e = await csv.example(),
+    uploaderRaw = staffToken(csv.uploader),
+    reviewerRaw = staffToken(csv.reviewer),
+    publisherRaw = staffToken(csv.publisher);
+  const uploader = createP2StaffClient(host.origin, clientTransport(uploaderRaw)),
+    reviewer = createP2StaffClient(host.origin, clientTransport(reviewerRaw)),
+    publisher = createP2StaffClient(host.origin, clientTransport(publisherRaw));
+  const { command: sourceCommand, ...query } = e.input;
+  const intake = (
+    await uploader.p2CsvUpload({
+      query: { ...query, market: 'US' },
+      bytes: e.bytes,
+      command: { ...commandFor(uploaderRaw), key: sourceCommand },
+    })
+  ).data;
+  if (!intake.id) throw Error('Synthetic valid intake required');
+  const path = { intake: intake.id };
+  await uploader.p2CsvValidate({ path, body: {}, command: commandFor(uploaderRaw) });
+  const preview = (
+    await reviewer.p2CsvPreview({ path, body: {}, command: commandFor(reviewerRaw) })
+  ).data;
+  expect(preview.evidence.validation.accepted).toBe('1');
+  await expect(
+    reviewer.p2CsvReview({
+      path: { intake: randomUUID() },
+      body: { previewId: preview.id, decision: 'approved', reason: 'checks_passed' },
+      command: commandFor(reviewerRaw),
+    }),
+  ).rejects.toBeDefined();
+  const review = (
+    await reviewer.p2CsvReview({
+      path,
+      body: { previewId: preview.id, decision: 'approved', reason: 'checks_passed' },
+      command: commandFor(reviewerRaw),
+    })
+  ).data;
+  await expect(
+    uploader.p2CsvPublish({
+      path,
+      body: { reviewId: review.id },
+      command: commandFor(uploaderRaw),
+    }),
+  ).rejects.toBeDefined();
+  const publication = (
+    await publisher.p2CsvPublish({
+      path,
+      body: { reviewId: review.id },
+      command: commandFor(publisherRaw),
+    })
+  ).data;
+  expect((await publisher.p2CsvReceipt({ path })).data.publicationBundleId).toBe(publication.value);
+  expect((await uploader.p2CsvStatus({ path })).data.phase).toBe('published');
+}, 120000);
+it('serves masked operations and partner read models through their typed HTTP clients', async () => {
+  const visitor = await i.visitor(),
+    client = (handle: string) => createP2PartnerClient(host.origin, clientTransport(handle));
+  const visitors = (await client(i.visitors).p2Visitors({ query: { week: i.week } })).data;
+  expect(visitors.items.some((row) => row.contact === 'masked')).toBe(true);
+  expect(JSON.stringify(visitors)).not.toContain(visitor.subject);
+  expect(JSON.stringify(visitors)).not.toContain('synthetic@example.invalid');
+  const health = (await client(i.email).p2Health({ query: { week: i.week } })).data;
+  expect(health.deliveryIsIndependentFact).toBe(true);
+  expect(health.opensAreEstimates).toBe(true);
+  const domain = (await client(i.email).p2Domains({ query: { domain: 'mail.example.com' } })).data;
+  expect(domain.missingSourceStatus).toBe('unavailable');
+  const internal = (await client(i.analyst).p2Internal({ query: { week: i.week } })).data;
+  expect(internal.exportEnabled).toBe(false);
+  const company = await p.company(),
+    own = client(company.handle),
+    path = { org: company.org };
+  expect((await own.p2Report({ path, query: { week: i.week } })).data.pilot).toBe('noncharging');
+  expect((await own.p2Disputes({ path })).data.items).toEqual([]);
 });
 it('protects admission records with forced RLS, serializes independent SQL contenders and fails closed at its row cap', async () => {
   const admission = createP2HttpAdmission(p.service),

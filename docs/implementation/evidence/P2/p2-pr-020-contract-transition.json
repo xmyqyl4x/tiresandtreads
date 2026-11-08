@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-020",
+  "scope": "Exact local API contract script transition; historical execution remains historical",
+  "baseReviewedHead": "82c9e6c20193c140659ddfbf3503cfae4444e1aa",
+  "exactPins": [
+    {
+      "path": "package.json",
+      "baselineSha256": "84e7ae89cc0e804b64f4b02abc5273b6152399bbb21791e9de40e06d92f0964b",
+      "currentSha256": "695486b5da6baa31ccb9a4b02386a508e788f7edc8ea56933ae5e2c8c52d1098",
+      "reason": "Only contracts:generate and contracts:check include the opt-in Phase2 artifact; dependencies, lockfile, historical execution and all acceptance holds retained."
+    }
+  ],
+  "changedScripts": {
+    "contracts:generate": {
+      "before": "node scripts/contracts/openapi.mjs",
+      "after": "node scripts/contracts/openapi.mjs && node scripts/contracts/phase2-generate.mjs"
+    },
+    "contracts:check": {
+      "before": "node scripts/contracts/openapi.mjs --check",
+      "after": "node scripts/contracts/openapi.mjs --check && node scripts/contracts/phase2-generate.mjs --check"
+    }
+  },
+  "dependencyChange": false,
+  "historicalManifestsRewritten": false,
+  "actualAcceptance": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
