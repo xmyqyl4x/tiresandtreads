@@ -858,17 +858,14 @@ it('runs explicit photo confirmation, deterministic report, validated exact reus
   expect(value(await privacy.service.status(p2Id('analysis_erasure', removed.jobId)))).toBe(
     'complete',
   );
-  const row = (
-    await f.admin.query(
-      'SELECT r.scope_id,g.permission_revision::text FROM app.ai_analysis_requests r JOIN app.ai_scope_guards g ON g.scope_id=r.scope_id WHERE r.id=$1',
-      [pending.id],
-    )
-  ).rows[0]!;
+  const processing = (await client.p2AnalysisStatus({ path: { request: pending.id! } })).data
+    .processing;
+  if (!processing) throw Error('Owned current processing permission required');
   await client.p2AnalysisChoice({
-    path: { scope: row.scope_id },
+    path: { scope: processing.scopeId },
     body: {
       allowed: false,
-      expectedRevision: row.permission_revision,
+      expectedRevision: processing.permissionRevision,
       noticeVersion: 'ai-processing-v1',
     },
     command: command(),
