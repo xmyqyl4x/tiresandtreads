@@ -78,6 +78,8 @@ export function OffersPanel({ w, org }: { w: PartnerWorkspace; org: string }) {
                 }),
               (r) => {
                 setDraft(r.data);
+                setVersion(String(r.data.version));
+                setSimulated(null);
                 setStage('Draft saved. Submit this exact version for independent moderation.');
                 setPreview(null);
               },
@@ -85,6 +87,7 @@ export function OffersPanel({ w, org }: { w: PartnerWorkspace; org: string }) {
           }}
         >
           <Field
+            key={version}
             name="version"
             label="New draft version"
             value={version}
@@ -223,43 +226,23 @@ export function OffersPanel({ w, org }: { w: PartnerWorkspace; org: string }) {
             <input type="checkbox" required />I reviewed this saved version and its terms.
           </label>
         </ActionForm>
-        <ActionForm
-          title="Publish independently approved offer"
-          disabled={disabled || !offer}
-          action={(f) =>
-            w.command(
-              'Offer publication',
-              (c) =>
-                w.client.p2OfferPublish({
-                  path,
-                  body: {
-                    version: Number(version),
-                    expected: optional(f, 'expected') === null ? null : Number(text(f, 'expected')),
-                  },
-                  command: c,
-                }),
-              () => {
-                setDraft(null);
-                setPreview(null);
-                setStage(
-                  'Publication committed. Current eligibility and inventory are still checked at allocation.',
-                );
-              },
-            )
-          }
-        >
-          <Field
-            name="expected"
-            label="Current published version (blank if none)"
-            type="number"
-            min="1"
-          />
-          <label>
-            <input type="checkbox" required />I checked the independent approval and current
-            published version.
-          </label>
-          <p>Self-review and stale publication heads are refused by the API.</p>
-        </ActionForm>
+        <section className="staff-card" aria-label="Independent offer publication">
+          <h2>Independent offer publication</h2>
+          <p>
+            An authorized independent staff reviewer publishes approved offers. Give the reviewer
+            this saved offer reference and exact version. Reseller membership cannot publish its own
+            offer.
+          </p>
+          {offer ? (
+            <p>
+              Offer <code>{offer}</code> · version {version}
+            </p>
+          ) : null}
+          <p>
+            Approval alone does not publish an offer or reserve code inventory. Current eligibility
+            and inventory remain checked at allocation.
+          </p>
+        </section>
         <ActionForm
           title="Pause this offer"
           disabled={disabled || !offer}

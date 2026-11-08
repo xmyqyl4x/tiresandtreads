@@ -22,7 +22,7 @@ export function PartnerPortal() {
     </Workbench>
   );
 }
-function PartnerSpace({ w }: { w: PartnerWorkspace }) {
+export function PartnerSpace({ w }: { w: PartnerWorkspace }) {
   const [org, setOrg] = useState(''),
     [current, setCurrent] = useState<Organization | null>(null),
     [panel, setPanel] = useState('Business'),
@@ -87,6 +87,37 @@ function PartnerSpace({ w }: { w: PartnerWorkspace }) {
           </p>
         </ActionForm>
       </section>
+      <ActionForm
+        title="Accept an invitation"
+        disabled={disabled}
+        action={(f) => {
+          const target = text(f, 'invitationBusiness');
+          return w.command(
+            'Invitation acceptance',
+            (c) =>
+              w.client.p2AcceptInvite({
+                path: { org: target },
+                body: { token: text(f, 'invitation') },
+                command: c,
+              }),
+            (r) => {
+              setReceipt(r.data);
+              setOrg(target);
+              setCurrent(null);
+              setPanel('Business');
+              setAsset(null);
+              setInvitation(null);
+            },
+          );
+        }}
+      >
+        <Field name="invitationBusiness" label="Invitation business reference" required />
+        <Field name="invitation" label="One-time invitation" type="password" required />
+        <p>
+          Use the business reference supplied with your invitation. Existing membership is not
+          required to accept it. The server verifies the intended account and one-time token.
+        </p>
+      </ActionForm>
       <Receipt value={receipt} />
       {org ? (
         <>
@@ -363,24 +394,6 @@ function PartnerSpace({ w }: { w: PartnerWorkspace }) {
                   <button onClick={() => setInvitation(null)}>Hide invitation</button>
                 </section>
               ) : null}
-              <ActionForm
-                title="Accept an invitation"
-                disabled={disabled}
-                action={(f) =>
-                  w.command(
-                    'Invitation acceptance',
-                    (c) =>
-                      w.client.p2AcceptInvite({
-                        path: { org },
-                        body: { token: text(f, 'invitation') },
-                        command: c,
-                      }),
-                    changed,
-                  )
-                }
-              >
-                <Field name="invitation" label="One-time invitation" type="password" required />
-              </ActionForm>
               <ActionForm
                 title="Update a team member"
                 disabled={disabled}
