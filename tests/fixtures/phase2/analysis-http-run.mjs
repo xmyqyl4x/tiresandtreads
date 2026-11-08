@@ -29,6 +29,7 @@ try {
     '--project',
     'usecases',
     'tests/database/phase2-analysis-http.test.ts',
+    'tests/database/phase2-report-analysis.test.ts',
     'tests/unit/phase2-analysis-http.test.ts',
   ]);
 } finally {

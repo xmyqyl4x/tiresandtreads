@@ -3,7 +3,7 @@
   "card": "P2-PR-019",
   "scope": "Local owner-only analysis/photo HTTP and explicit reviewed runtime; all actual acceptance and deployment held",
   "prerequisiteReviewedHead": "1bd32e7eda440ee247f94a56f994929b4f338b83",
-  "focusedTestsPassed": 23,
+  "focusedTestsPassed": 49,
   "nativeHttpTests": 12,
   "unitTests": 11,
   "strictLinuxTyping": true,
@@ -12,7 +12,7 @@
   "actualIsolatedPhotoCodec": true,
   "actualEncryptedVersionedStorage": true,
   "identityScannerModelJournal": "synthetic-ports",
-  "focusedLogSha256": "a928318bc0039a14e5ee14724036fbf6c4a8ff9826b61ecfa89a5bd83cbf0d8e",
+  "focusedLogSha256": "a38a50f60c6e090dd0e410c860e65186c0f700ae96062201328bfb379e63cbd6",
   "contractRedLogSha256": "644fae28ad5da8e2818434c1b658e928a246fc66146abef0df53b654daa9e989",
   "nestedProjectionRedLogSha256": "fd77fa192556087fea0450a10af72bf75991c8ea9a0d2edb3710669fa19de274",
   "reviewedBudgetIntegrationMismatchLogSha256": "13c5b0fc3ad5a4706d634676677308f0637e2856d512e3f2e79e720fe3e71236",
@@ -32,7 +32,7 @@
   "dependencyChange": false,
   "sourceSha256": {
     "docs/15-project-task-list.md": "dd7fbfe437d897dae56eed0421a805b51d2350075eb4f5129303342b28674dc0",
-    "docs/implementation/P2-PR-019-local-analysis-photo-api.md": "1556ba5f50e8e1f1af693c12654f0561fae1000837e3307a16da127afd9ac49b",
+    "docs/implementation/P2-PR-019-local-analysis-photo-api.md": "9d36bf259bfa9eaefbf3bf1eb826ae523022f822b4348753bbc0935dad2a5864",
     "docs/implementation/evidence/P2/p2-pr-019-local-authorization.json": "7d40347ec8ef3c14eadf902e8679c695a08c8db075d9d92c844c5fbc2a4362b2",
     "docs/tasks/phase-2-prs.md": "c1d1ad65f7478ce08b9a9a84596394f7c4bb9397dbf9755fbfbc938eada073de",
     "packages/application/src/analysis/photo-services.ts": "711b8117182df8a9f41ef933482e64e431ff1267d45575e5c1873d06a72c3e76",
@@ -43,7 +43,8 @@
     "packages/integrations/src/http/phase2-analysis-views.ts": "9d4f1fc2d017c8c85a8c95d732246e7d5fcf63870d1104f47451bd759443f23f",
     "packages/integrations/src/http/phase2-analysis.ts": "497fe3c0e17e4b9708de6efe662fc84fbdcaefba955290d4e053a5a0700a4707",
     "tests/database/phase2-analysis-http.test.ts": "634681b269f1d8bb97dc8bf63a95141ca1bd38d8d59523baa983339316b641b5",
-    "tests/fixtures/phase2/analysis-http-run.mjs": "e2316d3ed4b4a542236ac3a3b3d224536f6b9204846dbf591a16ea02c2fd1e9c",
+    "tests/database/phase2-report-analysis.test.ts": "d1911b018c5be6e97a1b0d2eb616547a63e2033acdc9cd7df9850c6a31ce122c",
+    "tests/fixtures/phase2/analysis-http-run.mjs": "b5492ad50bc6d5ce8480ec3a20de5be593b0cb84bddbafba2c60e92b2006cf0b",
     "tests/fixtures/phase2/compose-http-privacy.ts": "f5311dfd703c12d74b6797eb44d57328fbde4faa515aaa17e11e9c0f45fe5dad",
     "tests/fixtures/phase2/compose-photo-services.ts": "0002ac4bf36f9dc8c1c8538d12dda0441de261daa2e8392c979a95716be246fe",
     "tests/unit/phase2-analysis-http.test.ts": "5ce0cc8755ed69da7eacdab68809eaf0d55d4b74dea3952cc95270e1890f684c"
@@ -71,5 +72,6 @@
   "gatesClosed": 0,
   "permissionHttpRedLogSha256": "53e7f13514ab05a3cde73c29df6131c581b9b83d243b4e443d22503e59ebffb8",
   "permissionProjectionRedLogSha256": "3254e40aabc619406918172eb3c6618679f1f2715cd0d7a33c4b112c56bcb271",
-  "httpOnlyPermissionControls": true
+  "httpOnlyPermissionControls": true,
+  "nativeBusinessTests": 26
 }

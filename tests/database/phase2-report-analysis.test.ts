@@ -74,7 +74,10 @@ it('queues durable work then publishes an immutable owner-scoped enrichment with
       )
     ).rows,
   ).toEqual(before);
-  expect(value(await s.service.request(e.keys, e.input))).toEqual(accepted);
+  // Status adds mutable permission metadata; command replies retain exact work/fact identity.
+  const { processing, ...acceptedFacts } = accepted;
+  expect(processing).toMatchObject({ allowed: true, permissionRevision: '1' });
+  expect(value(await s.service.request(e.keys, e.input))).toEqual(acceptedFacts);
   const count = s.calls.length;
   expect(value(await s.service.execute(pending.id)).state).toBe('deferred');
   expect(s.calls).toHaveLength(count);
