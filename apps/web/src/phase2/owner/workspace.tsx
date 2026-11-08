@@ -41,6 +41,8 @@ async function connect(bearer: string, signal: AbortSignal) {
 function OwnerSpace({ w }: { w: Workspace<OwnerClients> }) {
   const [report, setReport] = useState<OwnerReportView | null>(null);
   const [confirmedSize, setConfirmedSize] = useState<ConfirmedSizeApplication | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const controls = { ...w, busy: w.busy || submitting };
   return (
     <>
       <section aria-label="Assessment and optional photo entry" className="staff-card">
@@ -49,9 +51,10 @@ function OwnerSpace({ w }: { w: Workspace<OwnerClients> }) {
           Manual entry is always available. Photo suggestions do not populate the assessment until
           you confirm and explicitly apply a size.
         </p>
-        <PhotoPanel w={w} onApply={setConfirmedSize} />
+        <PhotoPanel w={controls} onApply={setConfirmedSize} />
         <AssessmentForm
           controller={w.client.assessment}
+          onSubmittingChange={setSubmitting}
           confirmedSize={confirmedSize}
           disabled={w.busy || w.blocked}
           onAccessFailure={(e) =>
@@ -68,7 +71,7 @@ function OwnerSpace({ w }: { w: Workspace<OwnerClients> }) {
       </section>
       <ActionForm
         title="Open recorded report"
-        disabled={w.busy}
+        disabled={controls.busy}
         action={async (f) => {
           const ref = reportReference(f);
           await w.read(
@@ -99,7 +102,11 @@ function OwnerSpace({ w }: { w: Workspace<OwnerClients> }) {
             <code>{report.reportId}</code> · immutable version {report.version}. Assistance is
             optional and never changes these facts.
           </p>
-          <AssistedReport key={report.reportId + ':' + report.version} w={w} report={report} />
+          <AssistedReport
+            key={report.reportId + ':' + report.version}
+            w={controls}
+            report={report}
+          />
           <ReportBody output={report.output} safety={report.safety} version={report.version} />
         </>
       ) : (

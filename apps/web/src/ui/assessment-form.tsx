@@ -29,12 +29,14 @@ export function AssessmentForm({
   onOpen,
   disabled = false,
   onAccessFailure,
+  onSubmittingChange,
 }: {
   controller?: ReturnType<typeof assessmentController>;
   confirmedSize?: ConfirmedSizeApplication | null;
   onOpen?: (report: string) => void;
   disabled?: boolean;
   onAccessFailure?: (e: unknown) => void;
+  onSubmittingChange?: (value: boolean) => void;
 } = {}) {
   const [fields, setFields] = useState<AssessmentFields>(blankAssessment),
     [errors, setErrors] = useState<Record<string, string>>({}),
@@ -228,6 +230,7 @@ export function AssessmentForm({
     setErrors({});
     busy.current = true;
     setSubmitting(true);
+    onSubmittingChange?.(true);
     try {
       const receipt = await api().submit(checked.input);
       setCreated(receipt.report_id);
@@ -246,6 +249,7 @@ export function AssessmentForm({
     } finally {
       busy.current = false;
       setSubmitting(false);
+      onSubmittingChange?.(false);
     }
   }
   return (

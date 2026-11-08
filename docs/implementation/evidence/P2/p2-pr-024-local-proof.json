@@ -40,11 +40,11 @@
     "apps/web/src/phase2/owner/photo-read.ts": "616064d9898336da5d8fba7a58c1e63438e1075de4997faaa455f8703286a215",
     "apps/web/src/phase2/owner/photos.tsx": "dcfa0150b3d384b78df144f4d452c1e9e40dfb9b9bf7fecac5ffef74f5546bd0",
     "apps/web/src/phase2/owner/types.ts": "0d3cc6886e5a5a073c5380f924a9ef0efaef4748b7c25fbdad2932047043e132",
-    "apps/web/src/phase2/owner/workspace.tsx": "2e0f5335498d007c8c07bcbfb2a40f167fdc78be55d71e735c442e4dc900dd0a",
+    "apps/web/src/phase2/owner/workspace.tsx": "96cf96930dfce2fa8c7d29d8302538f88e160da64e77f3aad6251943f154c54f",
     "apps/web/src/phase2/proxy.ts": "9273adaa7d9450fb13c2d6af7cb95b87fcb5df2a851f92514db2dac993d8629f",
-    "apps/web/src/ui/assessment-form.tsx": "08c8d6b75051a2c7153f7792baf7e6fdc91d382677005932830aeb0d2c429461",
+    "apps/web/src/ui/assessment-form.tsx": "d5c7327699170666b742ae4c6ea2e0908e99af1390083d8d71cfc1cf445804d4",
     "docs/api/phase2-local.openapi.json": "fd1c46268efbcf42e126c5be57b505da4d010e91a1f9afe4f3fbb8ec567481f9",
-    "docs/implementation/P2-PR-024-local-photo-confirmation.md": "bed0dad586df77d6317a9850a72aef65639dad9942325a1f1d19fe990fc23911",
+    "docs/implementation/P2-PR-024-local-photo-confirmation.md": "780f8858c02d0e0a7630f36d5f4675bf3a262efd4dfd136538f2b3e416cd0118",
     "docs/implementation/evidence/P2/p2-pr-024-browser-observations.json": "16dc89ca08bf56a5861d8c699b548489f0c0e2def93524df07114c4435069a63",
     "docs/implementation/evidence/P2/p2-pr-024-local-authorization.json": "b10d11c9d8561837a3540f0832f0d4ca7973edcabc8f504dde00e9cdab87174f",
     "docs/tasks/phase-2-prs.md": "0c943c0f123a2c6f3cd4b3b16433f1bbb09908affc523d39c99ee843acb02ec7",
@@ -101,5 +101,6 @@
   "focusedLogSha256": "1586875a2fd16e81a63e159333273559e8be23e516f16769c2f83d15fb8aac16",
   "finalBehaviorBrowserObserved": true,
   "actualBrowserFileUpload": false,
-  "historyRegressionFailedLogSha256": "8d91e498d7b742fb96acf456f17b36b95095c128c641af79680919a72143f40e"
+  "historyRegressionFailedLogSha256": "8d91e498d7b742fb96acf456f17b36b95095c128c641af79680919a72143f40e",
+  "finalSubmissionCoordinationVerificationRequired": true
 }
