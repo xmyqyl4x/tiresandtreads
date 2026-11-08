@@ -36,7 +36,7 @@
     "apps/web/app/staff/assistance/route.ts": "acc2e66442a9490c19670d0511b4ba4046a27bcd0ea748ca409983e95207146b",
     "apps/web/src/phase2/operations/client.tsx": "be65342e129e5c9c6e19e6778ab22bb00e4b21553dededb482a1b3540ab2e8e4",
     "apps/web/src/phase2/operations/views.tsx": "930fd5dd8417e3f2d38ab8d6010ceb988442d81f3f2ed844c50d20a037d34c68",
-    "apps/web/src/phase2/operations/workspace.tsx": "3e3c2fae02d23b4350c245439496a75461b0add547a40db16544676f6a2e2c41",
+    "apps/web/src/phase2/operations/workspace.tsx": "f86fc262ef9b03d3df4f93bfd0e4a9999fe20260c71811fbaa37e4db6ce1cc0f",
     "apps/web/src/phase2/proxy.ts": "9209cc5a16a0d341fea6b38d1da93a2f2c141b50667e97e3fc68a4afbf6f2b9d",
     "apps/web/src/phase2/response.ts": "2f82827cfe4063ec27c0ad24280e9553d422b952874960742126f7daac97d302",
     "apps/web/src/phase2/transport.ts": "0e0351911e63f29b81327c2e98ef384469799cf989d2601409ffec10fba6f331",
@@ -92,7 +92,7 @@
   "boundedReportLockLogSha256": "d646e215b6c99ee7f117d330c91660535bf80e0d73faf707ae87faf3f106b218",
   "independentDurabilityAuthenticationFencingClaim": false,
   "browserFileUploadClaim": false,
-  "finalBehaviorCopyNote": "Final changes after focused run are manifest JSON formatting, documentation/evidence and spacing in UI labels; exact-commit full verification remains required.",
+  "finalBehaviorCopyNote": "After focused/browser validation: manifest JSON formatting, documentation/evidence and UI spacing plus explicit recent25-request day/sample limits; product behavior unchanged. Exact-commit full verification remains required.",
   "prerequisiteFormattingFollowup": "Inherited only the corrected delivery-policy formatting and evidence; operations behavior unchanged.",
   "prerequisiteRedactionFollowup": "Inherited delivery-private-value regression; operations behavior and tests unchanged."
 }

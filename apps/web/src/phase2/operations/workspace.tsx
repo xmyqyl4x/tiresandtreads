@@ -132,9 +132,12 @@ function OperationsSpace({ w }: { w: Workspace<Client> }) {
               </ul>
               <h3>Resume already admitted work once</h3>
               <p>
-                The existing worker rechecks permission, sources, budget, current leases and
-                critical validation. Failed/uncertain requests are never reset here. A completed
-                invocation is not acceptance of its generated output.
+                The list shows up to 25 most recent persisted requests in the selected UTC day,
+                including terminal requests. It is not a complete outstanding-work queue. Choose
+                another day or use the existing operator tools for unlisted work. The existing
+                worker rechecks permission, sources, budget, current leases and critical validation.
+                Failed/uncertain requests are never reset here. A completed invocation is not
+                acceptance of its generated output.
               </p>
               <ul>
                 {data.data.ai.queue.map((r) => (
