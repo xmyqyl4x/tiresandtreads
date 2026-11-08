@@ -1,0 +1,163 @@
+.p2-workbench {
+  max-width: 1240px;
+  margin: auto;
+  padding: 32px 24px 72px;
+}
+.p2-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  border-bottom: 1px solid #d8dee3;
+  padding-bottom: 24px;
+  color: #52606d;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.p2-heading a {
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #142a3a;
+}
+.p2-workbench h1 {
+  font-size: clamp(30px, 4vw, 48px);
+  margin: 32px 0 12px;
+}
+.p2-intro {
+  color: #52606d;
+  max-width: 65ch;
+}
+.p2-status {
+  border-left: 4px solid #c89519;
+  padding: 12px 16px;
+  background: #fff8df;
+  min-height: 48px;
+}
+.p2-connect {
+  max-width: 640px;
+}
+.p2-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.p2-grid > * {
+  min-width: 0;
+}
+.p2-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.p2-form legend {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.p2-form .staff-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.p2-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.p2-workbench input,
+.p2-workbench select,
+.p2-workbench textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid #8b9aa5;
+  border-radius: 5px;
+  background: white;
+  color: #172c3c;
+  font: inherit;
+}
+.p2-workbench input[type='checkbox'] {
+  width: 20px;
+  min-height: 20px;
+}
+.p2-workbench button {
+  min-height: 44px;
+}
+.p2-form button {
+  margin-top: 20px;
+}
+.p2-workbench :focus-visible {
+  outline: 3px solid #155bb3;
+  outline-offset: 3px;
+}
+.p2-facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px 18px;
+}
+.p2-facts dt {
+  font-weight: 700;
+}
+.p2-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.p2-workbench code {
+  overflow-wrap: anywhere;
+}
+.p2-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 420px;
+  overflow: auto;
+}
+.p2-workbench table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.p2-workbench th,
+.p2-workbench td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #d8dee3;
+  overflow-wrap: anywhere;
+}
+.p2-table {
+  overflow: auto;
+}
+.p2-warning {
+  border: 2px solid #c89519;
+}
+.p2-wide {
+  grid-column: 1/-1;
+}
+.p2-muted {
+  color: #52606d;
+}
+@media (max-width: 700px) {
+  .p2-grid,
+  .p2-form .staff-fields {
+    grid-template-columns: 1fr;
+  }
+  .p2-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .p2-workbench {
+    padding: 20px 16px 48px;
+  }
+  .p2-facts {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .p2-facts dd {
+    margin-bottom: 12px;
+  }
+}

@@ -3,6 +3,7 @@ import { PageView, pageTitle } from './ui/pages.tsx';
 import { locale } from './locale.ts';
 import manifest from '../node_modules/.cache/tt-preview/assets.json';
 import { EditorialWorkbench } from './editorial/workbench.tsx';
+import { PartnerPortal } from './phase2/partner/portal.tsx';
 import { StaffConsole } from './staff/console.tsx';
 import { CommercialView, AffiliateDisclosure } from './commercial/view.tsx';
 import { EducationLayout } from './education/view.tsx';
@@ -201,6 +202,28 @@ export function affiliateDisclosureDocument() {
           <EducationLayout>
             <AffiliateDisclosure />
           </EducationLayout>
+        </body>
+      </html>,
+    )
+  );
+}
+
+export function partnerDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang={locale}>
+        <SiteHead
+          title="Reseller workspace"
+          description="Private reseller onboarding, offers and noncharging pilot activity"
+        >
+          <link rel="stylesheet" href={'/local-preview-assets/' + manifest.partnerCss} />
+          <script type="module" src={'/local-preview-assets/' + manifest.partner} />
+        </SiteHead>
+        <body>
+          <div id="p2-partner-root">
+            <PartnerPortal />
+          </div>
         </body>
       </html>,
     )

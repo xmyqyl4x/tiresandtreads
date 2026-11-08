@@ -67,7 +67,11 @@ export const partnerP2Operations = {
         verification: text,
         revision: rev,
       }),
-      profile: z.object({ services: z.array(text).max(16), revision: rev }),
+      profile: z.object({
+        services: z.array(text).max(16),
+        revision: rev,
+        state: z.enum(['draft', 'submitted', 'approved', 'rejected']),
+      }),
       member: z.object({
         role: z.enum(['owner', 'manager', 'analyst']),
         status: text,

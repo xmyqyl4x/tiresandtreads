@@ -1,4 +1,6 @@
 import { z } from 'zod';
+// Configure before constructing any browser schemas: even a caught eval probe violates CSP.
+if (typeof window !== 'undefined') z.config({ jitless: true });
 export { z } from 'zod';
 export const p2Uuid = z
   .string()
