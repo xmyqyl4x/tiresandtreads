@@ -3,10 +3,10 @@
   "card": "P2-PR-021",
   "scope": "opt-in-local-reseller-portal",
   "prerequisiteReviewedHead": "ed64841ec953a9ad5ba023f96ccebb4ef47dc5ea",
-  "focusedTestsPassed": 52,
-  "newTests": 9,
+  "focusedTestsPassed": 54,
+  "newTests": 11,
   "browserObserved": true,
-  "finalFocusedLogSha256": "8a7e0e93ee7d16e2af9457bd90b57694f48052b1c1044b645087a91291a81aa5",
+  "finalFocusedLogSha256": "9d0d50795cee08e125d31b0595947397a82c8707b0a5826fba62db0461d729e7",
   "cspRedLogSha256": "84f4ee59c0e1e3ca1b170534c2a3c8fff39ae7c22a46a3cfa5c05bb17c38d00a",
   "cspGreenLogSha256": "2b50c0b74ab2bf5268cbeec738131d84fbe8dd6df4c530a38db949a89cba910c",
   "newMigrations": 0,
@@ -35,18 +35,18 @@
     "apps/web/app/local-p2-api/[...path]/route.ts": "b1c1d716e922e8cfc3f5b8a73f0c1d64627d9acfb7c51bf4a87f01fd1ed56dee",
     "apps/web/app/partners/route.ts": "07d4191ed290567b8030e6851234854bf9327670aece204f19c23e4100669cdc",
     "apps/web/src/phase2/partner/client.tsx": "818f29e18c68f38de2e284adf80aacd72a9b2ef67aa66509b201509b9fe3e70a",
-    "apps/web/src/phase2/partner/forms.ts": "83d92b87859c9ba820d426b95a49abf0300222f71fec277bd44f7342264d5f81",
-    "apps/web/src/phase2/partner/offers.tsx": "c744b34935993c27726ab8cced7cc97ae397042ecb09500b72ac8d825a82d663",
+    "apps/web/src/phase2/partner/forms.ts": "68e6ffbae8ad3098c6851ec2d52db708a4ed56bf522cd64fd363b4305f64850e",
+    "apps/web/src/phase2/partner/offers.tsx": "c9cf7e16335b5738914ad3aab23ea259a80742cfaff4fc8d10801b02bbc1cbaa",
     "apps/web/src/phase2/partner/pilot.tsx": "a27d76f0cfbd5eb093dd9e41c0538da2fe7b40b85339c871fbf961d81aa2eeff",
     "apps/web/src/phase2/partner/portal.tsx": "cd46602a18110570a3c52400d7f53c07058d444362bb7da2052271820e7ff1e9",
     "apps/web/src/phase2/partner/types.ts": "b50fccaa79e3b0e6bbe45af1f6d067eec18d778440fffc3b374920373b10e457",
     "apps/web/src/phase2/portal.css": "7887437394933edc1bc8d65ada8334deec1711b1122603ee968610624deaa58c",
     "apps/web/src/phase2/proxy.ts": "4d47ecc5a3a33f0e2081db27075c17f8725dbb0306df0e365e24d0ee92801e3e",
     "apps/web/src/phase2/response.ts": "8baf9bab5b0e5077ab4782198cda80b99788148f1633d9b74cde81878c1bb9cf",
-    "apps/web/src/phase2/workbench.tsx": "1bb6f33268575f132027f57bff2b9413956472308e093ead9024d18d7fe01f1c",
+    "apps/web/src/phase2/workbench.tsx": "5165877419cd920cc3bb4c59cd8fe5d22b7bbf9de6ddb3d0114f2307b2e1e31c",
     "apps/web/src/server-render.tsx": "258e799132a542f3907f5701b99324bf4f4eb431d0a60a77806db7b5c40f88e3",
     "docs/api/phase2-local.openapi.json": "8138d42654b36665b75c0479e46292e261f1bef134b2f00d44c0ef51be9c31bd",
-    "docs/implementation/P2-PR-021-local-reseller-portal.md": "4555578a8c867d950547ce1ef51da870a6804d83f8b5c18d20133709d63d8bee",
+    "docs/implementation/P2-PR-021-local-reseller-portal.md": "13ef74df561a41a1187cbb3875bb549e962bc1db4e9ca368fe0e04cefdc9f1c2",
     "docs/implementation/evidence/P2/p2-pr-021-browser-observations.json": "8a362aab03c654bd38b4d989df49a6fe2ef52e440edb9192deffb7eb70d9769b",
     "docs/implementation/evidence/P2/p2-pr-021-local-authorization.json": "f473364ec9c6ae92421c07abe0bf8af8185fd65ce64be1ffaabb326710b5879b",
     "docs/tasks/phase-2-prs.md": "e0203c4ac4ba2362e8c0185baeb5b229c21287588a6b8e68b1d3416aed40791d",
@@ -66,7 +66,7 @@
     "tests/fixtures/phase2/portal-render.mjs": "847610dcf17f17a6573ecefa4ca06411c494d249025f099559cf5185203441cc",
     "tests/fixtures/phase2/serve-partner.ts": "3f2c057fd747a3a10289a3d8ed395f6b0450c8bb434cbb987d23c90fde9d6b25",
     "tests/unit/phase2-portal-render.test.ts": "503949385b59bed74d6e63b7edd81e580b50cc49b0921f4b666c7eeb0f589696",
-    "tests/unit/phase2-portal.test.ts": "154e4e5cd9caf0b7bd389f98a83d95096291a2353b676e30d8b2f0206711ac33",
+    "tests/unit/phase2-portal.test.ts": "fa2bc8ae766b04d89a77febddd3a90992e0620d664ba73efec3d0c4d28c7df04",
     "tests/usecases/phase2-web-csp.test.ts": "4b4abc841a3084de6208e9e15616d4fe3ca66a75f20476e098158ee855ac5c49"
   },
   "preservedSha256": {
@@ -86,6 +86,9 @@
     "invitation-before-membership",
     "acknowledged-offer-version",
     "scalar-command-receipts",
-    "independent-staff-publication"
-  ]
+    "independent-staff-publication",
+    "validated-optional-audience-coordinates"
+  ],
+  "radiusRedLogSha256": "0306770877d1d82c0feb53738dae844d509f7d20cfcc3c9035f1287c1ea35c03",
+  "radiusGreenLogSha256": "fffe13e255af319404d69ee5d28b4665bc0d79b26afa49b32ce310117a11b79d"
 }

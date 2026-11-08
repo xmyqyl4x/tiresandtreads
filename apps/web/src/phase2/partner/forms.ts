@@ -84,6 +84,10 @@ export function offerDraft(f: FormData, targetId: string) {
   });
 }
 export function simulation(f: FormData) {
+  const latitude = optional(f, 'latitude'),
+    longitude = optional(f, 'longitude');
+  if ((latitude === null) !== (longitude === null))
+    throw new InputFailure('Enter both coordinates or leave both unknown.');
   return pilotAudienceInput.parse({
     market: 'US',
     currency: 'USD',
@@ -91,8 +95,8 @@ export function simulation(f: FormData) {
     subtotalMinor: text(f, 'subtotal') ? dollars(text(f, 'subtotal')) : null,
     region: optional(f, 'region'),
     postal: optional(f, 'postal'),
-    latitude: null,
-    longitude: null,
+    latitude: latitude === null ? null : Number(latitude),
+    longitude: longitude === null ? null : Number(longitude),
     products: [
       {
         skuId: text(f, 'skuId'),

@@ -96,7 +96,7 @@ export function OffersPanel({ w, org }: { w: PartnerWorkspace; org: string }) {
             required
           />
           <Field name="title" label="Offer title" required />
-          <Field name="description" label="Description" type="textarea" />
+          <Field name="description" label="Description" type="textarea" required />
           <Field
             name="included"
             label="Included items (one per line)"
@@ -291,6 +291,27 @@ export function OffersPanel({ w, org }: { w: PartnerWorkspace; org: string }) {
           <Field name="subtotal" label="Hypothetical subtotal in USD" />
           <Field name="region" label="State" />
           <Field name="postal" label="ZIP code" />
+          <Field
+            name="latitude"
+            label="Audience latitude (-90 to 90)"
+            type="number"
+            min="-90"
+            max="90"
+            step="any"
+          />
+          <Field
+            name="longitude"
+            label="Audience longitude (-180 to 180)"
+            type="number"
+            min="-180"
+            max="180"
+            step="any"
+          />
+          <p>
+            Coordinates are optional. Radius simulation needs both audience coordinates and a
+            business location with stored coordinates. Missing location evidence remains unmatched;
+            state or ZIP is not silently geocoded.
+          </p>
           <Field name="skuId" label="Catalog SKU reference" required />
           <Field name="modelId" label="Catalog model reference" required />
           <Field name="brandId" label="Catalog manufacturer reference" />
