@@ -1,3 +1,4 @@
+import { ownerWebContracts } from '../../../../packages/contracts/src/phase2-owner-web.ts';
 import { csvApiContracts } from '../../../../packages/contracts/src/phase2-partners.ts';
 import { reviewApiContracts } from '../../../../packages/contracts/src/phase2-review-client.ts';
 import { localPreview, type PreviewEnvironment } from '../local-preview.ts';
@@ -12,26 +13,28 @@ const privateHeaders = {
 export function p2ProxyContract(
   path: string,
   method: string,
-  surface: 'partner' | 'staff' = 'partner',
+  surface: 'partner' | 'staff' | 'owner' = 'partner',
 ) {
   const parts = path.split('/');
   return (
     (surface === 'partner'
       ? partnerApiContracts
-      : [
-          ...csvApiContracts,
-          ...reviewApiContracts,
-          ...partnerApiContracts.filter((c) =>
-            [
-              'p2Verification',
-              'p2Decide',
-              'p2Activate',
-              'p2Lifecycle',
-              'p2OfferReview',
-              'p2OfferPublish',
-            ].includes(c.operationId),
-          ),
-        ]
+      : surface === 'owner'
+        ? ownerWebContracts
+        : [
+            ...csvApiContracts,
+            ...reviewApiContracts,
+            ...partnerApiContracts.filter((c) =>
+              [
+                'p2Verification',
+                'p2Decide',
+                'p2Activate',
+                'p2Lifecycle',
+                'p2OfferReview',
+                'p2OfferPublish',
+              ].includes(c.operationId),
+            ),
+          ]
     ).find(
       (c) =>
         c.method === method &&
@@ -82,7 +85,7 @@ export async function forwardP2(
   request: Request,
   env: PreviewEnvironment = process.env,
   send: typeof fetch = fetch,
-  surface: 'partner' | 'staff' = 'partner',
+  surface: 'partner' | 'staff' | 'owner' = 'partner',
 ) {
   const c = localPreview(env);
   const refuse = (status: number, code: string) =>
@@ -96,7 +99,16 @@ export async function forwardP2(
       },
       { status, headers: privateHeaders },
     );
-  if (!c || env[surface === 'partner' ? 'LOCAL_P2_UI' : 'LOCAL_P2_STAFF_UI'] !== 'enabled')
+  if (
+    !c ||
+    env[
+      surface === 'partner'
+        ? 'LOCAL_P2_UI'
+        : surface === 'staff'
+          ? 'LOCAL_P2_STAFF_UI'
+          : 'LOCAL_P2_OWNER_UI'
+    ] !== 'enabled'
+  )
     return refuse(404, 'not_found');
   const u = new URL(request.url),
     origin = request.headers.get('origin');
@@ -106,7 +118,12 @@ export async function forwardP2(
     (request.method !== 'GET' && origin !== c.web)
   )
     return refuse(403, 'forbidden');
-  const prefix = surface === 'partner' ? '/local-p2-api' : '/local-p2-staff-api',
+  const prefix =
+      surface === 'partner'
+        ? '/local-p2-api'
+        : surface === 'staff'
+          ? '/local-p2-staff-api'
+          : '/local-p2-owner-api',
     path = u.pathname.slice(prefix.length),
     contract = p2ProxyContract(path, request.method, surface);
   if (

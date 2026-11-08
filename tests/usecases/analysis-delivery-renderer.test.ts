@@ -47,6 +47,8 @@ it('renders frozen reviewed assistance into real HTML/text/PDF without repeating
   expect(out.html).toContain('AI-assisted installer questions');
   expect(out.text).toContain('complete installed total');
   expect(out.text).toContain('does not establish fitment');
+  expect(out.text).toContain('Frozen attachment revision 3');
+  expect(out.text).toContain('Personalized claims and citations remain in the private owner view');
   expect(pdf.getPageCount()).toBe(p1.getPageCount() + 1);
   expect(pdf.getCreationDate()).toEqual(p1.getCreationDate());
   expect(out.commercial).toBe(false);
@@ -101,6 +103,7 @@ it.each(['not_requested', 'unavailable', 'declined', 'expired'])(
       document({ schema: 1, mode: 'none', fallback }),
     );
     expect(out.text).toContain('AI assistance was not included');
+    expect(out.text).toContain('Selection: ' + fallback.replaceAll('_', ' '));
     expect(out.html).not.toContain('AI-assisted installer questions');
     expect((await PDFDocument.load(Buffer.from(out.pdf, 'base64'))).getPageCount()).toBeGreaterThan(
       1,

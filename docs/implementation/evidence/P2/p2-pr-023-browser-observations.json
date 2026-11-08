@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-023",
+  "browser": "in-app browser",
+  "actualBrowserInteraction": true,
+  "actualNextPostgreSQLEncryptedStorage": true,
+  "syntheticIdentityScannerModelMail": true,
+  "observations": [
+    "unchecked options cause no request",
+    "explicit request pending then synthetic worker available",
+    "immutable deterministic report content before and after optional processing",
+    "source/generation/validity/attachment dates",
+    "explicit frozen revision1 schedule then cancellation revision2",
+    "withdrawal immediately removes private explanation",
+    "explicit reallow revision3 leaves processing/email checkboxes off and creates no automatic request",
+    "390/1280 reflow, labeled controls, keyboard focus, clean console",
+    "disconnect clears private state"
+  ],
+  "finalCopyAndCancelDisableBrowserRetest": false,
+  "viewportWidths": [
+    390,
+    1280
+  ],
+  "actualBrowserFileUpload": false,
+  "actualAuthenticationAccepted": false,
+  "actualModelEvaluation": false,
+  "actualPrivacyAcceptance": false,
+  "actualInboxAcceptance": false,
+  "wcagCertification": false,
+  "browserMatrixAccepted": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

@@ -164,12 +164,15 @@ export function analysisDeliveryText(raw: FrozenAnalysis): readonly string[] {
   if (x.mode === 'none')
     return Object.freeze([
       'AI assistance was not included in this presentation. Use the deterministic report and reviewed guidance.',
+      'Selection: ' + x.fallback.replaceAll('_', ' ') + '. No later analysis is added to this frozen delivery.',
     ]);
   return Object.freeze([
     x.output.kind === 'reviewed_generic_explanation'
       ? 'Reviewed general installer questions'
       : 'AI-assisted installer questions',
     x.output.kind === 'reviewed_generic_explanation' ? analysisGenericSummary : analysisSummary,
+    'Frozen attachment revision ' + x.attachmentRevision + '. Later refreshes do not change this delivery.',
+    'Personalized claims and citations remain in the private owner view. Shared reports contain the deterministic facts only.',
     ...x.output.questions.map((k) => questionCopy[k]!),
     'This assistance does not establish fitment, tire condition or recall clearance. A physical inspection and current source verification are required.',
   ]);
