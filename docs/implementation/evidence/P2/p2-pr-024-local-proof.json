@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "card": "P2-PR-024",
   "scope": "opt-in-local-owner-photo-confirmation-and-manual-assessment",
-  "prerequisiteReviewedHead": "37ef6ba5c35f84ced351ed4acb2a2cea84c87e75",
+  "prerequisiteReviewedHead": "a2043d9c653b160252ea4615d3cde5c300565e4c",
   "focusedTestsPassed": 120,
   "newTests": 27,
   "browserObserved": true,
@@ -104,5 +104,6 @@
       "reviewedTestSha256": "941f57e28e3b5fb055a96cf0eba86a880220bcf43a927d52d3170d54ed95ea5e",
       "logSha256": "3f8708854c7f6e3b8a41df738a8b4efcb6a2f057dc2c0ca70cb2664fe138b6e0"
     }
-  ]
+  ],
+  "prerequisiteFormattingFollowup": "Inherited only the corrected delivery-policy formatting and its evidence; photo behavior unchanged."
 }
