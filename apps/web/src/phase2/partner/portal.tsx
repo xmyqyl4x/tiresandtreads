@@ -1,18 +1,10 @@
 import { useState } from 'react';
 import { createP2PartnerClient } from '../../../../../packages/contracts/src/phase2-partner-client.ts';
-import {
-  Workbench,
-  privateTransport,
-  ActionForm,
-  Field,
-  Receipt,
-  type Workspace,
-} from '../workbench.tsx';
+import { Workbench, privateTransport, ActionForm, Field, Receipt } from '../workbench.tsx';
 import { text, uploadBytes } from './forms.ts';
 import { OffersPanel } from './offers.tsx';
 import { PilotPanel } from './pilot.tsx';
-export type PartnerClient = ReturnType<typeof createP2PartnerClient>;
-export type PartnerWorkspace = Workspace<PartnerClient>;
+import type { PartnerClient, PartnerWorkspace } from './types.ts';
 type Organization = Awaited<ReturnType<PartnerClient['p2Organization']>>['data'];
 type Action = Awaited<ReturnType<PartnerClient['p2Register']>>['data'];
 async function connect(bearer: string, signal: AbortSignal) {

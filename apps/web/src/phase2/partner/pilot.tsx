@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ActionForm, Field } from '../workbench.tsx';
 import { text, optional } from './forms.ts';
-import type { PartnerClient, PartnerWorkspace } from './portal.tsx';
+import type { PartnerClient, PartnerWorkspace } from './types.ts';
 type Report = Awaited<ReturnType<PartnerClient['p2Report']>>['data'];
 type Disputes = Awaited<ReturnType<PartnerClient['p2Disputes']>>['data'];
 export function PilotPanel({ w, org }: { w: PartnerWorkspace; org: string }) {

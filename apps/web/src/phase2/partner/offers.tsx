@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ActionForm, Field, Receipt } from '../workbench.tsx';
 import { offerDraft, simulation, text, optional, uploadBytes, utcDate } from './forms.ts';
-import type { PartnerClient, PartnerWorkspace } from './portal.tsx';
+import type { PartnerClient, PartnerWorkspace } from './types.ts';
 type Draft = Awaited<ReturnType<PartnerClient['p2OfferDraft']>>['data'];
 type Simulated = Awaited<ReturnType<PartnerClient['p2Simulate']>>['data'];
 type ImportStatus = Awaited<ReturnType<PartnerClient['p2ImportStatus']>>['data'];

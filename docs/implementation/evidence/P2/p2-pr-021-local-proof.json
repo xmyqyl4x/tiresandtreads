@@ -36,9 +36,10 @@
     "apps/web/app/partners/route.ts": "07d4191ed290567b8030e6851234854bf9327670aece204f19c23e4100669cdc",
     "apps/web/src/phase2/partner/client.tsx": "818f29e18c68f38de2e284adf80aacd72a9b2ef67aa66509b201509b9fe3e70a",
     "apps/web/src/phase2/partner/forms.ts": "83d92b87859c9ba820d426b95a49abf0300222f71fec277bd44f7342264d5f81",
-    "apps/web/src/phase2/partner/offers.tsx": "68d3d0509c97d2ff0f04811fc342c92b590327a9ef69f9c3a382e5d9d593c3e6",
-    "apps/web/src/phase2/partner/pilot.tsx": "22f289bc63ba5a350d8744457c68d2bc8bfe3a995f0208c973efa09b98349c64",
-    "apps/web/src/phase2/partner/portal.tsx": "5173d91367c427292f2c1fd99001158d541a52ff89a0c7753d430ea35b5f46ac",
+    "apps/web/src/phase2/partner/offers.tsx": "a06509d736310a2f45915b73684ef3a7c26caac3e714ef071df61b90a5f3aa50",
+    "apps/web/src/phase2/partner/pilot.tsx": "a27d76f0cfbd5eb093dd9e41c0538da2fe7b40b85339c871fbf961d81aa2eeff",
+    "apps/web/src/phase2/partner/portal.tsx": "105ab5ddb315883053c9587606ea362ea3adb125775b1a50e5a54d96d2bae886",
+    "apps/web/src/phase2/partner/types.ts": "b50fccaa79e3b0e6bbe45af1f6d067eec18d778440fffc3b374920373b10e457",
     "apps/web/src/phase2/portal.css": "7887437394933edc1bc8d65ada8334deec1711b1122603ee968610624deaa58c",
     "apps/web/src/phase2/proxy.ts": "4d47ecc5a3a33f0e2081db27075c17f8725dbb0306df0e365e24d0ee92801e3e",
     "apps/web/src/phase2/response.ts": "8baf9bab5b0e5077ab4782198cda80b99788148f1633d9b74cde81878c1bb9cf",
@@ -76,5 +77,6 @@
     "scripts/dev/service-host.mjs": "0f0567f1cb6531303f2e176814154fd2913e62dd0635425808119bac28ad3e26",
     "packages/integrations/src/service-host.ts": "48ba7f12f9f7550b11cdd82db111b9fa26d1ec4902df474e67af2763da5a2fba",
     "scripts/runtime/service-host.ts": "8c305ca23973d7e1782632f84247bda0a833b120b897e6688515306505ff6a2d"
-  }
+  },
+  "boundaryRedLogSha256": "a93b344425fa857ff8e0e8c936b464dec9272c0ebe642cc47e62f3d9188ef799"
 }
