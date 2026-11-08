@@ -18,7 +18,7 @@ afterAll(async () => {
         actualPostgreSQL: true,
         migrations: 48,
         newTables: 6,
-        nativeCases: 46,
+        nativeCases: 47,
         minimumCohort: 50,
         wholeMatrixComplementSuppression: true,
         immutableWeeklyRelease: true,
@@ -582,26 +582,52 @@ it('denies contact reveal to ordinary visitor operators and insight analysts', a
     false,
   );
 });
-it('audits an Owner/Privacy contact reveal before decryption and refuses stale permission afterward', async () => {
-  const page = value(await s.service.visitors(s.privacy, s.week, null, 1)),
-    token = page.items[0]!.ref;
-  expect(
-    value(await s.service.reveal(s.privacy, token, 'privacy_request', uuid('case'))),
-  ).toMatchObject({ email: 'synthetic@example.invalid', exportEnabled: false });
-  const person = s.tokens.parse(
-    s.sessions.get(s.privacy)!.subject,
-    'visitor',
-    token,
-    Date.now(),
-  )!.subject;
-  expect(
-    (
-      await f.admin.query(
-        "SELECT count(*)::int n FROM admin.audit_events e JOIN admin.audit_identity_links l ON l.event_id=e.id WHERE e.action='operations.contact_reveal' AND l.subject_id=$1",
-        [person],
-      )
-    ).rows[0]!.n,
-  ).toBeGreaterThanOrEqual(1);
+async function revealVisitor() {
+  const person = await s.visitor();
+  // Own this scenario's subject instead of selecting a random earlier cohort member.
+  // Explorer issuance and actor-bound pagination have separate native coverage above.
+  return {
+    person: person.subject,
+    token: s.tokens.issue(
+      s.sessions.get(s.privacy)!.subject,
+      'visitor',
+      { subject: person.subject, week: s.week },
+      Date.now(),
+    ),
+  };
+}
+it('commits an Owner/Privacy contact-reveal audit before decryption', async () => {
+  const { person, token } = await revealVisitor(),
+    caseId = uuid('case');
+  let decryptions = 0;
+  const custom = createPartnerInsightsServices({
+    ...s.d,
+    encryption: {
+      ...s.encryption,
+      async decrypt(...args) {
+        // A separate connection can observe this exact case only after audit commit.
+        expect(
+          (
+            await f.admin.query(
+              "SELECT count(*)::int n FROM admin.audit_events e JOIN admin.audit_identity_links l ON l.event_id=e.id WHERE e.action='operations.contact_reveal' AND l.subject_id=$1 AND e.change_digest=encode(sha256(convert_to('privacy_request:'||$2::text,'UTF8')),'hex')",
+              [person, caseId],
+            )
+          ).rows[0]!.n,
+        ).toBe(1);
+        decryptions++;
+        return s.encryption.decrypt(...args);
+      },
+    },
+  });
+  expect(value(await custom.reveal(s.privacy, token, 'privacy_request', caseId))).toMatchObject({
+    email: 'synthetic@example.invalid',
+    exportEnabled: false,
+  });
+  expect(decryptions).toBe(1);
+});
+it('refuses contact reveal when its own visitor permission is withdrawn during decryption', async () => {
+  const { person, token } = await revealVisitor();
+  let decryptions = 0;
   const custom = createPartnerInsightsServices({
     ...s.d,
     encryption: {
@@ -609,11 +635,21 @@ it('audits an Owner/Privacy contact reveal before decryption and refuses stale p
       async decrypt(...args) {
         const bytes = await s.encryption.decrypt(...args);
         await s.consent(person, 'site', 'withdrawn', s.now());
+        decryptions++;
         return bytes;
       },
     },
   });
   expect((await custom.reveal(s.privacy, token, 'privacy_request', uuid('case'))).ok).toBe(false);
+  expect(decryptions).toBe(1);
+  expect(
+    (
+      await f.admin.query(
+        "SELECT status FROM privacy.consent_state WHERE subject_id=$1 AND scope_key='site'",
+        [person],
+      )
+    ).rows[0]!.status,
+  ).toBe('withdrawn');
 });
 it('preserves independent delivery facts and excludes machine clicks from human estimates', async () => {
   const o = await s.company(),
@@ -729,17 +765,23 @@ it('serializes a first publication with withdrawal even when privacy changes are
       "UPDATE privacy.consent_state SET status='withdrawn',revision=revision+1 WHERE subject_id=$1 AND scope_key='email'",
       [person],
     )
-    .then(() => {
-      withdrawn = true;
-    });
+    .then(
+      () => {
+        withdrawn = true;
+        return { ok: true as const };
+      },
+      (error: unknown) => ({ ok: false as const, error }),
+    );
   try {
     await new Promise((r) => setTimeout(r, 100));
     expect(withdrawn).toBe(false);
   } finally {
     finish();
   }
-  expect((await report).ok).toBe(true);
-  await withdrawal;
+  const published = await report,
+    completed = await withdrawal;
+  expect(published.ok).toBe(true);
+  if (!completed.ok) throw completed.error;
   expect(value(await s.service.report(o.handle, o.id, s.week))).toMatchObject({
     state: 'blocked',
     cells: null,
