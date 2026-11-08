@@ -258,15 +258,11 @@ it('does not repeat command effects and exact parameter reuse adds no model call
 it('commits withdrawal before cleanup and refuses attachment reads after permission is withdrawn', async () => {
   const e = await requested();
   value(await reportService.execute(e.response.data.id));
-  const row = (
-    await f.admin.query(
-      'SELECT r.scope_id,g.permission_revision::text FROM app.ai_analysis_requests r JOIN app.ai_scope_guards g ON g.scope_id=r.scope_id WHERE r.id=$1',
-      [e.response.data.id],
-    )
-  ).rows[0]!;
-  const r = await call(e.raw, 'analysis/scopes/' + row.scope_id + '/choice', {
+  const permission = (await call(e.raw, 'analysis/' + e.response.data.id)).data.processing;
+  expect(permission).toMatchObject({ allowed: true, permissionRevision: '1' });
+  const r = await call(e.raw, 'analysis/scopes/' + permission.scopeId + '/choice', {
     allowed: false,
-    expectedRevision: row.permission_revision,
+    expectedRevision: permission.permissionRevision,
     noticeVersion: 'ai-processing-v1',
   });
   expect(r.status).toBe(200);
@@ -450,3 +446,38 @@ async function example(limit = 100000n) {
   );
   return e;
 }
+
+it('returns only current owner permission metadata and supports HTTP-only stale-revision recovery', async () => {
+  const callsBefore = analysis.calls.length;
+  const e = await requested(),
+    path = 'analysis/' + e.response.data.id;
+  const first = (await call(e.raw, path)).data.processing;
+  expect(first).toMatchObject({ allowed: true, permissionRevision: '1' });
+  const changed = await call(e.raw, 'analysis/scopes/' + first.scopeId + '/choice', {
+    allowed: false,
+    expectedRevision: first.permissionRevision,
+    noticeVersion: 'ai-processing-v1',
+  });
+  expect(changed.status).toBe(200);
+  const latest = (await call(e.raw, path)).data.processing;
+  expect(latest).toEqual({
+    scopeId: first.scopeId,
+    permissionRevision: changed.data.permissionRevision,
+    allowed: false,
+  });
+  expect(latest.permissionRevision).not.toBe(first.permissionRevision);
+  expect(
+    (
+      await call(e.raw, 'analysis/scopes/' + first.scopeId + '/choice', {
+        allowed: true,
+        expectedRevision: first.permissionRevision,
+        noticeVersion: 'ai-processing-v1',
+      })
+    ).status,
+  ).toBe(409);
+  const other = await call(token([(await f.owner()).token]), path);
+  expect(other.status).toBe(404);
+  expect(JSON.stringify(other.body)).not.toContain(first.scopeId);
+  expect((await call('unknown', path)).status).toBe(401);
+  expect(analysis.calls).toHaveLength(callsBefore);
+});

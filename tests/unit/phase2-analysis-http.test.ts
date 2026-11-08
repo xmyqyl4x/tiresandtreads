@@ -11,6 +11,27 @@ import { privateAnalysisView } from '../../packages/integrations/src/http/phase2
 import { analysisPhotoRoutes } from '../../packages/integrations/src/http/phase2-analysis.ts';
 import { createHttpApi } from '../../packages/integrations/src/http/core.ts';
 import { ok } from '../../packages/domain/src/values/core.ts';
+it('projects current owner processing permission without exposing scope ownership internals', () => {
+  const request = randomUUID(),
+    scopeId = randomUUID(),
+    reportId = randomUUID();
+  const view = analysisStatusView.parse({
+    id: request,
+    reportId,
+    version: 1,
+    state: 'pending',
+    output: null,
+    processing: {
+      scopeId,
+      permissionRevision: '2',
+      allowed: false,
+      ownerId: 'PRIVATE',
+      manifest: { hidden: true },
+    },
+  });
+  expect(view).toHaveProperty('processing', { scopeId, permissionRevision: '2', allowed: false });
+  expect(JSON.stringify(view)).not.toContain('PRIVATE');
+});
 it('accepts only an explicit analysis action and bounded processing notice', () => {
   const input = { policyId: randomUUID(), allowed: true, noticeVersion: 'ai-processing-v1' };
   expect(analysisApiInputs.request.safeParse(input).success).toBe(true);

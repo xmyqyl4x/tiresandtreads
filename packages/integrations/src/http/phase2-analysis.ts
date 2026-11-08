@@ -94,7 +94,7 @@ export function analysisPhotoRoutes(
   get(
     'p2AnalysisStatus',
     (c) => d.analysis.status(c.actor!.keys, p2Id('ai_request', c.params.request)),
-    ['id', 'state', 'reportId', 'version', 'output'],
+    ['id', 'state', 'reportId', 'version', 'output', 'processing'],
     analysisStatusView,
   );
   get(

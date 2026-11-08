@@ -206,6 +206,11 @@ export const renderedAnalysisView = z.discriminatedUnion('kind', [
   }),
 ]);
 
+const processingView = z.object({
+  scopeId: p2Uuid,
+  permissionRevision: p2Revision,
+  allowed: z.boolean(),
+});
 const reportVersionView = { reportId: p2Uuid, version: z.number().int().min(1).max(2147483647) };
 export const analysisStatusView = z.discriminatedUnion('state', [
   z.object({
@@ -213,12 +218,14 @@ export const analysisStatusView = z.discriminatedUnion('state', [
     id: p2Uuid,
     state: z.literal('available'),
     output: renderedAnalysisView,
+    processing: processingView.optional(),
   }),
   z.object({
     ...reportVersionView,
     id: p2Uuid.nullable(),
     state: z.enum(['not_requested', 'pending', 'unavailable', 'expired']),
     output: z.null(),
+    processing: processingView.optional(),
   }),
 ]);
 export const analysisAttachmentView = z.discriminatedUnion('state', [

@@ -324,19 +324,27 @@ export function createReportAnalysisServices(d: {
             work = await d.repository.work(tx, requestId),
             request = await d.requests.get(tx, requestId);
           demand(work && request && work.ownerId === who.subjectId, 'not_found');
-          if (!(await currentWork(tx, work)))
-            return ok(view(work.reportId, work.version, 'unavailable', requestId));
+          const scope = await d.scopes.scope(tx, request.scopeId);
+          demand(scope && scope.kind === 'owner' && scope.ownerId === who.subjectId, 'not_found');
+          const processing = Object.freeze({
+            scopeId: scope.id,
+            permissionRevision: scope.permissionRevision.toString(),
+            allowed: scope.processingAllowed,
+          });
+          const response = (
+            state: AnalysisStatus['state'],
+            output: AnalysisStatus['output'] = null,
+          ) =>
+            ok(
+              Object.freeze({
+                ...view(work.reportId, work.version, state, requestId, output),
+                processing,
+              }),
+            );
+          if (!(await currentWork(tx, work))) return response('unavailable');
           if (request.state === 'accepted') {
             const attached = await d.repository.output(tx, work);
-            return ok(
-              view(
-                work.reportId,
-                work.version,
-                attached ? 'available' : 'expired',
-                requestId,
-                attached,
-              ),
-            );
+            return response(attached ? 'available' : 'expired', attached);
           }
           const state =
             request.expiresAt <= clock()
@@ -344,7 +352,7 @@ export function createReportAnalysisServices(d: {
               : request.state === 'queued' || request.state === 'running'
                 ? 'pending'
                 : 'unavailable';
-          return ok(view(work.reportId, work.version, state, requestId));
+          return response(state);
         });
       });
     },
