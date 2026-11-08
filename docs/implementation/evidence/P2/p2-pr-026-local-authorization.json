@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-026",
+  "authority": "Owner requested completing current PR and the next PR, implementing all tasks, full build/test/validation/fixes and merge into main; prior PR113 already fully closed and verified.",
+  "authorizedLocalCards": ["P2-PR-026"],
+  "scope": "local-combined-security-privacy-browser-renderer-cost-purge-and-quarantined-sql-archive-validation",
+  "localApiFrontendImplementationAllowed": true,
+  "actualS4S5Acceptance": false,
+  "sixS3GatesOpen": true,
+  "HS01toHS08": "proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "specialistLicensed": "pending",
+  "actualAcceptanceAndDeployment": "held",
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

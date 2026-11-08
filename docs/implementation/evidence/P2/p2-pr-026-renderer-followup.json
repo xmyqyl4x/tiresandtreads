@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-026",
+  "scope": "reviewed-fixture-expiry-and-future-PDF-follow-up",
+  "reviewedPriorHead": "9d5ee042ef501ff7d61b656fa14189a672fff9c7",
+  "expirySource": "frozen report.result.asOf plus seven synthetic days",
+  "wallClockUsedForExpiry": false,
+  "futureUnitDates": [
+    "2026-12-03T12:00:00.000Z",
+    "2035-05-06T07:08:09.000Z"
+  ],
+  "redLogSha256": "7c7014160566ed0cf45d73bf3b4007edfac1590d5309b8f1a254b38635a5d333",
+  "greenLogSha256": "304f2bcf4b0cafc32da2a6250aa64e1a09ef25fd734ae6d10126c7e48a26b292",
+  "standaloneFutureFixture": true,
+  "pdfAsOf": "2035-05-06T07:08:09.000Z",
+  "pdfBytes": 24061,
+  "pdfSha256": "b8e738004d220aee58a8376d028e84a5eff6738ee16148b00948a8c81ae2efce",
+  "pagesRenderedAndVisuallyInspected": 2,
+  "clippingOrOverlapObserved": false,
+  "fixtureRendererSha256": "c66e1ff0bc36a0ecc7df7a77637c5f46340ab4ca2de2ce1a0d421cb87a84cbfb",
+  "htmlSha256": "24e2be55a8ca066e556e541b05dd2908df8b1b2e3b9d429b51083f28f0888318",
+  "pageImageSha256": [
+    "81e6225254a8b3aa5130394941c6c0baa2fe75ad9e83c988a74c6bc0b1e98d0a",
+    "ae31ba2e5a89ae7248cc0936e438db0240a5423eb8f9652649664b28bf718411"
+  ],
+  "artifactUsesSqlOrDispatch": false,
+  "sqlFrozenDeliveryCoveredSeparately": true,
+  "earlierBrowserRecordsRewritten": false,
+  "productionGrantCreated": false,
+  "actualInboxOrPdfAccessibilityAccepted": false,
+  "actualAcceptance": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}

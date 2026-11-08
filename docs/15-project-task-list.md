@@ -137,7 +137,7 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | [P2-PR-023 — Build AI-assisted report and delivery presentation](tasks/phase-2-prs.md#p2-pr-023) | S5 | Local implementation; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-023-local-assisted-report-presentation.md) |
 | [P2-PR-024 — Build web tire-photo upload and field confirmation](tasks/phase-2-prs.md#p2-pr-024) | S5 | Local implementation; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-024-local-photo-confirmation.md) |
 | [P2-PR-025 — Build AI/privacy and pilot operations dashboards](tasks/phase-2-prs.md#p2-pr-025) | S5 | Local implementation; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-025-local-assistance-operations.md) |
-| [P2-PR-026 — Verify assisted advice, privacy and partner security](tasks/phase-2-prs.md#p2-pr-026) | S6 | Not started | Unassigned | — |
+| [P2-PR-026 — Verify assisted advice, privacy and partner security](tasks/phase-2-prs.md#p2-pr-026) | S6 | Local validation; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-026-local-security-privacy-validation.md) |
 | [P2-PR-027 — Release Phase 2 assistance and reseller pilot](tasks/phase-2-prs.md#p2-pr-027) | S6 | Not started | Unassigned | — |
 
 ## Phase 3 ledger

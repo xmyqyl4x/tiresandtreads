@@ -11,7 +11,7 @@ concurrency:
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     env:
       SOURCE_REVISION: ${{ github.sha }}
     steps:

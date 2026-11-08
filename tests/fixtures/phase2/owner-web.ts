@@ -39,9 +39,11 @@ export interface OwnerWebExtensionContext {
   admission: ReturnType<typeof createP2HttpAdmission>;
   onCleanup: (cleanup: () => Promise<void>) => void;
 }
-export type OwnerWebExtension = (
-  context: OwnerWebExtensionContext,
-) => Promise<{ routes: readonly HttpRoute[]; security: (base: HttpSecurity) => HttpSecurity }>;
+export type OwnerWebExtension = (context: OwnerWebExtensionContext) => Promise<{
+  routes: readonly HttpRoute[];
+  security: (base: HttpSecurity) => HttpSecurity;
+  env?: { LOCAL_P2_UI?: 'enabled'; LOCAL_P2_STAFF_UI?: 'enabled' };
+}>;
 // Fixed source identities and synthetic provider/identity/scanner ports. No network feed/model/mail.
 export async function ownerWebFixture(
   webOrigin = 'http://127.0.0.1:3000',
@@ -199,6 +201,7 @@ export async function ownerWebFixture(
         LOCAL_P2_OWNER_UI: 'enabled',
         LOCAL_P2_API_ORIGIN: api.origin,
         ...(extra ? { LOCAL_P2_OPERATIONS_UI: 'enabled' as const } : {}),
+        ...extra?.env,
       },
     });
     return {

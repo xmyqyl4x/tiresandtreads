@@ -108,10 +108,18 @@ export function reconcileProductPins(root, rawPins) {
       path: p.path,
       sha256: apiOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
     }));
+  const afterApi = mergeReviewedPins(afterPhoto, apiResult, apiOverlay),
+    ciOverlay = ciValidationPins.filter((e) => present.has(e.path)),
+    ciResult = afterApi.map((p) => ({
+      path: p.path,
+      sha256: ciOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(afterPhoto, apiResult, apiOverlay),
+    pins: mergeReviewedPins(afterApi, ciResult, ciOverlay),
     exceptions: new Set(
-      [...entries, ...overlay, ...staffOverlay, ...photoOverlay, ...apiOverlay].map((e) => e.path),
+      [...entries, ...overlay, ...staffOverlay, ...photoOverlay, ...apiOverlay, ...ciOverlay].map(
+        (e) => e.path,
+      ),
     ).size,
   };
 }
@@ -144,6 +152,20 @@ export const apiContractPins = Object.freeze(
       currentSha256: '695486b5da6baa31ccb9a4b02386a508e788f7edc8ea56933ae5e2c8c52d1098',
       reason:
         'Only contracts:generate and contracts:check include the opt-in Phase2 artifact; dependencies, lockfile, historical execution and all acceptance holds retained.',
+    },
+  ].map((p) => Object.freeze(p)),
+);
+
+// The full Linux job outgrew its old 25-minute budget. Only this exact CI file
+// advances; historical digests, verification commands and acceptance stay unchanged.
+export const ciValidationPins = Object.freeze(
+  [
+    {
+      path: '.github/workflows/ci.yml',
+      baselineSha256: '3ae81ef5a983948dffb7d5beed26006c4c151d308424cf835ec5e04a5643e99f',
+      currentSha256: '494d8afd76ec4ca8195db6863e4288ac522df9861570b67e483838b13b3f65f3',
+      reason:
+        'Only the bounded bootstrap CI job budget increases from 25 to 40 minutes so the complete unchanged verification command can finish. Historical manifests, individual proof limits and all acceptance holds remain unchanged.',
     },
   ].map((p) => Object.freeze(p)),
 );

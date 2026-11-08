@@ -13,3 +13,4 @@ export const photoDependencyPins: readonly Readonly<{
   reason: string;
 }>[];
 export const apiContractPins: typeof photoDependencyPins;
+export const ciValidationPins: typeof photoDependencyPins;
