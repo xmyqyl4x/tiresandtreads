@@ -1,20 +1,33 @@
 import { localPreview, type PreviewEnvironment } from '../local-preview.ts';
 import {
   partnerDocument,
+  p2OwnerDocument,
   p2StaffDocument,
 } from '../../node_modules/.cache/tt-preview/renderer.mjs';
 export function partnerResponse(
   request: Request,
   env: PreviewEnvironment = process.env,
-  surface: 'partner' | 'staff' = 'partner',
+  surface: 'partner' | 'staff' | 'owner' = 'partner',
 ) {
   const c = localPreview(env),
     allowed =
       c &&
-      env[surface === 'partner' ? 'LOCAL_P2_UI' : 'LOCAL_P2_STAFF_UI'] === 'enabled' &&
+      env[
+        surface === 'partner'
+          ? 'LOCAL_P2_UI'
+          : surface === 'staff'
+            ? 'LOCAL_P2_STAFF_UI'
+            : 'LOCAL_P2_OWNER_UI'
+      ] === 'enabled' &&
       request.headers.get('host') === new URL(c.web).host;
   return new Response(
-    allowed ? (surface === 'partner' ? partnerDocument() : p2StaffDocument()) : 'Not found',
+    allowed
+      ? surface === 'partner'
+        ? partnerDocument()
+        : surface === 'staff'
+          ? p2StaffDocument()
+          : p2OwnerDocument()
+      : 'Not found',
     {
       status: allowed ? 200 : 404,
       headers: {

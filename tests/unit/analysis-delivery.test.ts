@@ -114,10 +114,31 @@ describe('frozen AI delivery selection', () => {
     expect(() => freezeAnalysis(input)).toThrow(),
   );
   it('renders reviewed questions and safety limitations as plain fixed copy', () => {
-    const text = analysisDeliveryText(freezeAnalysis(selection())).join('\n');
+    const input = selection();
+    const frozen = freezeAnalysis({
+      ...input,
+      output: {
+        ...input.output,
+        claims: [
+          {
+            rank: 4,
+            status: 'unverified',
+            budget: 'above',
+            scoreBasisPoints: 4321,
+            reasonCodes: ['PRIVATE_SENTINEL'],
+            citations: ['owner-secret-source'],
+          },
+        ],
+      },
+    });
+    const text = analysisDeliveryText(frozen).join('\n');
     expect(text).toContain('fitment');
     expect(text).toContain('DOT');
     expect(text).toContain('physical inspection');
-    expect(text).not.toMatch(/safe to drive|https?:|<|owner|prompt/);
+    expect(text).toContain('Frozen attachment revision 2');
+    expect(text).toContain('private owner view');
+    expect(text).not.toMatch(
+      /safe to drive|https?:|<|owner-secret-source|PRIVATE_SENTINEL|4321|prompt/,
+    );
   });
 });

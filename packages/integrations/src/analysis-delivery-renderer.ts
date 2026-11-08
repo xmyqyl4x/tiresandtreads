@@ -50,8 +50,11 @@ export function createAnalysisReportRenderer(base: ReportRenderer, hash: string)
       { updateMetadata: false },
     );
     const font = await pdf.embedFont(StandardFonts.Helvetica),
+      bold = await pdf.embedFont(StandardFonts.HelveticaBold),
       page = pdf.addPage([612, 792]);
-    let y = 740;
+    page.drawText('Tires & Tread', { x: 40, y: 764, size: 10, font: bold });
+    page.drawText('Optional assistance attachment', { x: 40, y: 728, size: 16, font: bold });
+    let y = 696;
     for (const line of lines) {
       const words = line.split(' ');
       let row = '';
@@ -66,6 +69,12 @@ export function createAnalysisReportRenderer(base: ReportRenderer, hash: string)
       page.drawText(row, { x: 40, y, size: 10, font });
       y -= 28;
     }
+    page.drawText('Assistance appendix 1 of 1 | Base report numbering is unchanged', {
+      x: 40,
+      y: 36,
+      size: 9,
+      font,
+    });
     const bytes = await pdf.save({ useObjectStreams: false });
     const section =
       '<section aria-label="AI assistance">' +

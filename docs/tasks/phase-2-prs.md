@@ -485,6 +485,8 @@ Local implementation progress (actual S5/source/identity acceptance remains open
 
 **Verification and acceptance:** Browser and renderer tests preserve authoritative facts, old versions and send identity; AI completion sends no unsolicited email.
 
+Local progress: opt-in owner report/assistance presentation, typed current options, explicit permission/reuse and frozen delivery/cancel controls are implemented. Focused84-case Linux/SQL/Next proof, actual synthetic-browser journeys and three-page PDF visual inspection are recorded in [P2-PR-023](../implementation/P2-PR-023-local-assisted-report-presentation.md). Original acceptance boxes remain open; final exact-commit regression and PR/main checks are required.
+
 ### P2-PR-024
 
 **Build web tire-photo upload and field confirmation**

@@ -1,3 +1,4 @@
+import { presentationP2Operations } from '../../../contracts/src/phase2-presentation-client.ts';
 import { reviewP2Operations } from '../../../contracts/src/phase2-review-client.ts';
 import { ownerP2Operations } from '../../../contracts/src/phase2-owner-client.ts';
 import { partnerP2Operations } from '../../../contracts/src/phase2-partner-client.ts';
@@ -9,6 +10,7 @@ const definitions = {
   ...partnerP2Operations,
   ...staffP2Operations,
   ...reviewP2Operations,
+  ...presentationP2Operations,
 };
 // Explicit local composition helper; never installs routes or changes the default host.
 // Contract drift fails at composition; malformed private output fails before serialization.

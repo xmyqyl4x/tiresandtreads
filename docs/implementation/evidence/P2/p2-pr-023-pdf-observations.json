@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "card": "P2-PR-023",
+  "actualPdfRenderer": true,
+  "syntheticOnly": true,
+  "pages": 3,
+  "basePages": 2,
+  "appendixPages": 1,
+  "allPagesVisuallyInspected": true,
+  "maximumSyntheticRevisionDigits": 19,
+  "questions": 4,
+  "clippingObserved": false,
+  "baseNumberingPreserved": true,
+  "appendixNumbering": "1 of 1",
+  "sha256": "d9354bd37850ccd0f7948174cec16626bfa9cb454c2a3fc657a22f5b5d9fe2ce",
+  "bytes": 26313,
+  "actualDelivery": false
+}

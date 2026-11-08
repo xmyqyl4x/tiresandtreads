@@ -1,3 +1,4 @@
+import { OwnerWorkspace } from './phase2/owner/workspace.tsx';
 import { P2StaffConsole } from './phase2/staff/console.tsx';
 import { renderToString } from 'react-dom/server';
 import { PageView, pageTitle } from './ui/pages.tsx';
@@ -246,6 +247,28 @@ export function p2StaffDocument() {
         <body>
           <div id="p2-staff-root">
             <P2StaffConsole />
+          </div>
+        </body>
+      </html>,
+    )
+  );
+}
+
+export function p2OwnerDocument() {
+  return (
+    '<!doctype html>' +
+    renderToString(
+      <html lang={locale}>
+        <SiteHead
+          title="Your report and optional assistance"
+          description="Private recorded report and explicitly chosen assistance"
+        >
+          <link rel="stylesheet" href={'/local-preview-assets/' + manifest.p2OwnerCss} />
+          <script type="module" src={'/local-preview-assets/' + manifest.p2Owner} />
+        </SiteHead>
+        <body>
+          <div id="p2-owner-root">
+            <OwnerWorkspace />
           </div>
         </body>
       </html>,

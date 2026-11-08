@@ -1,3 +1,4 @@
+import { presentationP2Operations } from '../../packages/contracts/src/phase2-presentation-client.ts';
 import { reviewP2Operations } from '../../packages/contracts/src/phase2-review-client.ts';
 import { apiErrorSchema, wireSchemaJson } from '../../packages/contracts/src/http-views.ts';
 import { z, p2Uuid } from '../../packages/contracts/src/phase2-wire.ts';
@@ -9,6 +10,7 @@ const definitions = {
   ...partnerP2Operations,
   ...staffP2Operations,
   ...reviewP2Operations,
+  ...presentationP2Operations,
 };
 type Schema = Record<string, unknown>;
 interface Operation {
