@@ -11,12 +11,15 @@ import type { PartnerPrincipal } from '../../../packages/domain/src/partner-poli
 import type { Id, Instant } from '../../../packages/domain/src/values/core.ts';
 import { ok, fail } from '../../../packages/domain/src/values/core.ts';
 import { failure } from '../../../packages/application/src/ports/transactions.ts';
-export async function composeInsights(f: Awaited<ReturnType<typeof insightsFixture>>) {
+export async function composeInsights(
+  f: Awaited<ReturnType<typeof insightsFixture>>,
+  sharedSessions?: Map<string, PartnerPrincipal>,
+) {
   const partners = await composePartnerServices(f);
   const scope = f.insightsAdapter(),
     crypto = createPartnerCrypto('v1', { v1: randomBytes(32) }, randomBytes(32)),
     tokens = createInsightsTokens(randomBytes(32)),
-    sessions = new Map<string, PartnerPrincipal>(),
+    sessions = sharedSessions ?? new Map<string, PartnerPrincipal>(),
     seeds = await repositorySeeds(f),
     key = randomBytes(32),
     start = new Date();

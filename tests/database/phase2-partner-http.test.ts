@@ -125,7 +125,7 @@ beforeAll(async () => {
   // contacts under their separate test key rings. It only handles its own API-created contacts.
   frozenDelivery = await composeAnalysisDelivery(f);
   p = await composePartnerServices(f);
-  i = await composeInsights(f);
+  i = await composeInsights(f, p.sessions);
   csv = await composeStaffCsv(f);
   pilot = await composePilot(f);
   // Five fixed source categories are distinct owned synthetic records. No live catalog
@@ -1009,6 +1009,26 @@ it('runs staff typed upload, immutable evidence, independent review and publicat
   expect((await publisher.p2CsvReceipt({ path })).data.publicationBundleId).toBe(publication.value);
   expect((await uploader.p2CsvStatus({ path })).data.phase).toBe('published');
 }, 120000);
+it('serves masked operations and partner read models through their typed HTTP clients', async () => {
+  const visitor = await i.visitor(),
+    client = (handle: string) => createP2PartnerClient(host.origin, clientTransport(handle));
+  const visitors = (await client(i.visitors).p2Visitors({ query: { week: i.week } })).data;
+  expect(visitors.items.some((row) => row.contact === 'masked')).toBe(true);
+  expect(JSON.stringify(visitors)).not.toContain(visitor.subject);
+  expect(JSON.stringify(visitors)).not.toContain('synthetic@example.invalid');
+  const health = (await client(i.email).p2Health({ query: { week: i.week } })).data;
+  expect(health.deliveryIsIndependentFact).toBe(true);
+  expect(health.opensAreEstimates).toBe(true);
+  const domain = (await client(i.email).p2Domains({ query: { domain: 'mail.example.com' } })).data;
+  expect(domain.missingSourceStatus).toBe('unavailable');
+  const internal = (await client(i.analyst).p2Internal({ query: { week: i.week } })).data;
+  expect(internal.exportEnabled).toBe(false);
+  const company = await p.company(),
+    own = client(company.handle),
+    path = { org: company.org };
+  expect((await own.p2Report({ path, query: { week: i.week } })).data.pilot).toBe('noncharging');
+  expect((await own.p2Disputes({ path })).data.items).toEqual([]);
+});
 it('protects admission records with forced RLS, serializes independent SQL contenders and fails closed at its row cap', async () => {
   const admission = createP2HttpAdmission(p.service),
     hash = 'd'.repeat(64),
