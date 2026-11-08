@@ -25,12 +25,12 @@ export function previewForwardHeaders(incoming, authority, path, method) {
   return headers;
 }
 
-// Only this reviewed binary endpoint gets a larger ingress body. All other local routes retain64KB.
+// Only reviewed binary uploads receive larger bodies; ordinary routes retain64KB.
 export function previewBodyLimit(path, method) {
-  return method === 'POST' &&
+  const partner =
     /^\/local-p2-api\/api\/v1\/partners\/organizations\/[0-9a-f-]{36}\/assets(?:\?[^#]*)?$/i.test(
       path,
-    )
-    ? 16777216
-    : 65536;
+    );
+  const csv = /^\/local-p2-staff-api\/api\/v1\/staff\/csv\/uploads(?:\?[^#]*)?$/.test(path);
+  return method === 'POST' && (partner || csv) ? 16777216 : 65536;
 }

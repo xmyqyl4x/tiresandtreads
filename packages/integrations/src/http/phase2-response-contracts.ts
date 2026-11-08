@@ -1,9 +1,15 @@
+import { reviewP2Operations } from '../../../contracts/src/phase2-review-client.ts';
 import { ownerP2Operations } from '../../../contracts/src/phase2-owner-client.ts';
 import { partnerP2Operations } from '../../../contracts/src/phase2-partner-client.ts';
 import { staffP2Operations } from '../../../contracts/src/phase2-staff-client.ts';
 import { HttpFailure, HttpSuccess, type HttpRoute } from './core.ts';
 import { ok } from '../../../domain/src/values/core.ts';
-const definitions = { ...ownerP2Operations, ...partnerP2Operations, ...staffP2Operations };
+const definitions = {
+  ...ownerP2Operations,
+  ...partnerP2Operations,
+  ...staffP2Operations,
+  ...reviewP2Operations,
+};
 // Explicit local composition helper; never installs routes or changes the default host.
 // Contract drift fails at composition; malformed private output fails before serialization.
 export function validateP2Routes(routes: readonly HttpRoute[]): readonly HttpRoute[] {

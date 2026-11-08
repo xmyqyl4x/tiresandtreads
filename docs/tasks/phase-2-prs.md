@@ -464,6 +464,11 @@ Local implementation progress (actual S5/pilot acceptance remains open):
 
 **Verification and acceptance:** Large/error CSV, role separation, retry/resume and keyboard/reflow tests match script behavior.
 
+Local implementation progress (actual S5/source/identity acceptance remains open):
+
+- [x] Implement private template/upload/validation/diff/rejection/status controls with independent review, publication receipts, cancellation and approved rollback through shared services.
+- [x] Implement permission-scoped business/offer queues and current private evidence/context reads with independent decision controls; validate source/API/service boundaries and record actual local browser observations separately.
+
 ### P2-PR-023
 
 **Build AI-assisted report and delivery presentation**
