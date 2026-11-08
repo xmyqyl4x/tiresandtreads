@@ -54,7 +54,7 @@
     "packages/contracts/src/phase2-owner-web.ts": "152c74881fa9818dc4f08271ab99881b899100dfbb328f8ed54f6c24add099a0",
     "packages/contracts/src/phase2-presentation-client.ts": "cde3cb0160f6db9b3ad5e5665c98da1897ad45725824f364759db44f36607d7e",
     "packages/db/src/repositories/analysis-presentation.ts": "d2bbde5b93197fe4292899fbfa1618e8ec7709b3ec46b7d147bbbe0c39f82c0d",
-    "packages/domain/src/analysis-delivery.ts": "f1524bf2eff6c9ee4c30ea776dc03686366ea64e8798e87447b1997cefec7153",
+    "packages/domain/src/analysis-delivery.ts": "b03f5d143482be88a908704c32e31e50004d9f17abf9e31811d517e85d0956a2",
     "packages/integrations/src/analysis-delivery-renderer.ts": "005324059514940627a674036825c17c7fc2a646f1427eea1992568e6920e6a2",
     "packages/integrations/src/http/phase2-owner-web.ts": "c12839025a2add1a1c03f1f9e8b0cdd2692f82af77ccc8770998bed351ec7956",
     "packages/integrations/src/http/phase2-presentation.ts": "cdb2ebbd3d60af9f7722d52b3762dcf0a8da8ee9187c1b23770142c2552195c9",
@@ -101,8 +101,10 @@
     }
   ],
   "inheritedPortalReviewProof": "p2-pr-021-local-proof.json",
-  "expectedFullExecutions": 4580,
+  "expectedFullExecutions": 4612,
   "focusedLogSha256": "d3c0f262aa2865e76972703e9086020092dceeda8968057d6ac9e770e04e42de",
   "rendererFollowupLogSha256": "0aae39b4e8e14bd55520ed7eabcb0f425a6dea684ce105222f142b66880c965f",
-  "finalBehaviorBrowserObserved": true
+  "finalBehaviorBrowserObserved": true,
+  "formatOnlyFollowup": "Full regression found one Prettier failure in analysis-delivery.ts; formatted without behavior changes; final exact full verification required.",
+  "failedFormatFullLogSha256": "f421e889afd8133b9ecadbc1fb2788efcf2e52e928d7d97bf4e1eea502ccd861"
 }
