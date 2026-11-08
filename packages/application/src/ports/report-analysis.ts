@@ -119,4 +119,10 @@ export interface AnalysisStatus {
   readonly reportId: Id<'report'>;
   readonly version: number;
   readonly output: Readonly<Record<string, unknown>> | null;
+  // Present on an authorized status read. Request replies may precede this read.
+  readonly processing?: Readonly<{
+    scopeId: Id<'ai_scope'>;
+    permissionRevision: string;
+    allowed: boolean;
+  }>;
 }

@@ -130,7 +130,7 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 | [P2-PR-016 — Implement staff CSV review and publication workflow](tasks/phase-2-prs.md#p2-pr-016) | S3 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-016-local-staff-csv-services.md) |
 | [P2-PR-017 — Accept Phase 2 services and evaluate real model behavior](tasks/phase-2-prs.md#p2-pr-017) | S3 | Local preparation complete; original acceptance tasks pending | Codex; owner local exception | [Local packet](implementation/P2-PR-017-local-service-readiness.md) |
 | [P2-PR-018 — Expose reseller and staff CSV/operations APIs](tasks/phase-2-prs.md#p2-pr-018) | S4 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-018-local-partner-staff-api.md) |
-| [P2-PR-019 — Expose AI analysis and photo APIs](tasks/phase-2-prs.md#p2-pr-019) | S4 | Not started | Unassigned | — |
+| [P2-PR-019 — Expose AI analysis and photo APIs](tasks/phase-2-prs.md#p2-pr-019) | S4 | Local implementation complete; actual acceptance held | Codex; owner local exception | [Local packet](implementation/P2-PR-019-local-analysis-photo-api.md) |
 | [P2-PR-020 — Accept all Phase 2 APIs before new frontend work](tasks/phase-2-prs.md#p2-pr-020) | S4 | Not started | Unassigned | — |
 | [P2-PR-021 — Build reseller onboarding, offers and pilot portal](tasks/phase-2-prs.md#p2-pr-021) | S5 | Not started | Unassigned | — |
 | [P2-PR-022 — Build staff CSV import and partner moderation screens](tasks/phase-2-prs.md#p2-pr-022) | S5 | Not started | Unassigned | — |
@@ -257,3 +257,7 @@ The [combined service/readiness packet](implementation/P2-PR-017-local-service-r
 ### P2-PR-018 local HTTP implementation
 
 The owner continuation after PR105 authorizes local P2-PR-018–020 API implementation/validation with merge while actual P2 S3/S4 and all acceptance/deployment holds remain. The [reseller/CSV/operations API packet](implementation/P2-PR-018-local-partner-staff-api.md) records scoped adapters, fixed private upload admission, exact approved rollback and local HTTP evidence. P2-PR-019 is next. Prior012–017 table rows are reconciled to their already recorded local packets; no historical approval or gate closure is inferred.
+
+### P2-PR-019 local owner analysis/photo HTTP
+
+The [owner analysis/photo packet](implementation/P2-PR-019-local-analysis-photo-api.md) records scoped HTTP adapters, reviewed SQL admission/reuse/runtime, current-permission attachment reads, private scan/codec upload, explicit confirmations and full journaled deletion. Actual identity/scanner/model/privacy/source/provider/custody/phase/deployment acceptance stays held. P2-PR-020 combined local API validation and generated clients is next within the current authorized batch; no S4/frontend gate closes.

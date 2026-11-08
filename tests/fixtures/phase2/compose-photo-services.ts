@@ -182,6 +182,7 @@ export async function composePhotoServices(f: Awaited<ReturnType<typeof photoSer
     objects,
     calls,
     bucket,
+    key,
     s3,
     example,
     cleanup,

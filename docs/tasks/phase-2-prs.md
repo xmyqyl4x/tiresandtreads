@@ -396,11 +396,13 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** UC14, UC15, UC16, AT23, AT24, AT25, AT26. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Expose owner analysis request/status/attachment and private photo upload/finalize/extract/confirm/delete endpoints.
-- [ ] Document pending/available/unavailable/expired states, input limits, processing notices and exact reuse semantics.
-- [ ] Enforce ownership, explicit action, quotas/cost admission, CSRF and idempotency; deny share-only invocation.
+- [x] Expose owner analysis request/status/attachment and private photo upload/finalize/extract/confirm/delete endpoints.
+- [x] Document pending/available/unavailable/expired states, input limits, processing notices and exact reuse semantics.
+- [x] Enforce ownership, explicit action, quotas/cost admission, CSRF and idempotency; deny share-only invocation.
 
 **Verification and acceptance:** HTTP tests prove unauthorized callers cannot infer prompts/images, trigger charges or apply unconfirmed fields.
+
+**Local implementation only:** [Owner analysis/photo HTTP packet](../implementation/P2-PR-019-local-analysis-photo-api.md). Reviewed runtime, synthetic authority/scanner/model/journal and actual local storage/codec/SQL evidence do not accept identity, model quality, privacy, S3/S4 or deployment. Combined API validation/generated clients are P2-PR-020; all existing holds remain.
 
 ### P2-PR-020
 
