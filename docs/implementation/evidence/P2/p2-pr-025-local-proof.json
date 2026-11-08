@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "card": "P2-PR-025",
   "scope": "opt-in-local-assistance-privacy-pilot-operations",
-  "prerequisiteReviewedHead": "9841be4d78e6442d12ff24a8fd829ab840281383",
+  "prerequisiteReviewedHead": "8a941c6de704e952c70d83981364bde3a62ca15d",
   "focusedTestsPassed": 149,
   "newTests": 29,
   "browserObserved": true,
@@ -93,5 +93,6 @@
   "independentDurabilityAuthenticationFencingClaim": false,
   "browserFileUploadClaim": false,
   "finalBehaviorCopyNote": "Final changes after focused run are manifest JSON formatting, documentation/evidence and spacing in UI labels; exact-commit full verification remains required.",
-  "prerequisiteFormattingFollowup": "Inherited only the corrected delivery-policy formatting and evidence; operations behavior unchanged."
+  "prerequisiteFormattingFollowup": "Inherited only the corrected delivery-policy formatting and evidence; operations behavior unchanged.",
+  "prerequisiteRedactionFollowup": "Inherited delivery-private-value regression; operations behavior and tests unchanged."
 }
