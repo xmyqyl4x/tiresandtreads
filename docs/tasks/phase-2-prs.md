@@ -558,3 +558,13 @@ Validation follow-up: a bounded 40-minute CI job budget accommodates the complet
 - [ ] Onboard the agreed 5–10 verified pilot resellers and record real moderated offer journey, production metrics and rollback evidence.
 
 **Verification and acceptance:** P2 is live with required capabilities and actual pilot evidence; external gaps keep the phase open, while P1 stays usable.
+
+**Local preparation:**
+
+- [x] Reconcile completed PR114 and bind its actual source/tree, full local regression and nine PR/nine main checks as historical construction evidence.
+- [x] Inventory default and opt-in migrations, API/evidence hashes, pending runtime/provider/identity/model/privacy/custody/pilot/support inputs and empty release approvals.
+- [x] Prepare controlled rollout, real-journey observations, operator responsibilities, full budget intake, uncertainty/pause/rollback and owner decision handoff.
+
+See the [local release packet](../implementation/P2-PR-027-local-release-preparation.md), [machine-readable inventory](../implementation/evidence/P2/p2-pr-027-release-inputs.json) and [rollout handover](../operations/phase-2-controlled-rollout.md). New exact-commit build/regression, fresh review and actual PR/main checks are required before reporting local preparation complete. The original three live tasks remain open. Production composition/promotion, actual approvals and5-10 verified real pilot organizations are outstanding; no local merge accepts the phase or grants early P3 sequencing.
+
+Validation follow-up replaces an unreliable fixed-delay capacity-test baseline with bounded stable actual samples, preserving the production observer, threshold and policy. All eight isolated observation cases pass; historical evidence and source reconciliation remain unchanged. Full corrected-commit verification is required.
