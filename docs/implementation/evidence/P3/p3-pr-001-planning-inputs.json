@@ -339,7 +339,9 @@
     "redirectUris": [],
     "publicHourlyBaseline": 60,
     "breakingToolDeprecationDays": 90,
-    "targetClient": "ChatGPT desktop web and mobile iOS/Android; actual versions unconfirmed"
+    "targetClient": "ChatGPT desktop web and mobile iOS/Android; actual versions unconfirmed",
+    "modernHandshake": false,
+    "legacyInitializationPolicy": "Only for explicitly selected legacy client/protocol versions; actual versions remain unconfirmed"
   },
   "matrix": {
     "selectedPlanningLanes": [
@@ -530,6 +532,17 @@
       "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
       "reviewedDate": "2026-11-10",
       "scope": "Transport revision/security/backward compatibility",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "mcp-versioning",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning",
+      "reviewedDate": "2026-11-10",
+      "scope": "Modern per-request metadata/version errors versus explicitly supported legacy initialization; no modern handshake",
       "evidenceKind": "official documentation read; not account/contract/client attestation",
       "recheckBefore": [
         "018/022 integration",
