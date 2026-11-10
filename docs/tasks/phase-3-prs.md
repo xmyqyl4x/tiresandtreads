@@ -6,6 +6,8 @@
 
 **Phase entry:** Acceptance of [P2-PR-027](phase-2-prs.md#p2-pr-027) and a recorded phase scope/estimate review. Every listed dependency means merged **and accepted with required evidence**, not just an open PR. New product UI/templates wait for [P3-PR-017](phase-3-prs.md#p3-pr-017). Read the [TDD](../08-test-driven-development.md), [schema](../09-database-design.md), [coding](../10-coding-standards.md), [domain imports](../13-domain-data-and-imports.md) and [AI/photo](../14-ai-analysis-and-photo-design.md) contracts before the affected work.
 
+**November 10 local planning exception:** The owner explicitly selected “Prepare the local P3-PR-001 planning packet; retain all holds.” The [authorization](../implementation/evidence/P3/local-phase-3-authorization.json) permits001's local planning, validation and merge before actual P2 acceptance. It grants no P3 schema/service/API/UI implementation or later-card authority. The [packet](../implementation/P3-PR-001-local-scope-distribution.md), [planning inputs](../implementation/evidence/P3/p3-pr-001-planning-inputs.json) and [distribution handover](../operations/phase-3-distribution-readiness.md) complete local preparation; actual feasibility, named owners/accounts/rights/device-client evidence and all stage/phase/deployment acceptance remain held. All six S3 gates stay open and HS01–HS08 proposed. No provisioning, purchases, live business-provider/model calls, actual notifications or original case/gate closure.
+
 ## PR sequence
 
 | PR | Stage | Proposed title |
@@ -55,6 +57,14 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [ ] Choose supported device/client test matrix, release/rollback path, compatibility policy and revised P3 estimate.
 
 **Verification and acceptance:** P3 feasibility and distribution evidence has named owners; app/MCP remain committed outcomes even if external approval is delayed.
+
+**Local planning completed under the owner exception; actual acceptance tasks above remain open:**
+
+- [x] Reconcile merged PR115 and record the exact early-local planning authorization, preserving P2 live prerequisites and all holds.
+- [x] Inventory web/account/garage/reminders/native/public-authenticated MCP, all22 Phase3 app/connector FR rows and seven public tools; review per-use rights and current official protocol/auth/packaging/store/privacy/account guidance with unconfirmed actual decisions explicit.
+- [x] Define the planning device/client matrix, compatible release/rollback path, revised effort and full budget categories, accountable roles and future distribution evidence; keep named people/accounts/rights/pins/approvals empty and P3-PR-002 unstarted.
+
+See [local planning evidence](../implementation/P3-PR-001-local-scope-distribution.md). Documentation review and required exact-commit regression/actual PR/main checks validate this planning artifact; they do not certify real devices/clients, rights, accounts or external distribution.
 
 ### P3-PR-002
 
