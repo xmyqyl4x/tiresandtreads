@@ -1,0 +1,730 @@
+{
+  "schemaVersion": 1,
+  "card": "P3-PR-001",
+  "status": "local-planning-only; actual feasibility and all stage/phase acceptance held",
+  "planningDate": "2026-11-10",
+  "timezone": "America/Los_Angeles",
+  "authorization": "local-phase-3-authorization.json",
+  "historicalBaseline": {
+    "pullRequest": 115,
+    "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/115",
+    "mainSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+    "sourceSha": "6bc88fb163a3c9870c11fc728a2d455eeacfe286",
+    "tree": "89b233058932ad7e458c910db4ddbaa87a526677",
+    "fullLocalTestExecutions": 4696,
+    "rootTests": 4586,
+    "rootTestFiles": 304,
+    "freshCodeReviewFindings": 0,
+    "prChecksVerified": 9,
+    "mainChecksVerified": 9,
+    "nativeRestoreProfiles": 16,
+    "actualRestoreReplayProfiles": 13,
+    "claim": "Historical P1/P2 local construction only; no P3 execution or actual phase acceptance",
+    "actualCheckLogs": {
+      "pr": [
+        {
+          "name": "bootstrap",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051829/job/128903573388",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "5ac667487e7fda1a0791a7d0a7de781eff5be9edfd86283e8bf21c9b0c9e808d"
+        },
+        {
+          "name": "dependency-compatibility",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051861/job/128903573575",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "b6e33520cbc232b10922ed820f2ca3b759e579d4166e0b15d7531709fe0a0db7"
+        },
+        {
+          "name": "io-inspection",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051852/job/128903574386",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "428439bf6e7d2a2d8e700282c7744452ff99400bd950bb753c9e17351185d449"
+        },
+        {
+          "name": "multitarget-coordination",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051872/job/128903573322",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "3c2715df8b1980fdb4d341edd835bc3b38472dca97e151d1e6cda654b3bfc659"
+        },
+        {
+          "name": "populated-preservation",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051859/job/128903573342",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "17dbadfff418d3940f5d04fafd32f611f7132be8e052c3ec2a3cef3812ebd169"
+        },
+        {
+          "name": "restore-handoff",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051811/job/128903573292",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "3b7cef27ec78dd4b40be4b49e0364e2d628cf0fcac6ff67aa2261d23fcb97cd9"
+        },
+        {
+          "name": "routing-resource",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051831/job/128903573442",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "65cc19c8d0041fe4ab84ea26951d95289d2b2771bd374561a84f477c65303103"
+        },
+        {
+          "name": "tls-admission",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051848/job/128903573488",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "e9118ce654f62d3d74b44ec164c811eb10908c8695a1896fb4c162f8d023ede7"
+        },
+        {
+          "name": "trust-material",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42537051830/job/128903573381",
+          "conclusion": "success",
+          "checkoutSha": "15c89efc9a46cfc6c6083c31aa5926d326566f0d",
+          "rawLogSha256": "bca89e2ddc326d042597a5bd08a2d15133c02f48b05efe1c560d5344e5998c9a"
+        }
+      ],
+      "main": [
+        {
+          "name": "bootstrap",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539481964/job/128910992674",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "047374acd453e2d281261124a4d2caacaf88274eb596f3f6bea2f5e1eb402c30"
+        },
+        {
+          "name": "dependency-compatibility",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539481952/job/128910992583",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "e27dd23b54361adcd26fae31e94ee60883bd04cd415000ffaf58fb6fa37a8cc0"
+        },
+        {
+          "name": "io-inspection",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539481950/job/128910992524",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "796906025f592908ec12e3d21f3b2b0e53e2ee511dba2299368e0f8bba263416"
+        },
+        {
+          "name": "multitarget-coordination",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539482126/job/128910992970",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "031dd88b631e1f2992011487422bb6f2c94584d5ba07951557dfdb1dac57a5a4"
+        },
+        {
+          "name": "populated-preservation",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539481951/job/128910992693",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "7b7ff26d4eac9595a552159f0920f47ba5c4e69251c77399c7bd677a44d8be3b"
+        },
+        {
+          "name": "restore-handoff",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539481997/job/128910992716",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "f6541cffde468772ee01e91ca5eb4797f2bdf5d6c10168629beda6f2e5420379"
+        },
+        {
+          "name": "routing-resource",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539482042/job/128910992571",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "2f6f595746adc6ae97ccfa6038a3538ff5aad9ddda74f54d7c3882b6af6da400"
+        },
+        {
+          "name": "tls-admission",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539481970/job/128910992597",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "f93af29214bef1bae43e3a8ee43e9eb6c1ae5e2e71a0fd1308c40940766dd621"
+        },
+        {
+          "name": "trust-material",
+          "url": "https://github.com/xmyqyl4x/tiresandtreads/actions/runs/42539482022/job/128910992882",
+          "conclusion": "success",
+          "checkoutSha": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+          "rawLogSha256": "9a04a23dd03c4a0501b1a038204a7b8bfc144f48b6e01b46baaf5f94e898db5c"
+        }
+      ]
+    }
+  },
+  "baselineSourceBindingsSha256": {
+    "pnpm-lock.yaml": "d0ed0cf9f1b6469150d1ae0a7eb4527bc37d2000327613d69262fc03c6cba97a",
+    "docs/01-final-product-design.md": "a147c0989579048b618f07eaf87f5389e9e4d8ec58adfe96137cbed7fc021e0e",
+    "docs/02-technical-architecture.md": "590e0cc32a4aa9583b9fa3d5b2eea429c56675858c97ac09eedb8400020f599d",
+    "docs/04-implementation-plan.md": "906762fc6e905f384f65ffddadbb6378aa705d5865a254d4cfd4879602973351",
+    "docs/05-requirements-traceability.md": "c82a5935de5f9008dcb2a5a1f3e3a1d8cdc3a95687c32dc9af12b6d20ac53f9a",
+    "docs/08-test-driven-development.md": "84f3056aea4bccb3f81dc463f2a567668e4e3363181687bf9aa154d688e23b12",
+    "docs/09-database-design.md": "02920cf2412113812ccad90237ec7a5bd6a431e9e67593e6858ee3e08357bbbb",
+    "docs/10-coding-standards.md": "73c6f0655510413af127674a30bf7a36d6d58fc5367490ad6b9c05e0094f198d",
+    "docs/11-postgresql-and-build-order.md": "2375743186048911a968a9a6daa49e82abadbb72df772ad57a8934e3860ea96a",
+    "docs/12-live-product-phases-and-gap-review.md": "8be385809ad941bef8974471e56661675232877b1f6e79f688f3d4923cae47ef",
+    "docs/13-domain-data-and-imports.md": "99265e7c3abc38330146564068e5ff8d9f464127f6d5192651739b3e7ec8ceec",
+    "docs/14-ai-analysis-and-photo-design.md": "3e254dcdb02cf107962473ec0fa86755c3f3b62bee279ba97861ad1be6c382ef",
+    "docs/implementation/P2-PR-027-local-release-preparation.md": "df8f3d7c48eb3509241724cf18869851d4ce9d6014bfc67def8cee69de8addc5",
+    "docs/implementation/evidence/P2/p2-pr-027-release-inputs.json": "c9a0e918908116eaac07cb3c0a1e34419f8067352293883593218a22b24c90c0",
+    "infra/release/README.md": "db072ddfd463309fb90b3821768cb93ff63f345b27f2259335f80d010af49352"
+  },
+  "capabilities": [
+    {
+      "id": "MC01",
+      "capability": "Account and ownership",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC02",
+      "capability": "Garage and tire history",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC03",
+      "capability": "Saved reports and wallet",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC04",
+      "capability": "Offline continuity",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC05",
+      "capability": "Basic reminders",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC06",
+      "capability": "Native experience",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC07",
+      "capability": "P2 assistance/photo reuse",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC08",
+      "capability": "Public MCP",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC09",
+      "capability": "Authenticated MCP",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    },
+    {
+      "id": "MC10",
+      "capability": "Cross-channel privacy and operations",
+      "committedToP3": true,
+      "implementedByThisPr": false,
+      "accepted": false
+    }
+  ],
+  "requirements": {
+    "retainedApp": [
+      "FR-APP-01",
+      "FR-APP-02",
+      "FR-APP-03",
+      "FR-APP-04",
+      "FR-APP-05",
+      "FR-APP-06",
+      "FR-APP-07",
+      "FR-APP-08",
+      "FR-APP-09",
+      "FR-APP-10",
+      "FR-APP-11",
+      "FR-APP-12"
+    ],
+    "retainedConnector": [
+      "FR-AI-01",
+      "FR-AI-02",
+      "FR-AI-03",
+      "FR-AI-04",
+      "FR-AI-05",
+      "FR-AI-06",
+      "FR-AI-07",
+      "FR-AI-08",
+      "FR-AI-09",
+      "FR-AI-10"
+    ],
+    "crossCutting": [
+      "CAP-01",
+      "CAP-08",
+      "UC12",
+      "UC18",
+      "AT28",
+      "DB12",
+      "DB28",
+      "CORE-05",
+      "CORE-09",
+      "NFR-07"
+    ],
+    "reusedPhoto": [
+      "CAP-07",
+      "UC16"
+    ],
+    "conditionalPhase4": [
+      "FR-AI-11",
+      "optional audiences/tracking",
+      "app ads/IAP",
+      "extra markets/languages",
+      "full lifecycle marketing"
+    ],
+    "originalRequirementsAccepted": []
+  },
+  "publicTools": [
+    "decode_tire_size",
+    "recommend_tires",
+    "compare_tires",
+    "check_shop_quote",
+    "explain_term",
+    "get_maintenance_plan",
+    "find_offers"
+  ],
+  "rights": {
+    "decisionGranularity": [
+      "source/version/field",
+      "display/cache/redistribute/infer",
+      "channel",
+      "market/purpose",
+      "attribution",
+      "expiry/withdrawal"
+    ],
+    "categories": [
+      "official reference/recall",
+      "licensed catalog/fitment/prices/climate",
+      "education/media",
+      "private reports/garage",
+      "photos/AI artifacts",
+      "offers/coupons",
+      "MCP/client processing"
+    ],
+    "acceptedContracts": [],
+    "acceptedFieldChannelAllowlists": [],
+    "reviewer": null,
+    "decisionAt": null
+  },
+  "protocol": {
+    "reviewedSpecification": "2026-07-28",
+    "referenceIsRuntimePin": false,
+    "sdkVersion": null,
+    "acceptedProtocolClientVersions": [],
+    "transportDirection": "Streamable HTTP; prove actual-client negotiation/backward compatibility before pinning",
+    "authorizationDirection": "established authorization server; authorization-code/PKCE, resource discovery, exact issuer/audience/scopes and per-call owner/grant checks",
+    "consumerRealm": null,
+    "authorizationServer": null,
+    "registrationMethod": null,
+    "redirectUris": [],
+    "publicHourlyBaseline": 60,
+    "breakingToolDeprecationDays": 90,
+    "targetClient": "ChatGPT desktop web and mobile iOS/Android; actual versions unconfirmed"
+  },
+  "matrix": {
+    "selectedPlanningLanes": [
+      "shared REST/services with old/new P1/P2/P3 callers",
+      "physical iOS oldest/current + supported current/two previous OS majors",
+      "physical Android minimum/low-resource/current + supported current/two previous OS majors",
+      "desktop/mobile Chromium/Firefox/WebKit and assistive technology",
+      "official MCP Inspector + ChatGPT desktop web/mobile public",
+      "ChatGPT desktop web/mobile scoped OAuth",
+      "cross-channel ownership/offline/permission/deletion/restore"
+    ],
+    "exactDeviceOsBuildClientVersions": [],
+    "sdkSupportFloor": null,
+    "approvedBy": null,
+    "actualResults": []
+  },
+  "effort": {
+    "unit": "focused person-days; planning estimate, not actual elapsed effort or quote",
+    "stages": [
+      {
+        "stage": "S0",
+        "cards": "001",
+        "low": 3,
+        "high": 5
+      },
+      {
+        "stage": "S1",
+        "cards": "002-004",
+        "low": 8,
+        "high": 13
+      },
+      {
+        "stage": "S2",
+        "cards": "005-007",
+        "low": 8,
+        "high": 12
+      },
+      {
+        "stage": "S3",
+        "cards": "008-013",
+        "low": 18,
+        "high": 28
+      },
+      {
+        "stage": "S4",
+        "cards": "014-017",
+        "low": 12,
+        "high": 20
+      },
+      {
+        "stage": "S5",
+        "cards": "018-022",
+        "low": 20,
+        "high": 32
+      },
+      {
+        "stage": "S6",
+        "cards": "023-025",
+        "low": 15,
+        "high": 25
+      }
+    ],
+    "baseLow": 84,
+    "baseHigh": 135,
+    "contingencyLowPercent": 20,
+    "contingencyHighPercent": 30,
+    "roundedUpLow": 101,
+    "roundedUpHigh": 176,
+    "externalWaitingIncluded": false,
+    "staffingAccepted": false,
+    "rate": null,
+    "currency": null,
+    "approvedTotalBudget": null,
+    "committedReleaseDate": null
+  },
+  "responsibilities": [
+    {
+      "role": "owner/product",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "data/privacy/specialist",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "security/platform",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "mobile/release",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "account-holder/distribution",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "privacy",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "QA/accessibility",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "DB/platform-primary/backup",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "cost/support",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    },
+    {
+      "role": "activation/rollback",
+      "person": null,
+      "backup": null,
+      "coverage": null,
+      "rate": null,
+      "acceptedAt": null
+    }
+  ],
+  "accounts": {
+    "apple": null,
+    "googlePlay": null,
+    "openaiDistribution": null,
+    "expoBuildUpdate": null,
+    "macXcodeLane": null,
+    "signingCustody": null
+  },
+  "actualP3Counts": {
+    "nativeBuilds": 0,
+    "physicalDeviceRuns": 0,
+    "realMcpClientCalls": 0,
+    "providerModelCalls": 0,
+    "pushEmailNotifications": 0,
+    "storeDirectorySubmissions": 0
+  },
+  "candidate": {
+    "source": null,
+    "tree": null,
+    "imageDigest": null,
+    "nativeBuild": null,
+    "runtimeVersion": null,
+    "packageDigest": null,
+    "configDigest": null,
+    "target": null,
+    "approvedBy": null
+  },
+  "officialDocumentationReview": [
+    {
+      "id": "mcp-transport",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+      "reviewedDate": "2026-11-10",
+      "scope": "Transport revision/security/backward compatibility",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "mcp-auth",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+      "reviewedDate": "2026-11-10",
+      "scope": "Resource discovery and OAuth roles",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "openai-auth",
+      "url": "https://developers.openai.com/plugins/build/auth",
+      "reviewedDate": "2026-11-10",
+      "scope": "PKCE, resource metadata and client registration",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "openai-server",
+      "url": "https://developers.openai.com/plugins/build/mcp-server",
+      "reviewedDate": "2026-11-10",
+      "scope": "Remote MCP transport and endpoint",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "openai-submission",
+      "url": "https://developers.openai.com/plugins/deploy/submission",
+      "reviewedDate": "2026-11-10",
+      "scope": "Packaging, scan, review and publication",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "openai-guidelines",
+      "url": "https://developers.openai.com/plugins/plugin-guidelines",
+      "reviewedDate": "2026-11-10",
+      "scope": "Privacy, minimization, client experience and reviewer access",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "apple-enrollment",
+      "url": "https://developer.apple.com/help/account/membership/program-enrollment",
+      "reviewedDate": "2026-11-10",
+      "scope": "Identity/legal account holder",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "apple-review",
+      "url": "https://developer.apple.com/app-store/review/guidelines/",
+      "reviewedDate": "2026-11-10",
+      "scope": "Native review/login/permission/commerce classification",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "apple-deletion",
+      "url": "https://developer.apple.com/help/app-review/guideline-reference/5-1-1-account-deletion",
+      "reviewedDate": "2026-11-10",
+      "scope": "In-app account deletion",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "apple-sdk",
+      "url": "https://developer.apple.com/support/third-party-SDK-requirements/",
+      "reviewedDate": "2026-11-10",
+      "scope": "SDK manifest/signature/data inventory",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "google-account",
+      "url": "https://support.google.com/googleplay/android-developer/answer/13628312?hl=en",
+      "reviewedDate": "2026-11-10",
+      "scope": "Personal versus organization account verification",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "google-testing",
+      "url": "https://support.google.com/googleplay/android-developer/answer/14151465?hl=en-419",
+      "reviewedDate": "2026-11-10",
+      "scope": "Applicable new personal-account closed testing",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "google-deletion",
+      "url": "https://support.google.com/googleplay/android-developer/answer/13327111?hl=en",
+      "reviewedDate": "2026-11-10",
+      "scope": "In-app/web deletion and Data safety",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "expo-runtime",
+      "url": "https://docs.expo.dev/eas-update/runtime-versions/",
+      "reviewedDate": "2026-11-10",
+      "scope": "Native/update runtime compatibility",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "expo-local",
+      "url": "https://docs.expo.dev/guides/local-app-development/",
+      "reviewedDate": "2026-11-10",
+      "scope": "Android Studio/Xcode prerequisites",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    },
+    {
+      "id": "expo-local-limitations",
+      "url": "https://docs.expo.dev/build-reference/local-builds/",
+      "reviewedDate": "2026-11-10",
+      "scope": "Windows/WSL support and external local-build dependencies",
+      "evidenceKind": "official documentation read; not account/contract/client attestation",
+      "recheckBefore": [
+        "018/022 integration",
+        "024 distribution"
+      ]
+    }
+  ],
+  "held": {
+    "sixS3Gates": [
+      "G1-specialist",
+      "G1-fitment-catalog",
+      "G1-prices",
+      "G2-provider-effects",
+      "G2-privacy-policy",
+      "S3-service-host"
+    ],
+    "HS01-HS08": "proposed",
+    "operatorsCoverageRates": "unconfirmed",
+    "providerModelBudget": "unconfirmed",
+    "specialistLicensed": "pending",
+    "actualSourceIdentityMfaModelScannerPrivacyCustodyRecoveryInboxBrowserAssistiveSecurityPilotStagePhaseDeploymentAcceptance": true
+  },
+  "productionBootstrapCliPreflightPolicyChanged": false,
+  "hostedProvisioning": false,
+  "productionActivation": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "nextCard": "P3-PR-002",
+  "nextCardStarted": false,
+  "nextCardAuthorizedByThisRecord": false
+}
