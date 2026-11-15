@@ -26,4 +26,6 @@ The joined proof also exposed separate in-memory object bindings in its fixture 
 
 The actual local email is parsed for its emitted report and unsubscribe fragments. Both open through the typed HTTP API. Recipient and owner download grants return bytes identical to the frozen PDF; revocation refuses the existing shared download while owner access remains valid. The journey honors the real 60-second cancellation interval and uses a bounded synthetic sink, with zero actual recipient notifications. This is neither inbox-client nor screen-reader acceptance.
 
+The current S3 component inventory includes the new helper and unit controls under the existing delivery card. A reviewed exact old/new source digest in the read-only evidence tooling advances only that inventory; the six gate statuses/records and all historical manifests/receipts remain unchanged.
+
 Before this cycle is reported merged, the exact committed source must pass the full Linux regression, a fresh review, all nine PR checks, merge and all nine main checks. The PR records those source/checkout/execution links. Owner-facing management of a delivery-created share reference remains a separate P1-PR-036 follow-up; the current service/API revocation path is proved, not a completed new UI control. Licensed source contracts remain explicitly deferred by the owner.

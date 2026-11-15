@@ -15,3 +15,4 @@ export const photoDependencyPins: readonly Readonly<{
 export const apiContractPins: typeof photoDependencyPins;
 export const ciValidationPins: typeof photoDependencyPins;
 export const taggedPdfDependencyPins: typeof photoDependencyPins;
+export const deliveryContextSourcePins: typeof photoDependencyPins;

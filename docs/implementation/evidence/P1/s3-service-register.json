@@ -159,10 +159,12 @@
       "id": "report-delivery",
       "card": "P1-PR-022",
       "modules": [
-        "packages/application/src/services/delivery.ts"
+        "packages/application/src/services/delivery.ts",
+        "packages/application/src/services/delivery-links.ts"
       ],
       "tests": [
-        "tests/database/delivery-services.test.ts"
+        "tests/database/delivery-services.test.ts",
+        "tests/unit/delivery-links.test.ts"
       ],
       "trace": [
         "UC06",
