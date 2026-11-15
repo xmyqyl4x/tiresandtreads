@@ -1046,3 +1046,60 @@ it('reconstructs usable purpose-specific preference actions and stops a withdraw
   expect((await s.service.dispatch(r.id)).ok).toBe(false);
   expect(s.provider.send).not.toHaveBeenCalled();
 });
+
+it('projects only the owned delivery report link and reflects explicit revocation without changing preferences', async () => {
+  const s = await setup(),
+    first = await s.request(),
+    doc = (await s.row(first.id)).document;
+  expect(value(await s.service.status([s.owner.token], first.id))).toMatchObject({
+    reportLink: {
+      id: doc.links.share.id,
+      reportId: s.report.head.id,
+      version: 1,
+      comparisonRevision: null,
+      expiresAt: doc.links.expiresAt,
+      state: 'active',
+    },
+  });
+  const before = (
+    await f.admin.query(
+      'SELECT id,invalidated_at,used_at FROM privacy.verification_challenges WHERE id=$1',
+      [doc.links.reportPreferences.id],
+    )
+  ).rows;
+  await success(f.scope.unitOfWork, (tx) =>
+    f.caps.revokeShare(tx, s.owner.identity, s.report.head.id, doc.links.share.id),
+  );
+  expect(value(await s.service.status([s.owner.token], first.id))).toMatchObject({
+    reportLink: { id: doc.links.share.id, state: 'revoked' },
+  });
+  expect(
+    (
+      await f.admin.query(
+        'SELECT id,invalidated_at,used_at FROM privacy.verification_challenges WHERE id=$1',
+        [doc.links.reportPreferences.id],
+      )
+    ).rows,
+  ).toEqual(before);
+  const other = await f.owner();
+  expect((await s.service.status([other.token], first.id)).ok).toBe(false);
+  const text = JSON.stringify(value(await s.service.status([s.owner.token], first.id)));
+  expect(text).not.toContain(s.email);
+  expect(text).not.toContain(doc.links.share.key.digest);
+  expect(text).not.toContain('token');
+});
+
+it('returns no invented link for a legacy fixture snapshot and does not turn cancellation into link revocation', async () => {
+  const s = await setup(),
+    { links, ...legacy } = s.deps;
+  expect(links).toBeTruthy();
+  const service = createDeliveryServices(legacy),
+    created = value(await service.request([s.owner.token], uid('command'), s.input));
+  expect(value(await service.status([s.owner.token], created.id))).toMatchObject({
+    reportLink: null,
+  });
+  const current = await s.request();
+  expect(
+    value(await s.service.cancel([s.owner.token], current.id, current.revision)),
+  ).toMatchObject({ state: 'cancelled', reportLink: { state: 'active' } });
+});

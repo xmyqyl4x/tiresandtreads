@@ -75,6 +75,10 @@ export function createDeliveryServices(d: {
     demand(send, 'not_found');
     return { who, send };
   }
+  async function ownedDto(tx: Tx, keys: readonly KeyDigest[], id: Id<'send'>) {
+    const { who, send } = await owned(tx, keys, id);
+    return { ...dto(send), reportLink: await d.work.reportLink(tx, who, id) };
+  }
   return {
     async request(
       keys: readonly KeyDigest[],
@@ -193,14 +197,14 @@ export function createDeliveryServices(d: {
         });
         if (!result.ok) return result;
         return work(async (tx) =>
-          dto((await owned(tx, keys, result.value.resource_id as string as Id<'send'>)).send),
+          ownedDto(tx, keys, result.value.resource_id as string as Id<'send'>),
         );
       } catch (e) {
         return fail(serviceFailure(e));
       }
     },
     async status(keys: readonly KeyDigest[], id: Id<'send'>) {
-      return work(async (tx) => dto((await owned(tx, keys, id)).send));
+      return work(async (tx) => ownedDto(tx, keys, id));
     },
     async cancel(
       keys: readonly KeyDigest[],
@@ -213,13 +217,13 @@ export function createDeliveryServices(d: {
         const { who, send } = await owned(tx, keys, id);
         if (send.state === 'cancelled') {
           await d.work.invalidate(tx, id, reason === 'correct_address');
-          return dto(send);
+          return ownedDto(tx, keys, id);
         }
         const r = revision(expected);
         demand(r.ok);
         const cancelled = await d.delivery.cancel(tx, who, id, r.value);
         await d.work.invalidate(tx, id, reason === 'correct_address');
-        return dto(cancelled);
+        return ownedDto(tx, keys, cancelled.id);
       });
     },
     async dispatch(

@@ -4,7 +4,17 @@ import { resourceId, rightsKind } from './delivery-privacy-inputs.ts';
 const timestamp = z
   .string()
   .check(z.refine((v) => Number.isFinite(Date.parse(v)) && new Date(v).toISOString() === v));
+export const deliveryReportLinkView = z.strictObject({
+  id: resourceId,
+  reportId: resourceId,
+  version: z.number().check(z.int(), z.minimum(1), z.maximum(2147483647)),
+  comparisonRevision: z.nullable(z.string().check(z.regex(/^[1-9][0-9]{0,18}$/))),
+  expiresAt: timestamp,
+  state: z.enum(['active', 'revoked', 'expired', 'unavailable']),
+});
+export type DeliveryReportLinkView = z.infer<typeof deliveryReportLinkView>;
 export const deliveryView = z.strictObject({
+  reportLink: z.optional(z.nullable(deliveryReportLinkView)),
   id: resourceId,
   revision: z.string().check(z.regex(/^[1-9][0-9]{0,18}$/)),
   state: z.enum([

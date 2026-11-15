@@ -24,6 +24,7 @@ export function DeliveryScreen() {
     [receipt, setReceipt] = useState<DeliveryReceipt | null>(null),
     [previous, setPrevious] = useState<DeliveryView | null>(null),
     [busy, setBusy] = useState(false),
+    [revokeConfirmed, setRevokeConfirmed] = useState(false),
     [uncertain, setUncertain] = useState(false),
     [message, setMessage] = useState(''),
     [error, setError] = useState(''),
@@ -158,6 +159,39 @@ export function DeliveryScreen() {
       }
     });
   }
+  function revokeReportLink() {
+    if (
+      receipt?.kind !== 'delivery' ||
+      !receipt.view.reportLink ||
+      receipt.view.reportLink.state !== 'active' ||
+      !revokeConfirmed ||
+      busy ||
+      uncertain
+    )
+      return;
+    const current = structuredClone(receipt.view),
+      link = current.reportLink!;
+    void act(async () => {
+      await api.current!.revokeReportLink(link);
+      setReceipt((previous) =>
+        previous?.kind === 'delivery' &&
+        previous.view.id === current.id &&
+        previous.view.reportLink?.id === link.id
+          ? {
+              kind: 'delivery',
+              view: {
+                ...previous.view,
+                reportLink: { ...previous.view.reportLink, state: 'revoked' },
+              },
+            }
+          : previous,
+      );
+      setRevokeConfirmed(false);
+      setMessage(
+        'The recipient report link is revoked. Separate email preferences and your own report access are unchanged.',
+      );
+    });
+  }
   async function refresh() {
     if ((receipt?.kind !== 'delivery' && !restoreId) || working.current) return;
     working.current = true;
@@ -202,8 +236,8 @@ export function DeliveryScreen() {
         </p>
       ) : restoreId ? (
         <p>
-          Showing the saved request’s current status. This view does not disclose its recipient or
-          report binding.
+          Showing the saved request’s current status and report link. Recipient details stay
+          private.
         </p>
       ) : (
         <p>
@@ -363,6 +397,50 @@ export function DeliveryScreen() {
               Check current status
             </Button>
           </div>
+          {view.reportLink ? (
+            <section aria-labelledby="delivery-report-link-title">
+              <h3 id="delivery-report-link-title">Recipient report link</h3>
+              <p>
+                Report version {view.reportLink.version}
+                {view.reportLink.comparisonRevision
+                  ? ', comparison ' + view.reportLink.comparisonRevision
+                  : ''}
+                . Link status: {view.reportLink.state}.
+              </p>
+              <p>
+                Expires{' '}
+                <time dateTime={view.reportLink.expiresAt}>
+                  {new Date(view.reportLink.expiresAt).toUTCString()}
+                </time>
+                .
+              </p>
+              <p>
+                Revocation stops future use of this link and downloads authorized by it. It cannot
+                recall an email or erase copies already saved. Your own report access and separate
+                email preferences stay available.
+              </p>
+              {view.reportLink.state === 'active' ? (
+                <>
+                  <label className="choice">
+                    <input
+                      type="checkbox"
+                      checked={revokeConfirmed}
+                      disabled={busy || uncertain}
+                      onChange={(e) => setRevokeConfirmed(e.target.checked)}
+                    />{' '}
+                    I want to revoke this recipient report link.
+                  </label>
+                  <Button
+                    tone="danger"
+                    disabled={!revokeConfirmed || busy || uncertain}
+                    onClick={revokeReportLink}
+                  >
+                    Revoke recipient report link
+                  </Button>
+                </>
+              ) : null}
+            </section>
+          ) : null}
           <p className="hint">
             Address correction cancels the original request first. It never edits a queued recipient
             or creates a replacement automatically. A report cancellation does not revoke separate

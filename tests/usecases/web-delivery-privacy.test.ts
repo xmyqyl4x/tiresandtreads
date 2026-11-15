@@ -254,3 +254,50 @@ it('keeps capability actions cookie-free and bounded, with proofs only in the au
     expect(new Headers(call.options.headers).get('authorization')).toMatch(/^Bearer /);
   }
 });
+
+it('retries only the same authorized report-link DELETE after a lost receipt and validates its binding', async () => {
+  const link = {
+      id: uuid(71),
+      reportId: uuid(72),
+      version: 1,
+      comparisonRevision: null,
+      expiresAt: '2026-11-16T12:00:00.000Z',
+      state: 'active' as const,
+    },
+    calls: { url: string; options: RequestInit }[] = [];
+  let first = true;
+  const send: typeof fetch = async (u, o) => {
+    if (new URL(String(u)).pathname.endsWith('/sessions/current')) return reply({ csrf });
+    calls.push({ url: String(u), options: o! });
+    if (first) {
+      first = false;
+      throw Error('lost revocation receipt');
+    }
+    return reply({
+      schema_version: 1,
+      resource_id: link.id,
+      status: 'accepted',
+      report_id: link.reportId,
+    });
+  };
+  const c = deliveryPrivacyController(origin, send, () => uuid(9));
+  await expect(c.revokeReportLink(link)).rejects.toThrow();
+  await expect(c.revokeReportLink({ ...link, id: uuid(73) })).rejects.toThrow(/unconfirmed/);
+  expect(await c.revokeReportLink(link)).toMatchObject({ resource_id: link.id });
+  expect(calls).toHaveLength(2);
+  expect(calls[0]!.url).toBe(origin + '/api/v1/reports/' + link.reportId + '/shares/' + link.id);
+  expect(calls[0]!.options.method).toBe('DELETE');
+  expect(calls[0]!.options.credentials).toBe('same-origin');
+  expect(calls[0]!.options.body).toBe('{}');
+  expect(calls[1]!.options).toMatchObject({ headers: calls[0]!.options.headers });
+  expect(calls.every((x) => !!x.options.signal)).toBe(true);
+  const wrong = createDeliveryPrivacyClient(origin, async () =>
+    reply({
+      schema_version: 1,
+      resource_id: uuid(73),
+      status: 'accepted',
+      report_id: link.reportId,
+    }),
+  );
+  await expect(wrong.revokeReportLink(link, csrf, uuid(9))).rejects.toThrow(/binding/);
+});

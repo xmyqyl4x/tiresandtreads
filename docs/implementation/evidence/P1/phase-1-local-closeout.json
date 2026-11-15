@@ -268,8 +268,8 @@
       "card": "P1-PR-036",
       "title": "Build delivery, cancellation, preferences and privacy controls",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "implementation-complete-validation-in-progress",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/121"
     },
     {
       "card": "P1-PR-037",
@@ -323,7 +323,6 @@
   ],
   "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)",
   "remainingLocalInvestigations": [
-    "P1-PR-036: owner-facing metadata and revocation controls for a share created by report delivery",
     "P1-PR-039: private staff browser sign-in transport for the verified Clerk session realm"
   ]
 }

@@ -1,13 +1,12 @@
 import { beforeAll, afterAll, it, expect } from 'vitest';
-import { operationsApiFixture } from '../fixtures/http/operations-api.ts';
-import { emailControlRoutes } from '../fixtures/http/email-control-routes.ts';
+import { assessmentApiFixture } from '../fixtures/http/assessment-api.ts';
 import { deliveryPrivacyController } from '../../apps/web/src/delivery-privacy/controller.ts';
 import { createDeliveryPrivacyClient } from '../../packages/contracts/src/delivery-privacy-client.ts';
 import { uid } from '../fixtures/private/database.ts';
 import type { Id } from '../../packages/domain/src/values/core.ts';
-let f: Awaited<ReturnType<typeof operationsApiFixture>>;
+let f: Awaited<ReturnType<typeof assessmentApiFixture>>;
 beforeAll(async () => {
-  f = await operationsApiFixture(emailControlRoutes);
+  f = await assessmentApiFixture();
 }, 45000);
 afterAll(async () => {
   await f?.cleanup();
@@ -261,4 +260,45 @@ it('requires the synthetic inbox delivery record and an explicit POST before ver
   });
   expect(f.providerCalls()).toBe(0);
   expect(a.who.csrf).toBeTruthy();
+});
+
+it('revokes the captured delivery link through the existing owner API and preserves separate preferences', async () => {
+  const a = await seed(),
+    created = await a.controller.submit({
+      kind: 'delivery',
+      input: body(a.id, uid('address') + '@example.invalid', true),
+    });
+  if (created.kind !== 'delivery' || !created.view.reportLink)
+    throw Error('Missing owned report link');
+  const link = created.view.reportLink;
+  expect(link).toMatchObject({ reportId: a.id, version: 1, state: 'active' });
+  expect(JSON.stringify(created.view)).not.toMatch(/keyVersion|digest|email|token/);
+  const before = (
+    await f.db.admin.query(
+      'SELECT id,invalidated_at,used_at FROM privacy.verification_challenges WHERE id IN (SELECT verification_id FROM email.delivery_snapshots WHERE send_id=$1 UNION ALL SELECT offers_verification_id FROM email.delivery_snapshots WHERE send_id=$1) ORDER BY id',
+      [created.view.id],
+    )
+  ).rows;
+  const other = await f.session(),
+    foreign = createDeliveryPrivacyClient(f.server.origin, transport(other));
+  await expect(foreign.revokeReportLink(link, other.csrf, key())).rejects.toMatchObject({
+    code: 'not_found',
+  });
+  const replayKey = key(),
+    replay = await a.client.revokeReportLink(link, a.who.csrf, replayKey);
+  expect(await a.client.revokeReportLink(link, a.who.csrf, replayKey)).toEqual(replay);
+  expect((await a.client.delivery(created.view.id)).reportLink).toMatchObject({
+    id: link.id,
+    state: 'revoked',
+  });
+  expect(
+    (
+      await f.db.admin.query(
+        'SELECT id,invalidated_at,used_at FROM privacy.verification_challenges WHERE id IN (SELECT verification_id FROM email.delivery_snapshots WHERE send_id=$1 UNION ALL SELECT offers_verification_id FROM email.delivery_snapshots WHERE send_id=$1) ORDER BY id',
+        [created.view.id],
+      )
+    ).rows,
+  ).toEqual(before);
+  expect((await f.call('/reports/' + a.id, a.who)).status).toBe(200);
+  expect(f.providerCalls()).toBe(0);
 });
