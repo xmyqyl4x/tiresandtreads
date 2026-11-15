@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "recordedOn": "2026-11-15",
   "scope": "local P1-PR-036 owner delivery report-link metadata and explicit revocation",
-  "baselineSource": "00c784d",
+  "baselineSource": "4eb4297",
   "expectedPullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/121",
   "focusedTestsPassed": 79,
   "suiteCounts": {
@@ -111,7 +111,8 @@
         "sha256": "75894ffe9f4b76c526bd556bbdcc8af031fe1a94d03c417919057d274306a333"
       }
     ],
-    "sourceNote": "Screenshots capture the behavior before the shared-request deduplication and restored-view copy clarification. Final request contracts and focused regression are rerun on the final source."
+    "sourceNote": "Screenshots capture the behavior before the shared-request deduplication and restored-view copy clarification. Final request contracts and focused regression are rerun on the final source.",
+    "implementationParentSource": "00c784d"
   },
   "completePublicJavaScriptGzipBytes": 119918,
   "unchangedBudgetBytes": 120000,
