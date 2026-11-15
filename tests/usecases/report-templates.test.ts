@@ -31,6 +31,22 @@ function renderer(context = templateContext()) {
     context: () => context,
   });
 }
+function headings(pdf: PDFDocument) {
+  const result: { role: string; page: string }[] = [];
+  function visit(node: PDFDict) {
+    const role = node.get(PDFName.of('S'))?.toString();
+    if (role && ['/H1', '/H2', '/H3'].includes(role))
+      result.push({ role, page: node.get(PDFName.of('Pg'))!.toString() });
+    const children = node.lookupMaybe(PDFName.of('K'), PDFArray);
+    if (children)
+      for (let i = 0; i < children.size(); i++) {
+        const child = pdf.context.lookup(children.get(i));
+        if (child instanceof PDFDict) visit(child);
+      }
+  }
+  visit(pdf.catalog.lookup(PDFName.of('StructTreeRoot'), PDFDict));
+  return result;
+}
 it('creates a real readable PDF with a fixed document date and safe public annotations', async () => {
   const out = await renderer().render(templateDocument());
   expect(out.fixture).toBe(true);
@@ -42,17 +58,38 @@ it('creates a real readable PDF with a fixed document date and safe public annot
   expect(pdf.getCreationDate()!.toISOString()).toBe('2026-11-03T12:00:00.000Z');
   expect(pdf.getTitle()).toBe('Your tire assessment');
   expect(pdf.catalog.get(PDFName.of('Lang'))?.toString()).toContain('en-US');
-  expect(pdf.catalog.get(PDFName.of('StructTreeRoot'))).toBeUndefined(); // No PDF/UA claim.
+  const root = pdf.catalog.lookup(PDFName.of('StructTreeRoot'), PDFDict);
+  expect(root.get(PDFName.of('Type'))?.toString()).toBe('/StructTreeRoot');
+  expect(
+    pdf.catalog.lookup(PDFName.of('MarkInfo'), PDFDict).get(PDFName.of('Marked'))?.toString(),
+  ).toBe('true');
+  const roles: string[] = [];
+  function visit(node: PDFDict) {
+    const role = node.get(PDFName.of('S'))?.toString();
+    if (role) roles.push(role);
+    const children = node.lookupMaybe(PDFName.of('K'), PDFArray);
+    if (children)
+      for (let i = 0; i < children.size(); i++) {
+        const child = pdf.context.lookup(children.get(i));
+        if (child instanceof PDFDict) visit(child);
+      }
+  }
+  visit(root);
+  expect(roles).toEqual(expect.arrayContaining(['/Document', '/H1', '/H2', '/H3', '/P', '/Link']));
   const links: string[] = [];
   for (const page of pdf.getPages()) {
     expect(page.getWidth()).toBe(612);
     expect(page.getHeight()).toBe(792);
+    expect(page.node.get(PDFName.of('Tabs'))?.toString()).toBe('/S');
     const annotations = page.node.lookupMaybe(PDFName.of('Annots'), PDFArray);
     if (annotations)
       for (let i = 0; i < annotations.size(); i++) {
         const a = annotations.lookup(i, PDFDict),
           action = a.lookupMaybe(PDFName.of('A'), PDFDict);
-        if (action?.get(PDFName.of('URI'))) links.push(action.get(PDFName.of('URI'))!.toString());
+        if (action?.get(PDFName.of('URI'))) {
+          expect(a.get(PDFName.of('StructParent'))).toBeDefined();
+          links.push(action.get(PDFName.of('URI'))!.toString());
+        }
       }
   }
   expect(links.length).toBeGreaterThan(0);
@@ -104,6 +141,10 @@ it('keeps long labels, extreme exact USD ranges, missing data and a four-item co
   const pdf = await PDFDocument.load(Buffer.from(out.pdf, 'base64'));
   expect(pdf.getPageCount()).toBeGreaterThan(1);
   expect(pdf.getPageCount()).toBeLessThan(12);
+  const order = headings(pdf),
+    comparison = order.map((h, i) => ({ ...h, i })).filter((h) => h.role === '/H2')[1]!;
+  expect(order[comparison.i + 1]!.role).toBe('/H3');
+  expect(order[comparison.i + 1]!.page).toBe(comparison.page);
   expect(out.html).not.toMatch(/<img|<script|<iframe|@import/i);
 }, 30000);
 

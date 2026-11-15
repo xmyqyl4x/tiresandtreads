@@ -114,12 +114,24 @@ export function reconcileProductPins(root, rawPins) {
       path: p.path,
       sha256: ciOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
     }));
+  const afterCi = mergeReviewedPins(afterApi, ciResult, ciOverlay),
+    pdfOverlay = taggedPdfDependencyPins.filter((e) => present.has(e.path)),
+    pdfResult = afterCi.map((p) => ({
+      path: p.path,
+      sha256: pdfOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(afterApi, ciResult, ciOverlay),
+    pins: mergeReviewedPins(afterCi, pdfResult, pdfOverlay),
     exceptions: new Set(
-      [...entries, ...overlay, ...staffOverlay, ...photoOverlay, ...apiOverlay, ...ciOverlay].map(
-        (e) => e.path,
-      ),
+      [
+        ...entries,
+        ...overlay,
+        ...staffOverlay,
+        ...photoOverlay,
+        ...apiOverlay,
+        ...ciOverlay,
+        ...pdfOverlay,
+      ].map((e) => e.path),
     ).size,
   };
 }
@@ -169,3 +181,14 @@ export const ciValidationPins = Object.freeze(
     },
   ].map((p) => Object.freeze(p)),
 );
+
+// Only declare the already locked PDF engine directly; historical receipts remain immutable.
+export const taggedPdfDependencyPins = Object.freeze([
+  Object.freeze({
+    path: 'pnpm-lock.yaml',
+    baselineSha256: 'd0ed0cf9f1b6469150d1ae0a7eb4527bc37d2000327613d69262fc03c6cba97a',
+    currentSha256: '1e77eeb8f15001290c3abbc1f210991b8c76a8372924b7f4a6d5c6ce9e906b06',
+    reason:
+      'Declare the existing pinned PDFKit0.20.1 engine for structured document generation without changing package resolutions, historical execution or acceptance holds.',
+  }),
+]);

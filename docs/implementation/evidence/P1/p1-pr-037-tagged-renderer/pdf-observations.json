@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-15",
+  "scope": "local synthetic tagged PDF evidence",
+  "records": [
+    {
+      "name": "normal",
+      "pages": 2,
+      "sha256": "167a2773900d71ede3b1a3f4b8a7a84b6264b19f3a8e8f7b52a345b93712c4d2",
+      "tagged": true,
+      "structureRoles": [
+        "/Document",
+        "/H1",
+        "/H2",
+        "/H3",
+        "/Link",
+        "/P"
+      ],
+      "structuredLinks": 2,
+      "textWithinPageBounds": true,
+      "publicLinksOnly": true,
+      "visualReview": "all final pages rasterized with Poppler and visually inspected; no clipping, overlap or missing glyphs observed"
+    },
+    {
+      "name": "missing",
+      "pages": 2,
+      "sha256": "14f047457388daebe197ab416e519eee0f51420370e16a8305753731e9011522",
+      "tagged": true,
+      "structureRoles": [
+        "/Document",
+        "/H1",
+        "/H2",
+        "/H3",
+        "/Link",
+        "/P"
+      ],
+      "structuredLinks": 1,
+      "textWithinPageBounds": true,
+      "publicLinksOnly": true,
+      "visualReview": "all final pages rasterized with Poppler and visually inspected; no clipping, overlap or missing glyphs observed"
+    },
+    {
+      "name": "long-comparison",
+      "pages": 4,
+      "sha256": "b436738ba4734142e01f28630a56615f073129b50a33905ccf0282850ac5cfd4",
+      "tagged": true,
+      "structureRoles": [
+        "/Document",
+        "/H1",
+        "/H2",
+        "/H3",
+        "/Link",
+        "/P"
+      ],
+      "structuredLinks": 2,
+      "textWithinPageBounds": true,
+      "publicLinksOnly": true,
+      "visualReview": "all final pages rasterized with Poppler and visually inspected; no clipping, overlap or missing glyphs observed"
+    }
+  ],
+  "actualRecipientNotifications": 0,
+  "actualInboxClientAcceptance": false,
+  "actualAssistiveTechnologyAcceptance": false,
+  "pdfUaComplianceClaimed": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
