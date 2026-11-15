@@ -14,7 +14,12 @@ globalThis.fetch = async (input, init) => {
     return nativeFetch(input, init);
   throw Error('External I/O prohibited in local rendering');
 };
-const output = 'docs/implementation/evidence/P1/p1-pr-037-renderer';
+const args = process.argv.slice(2);
+if (args.length > 1 || (args.length === 1 && args[0] !== '--tagged-local-closeout'))
+  throw Error('Unsupported sample scope');
+const output = args.length
+  ? 'docs/implementation/evidence/P1/p1-pr-037-tagged-renderer'
+  : 'docs/implementation/evidence/P1/p1-pr-037-renderer';
 const preview = '.local/report-template-preview';
 mkdirSync(output, { recursive: true });
 mkdirSync(preview, { recursive: true });

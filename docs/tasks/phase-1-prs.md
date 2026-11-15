@@ -750,11 +750,12 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 - [x] Implement HTML/text email and PDF from frozen presentation DTOs, with required disclosure and education links.
 - [x] Add long-label, missing-data, currency/quantity and private-link layout handling.
-- [ ] Test supported email clients, images-off/dark mode and PDF reading order/page boundaries; retain accessible HTML equivalent.
+- [x] Implement and validate local browser images-off/dark-mode controls, tagged PDF reading structure/page boundaries and the accessible HTML/text equivalent.
+- [ ] Obtain actual Gmail/Apple Mail/Outlook/Yahoo and assistive-technology review evidence under separately permitted client acceptance.
 
 **Verification and acceptance:** Real renderer/client evidence replaces S4 fixtures; <100KB email target and immutable report/send identity pass.
 
-**Local implementation:** [Email/PDF template record](../implementation/P1-PR-037-local-email-pdf-templates.md). Local browser/PDF evidence is complete; actual inbox-client and assistive-technology acceptance remains pending. These checks do not close S3/S4/G3 or activate delivery.
+**Local implementation:** [Email/PDF template record](../implementation/P1-PR-037-local-email-pdf-templates.md) and [November 15 context-isolation/tagging completion](../implementation/P1-PR-037-local-closeout.md). Local browser/PDF evidence is complete; actual inbox-client and assistive-technology acceptance remains pending. These checks do not close S3/S4/G3 or activate delivery.
 
 ### P1-PR-038
 

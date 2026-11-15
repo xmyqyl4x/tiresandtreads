@@ -128,7 +128,7 @@
       "card": "P1-PR-016",
       "title": "Integrate NHTSA and licensed domain source adapters",
       "baselineStatus": "In progress",
-      "localCloseout": "implementation-complete-validation-in-progress",
+      "localCloseout": "local-engineering-validated-licensed-pending",
       "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/117"
     },
     {
@@ -275,8 +275,8 @@
       "card": "P1-PR-037",
       "title": "Implement production email and PDF templates",
       "baselineStatus": "Locally implemented; inbox/PDF accessibility acceptance pending",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "implementation-complete-validation-in-progress",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/118"
     },
     {
       "card": "P1-PR-038",
@@ -320,5 +320,6 @@
       "localCloseout": "queued",
       "cyclePr": null
     }
-  ]
+  ],
+  "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)"
 }

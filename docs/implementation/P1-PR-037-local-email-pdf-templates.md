@@ -4,6 +4,10 @@
 
 The owner continuation authorizes completing PR81/P1-PR-036 (already merged) and implementing, testing and merging the next card, P1-PR-037. This implements templates locally under the existing product-development exception. All six actual S3 gates retain pending status and empty records. S3/G0/S4/G3, hosted/live release and deployment acceptance remain held; HS01-HS08 remain proposed, operator/coverage/rates unconfirmed and specialist/licensed work pending. No provisioning, purchases or actual recipient notifications occur. Production bootstrap/CLI/preflight/admission policy, schema and privileges are unchanged; no original design case or gate closes.
 
+## Current local completion, November 15
+
+The [context-isolation and tagged-PDF completion](P1-PR-037-local-closeout.md) supersedes this record's original untagged-renderer limitation. The original sample files and execution receipts below remain historical. Actual client and assistive-technology acceptance remains pending.
+
 ## Frozen presentation and common layers
 
 `createReportTemplateRenderer` implements the existing application renderer port with the approved React Email HTML/text utility and React PDF renderer. The S3/S4 technical fixture remains unchanged and remains selected by existing composition. This factory does not activate a mail provider or choose production composition. The caller injects the reviewed installed-template artifact hash, profile, licensed embedded font bytes and already-frozen authorized link context. It must capture that context durably with the request and must not mint/extend grants or query current/latest report data during rendering. Context shape, report/version/revision binding and expiry checks are not independent authentication or custody proofs; actual capture/handoff remains an acceptance input.
