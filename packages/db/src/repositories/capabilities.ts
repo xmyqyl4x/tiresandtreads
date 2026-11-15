@@ -91,11 +91,24 @@ export function createCapabilityRepository(scope: WriteScope): CapabilityReposit
       let session = null,
         subject = null,
         capability = null,
-        binding = null;
+        binding = null,
+        viewScope: string = i.scope;
       if ('owner' in authority) {
         await reportGuard(scope, tx, authority.owner, i.reportId);
         session = authority.owner.sessionId;
         subject = authority.owner.subjectId;
+        // Owners may download their safe shared-format PDF as well as an owner-format copy.
+        // The grant still binds the owner session, and the asset's actual view remains the FK.
+        const asset = (
+          await q(
+            tx,
+            'SELECT view_scope FROM app.report_assets WHERE asset_id=$1 AND report_id=$2 AND report_version=$3',
+            [i.assetId, i.reportId, i.version],
+          )
+        ).rows[0];
+        if (!asset || (i.scope === 'shared' && asset.view_scope !== 'shared'))
+          return stop('forbidden');
+        viewScope = text(asset.view_scope);
       } else {
         const share = await repo.resolveShare(tx, authority.shareKeys);
         if (
@@ -129,7 +142,7 @@ export function createCapabilityRepository(scope: WriteScope): CapabilityReposit
           i.assetId,
           i.reportId,
           i.version,
-          i.scope,
+          viewScope,
           session,
           subject,
           capability,

@@ -2,8 +2,10 @@ import type { Id, Instant, Revision } from '../../../domain/src/values/index.ts'
 import type { FixedMail } from '../../../domain/src/delivery-policy.ts';
 import type { TransactionContext as Tx } from './transactions.ts';
 import type { Contact, Owner, Send, Version } from './private-records.ts';
+import type { CapturedDeliveryLinks } from './delivery-links.ts';
 import type { JsonObject } from './catalog-records.ts';
 export interface DeliveryDocument {
+  readonly links?: CapturedDeliveryLinks;
   readonly schemaVersion: 1;
   readonly fixture: boolean;
   readonly locale: string;

@@ -120,8 +120,14 @@ export function reconcileProductPins(root, rawPins) {
       path: p.path,
       sha256: pdfOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
     }));
+  const afterPdf = mergeReviewedPins(afterCi, pdfResult, pdfOverlay),
+    deliveryOverlay = deliveryContextSourcePins.filter((e) => present.has(e.path)),
+    deliveryResult = afterPdf.map((p) => ({
+      path: p.path,
+      sha256: deliveryOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(afterCi, pdfResult, pdfOverlay),
+    pins: mergeReviewedPins(afterPdf, deliveryResult, deliveryOverlay),
     exceptions: new Set(
       [
         ...entries,
@@ -131,6 +137,7 @@ export function reconcileProductPins(root, rawPins) {
         ...apiOverlay,
         ...ciOverlay,
         ...pdfOverlay,
+        ...deliveryOverlay,
       ].map((e) => e.path),
     ).size,
   };
@@ -190,5 +197,16 @@ export const taggedPdfDependencyPins = Object.freeze([
     currentSha256: '1e77eeb8f15001290c3abbc1f210991b8c76a8372924b7f4a6d5c6ce9e906b06',
     reason:
       'Declare the existing pinned PDFKit0.20.1 engine for structured document generation without changing package resolutions, historical execution or acceptance holds.',
+  }),
+]);
+
+// Inventory one additional local delivery helper; acceptance records and old receipts stay immutable.
+export const deliveryContextSourcePins = Object.freeze([
+  Object.freeze({
+    path: 'docs/implementation/evidence/P1/s3-service-register.json',
+    baselineSha256: '86faa356413a522cb76746b75e40d7b8a9c6722aabefbb3aefe584988f7642a1',
+    currentSha256: '89da2e1a8938686b80ff2736c1f7c904a8d1dc57914052196100fbf48ae5596e',
+    reason:
+      'Inventory the local per-send delivery context helper and its unit controls under P1-PR-022. All six actual gate records/statuses and historical receipts remain unchanged.',
   }),
 ]);

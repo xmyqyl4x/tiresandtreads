@@ -75,7 +75,7 @@ export function createReportAccessRepository(scope: WriteScope): ReportAccessRep
       const rows = (
         await scope.query(
           tx,
-          `SELECT ra.asset_id FROM app.report_assets ra JOIN app.object_assets a ON a.id=ra.asset_id WHERE ra.report_id=$1 AND ra.report_version=$2 AND ra.view_scope=$3 AND ra.comparison_revision IS NOT DISTINCT FROM $4::bigint AND a.purpose='report_pdf' AND a.mime_type='application/pdf' AND a.state='ready' AND (a.expires_at IS NULL OR a.expires_at>clock_timestamp()) AND a.size_bytes<=10485760 ORDER BY ra.created_at DESC,ra.asset_id LIMIT 20`,
+          `SELECT ra.asset_id FROM app.report_assets ra JOIN app.object_assets a ON a.id=ra.asset_id WHERE ra.report_id=$1 AND ra.report_version=$2 AND (ra.view_scope=$3 OR ($3='owner' AND ra.view_scope='shared')) AND ra.comparison_revision IS NOT DISTINCT FROM $4::bigint AND a.purpose='report_pdf' AND a.mime_type='application/pdf' AND a.state='ready' AND (a.expires_at IS NULL OR a.expires_at>clock_timestamp()) AND a.size_bytes<=10485760 ORDER BY ra.created_at DESC,ra.asset_id LIMIT 20`,
           [reportId, version, view, comparison?.toString() ?? null],
         )
       ).rows;
