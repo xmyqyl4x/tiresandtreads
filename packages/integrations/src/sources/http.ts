@@ -54,7 +54,8 @@ export function createSourceHttp(
         throw Error('Source validators');
       if (response.status === 304) {
         await response.body?.cancel();
-        if (!previous) throw Error('Unbased not-modified');
+        if (!previous || (!headers['If-None-Match'] && !headers['If-Modified-Since']))
+          throw Error('Unbased not-modified');
         return {
           modified: false as const,
           validators: {

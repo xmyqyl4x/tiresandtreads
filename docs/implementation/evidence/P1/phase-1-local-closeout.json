@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-15",
+  "authority": "Explicit owner direction in the implementation conversation",
+  "instruction": "Let's close out any pending tasks that are not related to live release on 1 — Assessment, reports and site operations. Each card should be implemented fully as its own cycle, tested and merged into main.",
+  "scope": "Local implementation, validation, review and merge for each Phase 1 card; this does not equate a local result with external acceptance or live release.",
+  "baselineMain": "9baa12bf93d8fd95debdb4e7fce4eb9a9f1d5be5",
+  "phasesAuthorized": [
+    1
+  ],
+  "localImplementationAllowed": true,
+  "mergeAfterValidationAllowed": true,
+  "publicActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualRecipientNotifications": false,
+  "specialistLicensed": "pending",
+  "hostingDecisions": "HS01-HS08 proposed",
+  "operatorsCoverageRates": "unconfirmed",
+  "S3Accepted": false,
+  "cards": [
+    {
+      "card": "P1-PR-001",
+      "title": "Lock Phase 1 scope, data rights and launch coverage",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-002",
+      "title": "Bootstrap headless workspace and TDD tooling",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-003",
+      "title": "Prove local foundation and track provider gates",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-004",
+      "title": "Create database ownership, identity and asset foundations",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-005",
+      "title": "Create domain, catalog, reference and import schemas",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-006",
+      "title": "Create report, consent, delivery and reliability schemas",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-007",
+      "title": "Create CMS, SEO, ads, analytics and quota schemas",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-008",
+      "title": "Close database gate with migration and recovery evidence",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-009",
+      "title": "Define domain entities, value objects and repository contracts",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-010",
+      "title": "Implement catalog and ingestion repositories",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-011",
+      "title": "Implement owner, report, privacy and delivery repositories",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-012",
+      "title": "Implement content, operations, analytics and limiter adapters",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-013",
+      "title": "Close entities and data-access gate",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-014",
+      "title": "Implement durable jobs, private assets and runtime composition",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-015",
+      "title": "Implement script-first ingestion and publication services",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-016",
+      "title": "Integrate NHTSA and licensed domain source adapters",
+      "baselineStatus": "In progress",
+      "localCloseout": "implementation-complete-validation-in-progress",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/117"
+    },
+    {
+      "card": "P1-PR-017",
+      "title": "Implement deterministic eligibility and recommendation rules",
+      "baselineStatus": "In progress",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-018",
+      "title": "Implement prices, installed costs and comparison mathematics",
+      "baselineStatus": "In progress",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-019",
+      "title": "Implement report, refine, compare and access services",
+      "baselineStatus": "In progress",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-020",
+      "title": "Implement contact, consent and suppression services",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-021",
+      "title": "Implement content, public tools and SEO publication services",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-022",
+      "title": "Implement report delivery orchestration and cancellation",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-023",
+      "title": "Implement webhooks, preferences, feedback and safe redirects",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-024",
+      "title": "Implement PostgreSQL analytics, SQL limits and operations",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-025",
+      "title": "Implement privacy rights, retention and recovery services",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-026",
+      "title": "Implement staff, affiliate, advertising and revenue services",
+      "baselineStatus": "Accepted",
+      "localCloseout": "previously-accepted",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-027",
+      "title": "Close business-service gate and engine safety review",
+      "baselineStatus": "In progress",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-028",
+      "title": "Expose public lookup and owner assessment APIs",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-029",
+      "title": "Expose consent, privacy, import and staff operations APIs",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-030",
+      "title": "Expose provider callbacks, event intake and workflow endpoints",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-031",
+      "title": "Accept the complete Phase 1 API before frontend work",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-032",
+      "title": "Build accessible web shell and design system",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-033",
+      "title": "Build assessment form and reference lookups",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-034",
+      "title": "Build results, explanation and refinement views",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-035",
+      "title": "Build comparison, shop-quote and sharing views",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-036",
+      "title": "Build delivery, cancellation, preferences and privacy controls",
+      "baselineStatus": "Locally implemented",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-037",
+      "title": "Implement production email and PDF templates",
+      "baselineStatus": "Locally implemented; inbox/PDF accessibility acceptance pending",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-038",
+      "title": "Build editorial CMS and reviewed education website",
+      "baselineStatus": "Locally implemented; editorial acceptance pending",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-039",
+      "title": "Build staff operations, SEO and ad-revenue screens",
+      "baselineStatus": "Local implementation; acceptance held",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-040",
+      "title": "Build permitted affiliate and advertising placements",
+      "baselineStatus": "Locally implemented; live commercial acceptance held",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-041",
+      "title": "Verify the full web product and accessibility journeys",
+      "baselineStatus": "Locally validated; actual experience acceptance pending",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-042",
+      "title": "Prove production security, capacity and recovery",
+      "baselineStatus": "Locally validated; production acceptance pending",
+      "localCloseout": "queued",
+      "cyclePr": null
+    },
+    {
+      "card": "P1-PR-043",
+      "title": "Release Phase 1 and record the usable live outcome",
+      "baselineStatus": "Local preparation; live release held",
+      "localCloseout": "queued",
+      "cyclePr": null
+    }
+  ]
+}
