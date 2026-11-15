@@ -234,7 +234,7 @@ it('exposes a redacted comparison through a share and refuses revoked and expire
 it('discovers and downloads existing private PDFs through real owner/shared grants and refuses cross-scope and revoked access', async () => {
   const { owner, id } = await seed('SYNTHETIC_PDF'),
     own = (await (await f.call('/reports/' + id, owner)).json()).data;
-  expect(own.pdfs).toHaveLength(1);
+  expect(own.pdfs).toHaveLength(2);
   const cap = (
       await (
         await f.call(
@@ -247,13 +247,17 @@ it('discovers and downloads existing private PDFs through real owner/shared gran
     ).data,
     view = (await (await shared(cap.token)).json()).data;
   expect(view.pdfs).toHaveLength(1);
-  expect(view.pdfs[0].assetId).not.toBe(own.pdfs[0].assetId);
+  expect(own.pdfs).toEqual(expect.arrayContaining(view.pdfs));
+  const ownerOnly = own.pdfs.find(
+    (asset: { assetId: string }) => asset.assetId !== view.pdfs[0].assetId,
+  )!;
+  expect(ownerOnly).toBeDefined();
   const ownerGrant = (
     await (
       await f.call(
         '/reports/' + id + '/pdf',
         owner,
-        { version: 1, assetId: own.pdfs[0].assetId },
+        { version: 1, assetId: ownerOnly.assetId },
         command(),
       )
     ).json()
@@ -283,7 +287,7 @@ it('discovers and downloads existing private PDFs through real owner/shared gran
       origin: f.server.origin,
       'idempotency-key': command(),
     },
-    body: JSON.stringify({ assetId: own.pdfs[0].assetId }),
+    body: JSON.stringify({ assetId: ownerOnly.assetId }),
   });
   expect(wrong.status).not.toBe(200);
   expect(
@@ -291,7 +295,7 @@ it('discovers and downloads existing private PDFs through real owner/shared gran
       await f.call(
         '/reports/' + id + '/pdf',
         await f.session(),
-        { version: 1, assetId: own.pdfs[0].assetId },
+        { version: 1, assetId: ownerOnly.assetId },
         command(),
       )
     ).status,
@@ -327,7 +331,9 @@ it('does not advertise a report-only PDF for a comparison-bound share or a quara
   await f.db.admin.query("UPDATE app.object_assets SET state='quarantined' WHERE id=$1", [
     own.pdfs[0].assetId,
   ]);
-  expect((await (await f.call('/reports/' + id, owner)).json()).data.pdfs).toEqual([]);
+  expect((await (await f.call('/reports/' + id, owner)).json()).data.pdfs).toEqual(
+    own.pdfs.filter((asset: { assetId: string }) => asset.assetId !== own.pdfs[0].assetId),
+  );
   expect(
     (
       await f.call(

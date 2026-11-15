@@ -48,5 +48,7 @@
   "casesClosed": 0,
   "gatesClosed": 0,
   "additionalExistingPermissionTestsPassed": 31,
-  "focusedTestExecutions": 96
+  "focusedTestExecutions": 96,
+  "comparisonRegressionTestsPassed": 5,
+  "comparisonRegressionCorrection": "Owners now discover both permitted PDF formats; existing comparison controls select the owner-only asset for shared denial and retain healthy copies after another copy is quarantined. Revocation, foreign-owner, comparison binding and quarantine download refusals remain enforced."
 }
