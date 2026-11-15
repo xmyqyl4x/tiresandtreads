@@ -17,3 +17,4 @@ export const ciValidationPins: typeof photoDependencyPins;
 export const taggedPdfDependencyPins: typeof photoDependencyPins;
 export const deliveryContextSourcePins: typeof photoDependencyPins;
 export const clerkDependencyPins: typeof photoDependencyPins;
+export const testMemorySourcePins: typeof photoDependencyPins;
