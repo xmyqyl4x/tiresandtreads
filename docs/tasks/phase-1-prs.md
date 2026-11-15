@@ -312,11 +312,15 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Trace:** CAP-04, UC01, UC13, AT17, AT21, DB21. Exact FR/CORE/NFR rows are selected through the [requirements matrix](../05-requirements-traceability.md) at readiness; this grouping does not automatically complete every requirement in a work package.
 
-- [ ] Implement official vehicle/manufacturer/plant/recall and selected licensed catalog/fitment/price/climate connectors.
-- [ ] Normalize units, retain unresolved recall targets, validate source schemas and reviewed cross-source mappings.
+- [x] Implement official vehicle/model, manufacturer, plant and tire-recall connectors with bounded normalization and refresh.
+- [ ] Implement the selected licensed catalog/fitment/price/climate connectors after actual contracts and permitted fixtures exist (external source prerequisite; still pending).
+- [x] Retain unresolved recall targets and validate the implemented official source schemas and explicit identity/date/count meanings.
+- [ ] Normalize source-specific licensed units and accept reviewed cross-source mappings after the selected source contracts exist (external source/reviewer prerequisite; still pending).
 - [x] Schedule bounded refresh/reconciliation, record no-change success and alert on coverage/freshness/rights failures.
 
 **Verification and acceptance:** DD01/DD02 rights and source contracts resolved for each accepted connector; recorded source-contract fixtures and permitted live compatibility checks. vPIC identity never asserts fitment; stale recall issuance is blocked. Synthetic tests cannot accept an unselected licensed connector. [Implementation](../implementation/P1-PR-016-domain-source-adapters.md) records the NHTSA/shared-infrastructure work, read-only compatibility observations and open acceptance gates. PR #16 was owner-approved and merged at `a774e1f`; the owner authorized 017 while retaining the licensed-adapter deferral. The card remains in progress: licensed providers/contracts, public-source rights review and the future issuance-service integration are not accepted by synthetic tests or this PR. The owner directed that licensed adapters remain pending while the NHTSA/shared portion proceeds; [validation](../implementation/evidence/P1/p1-pr-016-validation.md) records the completed checks for that portion.
+
+**November 15 local completion cycle:** [Adapter hardening and task disposition](../implementation/P1-PR-016-local-closeout.md) separates completed official-source engineering from provider-specific licensed work that still requires contracts. Original acceptance remains pending.
 
 ### P1-PR-017
 
