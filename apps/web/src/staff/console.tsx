@@ -1,3 +1,7 @@
+import {
+  isStaffCredential,
+  maxStaffCredentialLength,
+} from '../../../../packages/contracts/src/staff-session.ts';
 import { useRef, useState, type FormEvent } from 'react';
 import { createStaffConsoleClient } from '../../../../packages/contracts/src/staff-console-client.ts';
 import { staffCommandFailure as failure } from '../../../../packages/contracts/src/staff-command.ts';
@@ -138,7 +142,7 @@ export function StaffConsole() {
     event.preventDefault();
     await work(async (valid) => {
       const token = credential;
-      if (!/^[A-Za-z0-9_-]{43}$/.test(token)) throw { code: 'invalid_input', retryable: false };
+      if (!isStaffCredential(token)) throw { code: 'invalid_input', retryable: false };
       const value = await client({ bearer: token, csrf: '' }).session();
       if (session && session.staffId !== value.staffId)
         throw { code: 'forbidden', retryable: false };
@@ -326,7 +330,7 @@ export function StaffConsole() {
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
                 required
-                maxLength={43}
+                maxLength={maxStaffCredentialLength}
               />
             </label>
             <button disabled={busy}>Connect</button>
@@ -352,13 +356,14 @@ export function StaffConsole() {
                     value={credential}
                     onChange={(e) => setCredential(e.target.value)}
                     required
-                    maxLength={43}
+                    maxLength={maxStaffCredentialLength}
                   />
                 </label>
                 <button disabled={busy}>Renew same staff session</button>
                 <p>
-                  Obtain recent MFA through the existing local issuer. Renewal must identify the
-                  same staff member and preserves any unresolved command.
+                  Obtain a current session credential with recent MFA through the configured
+                  identity provider or the explicit synthetic fixture issuer. Renewal must identify
+                  the same staff member and preserves any unresolved command.
                 </p>
               </form>
             </details>
@@ -530,7 +535,7 @@ export function StaffConsole() {
                         autoComplete="off"
                         value={reviewer}
                         onChange={(e) => setReviewer(e.target.value)}
-                        maxLength={43}
+                        maxLength={maxStaffCredentialLength}
                       />
                     </label>
                     <label>
@@ -542,7 +547,7 @@ export function StaffConsole() {
                       The reviewer approved this exact policy and current version.
                     </label>
                     <button
-                      disabled={!preview || !confirmed || !/^[A-Za-z0-9_-]{43}$/.test(reviewer)}
+                      disabled={!preview || !confirmed || !isStaffCredential(reviewer)}
                       onClick={() => {
                         if (preview)
                           void send({
@@ -574,7 +579,7 @@ export function StaffConsole() {
                           autoComplete="off"
                           value={reviewer}
                           onChange={(e) => setReviewer(e.target.value)}
-                          maxLength={43}
+                          maxLength={maxStaffCredentialLength}
                         />
                       </label>
                       <button

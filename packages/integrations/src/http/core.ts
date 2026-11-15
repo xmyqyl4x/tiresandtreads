@@ -44,16 +44,7 @@ export function authenticateStaffRequest(
     ? security.authenticateStaff(request)
     : security.authenticate(request);
 }
-// Transport syntax only. Authority always comes from the selected verifier and current services.
-export function isStaffAuthorization(value: unknown): value is string {
-  if (typeof value !== 'string' || value.length > 8192 || !value.startsWith('Bearer '))
-    return false;
-  const token = value.slice(7);
-  return (
-    /^[A-Za-z0-9_-]{43}$/.test(token) ||
-    /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(token)
-  );
-}
+export { isStaffAuthorization } from '../../../contracts/src/staff-session.ts';
 export class PrivateDownload {
   readonly bytes: Uint8Array;
   readonly mime: string;
