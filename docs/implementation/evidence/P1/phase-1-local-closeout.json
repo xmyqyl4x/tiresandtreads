@@ -219,8 +219,8 @@
       "card": "P1-PR-029",
       "title": "Expose consent, privacy, import and staff operations APIs",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "implementation-complete-validation-in-progress",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/120"
     },
     {
       "card": "P1-PR-030",
@@ -323,7 +323,7 @@
   ],
   "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)",
   "remainingLocalInvestigations": [
-    "P1-PR-029: verified Clerk staff identity binding beyond the synthetic local grant profile",
-    "P1-PR-036: owner-facing metadata and revocation controls for a share created by report delivery"
+    "P1-PR-036: owner-facing metadata and revocation controls for a share created by report delivery",
+    "P1-PR-039: private staff browser sign-in transport for the verified Clerk session realm"
   ]
 }

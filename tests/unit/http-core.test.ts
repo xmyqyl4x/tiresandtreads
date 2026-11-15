@@ -273,3 +273,65 @@ it('refuses public/non-HTTP origins and duplicate route declarations', () => {
     }),
   ).toThrow();
 });
+
+it.each(['owner', 'partner', 'staff', 'public'] as const)(
+  'selects the %s credential realm from its API contract',
+  async (access) => {
+    const ordinary = vi.fn(async () => ({
+        keys: [],
+        csrf: 'ordinary',
+        partner: { handle: 'synthetic', subject: 'synthetic' },
+      })),
+      dedicated = vi.fn(async () => ({
+        keys: [],
+        csrf: 'staff',
+        staff: '10000000-0000-4000-8000-000000000001' as NonNullable<HttpActor['staff']>,
+        mfaAt: Date.now(),
+      })),
+      effect = vi.fn(async () => ok(null));
+    const api = createHttpApi({
+      origin,
+      routes: [
+        { operationId: 'realm', path: '/api/v1/realm', method: 'GET', access, handle: effect },
+      ],
+      security: {
+        authenticate: ordinary,
+        authenticateStaff: dedicated,
+        quota: async () => ({ allowed: true }),
+      },
+    });
+    expect((await api(new Request(origin + '/api/v1/realm'))).status).toBe(200);
+    expect(ordinary).toHaveBeenCalledTimes(access === 'owner' || access === 'partner' ? 1 : 0);
+    expect(dedicated).toHaveBeenCalledTimes(access === 'staff' ? 1 : 0);
+    expect(effect).toHaveBeenCalledOnce();
+  },
+);
+it('does not fall back to ordinary fixture authority when the configured staff verifier refuses a credential', async () => {
+  const ordinary = vi.fn(async () => ({
+      keys: [],
+      csrf: 'ordinary',
+      staff: '10000000-0000-4000-8000-000000000001' as NonNullable<HttpActor['staff']>,
+      mfaAt: Date.now(),
+    })),
+    effect = vi.fn(async () => ok(null));
+  const api = createHttpApi({
+    origin,
+    routes: [
+      {
+        operationId: 'realm',
+        path: '/api/v1/realm',
+        method: 'GET',
+        access: 'staff',
+        handle: effect,
+      },
+    ],
+    security: {
+      authenticate: ordinary,
+      authenticateStaff: async () => null,
+      quota: async () => ({ allowed: true }),
+    },
+  });
+  expect((await api(new Request(origin + '/api/v1/realm'))).status).toBe(401);
+  expect(ordinary).not.toHaveBeenCalled();
+  expect(effect).not.toHaveBeenCalled();
+});

@@ -610,7 +610,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role matrix, no-enumeration, withdrawal, unsafe import command and private-metadata API tests pass.
 
-**Local implementation:** [Consent/staff API implementation](../implementation/P1-PR-029-local-consent-staff-apis.md). Checked tasks record local implementation and technical verification only; actual S3/S4 acceptance remains open.
+**Local implementation:** [Consent/staff API implementation](../implementation/P1-PR-029-local-consent-staff-apis.md). [Verified local Clerk binding](../implementation/P1-PR-029-local-clerk-staff-binding.md) adds the opt-in staff identity realm; actual account/MFA/security and browser sign-in acceptance remain separate. Checked tasks record local implementation and technical verification only; actual S3/S4 acceptance remains open.
 
 **Readiness:** Held on full S3 acceptance in P1-PR-027; the [gate disposition](../implementation/P1-PR-027-s3-gate-review.md) lists the required evidence. Technical validation/merge alone does not satisfy this dependency.
 
