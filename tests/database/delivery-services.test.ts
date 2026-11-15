@@ -1,10 +1,10 @@
+import { createReportAccessRepository } from '../../packages/db/src/repositories/report-services.ts';
+import { createDeliveryLinkCapture } from '../../packages/application/src/services/delivery-links.ts';
+import { createContactServiceRepository } from '../../packages/db/src/repositories/contact-services.ts';
+import { createReportCrypto } from '../../packages/integrations/src/report-crypto.ts';
+import { createCapturedDeliveryContext } from '../../packages/integrations/src/report-templates/captured-context.ts';
 import { createReportTemplateRenderer } from '../../packages/integrations/src/report-templates/renderer.ts';
-import {
-  templateContext,
-  templateDocument,
-  templateProfile,
-  pick,
-} from '../fixtures/templates/report.ts';
+import { templateDocument, templateProfile, pick } from '../fixtures/templates/report.ts';
 import { fonts } from '../fixtures/templates/fonts.ts';
 import { beforeAll, afterAll, it, expect, vi } from 'vitest';
 import { privateFixture, uid, time, success } from '../fixtures/private/database.ts';
@@ -66,6 +66,11 @@ async function setup(reportOutput: JsonObject = output()) {
     { v1: new Uint8Array(32).fill(4) },
     { l1: new Uint8Array(32).fill(5) },
     new Uint8Array(32).fill(6),
+  );
+  const reportCrypto = createReportCrypto(
+    'r1',
+    { r1: new Uint8Array(32).fill(7) },
+    new Uint8Array(32).fill(8),
   );
   const notices = {} as ContactPolicy['notices'];
   for (const purpose of [
@@ -140,6 +145,13 @@ async function setup(reportOutput: JsonObject = output()) {
   };
   const work = createDeliveryWorkRepository(f.scope, contactPolicy, crypto.lookupVersions),
     deps = {
+      links: createDeliveryLinkCapture({
+        contacts: createContactServiceRepository(f.scope, crypto.lookupVersions),
+        capabilities: f.caps,
+        contactCrypto: crypto,
+        reportCrypto,
+        now: () => time(),
+      }),
       uow: f.scope.unitOfWork,
       owners: f.owners,
       reports: f.reports,
@@ -216,6 +228,7 @@ async function setup(reportOutput: JsonObject = output()) {
     crypto,
     contactPolicy,
     assetScope,
+    reportCrypto,
   };
 }
 it('UC06 freezes exact source identity, commits one request/outbox and returns server cancellation times', async () => {
@@ -526,6 +539,7 @@ it('composes separate private/asset roles and refuses a public role', async () =
       privateScope: f.scope,
       assetScope: s.assetScope,
       crypto: s.crypto,
+      reportCrypto: s.reportCrypto,
       encryption: s.encryption,
       contactPolicy: s.contactPolicy,
       policy: s.policy,
@@ -539,6 +553,7 @@ it('composes separate private/asset roles and refuses a public role', async () =
   const runtime = await createDeliveryRuntime(args);
   const r = value(await runtime.request([s.owner.token], uid('command'), s.input));
   expect(r.state).toBe('scheduled');
+  expect((await s.row(r.id)).document.links.sendId).toBe(r.id);
   await expect(
     createDeliveryRuntime({ ...args, assetScope: f.adapter('tt_public_runtime') }),
   ).rejects.toThrow('role');
@@ -890,13 +905,10 @@ it('P1-PR-037 freezes real HTML/text/PDF from safe captured data and replays ide
     fixture: true,
     profile: templateProfile,
     fonts,
-    context: (doc) => ({
-      ...templateContext(),
-      reportId: String(doc.report.reportId),
-      version: Number(doc.report.version),
-      expiresAt: new Date(
-        Date.parse((doc.report.result as JsonObject).asOf as string) + 86400000,
-      ).toISOString(),
+    context: createCapturedDeliveryContext({
+      profile: templateProfile,
+      contacts: s.crypto,
+      reports: s.reportCrypto,
     }),
   });
   s.renderer.render.mockImplementation(real.render);
@@ -924,4 +936,113 @@ it('P1-PR-037 freezes real HTML/text/PDF from safe captured data and replays ide
   expect(JSON.stringify(row.document)).not.toContain(s.email);
   expect(JSON.stringify(row.document)).not.toContain('#share.');
   expect(s.provider.send).toHaveBeenCalledTimes(2);
+  const context = createCapturedDeliveryContext({
+      profile: templateProfile,
+      contacts: s.crypto,
+      reports: s.reportCrypto,
+    })(row.document),
+    keys = s.reportCrypto.lookup('share', new URL(context.viewUrl).hash.slice(1)),
+    access = createReportAccessRepository(f.scope);
+  expect(
+    await success(f.scope.unitOfWork, (tx) =>
+      access.readyPdfs(tx, { shareKeys: keys }, s.report.head.id, 1, null),
+    ),
+  ).toContainEqual({ assetId: row.pdf_asset_id });
+});
+
+it('captures durable per-send link identities with the request rather than relying on a renderer callback', async () => {
+  const s = await setup(),
+    r = await s.request(),
+    row = await s.row(r.id);
+  expect(row.document.links).toMatchObject({
+    schemaVersion: 1,
+    sendId: r.id,
+    reportId: s.report.head.id,
+    version: 1,
+    comparisonRevision: null,
+  });
+  expect(JSON.stringify(row.document)).not.toMatch(
+    /share\.[A-Za-z0-9_-]+\.|unsubscribe\.[A-Za-z0-9_-]+\.|verify\.[A-Za-z0-9_-]+\./,
+  );
+});
+
+it('rolls back newly captured report authority when the immutable delivery snapshot cannot commit', async () => {
+  const s = await setup(),
+    broken = createDeliveryServices({
+      ...s.deps,
+      work: {
+        ...s.work,
+        capture: async () => {
+          throw Error('Synthetic snapshot failure');
+        },
+      },
+    });
+  expect((await broken.request([s.owner.token], uid('command'), s.input)).ok).toBe(false);
+  const capabilities = await f.admin.query(
+      'SELECT id FROM app.report_capabilities WHERE report_id=$1',
+      [s.report.head.id],
+    ),
+    sends = await f.admin.query('SELECT id FROM email.email_sends WHERE report_id=$1', [
+      s.report.head.id,
+    ]);
+  expect(capabilities.rows).toHaveLength(0);
+  expect(sends.rows).toHaveLength(0);
+  expect(s.provider.send).not.toHaveBeenCalled();
+});
+it('replays the same request once and preserves fixed-version link identity after refinement and owner revocation', async () => {
+  const s = await setup(),
+    command = uid('command'),
+    first = await s.request(command),
+    again = await s.request(command),
+    document = (await s.row(first.id)).document,
+    context = createCapturedDeliveryContext({
+      profile: templateProfile,
+      contacts: s.crypto,
+      reports: s.reportCrypto,
+    }),
+    captured = context(document),
+    shareKeys = s.reportCrypto.lookup('share', new URL(captured.viewUrl).hash.slice(1));
+  expect(again.id).toBe(first.id);
+  expect(
+    (
+      await f.admin.query('SELECT id FROM app.report_capabilities WHERE report_id=$1', [
+        s.report.head.id,
+      ])
+    ).rows,
+  ).toHaveLength(1);
+  await success(f.scope.unitOfWork, (tx) =>
+    f.reports.publish(
+      tx,
+      s.owner.identity,
+      s.report.head.revision,
+      { ...s.report.version, version: 2, baseVersion: 1 },
+      [],
+    ),
+  );
+  expect(
+    await success(f.scope.unitOfWork, (tx) => f.caps.resolveShare(tx, shareKeys)),
+  ).toMatchObject({ reportId: s.report.head.id, version: 1, comparisonRevision: null });
+  expect(context((await s.row(first.id)).document)).toEqual(captured);
+  await success(f.scope.unitOfWork, (tx) =>
+    f.caps.revokeShare(tx, s.owner.identity, s.report.head.id, document.links.share.id),
+  );
+  expect(await success(f.scope.unitOfWork, (tx) => f.caps.resolveShare(tx, shareKeys))).toBeNull();
+  expect(context((await s.row(first.id)).document)).toEqual(captured);
+});
+it('reconstructs usable purpose-specific preference actions and stops a withdrawn send before local handoff', async () => {
+  const s = await setup(),
+    r = await s.request(),
+    document = (await s.row(r.id)).document,
+    context = createCapturedDeliveryContext({
+      profile: templateProfile,
+      contacts: s.crypto,
+      reports: s.reportCrypto,
+    })(document),
+    proof = new URL(context.preferencesUrl).hash.slice(1);
+  expect(value(await s.contacts.preferences(proof, 'GET'))).toMatchObject({ purpose: 'report' });
+  expect((await s.contacts.withdraw(proof, 'GET')).ok).toBe(false);
+  expect((await s.contacts.withdraw(proof, 'POST')).ok).toBe(true);
+  await s.due(r.id);
+  expect((await s.service.dispatch(r.id)).ok).toBe(false);
+  expect(s.provider.send).not.toHaveBeenCalled();
 });

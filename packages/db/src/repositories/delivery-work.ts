@@ -282,7 +282,7 @@ export function createDeliveryWorkRepository(
         return stop('conflict');
       await q(
         tx,
-        `INSERT INTO app.report_assets(asset_id,report_id,report_version,comparison_revision,renderer_version,locale,view_scope,render_key) VALUES($1,$2,$3,$4,$5,$6,'owner',$7)`,
+        `INSERT INTO app.report_assets(asset_id,report_id,report_version,comparison_revision,renderer_version,locale,view_scope,render_key) VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
         [
           pdfId,
           l.send.reportId,
@@ -290,6 +290,7 @@ export function createDeliveryWorkRepository(
           l.send.comparisonRevision?.toString() ?? null,
           l.document.template.version,
           l.document.locale,
+          l.document.links ? 'shared' : 'owner',
           'delivery:' + l.id,
         ],
       );

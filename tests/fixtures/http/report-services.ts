@@ -6,6 +6,14 @@ import { privateFixture, time } from '../private/database.ts';
 import { engineFixture, uuid } from '../engine/base.ts';
 import { ok } from '../../../packages/domain/src/values/core.ts';
 
+export function fixtureReportCrypto() {
+  return createReportCrypto(
+    'http-v1',
+    { 'http-v1': new Uint8Array(32).fill(41) },
+    new Uint8Array(32).fill(87),
+  );
+}
+
 // Fixed synthetic evidence/encryption ports; engine, business services and SQL remain real.
 export function fixtureReportServices(
   db: Pick<
@@ -14,11 +22,7 @@ export function fixtureReportServices(
   >,
   options: { current?: boolean; localSourceIds?: readonly string[] } = {},
 ) {
-  const crypto = createReportCrypto(
-    'http-v1',
-    { 'http-v1': new Uint8Array(32).fill(41) },
-    new Uint8Array(32).fill(87),
-  );
+  const crypto = fixtureReportCrypto();
   const encrypted = new Map<string, Uint8Array>();
   const reports = createReportServices({
     uow: db.scope.unitOfWork,

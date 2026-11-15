@@ -81,6 +81,20 @@ it('joins built Next, HTTP, SQL, immutable snapshot, real email/PDF templates an
   expect(mail.mail.html).toContain('Recorded options');
   expect(mail.mail.html).not.toMatch(/<script|<iframe|<img|pagead|googletag|annualMiles/);
   expect(mail.mail.text).toContain(id);
+  const urls = [...mail.mail.html.matchAll(/href="([^"]+)"/g)].map((m) => new URL(m[1]!)),
+    reportProof = urls.find((u) => u.hash.startsWith('#share.'))!.hash.slice(1),
+    preferenceProof = urls.find((u) => u.hash.startsWith('#unsubscribe.'))!.hash.slice(1);
+  const shared = await f.request('/api/v1/shared', {
+    headers: { authorization: 'Bearer ' + reportProof },
+  });
+  expect(shared.status).toBe(200);
+  const sharedView = (await shared.json()).data;
+  expect(sharedView).toMatchObject({ version: 1, access: 'read_only' });
+  const preferences = await f.request('/api/v1/email/preferences', {
+    headers: { authorization: 'Bearer ' + preferenceProof },
+  });
+  expect(preferences.status).toBe(200);
+  expect((await preferences.json()).data).toMatchObject({ purpose: 'report' });
   const pdf = Buffer.from(mail.mail.pdf, 'base64'),
     doc = await PDFDocument.load(pdf);
   expect(doc.getPageCount()).toBeGreaterThan(0);
@@ -90,6 +104,33 @@ it('joins built Next, HTTP, SQL, immutable snapshot, real email/PDF templates an
     [receipt.id],
   );
   expect(Buffer.from(f.synthetic!.objectsData.get(assets.rows[0].pdf_asset_id)!)).toEqual(pdf);
+  const assetId = assets.rows[0].pdf_asset_id as string;
+  expect(sharedView.pdfs).toContainEqual({ assetId });
+  const shareGrant = await f.request('/api/v1/shared/pdf', {
+    method: 'POST',
+    headers: {
+      origin: f.webOrigin,
+      authorization: 'Bearer ' + reportProof,
+      'content-type': 'application/json',
+      'idempotency-key': crypto.randomUUID(),
+    },
+    body: JSON.stringify({ assetId }),
+  });
+  expect(shareGrant.status).toBe(200);
+  const sharedDownloadProof = (await shareGrant.json()).data.token as string,
+    ownerGrant = await command(who, '/reports/' + id + '/pdf', { assetId, version: 1 });
+  expect(ownerGrant.status).toBe(200);
+  const ownerDownloadProof = (await ownerGrant.json()).data.token as string,
+    download = (proof: string) =>
+      f.request('/api/v1/download', {
+        headers: { authorization: 'Bearer ' + proof },
+      });
+  for (const proof of [sharedDownloadProof, ownerDownloadProof]) {
+    const downloaded = await download(proof);
+    expect(downloaded.status).toBe(200);
+    expect(downloaded.headers.get('content-type')).toContain('application/pdf');
+    expect(Buffer.from(await downloaded.arrayBuffer())).toEqual(pdf);
+  }
   expect(
     JSON.parse(
       Buffer.from(f.synthetic!.objectsData.get(assets.rows[0].payload_asset_id)!).toString(),
@@ -97,6 +138,27 @@ it('joins built Next, HTTP, SQL, immutable snapshot, real email/PDF templates an
   ).toEqual(mail.mail);
   await f.synthetic!.delivery.dispatch(receipt.id as Id<'send'>);
   expect(f.synthetic!.syntheticMail).toHaveLength(1);
+  const revoked = await f.request(
+    '/api/v1/reports/' + id + '/shares/' + before.rows[0].document.links.share.id,
+    {
+      method: 'DELETE',
+      headers: {
+        origin: f.webOrigin,
+        cookie: who.cookie,
+        'x-csrf-token': who.csrf,
+        'content-type': 'application/json',
+        'idempotency-key': crypto.randomUUID(),
+      },
+      body: '{}',
+    },
+  );
+  expect(revoked.status).toBe(200);
+  expect(
+    (await f.request('/api/v1/shared', { headers: { authorization: 'Bearer ' + reportProof } }))
+      .status,
+  ).toBe(404);
+  expect((await download(sharedDownloadProof)).status).toBe(404);
+  expect((await download(ownerDownloadProof)).status).toBe(200);
   console.log(
     'LOCAL_PRODUCT_JOURNEY ' +
       JSON.stringify({
@@ -104,6 +166,11 @@ it('joins built Next, HTTP, SQL, immutable snapshot, real email/PDF templates an
         actualPostgreSQL: true,
         frozenSnapshot: true,
         realEmailPdfRenderer: true,
+        capturedReportLinkOpensThroughApi: true,
+        capturedPreferencesOpenThroughApi: true,
+        ownerRevocationInvalidatesCapturedReportLink: true,
+        capturedPdfDownloadedByRecipientAndOwner: true,
+        revocationBlocksIssuedSharedDownloadGrant: true,
         cancellationClockUnchanged: true,
         syntheticSinkMessages: 1,
         actualRecipientNotifications: 0,

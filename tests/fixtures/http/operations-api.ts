@@ -1,3 +1,5 @@
+import type { PrivateObjects } from '../../../packages/application/src/ports/assets.ts';
+import { fixtureReportCrypto } from './report-services.ts';
 import type {
   ReportRenderer,
   FrozenDelivery,
@@ -46,8 +48,17 @@ export async function operationsApiFixture(
     readonly crypto: ReturnType<typeof createContactCrypto>;
     readonly policy: ContactPolicy;
     readonly security: HttpSecurity;
+    readonly objects: PrivateObjects;
   }) => Promise<readonly HttpRoute[]>,
-  mailProof?: { renderer(hash: string): ReportRenderer },
+  mailProof?: {
+    renderer(
+      hash: string,
+      keys: {
+        contacts: ReturnType<typeof createContactCrypto>;
+        reports: ReturnType<typeof fixtureReportCrypto>;
+      },
+    ): ReportRenderer;
+  },
 ) {
   const db = await privateFixture();
   const observations: { operationId: string; method: string; status: number }[] = [];
@@ -107,7 +118,9 @@ export async function operationsApiFixture(
       ).rows[0].renderer_hash as string;
     let providerCalls = 0;
     const syntheticMail: FrozenDelivery[] = [];
+    const reportCrypto = fixtureReportCrypto();
     const delivery = await createDeliveryRuntime({
+      reportCrypto,
       privateScope: db.scope,
       assetScope: db.adapter('tt_asset_runtime'),
       crypto,
@@ -119,7 +132,9 @@ export async function operationsApiFixture(
         templateId,
         fixture: true,
       },
-      renderer: mailProof?.renderer(hash) ?? createFixtureReportRenderer(hash),
+      renderer:
+        mailProof?.renderer(hash, { contacts: crypto, reports: reportCrypto }) ??
+        createFixtureReportRenderer(hash),
       provider: {
         name: 'fixture',
         fixture: true,
@@ -221,7 +236,8 @@ export async function operationsApiFixture(
     };
     const staffRepo = createStaffRepository(staffScope);
     directory = await mkdtemp(join(tmpdir(), 'tt-http-operations-'));
-    const extra = (await extend?.({ db, services, crypto, policy: contactPolicy, security })) ?? [];
+    const extra =
+      (await extend?.({ db, services, crypto, policy: contactPolicy, security, objects })) ?? [];
     server = await listenLocalApi((origin) =>
       createHttpApi({
         origin,

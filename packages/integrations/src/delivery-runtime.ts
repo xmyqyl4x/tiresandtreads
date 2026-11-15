@@ -10,6 +10,10 @@ import type {
   MailProvider,
 } from '../../application/src/ports/delivery-services.ts';
 import type { PrivateObjects } from '../../application/src/ports/assets.ts';
+import type { ReportCrypto } from '../../application/src/ports/report-services.ts';
+import { createDeliveryLinkCapture } from '../../application/src/services/delivery-links.ts';
+import { createContactServiceRepository } from '../../db/src/repositories/contact-services.ts';
+import { createCapabilityRepository } from '../../db/src/repositories/capabilities.ts';
 import { createContactRuntime } from './contact-runtime.ts';
 import { createDeliveryFiles, deliveryChecksum } from './delivery-files.ts';
 import { createDeliveryServices } from '../../application/src/services/delivery.ts';
@@ -34,6 +38,7 @@ export async function createDeliveryRuntime(o: {
   readonly bucket: string;
   readonly keyVersion: string;
   readonly now: () => string;
+  readonly reportCrypto?: ReportCrypto;
 }) {
   for (const [scope, role] of [
     [o.privateScope, 'tt_private_runtime'],
@@ -85,6 +90,17 @@ export async function createDeliveryRuntime(o: {
   });
   if (!reserved.ok) throw Error('Invalid delivery reservation recovery');
   return createDeliveryServices({
+    ...(o.reportCrypto
+      ? {
+          links: createDeliveryLinkCapture({
+            contacts: createContactServiceRepository(s, o.crypto.lookupVersions),
+            capabilities: createCapabilityRepository(s),
+            contactCrypto: o.crypto,
+            reportCrypto: o.reportCrypto,
+            now: o.now,
+          }),
+        }
+      : {}),
     uow: s.unitOfWork,
     owners: createOwnerRepository(s),
     reports: createReportRepository(s),

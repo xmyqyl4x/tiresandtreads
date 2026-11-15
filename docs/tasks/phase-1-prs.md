@@ -428,6 +428,10 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Implement scheduled send identity, 60-second cancellation, dispatch claim and final permission recheck.
 - [x] Integrate Resend/private-PDF adapters, uncertain handoff reconciliation and retry limits without actual product templates.
 
+- [x] Capture per-send authorized link references atomically and provide the sanitized delivery PDF through the fixed-version recipient share and owner download paths.
+
+**Current local follow-up:** [Captured-context and linked-PDF completion](../implementation/P1-PR-022-local-context-completion.md). Actual provider/hosting/client/assistive-technology acceptance remains pending; an owner-facing delivery-link management follow-up remains with P1-PR-036.
+
 **Verification and acceptance:** Two-connection cancel/claim races and accepted-timeout provider tests; headless rendering uses fixtures until S5.
 
 **Implementation status:** S3 technical implementation approved and merged in [PR #22](https://github.com/xmyqyl4x/tiresandtreads/pull/22) at `5e6d4cd4`; [contract](../implementation/P1-PR-022-delivery-orchestration.md) and [validation](../implementation/evidence/P1/p1-pr-022-validation.md). Current production report issuance remains denied. Actual templates, signed provider events, worker cadence, abuse controls and API/browser/live acceptance retain their declared gates. Specialist review and licensed adapters remain pending.

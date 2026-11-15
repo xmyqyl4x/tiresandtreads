@@ -34,6 +34,7 @@ import type {
 import type { createContactServices } from './contacts.ts';
 import { serviceWork, demand, serviceFailure, ServiceFault } from './service-work.ts';
 import { canonical, json, exact } from './service-records.ts';
+import type { DeliveryLinkCapture } from '../ports/delivery-links.ts';
 import { publicReport, publicComparison } from './report-records.ts';
 export function createDeliveryServices(d: {
   readonly uow: UnitOfWork;
@@ -51,6 +52,7 @@ export function createDeliveryServices(d: {
   readonly policy: DeliveryPolicy;
   readonly checksum: (bytes: Uint8Array) => string;
   readonly now: () => string;
+  readonly links?: DeliveryLinkCapture;
 }) {
   const work = <T>(fn: (tx: Tx) => Promise<T>) =>
     serviceWork(d.uow, async (tx) => ok(await fn(tx)));
@@ -121,6 +123,7 @@ export function createDeliveryServices(d: {
                 d.policy.sender.length <= 254 &&
                 !/[\r\n]/.test(d.policy.sender),
             );
+            demand(d.policy.fixture || d.links, 'forbidden');
             const presentation = await d.work.presentation(tx, ref.id);
             const t = await d.work.template(tx, d.policy.templateId, presentation.locale);
             demand(t && t.rendererHash === d.renderer.hash, 'conflict');
@@ -162,12 +165,19 @@ export function createDeliveryServices(d: {
               noticeId: input.notices.report!,
               purposes: ['report'],
             });
+            const links = await d.links?.capture(tx, {
+              owner: ctx.owner,
+              send,
+              reportExpiresAt: h.expiresAt,
+              verificationId: ctx.reportIntentId,
+              offersVerificationId: ctx.offersIntentId,
+            });
             await d.work.capture(tx, {
               send,
               owner: ctx.owner,
               verificationId: ctx.reportIntentId,
               offersId: ctx.offersIntentId,
-              document,
+              document: links ? { ...document, links } : document,
               pdfAssetId: d.crypto.id('asset', id + ':pdf'),
               payloadAssetId: d.crypto.id('asset', id + ':payload'),
             });
@@ -249,7 +259,8 @@ export function createDeliveryServices(d: {
         const permitted = await work((tx) => d.work.permission(tx, l));
         if (!permitted.ok) throw new ServiceFault(permitted.error.code, permitted.error);
         demand(
-          l.document.schemaVersion === 1 &&
+          (l.document.links ? l.document.links.sendId === l.send.id : d.policy.fixture) &&
+            l.document.schemaVersion === 1 &&
             l.document.report.reportId === l.send.reportId &&
             l.document.report.version === l.send.reportVersion &&
             l.document.template.id === l.send.templateId &&

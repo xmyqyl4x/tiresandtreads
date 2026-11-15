@@ -1,0 +1,29 @@
+# P1-PR-022 local context and linked-PDF completion
+
+November 15, 2026. This additional card cycle implements non-release engineering under the owner's Phase 1 continuation. The original PR22 approval remains historical. All six S3 gates stay open; HS01–HS08 remain proposed, operators/coverage/rates unconfirmed, specialist/licensed work pending and actual provider/client/assistive-technology/hosting/phase/live acceptance held. No provisioning, purchases, actual recipient notifications, live provider effects or original case/gate closure occurs.
+
+## Atomic capture and stable rendering
+
+The previous delivery request captured its report/template/content but not the recipient-specific context needed by the actual template renderer. Local template fixtures supplied syntactically valid proofs. A failing PostgreSQL regression demonstrated that no per-send link context existed in the saved document.
+
+A dedicated application capture port now runs in the existing request transaction after the send is scheduled and before the immutable snapshot/outbox commit. It verifies the scheduled send's owner/contact/report/version, live report and purpose-specific contact intents, report/offer scopes, retained token-key digests and expiration. It creates one fixed-version, fixed-comparison share capability through the existing guarded repository. The captured common expiry cannot exceed the report or either included intent and must outlive the scheduled send time. Consent, capability, snapshot, work and outbox roll back together if capture fails. Request replay returns its existing receipt rather than creating another capability.
+
+The private snapshot stores references, key versions, lookup digests and expiry. It contains no recipient address or raw bearer proof. An integration context resolver reconstructs the same share, report-purpose unsubscribe and optional separate offers-verification proofs from these captured references and retained keys. It validates the document's report/version/comparison binding and key digests. It performs no database write, latest-report lookup, clock read or expiry extension. A changed or unavailable retained key fails closed. The renderer's context-isolation correction in P1-PR-037 remains authoritative.
+
+The delivery runtime can compose this port from its existing private repository scope and an explicitly supplied report keyring. Legacy fixture compositions remain compatible; a non-fixture request or dispatch cannot proceed without captured context. Existing report-issuance gates still deny production issuance. These references are trusted internal request state, not an independent authentication, custody or hosted acceptance proof.
+
+## Recipient and owner PDF access
+
+A second failing PostgreSQL regression found that delivery registered its PDF only as an owner-format asset. The recipient's fixed-version share could read the report but could not offer that actual PDF. Captured-context deliveries now register the common, sanitized PDF as a shared-format asset. Legacy fixture documents retain their prior owner registration.
+
+Owner PDF discovery includes their own owner- and shared-format copies. An owner-authorized grant binds the owner's session and the selected asset's actual stored view, preserving the existing foreign key. A shared capability continues to require a shared-format asset with the exact report/version/comparison binding; it cannot access an owner-format file. Revoking the share invalidates subsequent report access and an already issued share-derived download grant. An independently authorized owner grant remains valid. No public storage URL or raw attachment is introduced.
+
+The joined proof also exposed separate in-memory object bindings in its fixture composition. Delivery and download now use one shared PrivateObjects port, while the download fixture retains byte-size/hash checks. Production object adapters, database schema, migrations, privileges, bootstrap, CLI, preflight and admission policy are unchanged.
+
+## Evidence and remaining boundary
+
+[Measured local evidence](evidence/P1/p1-pr-022-context-completion.json) records 65 passing focused cases: 27 real-crypto unit controls, 34 actual-PostgreSQL delivery cases and four built-Next/HTTP/PostgreSQL journeys. A further 31 existing private-repository and public owner/share HTTP permission controls passed against the changed adapters (96 focused executions total). Strict compilation passed. Cases cover invalid/expired/wrong-purpose references, key rotation, transaction rollback, fixed-version replay after refinement, owner revocation, POST-only withdrawal, cancellation races and uncertain provider replay without regenerating content.
+
+The actual local email is parsed for its emitted report and unsubscribe fragments. Both open through the typed HTTP API. Recipient and owner download grants return bytes identical to the frozen PDF; revocation refuses the existing shared download while owner access remains valid. The journey honors the real 60-second cancellation interval and uses a bounded synthetic sink, with zero actual recipient notifications. This is neither inbox-client nor screen-reader acceptance.
+
+Before this cycle is reported merged, the exact committed source must pass the full Linux regression, a fresh review, all nine PR checks, merge and all nine main checks. The PR records those source/checkout/execution links. Owner-facing management of a delivery-created share reference remains a separate P1-PR-036 follow-up; the current service/API revocation path is proved, not a completed new UI control. Licensed source contracts remain explicitly deferred by the owner.

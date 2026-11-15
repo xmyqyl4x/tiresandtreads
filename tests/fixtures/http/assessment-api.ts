@@ -79,20 +79,16 @@ export async function assessmentApiFixture(mailProof?: Parameters<typeof operati
     const { reports, crypto } = fixtureReportServices(db, { current: true });
     tokens = crypto;
 
-    const store = new Map<string, Uint8Array>(),
-      assetScope = db.adapter('tt_asset_runtime'),
+    const assetScope = db.adapter('tt_asset_runtime'),
       files = createAssetService({
         uow: assetScope.unitOfWork,
         assets: createAssetRepository(assetScope, 'synthetic-private', 'fixture-kms'),
         authority: db.scope.unitOfWork,
         capabilities: db.caps,
         objects: {
-          put: async (a, b) => {
-            store.set(a.id, b);
-            return 'fixture-v1';
-          },
+          put: context.objects.put,
           get: async (a) => {
-            const b = store.get(a.id);
+            const b = await context.objects.get(a);
             if (
               !b ||
               createHash('sha256').update(b).digest('hex') !== a.sha256 ||
@@ -101,9 +97,7 @@ export async function assessmentApiFixture(mailProof?: Parameters<typeof operati
               throw Error('Fixture asset unavailable');
             return b;
           },
-          erase: async (a) => {
-            store.delete(a.id);
-          },
+          erase: context.objects.erase,
         },
       });
     // Existing fixed technical renderer only. No delivery, recipient or provider is activated.

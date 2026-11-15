@@ -170,8 +170,8 @@
       "card": "P1-PR-022",
       "title": "Implement report delivery orchestration and cancellation",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "implementation-complete-validation-in-progress",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/119"
     },
     {
       "card": "P1-PR-023",
@@ -321,5 +321,9 @@
       "cyclePr": null
     }
   ],
-  "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)"
+  "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)",
+  "remainingLocalInvestigations": [
+    "P1-PR-029: verified Clerk staff identity binding beyond the synthetic local grant profile",
+    "P1-PR-036: owner-facing metadata and revocation controls for a share created by report delivery"
+  ]
 }
