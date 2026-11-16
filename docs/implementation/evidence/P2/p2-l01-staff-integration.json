@@ -87,7 +87,8 @@
     "apps/web/package.json": "5093243f5611156cc5b72dd6e850db24191c3f53b8c2d48093cb9d30e2feee03",
     "pnpm-lock.yaml": "e8027c2dc46f411b380b4f09e8deb52a30bbe98426c66116eba3aee5a157bd13",
     "tests/usecases/partner-insights.test.ts": "cf25253d68f499d351e0a49cb5df4ba75d0d26f3f84b25af531db069a00f7f60",
-    "tests/database/phase2-partner-insights.test.ts": "adc99b2ff4ece12b3c5fb5457de6b17d8ad6b91ae6c0a3d60228389f24287031"
+    "tests/database/phase2-partner-insights.test.ts": "adc99b2ff4ece12b3c5fb5457de6b17d8ad6b91ae6c0a3d60228389f24287031",
+    "scripts/review/product-source-pins.mjs": "bae7e5409746cdac4e02dbfb94ebc4886300d87a01c1b66b473a45c7c26cbb5b"
   },
   "fullExactSourceValidationRequired": true,
   "freshReviewRequired": true,
@@ -111,7 +112,29 @@
     "thresholdsChanged": false,
     "priorPassedSource": "9b7a045a0935c99a6885dc401fd542681d78bf61",
     "priorFullExecutions": 4884,
-    "newExactSourceValidationRequired": true
+    "newExactSourceValidationRequired": true,
+    "exactSourceTransition": {
+      "baseline": "eebc1b87c4db03537e5a28a933d5e5c8fbbb90d064d95ec7e9d1de1d7a8aed1e",
+      "current": "e8027c2dc46f411b380b4f09e8deb52a30bbe98426c66116eba3aee5a157bd13",
+      "historicalReceiptsRewritten": false,
+      "arbitraryDriftAdmitted": false,
+      "existingDistinctPathExceptions": 6
+    },
+    "sourcePinRegressionChecks": {
+      "executions": 15,
+      "passed": 15,
+      "files": 3,
+      "unchangedExistingTests": true,
+      "arbitraryLockfileDriftRefused": true
+    },
+    "interruptedFullAttempt": {
+      "source": "5ae0fad123ec6c5cd6d21d6f0c4ace65ae1146d0",
+      "completed": false,
+      "knownFailedAssertions": 6,
+      "rootExpected": 4777,
+      "reason": "Only the patched lockfile mismatched the exact historical/current source-pin chain. Add an exact successor transition; retain all historical manifests and thresholds.",
+      "ownedProjectRemoved": true
+    }
   },
   "reviewCorrection": {
     "finding": "contact reveal initial lookup still used partner authority",

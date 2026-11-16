@@ -138,8 +138,14 @@ export function reconcileProductPins(root, rawPins) {
       path: p.path,
       sha256: memoryOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
     }));
+  const afterMemory = mergeReviewedPins(afterClerk, memoryResult, memoryOverlay),
+    securityOverlay = nextSecurityDependencyPins.filter((e) => present.has(e.path)),
+    securityResult = afterMemory.map((p) => ({
+      path: p.path,
+      sha256: securityOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(afterClerk, memoryResult, memoryOverlay),
+    pins: mergeReviewedPins(afterMemory, securityResult, securityOverlay),
     exceptions: new Set(
       [
         ...entries,
@@ -152,6 +158,7 @@ export function reconcileProductPins(root, rawPins) {
         ...deliveryOverlay,
         ...clerkOverlay,
         ...memoryOverlay,
+        ...securityOverlay,
       ].map((e) => e.path),
     ).size,
   };
@@ -244,5 +251,16 @@ export const testMemorySourcePins = Object.freeze([
     currentSha256: '62945cf6be858da76d21b05a76f9820602493d2bb3f0bcc32dedc68d7baf0fb1',
     reason:
       'Only the isolated test runner gains 512MiB native/tooling overhead above the unchanged1536MiB compiler heap after exit137 and an observed full old-container peak. Application, database, runtime connection/resource budgets, historical execution and all acceptance holds remain unchanged.',
+  }),
+]);
+
+// Only the exact security-patched lockfile advances. Historical execution, review thresholds and admission remain unchanged.
+export const nextSecurityDependencyPins = Object.freeze([
+  Object.freeze({
+    path: 'pnpm-lock.yaml',
+    baselineSha256: 'eebc1b87c4db03537e5a28a933d5e5c8fbbb90d064d95ec7e9d1de1d7a8aed1e',
+    currentSha256: 'e8027c2dc46f411b380b4f09e8deb52a30bbe98426c66116eba3aee5a157bd13',
+    reason:
+      'Pin Next.js16.4.5 for GHSA-mfr8-8qww-v76h identified by actual CI. Preserve all historical receipts, exact source checks, production bootstrap/admission and acceptance holds; do not admit arbitrary dependency drift.',
   }),
 ]);
