@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-15",
+  "scope": "local P1-PR-036 owner delivery report-link metadata and explicit revocation",
+  "baselineSource": "4eb4297",
+  "expectedPullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/121",
+  "focusedTestsPassed": 81,
+  "suiteCounts": {
+    "deliveryViewUnit": 23,
+    "deliveryControllerUsecases": 14,
+    "actualDeliveryDatabase": 36,
+    "actualHttpPostgreSql": 8
+  },
+  "strictCompilationPassed": true,
+  "browser": {
+    "actualBrowser": true,
+    "actualNext": true,
+    "actualPostgreSQL": true,
+    "syntheticOwnedAssessmentCreatedViaUi": true,
+    "reportOnlyChoiceExplicit": true,
+    "revokeDisabledBeforeConfirmation": true,
+    "keyboardRevoke": true,
+    "acknowledgementFocus": true,
+    "revokedStateSurvivesReload": true,
+    "providerSends": 0,
+    "actualRecipientNotifications": 0,
+    "observations": [
+      {
+        "operationId": "lookupReference",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "lookupReference",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "lookupReference",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "getOwnerSession",
+        "method": "GET",
+        "status": 401
+      },
+      {
+        "operationId": "createOwnerSession",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "operationId": "createReport",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "operationId": "readDraft",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "readReport",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "getConsentPolicy",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "getOwnerSession",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "requestDelivery",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "operationId": "getOwnerSession",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "revokeShare",
+        "method": "DELETE",
+        "status": 200
+      },
+      {
+        "operationId": "getConsentPolicy",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "operationId": "getDelivery",
+        "method": "GET",
+        "status": 200
+      }
+    ],
+    "screenshots": [
+      {
+        "path": "docs/implementation/evidence/P1/p1-pr-036-share-controls/keyboard-revocation.png",
+        "sha256": "6732a29d72d5ad2597b5c22a15418c4572bc77b9d111908ae48251523b4f06e3"
+      },
+      {
+        "path": "docs/implementation/evidence/P1/p1-pr-036-share-controls/restored-revocation.png",
+        "sha256": "75894ffe9f4b76c526bd556bbdcc8af031fe1a94d03c417919057d274306a333"
+      }
+    ],
+    "sourceNote": "Screenshots capture the behavior before the shared-request deduplication and restored-view copy clarification. Final request contracts and focused regression are rerun on the final source.",
+    "implementationParentSource": "00c784d"
+  },
+  "completePublicJavaScriptGzipBytes": 119973,
+  "unchangedBudgetBytes": 120000,
+  "loopbackRelay": "fixed native HTTP through the owned container process channel; isolated Docker network and application Host checks unchanged",
+  "actualInboxClientAccepted": false,
+  "actualAssistiveTechnologyAccepted": false,
+  "S3Accepted": false,
+  "publicActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "reviewFollowup": {
+    "finding": "PR121 review thread PRRT_kwDOVURQQc63viiI: confirmation must bind the selected capability",
+    "previousHead": "e2720b83070e69c2c9f64a548c3d34bb1a836270",
+    "previousFullLocalExecutions": 4800,
+    "regressionsBeforeFix": {
+      "failed": 2,
+      "existingPassed": 12
+    },
+    "confirmationBoundToCapabilityId": true,
+    "controllerRequiresMatchingConfirmationBeforeIdentityOrDelete": true,
+    "browserProof": {
+      "providerCalls": 0,
+      "actualNotifications": 0,
+      "syntheticInboxMessages": 0,
+      "observations": [
+        {
+          "operationId": "lookupReference",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "lookupReference",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "lookupReference",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "getOwnerSession",
+          "method": "GET",
+          "status": 401
+        },
+        {
+          "operationId": "createOwnerSession",
+          "method": "POST",
+          "status": 200
+        },
+        {
+          "operationId": "createReport",
+          "method": "POST",
+          "status": 200
+        },
+        {
+          "operationId": "readDraft",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "readReport",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "getConsentPolicy",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "getOwnerSession",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "requestDelivery",
+          "method": "POST",
+          "status": 200
+        },
+        {
+          "operationId": "getOwnerSession",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "cancelDelivery",
+          "method": "POST",
+          "status": 200
+        },
+        {
+          "operationId": "getOwnerSession",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "operationId": "requestDelivery",
+          "method": "POST",
+          "status": 200
+        }
+      ],
+      "originalSendId": "6b5e9c60-3e27-5ba4-8f72-87162c1796c8",
+      "replacementSendId": "964ed1ed-45d6-5059-8772-0d6a0ea557c5",
+      "originalConfirmationChecked": true,
+      "originalRevokeEnabled": true,
+      "correctionCancelledOriginal": true,
+      "replacementConfirmationChecked": false,
+      "replacementRevokeEnabled": false,
+      "noAutomaticReplacement": true,
+      "replacementPurposesExplicit": true,
+      "runtime": {
+        "visitorGzipBytes": 119973,
+        "runtimeSourceOverlaySha256": {
+          "apps/web/src/delivery-privacy/controller.ts": "d01f5e887e49964e6ce5df897aff36ccf33b55f22c7da3539bf45adb23cd03e4",
+          "apps/web/src/ui/delivery-screen.tsx": "55b58a2436086dca2793bcc6a5cd41031ea4bc087a8a60acacab0394f6cce7db",
+          "packages/application/src/ports/delivery-services.ts": "b592abe6e42b4011fb63d55865dbe5a43e9773960e11d92374a0b43f455c330d",
+          "packages/application/src/services/delivery.ts": "b29a3b7dea07d7efceefc3b460bc57e65389857378b8a35e44a9484aa45c178d",
+          "packages/contracts/src/delivery-privacy-client.ts": "048a8f33fa2b777f6fb4895e0d7f30ef28f87ba89a7bd64d002391e0d53c30f6",
+          "packages/contracts/src/delivery-privacy-views.ts": "9663280cb7aa06c470b06392cccdd6b7bb848d6552b96359792cd96117380c62",
+          "packages/db/src/repositories/delivery-work.ts": "dbfe686be9773d1046f69d295b22d0385d349947932361191b98c3ea13da24ad"
+        },
+        "fixtureImageId": "sha256:3becd2d1d7cadd8e3107e7b916765d194f8f56478ff4b5ba14f760c3a8e984db",
+        "actualProviderCalls": 0,
+        "actualRecipientNotifications": 0
+      },
+      "screenshot": {
+        "path": "docs/implementation/evidence/P1/p1-pr-036-share-controls/replacement-needs-confirmation.png",
+        "sha256": "88703bfba66b40a290f7a700340791243b1625f1b1c8e714935ce2364a6f745f"
+      }
+    },
+    "ownedBrowserResourcesRemoved": true,
+    "finalExactSourceFullRegressionRequired": true
+  }
+}

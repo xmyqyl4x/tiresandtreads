@@ -1,0 +1,36 @@
+# P1-PR-036 owner management of delivery report links
+
+November 15, 2026. This is the delivery/privacy UI card's separate local completion cycle after captured delivery contexts. It does not release the product. All six S3 gates stay open, HS01–HS08 remain proposed, operators/coverage/rates unconfirmed, specialist/licensed work pending and all actual provider/client/assistive-technology/hosting/phase/live acceptance held. No provisioning, purchases, actual recipient notifications, live provider/model effects or original case/gate closure.
+
+## Owner metadata through the existing service boundary
+
+A failing PostgreSQL regression demonstrated that an owner could not identify the fixed report capability created for a delivery. The owner request/status/cancel projection now includes safe report-link metadata: capability reference, report/version/comparison binding, expiry and current active/revoked/expired/unavailable state. It never includes a raw proof, key version/digest, recipient or address. Legacy fixture snapshots without a captured link return null; there is no invented capability or replacement token.
+
+The repository revalidates the active owner session, send ownership and report ownership. Its keyed send/capability join requires the fixed report/version/comparison binding and the captured key lookup digest/version. The stored capability and report determine current state. URL parameters and a browser clock cannot promote a link to active or choose a report binding. Existing schema, migrations, privileges, production bootstrap/CLI/preflight and admission policy are unchanged.
+
+## Explicit revocation and uncertainty
+
+The UI displays the server-confirmed version, optional comparison revision, expiry and link state. The revoke button starts disabled and requires an explicit checkbox. It calls the existing owner-authorized report-capability DELETE endpoint through the bounded typed client; there is no new operation or independent authority path. A successful receipt must bind both the selected report and capability. The controller snapshots the command before identity I/O, coalesces in-flight requests and retains the original body/key when its acknowledgement is lost. Another target cannot silently replace an uncertain command. Definite refusals allow normal correction; current server status remains available.
+
+The keyboard can activate the confirmed revoke button, and focus moves to its acknowledgement. Only that recipient link and download authority derived from it are revoked. Separate report/offer preferences and the owner's own report access are unchanged. Revocation does not recall an email or erase already saved copies. Cancellation remains its own existing operation; this change does not silently turn cancellation into revocation or change address-correction policy.
+
+The complete flow is browser delivery view → bounded typed client → existing report DELETE controller → current report access service → PostgreSQL capability revocation → bound receipt/status view. Current role/ownership, Origin/CSRF, command-key replay and generic foreign-owner refusal stay in the existing layers. All 66 frozen product operations retain their existing paths and methods.
+
+## Verification
+
+[Measured evidence](evidence/P1/p1-pr-036-share-controls.json) records 79 focused executions: 23 portable view controls, 14 controller/use-case tests, 36 real delivery database tests and eight HTTP/PostgreSQL journeys. Strict compilation passes. Tests preserve unknown-receipt retry, same-target/key binding, foreign-owner refusal, ordinary cancellation behavior, legacy snapshots and unchanged preference records. The current mixed API fixture now composes the existing assessment/report and purpose-control routes together so revocation is exercised through the real public-owner service.
+
+A real browser created a synthetic vehicle assessment, opened its saved report, explicitly requested report-only delivery, confirmed and invoked revocation by keyboard, then reloaded the saved send and observed its revoked state. The status retained masked recipient details and zero provider sends/actual notifications. The acknowledgement and restored state were captured in two screenshots. A bounded loopback relay preserved native HTTP Host semantics through the owned container's process channel; Docker network isolation and application Host admission were not weakened. The owned browser project, data, relay and tooling tag are removed after the proof.
+
+The final complete public JavaScript entry group, including optional consent code, measures **119,973 gzip bytes** against the unchanged 120,000-byte budget. Stylesheets are measured separately from this JavaScript budget. Shared owner command construction avoids another duplicate HTTP implementation. React review found no new effects, global request state, heavy public dependency or business decisions in rendering. Confirmation/working state, semantic headings, explicit labels and acknowledgement focus use existing controls.
+
+Screenshots precede the final shared-request deduplication and restored-view copy clarification; the final focused request assertions and full exact-source regression validate those changes. Before this cycle is reported complete, its exact committed source must pass the full Linux regression, a fresh review, all nine PR checks, guarded merge and all nine main checks. Actual inbox, specialist, provider and hosted acceptance remains separate.
+
+
+## Review regression: confirmation belongs to one capability
+
+Fresh review found that a checked boolean survived Cancel and correct address, then appeared checked for the replacement delivery's different report link. Two new use-case regressions reproduced stale and missing confirmation against the previous source: two failed and twelve existing cases passed. The screen now stores the confirmed capability ID, derives its checked/enabled state from the currently displayed ID and passes that exact confirmation to the browser controller. The controller refuses a mismatched or absent ID before session lookup or DELETE. Matching retries retain their original target/body/key.
+
+Strict compilation and lint pass. The final focused set passes 81 executions: 23 view controls, 14 controller cases and 44 actual database/API cases. A real browser checked confirmation for the first link, cancelled it through address correction, explicitly submitted a new report-only request and observed the new link unchecked with revocation disabled. The current runtime source overlays were hash-checked inside the owned fixture; its image digest and overlay hashes are recorded rather than claiming an exact whole-source image build. The new screenshot records the replacement control. The fixture observed two deliveries, a successful cancellation, zero revocation requests, zero provider calls and zero notifications. Its project, tag and loopback relay are removed. Earlier screenshots remain historical observations.
+
+The corrected visitor JavaScript group including consent measures 119,973 gzip bytes against the unchanged 120,000-byte limit. Exact final-source full Linux regression, fresh same-head review and all actual PR/main checks are rerun for this fix; the previous 4,800-execution receipt is retained as the prior source's result.

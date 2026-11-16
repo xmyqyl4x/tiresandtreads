@@ -3,6 +3,7 @@ import {
   type DeliveryChoice,
   type DeliveryReceipt,
   type DeliveryView,
+  type DeliveryReportLinkView,
   type OwnerRightsInput,
   type EmailRightsInput,
 } from '@tt/contracts/delivery-privacy';
@@ -49,6 +50,12 @@ export function deliveryPrivacyController(
             (await ownerSession(origin, send)).csrf,
             k,
           ),
+      );
+    },
+    revokeReportLink(raw: DeliveryReportLinkView, confirmedId: string | null) {
+      if (raw.id !== confirmedId) return Promise.reject(Error('Confirm this link'));
+      return run('revoke-delivery-report-link', raw, async (snapshot, k) =>
+        client.revokeReportLink(snapshot, (await ownerSession(origin, send)).csrf, k),
       );
     },
     ownerRights(raw: OwnerRightsInput) {

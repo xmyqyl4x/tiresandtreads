@@ -166,3 +166,36 @@ it('refuses hidden address control characters rather than trimming them into a v
     deliveryChoice({ ...form, email: 'User@example.invalid\n', offers: true }, reference, notices),
   ).toMatchObject({ ok: false, errors: { email: expect.any(String) } });
 });
+
+it('accepts only safe report-link metadata in an owned delivery projection', () => {
+  const base = {
+      id: uuid(70),
+      revision: '1',
+      state: 'scheduled',
+      sendAfter: '2026-11-15T12:00:00.000Z',
+      cancelDeadline: '2026-11-15T12:00:00.000Z',
+    },
+    link = {
+      id: uuid(71),
+      reportId: uuid(72),
+      version: 1,
+      comparisonRevision: null,
+      expiresAt: '2026-11-16T12:00:00.000Z',
+      state: 'active',
+    };
+  expect(deliveryView.safeParse({ ...base, reportLink: link }).success).toBe(true);
+  for (const change of [
+    { token: 'private' },
+    { digest: 'a'.repeat(64) },
+    { email: 'private@example.invalid' },
+    { version: 0 },
+    { expiresAt: 'tomorrow' },
+    { state: 'guessed' },
+    { comparisonRevision: '0' },
+  ])
+    expect(deliveryView.safeParse({ ...base, reportLink: { ...link, ...change } }).success).toBe(
+      false,
+    );
+  expect(deliveryView.safeParse({ ...base, reportLink: null }).success).toBe(true);
+  expect(deliveryView.safeParse(base).success).toBe(true);
+});

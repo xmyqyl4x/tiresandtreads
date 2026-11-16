@@ -36,7 +36,16 @@ export interface DeliveryLease {
   readonly payloadId: Id<'asset'> | null;
   readonly payloadHash: string | null;
 }
+export interface DeliveryReportLink {
+  readonly id: Id<'report_capability'>;
+  readonly reportId: Id<'report'>;
+  readonly version: number;
+  readonly comparisonRevision: string | null;
+  readonly expiresAt: string;
+  readonly state: 'active' | 'revoked' | 'expired' | 'unavailable';
+}
 export interface DeliveryWorkRepository {
+  reportLink(tx: Tx, owner: Owner, sendId: Id<'send'>): Promise<DeliveryReportLink | null>;
   presentation(
     tx: Tx,
     reportId: Id<'report'>,

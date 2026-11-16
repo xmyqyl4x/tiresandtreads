@@ -4,7 +4,17 @@ import type {
 } from '../../../application/src/ports/delivery-services.ts';
 import type { ContactPolicy } from '../../../application/src/ports/contact-services.ts';
 import { guarded, stop, type WriteScope } from './mutations.ts';
-import { one, rid, rev, stamp, text, obj, lockSubjects } from './private-values.ts';
+import {
+  one,
+  rid,
+  rev,
+  stamp,
+  text,
+  obj,
+  lockSubjects,
+  ownerGuard,
+  integer,
+} from './private-values.ts';
 import { sendFromRow } from './delivery.ts';
 import { createPrivacyRepository } from './privacy.ts';
 import { createContactServiceRepository } from './contact-services.ts';
@@ -45,6 +55,41 @@ export function createDeliveryWorkRepository(
     );
   }
   const repo: DeliveryWorkRepository = {
+    async reportLink(tx, owner, sendId) {
+      await ownerGuard(s, tx, owner);
+      const row = (
+        await q(
+          tx,
+          `SELECT c.id,c.report_id,c.report_version,c.comparison_revision,c.expires_at,
+        CASE WHEN c.revoked_at IS NOT NULL THEN 'revoked'
+          WHEN c.expires_at<=clock_timestamp() OR r.expires_at<=clock_timestamp() THEN 'expired'
+          WHEN r.status<>'active' THEN 'unavailable' ELSE 'active' END AS state
+        FROM email.email_sends e JOIN email.delivery_snapshots d ON d.send_id=e.id
+        JOIN app.report_capabilities c ON c.id=(d.document#>>'{links,share,id}')::uuid
+        JOIN app.reports r ON r.id=c.report_id
+        WHERE e.id=$1 AND e.owner_subject_id=$2 AND e.anonymized_at IS NULL
+          AND r.owner_subject_id=$2 AND c.report_id=e.report_id AND c.report_version=e.report_version
+          AND c.comparison_revision IS NOT DISTINCT FROM e.comparison_revision
+          AND c.version_scope='fixed' AND c.scope='view'
+          AND c.key_version=d.document#>>'{links,share,key,keyVersion}'
+          AND encode(c.token_hash,'hex')=d.document#>>'{links,share,key,digest}'`,
+          [sendId, owner.subjectId],
+        )
+      ).rows[0];
+      if (!row) return null;
+      const state = text(row.state);
+      if (!['active', 'revoked', 'expired', 'unavailable'].includes(state))
+        return stop('integrity');
+      return {
+        id: rid('report_capability', row.id),
+        reportId: rid('report', row.report_id),
+        version: integer(row.report_version),
+        comparisonRevision:
+          row.comparison_revision === null ? null : String(rev(row.comparison_revision)),
+        expiresAt: stamp(row.expires_at),
+        state: state as 'active' | 'revoked' | 'expired' | 'unavailable',
+      };
+    },
     async presentation(tx, id) {
       const r = one((await q(tx, 'SELECT locale,market FROM app.reports WHERE id=$1', [id])).rows);
       return { locale: text(r.locale), market: text(r.market) };

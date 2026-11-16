@@ -15,6 +15,7 @@ import {
 } from './delivery-privacy-inputs.ts';
 import {
   deliveryView,
+  deliveryReportLinkView,
   contactReceipt,
   confirmationView,
   emailPreferenceView,
@@ -24,6 +25,7 @@ import {
 } from './delivery-privacy-views.ts';
 export type {
   DeliveryView,
+  DeliveryReportLinkView,
   DeliveryReceipt,
   PrivacyStatusView,
   ConfirmationView,
@@ -38,11 +40,17 @@ export function createDeliveryPrivacyClient(origin: string, send: typeof fetch =
   const bounded: typeof fetch = (url, options) =>
       send(url, { ...options, signal: options?.signal ?? AbortSignal.timeout(15000) }),
     api = createApiClient(origin, bounded);
-  const postOwner = (path: string, input: unknown, csrf: string, key: string) => {
+  const postOwner = (
+    path: string,
+    input: unknown,
+    csrf: string,
+    key: string,
+    method: 'POST' | 'DELETE' = 'POST',
+  ) => {
     if (!/^[a-f0-9]{64}$/.test(csrf) || !/^[A-Za-z0-9_-]{8,100}$/.test(key))
       throw Error('Invalid command');
     return api.request<unknown>(path, {
-      method: 'POST',
+      method,
       credentials: 'same-origin',
       headers: { 'content-type': 'application/json', 'x-csrf-token': csrf, 'idempotency-key': key },
       body: JSON.stringify(input),
@@ -105,6 +113,30 @@ export function createDeliveryPrivacyClient(origin: string, send: typeof fetch =
       );
       if (view.id !== id || view.state !== 'cancelled') throw Error('Invalid cancellation receipt');
       return view;
+    },
+    async revokeReportLink(raw: unknown, csrf: string, key: string) {
+      const link = deliveryReportLinkView.parse(raw);
+      const receipt = z
+        .strictObject({
+          schema_version: z.literal(1),
+          resource_id: resourceId,
+          status: z.literal('accepted'),
+          report_id: resourceId,
+        })
+        .parse(
+          (
+            await postOwner(
+              '/api/v1/reports/' + link.reportId + '/shares/' + link.id,
+              {},
+              csrf,
+              key,
+              'DELETE',
+            )
+          ).data,
+        );
+      if (receipt.resource_id !== link.id || receipt.report_id !== link.reportId)
+        throw Error('Invalid revocation binding');
+      return receipt;
     },
     async ownerRights(input: OwnerRightsInput, csrf: string, key: string) {
       const r = privacyProofView.parse(
