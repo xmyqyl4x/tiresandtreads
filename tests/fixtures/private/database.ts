@@ -17,10 +17,12 @@ export function key(keyVersion = 'test-hmac-v1') {
 export function encrypted(keyVersion = 'test-enc-v1') {
   return { keyVersion, hex: randomBytes(32).toString('hex') };
 }
-export async function privateFixture() {
+export async function privateFixture(
+  decorate?: Parameters<Awaited<ReturnType<typeof catalogFixture>>['adapter']>[1],
+) {
   const f = await catalogFixture();
   try {
-    const scope = f.adapter('tt_private_runtime'),
+    const scope = f.adapter('tt_private_runtime', decorate),
       owners = createOwnerRepository(scope),
       reports = createReportRepository(scope),
       caps = createCapabilityRepository(scope),

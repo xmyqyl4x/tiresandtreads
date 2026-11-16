@@ -38,6 +38,8 @@ No deadline or engineering-day estimate is inferred from the number of PRs. Esti
 
 **Local completion review:** [All 43 Phase 1 cards](implementation/P1-PR-043-local-completion-review.md) are reconciled against their separate original/follow-up cycles. Permitted local engineering and release preparation are complete; licensed adapter scope and eleven original external/live acceptance tasks remain explicitly pending. Phase 1 live acceptance is not complete. Local APIs/frontends remain authorized.
 
+**Delivery reliability follow-up:** [P1-PR-036 uncertain-commit recovery](implementation/P1-PR-036-local-commit-recovery.md) adds four disposable PostgreSQL scenarios for explicit same-command request/cancellation recovery. The first PR #124 CI failure remains explicit; this proof establishes neither its cause nor an actual external/live acceptance result.
+
 ## Status and evidence conventions
 
 | Status | Meaning |

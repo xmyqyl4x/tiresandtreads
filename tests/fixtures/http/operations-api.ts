@@ -59,8 +59,9 @@ export async function operationsApiFixture(
       },
     ): ReportRenderer;
   },
+  decoratePrivatePool?: Parameters<typeof privateFixture>[0],
 ) {
-  const db = await privateFixture();
+  const db = await privateFixture(decoratePrivatePool);
   const observations: { operationId: string; method: string; status: number }[] = [];
   let observationsTruncated = false;
   let server: Awaited<ReturnType<typeof listenLocalApi>> | undefined, directory: string | undefined;

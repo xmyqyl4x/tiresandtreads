@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-15",
+  "scope": "P1-PR-036 disposable delivery commit acknowledgement recovery",
+  "parentSource": "1f0a3be821441450df5fbbd5e6b93dc67957397a",
+  "lastVerifiedEngineeringMain": "f8701eeec5894b5e54fa73bf3de57ebd6b6e2340",
+  "trigger": {
+    "pr": 124,
+    "run": 43799438074,
+    "job": 133075717757,
+    "conclusion": "failure",
+    "error": "commit_unknown",
+    "fixtureTransactionMs": 10000,
+    "observedTestDurationMs": 10151,
+    "causeConfirmed": false,
+    "priorFailureErased": false,
+    "rerunIsSeparateEvidence": true
+  },
+  "redControl": {
+    "faultInjectionDisabled": true,
+    "failedScenarios": 4
+  },
+  "focused": {
+    "testExecutions": 68,
+    "unit": 42,
+    "usecases": 14,
+    "actualPostgreSQL": 12,
+    "strictCompilation": true,
+    "lint": true,
+    "format": true
+  },
+  "runtimeOverlay": {
+    "baseVerifiedLocalPr": 124,
+    "baseImageId": "sha256:fd759a1d60b87ba569277473612f8f91ab059daf3cc21bfad95ee8486bcf5612",
+    "files": {
+      "tests/fixtures/catalog/database.ts": "a336a3c5c3bc22168ec05da121e2b8a00d166db3d23fe58569a837a05dbd3d81",
+      "tests/fixtures/private/database.ts": "65c6596f7c5e49fe37de6dfe2a7c10689074cc2ac3a6f0a83c515262ff35b148",
+      "tests/fixtures/http/operations-api.ts": "47f749d380496742f8f74f079e2f61dad469066071c78706b135b41bcfaa4a10",
+      "tests/fixtures/http/assessment-api.ts": "716e4a3eec1d2998307e0cddfea2f0d8473afd6d6aeebd73975e59b5473abaa1",
+      "tests/fixtures/http/commit-acknowledgement.ts": "e461a73e545e28024e530cfb5730a13bbeb3fe151e0ab19257c36ad2d33713a9",
+      "tests/database/delivery-commit-recovery.test.ts": "223c285a53673c48d6fe7e5efa39b9e5f517c7bfc4936342e3bb9a746d1701e3"
+    },
+    "entireNewSourceImageClaimed": false
+  },
+  "scenarios": [
+    {
+      "operation": "request",
+      "outcome": "committed",
+      "observed": {
+        "injected": 1,
+        "committed": 1,
+        "rolledBack": 0,
+        "destroyed": 1
+      },
+      "actualPostgreSQL": true,
+      "acknowledgementFault": "one-shot-driver-simulation",
+      "actualNetworkLoss": false,
+      "explicitSameCommandRecovery": true,
+      "productionTimeoutsChanged": false,
+      "originalCiRootCauseEstablished": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "operation": "cancel",
+      "outcome": "committed",
+      "observed": {
+        "injected": 1,
+        "committed": 1,
+        "rolledBack": 0,
+        "destroyed": 1
+      },
+      "actualPostgreSQL": true,
+      "acknowledgementFault": "one-shot-driver-simulation",
+      "actualNetworkLoss": false,
+      "explicitSameCommandRecovery": true,
+      "productionTimeoutsChanged": false,
+      "originalCiRootCauseEstablished": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "operation": "request",
+      "outcome": "rolled-back",
+      "observed": {
+        "injected": 1,
+        "committed": 0,
+        "rolledBack": 1,
+        "destroyed": 1
+      },
+      "actualPostgreSQL": true,
+      "acknowledgementFault": "one-shot-driver-simulation",
+      "actualNetworkLoss": false,
+      "explicitSameCommandRecovery": true,
+      "productionTimeoutsChanged": false,
+      "originalCiRootCauseEstablished": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    {
+      "operation": "cancel",
+      "outcome": "rolled-back",
+      "observed": {
+        "injected": 1,
+        "committed": 0,
+        "rolledBack": 1,
+        "destroyed": 1
+      },
+      "actualPostgreSQL": true,
+      "acknowledgementFault": "one-shot-driver-simulation",
+      "actualNetworkLoss": false,
+      "explicitSameCommandRecovery": true,
+      "productionTimeoutsChanged": false,
+      "originalCiRootCauseEstablished": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    }
+  ],
+  "newDatabaseScenarios": 4,
+  "expectedFullExecutions": 4856,
+  "productionCodeChanged": false,
+  "productionTimeoutsChanged": false,
+  "productionBootstrapCliPreflightPolicyChanged": false,
+  "providerDispatches": 0,
+  "actualRecipientNotifications": 0,
+  "actualNetworkLoss": false,
+  "independentDurabilityClaimed": false,
+  "actualPhaseAcceptance": false,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
