@@ -109,3 +109,51 @@ it('bounds request and response streams and keeps failures private', async () =>
   ).toBe(503);
   expect(send).toHaveBeenCalledTimes(1);
 });
+
+it('carries a bounded session JWT without decoding authority or dropping the independent reviewer credential', async () => {
+  const token = 'eyJhbGciOiJSUzI1NiJ9.' + 'e'.repeat(200) + '.' + 'a'.repeat(342),
+    reviewer = 'eyJhbGciOiJSUzI1NiJ9.' + 'f'.repeat(200) + '.' + 'b'.repeat(342),
+    send = vi.fn<typeof fetch>(async () => Response.json({ version: 2 }));
+  const response = await forwardStaff(
+    request('/api/v1/staff-console/publish', {
+      method: 'POST',
+      headers: {
+        origin: web,
+        authorization: 'Bearer ' + token,
+        'x-reviewer-authorization': 'Bearer ' + reviewer,
+        'x-csrf-token': 'a'.repeat(64),
+        'idempotency-key': 'synthetic_command',
+        'content-type': 'application/json',
+      },
+      body: '{}',
+    }),
+    env,
+    send,
+  );
+  expect(response.status).toBe(200);
+  expect(send).toHaveBeenCalledOnce();
+  const headers = new Headers(send.mock.calls[0]![1]!.headers);
+  expect(headers.get('authorization')).toBe('Bearer ' + token);
+  expect(headers.get('x-reviewer-authorization')).toBe('Bearer ' + reviewer);
+});
+
+it.each(['Bearer ' + 'a'.repeat(8192), 'Bearer x..y', 'Basic a.b.c'])(
+  'refuses an invalid reviewer credential before forwarding: %s',
+  async (reviewer) => {
+    const send = vi.fn<typeof fetch>();
+    expect(
+      (
+        await forwardStaff(
+          request('/api/v1/staff-console/publish', {
+            method: 'POST',
+            headers: { origin: web, 'x-reviewer-authorization': reviewer },
+            body: '{}',
+          }),
+          env,
+          send,
+        )
+      ).status,
+    ).toBe(503);
+    expect(send).not.toHaveBeenCalled();
+  },
+);

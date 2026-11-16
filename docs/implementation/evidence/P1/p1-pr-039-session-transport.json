@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-15",
+  "scope": "local P1-PR-039 verified session credential transport",
+  "baselineSource": "1472c098e8badf6c5f1586fcf4f2d628e0a3b431",
+  "expectedPullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/122",
+  "focusedTestsPassed": 136,
+  "suiteCounts": {
+    "syntax": 25,
+    "privateProxy": 13,
+    "staffClient": 3,
+    "httpCore": 29,
+    "syntheticSecurity": 13,
+    "clerkSignatureSession": 51,
+    "actualNextPostgreSql": 2
+  },
+  "strictCompilationPassed": true,
+  "credentialCharacterBound": 8185,
+  "bearerHeaderCharacterBound": 8192,
+  "browserClaimsTrusted": false,
+  "actualNext": true,
+  "actualPostgreSQL": true,
+  "actualBrowserInteraction": false,
+  "providerResponses": "generated local session records only",
+  "actualProviderCalls": 0,
+  "actualIdentityProviderAccepted": false,
+  "actualSecurityAccepted": false,
+  "S3Accepted": false,
+  "publicActivation": false,
+  "hostedProvisioning": false,
+  "purchases": false,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0,
+  "focusedProofParentSource": "7f6094f",
+  "parentReviewFollowup": {
+    "source": "1472c098e8badf6c5f1586fcf4f2d628e0a3b431",
+    "scope": "P1-PR-036 link-bound confirmation; final combined regression required",
+    "actualAcceptanceChanged": false
+  }
+}

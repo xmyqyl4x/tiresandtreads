@@ -797,7 +797,7 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Role/masking/browser tests and failed/retry states pass; staff cannot bypass ingestion or permission services.
 
-**Local implementation:** [P1-PR-039 staff console](../implementation/P1-PR-039-local-staff-console.md), with disposable PostgreSQL/Next/browser proofs. Actual acceptance, hosting/operator, specialist/licensed, inbox-client and deployment holds remain. Full validation and PR/main CI are required before merge completion.
+**Local implementation:** [Verified session transport](../implementation/P1-PR-039-local-session-transport.md) completes the bounded operator/reviewer credential follow-up.  [P1-PR-039 staff console](../implementation/P1-PR-039-local-staff-console.md), with disposable PostgreSQL/Next/browser proofs. Actual acceptance, hosting/operator, specialist/licensed, inbox-client and deployment holds remain. Full validation and PR/main CI are required before merge completion.
 
 ### P1-PR-040
 

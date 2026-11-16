@@ -1,3 +1,4 @@
+import { isStaffAuthorization } from '../../../../packages/contracts/src/staff-session.ts';
 import { localPreview, type PreviewEnvironment } from '../local-preview.ts';
 const headers = {
   'cache-control': 'no-store',
@@ -66,7 +67,7 @@ export async function forwardStaff(
   )
     return reply(400, 'invalid_input');
   const auth = request.headers.get('authorization');
-  if (!auth || !/^Bearer [A-Za-z0-9_-]{43}$/.test(auth)) return reply(401, 'unauthenticated');
+  if (!isStaffAuthorization(auth)) return reply(401, 'unauthenticated');
   try {
     const target = new URL(env.LOCAL_STAFF_API_ORIGIN ?? '');
     if (
@@ -89,7 +90,8 @@ export async function forwardStaff(
     for (const name of ['x-csrf-token', 'idempotency-key', 'x-reviewer-authorization']) {
       const value = request.headers.get(name);
       if (value !== null) {
-        if (value.length > 128) throw Error();
+        if (name === 'x-reviewer-authorization' ? !isStaffAuthorization(value) : value.length > 128)
+          throw Error();
         out.set(name, value);
       }
     }
