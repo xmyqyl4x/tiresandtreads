@@ -24,7 +24,7 @@ export function DeliveryScreen() {
     [receipt, setReceipt] = useState<DeliveryReceipt | null>(null),
     [previous, setPrevious] = useState<DeliveryView | null>(null),
     [busy, setBusy] = useState(false),
-    [revokeConfirmed, setRevokeConfirmed] = useState(false),
+    [confirmedLinkId, setConfirmedLinkId] = useState<string | null>(null),
     [uncertain, setUncertain] = useState(false),
     [message, setMessage] = useState(''),
     [error, setError] = useState(''),
@@ -164,7 +164,7 @@ export function DeliveryScreen() {
       receipt?.kind !== 'delivery' ||
       !receipt.view.reportLink ||
       receipt.view.reportLink.state !== 'active' ||
-      !revokeConfirmed ||
+      confirmedLinkId !== receipt.view.reportLink.id ||
       busy ||
       uncertain
     )
@@ -172,7 +172,7 @@ export function DeliveryScreen() {
     const current = structuredClone(receipt.view),
       link = current.reportLink!;
     void act(async () => {
-      await api.current!.revokeReportLink(link);
+      await api.current!.revokeReportLink(link, confirmedLinkId);
       setReceipt((previous) =>
         previous?.kind === 'delivery' &&
         previous.view.id === current.id &&
@@ -186,7 +186,7 @@ export function DeliveryScreen() {
             }
           : previous,
       );
-      setRevokeConfirmed(false);
+      setConfirmedLinkId(null);
       setMessage(
         'The recipient report link is revoked. Separate email preferences and your own report access are unchanged.',
       );
@@ -424,15 +424,17 @@ export function DeliveryScreen() {
                   <label className="choice">
                     <input
                       type="checkbox"
-                      checked={revokeConfirmed}
+                      checked={confirmedLinkId === view.reportLink.id}
                       disabled={busy || uncertain}
-                      onChange={(e) => setRevokeConfirmed(e.target.checked)}
+                      onChange={(e) =>
+                        setConfirmedLinkId(e.target.checked ? view.reportLink!.id : null)
+                      }
                     />{' '}
                     I want to revoke this recipient report link.
                   </label>
                   <Button
                     tone="danger"
-                    disabled={!revokeConfirmed || busy || uncertain}
+                    disabled={confirmedLinkId !== view.reportLink.id || busy || uncertain}
                     onClick={revokeReportLink}
                   >
                     Revoke recipient report link

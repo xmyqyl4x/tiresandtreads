@@ -281,9 +281,11 @@ it('retries only the same authorized report-link DELETE after a lost receipt and
     });
   };
   const c = deliveryPrivacyController(origin, send, () => uuid(9));
-  await expect(c.revokeReportLink(link)).rejects.toThrow();
-  await expect(c.revokeReportLink({ ...link, id: uuid(73) })).rejects.toThrow(/unconfirmed/);
-  expect(await c.revokeReportLink(link)).toMatchObject({ resource_id: link.id });
+  await expect(c.revokeReportLink(link, link.id)).rejects.toThrow();
+  await expect(c.revokeReportLink({ ...link, id: uuid(73) }, uuid(73))).rejects.toThrow(
+    /unconfirmed/,
+  );
+  expect(await c.revokeReportLink(link, link.id)).toMatchObject({ resource_id: link.id });
   expect(calls).toHaveLength(2);
   expect(calls[0]!.url).toBe(origin + '/api/v1/reports/' + link.reportId + '/shares/' + link.id);
   expect(calls[0]!.options.method).toBe('DELETE');
@@ -301,3 +303,31 @@ it('retries only the same authorized report-link DELETE after a lost receipt and
   );
   await expect(wrong.revokeReportLink(link, csrf, uuid(9))).rejects.toThrow(/binding/);
 });
+
+it.each([uuid(73), null])(
+  'requires fresh confirmation for the selected link before identity or DELETE: %s',
+  async (confirmedId) => {
+    const link = {
+      id: uuid(71),
+      reportId: uuid(72),
+      version: 1,
+      comparisonRevision: null,
+      expiresAt: '2026-11-16T12:00:00.000Z',
+      state: 'active' as const,
+    };
+    let calls = 0;
+    const c = deliveryPrivacyController(origin, async (u) => {
+      calls++;
+      return new URL(String(u)).pathname.endsWith('/sessions/current')
+        ? reply({ csrf })
+        : reply({
+            schema_version: 1,
+            resource_id: link.id,
+            status: 'accepted',
+            report_id: link.reportId,
+          });
+    });
+    await expect(c.revokeReportLink(link, confirmedId)).rejects.toThrow(/confirm/i);
+    expect(calls).toBe(0);
+  },
+);

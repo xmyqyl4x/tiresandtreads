@@ -52,7 +52,8 @@ export function deliveryPrivacyController(
           ),
       );
     },
-    revokeReportLink(raw: DeliveryReportLinkView) {
+    revokeReportLink(raw: DeliveryReportLinkView, confirmedId: string | null) {
+      if (raw.id !== confirmedId) return Promise.reject(Error('Confirm this link'));
       return run('revoke-delivery-report-link', raw, async (snapshot, k) =>
         client.revokeReportLink(snapshot, (await ownerSession(origin, send)).csrf, k),
       );
