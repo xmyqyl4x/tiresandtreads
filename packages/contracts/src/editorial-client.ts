@@ -1,5 +1,6 @@
 import './browser-runtime.ts';
 import { z } from 'zod';
+import { isStaffCredential, maxStaffCredentialLength } from './staff-session.ts';
 const text = (n: number) =>
   z
     .string()
@@ -109,7 +110,7 @@ export interface EditorialIdentity {
 }
 export const redirectEditorCommandSchema = z.strictObject({
   action: z.literal('redirects'),
-  reviewerCredential: z.string().regex(/^[A-Za-z0-9_-]{43}$/),
+  reviewerCredential: z.string().max(maxStaffCredentialLength).refine(isStaffCredential),
   revision: z.number().int().min(1).max(2147483647),
   issuedAt: z.iso.datetime(),
   expiresAt: z.iso.datetime(),
@@ -146,7 +147,7 @@ export function createEditorialClient(
     u.pathname !== '/' ||
     u.search ||
     u.hash ||
-    !/^[A-Za-z0-9_-]{43}$/.test(credential)
+    !isStaffCredential(credential)
   )
     throw Error('Local editorial connection refused');
   async function call<T>(

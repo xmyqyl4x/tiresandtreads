@@ -19,12 +19,19 @@ import type {
   EditorialDraft,
 } from '../../../packages/domain/src/editorial.ts';
 import seeds from '../../../content/education/en-US.drafts.json';
+import type { EditorialAuthorization } from '../../../packages/application/src/ports/editorial.ts';
 
 // Disposable support only. Fixed synthetic credentials do not represent a production identity issuer.
 export async function editorialFixture(
   origin = 'http://127.0.0.1:8380',
   options: {
     now?: () => string;
+    authorization?: (context: {
+      f: Awaited<ReturnType<typeof contentFixture>>;
+      actors: Record<EditorialRole, EditorialActor>;
+      credentials: Record<EditorialRole, string>;
+      origin: string;
+    }) => Promise<EditorialAuthorization>;
     beforeDelivery?: (
       ...args: Parameters<ReturnType<typeof createEditorialDelivery>>
     ) => Promise<void>;
@@ -192,7 +199,7 @@ export async function editorialFixture(
       production: false,
       now: options.now ?? (() => time()),
     });
-    const authorization = {
+    const fixtureAuthorization = {
       async require(credential: string, permission: EditorialRole | 'read') {
         const name = (Object.keys(credentials) as EditorialRole[]).find(
           (k) => credentials[k] === credential,
@@ -208,6 +215,9 @@ export async function editorialFixture(
         return actor;
       },
     };
+    const authorization = options.authorization
+      ? await options.authorization({ f, actors, credentials, origin })
+      : fixtureAuthorization;
     const deliver = createEditorialDelivery(content.services);
     if (process.env.TT_EDITORIAL_TRACE) console.log('EDITORIAL_TRACE service-ready');
     const service = createEditorialService({

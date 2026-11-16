@@ -1,3 +1,4 @@
+import { maxStaffCredentialLength } from '../../../../packages/contracts/src/staff-session.ts';
 import { useRef, useState, type FormEvent } from 'react';
 import type {
   createEditorialClient,
@@ -154,6 +155,7 @@ export function RedirectControls({ client }: { client: ReturnType<typeof createE
             id="redirect-reviewer"
             name="reviewer"
             type="password"
+            maxLength={maxStaffCredentialLength}
             autoComplete="off"
             required
           />

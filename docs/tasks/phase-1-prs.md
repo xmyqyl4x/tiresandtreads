@@ -781,6 +781,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Verification and acceptance:** Editorial roles, publish propagation, public crawl/index contracts, accessibility and useful script-free content pass.
 
+**Local verified-session follow-up:** [Editorial identity and private transport](../implementation/P1-PR-038-verified-editorial-sessions.md) requires the dedicated verified staff realm, current explicitly assigned editorial permissions and a native CMS mapping. It adds no production roles/grants or provider setup. Actual editorial/specialist/security/SSO and live acceptance remain held.
+
 ### P1-PR-039
 
 **Build staff operations, SEO and ad-revenue screens**
