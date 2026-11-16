@@ -54,3 +54,7 @@ The owner subsequently granted that limited sequencing exception: [P2 local prep
 ## Review and verification
 
 This is documentation and inventory work; TDD does not require artificial behavioral tests. Validate inventory hashes against repository bytes, confirm all linked evidence exists, reconcile the master ledger with merged local implementation, and preserve original source pins, six pending S3 records and all historical case statuses. Run the repository's required exact-commit build/regression and PR/main checks before merge completion. Record new run results in the PR; the baseline counts above remain historical observations from PR #87.
+
+## Subsequent local engineering reconciliation
+
+The [43-card local completion review](P1-PR-043-local-completion-review.md) records the subsequent source baseline and individual follow-up cycles without rewriting the historical PR #87/#88 observations above. All three original live tasks, six S3 gates and external acceptance/hosting/operator decisions remain open. Local completion and this review grant no activation permission.

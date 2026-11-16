@@ -23,305 +23,702 @@
       "card": "P1-PR-001",
       "title": "Lock Phase 1 scope, data rights and launch coverage",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/1",
+      "originalCycle": {
+        "number": 1,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/1",
+        "merge": "b9e02f07be87422f30f7a5c3c18c57965bd59313",
+        "tree": "3cb92184f98083e1e1309ed5a033a83ebc7db99b"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-002",
       "title": "Bootstrap headless workspace and TDD tooling",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/2",
+      "originalCycle": {
+        "number": 2,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/2",
+        "merge": "dd1817fa826b38e1bc6037be7eba782a869148ab",
+        "tree": "5b551335c704884a72d50e214ca42403b822afbc"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-003",
       "title": "Prove local foundation and track provider gates",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/3",
+      "originalCycle": {
+        "number": 3,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/3",
+        "merge": "ebcf9361a495547f9d9445d89f64131cf0ebef68",
+        "tree": "00891070c89d8c6120a1120fd9b0ac03a429267a"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-004",
       "title": "Create database ownership, identity and asset foundations",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/4",
+      "originalCycle": {
+        "number": 4,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/4",
+        "merge": "4f00c3054f0fcfd706098a0c3fd66af72449e1f4",
+        "tree": "03b35663117f2ffaf9c2080d93d584810b57fe25"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-005",
       "title": "Create domain, catalog, reference and import schemas",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/5",
+      "originalCycle": {
+        "number": 5,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/5",
+        "merge": "2d8acd2c8476e12debae29b5738ae74cd8d3cd4b",
+        "tree": "094004a2bc19dc19dc61c0f961079df11073673d"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-006",
       "title": "Create report, consent, delivery and reliability schemas",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/6",
+      "originalCycle": {
+        "number": 6,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/6",
+        "merge": "53f9fd1f9dcce8b781fb15f4e465b33443850748",
+        "tree": "b4c2e25cf4c08e9038165556310a6388727a3f11"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-007",
       "title": "Create CMS, SEO, ads, analytics and quota schemas",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/7",
+      "originalCycle": {
+        "number": 7,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/7",
+        "merge": "ad3822ae51ed969c6d575ff7e661d8e6a1362623",
+        "tree": "f2117e159d71b462b98272da1e34c92b9fe5594b"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-008",
       "title": "Close database gate with migration and recovery evidence",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/8",
+      "originalCycle": {
+        "number": 8,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/8",
+        "merge": "beccd8efe28e6df1eef6fe99fd088787521b8d9a",
+        "tree": "1ac9de86fe8a5746bee530ba2e8e9cf09939db51"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-009",
       "title": "Define domain entities, value objects and repository contracts",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/9",
+      "originalCycle": {
+        "number": 9,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/9",
+        "merge": "7ac3ed2051a22703c0b9d72fea55e0dfa292a36f",
+        "tree": "2d8671d8f5fae3d5da665bc2b2374a2d72995937"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-010",
       "title": "Implement catalog and ingestion repositories",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/10",
+      "originalCycle": {
+        "number": 10,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/10",
+        "merge": "18a264a7056c11f2b7a2fe90c8698337f20d3e3a",
+        "tree": "e3a72aa0cc0de8d6f094c0ee52d01579ffe5a980"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-011",
       "title": "Implement owner, report, privacy and delivery repositories",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/11",
+      "originalCycle": {
+        "number": 11,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/11",
+        "merge": "e94c7cd1f415e303193c546e8a8c7c3ca026e4d5",
+        "tree": "3ca07f068b7ff9fda532afe7aa7f170a384531a1"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-012",
       "title": "Implement content, operations, analytics and limiter adapters",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/12",
+      "originalCycle": {
+        "number": 12,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/12",
+        "merge": "4a37b95807b0209b29e6f4b03caf46bf5cb0a1ce",
+        "tree": "8f7b92783d1b778f2890f7dede6ce6c1e655c3fe"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-013",
       "title": "Close entities and data-access gate",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/13",
+      "originalCycle": {
+        "number": 13,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/13",
+        "merge": "b3286d023dff392e23099377220a359b3d4337f2",
+        "tree": "2521ca4c17e4255b63fcc7d9e3ccd5d95c7c6e3d"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-014",
       "title": "Implement durable jobs, private assets and runtime composition",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/14",
+      "originalCycle": {
+        "number": 14,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/14",
+        "merge": "969235fe712ea4989602c8908bc63ad9ca9bcf7a",
+        "tree": "6a87e618fb86621697d739f1145c97c1792ef2a5"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-015",
       "title": "Implement script-first ingestion and publication services",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/15",
+      "originalCycle": {
+        "number": 15,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/15",
+        "merge": "5504a4a5b543d474bb031d714513de82170f651f",
+        "tree": "e70a3611c5898022e9c9d4be1f027ef77418b4f6"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-016",
       "title": "Integrate NHTSA and licensed domain source adapters",
       "baselineStatus": "In progress",
-      "localCloseout": "local-engineering-validated-licensed-pending",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/117"
+      "localCloseout": "permitted-local-scope-complete-licensed-pending",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/117",
+      "originalCycle": {
+        "number": 16,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/16",
+        "merge": "a774e1f025ee81a0bce593f37bab63ac6b66bdc4",
+        "tree": "060ca15cba51a0b9b028f5fbf2da9473494dcaa5"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 117,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/117",
+        "head": "e18daf52a08ed83bfdddc4be1eeb7669579076b9",
+        "merge": "9f4ef14bda4c6008d4ac65c18dd6673275b376ae",
+        "tree": "ebace44f5ef462951a83f8d3bc88b33df168fcab",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 9,
+        "fullExecutions": 4699,
+        "nativeProfiles": 16
+      }
     },
     {
       "card": "P1-PR-017",
       "title": "Implement deterministic eligibility and recommendation rules",
       "baselineStatus": "In progress",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/17",
+      "originalCycle": {
+        "number": 17,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/17",
+        "merge": "89a4a098bd80796bff4b293497410118f36e8fcd",
+        "tree": "b127d0d5f0568abcf66ad55aa4eb84130f576072"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-018",
       "title": "Implement prices, installed costs and comparison mathematics",
       "baselineStatus": "In progress",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/18",
+      "originalCycle": {
+        "number": 18,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/18",
+        "merge": "752760736ecc9ab70186503bf27cd942768f7e83",
+        "tree": "e8572f5e25680506a421dc4a046b309836d05d68"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-019",
       "title": "Implement report, refine, compare and access services",
       "baselineStatus": "In progress",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/19",
+      "originalCycle": {
+        "number": 19,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/19",
+        "merge": "2bacfc78c60a86e6d49eed372ccd5c6b6fd7b714",
+        "tree": "ecff3a9b73a0984458f03dc9fbb5329af45ba3bd"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-020",
       "title": "Implement contact, consent and suppression services",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/20",
+      "originalCycle": {
+        "number": 20,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/20",
+        "merge": "2de57d88b69b7683b9a0ed1831548d2908e06555",
+        "tree": "2fd66f79b5844398dc0d3b2f11d419e366dec385"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-021",
       "title": "Implement content, public tools and SEO publication services",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/21",
+      "originalCycle": {
+        "number": 21,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/21",
+        "merge": "c7595c59f33481254979e69faf588578c4393951",
+        "tree": "a32fc39ddc3e72d6c80fe5bbf6c88c334ae207a9"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-022",
       "title": "Implement report delivery orchestration and cancellation",
       "baselineStatus": "Accepted",
-      "localCloseout": "implementation-complete-validation-in-progress",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/119"
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/119",
+      "originalCycle": {
+        "number": 22,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/22",
+        "merge": "5e6d4cd4866b3258d9f22978966a9adfe46f0e94",
+        "tree": "d7aff0877f3879072ee3ffc7c7e1af37f775e1af"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 119,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/119",
+        "head": "2954abde06eeecf5370a5d6ae19f152165aca3f6",
+        "merge": "51f86503863613b6925c19a80fe83bbaafcb5d4e",
+        "tree": "401b9f865ef1e54a82bfcb1bea9d8022a9a4de3f",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 8,
+        "mainChecksFailed": 1,
+        "compilerFailureBeforeTests": true,
+        "correctedBy": 120,
+        "repairMain": "86e51b70f2923ac7188f44f05a5a903e8788df1b",
+        "repairMainChecksPassed": 9
+      }
     },
     {
       "card": "P1-PR-023",
       "title": "Implement webhooks, preferences, feedback and safe redirects",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/23",
+      "originalCycle": {
+        "number": 23,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/23",
+        "merge": "c71df71471544868fd0a47b9ca7275508670e7ae",
+        "tree": "be8f5fb3375d8a96731c31b07ae1064ccd2753bf"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-024",
       "title": "Implement PostgreSQL analytics, SQL limits and operations",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/24",
+      "originalCycle": {
+        "number": 24,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/24",
+        "merge": "4ba7b446ee343eac9baabd3d98bb8ba228d11890",
+        "tree": "88a510fe67bdc94a8913855bb31d6d29cf871da4"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-025",
       "title": "Implement privacy rights, retention and recovery services",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/25",
+      "originalCycle": {
+        "number": 25,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/25",
+        "merge": "7aa1b54216b50fc687ff8990fb7edb93a83f8d4c",
+        "tree": "2a5c160df922a1bb8b4102e8e985726271757ffb"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-026",
       "title": "Implement staff, affiliate, advertising and revenue services",
       "baselineStatus": "Accepted",
-      "localCloseout": "previously-accepted",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/26",
+      "originalCycle": {
+        "number": 26,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/26",
+        "merge": "ac258ac7fbe63e62791993de634cbb5ec9b2f559",
+        "tree": "7faf007f589444f4eec8b1252c3fb7f8ace89f64"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-027",
       "title": "Close business-service gate and engine safety review",
       "baselineStatus": "In progress",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/27",
+      "originalCycle": {
+        "number": 27,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/27",
+        "merge": "026a14c707c567ccbeffaabca8ff74f5aaf59b59",
+        "tree": "9138451acca2a87a5f30d273ae68fb85ca39e4a1"
+      },
+      "originalAcceptanceChanged": false,
+      "localContinuationPrRange": [
+        27,
+        72
+      ]
     },
     {
       "card": "P1-PR-028",
       "title": "Expose public lookup and owner assessment APIs",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/73",
+      "originalCycle": {
+        "number": 73,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/73",
+        "merge": "ee050025455d395a6d19bf2ba3326746fcf3fca8",
+        "tree": "6cdfa457b12fe533dbe9397b870a1b9064757a31"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-029",
       "title": "Expose consent, privacy, import and staff operations APIs",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "implementation-complete-validation-in-progress",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/120"
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/120",
+      "originalCycle": {
+        "number": 74,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/74",
+        "merge": "98c88e1967efdae90877cdfb7cf480c26aab49f4",
+        "tree": "a188f01317cf03576e05f869b6e49cce18bdbe23"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 120,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/120",
+        "head": "4eb42976011cf1435644193039df093cd0be1240",
+        "merge": "86e51b70f2923ac7188f44f05a5a903e8788df1b",
+        "tree": "da93003cb0948133110b973e3c4dd48759d5789e",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 9,
+        "fullExecutions": 4795,
+        "nativeProfiles": 16
+      }
     },
     {
       "card": "P1-PR-030",
       "title": "Expose provider callbacks, event intake and workflow endpoints",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/75",
+      "originalCycle": {
+        "number": 75,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/75",
+        "merge": "2103db1c9bb3afb3ac2c4a5ee4f69d202e8eeb8f",
+        "tree": "c5088ce69c396d88e69d53c95251fb9892db0648"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-031",
       "title": "Accept the complete Phase 1 API before frontend work",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/76",
+      "originalCycle": {
+        "number": 76,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/76",
+        "merge": "2e49fc4d7aa5ad470ed7fdaf0c6e269704f7347a",
+        "tree": "c1c2f4a7463234062f06c90093f1fdda18f719cd"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-032",
       "title": "Build accessible web shell and design system",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/77",
+      "originalCycle": {
+        "number": 77,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/77",
+        "merge": "d00d85ade697bcd1ea25a99b5ce465ce5d84488c",
+        "tree": "1e47e0285039f73aeb76e40fb7d6a5997428fbe9"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-033",
       "title": "Build assessment form and reference lookups",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/78",
+      "originalCycle": {
+        "number": 78,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/78",
+        "merge": "4cc7018d09b5b495dea9efad70e03cda510c7c27",
+        "tree": "13fd411c4de9a1a41f85a1a38986a417434c290c"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-034",
       "title": "Build results, explanation and refinement views",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/79",
+      "originalCycle": {
+        "number": 79,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/79",
+        "merge": "ee07724d13406cd4af4f50457cae428de53586e3",
+        "tree": "4be067e3a11792c3d8c88458f69dfa552edbedb5"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-035",
       "title": "Build comparison, shop-quote and sharing views",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/80",
+      "originalCycle": {
+        "number": 80,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/80",
+        "merge": "9bf0cc3ab99c5ec4905f5aac75b7b5eff0885304",
+        "tree": "06b1dbe8bb22c1c343923a8690685ca73085c434"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-036",
       "title": "Build delivery, cancellation, preferences and privacy controls",
       "baselineStatus": "Locally implemented",
-      "localCloseout": "implementation-complete-validation-in-progress",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/121"
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/121",
+      "originalCycle": {
+        "number": 81,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/81",
+        "merge": "40758d7dbbd396a49cff8c30e8862f4ad491d4c6",
+        "tree": "5385eecc87d8d97a761312fe9a61eae7571c85c6"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 121,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/121",
+        "head": "1472c098e8badf6c5f1586fcf4f2d628e0a3b431",
+        "merge": "2651ec278a0045393e2147f69bb4dde0400549ce",
+        "tree": "d631bed6df2a23d42118294072f336cfa4a0e1a3",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 9,
+        "fullExecutions": 4802,
+        "nativeProfiles": 16
+      }
     },
     {
       "card": "P1-PR-037",
       "title": "Implement production email and PDF templates",
       "baselineStatus": "Locally implemented; inbox/PDF accessibility acceptance pending",
-      "localCloseout": "implementation-complete-validation-in-progress",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/118"
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/118",
+      "originalCycle": {
+        "number": 82,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/82",
+        "merge": "e0511f6e943556911dbcac32277f4bf250a35bac",
+        "tree": "7e159635045c0a1a803a425caf84068610c41ce7"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 118,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/118",
+        "head": "5b30262e197d1ec076e4f32a14bc27e8d4682d5c",
+        "merge": "cc92d81bfd13e3bffb07f2a35fd4b781308a12da",
+        "tree": "8d4886505d8f10963ea0012d9e06d15676176889",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 9,
+        "fullExecutions": 4703,
+        "nativeProfiles": 16
+      }
     },
     {
       "card": "P1-PR-038",
       "title": "Build editorial CMS and reviewed education website",
       "baselineStatus": "Locally implemented; editorial acceptance pending",
-      "localCloseout": "implementation-complete-validation-in-progress",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/123"
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/123",
+      "originalCycle": {
+        "number": 83,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/83",
+        "merge": "277e26e20e22d263c95b075fcce2ba479a5aace3",
+        "tree": "a3a02fc6ffcc060849ef1e316e739f802d75d241"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 123,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/123",
+        "head": "b9b760711e641a1a4d0cce0c2a2db64c5fc95b22",
+        "merge": "f8701eeec5894b5e54fa73bf3de57ebd6b6e2340",
+        "tree": "5eafba55386cab00d92fe7b76e7361e7fba75e60",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 9,
+        "fullExecutions": 4852,
+        "nativeProfiles": 16
+      }
     },
     {
       "card": "P1-PR-039",
       "title": "Build staff operations, SEO and ad-revenue screens",
       "baselineStatus": "Local implementation; acceptance held",
-      "localCloseout": "implementation-complete-validation-in-progress",
-      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/122"
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/122",
+      "originalCycle": {
+        "number": 84,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/84",
+        "merge": "4f01fb77475388cd59591f5172cf6bab09db5ee6",
+        "tree": "752d9cbcf6fc7a2676bc4964bce9679e00ac3d1d"
+      },
+      "originalAcceptanceChanged": false,
+      "followupCycle": {
+        "number": 122,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/122",
+        "head": "c33ff556397a9091719083ab472fff6abb17adbd",
+        "merge": "81e0fd144d1928b6f25d25d2a25e9b278364e687",
+        "tree": "c19ad02023ef2ece4e9d735bfdd54158b90e846f",
+        "prChecksPassed": 9,
+        "mainChecksPassed": 9,
+        "fullExecutions": 4833,
+        "nativeProfiles": 16
+      }
     },
     {
       "card": "P1-PR-040",
       "title": "Build permitted affiliate and advertising placements",
       "baselineStatus": "Locally implemented; live commercial acceptance held",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/85",
+      "originalCycle": {
+        "number": 85,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/85",
+        "merge": "5074a96c487c11dade859547db15967ce53233ec",
+        "tree": "70b45515ce8a448b97552bb2a6140119d36872fb"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-041",
       "title": "Verify the full web product and accessibility journeys",
       "baselineStatus": "Locally validated; actual experience acceptance pending",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/86",
+      "originalCycle": {
+        "number": 86,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/86",
+        "merge": "85a5262df111517feb07ad77b2050373d61d843c",
+        "tree": "ccf63546d15c9ef853f51593d17e5ef7e815d3ac"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-042",
       "title": "Prove production security, capacity and recovery",
       "baselineStatus": "Locally validated; production acceptance pending",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-engineering-complete",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/87",
+      "originalCycle": {
+        "number": 87,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/87",
+        "merge": "03fc439c34c847b54db7ad28a1d5fced48ef3442",
+        "tree": "9e615e3481632b3090913ec3b74cda00fd4da86f"
+      },
+      "originalAcceptanceChanged": false
     },
     {
       "card": "P1-PR-043",
       "title": "Release Phase 1 and record the usable live outcome",
       "baselineStatus": "Local preparation; live release held",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "local-release-preparation-complete-live-held",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/124",
+      "originalCycle": {
+        "number": 88,
+        "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/88",
+        "merge": "0fbd94aba6096d621bd75c0be3579a68dbcdeb44",
+        "tree": "bdd763fbc9d4bb2a18904874dab90145196a347f"
+      },
+      "originalAcceptanceChanged": false
     }
   ],
   "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)",
   "remainingLocalInvestigations": [],
-  "localReconciliationPending": "Final 43-card local engineering/release-exclusion reconciliation after the separate closeout PR cycles."
+  "localReconciliation": {
+    "cardReviewCount": 43,
+    "localEngineeringCards": 42,
+    "localReleasePreparationCards": 1,
+    "licensedOriginalScopePending": [
+      "P1-PR-016"
+    ],
+    "originalUncheckedTasks": 11,
+    "originalAcceptanceCardsWithOpenTasks": 6,
+    "phase1LiveAccepted": false,
+    "reviewCyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/124",
+    "validatedEngineeringBaseline": "f8701eeec5894b5e54fa73bf3de57ebd6b6e2340"
+  }
 }
