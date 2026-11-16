@@ -871,6 +871,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 
 **Local preparation:** [Release inventory and decision packet](../implementation/P1-PR-043-local-release-preparation.md) records the verified construction baseline, null production manifest fields, outstanding acceptance inputs and future migration/promotion handoff. All three live-release tasks above remain open; local preparation and merge do not release Phase 1.
 
+**Local completion reconciliation:** [All 43 cards](../implementation/P1-PR-043-local-completion-review.md) now have a recorded permitted local result and original/follow-up PR. Licensed scope and all original external/live acceptance tasks remain pending; the three original release checkboxes stay open.
+
 **Verification and acceptance:** A supported driver completes the live journey and operations can import/rollback/recover; release evidence links close P1, not merely PR merge.
 
 [LR04 populated preservation contract and implementation](../implementation/P1-PR-027-populated-preservation-proof.md) completes the authorized next slice after PR64. Nine native cases and twenty unit controls verify a distinct populated-quarantined phase, both domains/history sets, adverse-state preservation and unchanged foundation-reader refusal. Original parent boxes, cases/gates and all holds remain unchanged; actual restore/current-index/journal composition is separately scoped. LR05 actual decisions and acceptance inputs remain held. No hosted provisioning, purchases or actual notifications.
