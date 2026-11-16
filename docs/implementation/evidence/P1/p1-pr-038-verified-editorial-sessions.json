@@ -2,10 +2,17 @@
   "schemaVersion": 1,
   "recordedOn": "2026-11-15",
   "scope": "local P1-PR-038 verified editorial authorization and private transport",
-  "baselineSource": "04867ea21fa39d4c0069e62002f1cdf05c6d9dcb",
+  "baselineSource": "c33ff556397a9091719083ab472fff6abb17adbd",
   "expectedPullRequest": "https://github.com/xmyqyl4x/tiresandtreads/pull/123",
   "focusedTestsPassed": 73,
-  "suiteCounts": { "authorization": 11, "proxyClientReviewer": 7, "existingDomain": 9, "existingDelivery": 6, "existingServices": 39, "nativeNextSdkPostgreSqlPayload": 1 },
+  "suiteCounts": {
+    "authorization": 11,
+    "proxyClientReviewer": 7,
+    "existingDomain": 9,
+    "existingDelivery": 6,
+    "existingServices": 39,
+    "nativeNextSdkPostgreSqlPayload": 1
+  },
   "strictCompilationPassed": true,
   "dedicatedStaffVerifierRequired": true,
   "currentAppRolesAndCmsMappingRequired": true,
@@ -31,5 +38,10 @@
   "purchases": false,
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "parentReviewFollowup": {
+    "source": "1472c098e8badf6c5f1586fcf4f2d628e0a3b431",
+    "scope": "P1-PR-036 link-bound confirmation; final combined regression required",
+    "actualAcceptanceChanged": false
+  }
 }
