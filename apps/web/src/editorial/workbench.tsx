@@ -1,3 +1,4 @@
+import { maxStaffCredentialLength } from '../../../../packages/contracts/src/staff-session.ts';
 import { useRef, useState, type FormEvent } from 'react';
 import { RedirectControls } from './redirect-controls.tsx';
 import {
@@ -218,6 +219,7 @@ export function EditorialWorkbench() {
           <input
             id="editorial-credential"
             type="password"
+            maxLength={maxStaffCredentialLength}
             autoComplete="off"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}

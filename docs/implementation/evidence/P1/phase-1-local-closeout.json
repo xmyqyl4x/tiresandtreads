@@ -282,8 +282,8 @@
       "card": "P1-PR-038",
       "title": "Build editorial CMS and reviewed education website",
       "baselineStatus": "Locally implemented; editorial acceptance pending",
-      "localCloseout": "queued",
-      "cyclePr": null
+      "localCloseout": "implementation-complete-validation-in-progress",
+      "cyclePr": "https://github.com/xmyqyl4x/tiresandtreads/pull/123"
     },
     {
       "card": "P1-PR-039",
@@ -322,7 +322,6 @@
     }
   ],
   "licensedSourceInstruction": "Keep licensed adapters pending; finish other local work (owner reply, November 15)",
-  "remainingLocalInvestigations": [
-    "P1-PR-038: bounded verified-session transport for the private editorial workbench"
-  ]
+  "remainingLocalInvestigations": [],
+  "localReconciliationPending": "Final 43-card local engineering/release-exclusion reconciliation after the separate closeout PR cycles."
 }

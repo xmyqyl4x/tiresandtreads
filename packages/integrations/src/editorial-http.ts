@@ -2,6 +2,7 @@ import {
   editorialCommandSchema,
   redirectEditorCommandSchema,
 } from '../../contracts/src/editorial-client.ts';
+import { isStaffAuthorization } from '../../contracts/src/staff-session.ts';
 import { parseRedirectCsv } from './redirect-csv.ts';
 import type { createEditorialService } from '../../application/src/services/editorial.ts';
 export function editorialHttp(d: {
@@ -43,8 +44,7 @@ export function editorialHttp(d: {
       return reply(403, { error: 'forbidden' });
     if (!['GET', 'POST'].includes(request.method))
       return reply(405, { error: 'method_not_allowed' });
-    if (!credential || !/^Bearer [A-Za-z0-9_-]{43}$/.test(credential))
-      return reply(401, { error: 'unauthenticated' });
+    if (!isStaffAuthorization(credential)) return reply(401, { error: 'unauthenticated' });
     if (active >= 4) return reply(503, { error: 'unavailable' });
     active++;
     try {

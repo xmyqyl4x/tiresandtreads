@@ -1,0 +1,29 @@
+# P1-PR-038 verified editorial sessions and private transport
+
+November 15, 2026. This local closeout cycle connects the existing editorial service to the approved verified staff-session boundary. Actual Clerk account/sign-in/MFA configuration, public bylines, permission assignments, specialist/editorial/accessibility acceptance and live release remain pending. It creates no users, roles, permissions, database grants, pools or hosted resources. Production bootstrap, CLI, preflight and admission policy remain unchanged.
+
+## Server authority and separation
+
+The original local CMS composition accepted three synthetic opaque credentials. The opt-in `createEditorialStaffAuthorization` composition now requires an explicitly selected dedicated staff verifier, an existing bounded `tt_staff_runtime` read scope, an existing bounded `tt_cms_runtime` read scope, an immutable three-permission editorial profile and an explicit public byline. There is no default profile, automatic grant, owner/fixture fallback or role derived from client token claims.
+
+The staff verifier performs SDK signature/session/MFA checks and resolves an existing active application identity. The editorial adapter reads only current, effective, non-revoked application assignments for the three configured editorial permissions. Its parameterized query returns at most those three permission strings. A separate CMS read must find the unique existing `cms_staff.app_staff_id` mapping. Application permissions and MFA freshness are checked again after that read. Missing roles, disabled identities, missing mappings, revoked sessions, stale/future MFA and incorrect database scopes fail closed. The existing service checks authorization again before saving or delivering publication and independently verifies both redirect publisher and reviewer.
+
+The application identity port contains no driver or HTTP types. PostgreSQL repositories enforce their exact runtime identities; integration composition owns the verifier and read scopes. Provider verification finishes outside those database read transactions. An outer five-second deadline and abort checks prevent late verification from starting subsequent database work. Existing SQL deadlines bound admitted reads. There is no new cross-database atomicity, independent authentication, durability or fencing claim. Actual security acceptance remains held.
+
+The sealed Payload Local API continues to use its internal access context with `overrideAccess: false`. Native admin, local-password, REST/GraphQL or unsealed Local API access is not an alternate authentication path. Existing revision history, review expiration, publication/withdrawal replay, rollback and public snapshot behavior remain in place.
+
+## Private UI and API transport
+
+The editorial client, private Next proxy and local HTTP controller now share the existing staff-credential syntax bound: 8,185 credential characters / 8,192-character Bearer header. This accepts the retained 43-character synthetic fixture shape or a bounded three-part URL-safe session shape; it does not authenticate either shape. Author and independent reviewer password inputs have the same explicit bound. The reviewer remains in the existing private POST body; credentials do not enter URLs, persistent browser storage, cookies or public bundles.
+
+The proxy is separated from HTML rendering so it can be tested independently. It retains opt-in loopback target admission, same-origin/Host checks, exact Next route dispatch, method/query limits, 65,536-byte body and 262,144-character response bounds, deadlines, cookie stripping, no-store/noindex and the self-only CSP. No browser Clerk SDK, third-party script, signup flow or public entry point is added. Transporting a verified session through the workbench does not claim a hosted SSO ceremony or accepted operator account.
+
+## Verification
+
+Failing tests first reproduced the missing verified binding and private session transport. The final focused compiler/unit/use-case/native proof set passes 73 executions: 11 new authorization controls, seven new private transport controls, nine existing editorial domain controls, six existing delivery controls, 39 existing service cases and one native integration test with multiple adverse assertions.
+
+The native proof uses generated RSA-2048 SDK-compatible tokens, three existing disposable fixture identities, fixture-only editorial assignments and bounded synthetic session GET records. It builds Next, traverses the actual private proxy, official SDK, application PostgreSQL roles and native CMS mapping, submits/reviews/publishes a real Payload-backed draft, reads the resulting public page and publishes an independently reviewed redirect. Removing a current editorial grant, removing a CMS mapping, revoking a synthetic provider session, forging a token or selecting the wrong database scope is refused. Native unsealed Payload access stays denied. All owned test resources are torn down. There are no actual provider calls or recipient notifications. This is an HTTP/database integration proof, not manual browser or human acceptance evidence.
+
+The [measured scope record](evidence/P1/p1-pr-038-verified-editorial-sessions.json) accompanies the card. Final exact-source Linux regression, fresh review and actual PR/main checks are required for the merge cycle. The original 32 authored drafts/25 glossary entries and their prior publication/browser evidence remain historical; this follow-up does not turn drafts into specialist-reviewed launch content.
+
+All six S3 gates remain open, HS01–HS08 proposed, operators/coverage/rates unconfirmed, specialist/licensed work pending and all actual provider/privacy/security/hosting/phase/live acceptance held. No provisioning, purchases, actual notifications, live provider/model effects or original case/gate closure occurs.
