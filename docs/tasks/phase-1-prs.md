@@ -738,6 +738,8 @@ Each checkbox is implementation work, not a claim of completion. Each behavioral
 - [x] Show server cancellation deadline, send/pending/unknown/cancelled status and safe retry controls.
 - [x] Build purpose preferences/GPC acknowledgement and rights request/status interfaces.
 
+**Additional local reliability proof:** [Uncertain-commit recovery](../implementation/P1-PR-036-local-commit-recovery.md) covers explicit same-command replay for delivery/correct-address cancellation against both committed and rolled-back synthetic acknowledgement faults. Production code and limits, original cases and actual acceptance remain unchanged.
+
 **Verification and acceptance:** Browser network tests show denied processing stays off; cancel/withdraw/report-only journeys work without an account.
 
 **Local implementation:** [Owner delivery-link controls](../implementation/P1-PR-036-local-share-controls.md) complete the metadata/revocation follow-up; [Delivery, cancellation, purpose and rights record](../implementation/P1-PR-036-local-delivery-privacy.md). These boxes record local implementation/testing under the owner continuation only; actual acceptance/deployment remain held.

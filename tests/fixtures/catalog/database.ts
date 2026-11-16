@@ -11,7 +11,7 @@ import {
 } from '../../../scripts/database/bootstrap.ts';
 import { migrateApplication } from '../../../scripts/database/migrate.ts';
 import { loadSources } from '../../../scripts/database/manifest.ts';
-import { createTransactions } from '../../../packages/db/src/transactions.ts';
+import { createTransactions, type PgPool } from '../../../packages/db/src/transactions.ts';
 import { createIngestionRepository } from '../../../packages/db/src/repositories/ingestion.ts';
 import { createPublicationRepository } from '../../../packages/db/src/repositories/publication.ts';
 import { createCatalogRepository } from '../../../packages/db/src/repositories/catalog.ts';
@@ -110,7 +110,10 @@ export async function catalogFixture() {
       `INSERT INTO app.data_licenses(id,provider_id,market,rights,effective_at,reviewed_at) VALUES($1,$2,'US','{"display":true,"api":true,"derived":true,"snapshot":true,"cache":true}',now()-interval '1 day',now()-interval '1 day')`,
       [license, provider],
     );
-    function adapter(role: (typeof databaseRoles.app)[number]) {
+    function adapter(
+      role: (typeof databaseRoles.app)[number],
+      decorate?: (pool: PgPool) => PgPool,
+    ) {
       const p = new pg.Pool({
         connectionString: url(role),
         max: 3,
@@ -118,7 +121,11 @@ export async function catalogFixture() {
         query_timeout: 10000,
       });
       pools.push(p);
-      return createTransactions(p, { transactionMs: 10000, statementMs: 5000, lockMs: 2000 });
+      return createTransactions(decorate ? decorate(p) : p, {
+        transactionMs: 10000,
+        statementMs: 5000,
+        lockMs: 2000,
+      });
     }
     const ingestScope = adapter('tt_ingest_runtime'),
       publishScope = adapter('tt_publish_runtime'),

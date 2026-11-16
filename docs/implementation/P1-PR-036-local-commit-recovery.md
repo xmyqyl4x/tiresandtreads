@@ -1,0 +1,19 @@
+# Local delivery recovery after an uncertain commit
+
+November 15, 2026. This P1-PR-036 follow-up proves the existing typed controller, HTTP API, business services and PostgreSQL transaction adapter together when a delivery request or correct-address cancellation returns `commit_unknown`. It is an additional reliability proof after the [43-card local review](P1-PR-043-local-completion-review.md), with no new original card or acceptance closure.
+
+PR #124's first bootstrap job passed 4,741 root tests and failed its correct-address scenario with `commit_unknown` at 10,151 ms against the existing 10,000-ms fixture transaction deadline. The failed [job log](https://github.com/xmyqyl4x/tiresandtreads/actions/runs/43799438074/job/133075717757) remains retained. That observation does not establish a runner/network/database root cause. A single rerun is separate evidence and cannot turn the first failure into a pass. This proof does not claim to reproduce that CI event or repair a confirmed production defect.
+
+## Four deterministic scenarios
+
+Both request and correct-address cancellation run against two outcomes. In the committed outcome, the test wrapper waits for a real PostgreSQL COMMIT and then suppresses its acknowledgement with a synthetic driver error. In the other outcome it executes a real ROLLBACK instead of sending COMMIT, then reports the same uncertainty. No real network partition, server-side fault injection, independent durability, authentication or fencing is established by these simulations.
+
+Each scenario observes the actual stored result before explicit recovery. The controller reports uncertainty without automatically repeating a write; it refuses changed input while the outcome is unknown, then reuses the exact original command key/body when explicitly retried. Requests leave exactly one scheduled send, one work record and two purpose-specific contact intents. Cancellations increment the original revision once, retain its recipient, invalidate both wrong-address proofs, and create no replacement until a separate explicit request. The poisoned connection is destroyed once. All identities, addresses and records are disposable and synthetic.
+
+A caller-supplied decorator is threaded only through existing test fixtures to the private-role pool. The one-shot wrapper matches fixed existing parameterized request/cancel statements and an existing fixture report/send ID. Default fixtures keep their original pools, limits and behavior. The production transaction adapter, routes, controller, database schema, bootstrap, CLI, preflight, grants, admission and provider configuration are unchanged.
+
+## Validation and limits
+
+With injection disabled, all four new scenarios failed because the operations resolved instead of returning uncertainty. With injection enabled, format, lint, strict whole-repository TypeScript compilation and 68 focused checks passed: 42 unit, 14 use-case and 12 real PostgreSQL tests. The [record](evidence/P1/p1-pr-036-commit-recovery.json) contains all four sanitized native markers and exact runtime overlay hashes. Focused tests used the verified PR #124 tooling image plus six explicitly mounted source files; they do not claim a new whole-source image. The separate exact-commit full build/regression is expected to execute 4,856 tests; its actual results, fresh review, nine PR checks, nine main checks and clean root synchronization are required before cycle completion. Historical receipts stay unchanged.
+
+All six S3 gates remain open, HS01–HS08 proposed, operators/coverage/rates unconfirmed and licensed/specialist/provider/client/editorial/privacy/security/hosting/live acceptance pending. Local APIs/frontends remain authorized. There is no provisioning, purchase, actual recipient notification, live provider/model effect, timeout relaxation, new phase implementation or original case/gate closure.
