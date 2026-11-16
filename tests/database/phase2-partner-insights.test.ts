@@ -1,10 +1,12 @@
+import { staffPrincipal } from '../../packages/domain/src/staff-principal.ts';
+import { failure } from '../../packages/application/src/ports/transactions.ts';
 import { beforeAll, afterAll, it, expect, vi } from 'vitest';
 import { insightsFixture } from '../fixtures/phase2/partner-insights.ts';
 import { composeInsights } from '../fixtures/phase2/compose-insights.ts';
 import { value, uuid } from '../fixtures/phase2/compose-partner-services.ts';
 import { createPartnerInsightsServices } from '../../packages/application/src/partners/partner-insights.ts';
 import { createPartnerInsightsRepository } from '../../packages/db/src/repositories/partner-insights.ts';
-import { ok } from '../../packages/domain/src/values/core.ts';
+import { ok, fail } from '../../packages/domain/src/values/core.ts';
 let f: Awaited<ReturnType<typeof insightsFixture>>, s: Awaited<ReturnType<typeof composeInsights>>;
 beforeAll(async () => {
   f = await insightsFixture();
@@ -600,8 +602,21 @@ it('commits an Owner/Privacy contact-reveal audit before decryption', async () =
   const { person, token } = await revealVisitor(),
     caseId = uuid('case');
   let decryptions = 0;
+  const partnerVerify = vi.fn(async () => fail(failure('forbidden')));
   const custom = createPartnerInsightsServices({
     ...s.d,
+    authority: {
+      verify: partnerVerify,
+      async verifyStaff(handle) {
+        if (handle !== 'fixture.signed.staff') return fail(failure('forbidden'));
+        const p = s.sessions.get(s.privacy)!;
+        const verified = staffPrincipal(
+          { subject: p.subject, staffId: p.staffId, mfaAt: p.mfaAt, expiresAt: p.expiresAt },
+          Date.now(),
+        );
+        return verified.ok ? ok(verified.value) : fail(failure('forbidden'));
+      },
+    },
     encryption: {
       ...s.encryption,
       async decrypt(...args) {
@@ -619,11 +634,14 @@ it('commits an Owner/Privacy contact-reveal audit before decryption', async () =
       },
     },
   });
-  expect(value(await custom.reveal(s.privacy, token, 'privacy_request', caseId))).toMatchObject({
+  expect(
+    value(await custom.reveal('fixture.signed.staff', token, 'privacy_request', caseId)),
+  ).toMatchObject({
     email: 'synthetic@example.invalid',
     exportEnabled: false,
   });
   expect(decryptions).toBe(1);
+  expect(partnerVerify).not.toHaveBeenCalled();
 });
 it('refuses contact reveal when its own visitor permission is withdrawn during decryption', async () => {
   const { person, token } = await revealVisitor();

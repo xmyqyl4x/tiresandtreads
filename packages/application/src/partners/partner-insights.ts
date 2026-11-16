@@ -318,7 +318,7 @@ export function createPartnerInsightsServices(
       return safe(async () => {
         demand(['support_request', 'privacy_request'].includes(reason));
         const caseId = identifier('case', rawCase),
-          p = await principal(handle),
+          p = await staffActor(handle),
           v = d.tokens.parse(p.subject, 'visitor', token, d.clock.now());
         demand(v, 'forbidden');
         const w = week(v.week);

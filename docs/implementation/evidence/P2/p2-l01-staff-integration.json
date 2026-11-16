@@ -3,9 +3,9 @@
   "card": "P2-L01",
   "scope": "local-engineering-only",
   "baselineMain": "b870ae0240982176e77b94fc779f1723e01ac447",
-  "focusedExecutions": 195,
+  "focusedExecutions": 296,
   "focusedUnitExecutions": 164,
-  "focusedNativeExecutions": 31,
+  "focusedNativeExecutions": 79,
   "behavioralRed": {
     "failed": 3,
     "passed": 29,
@@ -65,7 +65,7 @@
     "apps/web/src/phase2/staff/console.tsx": "6148bb79a6148d9b682119092eeed06dd192e25448769c72217965d5c1943168",
     "apps/web/src/phase2/workbench.tsx": "c98edc5d117cc963fe52ae9d914e02c3f67f905db0f9d6468e6fcbd02453180c",
     "packages/application/src/analysis/analysis-operations.ts": "b4174b3a4482182eb521ea5d91d714d331cc278b13b70472658df9ea3bf94487",
-    "packages/application/src/partners/partner-insights.ts": "1c10f986a62ba0beff8616a1c42290705f6fede9124cd3c3673eaf47cc84f7aa",
+    "packages/application/src/partners/partner-insights.ts": "1c6aca753a63caa994b7c5139900eb4297e6730399d122df941f6cf18fa525ef",
     "packages/application/src/partners/partner-offers.ts": "d582406a9f979f41974394e3b4232b278969b581d9664f8c6aa5540536a1f9c7",
     "packages/application/src/partners/partner-onboarding.ts": "30e2a5c2541ebc6a77169aef890d72e8fc0d66a591412497746aa59d216228f6",
     "packages/application/src/partners/partner-review.ts": "bc8cefdf8524d128e9c9509f3d257a078f6cd2438f4979adab3bc499ac5e0222",
@@ -83,7 +83,11 @@
     "packages/integrations/src/http/phase2-operations.ts": "4d4fcfd3b69ff8fa238458ad5233d70d69604711a906e3d0e92594d80ceed2ca",
     "packages/integrations/src/http/phase2-partners.ts": "6c0efc5e45287a5a98806ea1708fd0edda8b13a08889460a5c204480ac68f822",
     "packages/integrations/src/http/phase2-review.ts": "b419301943e859ca1e413e6c342469a3ddf5ce9d351c16d77d74fa8a3219da1b",
-    "packages/integrations/src/http/phase2-staff-authority.ts": "a74d47cb297ed8e6dfea77a4f2aa0a2331241fc32da87b032157d06162755fee"
+    "packages/integrations/src/http/phase2-staff-authority.ts": "a74d47cb297ed8e6dfea77a4f2aa0a2331241fc32da87b032157d06162755fee",
+    "apps/web/package.json": "5093243f5611156cc5b72dd6e850db24191c3f53b8c2d48093cb9d30e2feee03",
+    "pnpm-lock.yaml": "e8027c2dc46f411b380b4f09e8deb52a30bbe98426c66116eba3aee5a157bd13",
+    "tests/usecases/partner-insights.test.ts": "cf25253d68f499d351e0a49cb5df4ba75d0d26f3f84b25af531db069a00f7f60",
+    "tests/database/phase2-partner-insights.test.ts": "adc99b2ff4ece12b3c5fb5457de6b17d8ad6b91ae6c0a3d60228389f24287031"
   },
   "fullExactSourceValidationRequired": true,
   "freshReviewRequired": true,
@@ -108,5 +112,21 @@
     "priorPassedSource": "9b7a045a0935c99a6885dc401fd542681d78bf61",
     "priorFullExecutions": 4884,
     "newExactSourceValidationRequired": true
-  }
+  },
+  "reviewCorrection": {
+    "finding": "contact reveal initial lookup still used partner authority",
+    "reviewedSource": "9b7a045a0935c99a6885dc401fd542681d78bf61",
+    "thread": "PRRT_kwDOVURQQc64KnCs",
+    "behavioralRed": {
+      "failed": 3,
+      "passed": 50
+    },
+    "focusedUsecasesPassed": 53,
+    "subjectBindingRetained": true,
+    "currentAuthorityRecheckedAfterDecryption": true,
+    "supersededFullSource": "71f58578f56dbdea63ed5e2a961d3f72602c6257",
+    "supersededFullCompleted": false,
+    "ownedSupersededProjectRemoved": true
+  },
+  "focusedUsecaseExecutions": 53
 }
