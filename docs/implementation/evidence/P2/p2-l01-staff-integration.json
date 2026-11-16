@@ -98,5 +98,15 @@
   "providerModelCalls": 0,
   "actualRecipientNotifications": 0,
   "casesClosed": 0,
-  "gatesClosed": 0
+  "gatesClosed": 0,
+  "dependencyCorrection": {
+    "advisory": "https://github.com/advisories/GHSA-mfr8-8qww-v76h",
+    "previousNext": "16.4.3",
+    "next": "16.4.5",
+    "discoveredBy": "actual PR127 CI dependency audit",
+    "thresholdsChanged": false,
+    "priorPassedSource": "9b7a045a0935c99a6885dc401fd542681d78bf61",
+    "priorFullExecutions": 4884,
+    "newExactSourceValidationRequired": true
+  }
 }

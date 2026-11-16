@@ -23,3 +23,7 @@ The reconciled focused run passes 195 executions (164 unit and 31 native). The [
 ## Retained holds
 
 Six S3 gates stay open; HS01–HS08 remain proposed; operators/coverage/rates are unconfirmed. Licensed feeds, specialist review, actual identity/provider/model/scanner/inbox/AT/editorial/privacy/security/hosting/pilot/phase/live acceptance remain pending. No default 33-app/3-CMS manifest, opt-in 55-migration/225-table promotion, production bootstrap/CLI/preflight/admission policy, live provider/model effect, provisioning, purchase, actual recipient notification or original case/gate closure is introduced.
+
+## Dependency correction discovered by CI
+
+CI's current advisory lookup identified [GHSA-mfr8-8qww-v76h](https://github.com/advisories/GHSA-mfr8-8qww-v76h), affecting the pinned Next.js 16.4.3. The advisory specifies 16.4.5 as patched. This cycle pins 16.4.5 and regenerates the lockfile before a fresh complete build/regression and same-source review. The earlier successful 4,884-execution source remains historical evidence; it is not a pass for the dependency revision. Existing audit thresholds and the independent deepmerge mitigation remain unchanged. Earlier advisory receipts are not overwritten; current CI audits are evaluated on their actual contents.
