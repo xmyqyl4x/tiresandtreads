@@ -47,7 +47,7 @@ it('reconciles only the exact current CI budget while preserving historical byte
   const report = reviewRestoreEvidence(process.cwd());
   expect(report.fileReview).toMatchObject({ matchedPins: 378, issues: [] });
   expect(report).toMatchObject({
-    newExceptions: 5,
+    newExceptions: 6,
     historicalExecutionOnly: true,
     fixtureExecutions: 0,
     accepted: false,

@@ -20,6 +20,8 @@ services:
       local:
         aliases: [postgres.preflight.test, postgres.mismatch.preflight.test]
   test:
+    # Keep the compiler heap at 1536 MiB and reserve bounded native/tool overhead.
+    mem_limit: 2048m
     volumes:
       - test-tls:/tls:ro
   app:

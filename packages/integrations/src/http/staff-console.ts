@@ -1,3 +1,4 @@
+import { authenticateStaffRequest, isStaffAuthorization, staffMfaMaxAgeMs } from './core.ts';
 import {
   commercialPolicySchema,
   reportQueueViewSchema,
@@ -86,16 +87,15 @@ export function staffConsoleRoutes(d: {
       if (c.query.size) return invalid();
       const p = commercialPublishInputSchema.safeParse(c.body);
       const credential = c.request.headers.get('x-reviewer-authorization');
-      if (!p.success || !credential || !/^Bearer [A-Za-z0-9_-]{43}$/.test(credential))
-        return invalid();
+      if (!p.success || !credential || !isStaffAuthorization(credential)) return invalid();
       const request = new Request(c.request.url, { headers: { authorization: credential } }),
-        reviewer = await d.security.authenticate(request),
+        reviewer = await authenticateStaffRequest(d.security, request),
         now = (d.now ?? Date.now)();
       if (
         !reviewer?.staff ||
         reviewer.mfaAt === undefined ||
         reviewer.mfaAt > now ||
-        now - reviewer.mfaAt > 300000 ||
+        now - reviewer.mfaAt > staffMfaMaxAgeMs ||
         !id('staff', reviewer.staff).ok
       )
         return fail(failure('forbidden'));

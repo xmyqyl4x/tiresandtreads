@@ -4,6 +4,8 @@ import type { KeyDigest } from '../../../application/src/ports/private-records.t
 import type { Id, Result } from '../../../domain/src/values/core.ts';
 import type { ApplicationFailure } from '../../../application/src/ports/transactions.ts';
 
+export const staffMfaMaxAgeMs = 300000;
+
 export interface HttpActor {
   readonly keys: readonly KeyDigest[];
   readonly csrf: string;
@@ -27,10 +29,30 @@ export interface HttpRoute extends EndpointContract {
 }
 export interface HttpSecurity {
   authenticate(request: Request): Promise<HttpActor | null>;
+  authenticateStaff?(request: Request): Promise<HttpActor | null>;
   quota(
     peer: string,
     operation: string,
   ): Promise<Readonly<{ allowed: boolean; retryAfterSeconds?: number }>>;
+}
+// API access contracts select the staff realm; a failed dedicated verifier never falls back.
+export function authenticateStaffRequest(
+  security: HttpSecurity,
+  request: Request,
+): Promise<HttpActor | null> {
+  return security.authenticateStaff
+    ? security.authenticateStaff(request)
+    : security.authenticate(request);
+}
+// Transport syntax only. Authority always comes from the selected verifier and current services.
+export function isStaffAuthorization(value: unknown): value is string {
+  if (typeof value !== 'string' || value.length > 8192 || !value.startsWith('Bearer '))
+    return false;
+  const token = value.slice(7);
+  return (
+    /^[A-Za-z0-9_-]{43}$/.test(token) ||
+    /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(token)
+  );
 }
 export class PrivateDownload {
   readonly bytes: Uint8Array;
@@ -204,7 +226,9 @@ export function createHttpApi(d: {
         throw new HttpFailure(403, 'forbidden');
       const actor =
         route.access === 'owner' || route.access === 'staff' || route.access === 'partner'
-          ? await d.security.authenticate(request)
+          ? route.access === 'staff'
+            ? await authenticateStaffRequest(d.security, request)
+            : await d.security.authenticate(request)
           : null;
       if (['owner', 'staff', 'partner'].includes(route.access) && !actor)
         throw new HttpFailure(401, 'unauthorized');
@@ -213,7 +237,7 @@ export function createHttpApi(d: {
         route.access === 'staff' &&
         (!actor?.staff ||
           !actor.mfaAt ||
-          (d.now?.() ?? Date.now()) - actor.mfaAt > 300000 ||
+          (d.now?.() ?? Date.now()) - actor.mfaAt > staffMfaMaxAgeMs ||
           actor.mfaAt > (d.now?.() ?? Date.now()))
       )
         throw new HttpFailure(403, 'forbidden');

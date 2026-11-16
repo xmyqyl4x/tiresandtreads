@@ -126,8 +126,20 @@ export function reconcileProductPins(root, rawPins) {
       path: p.path,
       sha256: deliveryOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
     }));
+  const afterDelivery = mergeReviewedPins(afterPdf, deliveryResult, deliveryOverlay),
+    clerkOverlay = clerkDependencyPins.filter((e) => present.has(e.path)),
+    clerkResult = afterDelivery.map((p) => ({
+      path: p.path,
+      sha256: clerkOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
+  const afterClerk = mergeReviewedPins(afterDelivery, clerkResult, clerkOverlay),
+    memoryOverlay = testMemorySourcePins.filter((e) => present.has(e.path)),
+    memoryResult = afterClerk.map((p) => ({
+      path: p.path,
+      sha256: memoryOverlay.find((e) => e.path === p.path)?.currentSha256 ?? p.sha256,
+    }));
   return {
-    pins: mergeReviewedPins(afterPdf, deliveryResult, deliveryOverlay),
+    pins: mergeReviewedPins(afterClerk, memoryResult, memoryOverlay),
     exceptions: new Set(
       [
         ...entries,
@@ -138,6 +150,8 @@ export function reconcileProductPins(root, rawPins) {
         ...ciOverlay,
         ...pdfOverlay,
         ...deliveryOverlay,
+        ...clerkOverlay,
+        ...memoryOverlay,
       ].map((e) => e.path),
     ).size,
   };
@@ -208,5 +222,27 @@ export const deliveryContextSourcePins = Object.freeze([
     currentSha256: '89da2e1a8938686b80ff2736c1f7c904a8d1dc57914052196100fbf48ae5596e',
     reason:
       'Inventory the local per-send delivery context helper and its unit controls under P1-PR-022. All six actual gate records/statuses and historical receipts remain unchanged.',
+  }),
+]);
+
+// Explicit approved staff-identity SDK dependency; historical execution stays historical.
+export const clerkDependencyPins = Object.freeze([
+  Object.freeze({
+    path: 'pnpm-lock.yaml',
+    baselineSha256: '1e77eeb8f15001290c3abbc1f210991b8c76a8372924b7f4a6d5c6ce9e906b06',
+    currentSha256: 'eebc1b87c4db03537e5a28a933d5e5c8fbbb90d064d95ec7e9d1de1d7a8aed1e',
+    reason:
+      'Pin Clerk backend3.29.0 for the approved staff identity integration. Existing package resolutions, historical receipts, production bootstrap and all actual acceptance holds remain unchanged.',
+  }),
+]);
+
+// Test tooling reserve only; frozen historical runtime/resource proofs remain unchanged.
+export const testMemorySourcePins = Object.freeze([
+  Object.freeze({
+    path: 'infra/local/compose.test.yaml',
+    baselineSha256: 'de8bb285a6b133813a5e898cdb378e561c9d8fdaa56abd21183b697e382b67ee',
+    currentSha256: '62945cf6be858da76d21b05a76f9820602493d2bb3f0bcc32dedc68d7baf0fb1',
+    reason:
+      'Only the isolated test runner gains 512MiB native/tooling overhead above the unchanged1536MiB compiler heap after exit137 and an observed full old-container peak. Application, database, runtime connection/resource budgets, historical execution and all acceptance holds remain unchanged.',
   }),
 ]);
