@@ -39,3 +39,5 @@ The final full run also detected the expected lockfile digest drift in historica
 All 15 existing CI/photo-dependency/restore-file attestation regressions pass with the transition, including arbitrary lockfile drift refusals. The interrupted source had six known pin assertions failing; it is not reported as a completed full run. The final revised source requires its own complete regression.
 
 The next root regression completed 4,777 tests: 4,776 passed and one historical product-pin expectation failed. That expectation now selects the exact reviewed security successor before the historical Clerk digest. All 71 pin/readiness/dependency compatibility tests across eight files pass, including arbitrary drift refusals. No new test or threshold change was introduced. A fresh exact-source full cycle is still required.
+
+The companion TypeScript declaration also exports the reviewed pin transition. Complete static quality checks (including strict TypeScript, boundaries, generated contracts, schema and S3 preservation) and all 71 related regressions pass together before the final full cycle.

@@ -89,7 +89,8 @@
     "tests/usecases/partner-insights.test.ts": "cf25253d68f499d351e0a49cb5df4ba75d0d26f3f84b25af531db069a00f7f60",
     "tests/database/phase2-partner-insights.test.ts": "adc99b2ff4ece12b3c5fb5457de6b17d8ad6b91ae6c0a3d60228389f24287031",
     "scripts/review/product-source-pins.mjs": "bae7e5409746cdac4e02dbfb94ebc4886300d87a01c1b66b473a45c7c26cbb5b",
-    "tests/unit/product-source-pins.test.ts": "2f969cd9b995abfec4bcf44dd0ef69ce47bd04e62543e8b02d47cd4d67870aed"
+    "tests/unit/product-source-pins.test.ts": "2f969cd9b995abfec4bcf44dd0ef69ce47bd04e62543e8b02d47cd4d67870aed",
+    "scripts/review/product-source-pins.d.mts": "591773cd52e66740cebe4c9e19e8ed35174cb493b6a72123839122468fb57dc3"
   },
   "fullExactSourceValidationRequired": true,
   "freshReviewRequired": true,
@@ -150,7 +151,16 @@
       "passed": 71,
       "files": 8,
       "newTestsAdded": 0,
-      "arbitraryLockfileDriftRefused": true
+      "arbitraryLockfileDriftRefused": true,
+      "completeStaticQualityPassed": true
+    },
+    "declarationCorrection": {
+      "source": "92604173aff9efcb6debd49b13437527ffbb15c6",
+      "fullCompleted": false,
+      "phase": "strict TypeScript before tests",
+      "companionExportAdded": true,
+      "strictTypeScriptNowPassed": true,
+      "ownedProjectRemoved": true
     }
   },
   "reviewCorrection": {
