@@ -116,6 +116,9 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 
 ## Phase 2 ledger
 
+**November 16 local engineering audit:** [All 27 Phase 2 cards](implementation/P2-local-engineering-gap-review.md) are reviewed against current code/evidence. Three proposed follow-ups cover verified staff integration, durable opt-in local host composition and latest-chain SQL/object/deletion recovery. Original task checkboxes and actual acceptance remain unchanged; Phase 3 stays at planning only.
+
+
 | Planned PR and title | Stage | Status | Assignee | PR / acceptance evidence |
 | --- | --- | --- | --- | --- |
 | [P2-PR-001 — Lock Phase 2 scope, AI evaluation and pilot readiness](tasks/phase-2-prs.md#p2-pr-001) | S0 | Local preparation complete; actual feasibility held | Codex; owner local exception | [PR #89](https://github.com/xmyqyl4x/tiresandtreads/pull/89); [scope/evaluation packet](implementation/P2-PR-001-local-scope-evaluation.md); actual P1/provider/specialist/privacy/pilot acceptance pending |

@@ -14,6 +14,8 @@
 
 **Next-card local continuation after PR #92:** The owner selected [P2-PR-005 local schema/upgrade validation](../implementation/P2-PR-005-local-schema-upgrade-validation.md), recorded in a [separate continuation](../implementation/evidence/P2/p2-pr-005-local-authorization.json). Card 005 local proof work and merge are allowed; actual S1 approval, phase entry, promotion, all six S3 gates and deployment/provider/operator holds remain open. The pending approval record does not accept later repository cards.
 
+**November 16 gap review:** [The 27-card audit](../implementation/P2-local-engineering-gap-review.md) distinguishes present local construction, 31 original unchecked task entries and three proposed integration/recovery follow-ups. It changes no original checkbox or acceptance gate and grants no Phase 3 implementation authority.
+
 ## PR sequence
 
 | PR | Stage | Proposed title |

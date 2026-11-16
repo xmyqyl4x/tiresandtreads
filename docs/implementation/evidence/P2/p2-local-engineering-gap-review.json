@@ -1,0 +1,720 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-16",
+  "authority": "Owner chose Stay in Phase2 and identify remaining local engineering gaps; Phase3 remains planning only",
+  "scope": "Read-only local engineering audit and proposed three-PR follow-up plan",
+  "baselineMain": "b5a4ce021c08e6b4f28df221c5a6e34c9913dfa3",
+  "baselineTree": "3eaa7885c43609361c69fee563df2e1c1320b373",
+  "baselinePr": 125,
+  "baselineFullExecutions": 4856,
+  "baselinePrChecksPassed": 9,
+  "baselineMainChecksPassed": 9,
+  "cardCount": 27,
+  "originalMergedPrCount": 27,
+  "originalUncheckedTaskCount": 31,
+  "cardsWithUncheckedTasks": 11,
+  "cards": [
+    {
+      "card": "P2-PR-001",
+      "area": "Scope/evaluation inputs",
+      "originalPr": 89,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/89",
+      "merge": "c117ec1040d7570862235ef1a39f5bd5f0c5a808",
+      "originalTree": "ec2aa6f58a602567822b6eae180fc5dc95220979",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [
+        "Confirm P1 stability, 5–10 pilot-reseller onboarding plan and noncharging pilot terms.",
+        "Evaluate/pin provider/model/prompt/schema direction, source-to-AI rights, image handling, notices, budgets and retention controls.",
+        "Prepare specialist-labeled explanation/image evaluation fixtures, current acceptance thresholds and P2 effort/dependency forecast."
+      ],
+      "followupGaps": [
+        "external-inputs"
+      ],
+      "historicalProof": null,
+      "sampleCurrentSources": {},
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-002",
+      "area": "Partner schemas",
+      "originalPr": 90,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/90",
+      "merge": "f8711b691a7bec2a2ceb76fb0294be180b22661d",
+      "originalTree": "573627461d7038e6f95945a47792ea491746446e",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-002-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/app/0034_partner_identity.sql": "b1c6ee95ff08a8afc92d5ce2ee5e7b3af2d09dee10d210a612adfa4fa8cf270e",
+        "infra/database/phase-2-local/app/0035_partner_offers.sql": "150053c1d580d7b8cc094d93ee29d4739d7d5da44a0370192377f740ea977de4",
+        "infra/database/phase-2-local/app/0036_partner_history_insights.sql": "4a26325b54dbcb72d681432c159adcdcc6ac85aa71bec1fffdbd57f4400160ea"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-003",
+      "area": "AI/reuse/cost schemas",
+      "originalPr": 91,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/91",
+      "merge": "d0e1a99135f89553475f14d74dbf0c44af6c3fab",
+      "originalTree": "eff7711a25d2fd38c2c77e68230c6e42b68a135b",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-003-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/ai/0037_ai_policy_requests.sql": "c1f3dd44c3a0edb46fadad6cc1021a9d2bdc0478d0d1d98baf02506b45d53793",
+        "infra/database/phase-2-local/ai/0038_ai_artifacts_reuse.sql": "176312325803910afcc2e842666ca74a34c1ddc2a0d85a5a94f86b118e25afdd",
+        "infra/database/phase-2-local/ai/0039_ai_budgets.sql": "6f16b4773f5b6c374959097c9ec1ba0663aa52e077042f8f12e1265591b97180"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-004",
+      "area": "Photo/CSV schemas",
+      "originalPr": 92,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/92",
+      "merge": "fe499cecc6e3f90d2740c3c7f7d2d5dbc65163b6",
+      "originalTree": "f5c67e6718aad8464c0f98d7d6452fbe5758e7d4",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-004-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/photo-import/0040_photo_uploads.sql": "105faed3f1d3bb4bd08fd6800fdb8700cafa4e95f545e01a398a5b5958440340",
+        "infra/database/phase-2-local/photo-import/0041_photo_results.sql": "335acb7ef941612bddffff0bca760812a0f67cdf95177f9d39261feadab5f628",
+        "infra/database/phase-2-local/photo-import/0042_staff_csv.sql": "6f0381ccf51b9d6eaab927d1b7d68b2e277e6f8e54f7f85ad2f08463e48803ba"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-005",
+      "area": "Schema/upgrade validation",
+      "originalPr": 93,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/93",
+      "merge": "f1d192bb669f75ba8bf93fd41f8c0dddf38e94bf",
+      "originalTree": "da3f0e6a347ab0c9cd44d8cee39f17421682c0c1",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [
+        "Record S1 approval and a rollback/restore drill with P1 access still supported."
+      ],
+      "followupGaps": [
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-005-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/gate/0043_schema_integrity.sql": "513c1f4d5b5088e853dd6bf38646dc68f957e45faaacf513d241b32bdcadebb4",
+        "infra/database/phase-2-local/gate/README.md": "ccae9e3178e3e1300ca8530132fcc9efb10588cbf4f5bb8c9d94caf0fea59829",
+        "infra/database/phase-2-local/gate/manifest.json": "b0e11fee2912c0ba89b7102f0202ddf4f1375260c15bd21b1da8bdd58c9bb7e1"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-006",
+      "area": "Partner repositories",
+      "originalPr": 94,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/94",
+      "merge": "de8b7c64e64b74d2704ff633ccac7c9e6745b23c",
+      "originalTree": "cc23d3c9726b203dfd16544df7ac004adbf28e8a",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-006-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/repositories/0044_partner_repository_support.sql": "c28e2f892736d1e1faafcac450a8446e85c5b3822068fa41f041902e4ea4a24f",
+        "infra/database/phase-2-local/repositories/README.md": "f8c7bcc08c50815a9f4755983402dd9ef9ed49eb98e3262b73c8d1a34041552e",
+        "infra/database/phase-2-local/repositories/manifest.json": "f231778a26caa25fd98f7d74c61ffcac809ed0380ec288d1e4107e8652464c42"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-007",
+      "area": "Analysis/photo/CSV repositories",
+      "originalPr": 95,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/95",
+      "merge": "dc7563b477e702dbbe665025b6d08dc3beafcc25",
+      "originalTree": "8ecec973f57810599e9c7fcd2ecf53685f70a6a3",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-007-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/analysis-repositories/0045_analysis_repository_support.sql": "071b5c71ad681ff0880f96c638529135308878ffd49d3ef9de6dcd178d83c480",
+        "infra/database/phase-2-local/analysis-repositories/manifest.json": "49ef81b8fad943ac1aa67b745f3df2639386b4ea5b2629f915a229db65933c63",
+        "packages/application/src/ports/analysis-privacy.ts": "8b8c176f1dbc559a7e2b2e3e396f7da8dec9d6d8d59478080356ab69b6be9a87"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-008",
+      "area": "Data-access validation",
+      "originalPr": 96,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/96",
+      "merge": "3e68326c714172c2c1c7a403332a994c0bafac9e",
+      "originalTree": "42cf083835fddd1cb1518317d8b910f582b1772e",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [],
+      "followupGaps": [],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-008-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/analysis-repositories/0045_analysis_repository_support.sql": "071b5c71ad681ff0880f96c638529135308878ffd49d3ef9de6dcd178d83c480",
+        "infra/database/phase-2-local/analysis-repositories/manifest.json": "49ef81b8fad943ac1aa67b745f3df2639386b4ea5b2629f915a229db65933c63",
+        "infra/database/phase-2-local/repositories/0044_partner_repository_support.sql": "c28e2f892736d1e1faafcac450a8446e85c5b3822068fa41f041902e4ea4a24f"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-009",
+      "area": "Onboarding/moderation services",
+      "originalPr": 97,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/97",
+      "merge": "eaf99952e34716abaf2c41f17a6b70a4117ac6f6",
+      "originalTree": "66b70aa48e9514e62d1be189d2c8a08c3b802b73",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-009-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/reseller-services/0046_reseller_service_support.sql": "1e41ab24036667dcac7b45b1de951063e9eeb705bd96b01ead66c96ff4bf0a13",
+        "infra/database/phase-2-local/reseller-services/README.md": "cd4d680c78a44d5a0e051089da077bfe410b7deeeed2bf33645cfd05208ba8bf",
+        "infra/database/phase-2-local/reseller-services/manifest.json": "130d099330041cc8fc0d4495bd995d02d4cfee37768867f8c6f43a9ef09aaf04"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-010",
+      "area": "Matching/coupons/delivery",
+      "originalPr": 98,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/98",
+      "merge": "4a9a837ef3c31fb682b7052372032967294f5ff3",
+      "originalTree": "f18ba9ea459ae962421bcf625cdf9a30f02a07c3",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-010-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/pilot-services/0047_pilot_services.sql": "300fc464f3fe37d885a577ea598f1a617bed7b661b6ed85ec0acd6e780404be0",
+        "infra/database/phase-2-local/pilot-services/README.md": "26a4645662bcf1467be5f7593989a27477759b42701057d0ed4fc493f59c67fb",
+        "infra/database/phase-2-local/pilot-services/manifest.json": "9441351aec076d9df466c16aade5c9fdc0c4c79d7e105ffc6f53f23311f545e5"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-011",
+      "area": "Insights/disputes/operations",
+      "originalPr": 99,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/99",
+      "merge": "6b66694625da6806ea42852711db1bc435e3d774",
+      "originalTree": "bfc7dc68b7b09c387290c068c5d37c21ce3f6526",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-011-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/insights-services/0048_partner_insights.sql": "b99e4b509344e4ded8dad1d962a6015f16ddb28788b2ae2730bb500429dc8f28",
+        "infra/database/phase-2-local/insights-services/README.md": "4cb3340bf2e64f2866dc4c461ed0129e1dca4851eba3cdc7d7e048b5c5ad918f",
+        "infra/database/phase-2-local/insights-services/manifest.json": "8b3b0931c2f11fec3255c60ff7b61414eef08a2c30e73dbd18498dd369fc7272"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-012",
+      "area": "Bounded report analysis",
+      "originalPr": 100,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/100",
+      "merge": "8e78395e19e8bac4959d05d32123f2fc72731496",
+      "originalTree": "ed764a805621f43e8414a15bf0e46ade8f9fbd7e",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-012-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/report-analysis/0049_report_analysis.sql": "72f04e1d6c4586f009b9a392864716ec5fbddae5d0868c50c52466e8f9a9c64a",
+        "infra/database/phase-2-local/report-analysis/README.md": "58f65790002b19f93b9950a333a7c65c45fd7b8fc61abfa6bc2d810460e7039c",
+        "infra/database/phase-2-local/report-analysis/manifest.json": "0d1d855bba7ba0b22d7966b8bdeabeaf1efed58480d535b6f91359c6ced78e7d"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-013",
+      "area": "Exact reuse/refresh/cost admission",
+      "originalPr": 101,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/101",
+      "merge": "fb09b6e0599c9b76389bcc6b69447c9bcb2f8eb0",
+      "originalTree": "10ba568bf68195d3f57710650f20329b18cdc584",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-013-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/analysis-execution/0050_analysis_execution.sql": "de1a2a6e94febf7c9f5728637d657e4e3d8a9d8d34bdb72a96f87e4919950a4c",
+        "infra/database/phase-2-local/analysis-execution/README.md": "d90eba430f0bc604470a19aec4c70e8713d69a6244ec76bda779938fd17eb338",
+        "infra/database/phase-2-local/analysis-execution/manifest.json": "74e4d42bb933289cf002e74e09cb2f4edae7f50539b11651185ca6ed11d282b4"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-014",
+      "area": "Private photo/confirmation",
+      "originalPr": 102,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/102",
+      "merge": "65d16e27d4f909ce584af0479d70adf08957e7e4",
+      "originalTree": "73bdbe424af1db61d812ffa13eae1ace4c5ce495",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-014-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/photo-services/0051_photo_services.sql": "b2d57cf4e03a42479e350f2e8fd0a69ba0beebb0ece0f407ae7297e011855b1c",
+        "infra/database/phase-2-local/photo-services/README.md": "2f96eef3b876957c187d136e1a373803f15321ef4da82683f94730e7a85075b4",
+        "infra/database/phase-2-local/photo-services/manifest.json": "55d1e04da6364c262ad1f7b43bab4e130b52b04a0ff1a2b5fa9be5c5429903bc"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-015",
+      "area": "AI/photo privacy/frozen delivery",
+      "originalPr": 103,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/103",
+      "merge": "08fdcc4b63a8543ac4b3b01a07cdd516a7e9199d",
+      "originalTree": "e865845f956adaf2fa72a51785357b792842c7d6",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-015-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/analysis-lifecycle/0052_analysis_lifecycle.sql": "95203f76851160ac738d9eb8de068c7fd55582112a6718e44b91d6541178a3c1",
+        "infra/database/phase-2-local/analysis-lifecycle/README.md": "89d969978e586add65aadd9f3f61dc61b44c0ce14001d387b2a2e278a81854f2",
+        "infra/database/phase-2-local/analysis-lifecycle/manifest.json": "815d51495d004e151e9e500e4cb2b66a9b49188e56ea0a12440741a8453b5c51"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-016",
+      "area": "CSV review/publication",
+      "originalPr": 104,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/104",
+      "merge": "5b0f67a73e8a3410762a6765f23b1d97db3da494",
+      "originalTree": "aef7097fc158622a8f1b3f624c42bc5b26f59c8c",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-016-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/staff-csv-services/0053_staff_csv_services.sql": "f9c5bbb4db0e60c17241635e5b9f8dc78abb55ff15324380c4516e9ea169b5b7",
+        "infra/database/phase-2-local/staff-csv-services/README.md": "2114102e7c85039bc854a2815c774173e9206ec8ada1eb4f22e8a0b4c7a20b43",
+        "infra/database/phase-2-local/staff-csv-services/manifest.json": "c5714b5b99864f083fc555b987956724aefcfaa7a191793bf426193c9d90a4cd"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-017",
+      "area": "Service/evaluation readiness",
+      "originalPr": 105,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/105",
+      "merge": "71e05aee65811d24335674cdd3054cdd419b28e5",
+      "originalTree": "ee36a71688b61c82130037c976e73b8d91b4db4a",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [
+        "Run partner/import/AI/photo service journeys with real repositories and allowed provider sandbox calls.",
+        "Evaluate at least 50 explanation cases and 50 representative labeled tire images against agreed critical-error and precision/abstention gates.",
+        "Approve P2 S3/G2/G7 evidence, budgets and privacy/retention controls; keep failures blocked."
+      ],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-017-local-proof.json",
+      "sampleCurrentSources": {
+        "tests/database/phase2-partner-insights.test.ts": "37ffc7b962a4726f1c9b6db689da966bd673c1c2d5a927908215c50c0d0e6ad3",
+        "tests/database/phase2-service-gate.test.ts": "00d3e31ab05adca0242494dd9b2db6d9ec1b05a83215c2804cbd2037c5d16b5d",
+        "tests/fixtures/phase2/evaluation-cases.ts": "c4a9b8ca641ac709cb762c42c96ee88d83c982f179cfd57bf0c0549407a49275"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-018",
+      "area": "Partner/staff APIs",
+      "originalPr": 106,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/106",
+      "merge": "119326e01224ee524f898b93bd8fc9632021a71c",
+      "originalTree": "eda6dfdfe481c74bf5217ac9abe0e4298cf140b1",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-018-local-proof.json",
+      "sampleCurrentSources": {
+        "infra/database/phase-2-local/http-admission/0054_http_admission.sql": "7f5bfab1fc2a79fe5229be3e72c609c355bba91ca969575199f1624e0d810fc8",
+        "infra/database/phase-2-local/http-admission/README.md": "bd5b4b4b224d743074678a42305d928a428de2f5a7aaca4cfb01ff2d5220a619",
+        "infra/database/phase-2-local/http-admission/manifest.json": "9f8a207fd354e090d0841a3435345a16e80723aadc80270fa4093e25a68c5330"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-019",
+      "area": "Analysis/photo APIs",
+      "originalPr": 107,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/107",
+      "merge": "d3c2a00fd3e419543ec8b13277d0ac9b542c240e",
+      "originalTree": "30b1363037eed8ba8a4e758b9dd3fb2757b77c74",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [],
+      "followupGaps": [
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-019-local-proof.json",
+      "sampleCurrentSources": {
+        "packages/application/src/analysis/photo-services.ts": "711b8117182df8a9f41ef933482e64e431ff1267d45575e5c1873d06a72c3e76",
+        "packages/application/src/analysis/report-analysis.ts": "b49ae8ca2802be50429f9e1253160367e001d466e5e662cbea6970fa07a8195b",
+        "packages/application/src/ports/report-analysis.ts": "4de63e80906b210beb6a8bbf9abe4dac9891a2ff0da28694f70ae28d38539555"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-020",
+      "area": "API validation",
+      "originalPr": 108,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/108",
+      "merge": "ac1c2b40b6c515d542f9a5673a87381bb8c3ec7b",
+      "originalTree": "648c31371d64e17bf583b390ce69532b84ec5ea3",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [
+        "Demonstrate photo confirmation → deterministic report → validated analysis/reuse → frozen delivery and deletion headlessly.",
+        "Demonstrate tenant onboarding/moderation/last-code and admin CSV publish flows through real APIs.",
+        "Run P1 regression and mixed worker/DB load; publish P2 S4 acceptance and generated clients."
+      ],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-020-local-proof.json",
+      "sampleCurrentSources": {
+        "packages/application/src/imports/staff-csv.ts": "0fe9c11d9e97b24c958453fc351a96177f4efaaf1ef2da5f368ee627824d79d4",
+        "packages/application/src/partners/partner-insights.ts": "3fd00769edb2d5715fc8aa8a36cc1911ece8f73326c00eadc5a99923437ec496",
+        "packages/contracts/src/phase2-analysis.ts": "2036aa601ba45961459167df01e73d3463a9835616d758e85ee94d3a4501fd37"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-021",
+      "area": "Reseller portal",
+      "originalPr": 109,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/109",
+      "merge": "52b4e425ec57838e28a0dc57cfd2241afa89aeb0",
+      "originalTree": "ef3c72939e1c4b45c5b2aaa51e1b5c583f3b8a56",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [
+        "Build verification/agreements/member controls and pending/suspended states.",
+        "Build draft/target/moderation/code-pool/simulation controls through accepted APIs.",
+        "Build aggregate pilot-credit/redemption/dispute views with correct labels and no recipient details."
+      ],
+      "followupGaps": [
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-021-local-proof.json",
+      "sampleCurrentSources": {
+        "apps/web/app/local-p2-api/[...path]/route.ts": "b1c1d716e922e8cfc3f5b8a73f0c1d64627d9acfb7c51bf4a87f01fd1ed56dee",
+        "apps/web/app/partners/route.ts": "07d4191ed290567b8030e6851234854bf9327670aece204f19c23e4100669cdc",
+        "apps/web/src/phase2/partner/client.tsx": "818f29e18c68f38de2e284adf80aacd72a9b2ef67aa66509b201509b9fe3e70a"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-022",
+      "area": "CSV/moderation screens",
+      "originalPr": 110,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/110",
+      "merge": "ab63299b75bba08886c2a9ae551dca24fc9579cd",
+      "originalTree": "c00395406a59ed07ea9462d76dee4e260cee8d7e",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [
+        "Build template download, private upload, validation/mapping/diff/rejection preview and job progress.",
+        "Build approval/publish/head-conflict/rollback actions with required roles and audit feedback.",
+        "Build partner verification/offer moderation queues without table-edit shortcuts."
+      ],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-022-local-proof.json",
+      "sampleCurrentSources": {
+        "apps/web/app/local-p2-staff-api/[...path]/route.ts": "747c0be45335f2c882f91ab88ef71129448d824a30cd6b5ef9b9d576c506e065",
+        "apps/web/app/staff/data/route.ts": "4f6d01a8bb5e595ccfc577684c900f675239f1dcdd4a3b894a9c49a60e0b97f7",
+        "apps/web/src/phase2/proxy.ts": "9209cc5a16a0d341fea6b38d1da93a2f2c141b50667e97e3fc68a4afbf6f2b9d"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-023",
+      "area": "Assisted report/delivery UI",
+      "originalPr": 111,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/111",
+      "merge": "6f036e69d2519032d9ce203f3994a4d73d79e685",
+      "originalTree": "16100911baa8995303d979d1df09c006a0d0b4b6",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [
+        "Add explicit assistance choice and separate labeled/cited explanation with generation/source/reuse dates.",
+        "Render pending/unavailable/expired/refreshed states and deterministic fallback without blocking core actions.",
+        "Update email/PDF templates to render the chosen frozen attachment and redacted shared-view policy."
+      ],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-023-local-proof.json",
+      "sampleCurrentSources": {
+        "apps/web/app/assisted-report/route.ts": "7ab1f50edcc513999fa87e6f310857c51a07765aa9fc9cbaa1ae0267d9cc7ea9",
+        "apps/web/app/local-p2-owner-api/[...path]/route.ts": "fd67863117f4b2736a01654dc06e4b2668a8708b1f2ac328804c75efa7ac76b5",
+        "apps/web/src/phase2/owner/client.tsx": "3c002780d1640f8f54d72a8c0a778aa7b96476ffa48619be038ac289cf45d29b"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-024",
+      "area": "Photo capture/confirmation UI",
+      "originalPr": 112,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/112",
+      "merge": "642de921dbaf80ce50a81cca97a8589a8a94b863",
+      "originalTree": "c34207c080697a691334c6a15b8ee958b38bbd0d",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [
+        "Build optional photo capture/upload purpose notice, bounds, progress and quality/retake states.",
+        "Display per-field candidates with unknown/conflicting/partial readings and explicit correction/confirmation.",
+        "Support manual entry, image removal and expiry without losing the usable assessment."
+      ],
+      "followupGaps": [
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-024-local-proof.json",
+      "sampleCurrentSources": {
+        "apps/web/app/globals.css": "08dd8829485ad3edb7ed4a723292b4440db59f9cb3121732f92d5762d7acd70c",
+        "apps/web/app/local-p2-owner-api/[...path]/route.ts": "fd67863117f4b2736a01654dc06e4b2668a8708b1f2ac328804c75efa7ac76b5",
+        "apps/web/src/assessment/controller.ts": "805fab50d4b8b229f12c8a02455b844ef280eb75c8b075d74cf9ef11a1613c0f"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-025",
+      "area": "Operations dashboard",
+      "originalPr": 113,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/113",
+      "merge": "15269e13b1b253390baa488b8f4886f7c6c19daf",
+      "originalTree": "39677f86b44426e6be5805ee2d6659f79c782ed4",
+      "localDisposition": "local-implementation-present",
+      "originalUncheckedTasks": [
+        "Expose safe AI cost/admission/rejection/reuse/invalidation and photo correction/purge health metrics.",
+        "Add staff retry/disable controls that cannot bypass privacy, budgets or critical validation.",
+        "Extend privacy/consent and deliverability/visitor operations screens using purpose-scoped projections."
+      ],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-025-local-proof.json",
+      "sampleCurrentSources": {
+        "apps/web/app/local-p2-operations-api/[...path]/route.ts": "1b54eafd6ae632807c6af85a38e8945db8250544f723e3eb22d2ae3c6ddbe0bd",
+        "apps/web/app/staff/assistance/route.ts": "acc2e66442a9490c19670d0511b4ba4046a27bcd0ea748ca409983e95207146b",
+        "apps/web/src/phase2/operations/client.tsx": "be65342e129e5c9c6e19e6778ab22bb00e4b21553dededb482a1b3540ab2e8e4"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-026",
+      "area": "Integrated security/recovery",
+      "originalPr": 114,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/114",
+      "merge": "89d7e95f53916052dc254d732a85f6aae9c19405",
+      "originalTree": "3894189c1540d186eb711d48136fd134d97b47c3",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [
+        "Run full assisted-report/import/partner browser journeys and real email/PDF integration.",
+        "Perform partner isolation/security review, malicious upload and AI deletion/withdrawal races; rerun model evaluation if its configuration changed.",
+        "Verify accessibility, P1 regression, mixed load/cost caps, restore/purge and support playbooks."
+      ],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02",
+        "P2-L03"
+      ],
+      "historicalProof": "docs/implementation/evidence/P2/p2-pr-026-local-proof.json",
+      "sampleCurrentSources": {
+        "tests/database/phase2-security-gate.test.ts": "076f265b78de4687eca97970375b209d69fc39d8156fa3e7f9273cabca307937",
+        "tests/fixtures/phase2/compose-analysis-delivery.ts": "1208c7d2f9e846ea12435cf751b978fbc2d8c02eecd31cfed8cff2b46b690ee8",
+        "tests/fixtures/phase2/operations-web.ts": "9cd74f3bcbc32e18bbc88130691b2a0530310a8dc18994c6f98a4218475be8f8"
+      },
+      "actualAcceptanceGranted": false
+    },
+    {
+      "card": "P2-PR-027",
+      "area": "Release preparation",
+      "originalPr": 115,
+      "url": "https://github.com/xmyqyl4x/tiresandtreads/pull/115",
+      "merge": "250bbf5f04fbf892242fb612fb7a1730b7337362",
+      "originalTree": "89b233058932ad7e458c910db4ddbaa87a526677",
+      "localDisposition": "local-preparation-or-validation-implemented",
+      "originalUncheckedTasks": [
+        "Approve controlled rollout, provider/cost/notice configuration and staffed support.",
+        "Demonstrate real web photo confirmation, available AI or explicit fallback, exact reuse and staff CSV publication.",
+        "Onboard the agreed 5–10 verified pilot resellers and record real moderated offer journey, production metrics and rollback evidence."
+      ],
+      "followupGaps": [
+        "P2-L01",
+        "P2-L02",
+        "P2-L03",
+        "external-inputs"
+      ],
+      "historicalProof": null,
+      "sampleCurrentSources": {},
+      "actualAcceptanceGranted": false
+    }
+  ],
+  "gaps": [
+    {
+      "id": "P2-L01",
+      "title": "Verified staff authority and transport integration",
+      "cards": [
+        "P2-PR-018",
+        "P2-PR-022",
+        "P2-PR-025"
+      ],
+      "finding": "Staff/operations workbench and proxy accept only16–128 opaque characters; withPartnerSessions omits the injected dedicated authenticateStaff method. Review/operations services also require a partner handle and partner-shaped principal, so merely widening token syntax is insufficient.",
+      "classification": "confirmed local composition/integration gap; safe refusal, not a demonstrated public exploit",
+      "plannedPrUrl": null,
+      "dependsOn": []
+    },
+    {
+      "id": "P2-L02",
+      "title": "Durable opt-in local Phase2 service host and worker composition",
+      "cards": [
+        "P2-PR-017",
+        "P2-PR-020",
+        "P2-PR-026"
+      ],
+      "finding": "The reusable local service host assembles P1 services and the default worker registers no product handlers. P2 journeys are composed by disposable fixtures; partner/owner sessions and object bytes include in-memory maps. No equivalent latest-chain restartable local host proof is recorded.",
+      "classification": "missing local runtime integration/proof; not a claim that database job/retry services are absent",
+      "plannedPrUrl": null,
+      "dependsOn": [
+        "P2-L01"
+      ]
+    },
+    {
+      "id": "P2-L03",
+      "title": "Latest-chain SQL/object recovery and newer-deletion replay",
+      "cards": [
+        "P2-PR-005",
+        "P2-PR-026",
+        "P2-PR-027"
+      ],
+      "finding": "The55-migration225-table archive validates SQL row/catalog parity with runtime CONNECT revoked, but explicitly records objectArchiveRestored=false and postBackupDeletionReplay=false. Earlier33-migration recovery profiles do not establish the missing composition.",
+      "classification": "explicit local recovery-coverage gap; no independent custody/hosted acceptance inferred",
+      "plannedPrUrl": null,
+      "dependsOn": [
+        "P2-L02"
+      ]
+    }
+  ],
+  "sourceSha256": {
+    "apps/web/src/phase2/workbench.tsx": "7b773b708d5c6d7252f102cfbf99e1c052d308cda6833eb59ea3331e0a156a65",
+    "apps/web/src/phase2/proxy.ts": "9209cc5a16a0d341fea6b38d1da93a2f2c141b50667e97e3fc68a4afbf6f2b9d",
+    "apps/web/src/phase2/transport.ts": "0e0351911e63f29b81327c2e98ef384469799cf989d2601409ffec10fba6f331",
+    "packages/integrations/src/http/partner-security.ts": "67be1a6800a2c0016c36c2ab64f4c9d293e02996491c49b03b983603fa5d61e2",
+    "packages/integrations/src/http/phase2-review.ts": "1b74567bcc9e5c6a387f55adaa0446dba0d1c44762b5c0d424e33c878251e2a2",
+    "packages/integrations/src/http/phase2-operations.ts": "cb3d35a864dd11df5240c54d49a6a50fb14922bae15fae16d7f97bf79d5b0e3a",
+    "packages/application/src/partners/partner-work.ts": "4d466d98ab23468d2d96625b82cb36bda238322b2688dc84c0bcfa24529edd36",
+    "packages/application/src/analysis/analysis-operations.ts": "81cc33410f203bf02d850f5bd6f7c692b14be9248bbc6ac7d9ed0b896a125e8e",
+    "packages/domain/src/partner-policy.ts": "1b7980bf8a0383369ef6a9be65286b5552caccb56540214e1f2ebabbb55459a3",
+    "packages/integrations/src/service-host.ts": "48ba7f12f9f7550b11cdd82db111b9fa26d1ec4902df474e67af2763da5a2fba",
+    "scripts/runtime/worker.ts": "1819e7ff4a2a6134fb97bdc262d03294215fea2e1a6c7d62b27460bb2b643396",
+    "tests/fixtures/phase2/compose-partner-services.ts": "6fdb3a588ac7c67c74f994b25506c1238a7b351634e086ed1f6892acfe5db7e0",
+    "tests/fixtures/phase2/owner-web.ts": "db1991070a5c46728c2e04d2e6b83d1a75d7e85bf7a702d7b6f10de3f5cc930d",
+    "tests/fixtures/phase2/security-archive.ts": "18dfec5130315941b084a685c820dd3d963de34ae7b53affa1a5c3788485efca",
+    "tests/database/phase2-security-gate.test.ts": "076f265b78de4687eca97970375b209d69fc39d8156fa3e7f9273cabca307937",
+    "docs/implementation/P2-PR-027-local-release-preparation.md": "df8f3d7c48eb3509241724cf18869851d4ce9d6014bfc67def8cee69de8addc5"
+  },
+  "diagnostic": {
+    "imageId": "sha256:45d7570caed3d647bf329815b9178af3977723e46e6367c88439488b3d54e746",
+    "network": "none",
+    "probe": {
+      "sourceSha256": {
+        "apps/web/src/phase2/proxy.ts": "9209cc5a16a0d341fea6b38d1da93a2f2c141b50667e97e3fc68a4afbf6f2b9d",
+        "apps/web/src/phase2/workbench.tsx": "7b773b708d5c6d7252f102cfbf99e1c052d308cda6833eb59ea3331e0a156a65",
+        "packages/integrations/src/http/partner-security.ts": "67be1a6800a2c0016c36c2ab64f4c9d293e02996491c49b03b983603fa5d61e2",
+        "packages/integrations/src/service-host.ts": "48ba7f12f9f7550b11cdd82db111b9fa26d1ec4902df474e67af2763da5a2fba",
+        "scripts/runtime/worker.ts": "1819e7ff4a2a6134fb97bdc262d03294215fea2e1a6c7d62b27460bb2b643396"
+      },
+      "transportProbe": [
+        {
+          "surface": "staff",
+          "opaqueControl": 200,
+          "syntacticSignedShape": 401,
+          "signedShapeForwarded": false
+        },
+        {
+          "surface": "operations",
+          "opaqueControl": 200,
+          "syntacticSignedShape": 401,
+          "signedShapeForwarded": false
+        }
+      ],
+      "syntacticShapeOnlyNotVerifiedSession": true,
+      "upstreamDispatcherIsStub": true,
+      "dedicatedVerifierPreserved": false,
+      "dedicatedCalls": 0,
+      "providerCalls": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "actualVerifiedTokenTestClaimed": false,
+    "entireRuntimeAcceptanceClaimed": false
+  },
+  "localTrack": {
+    "appMigrations": 55,
+    "appTables": 225,
+    "defaultAppMigrations": 33,
+    "defaultCmsMigrations": 3,
+    "promoted": false
+  },
+  "originalTaskCheckboxesChanged": false,
+  "phase3ImplementationAuthorized": false,
+  "newRuntimeOrSchemaImplementation": false,
+  "actualPhaseAcceptance": false,
+  "productionBootstrapCliPreflightPolicyChanged": false,
+  "provisioning": false,
+  "purchases": false,
+  "providerModelCalls": 0,
+  "actualRecipientNotifications": 0,
+  "casesClosed": 0,
+  "gatesClosed": 0
+}
