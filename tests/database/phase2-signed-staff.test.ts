@@ -10,10 +10,12 @@ import { offerBody, target, value } from '../fixtures/phase2/compose-partner-ser
 import { p2Id } from '../../packages/integrations/src/http/phase2-common.ts';
 import { csvMetadata } from '../../apps/web/src/phase2/staff/forms.ts';
 it('runs signed staff publication and independent partner review through actual Next, private typed APIs and PostgreSQL', async () => {
-  let providerReads = () => 0;
+  let providerReads = () => 0,
+    closeIdentity = async () => {};
   const f = await staffWebFixture(undefined, async (db, p, _csv, security) => {
     const signed = signedP2Staff(db, p.d.authority, security);
     providerReads = signed.reads;
+    closeIdentity = signed.cleanup;
     security.authenticateStaff = signed.security.authenticateStaff!;
     return async (legacy) => {
       const principal = p.sessions.get(legacy);
@@ -217,6 +219,7 @@ it('runs signed staff publication and independent partner review through actual 
         }),
     );
   } finally {
+    await closeIdentity();
     await f.cleanup();
   }
 }, 180000);

@@ -97,6 +97,7 @@ it('binds signed operations, renewal, current permissions, revocation and realm 
         }),
     );
   } finally {
+    await signed?.cleanup();
     await f.cleanup();
   }
 }, 180000);

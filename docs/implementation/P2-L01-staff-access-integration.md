@@ -18,7 +18,7 @@ Same-subject/session token renewal retains CSRF binding. Every request rechecks 
 
 Three behavioral regressions fail against the previous source: the decorator loses its dedicated verifier and both staff proxies reject signed transport. Generated RSA signatures and fixed synthetic GET session records exercise the installed Clerk backend SDK. Native tests run actual built Next → private proxy → HTTP → service → PostgreSQL journeys for CSV upload/review/publication and independent partner review, plus operations, purpose-specific queues, pilot metadata, renewal, wrong audience, forgery, owner-realm refusal, role removal and provider-session revocation. These tests do not claim interactive browser or real-provider authentication acceptance.
 
-Final exact-source regression, coverage, fresh source review and all actual PR/main checks are required before merge. Evidence is recorded in the cycle validation receipts; no historical result is rewritten.
+The reconciled focused run passes 195 executions (164 unit and 31 native). The [evidence record](evidence/P2/p2-l01-staff-integration.json) preserves the failed first full attempt, corrected expectations and the separate cleanup timeout/cascade; its checkpoint delay has no established cause. No timeout was relaxed. Final exact-source regression, coverage, fresh source review and all actual PR/main checks are required before merge. Evidence is recorded in the cycle validation receipts; no historical result is rewritten.
 
 ## Retained holds
 

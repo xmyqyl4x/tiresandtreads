@@ -1,3 +1,5 @@
+import { createRuntimePool } from '../../../packages/db/src/runtime-pool.ts';
+import { createTransactions } from '../../../packages/db/src/transactions.ts';
 import { generateKeyPairSync, sign } from 'node:crypto';
 import type { staffWebFixture } from './staff-web.ts';
 import { createClerkStaffSecurity } from '../../../packages/integrations/src/clerk-staff-runtime.ts';
@@ -22,7 +24,8 @@ export function signedP2Staff(
     }),
     sessions = new Map<string, Record<string, unknown>>();
   let reads = 0;
-  const dedicated = createClerkStaffSecurity(f.baseAdapter('tt_staff_runtime'), {
+  const pool = createRuntimePool(f.connectionUrl('tt_staff_runtime'), 1, 4, 'tt-p2-signed-staff');
+  const dedicated = createClerkStaffSecurity(createTransactions(pool.pool), {
     enabled: true,
     base,
     issuer,
@@ -100,6 +103,7 @@ export function signedP2Staff(
   }
   return {
     security,
+    cleanup: () => pool.drain(),
     credential,
     reads: () => reads,
     revoke(staffId: string) {
