@@ -6,6 +6,7 @@ import {
   apiContractPins,
   taggedPdfDependencyPins,
   clerkDependencyPins,
+  nextSecurityDependencyPins,
 } from '../../scripts/review/product-source-pins.mjs';
 const manifest = JSON.parse(
   readFileSync('docs/implementation/evidence/P1/p1-pr-037-current-source-exceptions.json', 'utf8'),
@@ -26,6 +27,7 @@ it('retains every unrelated pin and explicitly replaces only reviewed current de
     expect(result.pins).toContainEqual({
       path: e.path,
       sha256:
+        nextSecurityDependencyPins.find((x) => x.path === e.path)?.currentSha256 ??
         clerkDependencyPins.find((x) => x.path === e.path)?.currentSha256 ??
         taggedPdfDependencyPins.find((x) => x.path === e.path)?.currentSha256 ??
         apiContractPins.find((x) => x.path === e.path)?.currentSha256 ??

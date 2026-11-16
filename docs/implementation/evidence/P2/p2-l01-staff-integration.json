@@ -88,7 +88,8 @@
     "pnpm-lock.yaml": "e8027c2dc46f411b380b4f09e8deb52a30bbe98426c66116eba3aee5a157bd13",
     "tests/usecases/partner-insights.test.ts": "cf25253d68f499d351e0a49cb5df4ba75d0d26f3f84b25af531db069a00f7f60",
     "tests/database/phase2-partner-insights.test.ts": "adc99b2ff4ece12b3c5fb5457de6b17d8ad6b91ae6c0a3d60228389f24287031",
-    "scripts/review/product-source-pins.mjs": "bae7e5409746cdac4e02dbfb94ebc4886300d87a01c1b66b473a45c7c26cbb5b"
+    "scripts/review/product-source-pins.mjs": "bae7e5409746cdac4e02dbfb94ebc4886300d87a01c1b66b473a45c7c26cbb5b",
+    "tests/unit/product-source-pins.test.ts": "2f969cd9b995abfec4bcf44dd0ef69ce47bd04e62543e8b02d47cd4d67870aed"
   },
   "fullExactSourceValidationRequired": true,
   "freshReviewRequired": true,
@@ -134,6 +135,22 @@
       "rootExpected": 4777,
       "reason": "Only the patched lockfile mismatched the exact historical/current source-pin chain. Add an exact successor transition; retain all historical manifests and thresholds.",
       "ownedProjectRemoved": true
+    },
+    "completedRootAttempt": {
+      "source": "77ccc239a2532acd7f105dfe40d124c7bebd9398",
+      "rootCompleted": true,
+      "rootPassed": 4776,
+      "rootFailed": 1,
+      "fullCompleted": false,
+      "reason": "The product-source-pins expectation still ended at the historical Clerk digest; update only its precedence to the exact reviewed security successor.",
+      "ownedProjectRemoved": true
+    },
+    "expandedSourcePinRegressionChecks": {
+      "executions": 71,
+      "passed": 71,
+      "files": 8,
+      "newTestsAdded": 0,
+      "arbitraryLockfileDriftRefused": true
     }
   },
   "reviewCorrection": {
