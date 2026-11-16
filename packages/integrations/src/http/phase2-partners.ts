@@ -35,8 +35,9 @@ export function partnerRoutes(
     org = (c: HttpContext) => p2Id('organization', c.params.org),
     offer = (c: HttpContext) => p2Id('partner_offer', c.params.offer),
     handle = (c: HttpContext) => {
-      if (!c.actor?.partner) throw new HttpFailure(401, 'unauthorized');
-      return c.actor.partner.handle;
+      const value = c.actor?.staffSession ?? c.actor?.partner?.handle;
+      if (!value) throw new HttpFailure(401, 'unauthorized');
+      return value;
     };
   const routes: HttpRoute[] = [];
   routes.push({

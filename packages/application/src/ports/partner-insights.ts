@@ -1,4 +1,5 @@
 import type { Id, Instant } from '../../../domain/src/values/core.ts';
+import type { StaffIdentity } from '../../../domain/src/staff-principal.ts';
 import type { PartnerPrincipal } from '../../../domain/src/partner-policy.ts';
 import type { DomainSample } from '../../../domain/src/partner-insights-policy.ts';
 import type { Envelope } from './private-records.ts';
@@ -91,7 +92,7 @@ export interface PartnerInsightsRepository {
     organization: Id<'organization'>,
     write: boolean,
   ): Promise<void>;
-  staff(tx: Tx, principal: PartnerPrincipal, permission: InsightsPermission): Promise<void>;
+  staff(tx: Tx, principal: StaffIdentity, permission: InsightsPermission): Promise<void>;
   release(tx: Tx, organization: Id<'organization'> | null, week: string): Promise<InsightRelease>;
   redemption(
     tx: Tx,
@@ -103,7 +104,7 @@ export interface PartnerInsightsRepository {
   dispute(
     tx: Tx,
     organization: Id<'organization'>,
-    actor: PartnerPrincipal,
+    actor: StaffIdentity,
     input: Omit<DisputeCommand, 'details'>,
     details: Envelope,
     digest: string,
@@ -135,7 +136,7 @@ export interface PartnerInsightsRepository {
   ): Promise<readonly VisitorRow[]>;
   reveal(
     tx: Tx,
-    actor: PartnerPrincipal,
+    actor: StaffIdentity,
     subject: Id<'subject'>,
     week: string,
     reason: 'support_request' | 'privacy_request',

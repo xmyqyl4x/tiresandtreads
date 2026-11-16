@@ -1,3 +1,4 @@
+import { isP2StaffAuthorization } from '../../../../packages/contracts/src/phase2-staff-session.ts';
 import { operationsContracts } from '../../../../packages/contracts/src/phase2-operations-client.ts';
 import { ownerWebContracts } from '../../../../packages/contracts/src/phase2-owner-web.ts';
 import { csvApiContracts } from '../../../../packages/contracts/src/phase2-partners.ts';
@@ -142,7 +143,13 @@ export async function forwardP2(
   )
     return refuse(400, 'invalid_input');
   const auth = request.headers.get('authorization');
-  if (!auth || !/^Bearer [A-Za-z0-9_-]{16,128}$/.test(auth)) return refuse(401, 'unauthorized');
+  if (
+    !auth ||
+    !(surface === 'staff' || surface === 'operations'
+      ? isP2StaffAuthorization(auth)
+      : /^Bearer [A-Za-z0-9_-]{16,128}$/.test(auth))
+  )
+    return refuse(401, 'unauthorized');
   let body: Uint8Array;
   try {
     body = await bounded(

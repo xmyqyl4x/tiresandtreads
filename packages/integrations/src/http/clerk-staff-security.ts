@@ -1,6 +1,6 @@
 import { createHash, createHmac } from 'node:crypto';
 import { createClerkClient } from '@clerk/backend';
-import { id } from '../../../domain/src/values/core.ts';
+import { id, instant } from '../../../domain/src/values/core.ts';
 import type { Id } from '../../../domain/src/values/core.ts';
 import { boundedIO } from '../bounded-io.ts';
 import { staffMfaMaxAgeMs, type HttpSecurity } from './core.ts';
@@ -240,10 +240,23 @@ export function withClerkStaffSessions(
               at - mfaAt > staffMfaMaxAgeMs
             )
               return null;
+            const mfa = instant(new Date(mfaAt).toISOString()),
+              until = instant(
+                new Date(
+                  Math.min(claims.exp * 1000, expire, abandon, created + absoluteMs, last + idleMs),
+                ).toISOString(),
+              );
+            if (!mfa.ok || !until.ok) return null;
             return {
               keys: [],
               staff,
               mfaAt,
+              staffIdentity: {
+                subject: clerkStaffSubject(issuer, auth.userId),
+                staffId: staff,
+                mfaAt: mfa.value,
+                expiresAt: until.value,
+              },
               csrf: createHmac('sha256', csrf)
                 .update(
                   'clerk-staff-csrf:v1\0' + JSON.stringify([issuer, auth.userId, auth.sessionId]),

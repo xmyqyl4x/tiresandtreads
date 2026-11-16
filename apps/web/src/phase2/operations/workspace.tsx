@@ -359,7 +359,7 @@ function OperationsSpace({ w }: { w: Workspace<Client> }) {
 }
 export function AnalysisOperationsWorkspace() {
   return (
-    <Workbench title="Assistance, photo and privacy operations" connect={connect}>
+    <Workbench staff title="Assistance, photo and privacy operations" connect={connect}>
       {(w) => <OperationsSpace w={w} />}
     </Workbench>
   );

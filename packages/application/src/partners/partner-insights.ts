@@ -18,6 +18,8 @@ import type {
 } from '../ports/transactions.ts';
 import { demand, serviceFailure, serviceWork } from '../services/service-work.ts';
 import { capture, identifier, string, timestamp } from './partner-work.ts';
+import { verifiedStaff } from './staff-authority.ts';
+import { staffPrincipal } from '../../../domain/src/staff-principal.ts';
 export function createPartnerInsightsServices(
   d: Readonly<{
     uow: UnitOfWork;
@@ -73,16 +75,17 @@ export function createPartnerInsightsServices(
       return ok(result);
     });
   }
+  const staffActor = (handle: string) => verifiedStaff(d.authority, d.clock, handle);
   async function staff<T>(
     handle: string,
     permission: InsightsPermission,
-    fn: (tx: Tx, p: Awaited<ReturnType<typeof principal>>) => Promise<T>,
+    fn: (tx: Tx, p: Awaited<ReturnType<typeof staffActor>>) => Promise<T>,
   ) {
-    const p = await principal(handle);
+    const p = await staffActor(handle);
     return serviceWork(d.uow, async (tx) => {
       await r.staff(tx, p, permission);
       const result = await fn(tx, p);
-      demand(partnerPrincipal(p, d.clock.now()).ok, 'forbidden');
+      demand(staffPrincipal(p, d.clock.now()).ok, 'forbidden');
       await r.staff(tx, p, permission);
       return ok(result);
     });

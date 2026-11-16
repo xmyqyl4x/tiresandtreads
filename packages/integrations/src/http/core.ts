@@ -12,6 +12,9 @@ export interface HttpActor {
   readonly csrfAliases?: readonly string[];
   readonly staff?: Id<'staff'>;
   readonly mfaAt?: number;
+  // Server-only verified authority; never projected into a wire response.
+  readonly staffIdentity?: import('../../../domain/src/staff-principal.ts').StaffPrincipal;
+  readonly staffSession?: string;
   readonly partner?: Readonly<{ handle: string; subject: string }>;
 }
 export interface HttpContext {
@@ -215,17 +218,28 @@ export function createHttpApi(d: {
         request.headers.get('origin') !== origin.origin
       )
         throw new HttpFailure(403, 'forbidden');
+      const staffRealm =
+        route.access === 'staff' ||
+        (route.access === 'staff-or-partner' &&
+          (request.headers.get('authorization') ?? '').includes('.'));
       const actor =
-        route.access === 'owner' || route.access === 'staff' || route.access === 'partner'
-          ? route.access === 'staff'
+        route.access === 'owner' ||
+        route.access === 'staff' ||
+        route.access === 'partner' ||
+        route.access === 'staff-or-partner'
+          ? staffRealm
             ? await authenticateStaffRequest(d.security, request)
             : await d.security.authenticate(request)
           : null;
-      if (['owner', 'staff', 'partner'].includes(route.access) && !actor)
+      if (['owner', 'staff', 'partner', 'staff-or-partner'].includes(route.access) && !actor)
         throw new HttpFailure(401, 'unauthorized');
-      if (route.access === 'partner' && !actor?.partner) throw new HttpFailure(401, 'unauthorized');
       if (
-        route.access === 'staff' &&
+        (route.access === 'partner' || (route.access === 'staff-or-partner' && !staffRealm)) &&
+        !actor?.partner
+      )
+        throw new HttpFailure(401, 'unauthorized');
+      if (
+        staffRealm &&
         (!actor?.staff ||
           !actor.mfaAt ||
           (d.now?.() ?? Date.now()) - actor.mfaAt > staffMfaMaxAgeMs ||

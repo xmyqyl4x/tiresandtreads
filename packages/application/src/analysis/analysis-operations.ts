@@ -1,5 +1,6 @@
 import { ok, fail, id, instant, type Result } from '../../../domain/src/values/core.ts';
-import { partnerPrincipal, type PartnerPrincipal } from '../../../domain/src/partner-policy.ts';
+import { staffPrincipal, type StaffPrincipal } from '../../../domain/src/staff-principal.ts';
+import { verifiedStaff } from '../partners/staff-authority.ts';
 import type { PartnerAuthority, PartnerClock } from '../ports/partner-services.ts';
 import type { UnitOfWork, TransactionContext, ApplicationFailure } from '../ports/transactions.ts';
 import type {
@@ -26,18 +27,11 @@ export function createAnalysisOperationsService(d: {
       return fail(serviceFailure(e));
     }
   }
-  async function actor(handle: string) {
-    demand(typeof handle === 'string' && handle.length > 0 && handle.length <= 2048);
-    const proof = await d.authority.verify(handle);
-    demand(proof.ok, 'forbidden');
-    const p = partnerPrincipal(proof.value, d.clock.now());
-    demand(p.ok && p.value.staffId, 'forbidden');
-    return p.value;
+  const actor = (handle: string) => verifiedStaff(d.authority, d.clock, handle);
+  function fresh(p: StaffPrincipal) {
+    demand(staffPrincipal(p, d.clock.now()).ok && p.staffId, 'forbidden');
   }
-  function fresh(p: PartnerPrincipal) {
-    demand(partnerPrincipal(p, d.clock.now()).ok && p.staffId, 'forbidden');
-  }
-  async function capabilities(tx: TransactionContext, p: PartnerPrincipal) {
+  async function capabilities(tx: TransactionContext, p: StaffPrincipal) {
     fresh(p);
     const r = d.repository;
     return {
@@ -46,7 +40,7 @@ export function createAnalysisOperationsService(d: {
       photoObserve: await r.authorize(tx, p.staffId!, p.subject, 'photo.observe'),
     };
   }
-  async function control(tx: TransactionContext, p: PartnerPrincipal) {
+  async function control(tx: TransactionContext, p: StaffPrincipal) {
     fresh(p);
     demand(await d.repository.authorize(tx, p.staffId!, p.subject, 'ai.control'), 'forbidden');
   }

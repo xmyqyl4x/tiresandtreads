@@ -122,7 +122,15 @@ export async function partnerRepositoryFixture() {
         ).rowCount === 1
       );
     }
-    return { ...base, cleanup, pool, adapter, waitingAllocators, repositoryApplied: applied };
+    return {
+      ...base,
+      cleanup,
+      pool,
+      baseAdapter: base.adapter,
+      adapter,
+      waitingAllocators,
+      repositoryApplied: applied,
+    };
   } catch (error) {
     await cleanup();
     throw error;
