@@ -16,6 +16,8 @@
 
 **November 16 gap review:** [The 27-card audit](../implementation/P2-local-engineering-gap-review.md) distinguishes present local construction, 31 original unchecked task entries and three proposed integration/recovery follow-ups. It changes no original checkbox or acceptance gate and grants no Phase 3 implementation authority.
 
+**Authorized local follow-up P2-L03:** [The implementation and measured focused evidence](../implementation/P2-L03-complete-local-recovery.md) cover the latest 55-migration/225-table SQL restore, eight encrypted objects and newer P1/AI privacy replay. Exact-source full validation, fresh review and actual PR/main checks are tracked in this separate merge cycle. Original task checkboxes, six open S3 gates, all actual acceptance/deployment holds and Phase 3 planning-only scope remain unchanged.
+
 **Authorized local follow-up P2-L02:** [The implementation and measured focused evidence](../implementation/P2-L02-durable-local-runtime.md) cover retained encrypted files/keys, fourteen service groups, eleven restricted pools and worker cold restart. Exact-source full validation, fresh review and actual PR/main checks are tracked in this separate merge cycle. Original task checkboxes, six open S3 gates, all actual acceptance/deployment holds and Phase 3 planning-only scope remain unchanged.
 
 ## PR sequence

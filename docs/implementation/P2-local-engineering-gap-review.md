@@ -71,3 +71,5 @@ Six S3 gates stay open, HS01–HS08 proposed, specialist/licensed work pending a
 Implementation authorization on November 16 covers all three proposed follow-ups. P2-L01 is implemented in the [staff integration cycle](P2-L01-staff-access-integration.md); final validation and merge status are recorded separately. The audit above remains the historical pre-implementation finding. P2-L02 and P2-L03 remain in progress until their own completed cycles.
 
 P2-L02 is implemented in the [durable local runtime](P2-L02-durable-local-runtime.md). P2-L01 is merged as PR #127 with all actual checks; P2-L03 remains in progress. This updates local construction only; no original acceptance case or gate is closed.
+
+P2-L03 is implemented in the [complete local recovery](P2-L03-complete-local-recovery.md). P2-L01 and P2-L02 are merged as PRs #127 and #128 with their actual checks. All three authorized local follow-ups now have implementations and measured focused evidence. The separate GitHub cycle records final full validation, fresh review and PR/main check results. This updates local construction only; no original acceptance case or gate is closed.
