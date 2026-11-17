@@ -50,7 +50,9 @@ export async function withSecurityArchive<T>(
     sourceRows: Awaited<ReturnType<typeof snapshot>>;
     restoredRows: Awaited<ReturnType<typeof snapshot>>;
     archiveBytes: number;
+    archiveSha256: string;
   }) => Promise<T>,
+  afterArchive?: (receipt: Readonly<{ sha256: string; finishedAt: string }>) => Promise<void>,
 ) {
   const targets = disposableTargets(process.env),
     sourceUrl = new URL(targets.app);
@@ -116,6 +118,12 @@ export async function withSecurityArchive<T>(
       (await root.query('SELECT (pg_stat_file($1)).size::text AS bytes', [archive])).rows[0]!.bytes,
     );
     await source.query('COMMIT');
+    const archiveSha256 = String(
+      (await root.query("SELECT encode(sha256(pg_read_binary_file($1)),'hex') AS sha", [archive]))
+        .rows[0]!.sha,
+    );
+    if (!/^[a-f0-9]{64}$/.test(archiveSha256)) throw Error('Owned SQL archive checksum required');
+    await afterArchive?.({ sha256: archiveSha256, finishedAt: new Date().toISOString() });
     await root.query('CREATE DATABASE ' + database);
     created = true;
     await root.query('REVOKE ALL ON DATABASE ' + database + ' FROM PUBLIC');
@@ -138,6 +146,7 @@ export async function withSecurityArchive<T>(
       sourceRows,
       restoredRows: await snapshot(restored, tables),
       archiveBytes,
+      archiveSha256,
     });
   } catch (error) {
     failed = true;
