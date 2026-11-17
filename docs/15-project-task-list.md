@@ -118,6 +118,8 @@ Each gate depends on every relevant earlier-stage card, directly or transitively
 
 **November 16 local engineering audit:** [All 27 Phase 2 cards](implementation/P2-local-engineering-gap-review.md) are reviewed against current code/evidence. Three proposed follow-ups cover verified staff integration, durable opt-in local host composition and latest-chain SQL/object/deletion recovery. Original task checkboxes and actual acceptance remain unchanged; Phase 3 stays at planning only.
 
+**Authorized local follow-up P2-L02:** [The implementation and measured focused evidence](implementation/P2-L02-durable-local-runtime.md) cover retained encrypted files/keys, fourteen service groups, eleven restricted pools and worker cold restart. Exact-source full validation, fresh review and actual PR/main checks are tracked in this separate merge cycle. Original task checkboxes, six open S3 gates, all actual acceptance/deployment holds and Phase 3 planning-only scope remain unchanged.
+
 
 | Planned PR and title | Stage | Status | Assignee | PR / acceptance evidence |
 | --- | --- | --- | --- | --- |

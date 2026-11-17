@@ -86,7 +86,7 @@ export async function insightsFixture() {
       pools.push(pool);
       return createTransactions(pool, { transactionMs: 30000, statementMs: 15000, lockMs: 3000 });
     }
-    return { ...base, cleanup, insightsApplied, insightsAdapter };
+    return { ...base, cleanup, insightsApplied, insightsAdapter, insightsUrl: u.toString() };
   } catch (e) {
     await cleanup();
     throw e;

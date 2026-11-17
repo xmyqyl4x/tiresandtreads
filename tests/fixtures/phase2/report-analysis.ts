@@ -92,7 +92,13 @@ export async function analysisServiceFixture() {
       pools.push(pool);
       return createTransactions(pool, { transactionMs: 30000, statementMs: 15000, lockMs: 3000 });
     }
-    return { ...base, cleanup, analysisServiceApplied, analysisServiceAdapter };
+    return {
+      ...base,
+      cleanup,
+      analysisServiceApplied,
+      analysisServiceAdapter,
+      analysisServiceUrl: u.toString(),
+    };
   } catch (e) {
     await cleanup();
     throw e;
