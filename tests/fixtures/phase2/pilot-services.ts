@@ -94,6 +94,7 @@ export async function pilotFixture() {
       cleanup,
       pilotApplied: applied,
       pilotAdapter: adapter,
+      pilotUrl: u.toString(),
       assetAdapter: createTransactions(assetPool),
     };
   } catch (e) {
