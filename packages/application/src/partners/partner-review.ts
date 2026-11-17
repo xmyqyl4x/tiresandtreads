@@ -44,7 +44,7 @@ export function createPartnerReviewServices(
                 after.version! <= 2147483647,
             );
         }
-        const p = await c.principal(handle);
+        const p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           await d.onboarding.staff(tx, p, permission(kind));
           const rows = await d.review.queue(tx, kind, after, limit + 1);
@@ -66,7 +66,7 @@ export function createPartnerReviewServices(
     business(handle: string, organizationId: Id<'organization'>) {
       return c.safe(async () => {
         const org = identifier('organization', organizationId),
-          p = await c.principal(handle);
+          p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           const root = await c.staff(tx, p, org, 'partner.verify');
           demand(root.profile, 'not_found');
@@ -95,7 +95,7 @@ export function createPartnerReviewServices(
         const org = identifier('organization', organizationId),
           id = identifier('partner_offer', offerId);
         demand(Number.isSafeInteger(version) && version >= 1 && version <= 2147483647);
-        const p = await c.principal(handle);
+        const p = await c.staffPrincipal(handle);
         const admitted = await c.run(async (tx) => {
           await c.staff(tx, p, org, 'partner.moderate');
           const offer = await d.offers.version(
@@ -116,7 +116,7 @@ export function createPartnerReviewServices(
             offer: admitted.value.offer,
             eligible: admitted.value.eligible,
           }),
-          fresh = await c.principal(handle);
+          fresh = await c.staffPrincipal(handle);
         demand(fresh.subject === p.subject, 'forbidden');
         return c.run(async (tx) => {
           await c.staff(tx, fresh, org, 'partner.moderate');
@@ -155,7 +155,7 @@ export function createPartnerReviewServices(
         const org = identifier('organization', organizationId),
           id = identifier('asset', assetId);
         demand(purpose === 'agreement' || purpose === 'verification');
-        const p = await c.principal(handle);
+        const p = await c.staffPrincipal(handle);
         const admitted = await c.run(async (tx) => {
           await c.staff(tx, p, org, 'partner.verify');
           const asset = await d.assets.get(tx, org, id, purpose);
@@ -174,7 +174,7 @@ export function createPartnerReviewServices(
         );
         const inspected = await d.files.inspect(purpose, 'application/json', bytes),
           text = new TextDecoder('utf-8', { fatal: true }).decode(inspected),
-          fresh = await c.principal(handle);
+          fresh = await c.staffPrincipal(handle);
         demand(fresh.subject === p.subject, 'forbidden');
         return c.run(async (tx) => {
           await c.staff(tx, fresh, org, 'partner.verify');

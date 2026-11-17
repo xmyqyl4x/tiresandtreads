@@ -11,12 +11,20 @@ import { createP2HttpAdmission } from '../../../packages/integrations/src/http/p
 import { partnerRoutes } from '../../../packages/integrations/src/http/phase2-partners.ts';
 import { withPartnerSessions } from '../../../packages/integrations/src/http/partner-security.ts';
 import { validateP2Routes } from '../../../packages/integrations/src/http/phase2-response-contracts.ts';
-import { createHttpApi } from '../../../packages/integrations/src/http/core.ts';
+import { createHttpApi, type HttpSecurity } from '../../../packages/integrations/src/http/core.ts';
 import { listenLocalApi } from '../../../packages/integrations/src/http/server.ts';
 import { ok, fail } from '../../../packages/domain/src/values/core.ts';
 import { failure } from '../../../packages/application/src/ports/transactions.ts';
 import { startWebPreview } from '../http/web-preview.ts';
-export async function staffWebFixture(webOrigin = 'http://127.0.0.1:3000') {
+export async function staffWebFixture(
+  webOrigin = 'http://127.0.0.1:3000',
+  configureStaff?: (
+    f: Awaited<ReturnType<typeof httpAdmissionFixture>>,
+    p: Awaited<ReturnType<typeof composePartnerServices>>,
+    csv: Awaited<ReturnType<typeof composeStaffCsv>>,
+    security: HttpSecurity,
+  ) => Promise<(legacy: string) => Promise<string>>,
+) {
   const f = await httpAdmissionFixture();
   let api: Awaited<ReturnType<typeof listenLocalApi>> | undefined,
     csv: Awaited<ReturnType<typeof composeStaffCsv>> | undefined,
@@ -42,6 +50,16 @@ export async function staffWebFixture(webOrigin = 'http://127.0.0.1:3000') {
       }),
       secret = randomBytes(32),
       admission = createP2HttpAdmission(p.service);
+    const security = withPartnerSessions(
+      { authenticate: async () => null, quota: async () => ({ allowed: true }) },
+      {
+        verify: async (h) => {
+          const v = p.sessions.get(h);
+          return v ? ok(v) : fail(failure('forbidden'));
+        },
+      },
+      secret,
+    );
     api = await listenLocalApi((origin) =>
       createHttpApi({
         origin,
@@ -57,21 +75,15 @@ export async function staffWebFixture(webOrigin = 'http://127.0.0.1:3000') {
           ...staffCsvRoutes({ service: csv!.service, admission, secret }),
           ...partnerReviewRoutes(review),
         ]),
-        security: withPartnerSessions(
-          { authenticate: async () => null, quota: async () => ({ allowed: true }) },
-          {
-            verify: async (h) => {
-              const v = p.sessions.get(h);
-              return v ? ok(v) : fail(failure('forbidden'));
-            },
-          },
-          secret,
-        ),
+        security,
       }),
     );
     const company = await p.company(),
       pending = await p.company(false),
       example = await csv.example();
+    const credential = configureStaff
+      ? await configureStaff(f, p, csv, security)
+      : async (v: string) => v;
     const web = await startWebPreview(webOrigin, 'dev', 'unsupported', {
       fixture: { cleanup: resources },
       api: { origin: api.origin, shutdown: () => api!.close() },
@@ -79,16 +91,16 @@ export async function staffWebFixture(webOrigin = 'http://127.0.0.1:3000') {
     });
     return {
       f,
-      p,
+      p: { ...p, verifier: await credential(p.verifier), moderator: await credential(p.moderator) },
       insights,
       csv,
       review,
       company,
       pending,
       example,
-      uploader,
-      reviewer,
-      publisher,
+      uploader: await credential(uploader),
+      reviewer: await credential(reviewer),
+      publisher: await credential(publisher),
       web,
       cleanup: () => web.cleanup(),
     };

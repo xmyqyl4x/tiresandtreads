@@ -1,3 +1,5 @@
+import { maxStaffCredentialLength } from '../../../../packages/contracts/src/staff-session.ts';
+import { isP2StaffCredential } from '../../../../packages/contracts/src/phase2-staff-session.ts';
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import type { P2Command } from '../../../../packages/contracts/src/phase2-client.ts';
 export type Workspace<C> = {
@@ -21,10 +23,12 @@ function errorCode(e: unknown) {
 }
 export function Workbench<C>({
   title,
+  staff = false,
   connect,
   children,
 }: {
   title: string;
+  staff?: boolean;
   connect: (credential: string, signal: AbortSignal) => Promise<{ client: C; csrf: string }>;
   children: (workspace: Workspace<C>) => ReactNode;
 }) {
@@ -126,7 +130,7 @@ export function Workbench<C>({
   };
   async function login(e: FormEvent) {
     e.preventDefault();
-    if (!/^[A-Za-z0-9_-]{16,128}$/.test(credential)) {
+    if (!(staff ? isP2StaffCredential(credential) : /^[A-Za-z0-9_-]{16,128}$/.test(credential))) {
       setMessage('Enter the locally issued credential.');
       return;
     }
@@ -168,7 +172,7 @@ export function Workbench<C>({
               autoComplete="off"
               required
               minLength={16}
-              maxLength={128}
+              maxLength={staff ? maxStaffCredentialLength : 128}
               value={credential}
               onChange={(e) => setCredential(e.target.value)}
             />
@@ -280,6 +284,7 @@ export function ActionForm({
   submit = title,
 }: {
   title: string;
+  staff?: boolean;
   action: (data: FormData) => void | Promise<void>;
   disabled: boolean;
   children: ReactNode;

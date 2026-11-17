@@ -1,3 +1,4 @@
+import { isP2StaffAuthorization } from '../../../contracts/src/phase2-staff-session.ts';
 import { createHmac } from 'node:crypto';
 import type { PartnerAuthority } from '../../../application/src/ports/partner-services.ts';
 import { partnerPrincipal } from '../../../domain/src/partner-policy.ts';
@@ -13,6 +14,25 @@ export function withPartnerSessions(
   const key = Buffer.from(secret);
   return {
     quota: (peer, operation) => base.quota(peer, operation),
+    ...(base.authenticateStaff
+      ? {
+          async authenticateStaff(request: Request) {
+            // Dedicated rejection never falls back to a partner or owner session.
+            if (
+              request.headers
+                .get('cookie')
+                ?.split(';')
+                .some((x) => x.trim().startsWith('tt_owner='))
+            )
+              return null;
+            if (!isP2StaffAuthorization(request.headers.get('authorization'))) return null;
+            const actor = await base.authenticateStaff!(request);
+            return actor
+              ? { ...actor, staffSession: request.headers.get('authorization')?.slice(7) ?? '' }
+              : null;
+          },
+        }
+      : {}),
     async authenticate(request) {
       const raw = request.headers.get('authorization');
       if (raw?.startsWith('Bearer ') && /^Bearer [A-Za-z0-9_-]{16,128}$/.test(raw)) {

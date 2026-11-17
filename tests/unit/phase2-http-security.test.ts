@@ -222,3 +222,68 @@ it('bounds concurrent binary body admission before reading and releases both slo
   expect((await last).status).toBe(200);
   controllers[2]!.close();
 });
+
+it('preserves a configured dedicated staff verifier without partner or owner fallback', async () => {
+  const authenticate = vi.fn(async () => null),
+    dedicated = vi.fn(async () => null),
+    verify = vi.fn(async () => ok(principal)),
+    s = withPartnerSessions(
+      { ...base, authenticate, authenticateStaff: dedicated },
+      { verify } as never,
+      secret,
+    );
+  expect(typeof s.authenticateStaff).toBe('function');
+  expect(
+    await s.authenticateStaff!(
+      new Request('http://127.0.0.1', {
+        headers: { authorization: 'Bearer aaa.bbb.ccc' },
+      }),
+    ),
+  ).toBeNull();
+  expect(dedicated).toHaveBeenCalledTimes(1);
+  expect(authenticate).not.toHaveBeenCalled();
+  expect(verify).not.toHaveBeenCalled();
+});
+
+it('selects exactly one authority realm for shared lifecycle commands', async () => {
+  const staff = { keys: [], csrf: 'synthetic', staff: randomUUID(), mfaAt: Date.now() },
+    partner = { keys: [], csrf: 'synthetic', partner: { subject, handle: 'opaque-local-session' } },
+    dedicated = vi.fn(async () => staff as never),
+    ordinary = vi.fn(async () => partner as never),
+    api = createHttpApi({
+      origin: 'http://127.0.0.1:4100',
+      security: {
+        authenticate: ordinary,
+        authenticateStaff: dedicated,
+        quota: async () => ({ allowed: true }),
+      },
+      routes: [
+        {
+          operationId: 'shared',
+          path: '/shared',
+          method: 'POST',
+          access: 'staff-or-partner',
+          handle: async () => ok({ accepted: true }),
+        },
+      ],
+    });
+  const request = (token: string) =>
+    new Request('http://127.0.0.1:4100/shared', {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer ' + token,
+        origin: 'http://127.0.0.1:4100',
+        'content-type': 'application/json',
+        'x-csrf-token': 'synthetic',
+      },
+      body: '{}',
+    });
+  expect((await api(request('aaa.bbb.ccc'))).status).toBe(200);
+  expect(dedicated).toHaveBeenCalledTimes(1);
+  expect(ordinary).not.toHaveBeenCalled();
+  expect((await api(request('opaque-local-session'))).status).toBe(200);
+  expect(ordinary).toHaveBeenCalledTimes(1);
+  dedicated.mockResolvedValueOnce(null as never);
+  expect((await api(request('aaa.bbb.forged'))).status).toBe(401);
+  expect(ordinary).toHaveBeenCalledTimes(1);
+});

@@ -332,7 +332,7 @@ it('runs onboarding, private agreements, independent verification and activation
         domain: 'synthetic.example',
       })
     ).status,
-  ).toBe(404);
+  ).toBe(403);
   expect(
     (
       await call(p.verifier, path + '/verification', {
@@ -374,7 +374,7 @@ it('publishes independently moderated exact-money offers and privately imports d
         reason: 'synthetic_review',
       })
     ).status,
-  ).toBe(404);
+  ).toBe(403);
   expect(
     (
       await call(p.moderator, path + '/review', {
@@ -558,7 +558,7 @@ it('denies revoked partner sessions on later reads and refuses ordinary partners
   const c = await p.company();
   p.sessions.delete(c.handle);
   expect((await call(c.handle, 'partners/organizations/' + c.org)).status).toBe(401);
-  expect((await call(p.session(), 'partners/operations/visitors?week=' + i.week)).status).toBe(404);
+  expect((await call(p.session(), 'partners/operations/visitors?week=' + i.week)).status).toBe(403);
   expect((await call(i.visitors, 'partners/operations/visitors?week=' + i.week)).status).toBe(200);
 });
 it('simulates stored offer targets with the shared matcher without accepting capacity or issuing a code', async () => {

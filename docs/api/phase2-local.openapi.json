@@ -623,7 +623,7 @@
       "post": {
         "operationId": "p2Activate",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -15749,7 +15749,7 @@
       "post": {
         "operationId": "p2Decide",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -16374,7 +16374,7 @@
       "post": {
         "operationId": "p2Dispute",
         "tags": [
-          "partner"
+          "staff-or-partner"
         ],
         "security": [
           {
@@ -17635,7 +17635,7 @@
       "get": {
         "operationId": "p2Domains",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -18284,7 +18284,7 @@
       "get": {
         "operationId": "p2Health",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -20046,7 +20046,7 @@
       "get": {
         "operationId": "p2Internal",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -21242,7 +21242,7 @@
       "post": {
         "operationId": "p2Lifecycle",
         "tags": [
-          "partner"
+          "staff-or-partner"
         ],
         "security": [
           {
@@ -25299,7 +25299,7 @@
       "post": {
         "operationId": "p2OfferPublish",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -26538,7 +26538,7 @@
       "post": {
         "operationId": "p2OfferReview",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -49279,7 +49279,7 @@
       "post": {
         "operationId": "p2Verification",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {
@@ -49900,7 +49900,7 @@
       "get": {
         "operationId": "p2Visitors",
         "tags": [
-          "partner"
+          "staff"
         ],
         "security": [
           {

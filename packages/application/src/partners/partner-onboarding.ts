@@ -256,7 +256,7 @@ export function createPartnerOnboardingServices(
         demand(!parsed || parsed.ok);
         demand(i.kind !== 'domain' || parsed?.ok);
         const domain = parsed?.ok ? parsed.value : null,
-          p = await c.principal(handle);
+          p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           const r = await c.staff(tx, p, org, 'partner.verify', true);
           demand(r.organization.status !== 'closed', 'forbidden');
@@ -293,7 +293,7 @@ export function createPartnerOnboardingServices(
             typeof approved === 'boolean' &&
             typeof emailOverride === 'boolean',
         );
-        const p = await c.principal(handle);
+        const p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           const r = await c.staff(tx, p, org, 'partner.verify', true);
           demand(r.profile, 'not_found');
@@ -324,7 +324,7 @@ export function createPartnerOnboardingServices(
     activate(handle: string, organizationId: Id<'organization'>, expected: Revision) {
       return c.safe(async () => {
         const org = identifier('organization', organizationId),
-          p = await c.principal(handle);
+          p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           const r = await c.staff(tx, p, org, 'partner.verify', true);
           demand(
@@ -354,7 +354,7 @@ export function createPartnerOnboardingServices(
           /^[a-z][a-z0-9_]*$/.test(note) &&
             ['suspended', 'active', 'closed', 'expired'].includes(state),
         );
-        const p = await c.principal(handle);
+        const p = await c.lifecyclePrincipal(handle);
         return c.run(async (tx) => {
           if (state === 'closed') {
             const root = await repo.lock(tx, org, p.subject);

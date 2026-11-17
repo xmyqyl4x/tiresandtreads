@@ -47,7 +47,7 @@ function StaffSpace({ w }: { w: Workspace<StaffClients> }) {
 }
 export function P2StaffConsole() {
   return (
-    <Workbench title="Data and partner review" connect={connect}>
+    <Workbench staff title="Data and partner review" connect={connect}>
       {(w) => <StaffSpace w={w} />}
     </Workbench>
   );

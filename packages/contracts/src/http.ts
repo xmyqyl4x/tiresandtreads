@@ -16,7 +16,8 @@ export interface EndpointContract {
   readonly operationId: string;
   readonly method: 'GET' | 'POST' | 'DELETE';
   readonly path: string;
-  readonly access: 'public' | 'owner' | 'capability' | 'staff' | 'callback' | 'partner';
+  readonly access:
+    'public' | 'owner' | 'capability' | 'staff' | 'callback' | 'partner' | 'staff-or-partner';
   readonly command?: boolean;
   readonly bodyMode?: 'json' | 'bytes' | 'form';
   readonly maxBodyBytes?: number;

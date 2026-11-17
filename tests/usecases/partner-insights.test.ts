@@ -394,3 +394,91 @@ it('runs bounded maintenance and rejects an oversized batch', async () => {
   expect(await service.maintenance('session')).toMatchObject({ ok: true, value: { purged: 1 } });
   expect((await service.maintenance('session', 501)).ok).toBe(false);
 });
+
+it('reveals an authorized contact through dedicated staff authority without business-email assertions', async () => {
+  const verifyStaff = vi.fn(async () =>
+    ok({
+      subject: d.principal.subject,
+      staffId: uuid<'staff'>(20),
+      mfaAt: d.principal.mfaAt,
+      expiresAt: d.principal.expiresAt,
+    }),
+  );
+  d.authority.verify.mockResolvedValue(fail(failure('forbidden')));
+  const service = createPartnerInsightsServices({
+      ...d,
+      authority: { ...d.authority, verifyStaff },
+    }),
+    token = d.tokens.issue('staff', 'visitor', { subject, week }, clock);
+  expect(
+    await service.reveal('synthetic.signed.credential', token, 'privacy_request', uuid<'case'>(31)),
+  ).toMatchObject({
+    ok: true,
+    value: { email: 'synthetic@example.invalid', exportEnabled: false },
+  });
+  expect(d.authority.verify).not.toHaveBeenCalled();
+  expect(verifyStaff).toHaveBeenCalledTimes(3);
+  expect(d.repo.reveal).toHaveBeenCalledTimes(2);
+});
+it('binds a dedicated staff reveal to the same subject before decrypting', async () => {
+  let calls = 0;
+  const verifyStaff = vi.fn(async () =>
+    ok({
+      subject: ++calls === 1 ? 'staff' : 'different-staff',
+      staffId: uuid<'staff'>(20),
+      mfaAt: d.principal.mfaAt,
+      expiresAt: d.principal.expiresAt,
+    }),
+  );
+  const service = createPartnerInsightsServices({
+      ...d,
+      authority: { ...d.authority, verifyStaff },
+    }),
+    token = d.tokens.issue('staff', 'visitor', { subject, week }, clock);
+  expect(
+    (
+      await service.reveal(
+        'synthetic.signed.credential',
+        token,
+        'privacy_request',
+        uuid<'case'>(32),
+      )
+    ).ok,
+  ).toBe(false);
+  expect(d.encryption.decrypt).not.toHaveBeenCalled();
+  expect(d.authority.verify).not.toHaveBeenCalled();
+});
+it('withholds decrypted contact data if dedicated staff verification is revoked before return', async () => {
+  let revoked = false;
+  const verifyStaff = vi.fn(async () =>
+    revoked
+      ? fail(failure('forbidden'))
+      : ok({
+          subject: 'staff',
+          staffId: uuid<'staff'>(20),
+          mfaAt: d.principal.mfaAt,
+          expiresAt: d.principal.expiresAt,
+        }),
+  );
+  d.encryption.decrypt.mockImplementationOnce(async () => {
+    revoked = true;
+    return new TextEncoder().encode('synthetic@example.invalid');
+  });
+  const service = createPartnerInsightsServices({
+      ...d,
+      authority: { ...d.authority, verifyStaff },
+    }),
+    token = d.tokens.issue('staff', 'visitor', { subject, week }, clock);
+  expect(
+    (
+      await service.reveal(
+        'synthetic.signed.credential',
+        token,
+        'privacy_request',
+        uuid<'case'>(33),
+      )
+    ).ok,
+  ).toBe(false);
+  expect(d.encryption.decrypt).toHaveBeenCalledOnce();
+  expect(d.authority.verify).not.toHaveBeenCalled();
+});

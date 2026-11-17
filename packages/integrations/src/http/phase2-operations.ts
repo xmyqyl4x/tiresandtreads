@@ -23,7 +23,7 @@ export function analysisOperationsRoutes(d: {
   return operationsContracts.map((c) => ({
     ...c,
     handle: async (ctx) => {
-      const handle = ctx.actor?.partner?.handle;
+      const handle = ctx.actor?.staffSession ?? ctx.actor?.partner?.handle;
       if (!handle) throw new HttpFailure(401, 'unauthorized');
       if (c.operationId === 'p2OperationsPurpose') {
         const q = p2Query(ctx, operationsP2Definitions.p2OperationsPurpose.query);

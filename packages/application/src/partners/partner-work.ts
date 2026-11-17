@@ -1,5 +1,5 @@
 import { ok, fail, id, instant, type Id, type Result } from '../../../domain/src/values/core.ts';
-import { partnerPrincipal, type PartnerPrincipal } from '../../../domain/src/partner-policy.ts';
+import { partnerPrincipal } from '../../../domain/src/partner-policy.ts';
 import type {
   PartnerOnboardingRepository,
   PartnerAuthority,
@@ -76,6 +76,8 @@ export function timestamp(v: unknown) {
   demand(r.ok);
   return r.value;
 }
+import { staffPrincipal, type StaffIdentity } from '../../../domain/src/staff-principal.ts';
+import { verifiedStaff } from './staff-authority.ts';
 export function partnerContext(d: PartnerDependencies) {
   const policy = capture(d.policy);
   string(policy.version, 100);
@@ -104,7 +106,7 @@ export function partnerContext(d: PartnerDependencies) {
   };
   async function member(
     tx: Tx,
-    p: PartnerPrincipal,
+    p: StaffIdentity,
     org: Id<'organization'>,
     roles: readonly string[],
     pending = false,
@@ -126,11 +128,12 @@ export function partnerContext(d: PartnerDependencies) {
   }
   async function staff(
     tx: Tx,
-    p: PartnerPrincipal,
+    p: StaffIdentity,
     org: Id<'organization'>,
     permission: 'partner.verify' | 'partner.moderate',
     independent = false,
   ) {
+    demand(staffPrincipal(p, d.clock.now()).ok, 'forbidden');
     await d.onboarding.staff(tx, p, permission);
     const r = await d.onboarding.lock(tx, org, p.subject);
     demand(!independent || !r.member || r.member.status === 'revoked', 'forbidden');
@@ -138,7 +141,7 @@ export function partnerContext(d: PartnerDependencies) {
   }
   const audit = (
     tx: Tx,
-    p: PartnerPrincipal,
+    p: StaffIdentity,
     org: Id<'organization'>,
     action: string,
     resource: string,
@@ -152,5 +155,18 @@ export function partnerContext(d: PartnerDependencies) {
       resource,
       d.crypto.digest(body),
     );
-  return { policy, principal, run, safe, member, staff, audit };
+  return {
+    policy,
+    principal,
+    staffPrincipal: (handle: string) => verifiedStaff(d.authority, d.clock, handle),
+    lifecyclePrincipal: (handle: string) =>
+      d.authority.verifyStaff && handle.includes('.')
+        ? verifiedStaff(d.authority, d.clock, handle)
+        : principal(handle),
+    run,
+    safe,
+    member,
+    staff,
+    audit,
+  };
 }

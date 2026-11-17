@@ -19,7 +19,7 @@ export function partnerReviewRoutes(
         p2Query(ctx, z.strictObject({}));
         return ok({ schemaVersion: 1, csrf: ctx.actor.csrf, kind: 'staff-session' });
       }
-      const handle = ctx.actor.partner?.handle;
+      const handle = ctx.actor.staffSession ?? ctx.actor.partner?.handle;
       if (!handle) throw new HttpFailure(401, 'unauthorized');
       switch (c.operationId) {
         case 'p2BusinessQueue':

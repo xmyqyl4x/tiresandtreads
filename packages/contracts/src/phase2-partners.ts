@@ -210,7 +210,21 @@ const partner = (
   operationId,
   path: '/api/v1/partners' + path,
   method,
-  access: 'partner',
+  access: ['p2Lifecycle', 'p2Dispute'].includes(operationId)
+    ? 'staff-or-partner'
+    : [
+          'p2Verification',
+          'p2Decide',
+          'p2Activate',
+          'p2OfferReview',
+          'p2OfferPublish',
+          'p2Visitors',
+          'p2Health',
+          'p2Domains',
+          'p2Internal',
+        ].includes(operationId)
+      ? 'staff'
+      : 'partner',
   command: method !== 'GET',
   ...(upload
     ? { bodyMode: 'bytes', bodyContentType: 'application/octet-stream', maxBodyBytes: 16777216 }

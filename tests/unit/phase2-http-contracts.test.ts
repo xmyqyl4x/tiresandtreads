@@ -33,7 +33,30 @@ describe('Phase2 private HTTP admission contracts', () => {
       partnerApiContracts.length,
     );
     expect(
-      partnerApiContracts.every((x) => x.path.startsWith('/api/v1/') && x.access === 'partner'),
+      partnerApiContracts.every(
+        (x) =>
+          x.path.startsWith('/api/v1/') &&
+          ['partner', 'staff', 'staff-or-partner'].includes(x.access),
+      ),
     ).toBe(true);
+    expect(
+      partnerApiContracts
+        .filter((x) => x.access === 'staff')
+        .map((x) => x.operationId)
+        .sort(),
+    ).toEqual([
+      'p2Activate',
+      'p2Decide',
+      'p2Domains',
+      'p2Health',
+      'p2Internal',
+      'p2OfferPublish',
+      'p2OfferReview',
+      'p2Verification',
+      'p2Visitors',
+    ]);
+    expect(
+      partnerApiContracts.filter((x) => x.access === 'staff-or-partner').map((x) => x.operationId),
+    ).toEqual(['p2Lifecycle', 'p2Dispute']);
   });
 });

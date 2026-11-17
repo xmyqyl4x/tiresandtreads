@@ -9,7 +9,9 @@ import type { PartnerOfferTarget } from './partner-repositories.ts';
 import type { TransactionContext as Tx, ApplicationFailure } from './transactions.ts';
 import type { AssetLocation } from './assets.ts';
 import type { JobLease } from './jobs.ts';
+import type { StaffIdentity, StaffPrincipal } from '../../../domain/src/staff-principal.ts';
 export interface PartnerAuthority {
+  verifyStaff?(handle: string): Promise<Result<StaffPrincipal, ApplicationFailure>>;
   verify(handle: string): Promise<Result<PartnerPrincipal, ApplicationFailure>>;
 }
 export interface PartnerClock {
@@ -78,7 +80,7 @@ export interface PartnerOnboardingRepository {
   >;
   staff(
     tx: Tx,
-    actor: PartnerPrincipal,
+    actor: StaffIdentity,
     permission: 'partner.verify' | 'partner.moderate',
   ): Promise<void>;
   register(
@@ -235,7 +237,7 @@ export interface PartnerModerationRepository {
     org: Id<'organization'>,
     offer: Id<'partner_offer'>,
     version: number,
-    actor: PartnerPrincipal,
+    actor: StaffIdentity,
     approved: boolean,
     reason: string,
   ): Promise<void>;

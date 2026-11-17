@@ -18,3 +18,4 @@ export const taggedPdfDependencyPins: typeof photoDependencyPins;
 export const deliveryContextSourcePins: typeof photoDependencyPins;
 export const clerkDependencyPins: typeof photoDependencyPins;
 export const testMemorySourcePins: typeof photoDependencyPins;
+export const nextSecurityDependencyPins: typeof photoDependencyPins;

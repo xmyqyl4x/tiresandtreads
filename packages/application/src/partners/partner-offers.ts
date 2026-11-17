@@ -201,7 +201,7 @@ export function createPartnerOfferServices(
           id = identifier('partner_offer', offerId),
           n = number(version);
         demand(typeof approved === 'boolean' && /^[a-z][a-z0-9_]{0,79}$/.test(reason));
-        const p = await c.principal(handle);
+        const p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           await c.staff(tx, p, org, 'partner.moderate', true);
           if (approved) await d.onboarding.currentAgreements(tx, org, c.policy);
@@ -223,7 +223,7 @@ export function createPartnerOfferServices(
           id = identifier('partner_offer', offerId),
           n = number(version);
         if (expected !== null) number(expected);
-        const p = await c.principal(handle);
+        const p = await c.staffPrincipal(handle);
         return c.run(async (tx) => {
           await c.staff(tx, p, org, 'partner.moderate', true);
           await d.onboarding.currentAgreements(tx, org, c.policy);

@@ -62,3 +62,44 @@ it('keeps staff enablement independent and strips ambient cookies or authority a
   expect(new Headers(options?.headers).has('cookie')).toBe(false);
   expect(new Headers(options?.headers).has('x-role')).toBe(false);
 });
+
+it.each(['staff', 'operations'] as const)(
+  'transports a bounded signed session only on the %s surface',
+  async (surface) => {
+    const token = 'aaa.bbb.' + 'c'.repeat(400),
+      send = vi.fn<typeof fetch>(async () => Response.json({ data: {} })),
+      path =
+        surface === 'staff'
+          ? '/local-p2-staff-api/api/v1/staff/review/session'
+          : '/local-p2-operations-api/api/v1/staff/assistance/session';
+    const request = (value: string) =>
+      new Request(origin + path, {
+        headers: { host: '127.0.0.1:8380', authorization: 'Bearer ' + value },
+      });
+    expect(
+      (
+        await forwardP2(
+          request(token),
+          { ...env, LOCAL_P2_OPERATIONS_UI: 'enabled' },
+          send,
+          surface,
+        )
+      ).status,
+    ).toBe(200);
+    expect(new Headers(send.mock.calls[0]![1]?.headers).get('authorization')).toBe(
+      'Bearer ' + token,
+    );
+    for (const bad of ['a.b', 'a.b.c.d', 'a.b.' + 'c'.repeat(8182)])
+      expect(
+        (
+          await forwardP2(
+            request(bad),
+            { ...env, LOCAL_P2_OPERATIONS_UI: 'enabled' },
+            send,
+            surface,
+          )
+        ).status,
+      ).toBe(401);
+    expect(send).toHaveBeenCalledTimes(1);
+  },
+);
