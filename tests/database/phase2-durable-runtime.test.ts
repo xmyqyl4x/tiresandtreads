@@ -366,6 +366,36 @@ it('gives captured pilot sends one worker owner, preserves uncertain frozen byte
   const fixture = await durablePhase2Fixture(),
     { f, config, configFile, save, materialFile } = fixture;
   let host: Awaited<ReturnType<typeof openDurableHost>> | undefined;
+  let largeRenderedPdfChars = 0;
+  async function openPilotHost() {
+    const options = await durableHostOptions(configFile);
+    return createPhase2LocalHost({
+      ...options,
+      async bind(context) {
+        const bound = await options.bind(context),
+          renderer = bound.pilot.renderer;
+        return {
+          ...bound,
+          pilot: {
+            ...bound.pilot,
+            renderer: {
+              ...renderer,
+              async render(...args: Parameters<typeof renderer.render>) {
+                const mail = await renderer.render(...args);
+                if (!mail.pdf) throw Error('Synthetic pilot report required');
+                const pdf = Buffer.concat([
+                  Buffer.from(mail.pdf, 'base64'),
+                  Buffer.from('\n% SYNTHETIC LOCAL PADDING ' + 'P'.repeat(1200000) + '\n'),
+                ]).toString('base64');
+                largeRenderedPdfChars = pdf.length;
+                return { ...mail, pdf };
+              },
+            },
+          },
+        };
+      },
+    });
+  }
   try {
     const seeded = await composeDurablePilot(f),
       message = await seeded.message({ capture: false, offers: false }),
@@ -402,7 +432,7 @@ it('gives captured pilot sends one worker owner, preserves uncertain frozen byte
       "INSERT INTO privacy.contact_lookups(key_version,email_hmac,contact_id) VALUES($1,decode($2,'hex'),$3)",
       [lookup.keyVersion, lookup.digest, message.contact.value.id],
     );
-    host = await openDurableHost(configFile);
+    host = await openPilotHost();
     value(await host.services.pilot.request([message.owner.token], message.send, message.request));
     // Inject a synthetic stale competing queue only after the existing capture correctly transfers ownership.
     await f.admin.query(
@@ -410,6 +440,7 @@ it('gives captured pilot sends one worker owner, preserves uncertain frozen byte
       [message.send],
     );
     await host.tick();
+    expect(largeRenderedPdfChars).toBeGreaterThan(1048576);
     const first = (
       await f.admin.query(
         'SELECT state,payload_hash,payload_asset_id FROM partners.pilot_work WHERE send_id=$1',
@@ -427,7 +458,7 @@ it('gives captured pilot sends one worker owner, preserves uncertain frozen byte
       ).rows[0],
     ).toEqual({ lease_generation: '0', first_attempt_at: null, failures: 0 });
     await host.shutdown();
-    host = await openDurableHost(configFile);
+    host = await openPilotHost();
     await host.tick();
     expect(
       (
@@ -462,7 +493,88 @@ it('gives captured pilot sends one worker owner, preserves uncertain frozen byte
           uncertainFrozenBytesPreserved: true,
           p1FallbackRefused: true,
           encryptedPayloadRetained: true,
+          largePilotPayloadOverOneMiB: true,
           actualProviderAccepted: false,
+          providerDispatches: 0,
+          actualRecipientNotifications: 0,
+          casesClosed: 0,
+          gatesClosed: 0,
+        }),
+    );
+  } finally {
+    await host?.shutdown();
+    await fixture.cleanup();
+  }
+}, 180000);
+
+it('dispatches bounded synthetic privacy verification notifications and retries pending work after restart', async () => {
+  const fixture = await durablePhase2Fixture(),
+    { configFile } = fixture,
+    calls: Readonly<{ key: string; address: string; proof: string }>[] = [];
+  let host: Awaited<ReturnType<typeof openDurableHost>> | undefined,
+    failOnce = true;
+  async function openNotificationHost() {
+    const options = await durableHostOptions(configFile);
+    return createPhase2LocalHost({
+      ...options,
+      async bind(context) {
+        const bound = await options.bind(context);
+        return {
+          ...bound,
+          privacy: {
+            ...bound.privacy,
+            mail: {
+              ...bound.privacy.mail,
+              async verify(input: Parameters<typeof bound.privacy.mail.verify>[0]) {
+                calls.push(input);
+                if (failOnce) {
+                  failOnce = false;
+                  throw Error('Synthetic transient verification failure');
+                }
+                await bound.privacy.mail.verify(input);
+              },
+            },
+          },
+        };
+      },
+    });
+  }
+  try {
+    host = await openNotificationHost();
+    for (let i = 0; i < 5; i++)
+      value(
+        await host.services.privacy.requestEmail(
+          'synthetic-rights-' + i + '@example.invalid',
+          'restrict',
+          'synthetic',
+        ),
+      );
+    expect(value(await host.services.privacy.notifications(8))).toHaveLength(5);
+    expect(value(await host.services.privacy.ready(4))).toEqual([]);
+    const first = await host.tick();
+    expect(calls).toHaveLength(4);
+    expect(first.deferred).toBeGreaterThan(0);
+    expect(value(await host.services.privacy.notifications(8))).toHaveLength(2);
+    await host.shutdown();
+    host = await openNotificationHost();
+    await host.tick();
+    expect(calls).toHaveLength(6);
+    expect(new Set(calls.map((x) => x.key)).size).toBe(5);
+    expect(calls.filter((x) => x.key === calls[0]!.key)).toEqual([calls[0], calls[0]]);
+    expect(value(await host.services.privacy.notifications(8))).toEqual([]);
+    expect(value(await host.services.privacy.confirm(calls[0]!.proof))).toEqual({ verified: true });
+    await host.tick();
+    expect(calls).toHaveLength(6);
+    console.log(
+      'P2_LOCAL_PRIVACY_NOTIFICATION_EVIDENCE ' +
+        JSON.stringify({
+          actualPostgreSQL: true,
+          perTickBound: 4,
+          syntheticRequests: 5,
+          capturedAttempts: 6,
+          transientRetry: true,
+          retainedProofAfterRestart: true,
+          confirmed: true,
           providerDispatches: 0,
           actualRecipientNotifications: 0,
           casesClosed: 0,

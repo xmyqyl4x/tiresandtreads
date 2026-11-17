@@ -328,6 +328,10 @@ export async function createPhase2LocalHost(o: Phase2LocalHostOptions) {
           const pending = await services.erasure.pending();
           if (!pending.ok) throw Error('Local Phase 2 erasure discovery unavailable');
           for (const job of pending.value.slice(0, 4)) await services.erasure.workOne(job);
+          const notifications = await services.privacy.notifications(4);
+          if (!notifications.ok) throw Error('Local privacy verification discovery unavailable');
+          for (const request of notifications.value.slice(0, 4))
+            observe(await services.privacy.dispatchVerification(request));
           const rights = await services.privacy.ready(4);
           if (!rights.ok) throw Error('Local privacy work discovery unavailable');
           for (const request of rights.value) observe(await services.privacy.workOne(request));

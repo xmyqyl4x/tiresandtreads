@@ -16,9 +16,10 @@ export function createLocalEnvelopeEncryption(material: LocalPhase2Material): Co
       throw Error('Local envelope refused');
     return Buffer.from(JSON.stringify(['local-p2-envelope-v1', purpose, id]));
   };
+  const limit = (purpose: string) => (purpose === 'pilot_payload' ? 7 * 1024 * 1024 : 1024 * 1024);
   return {
     async encrypt(bytes, purpose, id) {
-      if (bytes.length > 1048576) throw Error('Local envelope refused');
+      if (bytes.length > limit(purpose)) throw Error('Local envelope refused');
       const iv = randomBytes(12),
         cipher = createCipheriv('aes-256-gcm', keys[current]!, iv);
       cipher.setAAD(aad(purpose, id));
@@ -29,7 +30,14 @@ export function createLocalEnvelopeEncryption(material: LocalPhase2Material): Co
       };
     },
     async decrypt(box, purpose, id) {
-      if (!keys[box.keyVersion] || !/^[a-f0-9]{56,2097208}$/.test(box.hex) || box.hex.length % 2)
+      if (
+        !keys[box.keyVersion] ||
+        typeof box.hex !== 'string' ||
+        box.hex.length < 56 ||
+        box.hex.length > 56 + 2 * limit(purpose) ||
+        box.hex.length % 2 ||
+        !/^[a-f0-9]+$/.test(box.hex)
+      )
         throw Error('Local envelope refused');
       const raw = Buffer.from(box.hex, 'hex'),
         decipher = createDecipheriv('aes-256-gcm', keys[box.keyVersion]!, raw.subarray(0, 12));

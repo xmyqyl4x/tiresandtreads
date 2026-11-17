@@ -6,7 +6,7 @@ import type { PrivateObjects, AssetLocation } from '../../application/src/ports/
 const maximum = 16 * 1024 * 1024;
 const sha = (b: Uint8Array) => createHash('sha256').update(b).digest('hex');
 async function read(path: string, limit: number) {
-  const f = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW);
+  const f = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
   try {
     const stat = await f.stat();
     if (!stat.isFile() || stat.size > limit) throw Error('Private material refused');
@@ -122,13 +122,18 @@ export async function createLocalEncryptedObjects(
       typeof x.tag !== 'string' ||
       !/^[a-f0-9]{32}$/.test(x.tag) ||
       typeof x.cipher !== 'string' ||
-      !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(x.cipher)
+      x.cipher.length > Math.ceil(maximum / 3) * 4 ||
+      x.cipher.length % 4 !== 0
     )
+      throw Error('Private object refused');
+    // Canonical decoding is stack-safe at the full supported object size.
+    const ciphertext = Buffer.from(x.cipher, 'base64');
+    if (ciphertext.length > maximum || ciphertext.toString('base64') !== x.cipher)
       throw Error('Private object refused');
     const decipher = createDecipheriv('aes-256-gcm', keys[x.key]!, Buffer.from(x.iv, 'hex'));
     decipher.setAAD(aad(a, x.key));
     decipher.setAuthTag(Buffer.from(x.tag, 'hex'));
-    const b = Buffer.concat([decipher.update(Buffer.from(x.cipher, 'base64')), decipher.final()]);
+    const b = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
     if (b.length !== a.size || sha(b) !== a.sha256) throw Error('Private object refused');
     return new Uint8Array(b);
   }

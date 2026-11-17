@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "card": "P2-L02",
   "scope": "local-engineering-only",
-  "focusedExecutions": 32,
-  "unitExecutions": 29,
-  "nativeExecutions": 3,
+  "focusedExecutions": 39,
+  "unitExecutions": 35,
+  "nativeExecutions": 4,
   "nativeEvidence": {
     "P2_DURABLE_RUNTIME_EVIDENCE": {
       "actualPostgreSQL": true,
@@ -52,7 +52,21 @@
       "uncertainFrozenBytesPreserved": true,
       "p1FallbackRefused": true,
       "encryptedPayloadRetained": true,
+      "largePilotPayloadOverOneMiB": true,
       "actualProviderAccepted": false,
+      "providerDispatches": 0,
+      "actualRecipientNotifications": 0,
+      "casesClosed": 0,
+      "gatesClosed": 0
+    },
+    "P2_LOCAL_PRIVACY_NOTIFICATION_EVIDENCE": {
+      "actualPostgreSQL": true,
+      "perTickBound": 4,
+      "syntheticRequests": 5,
+      "capturedAttempts": 6,
+      "transientRetry": true,
+      "retainedProofAfterRestart": true,
+      "confirmed": true,
       "providerDispatches": 0,
       "actualRecipientNotifications": 0,
       "casesClosed": 0,
@@ -72,13 +86,13 @@
   "keyCustody": "explicit retained local file; purpose-separated keys; no independent/off-host guarantee",
   "readinessObjectCoverage": "one authenticated representative per retained key version; not exhaustive",
   "sourceSha256": {
-    "packages/integrations/src/local-encrypted-objects.ts": "c89156a67d71f25871f7576396d10e09413042566ac6239c28db975ac79ebeaf",
-    "packages/integrations/src/local-envelope-encryption.ts": "7ab4f0bf2e4af09a21b6580d56c18249630e75bafda373223ec3cdf8345a3981",
+    "packages/integrations/src/local-encrypted-objects.ts": "7fc1b115416cac50996513c1b5e6b0c684a60a8aad6c5051abca6d4650f4394f",
+    "packages/integrations/src/local-envelope-encryption.ts": "189c2040ea199fcd776b9d8a577880f36576f85c82b5ee386b963e73ba851d90",
     "packages/integrations/src/phase2-local-bindings.ts": "a210a78d8945ca578b94d71abdc5d8b715119812c5d8a3e17860d8561a3f394f",
-    "packages/integrations/src/phase2-local-host.ts": "f2a870528040778c87abb36c6260cd928e676b57927458c61abe7270a7bdad83",
+    "packages/integrations/src/phase2-local-host.ts": "5c9626cf1c1c1654f1538173004e41111b5ce12f3efbd64bd9a4be83819f5b1c",
     "packages/integrations/src/phase2-local-services.ts": "e638136a36554600d0faf892b7ad68ab432856bfacca7ecb30b817809174a20e",
     "packages/integrations/src/phase2-local-worker.ts": "d2227130b29de07f5e3b5192bbe9f9e8c78bd7f229fb65f43d8b5d8874825c2c",
-    "tests/database/phase2-durable-runtime.test.ts": "9895766b62544d1ccf904a0266684b8ddd8c2e70523ab8c7c1dc3d6946ae2caa",
+    "tests/database/phase2-durable-runtime.test.ts": "2b10e746232dc4320e77485660ff0ad7704e13b07d8c859810b5c0dbff58a029",
     "tests/fixtures/phase2/durable-child-control.ts": "19db59442e4707566621b2885518e976b2868031023f644f0e2f3a01262ae2e4",
     "tests/fixtures/phase2/durable-coupon.ts": "d6006cd51f00403b134f8c08d2a72c8dd496d3be604723dcfafd790852e8f22f",
     "tests/fixtures/phase2/durable-fixture.ts": "282d03ed22de5a719f502d46d9884b45b3f3ca1202384c526c75bde0c74abd0b",
@@ -88,7 +102,7 @@
     "tests/fixtures/phase2/partner-insights.ts": "a5226d58dc37012337e888845cd748ee38f1fe0cf366bcc8f80aaec9bca02f04",
     "tests/fixtures/phase2/pilot-services.ts": "0ceb061b6e76bccac564e4c8d2c020a510a5424f6582e2e95ee2198d63924241",
     "tests/fixtures/phase2/report-analysis.ts": "0720e1910e5ebd9716b18c71afd5335744fda3c9aca13497ebba18b7dd571866",
-    "tests/unit/local-phase2-storage.test.ts": "990d8871f7b91fe53819b7f24ae14335f3246aa320c24a6e89376095c4b7bb9b",
+    "tests/unit/local-phase2-storage.test.ts": "765dff85820640a62aa8933168e562b05f7e2c2998fb827a624ff2b321aca506",
     "tests/unit/phase2-local-worker.test.ts": "bd07aa1e40090eb2bfdf37fd008d8f1d467c48821c94b7dd32acec41cfbb9df8"
   },
   "correctedProofSetup": [
@@ -121,5 +135,51 @@
     "activeVersionPinned": true,
     "mixedReadyEpochStartupRefused": true,
     "automaticMigrationOrRotationClaimed": false
+  },
+  "previousFocused": {
+    "executions": 32,
+    "units": 29,
+    "native": 3
+  },
+  "combinedFocused": {
+    "executions": 76,
+    "passed": 76,
+    "files": 6,
+    "runtimeSubset": 39,
+    "existingRecoverySecuritySubset": 37,
+    "sourceTooling": "validated da57d8e tooling image with explicit current source overlays",
+    "fullSourcePassClaimed": false
+  },
+  "reviewCorrections": {
+    "reviewedSource": "da57d8eec6c5c4504b6d68e8c37f8c8e71ca2033",
+    "behavioralRed": {
+      "failed": 8,
+      "skipped": 31
+    },
+    "findings": [
+      {
+        "thread": "PRRT_kwDOVURQQc64OwiO",
+        "path": "packages/integrations/src/phase2-local-host.ts",
+        "behavior": "Bound verification-notification discovery and dispatch at four per tick; preserve failed work and proof across restart."
+      },
+      {
+        "thread": "PRRT_kwDOVURQQc64OwiW",
+        "path": "packages/integrations/src/local-encrypted-objects.ts",
+        "behavior": "Replace recursive Base64 validation with bounded canonical decode/re-encode; round-trip 4 MiB and full16 MiB objects."
+      },
+      {
+        "thread": "PRRT_kwDOVURQQc64OwiZ",
+        "path": "packages/integrations/src/local-envelope-encryption.ts",
+        "behavior": "Match existing7 MiB pilot_payload contract for encrypt/decrypt; retain1 MiB for other purposes."
+      }
+    ],
+    "independentFinding": "FIFO key/object reads blocked before nonregular-file validation; nonblocking opens now refuse before reading. Three owned child timeout regressions reproduce the old behavior.",
+    "cryptoEncodingAndKeyDerivationChanged": false,
+    "existingBusinessLimitsRelaxed": false,
+    "actualNotificationsSent": 0,
+    "earlierPassedFullSource": "da57d8eec6c5c4504b6d68e8c37f8c8e71ca2033",
+    "earlierPassedFullExecutions": 4919,
+    "newExactFullRequired": 4926,
+    "freshReviewRequired": true
   }
 }

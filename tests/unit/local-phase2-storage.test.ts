@@ -3,6 +3,7 @@ import { mkdtemp, mkdir, writeFile, readFile, rm, symlink, readdir } from 'node:
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash, randomBytes } from 'node:crypto';
+import { execFileSync, spawnSync } from 'node:child_process';
 import {
   createLocalEncryptedObjects,
   readLocalPhase2Material,
@@ -55,6 +56,21 @@ it('reopens retained encrypted immutable bytes after a fresh adapter and exact k
   expect(await fresh.get({ ...a, version })).toEqual(bytes);
   expect(await fresh.put(a, bytes)).toBe(version);
 });
+it.each([4 * 1024 * 1024, 16 * 1024 * 1024])(
+  'round-trips a supported multi-megabyte object of %s bytes without a regex stack failure',
+  async (size) => {
+    const s = await setup(),
+      data = new Uint8Array(size).fill(91),
+      a = { ...asset(), size, sha256: createHash('sha256').update(data).digest('hex') },
+      first = await createLocalEncryptedObjects(s.objects, s.material),
+      version = await first.put(a, data),
+      fresh = await createLocalEncryptedObjects(s.objects, await readLocalPhase2Material(s.file));
+    const restored = await fresh.get({ ...a, version });
+    expect(restored.length).toBe(size);
+    expect(createHash('sha256').update(restored).digest('hex')).toBe(a.sha256);
+    expect(await fresh.put(a, data)).toBe(version);
+  },
+);
 it('serializes competing immutable creates and adopts exactly the committed version', async () => {
   const s = await setup(),
     objects = await createLocalEncryptedObjects(s.objects, s.material),
@@ -168,6 +184,33 @@ it('binds retained envelope encryption to purpose, resource and key version acro
   ).rejects.toThrow();
   await expect(next.decrypt({ ...box, hex: 'bad' }, 'partner_dispute', assetId)).rejects.toThrow();
 });
+it('round-trips the purpose-specific pilot envelope limit while retaining smaller-purpose limits', async () => {
+  const s = await setup(),
+    first = createLocalEnvelopeEncryption(s.material),
+    pilot = new Uint8Array(7 * 1024 * 1024).fill(72),
+    box = await first.encrypt(pilot, 'pilot_payload', assetId),
+    fresh = createLocalEnvelopeEncryption(await readLocalPhase2Material(s.file)),
+    decoded = await fresh.decrypt(box, 'pilot_payload', assetId);
+  expect(decoded.length).toBe(pilot.length);
+  expect(createHash('sha256').update(decoded).digest('hex')).toBe(
+    createHash('sha256').update(pilot).digest('hex'),
+  );
+  const ordinary = new Uint8Array(1024 * 1024),
+    ordinaryBox = await first.encrypt(ordinary, 'partner_dispute', assetId);
+  expect((await fresh.decrypt(ordinaryBox, 'partner_dispute', assetId)).length).toBe(
+    ordinary.length,
+  );
+  await expect(
+    first.encrypt(new Uint8Array(1024 * 1024 + 1), 'partner_dispute', assetId),
+  ).rejects.toThrow();
+  await expect(fresh.decrypt(box, 'partner_dispute', assetId)).rejects.toThrow();
+  await expect(
+    first.encrypt(new Uint8Array(7 * 1024 * 1024 + 1), 'pilot_payload', assetId),
+  ).rejects.toThrow();
+  await expect(
+    fresh.decrypt({ ...box, hex: box.hex + '00' }, 'pilot_payload', assetId),
+  ).rejects.toThrow();
+});
 
 it('retains a negative asset marker across restart and removes only that asset’s encrypted crash fragments', async () => {
   const s = await setup(),
@@ -195,3 +238,40 @@ it('keeps racing late puts unreadable after erasure completes', async () => {
   await expect(fresh.get({ ...a, version: '0'.repeat(64) })).rejects.toThrow();
   await expect(fresh.put(a, bytes)).rejects.toThrow('deleted');
 });
+it.each(['material', 'get', 'put'] as const)(
+  'refuses a FIFO before blocking on local %s input',
+  async (mode) => {
+    const s = await setup(),
+      fifo = mode === 'material' ? join(s.root, 'keys.fifo') : join(s.objects, assetId + '.sealed');
+    execFileSync('mkfifo', [fifo], { timeout: 1000 });
+    // A blocked open must not hang Vitest itself. Only this owned child is killed on timeout.
+    const program = `
+      import {createHash} from 'node:crypto';
+      import {readLocalPhase2Material,createLocalEncryptedObjects} from './packages/integrations/src/local-encrypted-objects.ts';
+      import {id,revision} from './packages/domain/src/values/core.ts';
+      const [mode,keys,directory,fifo]=process.argv.slice(1);
+      const material=await readLocalPhase2Material(keys);
+      const objects=await createLocalEncryptedObjects(directory,material);
+      const ident=id('asset','11111111-1111-4111-8111-111111111111'),rev=revision('1');
+      if(!ident.ok||!rev.ok)throw Error('Invalid positive control');
+      const bytes=new TextEncoder().encode('SYNTHETIC_PRIVATE_OBJECT_DO_NOT_EXPOSE');
+      const asset={id:ident.value,revision:rev.value,key:'assets/'+ident.value,mime:'text/csv',sha256:createHash('sha256').update(bytes).digest('hex'),size:bytes.length,version:null,state:'pending'};
+      try {
+        if(mode==='material')await readLocalPhase2Material(fifo);
+        else if(mode==='get')await objects.get({...asset,version:'0'.repeat(64)});
+        else if(mode==='put')await objects.put(asset,bytes);
+        else throw Error('Invalid probe action');
+        process.exitCode=2;
+      } catch { process.stdout.write('nonfile-refused'); }
+    `;
+    const result = spawnSync(
+      process.execPath,
+      ['--import', 'tsx', '--input-type', 'module', '-e', program, mode, s.file, s.objects, fifo],
+      { encoding: 'utf8', timeout: 2500, killSignal: 'SIGKILL', maxBuffer: 8192 },
+    );
+    expect(result.error).toBeUndefined();
+    expect(result.signal).toBeNull();
+    expect(result.status).toBe(0);
+    expect(result.stdout).toBe('nonfile-refused');
+  },
+);
