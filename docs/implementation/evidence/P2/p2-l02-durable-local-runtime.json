@@ -165,12 +165,12 @@
       {
         "thread": "PRRT_kwDOVURQQc64OwiW",
         "path": "packages/integrations/src/local-encrypted-objects.ts",
-        "behavior": "Replace recursive Base64 validation with bounded canonical decode/re-encode; round-trip 4 MiB and full16 MiB objects."
+        "behavior": "Replace recursive Base64 validation with bounded canonical decode/re-encode; round-trip 4 MiB and full 16 MiB objects."
       },
       {
         "thread": "PRRT_kwDOVURQQc64OwiZ",
         "path": "packages/integrations/src/local-envelope-encryption.ts",
-        "behavior": "Match existing7 MiB pilot_payload contract for encrypt/decrypt; retain1 MiB for other purposes."
+        "behavior": "Match existing 7 MiB pilot_payload contract for encrypt/decrypt; retain 1 MiB for other purposes."
       }
     ],
     "independentFinding": "FIFO key/object reads blocked before nonregular-file validation; nonblocking opens now refuse before reading. Three owned child timeout regressions reproduce the old behavior.",
